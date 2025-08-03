@@ -778,7 +778,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         //如果treeView是的db和删除key的db相同,则需要对应删除treeView中的节点
         if(p.get().getDb()==this.currentDb){
             Platform.runLater(()->{
-                TreeItem treeItem = new TreeItem(p.get().getKey(),GuiUtil.creatKeyImageView());
+                TreeItem treeItem = new TreeItem(p.get().getKey(),GuiUtil.getKeyTypeLabel(p.get().getKeyType()));
                 treeView.getRoot().getChildren().add(treeItem);
                 treeView.getSelectionModel().select(treeItem);
                 open(null);
