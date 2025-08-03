@@ -158,7 +158,7 @@ public final class Sidebar extends VBox {
                 image.getFitHeight() + imageBorder.getRight() * 2
             );
 
-            var titleLbl = new Label("RdmFX");
+            var titleLbl = new Label("RedisFX");
             titleLbl.getStyleClass().addAll(TITLE_3);
 
             var themeSwitchBtn = new Button();
