@@ -1,8 +1,8 @@
-# RedisDesktopManagerFX
+# RedisFX
 
 - 这是一个基于Jedis，使用JavaFX开发的Redis GUI工具，并提供了Linux和Windows的包，已内置jre环境，解压即可运行。
 - 如果您的电脑已经安装了JDK1.8以上（需要JavaFX包），也可以直接运行jar包启动。
-- [下载地址](https://github.com/tanhuang2016/RedisDesktopManagerFX/releases)
+- [下载地址](https://github.com/tanhuang2016/RedisFX/releases)
 
 ## 语言
 [English](README.en-US.md)  | 中文
@@ -35,7 +35,7 @@
 ### 项目结构
 
 ```text
-RedisDesktopManagerFX
+RedisFX
 ├─rdm-common 公共模块，定义通用工具，线程池等
 ├─rdm-redis redis服务模块，对ui需要的接口进行约束
 ├─rdm-redis-imp redis 服务实现模块，具体客户端接口的实现

@@ -1,8 +1,8 @@
-# RedisDesktopManagerFX
+# RedisFX
 
 - This is a Jedis based, using JavaFX development of Redis GUI tool, and provides Linux and Windows packages, has a built-in jre environment, decompression can be run.
 - If you already have JDK1.8 or more installed on your computer (which requires the JavaFX package), you can also start by running the jar package directly.
-- [Download address](https://github.com/tanhuang2016/RedisDesktopManagerFX/releases)
+- [Download address](https://github.com/tanhuang2016/RedisFX/releases)
 
 ## Language
 English |  [中文](README.zh-CN.md)
@@ -35,7 +35,7 @@ English |  [中文](README.zh-CN.md)
 ### Structure
 
 ```text
-RedisDesktopManagerFX
+RedisFX
 ├─rdm-common Common modules, defining common tools, thread pools, etc
 ├─rdm-redis Redis service module, which constrains the interface required by the ui
 ├─rdm-redis-imp Redis service implementation module, the implementation of specific client interface
