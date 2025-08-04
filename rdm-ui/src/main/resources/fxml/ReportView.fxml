@@ -2,23 +2,43 @@
 
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane fx:id="root" prefHeight="619.0" prefWidth="955.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.ReportController">
    <children>
-      <VBox alignment="TOP_CENTER" prefHeight="619.0" prefWidth="1025.0" style="-fx-background-color: yellow;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <HBox alignment="CENTER" spacing="5.0">
+      <ScrollPane>
+        <content>
+          <AnchorPane>
                <children>
-                  <PieChart fx:id="memory" style="-fx-background-color: red;" title="Memory" HBox.hgrow="ALWAYS" />
-                  <PieChart fx:id="keys" style="-fx-background-color: pink;" title="Keys" HBox.hgrow="ALWAYS" />
+                  <VBox alignment="TOP_CENTER" prefHeight="619.0" prefWidth="1025.0" spacing="5.0"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox alignment="CENTER" spacing="5.0">
+                           <children>
+                              <PieChart fx:id="memory"  title="Memory" HBox.hgrow="ALWAYS" />
+                              <PieChart fx:id="keys"  title="Keys" HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                        <BarChart title="MEMORY LIKELY TO BE FREED OVER TIME">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </BarChart>
+                     </children>
+                  </VBox>
                </children>
-            </HBox>
-         </children>
-      </VBox>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
    </children>
 
    <stylesheets>
