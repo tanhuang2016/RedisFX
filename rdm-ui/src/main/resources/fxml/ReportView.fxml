@@ -11,21 +11,21 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="root" prefHeight="619.0" prefWidth="955.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.ReportController">
+<AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.ReportController">
    <children>
-      <ScrollPane>
+      <ScrollPane  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <content>
           <AnchorPane>
                <children>
-                  <VBox alignment="TOP_CENTER" prefHeight="619.0" prefWidth="1025.0" spacing="5.0"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox style="-fx-background-color: pink;" alignment="TOP_CENTER" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <HBox alignment="CENTER" spacing="5.0">
+                        <HBox alignment="CENTER" spacing="5.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <PieChart fx:id="memory"  title="Memory" HBox.hgrow="ALWAYS" />
-                              <PieChart fx:id="keys"  title="Keys" HBox.hgrow="ALWAYS" />
+                              <PieChart fx:id="memory" title="Memory" HBox.hgrow="ALWAYS" />
+                              <PieChart fx:id="keys" title="Keys" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
-                        <BarChart title="MEMORY LIKELY TO BE FREED OVER TIME">
+                        <BarChart title="MEMORY LIKELY TO BE FREED OVER TIME" VBox.vgrow="ALWAYS">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
                           </xAxis>
