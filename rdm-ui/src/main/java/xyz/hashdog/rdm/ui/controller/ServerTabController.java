@@ -652,6 +652,34 @@ public class ServerTabController extends BaseKeyController<MainController> {
     }
 
     @FXML
+    public void report(ActionEvent actionEvent) throws IOException {
+        Tuple2<AnchorPane,ConsoleController> tuple2 = loadFXML("/fxml/ReportView.fxml");
+        AnchorPane anchorPane = tuple2.getT1();
+        BaseKeyController controller = tuple2.getT2();
+        controller.setParentController(this);
+        PassParameter passParameter = new PassParameter(PassParameter.MONITOR);
+        passParameter.setDb(this.currentDb);
+        passParameter.setRedisClient(redisContext.newRedisClient());
+        passParameter.setRedisContext(redisContext);
+        controller.setParameter(passParameter);
+        Tab tab = new Tab("Report");
+        if(passParameter.getTabType()==PassParameter.MONITOR){
+            // 监听Tab被关闭事件,但是remove是无法监听的
+            tab.setOnClosed(event2 -> {
+                ThreadPool.getInstance().execute(()->{
+                    controller.getRedisClient().close();
+                    controller.close();
+                });
+            });
+        }
+        ContextMenu cm=GuiUtil.newTabContextMenu(tab);
+        tab.setContent(anchorPane);
+        tab.setGraphic(GuiUtil.creatMonitorImageView());
+        this.dbTabPane.getTabs().add(tab);
+        this.dbTabPane.getSelectionModel().select(tab);
+    }
+
+    @FXML
     public void pubsub(ActionEvent actionEvent) throws IOException {
         Tuple2<AnchorPane,ConsoleController> tuple2 = loadFXML("/fxml/PubSubView.fxml");
         AnchorPane anchorPane = tuple2.getT1();
