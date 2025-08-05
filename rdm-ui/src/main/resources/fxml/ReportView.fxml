@@ -4,6 +4,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.ScrollPane?>
@@ -13,11 +14,11 @@
 
 <AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.ReportController">
    <children>
-      <ScrollPane fitToWidth="true" fitToHeight="true"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ScrollPane  fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <content>
           <AnchorPane>
                <children>
-                  <VBox style="-fx-background-color: pink;" alignment="TOP_CENTER" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox alignment="TOP_CENTER" spacing="5.0" style="-fx-background-color: pink;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <HBox alignment="CENTER" spacing="5.0" VBox.vgrow="ALWAYS">
                            <children>
@@ -33,6 +34,14 @@
                             <NumberAxis side="LEFT" />
                           </yAxis>
                         </BarChart>
+                        <LineChart>
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </LineChart>
                      </children>
                   </VBox>
                </children>
