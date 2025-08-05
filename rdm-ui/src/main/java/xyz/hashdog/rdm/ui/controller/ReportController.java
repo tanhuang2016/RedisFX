@@ -92,17 +92,21 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
     private void setUpHoverEffectWithTooltip(PieChart.Data data) {
         Tooltip tooltip = new Tooltip();
+        // 关键设置：避免 Tooltip 影响鼠标事件
+        tooltip.setConsumeAutoHidingEvents(false);
+        tooltip.setAutoHide(true);
+        tooltip.setHideOnEscape(true);
         tooltip.setText(data.getName() + ": " + data.getPieValue());
 //        Tooltip.install(data.getNode(), tooltip);
-
         data.getNode().setOnMouseEntered(event -> {
+            System.out.println("Hovered: " + data.getName() + " - " + data.getPieValue());
             // 放大效果
             data.getNode().setScaleX(1.1);
             data.getNode().setScaleY(1.1);
             // 使用节点自身的填充颜色创建阴影
             Color shadowColor = getRegionBackgroundColor(data);
             data.getNode().setEffect(new DropShadow(10, shadowColor));
-            tooltip.show(data.getNode(), event.getScreenX(), event.getScreenY() + 10);
+            tooltip.show(data.getNode(), event.getScreenX()+20, event.getScreenY() + 20);
         });
 
         data.getNode().setOnMouseExited(event -> {
@@ -111,6 +115,13 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             data.getNode().setScaleY(1.0);
             data.getNode().setEffect(null);
             tooltip.hide();
+        });
+        data.getNode().setOnMouseMoved(event -> {
+            // 动态更新位置，保持与鼠标的距离
+            if (tooltip.isShowing()) {
+                tooltip.setAnchorX(event.getScreenX() + 20);
+                tooltip.setAnchorY(event.getScreenY() + 20);
+            }
         });
         data.getNode().setOnMouseClicked(event -> {
             System.out.println("Clicked: " + data.getName() + " - " + data.getPieValue());
