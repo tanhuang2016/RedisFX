@@ -425,7 +425,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         children.clear();
         ThreadPool.getInstance().execute(() -> {
             if(this.redisContext.getRedisConfig().isTreeShow()){
-                buildTreeView(children,keys);
+                buildTreeView(treeView.getRoot(),keys);
             }else {
                 buildListView(children,keys);
             }
