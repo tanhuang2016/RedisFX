@@ -485,8 +485,13 @@ public class ServerTabController extends BaseKeyController<MainController> {
                     TreeItem<String> finalChildNode = childNode;
                     TreeItem<String> finalCurrent = current;
 //                    Platform.runLater(() -> {
-                        finalCurrent.getChildren().add(finalChildNode);
+
 //                    });
+                    if (isLeaf) {
+                        finalCurrent.getChildren().add(finalChildNode);
+                    }else {
+                        finalCurrent.getChildren().addFirst(finalChildNode);
+                    }
 
                 }
 
@@ -554,10 +559,11 @@ public class ServerTabController extends BaseKeyController<MainController> {
     public void search(ActionEvent actionEvent) {
         ThreadPool.getInstance().execute(() -> {
             List<String> keys = exeRedis(j -> j.scanAll(searchText.getText()));
-            Platform.runLater(() -> {
-                //key已经查出来,只管展示
-                initTreeView(keys);
-            });
+//            Platform.runLater(() -> {
+//
+//            });
+            //key已经查出来,只管展示
+            initTreeView(keys);
             //搜索不是空，就加入历史记录
             if(TUtil.isNotEmpty(searchText.getText())){
                 recentHistory.add(searchText.getText());
