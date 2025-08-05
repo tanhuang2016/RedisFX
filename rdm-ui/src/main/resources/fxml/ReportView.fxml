@@ -16,15 +16,15 @@
         <content>
           <AnchorPane>
                <children>
-                  <VBox alignment="TOP_CENTER" spacing="5.0"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox alignment="TOP_CENTER" spacing="30.0"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <HBox alignment="CENTER" spacing="5.0" VBox.vgrow="ALWAYS">
+                        <HBox fx:id="pies" alignment="CENTER" spacing="5.0" VBox.vgrow="ALWAYS">
                            <children>
                               <PieChart fx:id="memory" title="Memory" HBox.hgrow="ALWAYS" />
                               <PieChart fx:id="keys" title="Keys" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
-                        <BarChart title="MEMORY LIKELY TO BE FREED OVER TIME" VBox.vgrow="ALWAYS">
+                        <BarChart fx:id="bar" title="MEMORY LIKELY TO BE FREED OVER TIME" VBox.vgrow="ALWAYS">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
                           </xAxis>
@@ -32,7 +32,7 @@
                             <NumberAxis side="LEFT" />
                           </yAxis>
                         </BarChart>
-                        <LineChart>
+                        <LineChart fx:id="line">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
                           </xAxis>
