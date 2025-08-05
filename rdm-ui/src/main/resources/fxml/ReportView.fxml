@@ -13,7 +13,7 @@
 
 <AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.ReportController">
    <children>
-      <ScrollPane  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ScrollPane fitToWidth="true" fitToHeight="true"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <content>
           <AnchorPane>
                <children>
