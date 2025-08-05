@@ -24,6 +24,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Popup;
 import xyz.hashdog.rdm.ui.sampler.theme.SamplerTheme;
 import xyz.hashdog.rdm.ui.sampler.theme.ThemeManager;
 
@@ -91,13 +92,24 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
 
     private void setUpHoverEffectWithTooltip(PieChart.Data data) {
-        Tooltip tooltip = new Tooltip();
-        // 关键设置：避免 Tooltip 影响鼠标事件
-        tooltip.setConsumeAutoHidingEvents(false);
-        tooltip.setAutoHide(true);
-        tooltip.setHideOnEscape(true);
-        tooltip.setText(data.getName() + ": " + data.getPieValue());
-//        Tooltip.install(data.getNode(), tooltip);
+        Popup popup = new Popup();
+        Label popupContent = new Label(data.getName() + ": " + String.format("%.1f", data.getPieValue()));
+        popupContent.setStyle(
+                "-fx-background-color: rgba(0, 0, 0, 0.8);" +
+                        "-fx-text-fill: white;" +
+                        "-fx-padding: 5px 10px;" +
+                        "-fx-background-radius: 4px;" +
+                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0, 2, 2);"
+        );
+
+        // 关键设置：使 Popup 内容对鼠标事件透明
+        popupContent.setMouseTransparent(true);
+        popup.getContent().add(popupContent);
+
+        // 关键设置：使整个 Popup 对鼠标事件透明
+        popup.setAutoFix(true);
+        popup.setAutoHide(false); // 不自动隐藏，由我们手动控制
+        popup.setHideOnEscape(true);
         data.getNode().setOnMouseEntered(event -> {
             System.out.println("Hovered: " + data.getName() + " - " + data.getPieValue());
             // 放大效果
@@ -106,7 +118,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             // 使用节点自身的填充颜色创建阴影
             Color shadowColor = getRegionBackgroundColor(data);
             data.getNode().setEffect(new DropShadow(10, shadowColor));
-            tooltip.show(data.getNode(), event.getScreenX()+20, event.getScreenY() + 20);
+            popup.show(data.getNode(), event.getScreenX()+5, event.getScreenY() + 5);
         });
 
         data.getNode().setOnMouseExited(event -> {
@@ -114,13 +126,13 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             data.getNode().setScaleX(1.0);
             data.getNode().setScaleY(1.0);
             data.getNode().setEffect(null);
-            tooltip.hide();
+            popup.hide();
         });
         data.getNode().setOnMouseMoved(event -> {
             // 动态更新位置，保持与鼠标的距离
-            if (tooltip.isShowing()) {
-                tooltip.setAnchorX(event.getScreenX() + 20);
-                tooltip.setAnchorY(event.getScreenY() + 20);
+            if (popup.isShowing()) {
+                popup.setAnchorX(event.getScreenX() + 5);
+                popup.setAnchorY(event.getScreenY() + 5);
             }
         });
         data.getNode().setOnMouseClicked(event -> {
