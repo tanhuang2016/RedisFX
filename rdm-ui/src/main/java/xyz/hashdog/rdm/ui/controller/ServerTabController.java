@@ -423,15 +423,13 @@ public class ServerTabController extends BaseKeyController<MainController> {
 
         ObservableList<TreeItem<String>> children = treeView.getRoot().getChildren();
         children.clear();
-        ThreadPool.getInstance().execute(() -> {
-            if(this.redisContext.getRedisConfig().isTreeShow()){
-                Platform.runLater(() -> {
-                    buildTreeView(treeView.getRoot(),keys);
-                });
-            }else {
-                buildListView(children,keys);
-            }
-        });
+        if(this.redisContext.getRedisConfig().isTreeShow()){
+            Platform.runLater(() -> {
+                buildTreeView(treeView.getRoot(),keys);
+            });
+        }else {
+            buildListView(children,keys);
+        }
 
 
 
@@ -564,6 +562,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
 //            });
             //key已经查出来,只管展示
             initTreeView(keys);
+            //得刷新一下，不然会出现目录和叶子节点未对齐的显示问题
+            treeView.refresh();
             //搜索不是空，就加入历史记录
             if(TUtil.isNotEmpty(searchText.getText())){
                 recentHistory.add(searchText.getText());
