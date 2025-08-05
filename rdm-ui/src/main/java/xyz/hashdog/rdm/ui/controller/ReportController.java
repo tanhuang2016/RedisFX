@@ -57,11 +57,12 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         bar.setStyle("-fx-background-color:"+c1);
         // 设置图表绘图区域背景色
         bar.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
-
-// 设置坐标轴区域背景色
+        // 设置坐标轴区域背景色
         bar.lookup(".axis").setStyle("-fx-background-color: transparent");
         line.setStyle("-fx-background-color:"+c1);
-
+        line.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
+        // 设置坐标轴区域背景色
+        line.lookup(".axis").setStyle("-fx-background-color: transparent");
 
         final var rnd = FAKER.random();
 
@@ -80,7 +81,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                 new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30))
         );
         keys.setData(data);
-        keys.getStyleClass().add("donut-chart");
         keys.setAnimated(true);
         keys.setLabelsVisible(true);
         for (PieChart.Data data1 : keys.getData()) {
