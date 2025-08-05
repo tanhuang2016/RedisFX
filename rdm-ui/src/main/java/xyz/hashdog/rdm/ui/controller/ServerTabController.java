@@ -653,8 +653,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
 
     @FXML
     public void report(ActionEvent actionEvent) throws IOException {
-        Tuple2<AnchorPane,ConsoleController> tuple2 = loadFXML("/fxml/ReportView.fxml");
-        AnchorPane anchorPane = tuple2.getT1();
+        Tuple2<ScrollPane,ConsoleController> tuple2 = loadFXML("/fxml/ReportView.fxml");
+        ScrollPane anchorPane = tuple2.getT1();
         BaseKeyController controller = tuple2.getT2();
         controller.setParentController(this);
         PassParameter passParameter = new PassParameter(PassParameter.MONITOR);
