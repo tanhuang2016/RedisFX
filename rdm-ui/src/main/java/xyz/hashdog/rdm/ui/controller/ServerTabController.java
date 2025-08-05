@@ -425,7 +425,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         children.clear();
         ThreadPool.getInstance().execute(() -> {
             if(this.redisContext.getRedisConfig().isTreeShow()){
-                buildTreeView(treeView,keys);
+                buildTreeView(children,keys);
             }else {
                 buildListView(children,keys);
             }
@@ -458,11 +458,10 @@ public class ServerTabController extends BaseKeyController<MainController> {
 
     /**
      * KEY展示构建树形结构
-     * @param treeView
+     * @param root
      * @param keys
      */
-    private void buildTreeView(TreeView<String> treeView,List<String> keys) {
-        TreeItem<String> root = treeView.getRoot();
+    private void buildTreeView(TreeItem<String> root,List<String> keys) {
         for (String key : keys) {
             String type = exeRedis(j -> j.type(key));
             Label keyTypeLabel = GuiUtil.getKeyTypeLabel(type);

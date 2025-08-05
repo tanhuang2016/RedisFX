@@ -31,7 +31,7 @@
 /*    -fx-font-weight: bold;*/
 /*}*/
 
-
+/*redis标签样式*/
 .tag {
     -fx-padding: 2px 4px 2px 4px;
     -fx-background-radius: 4px;
@@ -39,3 +39,13 @@
     -fx-background-color: red;
 }
 
+/*圆角样式*/
+.rounded-corner {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+/* 如果需要对图表内部区域也设置圆角 */
+.rounded-corner .chart-content {
+    -fx-background-radius: 8;
+}
