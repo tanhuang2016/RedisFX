@@ -38,3 +38,35 @@
     -fx-font-size: 0.75em;
     -fx-background-color: red;
 }
+
+
+
+.donut-chart .chart-pie {
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+.donut-chart .chart-content {
+    -fx-background-color: transparent;
+}
+
+.donut-chart .chart-pie-label-line {
+    -fx-stroke: #888888;
+    -fx-stroke-width: 1px;
+}
+
+.donut-chart .chart-pie {
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-color: derive(-fx-pie-color, -10%);
+}
+
+.donut-chart .chart-content {
+    -fx-background-color: transparent;
+}
+
+.donut-chart .chart-pie-label-line {
+    -fx-stroke: #888888;
+    -fx-stroke-width: 1px;
+}
+
