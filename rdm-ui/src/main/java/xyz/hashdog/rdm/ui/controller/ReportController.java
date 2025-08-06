@@ -11,6 +11,8 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
+import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
+import xyz.hashdog.rdm.ui.sampler.event.ThemeEvent;
 import xyz.hashdog.rdm.ui.sampler.theme.SamplerTheme;
 import xyz.hashdog.rdm.ui.sampler.theme.ThemeManager;
 import java.io.IOException;
@@ -29,23 +31,16 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        SamplerTheme theme = ThemeManager.getInstance().getTheme();
-        int fontSize = ThemeManager.getInstance().getFontSize();
-        String fontFamily = ThemeManager.getInstance().getFontFamily();
-        Map<String, String> colors = null;
-        try {
-            colors = theme.parseColors();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        String c1 = colors.get("-color-bg-subtle");
-        pies.setStyle("-fx-background-color:"+c1);
-        bar.setStyle("-fx-background-color:"+c1);
+        applyTheme();
+        DefaultEventBus.getInstance().subscribe(ThemeEvent.class, e -> {
+            applyTheme();
+        });
+
+
         // 设置图表绘图区域背景色
         bar.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
         // 设置坐标轴区域背景色
         bar.lookup(".axis").setStyle("-fx-background-color: transparent");
-        line.setStyle("-fx-background-color:"+c1);
         line.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
         // 设置坐标轴区域背景色
         line.lookup(".axis").setStyle("-fx-background-color: transparent");
@@ -73,6 +68,20 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             setUpHoverEffectWithTooltip(data1);
         }
         memory.setData(data2);
+    }
+
+    private void applyTheme() {
+        SamplerTheme theme = ThemeManager.getInstance().getTheme();
+        Map<String, String> colors = null;
+        try {
+            colors = theme.parseColors();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String c1 = colors.get("-color-bg-subtle");
+        line.setStyle("-fx-background-color:"+c1);
+        pies.setStyle("-fx-background-color:"+c1);
+        bar.setStyle("-fx-background-color:"+c1);
     }
 
 
