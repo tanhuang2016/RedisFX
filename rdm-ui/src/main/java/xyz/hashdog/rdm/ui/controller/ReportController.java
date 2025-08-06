@@ -32,18 +32,12 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         applyTheme();
+        initStyle();
         DefaultEventBus.getInstance().subscribe(ThemeEvent.class, e -> {
             applyTheme();
         });
 
 
-        // 设置图表绘图区域背景色
-        bar.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
-        // 设置坐标轴区域背景色
-        bar.lookup(".axis").setStyle("-fx-background-color: transparent");
-        line.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
-        // 设置坐标轴区域背景色
-        line.lookup(".axis").setStyle("-fx-background-color: transparent");
 
         final var rnd = FAKER.random();
 
@@ -62,12 +56,32 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                 new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30))
         );
         keys.setData(data);
-        keys.setAnimated(true);
-        keys.setLabelsVisible(true);
+        memory.setData(data2);
+        dataHover();
+    }
+
+    private void dataHover() {
         for (PieChart.Data data1 : keys.getData()) {
             setUpHoverEffectWithTooltip(data1);
         }
-        memory.setData(data2);
+        for (PieChart.Data data1 : memory.getData()) {
+            setUpHoverEffectWithTooltip(data1);
+        }
+    }
+
+    private void initStyle() {
+        // 设置图表绘图区域背景色
+        bar.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
+        // 设置坐标轴区域背景色
+        bar.lookup(".axis").setStyle("-fx-background-color: transparent");
+        line.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
+        // 设置坐标轴区域背景色
+        line.lookup(".axis").setStyle("-fx-background-color: transparent");
+        keys.setAnimated(true);
+        keys.setLabelsVisible(true);
+        memory.setAnimated(true);
+        memory.setLabelsVisible(true);
+
     }
 
     private void applyTheme() {
