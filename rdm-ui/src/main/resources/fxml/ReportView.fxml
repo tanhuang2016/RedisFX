@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import atlantafx.base.controls.Card?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.BarChart?>
@@ -9,6 +8,7 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -23,9 +23,21 @@
                      <children>
                         <HBox spacing="10.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <Card fx:id="card" prefHeight="300.0" prefWidth="300.0" HBox.hgrow="ALWAYS" />
-                              <Card prefHeight="300.0" prefWidth="300.0" HBox.hgrow="ALWAYS" />
-                              <Card prefHeight="300.0" prefWidth="300.0" HBox.hgrow="ALWAYS" />
+                              <TitledPane styleClass="rounded-corner"  animated="false" text="服务器" HBox.hgrow="ALWAYS">
+                                <content>
+                                  <AnchorPane  minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                </content>
+                              </TitledPane>
+                              <TitledPane styleClass="rounded-corner" animated="false" text="内存" HBox.hgrow="ALWAYS">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                 </content>
+                              </TitledPane>
+                              <TitledPane styleClass="rounded-corner" animated="false" text="状态" HBox.hgrow="ALWAYS">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                 </content>
+                              </TitledPane>
                            </children>
                         </HBox>
                      </children>

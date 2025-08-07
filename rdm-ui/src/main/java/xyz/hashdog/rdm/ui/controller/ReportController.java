@@ -1,6 +1,7 @@
 package xyz.hashdog.rdm.ui.controller;
 
 import atlantafx.base.controls.Card;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
@@ -9,6 +10,7 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.TitledPane;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -85,6 +87,23 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         keys.setLabelsVisible(true);
         memory.setAnimated(true);
         memory.setLabelsVisible(true);
+
+        Platform.runLater(() -> {
+            for (Node child : cardVbox.getChildren()) {
+                if(child instanceof HBox hBox){
+                    for (Node hBoxChild : hBox.getChildren()) {
+                        if(hBoxChild instanceof TitledPane titledPane){
+                            titledPane.lookup(".title").setStyle("-fx-background-color: transparent;");
+                            titledPane.lookup(".content").setStyle(""" 
+                                    -fx-background-color: transparent;
+                                    -fx-border-width: 0;
+                                    -fx-background-insets: 0;
+                                    """);
+                        }
+                    }
+                }
+            }
+        });
 
     }
 
