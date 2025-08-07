@@ -112,7 +112,7 @@
                               <PieChart fx:id="keys" title="Keys" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
-                  <HBox prefHeight="300.0" spacing="10" prefWidth="1005.0" VBox.vgrow="ALWAYS">
+                  <HBox prefHeight="250.0" spacing="10" prefWidth="1005.0" VBox.vgrow="ALWAYS">
                      <children>
                               <LineChart fx:id="lineKey" styleClass="rounded-corner" HBox.hgrow="ALWAYS">
                                 <xAxis>
