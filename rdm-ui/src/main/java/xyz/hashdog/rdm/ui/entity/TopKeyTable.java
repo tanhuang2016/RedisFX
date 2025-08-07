@@ -6,7 +6,7 @@ package xyz.hashdog.rdm.ui.entity;
  * @version 2.2.0
  * @since 2025/8/6 22:35
  */
-public class TopKeyTable {
+public class TopKeyTable implements ITable {
 
     private String key;
     private String type;
@@ -14,11 +14,14 @@ public class TopKeyTable {
     private String size;
     private String length;
 
+    public TopKeyTable() {
+    }
 
     // 获取所有属性名称
-    public static String[] getProperties() {
+    public  String[] getProperties() {
         return new String[]{"#row", "type","key","ttl","size","length"};
     }
+
 
     public TopKeyTable(String key, String type, String ttl, String size, String length) {
         this.key = key;

@@ -82,19 +82,15 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         memoryTable.getStyleClass().addAll("edge-to-edge","striped");
         lengthTable.getStyleClass().addAll("edge-to-edge","striped");
         Platform.runLater(() -> {
-            ObservableList<TableColumn<TopKeyTable, ?>> columns = memoryTable.getColumns();
-            TableColumn<HashTypeTable, Integer> c0 = (TableColumn) columns.get(0);
-            c0.setCellValueFactory(
-                    param -> new ReadOnlyObjectWrapper<>(memoryTable.getItems().indexOf(param.getValue()) + 1)
-            );
-            for (int i = 1; i < columns.size(); i++) {
-                TableColumn c1 = (TableColumn) columns.get(i);
-                c1.setCellValueFactory(
-                        new PropertyValueFactory<TopKeyTable, String>(TopKeyTable.getProperties()[i])
-                );
-                c1.setCellFactory(param -> new GuiUtil.OneLineTableCell<>());
-            }
+            GuiUtil.initTableView(memoryTable,new TopKeyTable());
+            GuiUtil.initTableView(lengthTable,new TopKeyTable());
             memoryTable.getItems().addAll(
+                    new TopKeyTable("1","2","3","4","5"),
+                    new TopKeyTable("1","2","3","4","5"),
+                    new TopKeyTable("1","2","3","4","5"),
+                    new TopKeyTable("1","2","3","4","5")
+            );
+            lengthTable.getItems().addAll(
                     new TopKeyTable("1","2","3","4","5"),
                     new TopKeyTable("1","2","3","4","5"),
                     new TopKeyTable("1","2","3","4","5"),

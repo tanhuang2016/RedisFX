@@ -5,6 +5,7 @@ import com.github.weisj.jsvg.parser.SVGLoader;
 import com.github.weisj.jsvg.view.ViewBox;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
@@ -19,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
@@ -40,7 +42,9 @@ import xyz.hashdog.rdm.ui.common.*;
 import xyz.hashdog.rdm.ui.controller.BaseController;
 import xyz.hashdog.rdm.ui.controller.BaseKeyController;
 import xyz.hashdog.rdm.ui.controller.ByteArrayController;
+import xyz.hashdog.rdm.ui.entity.ITable;
 import xyz.hashdog.rdm.ui.entity.PassParameter;
+import xyz.hashdog.rdm.ui.entity.TopKeyTable;
 import xyz.hashdog.rdm.ui.entity.config.KeyTagSetting;
 import xyz.hashdog.rdm.ui.entity.config.ThemeSetting;
 
@@ -587,6 +591,22 @@ public class GuiUtil {
         g.dispose();
         Image fxImage = SwingFXUtils.toFXImage(image, null);
         return fxImage;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static void initTableView(TableView tableView, ITable iTable) {
+        ObservableList<TableColumn<ITable, ?>> columns = tableView.getColumns();
+        TableColumn<ITable, Integer> c0 = (TableColumn)columns.getFirst();
+        c0.setCellValueFactory(
+                param -> new ReadOnlyObjectWrapper<>(tableView.getItems().indexOf(param.getValue()) + 1)
+        );
+        for (int i = 1; i < columns.size(); i++) {
+            TableColumn c1 =  columns.get(i);
+            c1.setCellValueFactory(
+                    new PropertyValueFactory(iTable.getProperties()[i])
+            );
+            c1.setCellFactory(param -> new GuiUtil.OneLineTableCell<>());
+        }
     }
 
 
