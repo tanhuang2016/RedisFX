@@ -14,6 +14,9 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
+import org.kordamp.ikonli.feather.Feather;
+import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.material2.Material2MZ;
 import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
 import xyz.hashdog.rdm.ui.sampler.event.ThemeEvent;
 import xyz.hashdog.rdm.ui.sampler.theme.SamplerTheme;
@@ -39,11 +42,10 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public void initialize(URL url, ResourceBundle resourceBundle) {
         applyTheme();
         initStyle();
+        initFontIcon();
         DefaultEventBus.getInstance().subscribe(ThemeEvent.class, e -> {
             applyTheme();
         });
-
-
 
         final var rnd = FAKER.random();
 
@@ -64,6 +66,13 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         keys.setData(data);
         memory.setData(data2);
         dataHover();
+    }
+
+    private void initFontIcon() {
+        serverInfo.setGraphic(new FontIcon( Feather.SERVER));
+        memoryInfo.setGraphic(new FontIcon( Material2MZ.MEMORY ));
+        statusInfo.setGraphic(new FontIcon( Feather.ACTIVITY));
+
     }
 
     private void dataHover() {
