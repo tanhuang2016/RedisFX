@@ -82,8 +82,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         memoryTable.getStyleClass().addAll("edge-to-edge","striped");
         lengthTable.getStyleClass().addAll("edge-to-edge","striped");
         Platform.runLater(() -> {
-            GuiUtil.initTableView(memoryTable,new TopKeyTable());
-            GuiUtil.initTableView(lengthTable,new TopKeyTable());
+            GuiUtil.initSimpleTableView(memoryTable,new TopKeyTable());
+            GuiUtil.initSimpleTableView(lengthTable,new TopKeyTable());
             memoryTable.getItems().addAll(
                     new TopKeyTable("1","2","3","4","5"),
                     new TopKeyTable("1","2","3","4","5"),

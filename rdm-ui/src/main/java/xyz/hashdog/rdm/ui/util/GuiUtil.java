@@ -593,8 +593,13 @@ public class GuiUtil {
         return fxImage;
     }
 
+    /**
+     * 创建普通的表格
+     * @param tableView
+     * @param iTable
+     */
     @SuppressWarnings("unchecked")
-    public static void initTableView(TableView tableView, ITable iTable) {
+    public static void initSimpleTableView(TableView tableView, ITable iTable) {
         ObservableList<TableColumn<ITable, ?>> columns = tableView.getColumns();
         TableColumn<ITable, Integer> c0 = (TableColumn)columns.getFirst();
         c0.setCellValueFactory(
