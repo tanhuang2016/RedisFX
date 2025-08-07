@@ -31,19 +31,19 @@
                                           <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                              <children>
                                                 <Label text="Redis版本:" />
-                                                <Label text="7.2.10" styleClass="success"/>
+                                                <Label styleClass="success" text="7.2.10" />
                                              </children>
                                           </HBox>
                                           <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                              <children>
                                                 <Label text="系统:" />
-                                                <Label text="Linux6.6.87.2-microsoft-standard-WSL2x86_64" styleClass="success"/>
+                                                <Label styleClass="success" text="Linux6.6.87.2-microsoft-standard-WSL2x86_64" />
                                              </children>
                                           </HBox>
                                            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                <children>
                                                    <Label text="进程id:" HBox.hgrow="ALWAYS" />
-                                                   <Label text="1069" HBox.hgrow="ALWAYS" styleClass="success"/>
+                                                   <Label styleClass="success" text="1069" HBox.hgrow="ALWAYS" />
                                                </children>
                                            </HBox>
                                        </children>
@@ -57,19 +57,19 @@
                                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                   <children>
                                                       <Label text="已用内存:" />
-                                                      <Label text="1.44MB" styleClass="success"/>
+                                                      <Label styleClass="success" text="1.44MB" />
                                                   </children>
                                               </HBox>
                                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                   <children>
                                                       <Label text="内存占用峰值:" />
-                                                      <Label text="1.49MB" styleClass="success"/>
+                                                      <Label styleClass="success" text="1.49MB" />
                                                   </children>
                                               </HBox>
                                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                   <children>
                                                       <Label text="Lua占用内存:" HBox.hgrow="ALWAYS" />
-                                                      <Label text="31KB" HBox.hgrow="ALWAYS" styleClass="success"/>
+                                                      <Label styleClass="success" text="31KB" HBox.hgrow="ALWAYS" />
                                                   </children>
                                               </HBox>
                                           </children>
@@ -83,19 +83,19 @@
                                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                   <children>
                                                       <Label text="客户端连接数:" />
-                                                      <Label text="1" styleClass="success"/>
+                                                      <Label styleClass="success" text="1" />
                                                   </children>
                                               </HBox>
                                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                   <children>
                                                       <Label text="历史连接数:" />
-                                                      <Label text="7" styleClass="success"/>
+                                                      <Label styleClass="success" text="7" />
                                                   </children>
                                               </HBox>
                                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                   <children>
                                                       <Label text="历史命令数:" HBox.hgrow="ALWAYS" />
-                                                      <Label text="862" HBox.hgrow="ALWAYS" styleClass="success"/>
+                                                      <Label styleClass="success" text="862" HBox.hgrow="ALWAYS" />
                                                   </children>
                                               </HBox>
                                           </children>
@@ -112,6 +112,26 @@
                               <PieChart fx:id="keys" title="Keys" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
+                  <HBox prefHeight="300.0" spacing="10" prefWidth="1005.0" VBox.vgrow="ALWAYS">
+                     <children>
+                              <LineChart fx:id="lineKey" styleClass="rounded-corner" HBox.hgrow="ALWAYS">
+                                <xAxis>
+                                  <CategoryAxis side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis side="LEFT" />
+                                </yAxis>
+                              </LineChart>
+                        <LineChart fx:id="lineMemory" styleClass="rounded-corner" HBox.hgrow="ALWAYS">
+                           <xAxis>
+                              <CategoryAxis side="BOTTOM" />
+                           </xAxis>
+                           <yAxis>
+                              <NumberAxis side="LEFT" />
+                           </yAxis>
+                        </LineChart>
+                     </children>
+                  </HBox>
                         <BarChart fx:id="bar" styleClass="rounded-corner" title="MEMORY LIKELY TO BE FREED OVER TIME" VBox.vgrow="ALWAYS">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
@@ -120,14 +140,6 @@
                             <NumberAxis side="LEFT" />
                           </yAxis>
                         </BarChart>
-                        <LineChart fx:id="line" styleClass="rounded-corner">
-                          <xAxis>
-                            <CategoryAxis side="BOTTOM" />
-                          </xAxis>
-                          <yAxis>
-                            <NumberAxis side="LEFT" />
-                          </yAxis>
-                        </LineChart>
                      </children>
                   </VBox>
                </children>

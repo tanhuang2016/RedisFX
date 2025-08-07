@@ -33,10 +33,11 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public PieChart keys;
     public HBox pies;
     public BarChart bar;
-    public LineChart line;
     public TitledPane serverInfo;
     public TitledPane memoryInfo;
     public TitledPane statusInfo;
+    public LineChart lineKey;
+    public LineChart lineMemory;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -90,7 +91,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     }
 
     private void initLineBarStyle() {
-        initLineBarStyle(bar,line);
+        initLineBarStyle(bar,lineKey,lineMemory);
     }
 
     private void initLineBarStyle(Node... bars) {
@@ -127,7 +128,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             throw new RuntimeException(e);
         }
         String c1 = colors.get("-color-bg-subtle");
-        line.setStyle("-fx-background-color:"+c1);
+        lineKey.setStyle("-fx-background-color:"+c1);
+        lineMemory.setStyle("-fx-background-color:"+c1);
         pies.setStyle("-fx-background-color:"+c1);
         bar.setStyle("-fx-background-color:"+c1);
         serverInfo.setStyle("-fx-background-color:"+c1);
