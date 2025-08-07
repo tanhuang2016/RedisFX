@@ -28,19 +28,19 @@
                                  <content>
                                     <VBox prefHeight="180.0" prefWidth="200.0" spacing="5.0">
                                        <children>
-                                          <HBox prefHeight="100.0" spacing="5.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                          <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                              <children>
                                                 <Label text="Redis版本:" />
                                                 <Label text="7.2.10" />
                                              </children>
                                           </HBox>
-                                          <HBox prefHeight="100.0" spacing="5.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                          <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                              <children>
-                                                <Label text="系统:"  />
+                                                <Label text="系统:" />
                                                 <Label text="Linux6.6.87.2-microsoft-standard-WSL2x86_64" />
                                              </children>
                                           </HBox>
-                                           <HBox prefHeight="100.0" spacing="5.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                           <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                <children>
                                                    <Label text="进程id:" HBox.hgrow="ALWAYS" />
                                                    <Label text="1069" HBox.hgrow="ALWAYS" />
