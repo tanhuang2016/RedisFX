@@ -1,5 +1,7 @@
 package xyz.hashdog.rdm.ui.controller;
 
+import atlantafx.base.theme.Styles;
+import atlantafx.base.theme.Tweaks;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -79,8 +81,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         dataHover();
 
 
-        memoryTable.getStyleClass().addAll("edge-to-edge","striped");
-        lengthTable.getStyleClass().addAll("edge-to-edge","striped");
+        memoryTable.getStyleClass().addAll(Tweaks.EDGE_TO_EDGE,Styles.STRIPED);
+        lengthTable.getStyleClass().addAll(Tweaks.EDGE_TO_EDGE,Styles.STRIPED);
         Platform.runLater(() -> {
             GuiUtil.initSimpleTableView(memoryTable,new TopKeyTable());
             GuiUtil.initSimpleTableView(lengthTable,new TopKeyTable());
