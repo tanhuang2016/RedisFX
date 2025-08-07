@@ -7,6 +7,7 @@
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -19,21 +20,42 @@
                <children>
                   <VBox alignment="TOP_CENTER" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                  <VBox >
+                  <VBox>
                      <children>
                         <HBox spacing="10.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <TitledPane fx:id="serverInfo" styleClass="rounded-corner"  animated="false" text="服务器" HBox.hgrow="ALWAYS">
-                                <content>
-                                  <AnchorPane  minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                                </content>
+                              <TitledPane fx:id="serverInfo" animated="false" styleClass="rounded-corner" text="服务器" HBox.hgrow="ALWAYS">
+                                 <content>
+                                    <VBox prefHeight="180.0" prefWidth="200.0" spacing="5.0">
+                                       <children>
+                                          <HBox prefHeight="100.0" spacing="5.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <Label text="Redis版本:" />
+                                                <Label text="7.2.10" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="100.0" spacing="5.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <Label text="系统:"  />
+                                                <Label text="Linux6.6.87.2-microsoft-standard-WSL2x86_64" />
+                                             </children>
+                                          </HBox>
+                                           <HBox prefHeight="100.0" spacing="5.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                               <children>
+                                                   <Label text="进程id:" HBox.hgrow="ALWAYS" />
+                                                   <Label text="1069" HBox.hgrow="ALWAYS" />
+                                               </children>
+                                           </HBox>
+                                       </children>
+                                    </VBox>
+                                 </content>
                               </TitledPane>
-                              <TitledPane fx:id="memoryInfo" styleClass="rounded-corner" animated="false" text="内存" HBox.hgrow="ALWAYS">
+                              <TitledPane fx:id="memoryInfo" animated="false" styleClass="rounded-corner" text="内存" HBox.hgrow="ALWAYS">
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                                  </content>
                               </TitledPane>
-                              <TitledPane fx:id="statusInfo" styleClass="rounded-corner" animated="false" text="状态" HBox.hgrow="ALWAYS">
+                              <TitledPane fx:id="statusInfo" animated="false" styleClass="rounded-corner" text="状态" HBox.hgrow="ALWAYS">
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                                  </content>
