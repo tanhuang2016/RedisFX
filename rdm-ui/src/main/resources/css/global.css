@@ -49,3 +49,25 @@
 .rounded-corner .chart-content {
     -fx-background-radius: 8;
 }
+
+
+/*表格的head不显示竖线*/
+.no-vertical-lines .column-header-background .table-column {
+    -fx-border-width: 0;
+    -fx-background-color: transparent;
+}
+
+.no-vertical-lines .column-header-background {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+.no-vertical-lines .table-column-header {
+    -fx-border-width: 0;
+    -fx-background-color: transparent;
+}
+
+/* 去掉列分隔线 */
+.no-vertical-lines .table-column .arrow {
+    -fx-border-width: 0;
+}

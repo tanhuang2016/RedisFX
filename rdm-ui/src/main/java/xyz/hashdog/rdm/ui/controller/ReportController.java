@@ -1,6 +1,7 @@
 package xyz.hashdog.rdm.ui.controller;
 
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
@@ -8,8 +9,8 @@ import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.Label;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -17,12 +18,17 @@ import javafx.stage.Popup;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2MZ;
+import xyz.hashdog.rdm.ui.entity.HashTypeTable;
+import xyz.hashdog.rdm.ui.entity.TopKeyTable;
 import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
 import xyz.hashdog.rdm.ui.sampler.event.ThemeEvent;
 import xyz.hashdog.rdm.ui.sampler.theme.SamplerTheme;
 import xyz.hashdog.rdm.ui.sampler.theme.ThemeManager;
+import xyz.hashdog.rdm.ui.util.GuiUtil;
+
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -32,12 +38,16 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public PieChart memory;
     public PieChart keys;
     public HBox pies;
+    public HBox topTables;
+
     public BarChart bar;
     public TitledPane serverInfo;
     public TitledPane memoryInfo;
     public TitledPane statusInfo;
     public LineChart lineKey;
     public LineChart lineMemory;
+    public TableView<TopKeyTable> memoryTable;
+    public TableView<TopKeyTable> lengthTable;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -67,6 +77,33 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         keys.setData(data);
         memory.setData(data2);
         dataHover();
+
+
+        memoryTable.getStyleClass().addAll("edge-to-edge","striped");
+        lengthTable.getStyleClass().addAll("edge-to-edge","striped");
+        Platform.runLater(() -> {
+            ObservableList<TableColumn<TopKeyTable, ?>> columns = memoryTable.getColumns();
+            TableColumn<HashTypeTable, Integer> c0 = (TableColumn) columns.get(0);
+            c0.setCellValueFactory(
+                    param -> new ReadOnlyObjectWrapper<>(memoryTable.getItems().indexOf(param.getValue()) + 1)
+            );
+            for (int i = 1; i < columns.size(); i++) {
+                TableColumn c1 = (TableColumn) columns.get(i);
+                c1.setCellValueFactory(
+                        new PropertyValueFactory<TopKeyTable, String>(TopKeyTable.getProperties()[i])
+                );
+                c1.setCellFactory(param -> new GuiUtil.OneLineTableCell<>());
+            }
+            memoryTable.getItems().addAll(
+                    new TopKeyTable("1","2","3","4","5"),
+                    new TopKeyTable("1","2","3","4","5"),
+                    new TopKeyTable("1","2","3","4","5"),
+                    new TopKeyTable("1","2","3","4","5")
+            );
+            memoryTable.setColumnResizePolicy(
+                    TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
+            );
+        });
     }
 
     private void initFontIcon() {
@@ -131,6 +168,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         lineKey.setStyle("-fx-background-color:"+c1);
         lineMemory.setStyle("-fx-background-color:"+c1);
         pies.setStyle("-fx-background-color:"+c1);
+        topTables.setStyle("-fx-background-color:"+c1);
         bar.setStyle("-fx-background-color:"+c1);
         serverInfo.setStyle("-fx-background-color:"+c1);
         memoryInfo.setStyle("-fx-background-color:"+c1);
