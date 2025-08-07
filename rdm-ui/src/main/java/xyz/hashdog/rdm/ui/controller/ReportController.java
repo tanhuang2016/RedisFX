@@ -1,14 +1,17 @@
 package xyz.hashdog.rdm.ui.controller;
 
+import atlantafx.base.controls.Card;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
@@ -28,6 +31,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public HBox pies;
     public BarChart bar;
     public LineChart line;
+    public VBox cardVbox;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -96,6 +100,11 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         line.setStyle("-fx-background-color:"+c1);
         pies.setStyle("-fx-background-color:"+c1);
         bar.setStyle("-fx-background-color:"+c1);
+        for (Node child : cardVbox.getChildren()) {
+            if(child instanceof HBox hBox){
+                hBox.getChildren().forEach(e->e.setStyle("-fx-background-color:"+c1));
+            }
+        }
     }
 
 

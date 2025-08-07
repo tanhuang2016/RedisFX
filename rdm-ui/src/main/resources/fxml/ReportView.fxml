@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import atlantafx.base.controls.Card?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.BarChart?>
@@ -12,19 +13,30 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane  fitToWidth="true" fx:id="root" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.ReportController">
+<ScrollPane fx:id="root" fitToWidth="true" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.ReportController">
         <content>
           <AnchorPane>
                <children>
-                  <VBox  alignment="TOP_CENTER" spacing="15.0"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox alignment="TOP_CENTER" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <HBox styleClass="rounded-corner" fx:id="pies" alignment="CENTER" spacing="5.0" VBox.vgrow="ALWAYS">
+                  <VBox fx:id="cardVbox">
+                     <children>
+                        <HBox spacing="10.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <Card fx:id="card" prefHeight="300.0" prefWidth="300.0" HBox.hgrow="ALWAYS" />
+                              <Card prefHeight="300.0" prefWidth="300.0" HBox.hgrow="ALWAYS" />
+                              <Card prefHeight="300.0" prefWidth="300.0" HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                        <HBox fx:id="pies" alignment="CENTER" spacing="5.0" styleClass="rounded-corner" VBox.vgrow="ALWAYS">
                            <children>
                               <PieChart fx:id="memory" title="Memory" HBox.hgrow="ALWAYS" />
                               <PieChart fx:id="keys" title="Keys" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
-                        <BarChart styleClass="rounded-corner" fx:id="bar" title="MEMORY LIKELY TO BE FREED OVER TIME" VBox.vgrow="ALWAYS">
+                        <BarChart fx:id="bar" styleClass="rounded-corner" title="MEMORY LIKELY TO BE FREED OVER TIME" VBox.vgrow="ALWAYS">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
                           </xAxis>
@@ -32,7 +44,7 @@
                             <NumberAxis side="LEFT" />
                           </yAxis>
                         </BarChart>
-                        <LineChart styleClass="rounded-corner" fx:id="line">
+                        <LineChart fx:id="line" styleClass="rounded-corner">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
                           </xAxis>
