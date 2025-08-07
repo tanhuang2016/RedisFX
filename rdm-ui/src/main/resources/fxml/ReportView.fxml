@@ -19,21 +19,21 @@
                <children>
                   <VBox alignment="TOP_CENTER" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                  <VBox fx:id="cardVbox">
+                  <VBox >
                      <children>
                         <HBox spacing="10.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <TitledPane styleClass="rounded-corner"  animated="false" text="服务器" HBox.hgrow="ALWAYS">
+                              <TitledPane fx:id="serverInfo" styleClass="rounded-corner"  animated="false" text="服务器" HBox.hgrow="ALWAYS">
                                 <content>
                                   <AnchorPane  minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                                 </content>
                               </TitledPane>
-                              <TitledPane styleClass="rounded-corner" animated="false" text="内存" HBox.hgrow="ALWAYS">
+                              <TitledPane fx:id="memoryInfo" styleClass="rounded-corner" animated="false" text="内存" HBox.hgrow="ALWAYS">
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                                  </content>
                               </TitledPane>
-                              <TitledPane styleClass="rounded-corner" animated="false" text="状态" HBox.hgrow="ALWAYS">
+                              <TitledPane fx:id="statusInfo" styleClass="rounded-corner" animated="false" text="状态" HBox.hgrow="ALWAYS">
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                                  </content>

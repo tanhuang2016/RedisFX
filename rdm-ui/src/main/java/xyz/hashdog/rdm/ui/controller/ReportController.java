@@ -35,7 +35,9 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public HBox pies;
     public BarChart bar;
     public LineChart line;
-    public VBox cardVbox;
+    public TitledPane serverInfo;
+    public TitledPane memoryInfo;
+    public TitledPane statusInfo;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -89,25 +91,24 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         keys.setLabelsVisible(true);
         memory.setAnimated(true);
         memory.setLabelsVisible(true);
+        initCardInfoStyle();
 
-        Platform.runLater(() -> {
-            for (Node child : cardVbox.getChildren()) {
-                if(child instanceof HBox hBox){
-                    for (Node hBoxChild : hBox.getChildren()) {
-                        if(hBoxChild instanceof TitledPane titledPane){
-                            titledPane.setGraphic(new FontIcon(Feather.MONITOR));
-                            titledPane.lookup(".title").setStyle("-fx-background-color: transparent;");
-                            titledPane.lookup(".content").setStyle(""" 
+
+    }
+
+    private void initCardInfoStyle() {
+        Platform.runLater(()->initCardInfoStyle(serverInfo,memoryInfo,statusInfo));
+    }
+
+    private void initCardInfoStyle(TitledPane... infos) {
+        for (TitledPane info : infos) {
+            info.lookup(".title").setStyle("-fx-background-color: transparent;");
+            info.lookup(".content").setStyle(""" 
                                     -fx-background-color: transparent;
                                     -fx-border-width: 0;
                                     -fx-background-insets: 0;
                                     """);
-                        }
-                    }
-                }
-            }
-        });
-
+        }
     }
 
     private void applyTheme() {
@@ -122,11 +123,9 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         line.setStyle("-fx-background-color:"+c1);
         pies.setStyle("-fx-background-color:"+c1);
         bar.setStyle("-fx-background-color:"+c1);
-        for (Node child : cardVbox.getChildren()) {
-            if(child instanceof HBox hBox){
-                hBox.getChildren().forEach(e->e.setStyle("-fx-background-color:"+c1));
-            }
-        }
+        serverInfo.setStyle("-fx-background-color:"+c1);
+        memoryInfo.setStyle("-fx-background-color:"+c1);
+        statusInfo.setStyle("-fx-background-color:"+c1);
     }
 
 
