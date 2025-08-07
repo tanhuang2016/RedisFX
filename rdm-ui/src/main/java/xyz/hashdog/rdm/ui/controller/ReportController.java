@@ -99,6 +99,9 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             memoryTable.setColumnResizePolicy(
                     TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
             );
+            lengthTable.setColumnResizePolicy(
+                    TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
+            );
         });
     }
 

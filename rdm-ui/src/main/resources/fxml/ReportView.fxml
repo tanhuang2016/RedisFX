@@ -114,9 +114,9 @@
                               <PieChart fx:id="keys" title="Keys" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
-                  <HBox fx:id="topTables" spacing="5.0" styleClass="rounded-corner" VBox.vgrow="ALWAYS">
+                  <HBox fx:id="topTables" spacing="30.0" styleClass="rounded-corner" VBox.vgrow="ALWAYS">
                      <children>
-                        <TableView fx:id="memoryTable" HBox.hgrow="ALWAYS" styleClass="no-vertical-lines">
+                        <TableView fx:id="memoryTable" styleClass="no-vertical-lines" HBox.hgrow="ALWAYS">
                           <columns>
                             <TableColumn prefWidth="75.0" text="Row" />
                             <TableColumn prefWidth="75.0" text="Type" />
@@ -126,7 +126,7 @@
                             <TableColumn prefWidth="75.0" text="Length" />
                           </columns>
                         </TableView>
-                        <TableView fx:id="lengthTable" HBox.hgrow="ALWAYS" >
+                        <TableView fx:id="lengthTable"  styleClass="no-vertical-lines" HBox.hgrow="ALWAYS">
                            <columns>
                                <TableColumn prefWidth="75.0" text="Row" />
                                <TableColumn prefWidth="75.0" text="Type" />
@@ -138,7 +138,7 @@
                         </TableView>
                      </children>
                      <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </HBox>
                   <HBox prefHeight="250.0" prefWidth="1005.0" spacing="5.0" VBox.vgrow="ALWAYS">
