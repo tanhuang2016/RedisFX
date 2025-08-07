@@ -16,6 +16,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
+import org.kordamp.ikonli.feather.Feather;
+import org.kordamp.ikonli.javafx.FontIcon;
 import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
 import xyz.hashdog.rdm.ui.sampler.event.ThemeEvent;
 import xyz.hashdog.rdm.ui.sampler.theme.SamplerTheme;
@@ -93,6 +95,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                 if(child instanceof HBox hBox){
                     for (Node hBoxChild : hBox.getChildren()) {
                         if(hBoxChild instanceof TitledPane titledPane){
+                            titledPane.setGraphic(new FontIcon(Feather.MONITOR));
                             titledPane.lookup(".title").setStyle("-fx-background-color: transparent;");
                             titledPane.lookup(".content").setStyle(""" 
                                     -fx-background-color: transparent;
