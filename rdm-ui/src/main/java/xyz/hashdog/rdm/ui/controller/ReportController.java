@@ -1,6 +1,5 @@
 package xyz.hashdog.rdm.ui.controller;
 
-import atlantafx.base.controls.Card;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,11 +12,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
-import org.kordamp.ikonli.feather.Feather;
-import org.kordamp.ikonli.javafx.FontIcon;
 import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
 import xyz.hashdog.rdm.ui.sampler.event.ThemeEvent;
 import xyz.hashdog.rdm.ui.sampler.theme.SamplerTheme;
@@ -80,19 +76,21 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     }
 
     private void initStyle() {
-        // 设置图表绘图区域背景色
-        bar.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
-        // 设置坐标轴区域背景色
-        bar.lookup(".axis").setStyle("-fx-background-color: transparent");
-        line.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
-        // 设置坐标轴区域背景色
-        line.lookup(".axis").setStyle("-fx-background-color: transparent");
-        keys.setAnimated(true);
-        keys.setLabelsVisible(true);
-        memory.setAnimated(true);
-        memory.setLabelsVisible(true);
+        initLineBarStyle();
         initCardInfoStyle();
+    }
 
+    private void initLineBarStyle() {
+        initLineBarStyle(bar,line);
+    }
+
+    private void initLineBarStyle(Node... bars) {
+        for (Node bar : bars) {
+            // 设置图表绘图区域背景色
+            bar.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
+            // 设置坐标轴区域背景色
+            bar.lookup(".axis").setStyle("-fx-background-color: transparent");
+        }
 
     }
 
