@@ -114,13 +114,23 @@
                               <PieChart fx:id="keys" title="Keys" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
-                  <TableView VBox.vgrow="ALWAYS">
-                    <columns>
-                      <TableColumn prefWidth="75.0" text="C1" />
-                      <TableColumn prefWidth="75.0" text="C2" />
-                    </columns>
-                  </TableView>
-                  <HBox prefHeight="250.0" prefWidth="1005.0" spacing="10" VBox.vgrow="ALWAYS">
+                  <HBox spacing="5.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <TableView HBox.hgrow="ALWAYS">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="C1" />
+                            <TableColumn prefWidth="75.0" text="C2" />
+                          </columns>
+                        </TableView>
+                        <TableView HBox.hgrow="ALWAYS">
+                           <columns>
+                              <TableColumn prefWidth="75.0" text="C1" />
+                              <TableColumn prefWidth="75.0" text="C2" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="250.0" prefWidth="1005.0" spacing="5.0" VBox.vgrow="ALWAYS">
                      <children>
                               <LineChart fx:id="lineKey" styleClass="rounded-corner" HBox.hgrow="ALWAYS">
                                 <xAxis>
