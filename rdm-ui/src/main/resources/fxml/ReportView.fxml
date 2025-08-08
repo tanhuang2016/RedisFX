@@ -121,7 +121,7 @@
                            <children>
                               <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <Label text="TOP" HBox.hgrow="ALWAYS" />
+                                    <Label fx:id="top" text="TOP" HBox.hgrow="ALWAYS" style="-fx-font-size: 1.25em"/>
                                     <ToggleButton mnemonicParsing="false" text="ToggleButton" HBox.hgrow="ALWAYS" />
                                     <ToggleButton mnemonicParsing="false" text="ToggleButton" HBox.hgrow="ALWAYS" />
                                  </children>

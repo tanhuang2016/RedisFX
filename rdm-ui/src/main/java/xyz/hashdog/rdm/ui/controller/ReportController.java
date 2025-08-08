@@ -51,6 +51,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public LineChart lineKey;
     public LineChart lineMemory;
     public TableView<TopKeyTable> topTable;
+    public Label top;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -107,6 +108,9 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         serverInfo.setGraphic(new FontIcon( Feather.SERVER));
         memoryInfo.setGraphic(new FontIcon( Material2MZ.MEMORY ));
         statusInfo.setGraphic(new FontIcon( Feather.ACTIVITY));
+        top.setGraphic(new FontIcon(Material2MZ.SORT));
+//        TRENDING_UP 用于趋势图标
+
 
     }
 
