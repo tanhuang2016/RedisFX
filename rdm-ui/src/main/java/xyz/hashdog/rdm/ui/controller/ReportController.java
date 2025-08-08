@@ -52,6 +52,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public LineChart lineMemory;
     public TableView<TopKeyTable> topTable;
     public Label top;
+    public Label pie;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -109,6 +110,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         memoryInfo.setGraphic(new FontIcon( Material2MZ.MEMORY ));
         statusInfo.setGraphic(new FontIcon( Feather.ACTIVITY));
         top.setGraphic(new FontIcon(Material2MZ.SORT));
+        pie.setGraphic(new FontIcon(Feather.PIE_CHART ));
 //        TRENDING_UP 用于趋势图标
 
 

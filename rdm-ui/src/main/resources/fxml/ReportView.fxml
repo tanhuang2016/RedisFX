@@ -109,11 +109,15 @@
                         </HBox>
                      </children>
                   </VBox>
-                        <HBox fx:id="pies" alignment="CENTER" spacing="5.0" styleClass="rounded-corner" VBox.vgrow="ALWAYS">
+                        <HBox fx:id="pies" alignment="TOP_CENTER" spacing="5.0" styleClass="rounded-corner" VBox.vgrow="ALWAYS">
                            <children>
+                        <Label fx:id="pie" text="Type Distribution" style="-fx-font-size: 1.25em" />
                               <PieChart fx:id="memory" title="Memory" HBox.hgrow="ALWAYS" />
                               <PieChart fx:id="keys" title="Keys" HBox.hgrow="ALWAYS" />
                            </children>
+                     <padding>
+                        <Insets left="10.0" right="5.0" top="10.0" />
+                     </padding>
                         </HBox>
                   <HBox fx:id="topTables" spacing="30.0" styleClass="rounded-corner" VBox.vgrow="ALWAYS">
                      <children>
@@ -121,7 +125,7 @@
                            <children>
                               <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <Label fx:id="top" text="TOP" HBox.hgrow="ALWAYS" style="-fx-font-size: 1.25em"/>
+                                    <Label fx:id="top" style="-fx-font-size: 1.25em" text="TOP" HBox.hgrow="ALWAYS" />
                                     <ToggleButton mnemonicParsing="false" text="ToggleButton" HBox.hgrow="ALWAYS" />
                                     <ToggleButton mnemonicParsing="false" text="ToggleButton" HBox.hgrow="ALWAYS" />
                                  </children>
