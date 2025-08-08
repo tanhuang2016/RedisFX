@@ -50,8 +50,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public TitledPane statusInfo;
     public LineChart lineKey;
     public LineChart lineMemory;
-    public TableView<TopKeyTable> memoryTable;
-    public TableView<TopKeyTable> lengthTable;
+    public TableView<TopKeyTable> topTable;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -83,12 +82,10 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         dataHover();
 
 
-        memoryTable.getStyleClass().addAll(Tweaks.EDGE_TO_EDGE,Styles.STRIPED);
-        lengthTable.getStyleClass().addAll(Tweaks.EDGE_TO_EDGE,Styles.STRIPED);
+        topTable.getStyleClass().addAll(Tweaks.EDGE_TO_EDGE,Styles.STRIPED);
         Platform.runLater(() -> {
-            GuiUtil.initSimpleTableView(memoryTable,new TopKeyTable());
-            GuiUtil.initSimpleTableView(lengthTable,new TopKeyTable());
-            memoryTable.getItems().addAll(
+            GuiUtil.initSimpleTableView(topTable,new TopKeyTable());
+            topTable.getItems().addAll(
                     new TopKeyTable("1","2","3","4","5"),
                     new TopKeyTable("1","2","3","4","5"),
                     new TopKeyTable("1","2","3","4","5"),
@@ -100,22 +97,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                     new TopKeyTable("1","2","3","4","5"),
                     new TopKeyTable("1","2","3","4","5")
             );
-            lengthTable.getItems().addAll(
-                    new TopKeyTable("1","2","3","4","5"),
-                    new TopKeyTable("1","2","3","4","5"),
-                    new TopKeyTable("1","2","3","4","5"),
-                    new TopKeyTable("1","2","3","4","5"),
-                    new TopKeyTable("1","2","3","4","5"),
-                    new TopKeyTable("1","2","3","4","5"),
-                    new TopKeyTable("1","2","3","4","5"),
-                    new TopKeyTable("1","2","3","4","5"),
-                    new TopKeyTable("1","2","3","4","5"),
-                    new TopKeyTable("1","2","3","4","5")
-            );
-            memoryTable.setColumnResizePolicy(
-                    TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
-            );
-            lengthTable.setColumnResizePolicy(
+            topTable.setColumnResizePolicy(
                     TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
             );
         });

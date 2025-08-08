@@ -116,7 +116,7 @@
                         </HBox>
                   <HBox fx:id="topTables" spacing="30.0" styleClass="rounded-corner" VBox.vgrow="ALWAYS">
                      <children>
-                        <TableView fx:id="memoryTable" styleClass="no-vertical-lines" HBox.hgrow="ALWAYS">
+                        <TableView fx:id="topTable" styleClass="no-vertical-lines" HBox.hgrow="ALWAYS">
                           <columns>
                             <TableColumn prefWidth="75.0" text="Row" />
                             <TableColumn prefWidth="75.0" text="Type" />
@@ -125,16 +125,6 @@
                             <TableColumn prefWidth="75.0" text="Size" />
                             <TableColumn prefWidth="75.0" text="Length" />
                           </columns>
-                        </TableView>
-                        <TableView fx:id="lengthTable" styleClass="no-vertical-lines" HBox.hgrow="ALWAYS">
-                           <columns>
-                               <TableColumn prefWidth="75.0" text="Row" />
-                               <TableColumn prefWidth="75.0" text="Type" />
-                               <TableColumn prefWidth="75.0" text="Key" />
-                               <TableColumn prefWidth="75.0" text="TTL" />
-                               <TableColumn prefWidth="75.0" text="Size" />
-                               <TableColumn prefWidth="75.0" text="Length" />
-                           </columns>
                         </TableView>
                      </children>
                      <padding>
