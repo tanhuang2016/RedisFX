@@ -111,12 +111,20 @@
                   </VBox>
                         <HBox fx:id="pies" alignment="TOP_CENTER" spacing="5.0" styleClass="rounded-corner" VBox.vgrow="ALWAYS">
                            <children>
-                        <Label fx:id="pie" text="Type Distribution" style="-fx-font-size: 1.25em" />
-                              <PieChart fx:id="memory" title="Memory" HBox.hgrow="ALWAYS" />
-                              <PieChart fx:id="keys" title="Keys" HBox.hgrow="ALWAYS" />
+                        <VBox HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label fx:id="pie" style="-fx-font-size: 1.25em" text="Type Distribution" VBox.vgrow="ALWAYS" />
+                              <HBox VBox.vgrow="ALWAYS">
+                                 <children>
+                                          <PieChart fx:id="memory" title="Memory" HBox.hgrow="ALWAYS" />
+                                          <PieChart fx:id="keys" title="Keys" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
                            </children>
                      <padding>
-                        <Insets left="10.0" right="5.0" top="10.0" />
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                         </HBox>
                   <HBox fx:id="topTables" spacing="30.0" styleClass="rounded-corner" VBox.vgrow="ALWAYS">
