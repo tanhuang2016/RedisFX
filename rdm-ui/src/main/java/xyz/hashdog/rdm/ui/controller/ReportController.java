@@ -90,9 +90,21 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                     new TopKeyTable("1","2","3","4","5"),
                     new TopKeyTable("1","2","3","4","5"),
                     new TopKeyTable("1","2","3","4","5"),
+                    new TopKeyTable("1","2","3","4","5"),
+                    new TopKeyTable("1","2","3","4","5"),
+                    new TopKeyTable("1","2","3","4","5"),
+                    new TopKeyTable("1","2","3","4","5"),
+                    new TopKeyTable("1","2","3","4","5"),
+                    new TopKeyTable("1","2","3","4","5"),
                     new TopKeyTable("1","2","3","4","5")
             );
             lengthTable.getItems().addAll(
+                    new TopKeyTable("1","2","3","4","5"),
+                    new TopKeyTable("1","2","3","4","5"),
+                    new TopKeyTable("1","2","3","4","5"),
+                    new TopKeyTable("1","2","3","4","5"),
+                    new TopKeyTable("1","2","3","4","5"),
+                    new TopKeyTable("1","2","3","4","5"),
                     new TopKeyTable("1","2","3","4","5"),
                     new TopKeyTable("1","2","3","4","5"),
                     new TopKeyTable("1","2","3","4","5"),
