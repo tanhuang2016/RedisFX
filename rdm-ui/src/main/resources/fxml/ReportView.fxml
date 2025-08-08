@@ -126,7 +126,7 @@
                             <TableColumn prefWidth="75.0" text="Length" />
                           </columns>
                         </TableView>
-                        <TableView fx:id="lengthTable"  styleClass="no-vertical-lines" HBox.hgrow="ALWAYS">
+                        <TableView fx:id="lengthTable" styleClass="no-vertical-lines" HBox.hgrow="ALWAYS">
                            <columns>
                                <TableColumn prefWidth="75.0" text="Row" />
                                <TableColumn prefWidth="75.0" text="Type" />
@@ -141,9 +141,9 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </HBox>
-                  <HBox prefHeight="250.0" prefWidth="1005.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                  <HBox fx:id="lines" styleClass="rounded-corner" spacing="30.0" VBox.vgrow="ALWAYS">
                      <children>
-                              <LineChart fx:id="lineKey" styleClass="rounded-corner" HBox.hgrow="ALWAYS">
+                              <LineChart fx:id="lineKey"  HBox.hgrow="ALWAYS">
                                 <xAxis>
                                   <CategoryAxis side="BOTTOM" />
                                 </xAxis>
@@ -151,7 +151,7 @@
                                   <NumberAxis side="LEFT" />
                                 </yAxis>
                               </LineChart>
-                        <LineChart fx:id="lineMemory" styleClass="rounded-corner" HBox.hgrow="ALWAYS">
+                        <LineChart fx:id="lineMemory"  HBox.hgrow="ALWAYS">
                            <xAxis>
                               <CategoryAxis side="BOTTOM" />
                            </xAxis>

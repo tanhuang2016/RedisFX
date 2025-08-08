@@ -40,6 +40,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public PieChart memory;
     public PieChart keys;
     public HBox pies;
+    public HBox lines;
+
     public HBox topTables;
 
     public BarChart bar;
@@ -178,9 +180,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             throw new RuntimeException(e);
         }
         String c1 = colors.get("-color-bg-subtle");
-        lineKey.setStyle("-fx-background-color:"+c1);
-        lineMemory.setStyle("-fx-background-color:"+c1);
         pies.setStyle("-fx-background-color:"+c1);
+        lines.setStyle("-fx-background-color:"+c1);
         topTables.setStyle("-fx-background-color:"+c1);
         bar.setStyle("-fx-background-color:"+c1);
         serverInfo.setStyle("-fx-background-color:"+c1);
