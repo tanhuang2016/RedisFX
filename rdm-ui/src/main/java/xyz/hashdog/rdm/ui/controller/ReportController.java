@@ -133,36 +133,9 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     private void initStyle() {
         initLineBarStyle();
         initCardInfoStyle();
-        keySize.getStyleClass().addAll(Styles.FLAT);
-        keyLength.getStyleClass().addAll(Styles.FLAT);
-
-        Image image = GuiUtil.svgImage2("/svg/statusDisabled/statusDisabled_red.svg",256) ;
-        Cursor customCursor = new ImageCursor(image, image.getWidth()/2, image.getHeight()/2);
-        keySize.setCursor(Cursor.HAND);
-        keyLength.setCursor(Cursor.HAND);
         ToggleGroup toggleGroup = new ToggleGroup();
         keySize.setToggleGroup(toggleGroup);
         keyLength.setToggleGroup(toggleGroup);
-        keySize.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                // 被选中时的处理
-                keySize.setCursor(customCursor);
-
-            } else {
-                // 未选中时的处理
-                keySize.setCursor(Cursor.HAND);
-            }
-        });
-        keyLength.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                // 被选中时的处理
-                keyLength.setCursor(customCursor);
-
-            } else {
-                // 未选中时的处理
-                keyLength.setCursor(Cursor.HAND);
-            }
-        });
 
 
     }

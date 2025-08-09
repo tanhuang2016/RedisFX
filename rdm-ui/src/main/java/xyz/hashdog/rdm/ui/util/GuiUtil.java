@@ -571,11 +571,38 @@ public class GuiUtil {
      * @return
      */
     public static ImageView svgImageView(String svg) {
-        Image fxImage = svgImage(svg,20);
+        Image fxImage = svgImage(svg,20,1);
         return new ImageView(fxImage);
     }
 
-    public static Image svgImage(String svg,int w) {
+    public static Image svgImage(String svg,int w){
+       return svgImage(svg,w,1);
+    }
+    /**
+     * zoom用于图标在画布上的整体大小，zoom=2,相当于图片大小不变，图标缩小一倍
+     * @param svg
+     * @param w
+     * @param zoom
+     * @return
+     */
+    public static Image svgImage(String svg,int w,int zoom) {
+        SVGLoader loader = new SVGLoader();
+        URL svgUrl = Main.class.getResource(svg);
+        SVGDocument svgDocument = loader.load(svgUrl);
+        BufferedImage image = new BufferedImage(w*zoom,w*zoom,BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = image.createGraphics();
+        ((Graphics2D) g).setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        ((Graphics2D) g).setRenderingHint(
+                RenderingHints.KEY_STROKE_CONTROL,
+                RenderingHints.VALUE_STROKE_PURE);
+        svgDocument.render(null,g,new ViewBox((zoom-1)*w, (zoom-1)*w, w, w));
+        g.dispose();
+        Image fxImage = SwingFXUtils.toFXImage(image, null);
+        return fxImage;
+    }
+/*    public static Image svgImage2(String svg,int w) {
         SVGLoader loader = new SVGLoader();
         URL svgUrl = Main.class.getResource(svg);
         SVGDocument svgDocument = loader.load(svgUrl);
@@ -591,24 +618,7 @@ public class GuiUtil {
         g.dispose();
         Image fxImage = SwingFXUtils.toFXImage(image, null);
         return fxImage;
-    }
-    public static Image svgImage2(String svg,int w) {
-        SVGLoader loader = new SVGLoader();
-        URL svgUrl = Main.class.getResource(svg);
-        SVGDocument svgDocument = loader.load(svgUrl);
-        BufferedImage image = new BufferedImage(w*2,w*2,BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = image.createGraphics();
-        ((Graphics2D) g).setRenderingHint(
-                RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-        ((Graphics2D) g).setRenderingHint(
-                RenderingHints.KEY_STROKE_CONTROL,
-                RenderingHints.VALUE_STROKE_PURE);
-        svgDocument.render(null,g,new ViewBox(w, w, w, w));
-        g.dispose();
-        Image fxImage = SwingFXUtils.toFXImage(image, null);
-        return fxImage;
-    }
+    }*/
 
     /**
      * 创建普通的表格

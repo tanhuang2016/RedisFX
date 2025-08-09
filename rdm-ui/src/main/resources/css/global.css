@@ -72,20 +72,19 @@
     -fx-border-width: 0;
 }
 
-/*1*/
-
+/*1自定义float-toggle-button的样式*/
 
 /* 添加圆角样式 */
-.toggle-button.flat {
+.float-toggle-button.flat {
     -fx-background-radius: 20;
     -fx-border-radius: 20;
 }
 
-.toggle-button.flat:hover {
+.float-toggle-button.flat:hover {
     -fx-underline: false;
     -fx-translate-y: -2px; /* 向上移动2像素 */
 }
-.toggle-button.flat:selected {
+.float-toggle-button.flat:selected {
     -fx-translate-y: 0;
     -fx-opacity: 0.5;
 }
