@@ -626,16 +626,16 @@ public class GuiUtil {
      * @param iTable
      */
     @SuppressWarnings("unchecked")
-    public static void initSimpleTableView(TableView tableView, ITable iTable) {
-        ObservableList<TableColumn<ITable, ?>> columns = tableView.getColumns();
-        TableColumn<ITable, Integer> c0 = (TableColumn)columns.getFirst();
+    public static <T extends ITable>void initSimpleTableView(TableView<T> tableView, T iTable) {
+        ObservableList<TableColumn<T, ?>> columns = tableView.getColumns();
+        TableColumn<T, Integer> c0 = (TableColumn<T,Integer>)columns.getFirst();
         c0.setCellValueFactory(
                 param -> new ReadOnlyObjectWrapper<>(tableView.getItems().indexOf(param.getValue()) + 1)
         );
         for (int i = 1; i < columns.size(); i++) {
-            TableColumn c1 =  columns.get(i);
+            TableColumn<T, Integer> c1 =  (TableColumn<T,Integer>)columns.get(i);
             c1.setCellValueFactory(
-                    new PropertyValueFactory(iTable.getProperties()[i])
+                    new PropertyValueFactory<>(iTable.getProperties()[i])
             );
             c1.setCellFactory(param -> new GuiUtil.OneLineTableCell<>());
         }
@@ -643,21 +643,19 @@ public class GuiUtil {
 
 
     /**
-     * 用于tableView压缩为单行
+     * 用于tableView压缩为单行,就是避免出现换行的情况
      * @param <T>
      */
-    public static class OneLineTableCell<T> extends TableCell<T, Object> {
+    public static class OneLineTableCell<T,S> extends TableCell<T, S> {
         @Override
-        protected void updateItem(Object item, boolean empty) {
+        protected void updateItem(S item, boolean empty) {
             super.updateItem(item, empty);
 
             if (item != null) {
-                if(item instanceof String){
-                    String item2=(String)item;
-                    setText(item2.replaceAll("\\s+", " ").trim());
-                }else if(item instanceof Number) {
-                    String item2=item.toString();
-                    setText(item2.replaceAll("\\s+", " ").trim());
+                if(item instanceof String str){
+                    setText(str.replaceAll("\\s+", " ").trim());
+                }else if(item instanceof Number number) {
+                    setText(number.toString().replaceAll("\\s+", " ").trim());
                 }
             } else {
                 setText(null);

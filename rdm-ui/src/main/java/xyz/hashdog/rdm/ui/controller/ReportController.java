@@ -26,6 +26,7 @@ import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2MZ;
 import xyz.hashdog.rdm.ui.entity.HashTypeTable;
+import xyz.hashdog.rdm.ui.entity.InfoTable;
 import xyz.hashdog.rdm.ui.entity.TopKeyTable;
 import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
 import xyz.hashdog.rdm.ui.sampler.event.ThemeEvent;
@@ -64,7 +65,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public Label info;
     public CustomTextField findTextField;
     public Button findButton;
-    public TableView infoTable;
+    public TableView<InfoTable> infoTable;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -112,6 +113,43 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                     new TopKeyTable("1","2","3","4","5"),
                     new TopKeyTable("1","2","3","4","5")
             );
+
+            GuiUtil.initSimpleTableView(infoTable,new InfoTable());
+            infoTable.getItems().addAll(
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3")
+            );
+
             topTable.setColumnResizePolicy(
                     TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
             );
