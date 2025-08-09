@@ -140,7 +140,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                     new InfoTable("1","2","3"),
                     new InfoTable("1","2","3"),
                     new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
+                    new InfoTable("1","1","3"),
                     new InfoTable("1","2","3"),
                     new InfoTable("1","2","3"),
                     new InfoTable("1","2","3"),
