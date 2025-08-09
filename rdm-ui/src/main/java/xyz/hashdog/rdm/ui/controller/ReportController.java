@@ -64,6 +64,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public Label info;
     public CustomTextField findTextField;
     public Button findButton;
+    public TableView infoTable;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -96,6 +97,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
 
         topTable.getStyleClass().addAll(Tweaks.EDGE_TO_EDGE,Styles.STRIPED);
+        infoTable.getStyleClass().addAll(Tweaks.EDGE_TO_EDGE,Styles.STRIPED);
         Platform.runLater(() -> {
             GuiUtil.initSimpleTableView(topTable,new TopKeyTable());
             topTable.getItems().addAll(
@@ -111,6 +113,9 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                     new TopKeyTable("1","2","3","4","5")
             );
             topTable.setColumnResizePolicy(
+                    TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
+            );
+            infoTable.setColumnResizePolicy(
                     TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
             );
         });
@@ -188,6 +193,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         pies.setStyle("-fx-background-color:"+c1);
         lines.setStyle("-fx-background-color:"+c1);
         topTables.setStyle("-fx-background-color:"+c1);
+        infoTables.setStyle("-fx-background-color:"+c1);
         serverInfo.setStyle("-fx-background-color:"+c1);
         memoryInfo.setStyle("-fx-background-color:"+c1);
         statusInfo.setStyle("-fx-background-color:"+c1);
