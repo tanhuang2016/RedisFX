@@ -575,7 +575,7 @@ public class GuiUtil {
         return new ImageView(fxImage);
     }
 
-    private static Image svgImage(String svg,int w) {
+    public static Image svgImage(String svg,int w) {
         SVGLoader loader = new SVGLoader();
         URL svgUrl = Main.class.getResource(svg);
         SVGDocument svgDocument = loader.load(svgUrl);
@@ -587,7 +587,24 @@ public class GuiUtil {
         ((Graphics2D) g).setRenderingHint(
                 RenderingHints.KEY_STROKE_CONTROL,
                 RenderingHints.VALUE_STROKE_PURE);
-        svgDocument.render(null,g,new ViewBox(0, 0, w, w));
+        svgDocument.render(null,g,new ViewBox(w, 0, w, w));
+        g.dispose();
+        Image fxImage = SwingFXUtils.toFXImage(image, null);
+        return fxImage;
+    }
+    public static Image svgImage2(String svg,int w) {
+        SVGLoader loader = new SVGLoader();
+        URL svgUrl = Main.class.getResource(svg);
+        SVGDocument svgDocument = loader.load(svgUrl);
+        BufferedImage image = new BufferedImage(w*2,w*2,BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = image.createGraphics();
+        ((Graphics2D) g).setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        ((Graphics2D) g).setRenderingHint(
+                RenderingHints.KEY_STROKE_CONTROL,
+                RenderingHints.VALUE_STROKE_PURE);
+        svgDocument.render(null,g,new ViewBox(w, w, w, w));
         g.dispose();
         Image fxImage = SwingFXUtils.toFXImage(image, null);
         return fxImage;

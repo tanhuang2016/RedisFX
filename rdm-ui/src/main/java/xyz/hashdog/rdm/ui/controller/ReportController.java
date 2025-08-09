@@ -7,6 +7,8 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
@@ -14,6 +16,7 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
@@ -53,6 +56,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public TableView<TopKeyTable> topTable;
     public Label top;
     public Label pie;
+    public ToggleButton keySize;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -128,6 +132,11 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     private void initStyle() {
         initLineBarStyle();
         initCardInfoStyle();
+        keySize.getStyleClass().addAll(Styles.FLAT);
+        Image image = GuiUtil.svgImage2("/svg/statusDisabled/statusDisabled_red.svg",256) ;
+        Cursor customCursor = new ImageCursor(image, image.getWidth()/2, image.getHeight()/2);
+        keySize.setCursor(customCursor);
+
     }
 
     private void initLineBarStyle() {

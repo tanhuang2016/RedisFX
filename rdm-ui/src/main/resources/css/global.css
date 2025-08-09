@@ -31,7 +31,7 @@
 /*    -fx-font-weight: bold;*/
 /*}*/
 
-/*redis标签样式*/
+/*1redis标签样式*/
 .tag {
     -fx-padding: 2px 4px 2px 4px;
     -fx-background-radius: 4px;
@@ -39,7 +39,7 @@
     -fx-background-color: red;
 }
 
-/*圆角样式*/
+/*1圆角样式*/
 .rounded-corner {
     -fx-background-radius: 10;
     -fx-border-radius: 10;
@@ -51,7 +51,7 @@
 }
 
 
-/*表格的head不显示竖线*/
+/*1表格的head不显示竖线*/
 .no-vertical-lines .column-header-background .table-column {
     -fx-border-width: 0;
     -fx-background-color: transparent;
@@ -70,4 +70,21 @@
 /* 去掉列分隔线 */
 .no-vertical-lines .table-column .arrow {
     -fx-border-width: 0;
+}
+
+/*1*/
+
+
+
+
+.toggle-button.flat:hover {
+    -fx-underline: false;
+    -fx-translate-y: -2px; /* 向上移动2像素 */
+    /*-fx-cursor: hand;*/
+}
+.toggle-button.flat:selected {
+    /*-fx-cursor: default;*/
+    -fx-translate-y: 0;
+    /*-fx-opacity: 0.3;*/
+    -fx-pointer-events: none;
 }
