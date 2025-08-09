@@ -632,6 +632,7 @@ public class GuiUtil {
         c0.setCellValueFactory(
                 param -> new ReadOnlyObjectWrapper<>(tableView.getItems().indexOf(param.getValue()) + 1)
         );
+        c0.setSortable(false);
         for (int i = 1; i < columns.size(); i++) {
             TableColumn<T, Integer> c1 =  (TableColumn<T,Integer>)columns.get(i);
             c1.setCellValueFactory(
