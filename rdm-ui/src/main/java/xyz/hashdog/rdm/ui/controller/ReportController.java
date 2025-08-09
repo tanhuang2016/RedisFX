@@ -1,11 +1,13 @@
 package xyz.hashdog.rdm.ui.controller;
 
+import atlantafx.base.controls.CustomTextField;
 import atlantafx.base.theme.Styles;
 import atlantafx.base.theme.Tweaks;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
@@ -58,6 +60,10 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public ToggleButton keySize;
     public ToggleButton keyLength;
     public Label trend;
+    public HBox infoTables;
+    public Label info;
+    public CustomTextField findTextField;
+    public Button findButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -115,6 +121,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         memoryInfo.setGraphic(new FontIcon( Material2MZ.MEMORY ));
         statusInfo.setGraphic(new FontIcon( Feather.ACTIVITY));
         top.setGraphic(new FontIcon(Material2MZ.SORT));
+        info.setGraphic(new FontIcon(Feather.INFO));
         pie.setGraphic(new FontIcon(Feather.PIE_CHART ));
         trend.setGraphic(new FontIcon(Feather.TRENDING_UP ));
 
@@ -262,4 +269,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         return defaultColors[0];
     }
 
+    public void find(ActionEvent actionEvent) {
+    }
 }

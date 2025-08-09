@@ -17,6 +17,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import atlantafx.base.controls.CustomTextField?>
+<?import javafx.scene.control.Button?>
 <ScrollPane fx:id="root" fitToWidth="true" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.ReportController">
         <content>
           <AnchorPane>
@@ -191,17 +193,18 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </HBox>
-                  <HBox fx:id="topTables1" spacing="30.0" styleClass="rounded-corner">
+                  <HBox fx:id="infoTables" spacing="30.0" styleClass="rounded-corner">
                      <children>
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
                               <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <Label fx:id="top1" style="-fx-font-size: 1.25em" text="Info" HBox.hgrow="ALWAYS" />
-                                    <TextField />
+                                    <Label fx:id="info" style="-fx-font-size: 1.25em" text="Info" HBox.hgrow="ALWAYS" />
+                                     <CustomTextField fx:id="findTextField" promptText="key find"/>
+                                     <Button fx:id="findButton" mnemonicParsing="false" text="%key.hash.find" onAction="#find"/>
                                  </children>
                               </HBox>
-                              <TableView fx:id="topTable1" styleClass="no-vertical-lines">
+                              <TableView fx:id="infoTable" styleClass="no-vertical-lines">
                                  <columns>
                                     <TableColumn prefWidth="75.0" text="#" />
                                     <TableColumn prefWidth="75.0" text="Key" />
