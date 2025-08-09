@@ -142,7 +142,7 @@
                               </HBox>
                               <TableView fx:id="topTable" prefHeight="460.0" styleClass="no-vertical-lines">
                                 <columns>
-                                  <TableColumn prefWidth="75.0" text="Row" />
+                                  <TableColumn prefWidth="75.0" text="#" />
                                   <TableColumn prefWidth="75.0" text="Type" />
                                   <TableColumn prefWidth="75.0" text="Key" />
                                   <TableColumn prefWidth="75.0" text="TTL" />
@@ -207,9 +207,9 @@
                               <TableView fx:id="infoTable" styleClass="no-vertical-lines">
                                  <columns>
                                     <TableColumn prefWidth="75.0" text="#" />
+                                     <TableColumn prefWidth="75.0" text="Type" />
                                     <TableColumn prefWidth="75.0" text="Key" />
                                     <TableColumn prefWidth="75.0" text="Value" />
-                                    <TableColumn prefWidth="75.0" text="Type" />
                                  </columns>
                               </TableView>
                            </children>
