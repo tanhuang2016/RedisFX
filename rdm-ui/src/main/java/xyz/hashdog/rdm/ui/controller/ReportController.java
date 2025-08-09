@@ -72,6 +72,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         applyTheme();
         initStyle();
         initFontIcon();
+        initTextField();
         DefaultEventBus.getInstance().subscribe(ThemeEvent.class, e -> {
             applyTheme();
         });
@@ -159,6 +160,10 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         });
     }
 
+    private void initTextField() {
+        findTextField.setRight(findButton);
+    }
+
     private void initFontIcon() {
         serverInfo.setGraphic(new FontIcon( Feather.SERVER));
         memoryInfo.setGraphic(new FontIcon( Material2MZ.MEMORY ));
@@ -167,6 +172,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         info.setGraphic(new FontIcon(Feather.INFO));
         pie.setGraphic(new FontIcon(Feather.PIE_CHART ));
         trend.setGraphic(new FontIcon(Feather.TRENDING_UP ));
+        findButton.setGraphic(new FontIcon(Feather.SEARCH));
 
 
     }
@@ -183,11 +189,17 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     private void initStyle() {
         initLineBarStyle();
         initCardInfoStyle();
+        initButtonStyle();
         ToggleGroup toggleGroup = new ToggleGroup();
         keySize.setToggleGroup(toggleGroup);
         keyLength.setToggleGroup(toggleGroup);
 
 
+    }
+
+    private void initButtonStyle() {
+        findButton.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,Styles.ROUNDED,Styles.SMALL);
+        findButton.setCursor(Cursor.HAND);
     }
 
     private void initLineBarStyle() {
