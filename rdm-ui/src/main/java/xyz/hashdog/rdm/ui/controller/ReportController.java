@@ -148,9 +148,11 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                     new InfoTable("1","2","3"),
                     new InfoTable("1","2","3"),
                     new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
+                    new InfoTable("1","2","3"),
                     new InfoTable("1","2","3")
             );
-
+            GuiUtil.adjustTableViewHeightPrecise(infoTable);
             topTable.setColumnResizePolicy(
                     TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
             );

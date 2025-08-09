@@ -642,6 +642,51 @@ public class GuiUtil {
         }
     }
 
+    /**
+     * 动态调整表格高度，不显示滚动条
+     * @param tableView
+     */
+    public static void adjustTableViewHeightPrecise(TableView<?> tableView) {
+        // 确保表格已经渲染
+        tableView.layout();
+
+        double headerHeight = 0;
+        double rowHeight = 0;
+
+        // 获取表头高度
+        Node header = tableView.lookup(".column-header-background");
+        if (header != null) {
+            headerHeight = header.getBoundsInLocal().getHeight();
+        }
+
+        // 获取行高（通过第一行计算）
+        if (!tableView.getItems().isEmpty()) {
+            Node firstRow = tableView.lookup(".table-row-cell");
+            if (firstRow != null) {
+                rowHeight = firstRow.getBoundsInLocal().getHeight();
+            } else {
+                rowHeight = 24.0; // 默认行高
+            }
+        }
+
+        // 如果无法获取行高，则使用默认值
+        if (rowHeight <= 0) {
+            rowHeight = 24.0;
+        }
+
+        // 计算总高度
+        int rowCount = tableView.getItems().size();
+        double totalHeight = headerHeight + (rowCount * rowHeight);
+
+        // 设置高度
+        tableView.setPrefHeight(totalHeight);
+        tableView.setMinHeight(totalHeight);
+        tableView.setMaxHeight(totalHeight);
+
+        // 同时禁用滚动
+        tableView.setFixedCellSize(rowHeight);
+    }
+
 
     /**
      * 用于tableView压缩为单行,就是避免出现换行的情况
