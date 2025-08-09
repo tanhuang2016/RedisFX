@@ -587,7 +587,7 @@ public class GuiUtil {
         ((Graphics2D) g).setRenderingHint(
                 RenderingHints.KEY_STROKE_CONTROL,
                 RenderingHints.VALUE_STROKE_PURE);
-        svgDocument.render(null,g,new ViewBox(w, 0, w, w));
+        svgDocument.render(null,g,new ViewBox(0, 0, w, w));
         g.dispose();
         Image fxImage = SwingFXUtils.toFXImage(image, null);
         return fxImage;

@@ -75,16 +75,17 @@
 /*1*/
 
 
-
+/* 添加圆角样式 */
+.toggle-button.flat {
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+}
 
 .toggle-button.flat:hover {
     -fx-underline: false;
     -fx-translate-y: -2px; /* 向上移动2像素 */
-    /*-fx-cursor: hand;*/
 }
 .toggle-button.flat:selected {
-    /*-fx-cursor: default;*/
     -fx-translate-y: 0;
-    /*-fx-opacity: 0.3;*/
-    -fx-pointer-events: none;
+    -fx-opacity: 0.5;
 }
