@@ -47,7 +47,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
     public HBox topTables;
 
-    public BarChart bar;
     public TitledPane serverInfo;
     public TitledPane memoryInfo;
     public TitledPane statusInfo;
@@ -142,7 +141,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     }
 
     private void initLineBarStyle() {
-        initLineBarStyle(bar,lineKey,lineMemory);
+        initLineBarStyle(lineKey,lineMemory);
     }
 
     private void initLineBarStyle(Node... bars) {
@@ -182,7 +181,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         pies.setStyle("-fx-background-color:"+c1);
         lines.setStyle("-fx-background-color:"+c1);
         topTables.setStyle("-fx-background-color:"+c1);
-        bar.setStyle("-fx-background-color:"+c1);
         serverInfo.setStyle("-fx-background-color:"+c1);
         memoryInfo.setStyle("-fx-background-color:"+c1);
         statusInfo.setStyle("-fx-background-color:"+c1);
