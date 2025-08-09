@@ -58,6 +58,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public Label pie;
     public ToggleButton keySize;
     public ToggleButton keyLength;
+    public Label trend;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -116,7 +117,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         statusInfo.setGraphic(new FontIcon( Feather.ACTIVITY));
         top.setGraphic(new FontIcon(Material2MZ.SORT));
         pie.setGraphic(new FontIcon(Feather.PIE_CHART ));
-//        TRENDING_UP 用于趋势图标
+        trend.setGraphic(new FontIcon(Feather.TRENDING_UP ));
 
 
     }
