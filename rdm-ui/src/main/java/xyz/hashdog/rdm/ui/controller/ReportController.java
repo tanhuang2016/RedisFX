@@ -2,6 +2,7 @@ package xyz.hashdog.rdm.ui.controller;
 
 import atlantafx.base.controls.CustomTextField;
 import atlantafx.base.controls.ModalPane;
+import atlantafx.base.controls.ToggleSwitch;
 import atlantafx.base.theme.Styles;
 import atlantafx.base.theme.Tweaks;
 import javafx.application.Platform;
@@ -73,6 +74,13 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public ModalPane modalPane;
     public HBox topDialog;
     public HBox topDialogContent;
+    public TextField rate;
+    public ToggleSwitch autoRefreshToggleSwitch;
+    public Label barCpu;
+    public Label barNet;
+    public Label barMemory;
+    public Label barKey;
+    public Label barConnection;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -193,13 +201,20 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
     private void initFontIcon() {
         serverInfo.setGraphic(new FontIcon( Feather.SERVER));
-        memoryInfo.setGraphic(new FontIcon( Material2MZ.MEMORY ));
+        memoryInfo.setGraphic(new FontIcon( Material2MZ.STORAGE ));
         statusInfo.setGraphic(new FontIcon( Feather.ACTIVITY));
         top.setGraphic(new FontIcon(Material2MZ.SORT));
         info.setGraphic(new FontIcon(Feather.INFO));
         pie.setGraphic(new FontIcon(Feather.PIE_CHART ));
         trend.setGraphic(new FontIcon(Feather.TRENDING_UP ));
         findButton.setGraphic(new FontIcon(Feather.SEARCH));
+        barCpu.setGraphic(new FontIcon(Feather.PERCENT));
+        barNet.setGraphic(new FontIcon(Material2MZ.WIFI ));
+        barMemory.setGraphic(new FontIcon(Material2MZ.MEMORY ));
+        barKey.setGraphic(new FontIcon(Feather.KEY ));
+        barConnection.setGraphic(new FontIcon(Feather.LINK ));
+        barMemory.setGraphic(new FontIcon(Material2MZ.REPLAY_5 ));
+
 
 
     }

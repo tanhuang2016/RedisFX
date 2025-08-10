@@ -3,6 +3,7 @@
 <?import atlantafx.base.controls.CustomTextField?>
 <?import atlantafx.base.controls.ModalPane?>
 <?import atlantafx.base.controls.ToggleSwitch?>
+<?import atlantafx.base.layout.InputGroup?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.CategoryAxis?>
@@ -15,6 +16,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -63,16 +65,17 @@
                            <children>
                               <Label text="127.0.0.1:6379" />
                               <Label text="db0" />
-                              <Label text="0.0.9" />
+                              <Label fx:id="barCpu" text="0.0.9" />
                               <Separator orientation="VERTICAL" />
-                              <Label text="0" />
+                              <Label fx:id="barNet" text="0" />
                               <Separator orientation="VERTICAL" />
-                              <Label text="970kb" />
+                              <Label fx:id="barMemory" text="970kb" />
                               <Separator orientation="VERTICAL" />
-                              <Label text="4" />
+                              <Label fx:id="barKey" text="4" />
                               <Separator orientation="VERTICAL" />
-                              <Label text="7" />
-                              <ToggleSwitch />
+                              <Label fx:id="barConnection" text="7" />
+                               <ToggleSwitch fx:id="autoRefreshToggleSwitch"/>
+                               <TextField fx:id="rate" text="5"/>
                                <Button onAction="#model" text="刷新" />
                            </children>
                         </HBox>
