@@ -25,7 +25,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.ReportController">
+<StackPane fx:id="root" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.ReportController">
    <children>
       <ModalPane fx:id="modalPane">
          <StackPane.margin>
@@ -36,8 +36,6 @@
             <Region maxWidth="Infinity" opacity="0.0" prefHeight="30.0" HBox.hgrow="ALWAYS" />
             <HBox fx:id="topDialogContent" alignment="CENTER" maxWidth="-Infinity" prefHeight="30.0" styleClass="rounded-corner-50" HBox.hgrow="ALWAYS">
                <children>
-                  <Label text="127.0.0.1:6379" />
-                  <Label text="db0" />
                   <Label text="0.0.9" />
                   <Separator orientation="VERTICAL" />
                   <Label text="0" />
@@ -55,7 +53,7 @@
             <Region maxWidth="Infinity" prefHeight="30.0" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
-      <ScrollPane fx:id="root" fitToWidth="true">
+      <ScrollPane fx:id="scrollPane" fitToWidth="true" >
               <content>
                 <AnchorPane>
                      <children>
@@ -63,8 +61,8 @@
                            <children>
                         <HBox alignment="CENTER" prefHeight="30.0" spacing="10.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <Label text="127.0.0.1:6379" />
-                              <Label text="db0" />
+                              <Label text="127.0.0.1:6379/db0" />
+                               <Separator orientation="VERTICAL" />
                               <Label fx:id="barCpu" text="0.0.9" />
                               <Separator orientation="VERTICAL" />
                               <Label fx:id="barNet" text="0" />
@@ -74,9 +72,10 @@
                               <Label fx:id="barKey" text="4" />
                               <Separator orientation="VERTICAL" />
                               <Label fx:id="barConnection" text="7" />
-                               <ToggleSwitch fx:id="autoRefreshToggleSwitch"/>
-                               <TextField fx:id="rate" text="5"/>
-                               <Button onAction="#model" text="刷新" />
+                               <Separator orientation="VERTICAL" />
+                               <Label fx:id="barRefresh" text="5s" />
+                               <Separator orientation="VERTICAL" />
+                               <ToggleSwitch fx:id="floatToggleSwitch" text="悬浮" selected="true"/>
                            </children>
                         </HBox>
                         <VBox>

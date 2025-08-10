@@ -75,12 +75,14 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public HBox topDialog;
     public HBox topDialogContent;
     public TextField rate;
-    public ToggleSwitch autoRefreshToggleSwitch;
+    public ToggleSwitch floatToggleSwitch;
     public Label barCpu;
     public Label barNet;
     public Label barMemory;
     public Label barKey;
     public Label barConnection;
+    public Label barRefresh;
+    public ScrollPane scrollPane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -88,6 +90,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         initStyle();
         initFontIcon();
         initTextField();
+        initModel();
+        inintListener();
         DefaultEventBus.getInstance().subscribe(ThemeEvent.class, e -> {
             applyTheme();
         });
@@ -182,16 +186,23 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
     }
 
-    public void model(ActionEvent actionEvent) {
-//        var topDialog = new Dialog(-1, 30);
-//        topDialog.getChildren().setAll(this.topDialog.getChildren()
-//        );
+    private void inintListener() {
+        floatToggleSwitch.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                modalPane.show(topDialog);
+            } else {
+                modalPane.hide();
+            }
+        });
+    }
+
+    public void initModel() {
         topDialog.setOpacity(1);
         modalPane.setAlignment(Pos.TOP_CENTER);
         modalPane.usePredefinedTransitionFactories(Side.TOP);
         // 或者设置遮罩层不阻塞鼠标事件
         modalPane.setMouseTransparent(true);
-        modalPane.show(topDialog);
+//        modalPane.show(topDialog);
     }
 
 
@@ -213,7 +224,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         barMemory.setGraphic(new FontIcon(Material2MZ.MEMORY ));
         barKey.setGraphic(new FontIcon(Feather.KEY ));
         barConnection.setGraphic(new FontIcon(Feather.LINK ));
-        barMemory.setGraphic(new FontIcon(Material2MZ.REPLAY_5 ));
+        barRefresh.setGraphic(new FontIcon(Material2MZ.REFRESH ));
 
 
 
