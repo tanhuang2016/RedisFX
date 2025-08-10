@@ -43,7 +43,7 @@ import java.util.concurrent.Future;
 import static xyz.hashdog.rdm.ui.common.Constant.*;
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
-public class KeyTabController extends BaseKeyController<ServerTabController> implements Initializable {
+public class KeyTabController extends BaseKeyController<ServerTabController> implements RefreshPopover.IRefreshPopover,Initializable {
 
 
     @FXML
@@ -443,4 +443,6 @@ public class KeyTabController extends BaseKeyController<ServerTabController> imp
         refreshTextFlag=b;
         refreshText.setText(s);
     }
+
+
 }

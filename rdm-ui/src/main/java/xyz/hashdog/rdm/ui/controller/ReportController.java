@@ -2,9 +2,11 @@ package xyz.hashdog.rdm.ui.controller;
 
 import atlantafx.base.controls.CustomTextField;
 import atlantafx.base.controls.ModalPane;
+import atlantafx.base.controls.Popover;
 import atlantafx.base.controls.ToggleSwitch;
 import atlantafx.base.theme.Styles;
 import atlantafx.base.theme.Tweaks;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -23,13 +25,17 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
+import javafx.util.Duration;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2MZ;
+import xyz.hashdog.rdm.common.tuple.Tuple2;
+import xyz.hashdog.rdm.ui.controller.popover.RefreshPopover;
 import xyz.hashdog.rdm.ui.entity.HashTypeTable;
 import xyz.hashdog.rdm.ui.entity.InfoTable;
 import xyz.hashdog.rdm.ui.entity.TopKeyTable;
@@ -45,7 +51,7 @@ import java.util.*;
 
 import static xyz.hashdog.rdm.ui.sampler.page.Page.FAKER;
 
-public class ReportController extends BaseKeyController<ServerTabController> implements Initializable {
+public class ReportController extends BaseKeyController<ServerTabController> implements RefreshPopover.IRefreshPopover,Initializable {
     public PieChart memory;
     public PieChart keys;
     public HBox pies;
@@ -81,6 +87,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public Label barConnection;
     public Button barRefresh;
     public ScrollPane scrollPane;
+    private Popover refreshPopover;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -411,5 +418,34 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     }
 
     public void find(ActionEvent actionEvent) {
+    }
+
+    public void openRefreshPopover(ActionEvent actionEvent) {
+        if(refreshPopover!=null&&refreshPopover.isShowing()){
+            return;
+        }
+        if(refreshPopover!=null){
+            refreshPopover.show(barRefresh);
+        }else {
+            Tuple2<AnchorPane, RefreshPopover> tuple2 = loadFXML("/fxml/popover/RefreshPopover.fxml");
+            AnchorPane root = tuple2.getT1();
+            tuple2.getT2().setParentController(this);
+            var pop = new Popover(root);
+            pop.setHeaderAlwaysVisible(false);
+            pop.setDetachable(false);
+            pop.setArrowLocation(Popover.ArrowLocation.TOP_CENTER);
+            pop.show(barRefresh);
+            refreshPopover= pop;
+        }
+    }
+
+    @Override
+    public void setUpdateRefreshText(boolean b, String now) {
+
+    }
+
+    @Override
+    public void refresh(ActionEvent actionEvent) {
+
     }
 }
