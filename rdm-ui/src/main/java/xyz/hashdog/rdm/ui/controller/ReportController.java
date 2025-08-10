@@ -441,11 +441,19 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
     @Override
     public void setUpdateRefreshState(boolean b,int rateValue){
+        if(b){
+            barRefresh.getStyleClass().add(Styles.ACCENT);
+        }else {
+            barRefresh.getStyleClass().removeAll(Styles.ACCENT);
+        }
+        System.out.println("状态"+b+"频率"+rateValue);
+        barRefresh.setText(rateValue+"s");
+
 
     }
 
     @Override
     public void refresh() {
-
+        System.out.println("刷新");
     }
 }
