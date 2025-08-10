@@ -88,3 +88,7 @@
     -fx-translate-y: 0;
     -fx-opacity: 0.5;
 }
+
+.modal-pane {
+    -color-modal-pane-overlay: transparent;
+}

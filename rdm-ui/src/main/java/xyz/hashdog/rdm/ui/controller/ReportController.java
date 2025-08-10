@@ -1,6 +1,7 @@
 package xyz.hashdog.rdm.ui.controller;
 
 import atlantafx.base.controls.CustomTextField;
+import atlantafx.base.controls.ModalPane;
 import atlantafx.base.theme.Styles;
 import atlantafx.base.theme.Tweaks;
 import javafx.application.Platform;
@@ -9,6 +10,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.geometry.Side;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.Node;
@@ -20,6 +23,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 import org.kordamp.ikonli.feather.Feather;
@@ -66,6 +70,9 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public CustomTextField findTextField;
     public Button findButton;
     public TableView<InfoTable> infoTable;
+    public ModalPane modalPane;
+    public HBox topDialog;
+    public HBox topDialogContent;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -159,8 +166,26 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             infoTable.setColumnResizePolicy(
                     TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
             );
+
+
         });
+
+
+
     }
+
+    public void model(ActionEvent actionEvent) {
+//        var topDialog = new Dialog(-1, 30);
+//        topDialog.getChildren().setAll(this.topDialog.getChildren()
+//        );
+        topDialog.setOpacity(1);
+        modalPane.setAlignment(Pos.TOP_CENTER);
+        modalPane.usePredefinedTransitionFactories(Side.TOP);
+        // 或者设置遮罩层不阻塞鼠标事件
+        modalPane.setMouseTransparent(true);
+        modalPane.show(topDialog);
+    }
+
 
     private void initTextField() {
         findTextField.setRight(findButton);
@@ -242,6 +267,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             throw new RuntimeException(e);
         }
         String c1 = colors.get("-color-bg-subtle");
+        String c2 = colors.get("-color-bg-default");
         pies.setStyle("-fx-background-color:"+c1);
         lines.setStyle("-fx-background-color:"+c1);
         topTables.setStyle("-fx-background-color:"+c1);
@@ -249,6 +275,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         serverInfo.setStyle("-fx-background-color:"+c1);
         memoryInfo.setStyle("-fx-background-color:"+c1);
         statusInfo.setStyle("-fx-background-color:"+c1);
+        topDialogContent.setStyle("-fx-background-color:"+c2);
     }
 
 

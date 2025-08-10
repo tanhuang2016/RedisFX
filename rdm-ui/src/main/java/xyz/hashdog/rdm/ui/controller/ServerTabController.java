@@ -20,6 +20,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -661,7 +662,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
     @FXML
     public void report(ActionEvent actionEvent) throws IOException {
         Tuple2<ScrollPane,ConsoleController> tuple2 = loadFXML("/fxml/ReportView.fxml");
-        ScrollPane anchorPane = tuple2.getT1();
+        Region anchorPane = tuple2.getT1();
         BaseKeyController controller = tuple2.getT2();
         controller.setParentController(this);
         PassParameter passParameter = new PassParameter(PassParameter.MONITOR);
