@@ -71,7 +71,7 @@
                               <Separator orientation="VERTICAL" />
                               <Label fx:id="barConnection" text="7" />
                                <Separator orientation="VERTICAL" />
-                               <Label fx:id="barRefresh" text="5s" />
+                               <Button fx:id="barRefresh" text="5s" />
                                <Separator orientation="VERTICAL" />
                                <ToggleSwitch fx:id="floatToggleSwitch" selected="true" text="悬浮" />
                            </children>

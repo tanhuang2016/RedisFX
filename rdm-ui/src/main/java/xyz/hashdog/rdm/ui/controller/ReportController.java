@@ -79,7 +79,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public Label barMemory;
     public Label barKey;
     public Label barConnection;
-    public Label barRefresh;
+    public Button barRefresh;
     public ScrollPane scrollPane;
 
     @Override
@@ -269,7 +269,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         initLineBarStyle();
         initCardInfoStyle();
         initButtonStyle();
-        initLabelStyle();
         ToggleGroup toggleGroup = new ToggleGroup();
         keySize.setToggleGroup(toggleGroup);
         keyLength.setToggleGroup(toggleGroup);
@@ -277,13 +276,13 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
     }
 
-    private void initLabelStyle() {
-        barRefresh.getStyleClass().add(Styles.ACCENT);
-    }
+
 
     private void initButtonStyle() {
         findButton.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,Styles.ROUNDED,Styles.SMALL);
         findButton.setCursor(Cursor.HAND);
+        barRefresh.getStyleClass().addAll(Styles.ACCENT,Styles.FLAT);
+        barRefresh.setCursor(Cursor.HAND);
     }
 
     private void initLineBarStyle() {
