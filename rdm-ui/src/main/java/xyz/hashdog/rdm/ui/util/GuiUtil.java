@@ -565,6 +565,33 @@ public class GuiUtil {
                 (int)(newValue.getBlue() * 255));
     }
 
+    public static String hexToRgba(String hexColor) {
+        return hexToRgba(hexColor, 1.0); // 默认不透明
+    }
+
+    public static String hexToRgba(String hexColor, double alpha) {
+        // 处理可能的#前缀
+        if (hexColor.startsWith("#")) {
+            hexColor = hexColor.substring(1);
+        }
+
+        // 处理3位十六进制颜色（如#FFF）
+        if (hexColor.length() == 3) {
+            StringBuilder expanded = new StringBuilder();
+            for (char c : hexColor.toCharArray()) {
+                expanded.append(c).append(c);
+            }
+            hexColor = expanded.toString();
+        }
+
+        // 解析RGB值
+        int r = Integer.parseInt(hexColor.substring(0, 2), 16);
+        int g = Integer.parseInt(hexColor.substring(2, 4), 16);
+        int b = Integer.parseInt(hexColor.substring(4, 6), 16);
+
+        return String.format("rgba(%d, %d, %d, %.2f)", r, g, b, alpha);
+    }
+
     /**
      * svg图标
      * @param svg

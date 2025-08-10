@@ -115,7 +115,7 @@ public final class SamplerTheme implements Theme {
         while ((line = br.readLine()) != null) {
             Matcher matcher = COLOR_PATTERN.matcher(line);
             if (matcher.matches()) {
-                colors.put(matcher.group(1), matcher.group(3));
+                colors.put(matcher.group(1), matcher.group(3).trim());
             }
 
             lineCount++;
