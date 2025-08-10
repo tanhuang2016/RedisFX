@@ -342,13 +342,18 @@ public class KeyTabController extends BaseKeyController<ServerTabController> imp
         refreshTextUpdate();
     }
 
+    @Override
+    public void refresh() {
+        refresh( null);
+    }
+
     private long refreshTime;
-    private boolean refreshTextFlag=true;
+    private boolean autoRefreshState=false;
     private Timeline refreshTextTimeline;
     private void refreshTextUpdate() {
         refreshTime=System.currentTimeMillis();
         updateRefreshText();
-        if(refreshTextFlag){
+        if(!autoRefreshState){
             // 如果时间线已经存在，先停止它
             if (refreshTextTimeline != null) {
                 refreshTextTimeline.stop();
@@ -365,7 +370,8 @@ public class KeyTabController extends BaseKeyController<ServerTabController> imp
     }
 
     private void updateRefreshText() {
-        if(!refreshTextFlag){
+        //如果是自动刷新，不更新描述，默认是自动刷新xxx
+        if(autoRefreshState){
             return;
         }
         long currentTime = System.currentTimeMillis();
@@ -437,11 +443,15 @@ public class KeyTabController extends BaseKeyController<ServerTabController> imp
     /**
      * 自动刷新的话，不显示更新频率
      * @param b
-     * @param s
+     * @param rateValue
      */
-    public void setUpdateRefreshText(boolean b, String s) {
-        refreshTextFlag=b;
-        refreshText.setText(s);
+    public void setUpdateRefreshState(boolean b,int rateValue) {
+        autoRefreshState=b;
+        if(b){
+            refreshText.setText("now");
+        }else {
+            refreshText.setText(language("server.refresh.auto")+": "+rateValue+"s");
+        }
     }
 
 

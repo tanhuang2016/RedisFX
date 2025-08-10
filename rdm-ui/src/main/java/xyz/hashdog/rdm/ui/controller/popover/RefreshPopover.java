@@ -51,7 +51,7 @@ public  class RefreshPopover extends BaseController<RefreshPopover.IRefreshPopov
         if (refreshTimeline != null) {
             refreshTimeline.stop();
         }
-        this.parentController.setUpdateRefreshText(true,"now");
+        this.parentController.setUpdateRefreshState(false,rateValue);
     }
 
     private void startAutoRefresh() {
@@ -62,20 +62,28 @@ public  class RefreshPopover extends BaseController<RefreshPopover.IRefreshPopov
         );
         refreshTimeline.setCycleCount(Timeline.INDEFINITE);
         refreshTimeline.play();
-        this.parentController.setUpdateRefreshText(false,language("server.refresh.auto")+": "+rateValue+"s");
+        this.parentController.setUpdateRefreshState(true,rateValue);
         //立马调一次刷新
         refresh();
     }
 
     private void refresh() {
-        this.parentController.refresh(null);
+        this.parentController.refresh();
     }
 
 
     public static interface   IRefreshPopover{
 
-        void setUpdateRefreshText(boolean b, String now);
+        /**
+         * 更新刷新状态，和频率
+         * @param b
+         * @param rateValue
+         */
+        void  setUpdateRefreshState(boolean b,int rateValue);
 
-        void refresh(ActionEvent actionEvent);
+        /**
+         * 触发刷新
+         */
+        void refresh();
     }
 }

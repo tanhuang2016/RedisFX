@@ -440,12 +440,12 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     }
 
     @Override
-    public void setUpdateRefreshText(boolean b, String now) {
+    public void setUpdateRefreshState(boolean b,int rateValue){
 
     }
 
     @Override
-    public void refresh(ActionEvent actionEvent) {
+    public void refresh() {
 
     }
 }
