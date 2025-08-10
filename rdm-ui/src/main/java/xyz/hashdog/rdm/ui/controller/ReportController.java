@@ -430,6 +430,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             Tuple2<AnchorPane, RefreshPopover> tuple2 = loadFXML("/fxml/popover/RefreshPopover.fxml");
             AnchorPane root = tuple2.getT1();
             tuple2.getT2().setParentController(this);
+            tuple2.getT2().initAutoRefreshState(true);
             var pop = new Popover(root);
             pop.setHeaderAlwaysVisible(false);
             pop.setDetachable(false);
@@ -443,11 +444,12 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public void setUpdateRefreshState(boolean b,int rateValue){
         if(b){
             barRefresh.getStyleClass().add(Styles.ACCENT);
+            barRefresh.setText(rateValue+"s");
         }else {
             barRefresh.getStyleClass().removeAll(Styles.ACCENT);
+            barRefresh.setText("");
         }
         System.out.println("状态"+b+"频率"+rateValue);
-        barRefresh.setText(rateValue+"s");
 
 
     }

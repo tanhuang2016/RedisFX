@@ -71,6 +71,10 @@ public  class RefreshPopover extends BaseController<RefreshPopover.IRefreshPopov
         this.parentController.refresh();
     }
 
+    public void initAutoRefreshState(boolean b) {
+        autoRefreshToggleSwitch.setSelected(b);
+    }
+
 
     public static interface   IRefreshPopover{
 
