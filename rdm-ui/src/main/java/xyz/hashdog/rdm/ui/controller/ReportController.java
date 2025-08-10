@@ -246,7 +246,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         trend.setGraphic(new FontIcon(Feather.TRENDING_UP ));
         findButton.setGraphic(new FontIcon(Feather.SEARCH));
         barCpu.setGraphic(new FontIcon(Feather.PERCENT));
-        barNet.setGraphic(new FontIcon(Material2MZ.WIFI ));
+        barNet.setGraphic(new FontIcon(Material2MZ.SPEED ));
         barMemory.setGraphic(new FontIcon(Material2MZ.MEMORY ));
         barKey.setGraphic(new FontIcon(Feather.KEY ));
         barConnection.setGraphic(new FontIcon(Feather.LINK ));
@@ -269,11 +269,16 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         initLineBarStyle();
         initCardInfoStyle();
         initButtonStyle();
+        initLabelStyle();
         ToggleGroup toggleGroup = new ToggleGroup();
         keySize.setToggleGroup(toggleGroup);
         keyLength.setToggleGroup(toggleGroup);
 
 
+    }
+
+    private void initLabelStyle() {
+        barRefresh.getStyleClass().add(Styles.ACCENT);
     }
 
     private void initButtonStyle() {
