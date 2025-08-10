@@ -275,7 +275,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         serverInfo.setStyle("-fx-background-color:"+c1);
         memoryInfo.setStyle("-fx-background-color:"+c1);
         statusInfo.setStyle("-fx-background-color:"+c1);
-        topDialogContent.setStyle("-fx-background-color:"+c2);
+        topDialogContent.setStyle("-fx-background-color:red");
     }
 
 
