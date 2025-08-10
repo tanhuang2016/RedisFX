@@ -44,6 +44,10 @@
     -fx-background-radius: 10;
     -fx-border-radius: 10;
 }
+.rounded-corner-50 {
+    -fx-background-radius: 50;
+    -fx-border-radius: 50;
+}
 
 /* 如果需要对图表内部区域也设置圆角 */
 .rounded-corner .chart-content {

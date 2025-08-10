@@ -32,7 +32,7 @@
       <HBox fx:id="topDialog" alignment="CENTER" maxHeight="30.0" spacing="10.0" VBox.vgrow="ALWAYS">
          <children>
             <Region maxWidth="Infinity" opacity="0.0" prefHeight="30.0" HBox.hgrow="ALWAYS" />
-            <HBox fx:id="topDialogContent" alignment="CENTER" maxWidth="-Infinity" prefHeight="30.0" styleClass="rounded-corner " HBox.hgrow="ALWAYS">
+            <HBox fx:id="topDialogContent" alignment="CENTER" maxWidth="-Infinity" prefHeight="30.0" styleClass="rounded-corner-50" HBox.hgrow="ALWAYS">
                <children>
                   <Label text="127.0.0.1:6379" />
                   <Label text="db0" />
