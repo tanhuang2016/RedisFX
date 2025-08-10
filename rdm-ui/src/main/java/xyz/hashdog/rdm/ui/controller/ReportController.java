@@ -187,10 +187,38 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     }
 
     private void inintListener() {
-        floatToggleSwitch.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
+        initFloatToggleSwitchListener();
+        initScrollListener();
+    }
+    private void initScrollListener() {
+        Platform.runLater(() -> {
+            if (scrollPane != null) {
+                // 监听垂直滚动属性变化
+                scrollPane.vvalueProperty().addListener((observable, oldValue, newValue) -> {
+                    handleScrollPercentageEvent(oldValue.doubleValue(), newValue.doubleValue());
+                });
+            }
+        });
+    }
+
+    private void handleScrollPercentageEvent(double oldValue, double newValue) {
+        final double THRESHOLD = 0.05;
+        // 向下滚动超过20%
+        if (newValue > THRESHOLD ) {
+            if(floatToggleSwitch.isSelected()){
                 modalPane.show(topDialog);
-            } else {
+            }
+        }else {
+            if(floatToggleSwitch.isSelected()){
+                modalPane.hide();
+            }
+        }
+    }
+
+    private void initFloatToggleSwitchListener() {
+        floatToggleSwitch.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                //这里其实没用了，后面可以删除 todo，现在靠滚动条监听，判断是否显示
                 modalPane.hide();
             }
         });
