@@ -3,7 +3,6 @@
 <?import atlantafx.base.controls.CustomTextField?>
 <?import atlantafx.base.controls.ModalPane?>
 <?import atlantafx.base.controls.ToggleSwitch?>
-<?import atlantafx.base.layout.InputGroup?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.CategoryAxis?>
@@ -16,7 +15,6 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -53,7 +51,7 @@
             <Region maxWidth="Infinity" prefHeight="30.0" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
-      <ScrollPane fx:id="scrollPane" fitToWidth="true" >
+      <ScrollPane fx:id="scrollPane" fitToWidth="true">
               <content>
                 <AnchorPane>
                      <children>
@@ -75,7 +73,7 @@
                                <Separator orientation="VERTICAL" />
                                <Label fx:id="barRefresh" text="5s" />
                                <Separator orientation="VERTICAL" />
-                               <ToggleSwitch fx:id="floatToggleSwitch" text="悬浮" selected="true"/>
+                               <ToggleSwitch fx:id="floatToggleSwitch" selected="true" text="悬浮" />
                            </children>
                         </HBox>
                         <VBox>
