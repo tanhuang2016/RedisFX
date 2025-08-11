@@ -24,6 +24,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import xyz.hashdog.rdm.ui.sampler.custom.FloatToggleButton?>
 <StackPane fx:id="root" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.ReportController">
    <children>
       <ModalPane fx:id="modalPane">
@@ -188,8 +189,8 @@
                                     <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
                                        <children>
                                           <Label fx:id="top" style="-fx-font-size: 1.25em" text="TOP" HBox.hgrow="ALWAYS" />
-                                          <ToggleButton fx:id="keySize" mnemonicParsing="false" text="Key大小" HBox.hgrow="ALWAYS" />
-                                          <ToggleButton fx:id="keyLength" mnemonicParsing="false" text="Key长度" HBox.hgrow="ALWAYS" />
+                                          <FloatToggleButton fx:id="keySize" mnemonicParsing="false" text="Key大小" HBox.hgrow="ALWAYS" />
+                                          <FloatToggleButton fx:id="keyLength" mnemonicParsing="false" text="Key长度" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                     <TableView fx:id="topTable" prefHeight="460.0" styleClass="no-vertical-lines">
