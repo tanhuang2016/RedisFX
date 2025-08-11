@@ -93,6 +93,19 @@
     -fx-opacity: 0.5;
 }
 
+/*1胶囊*/
 .modal-pane {
     -color-modal-pane-overlay: transparent;
+}
+/*1titledPane*/
+/* 隐藏TitledPane的标题栏背景 */
+.report-titled-pane > .title {
+    -fx-background-color: transparent;
+}
+
+/* 隐藏TitledPane的内容区域背景和边框 */
+.report-titled-pane > .content {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-insets: 0;
 }

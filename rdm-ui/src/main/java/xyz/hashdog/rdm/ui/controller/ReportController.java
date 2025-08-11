@@ -430,17 +430,12 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     }
 
     private void initCardInfoStyle() {
-        Platform.runLater(()->initCardInfoStyle(serverInfo,memoryInfo,statusInfo));
+        initCardInfoStyle(serverInfo,memoryInfo,statusInfo);
     }
 
     private void initCardInfoStyle(TitledPane... infos) {
         for (TitledPane info : infos) {
-            info.lookup(".title").setStyle("-fx-background-color: transparent;");
-            info.lookup(".content").setStyle(""" 
-                                    -fx-background-color: transparent;
-                                    -fx-border-width: 0;
-                                    -fx-background-insets: 0;
-                                    """);
+            info.getStyleClass().add("report-titled-pane");
         }
     }
 
