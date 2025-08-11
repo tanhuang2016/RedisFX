@@ -18,9 +18,7 @@ import javafx.geometry.Side;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.Node;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.PieChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.DropShadow;
@@ -47,7 +45,10 @@ import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.Month;
+import java.time.format.TextStyle;
 import java.util.*;
+import java.util.stream.IntStream;
 
 import static xyz.hashdog.rdm.ui.sampler.page.Page.FAKER;
 
@@ -62,7 +63,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public TitledPane serverInfo;
     public TitledPane memoryInfo;
     public TitledPane statusInfo;
-    public LineChart lineKey;
+    public LineChart<String, Number> lineKey;
     public LineChart lineMemory;
     public TableView<TopKeyTable> topTable;
     public Label top;
@@ -186,6 +187,30 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
 
         });
+
+
+
+
+
+
+        var x = new CategoryAxis();
+        x.setLabel("Month");
+
+        var y = new NumberAxis(0, 80, 10);
+        y.setLabel("Value");
+
+        var series1 = new XYChart.Series<String, Number>();
+        series1.setName(FAKER.stock().nsdqSymbol());
+        IntStream.range(1, 12).forEach(i -> series1.getData().add(
+                new XYChart.Data<>(
+                        Month.of(i).getDisplayName(TextStyle.SHORT, Locale.getDefault()),
+                        rnd.nextInt(10, 80)
+                )
+        ));
+
+        lineKey.setTitle("Stock Monitoring");
+        lineKey.setMinHeight(300);
+        lineKey.getData().addAll(series1);
 
 
 
