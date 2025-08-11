@@ -6,7 +6,10 @@ import atlantafx.base.controls.Popover;
 import atlantafx.base.controls.ToggleSwitch;
 import atlantafx.base.theme.Styles;
 import atlantafx.base.theme.Tweaks;
+import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -45,7 +48,9 @@ import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalTime;
 import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.*;
 import java.util.stream.IntStream;
@@ -90,6 +95,9 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public ScrollPane scrollPane;
     public HBox trendHBox;
     private Popover refreshPopover;
+    private XYChart.Series<String, Number> memorySeries;
+    private Timeline memoryUpdateTimeline;
+    private int maxDataPoints = 10;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -208,14 +216,14 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                 )
         ));
 
-        var series2 = new XYChart.Series<String, Number>();
-        series2.setName(FAKER.stock().nsdqSymbol());
-        IntStream.range(1, 12).forEach(i -> series2.getData().add(
-                new XYChart.Data<>(
-                        Month.of(i).getDisplayName(TextStyle.SHORT, Locale.getDefault()),
-                        rnd.nextInt(10, 80)
-                )
-        ));
+        memorySeries = new XYChart.Series<String, Number>();
+//        series2.setName(FAKER.stock().nsdqSymbol());
+//        IntStream.range(1, 120).forEach(i -> series2.getData().add(
+//                new XYChart.Data<>(
+//                        LocalTime.now().toString(),
+//                        rnd.nextInt(10, 80)
+//                )
+//        ));
 
         lineKey.setTitle("Stock Monitoring");
         lineKey.setMinHeight(300);
@@ -223,11 +231,81 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         lineKey.setLegendVisible(false);
         lineMemory.setTitle("Stock Monitoring");
         lineMemory.setMinHeight(300);
-        lineMemory.getData().addAll(series2);
+        lineMemory.getData().addAll(memorySeries);
         lineMemory.setLegendVisible(false);
+        NumberAxis yAxis = (NumberAxis)lineMemory.getYAxis();
+        yAxis.setAutoRanging(false);
+        yAxis.setLowerBound(0);
+        yAxis.setUpperBound(1000);
+        yAxis.setTickUnit(50);
+        // 设置X轴样式
+        CategoryAxis xAxis = (CategoryAxis) lineMemory.getXAxis();
+        xAxis.setAnimated(false); // 关闭X轴动画，避免跳动
+        xAxis.tickLabelRotationProperty().set(-45); // 旋转标签避免重叠
+        xAxis.setStartMargin(-28);
+        xAxis.setEndMargin(-28);
         dataHover();
+        // 启动定时更新
+        startMemoryMonitoring();
+
+    }
+    // 启动内存监控
+    private void startMemoryMonitoring() {
+        if (memoryUpdateTimeline != null) {
+            memoryUpdateTimeline.stop();
+        }
+
+        memoryUpdateTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(5), event -> updateMemoryData())
+        );
+        memoryUpdateTimeline.setCycleCount(Timeline.INDEFINITE);
+        memoryUpdateTimeline.play();
+    }
+
+    // 更新内存数据
+    private void updateMemoryData() {
+        // 这里应该从Redis获取实际的内存数据
+        // 模拟数据：
+        int memoryValue = getRedisMemoryUsage(); // 你需要实现这个方法
+
+        // 获取当前时间
+        String timeLabel = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+
+        // 添加新数据点
+        XYChart.Data<String, Number> newData = new XYChart.Data<>(timeLabel, memoryValue);
+        memorySeries.getData().add(newData);
+
+        // 为新数据点添加交互效果
+        Platform.runLater(() -> {
+            addDataPointInteraction(newData);
+        });
+
+        // 限制数据点数量，避免图表过于拥挤
+        if (memorySeries.getData().size() > maxDataPoints) {
+            memorySeries.getData().remove(0);
+        }
+
+        // 自动滚动X轴（如果需要的话）
+        // 这里可以调整X轴显示范围
+    }
 
 
+    // 获取Redis内存使用量的实际实现
+    private int getRedisMemoryUsage() {
+        // 你需要根据实际的Redis连接来获取内存信息
+        // 示例：
+        try {
+            // 假设你有Redis连接
+            // String info = redisClient.info("memory");
+            // 从info中解析出used_memory或used_memory_rss的值
+
+            // 临时返回模拟数据
+            Random random = new Random();
+            return 100 + random.nextInt(900); // 模拟100-1000MB的内存使用
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     private void inintListener() {
