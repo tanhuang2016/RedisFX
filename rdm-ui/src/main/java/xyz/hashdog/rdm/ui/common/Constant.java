@@ -47,24 +47,28 @@ public interface Constant {
     /*redis info重要的key*/
     String REDIS_INFO_REDIS_VERSION = "redis_version";
     String REDIS_INFO_OS = "os";
-    String REDIS_INFO_process_id = "process_id";
+    String REDIS_INFO_PROCESS_ID = "process_id";
     String REDIS_INFO_USED_MEMORY = "used_memory";
     String REDIS_INFO_USED_MEMORY_PEAK = "used_memory_peak";
     String REDIS_INFO_USED_MEMORY_LUA = "used_memory_lua";
     String REDIS_INFO_CONNECTED_CLIENTS = "connected_clients";
     String REDIS_INFO_TOTAL_CONNECTIONS_RECEIVED = "total_connections_received";
     String REDIS_INFO_TOTAL_COMMANDS_PROCESSED = "total_commands_processed";
+    String REDIS_INFO_USED_CPU_USER = "used_cpu_user";
+    String REDIS_INFO_INSTANTANEOUS_OPS_PER_SEC = "instantaneous_ops_per_sec";
 
     List<String> REDIS_INFO_KEYS=List.of(
             REDIS_INFO_REDIS_VERSION,
             REDIS_INFO_OS,
-            REDIS_INFO_process_id,
+            REDIS_INFO_PROCESS_ID,
             REDIS_INFO_USED_MEMORY,
             REDIS_INFO_USED_MEMORY_PEAK,
             REDIS_INFO_USED_MEMORY_LUA,
             REDIS_INFO_CONNECTED_CLIENTS,
             REDIS_INFO_TOTAL_CONNECTIONS_RECEIVED,
-            REDIS_INFO_TOTAL_COMMANDS_PROCESSED
+            REDIS_INFO_TOTAL_COMMANDS_PROCESSED,
+            REDIS_INFO_USED_CPU_USER,
+            REDIS_INFO_INSTANTANEOUS_OPS_PER_SEC
     );
 
 

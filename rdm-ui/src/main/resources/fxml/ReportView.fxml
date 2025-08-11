@@ -36,15 +36,15 @@
             <Region maxWidth="Infinity" opacity="0.0" prefHeight="30.0" HBox.hgrow="ALWAYS" />
             <HBox fx:id="topDialogContent" alignment="CENTER" maxWidth="-Infinity" prefHeight="30.0" styleClass="rounded-corner-50" HBox.hgrow="ALWAYS">
                <children>
-                  <Label text="0.0.9" />
+                  <Label fx:id="capsuleCpu" text="0.0.9" />
                   <Separator orientation="VERTICAL" />
-                  <Label text="0" />
+                  <Label fx:id="capsuleNet" text="0" />
                   <Separator orientation="VERTICAL" />
-                  <Label text="970kb" />
+                  <Label fx:id="capsuleMemory" text="970kb" />
                   <Separator orientation="VERTICAL" />
-                  <Label text="4" />
+                  <Label fx:id="capsuleKey" text="4" />
                   <Separator orientation="VERTICAL" />
-                  <Label text="7" />
+                  <Label fx:id="capsuleConnection" text="7" />
                </children>
                <padding>
                   <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />

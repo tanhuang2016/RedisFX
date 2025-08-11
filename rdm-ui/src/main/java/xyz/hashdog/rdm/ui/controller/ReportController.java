@@ -107,6 +107,11 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public Label connectedClients;
     public Label totalConnectionsReceived;
     public Label totalCommandsProcessed;
+    public Label capsuleCpu;
+    public Label capsuleNet;
+    public Label capsuleMemory;
+    public Label capsuleKey;
+    public Label capsuleConnection;
     private Popover refreshPopover;
     private XYChart.Series<String, Number> memorySeries;
     private Timeline memoryUpdateTimeline;
@@ -118,6 +123,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         initStyle();
         initFontIcon();
         initTextField();
+        initLabel();
         initModel();
         inintListener();
         initRefreshPopover();
@@ -227,6 +233,15 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         startMemoryMonitoring();
 
     }
+
+    private void initLabel() {
+        capsuleCpu.textProperty().bind(barCpu.textProperty());
+        capsuleNet.textProperty().bind(barNet.textProperty());
+        capsuleMemory.textProperty().bind(barMemory.textProperty());
+        capsuleKey.textProperty().bind(barKey.textProperty());
+        capsuleConnection.textProperty().bind(barConnection.textProperty());
+    }
+
     // 启动内存监控
     private void startMemoryMonitoring() {
         if (memoryUpdateTimeline != null) {
@@ -626,7 +641,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                 GuiUtil.adjustTableViewHeightPrecise(infoTable);
                 redisVersion.setText(map.get(Constant.REDIS_INFO_REDIS_VERSION));
                 os.setText(map.get(Constant.REDIS_INFO_OS));
-                processId.setText(map.get(Constant.REDIS_INFO_process_id));
+                processId.setText(map.get(Constant.REDIS_INFO_PROCESS_ID));
                 usedMemory.setText(map.get(Constant.REDIS_INFO_USED_MEMORY));
                 usedMemoryPeak.setText(map.get(Constant.REDIS_INFO_USED_MEMORY_PEAK));
                 usedMemoryLua.setText(map.get(Constant.REDIS_INFO_USED_MEMORY_LUA));
