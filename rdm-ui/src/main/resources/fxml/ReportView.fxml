@@ -23,6 +23,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.chart.AreaChart?>
 <StackPane fx:id="root" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.ReportController">
    <children>
       <ModalPane fx:id="modalPane">
@@ -227,14 +228,14 @@
                                                     <NumberAxis side="LEFT" />
                                                   </yAxis>
                                                 </LineChart>
-                                          <LineChart fx:id="lineMemory" HBox.hgrow="ALWAYS">
+                                          <AreaChart fx:id="lineMemory" HBox.hgrow="ALWAYS">
                                              <xAxis>
                                                 <CategoryAxis side="BOTTOM" />
                                              </xAxis>
                                              <yAxis>
                                                 <NumberAxis side="LEFT" />
                                              </yAxis>
-                                          </LineChart>
+                                          </AreaChart>
                                        </children>
                                     </HBox>
                                  </children>

@@ -64,7 +64,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public TitledPane memoryInfo;
     public TitledPane statusInfo;
     public LineChart<String, Number> lineKey;
-    public LineChart lineMemory;
+    public AreaChart<String, Number> lineMemory;
     public TableView<TopKeyTable> topTable;
     public Label top;
     public Label pie;
@@ -208,9 +208,21 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                 )
         ));
 
+        var series2 = new XYChart.Series<String, Number>();
+        series2.setName(FAKER.stock().nsdqSymbol());
+        IntStream.range(1, 12).forEach(i -> series2.getData().add(
+                new XYChart.Data<>(
+                        Month.of(i).getDisplayName(TextStyle.SHORT, Locale.getDefault()),
+                        rnd.nextInt(10, 80)
+                )
+        ));
+
         lineKey.setTitle("Stock Monitoring");
         lineKey.setMinHeight(300);
         lineKey.getData().addAll(series1);
+        lineMemory.setTitle("Stock Monitoring");
+        lineMemory.setMinHeight(300);
+        lineMemory.getData().addAll(series2);
 
 
 
