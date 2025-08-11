@@ -36,15 +36,15 @@
             <Region maxWidth="Infinity" opacity="0.0" prefHeight="30.0" HBox.hgrow="ALWAYS" />
             <HBox fx:id="topDialogContent" alignment="CENTER" maxWidth="-Infinity" prefHeight="30.0" styleClass="rounded-corner-50" HBox.hgrow="ALWAYS">
                <children>
-                  <Label fx:id="capsuleCpu" text="0.0.9" />
+                  <Label fx:id="capsuleCpu"  />
                   <Separator orientation="VERTICAL" />
-                  <Label fx:id="capsuleNet" text="0" />
+                  <Label fx:id="capsuleNet"  />
                   <Separator orientation="VERTICAL" />
-                  <Label fx:id="capsuleMemory" text="970kb" />
+                  <Label fx:id="capsuleMemory"  />
                   <Separator orientation="VERTICAL" />
-                  <Label fx:id="capsuleKey" text="4" />
+                  <Label fx:id="capsuleKey"  />
                   <Separator orientation="VERTICAL" />
-                  <Label fx:id="capsuleConnection" text="7" />
+                  <Label fx:id="capsuleConnection"  />
                </children>
                <padding>
                   <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
@@ -63,15 +63,15 @@
                            <children>
                               <Label text="127.0.0.1:6379/db0" />
                                <Separator orientation="VERTICAL" />
-                              <Label fx:id="barCpu" text="0.0.9" />
+                              <Label fx:id="barCpu"  />
                               <Separator orientation="VERTICAL" />
-                              <Label fx:id="barNet" text="0" />
+                              <Label fx:id="barNet"  />
                               <Separator orientation="VERTICAL" />
-                              <Label fx:id="barMemory" text="970kb" />
+                              <Label fx:id="barMemory"  />
                               <Separator orientation="VERTICAL" />
-                              <Label fx:id="barKey" text="4" />
+                              <Label fx:id="barKey"  />
                               <Separator orientation="VERTICAL" />
-                              <Label fx:id="barConnection" text="7" />
+                              <Label fx:id="barConnection"  />
                                <Separator orientation="VERTICAL" />
                                <Button fx:id="barRefresh" onAction="#openRefreshPopover" text="5s" />
                                <Separator orientation="VERTICAL" />
