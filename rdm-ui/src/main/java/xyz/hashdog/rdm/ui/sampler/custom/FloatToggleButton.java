@@ -11,7 +11,7 @@ import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 public class FloatToggleButton extends ToggleButton {
 
-    static final Image image = GuiUtil.svgImage("/svg/statusDisabled/statusDisabled_red.svg",256,2) ;
+    static final Image image = GuiUtil.svgImage("/svg/statusDisabled/statusDisabled_red.svg",64,2) ;
     static final Cursor customCursor = new ImageCursor(image, image.getWidth()/2, image.getHeight()/2);
 
     public FloatToggleButton() {
