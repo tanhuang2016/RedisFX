@@ -36,6 +36,7 @@ import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2MZ;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
+import xyz.hashdog.rdm.redis.client.RedisMonitor;
 import xyz.hashdog.rdm.ui.controller.popover.RefreshPopover;
 import xyz.hashdog.rdm.ui.entity.HashTypeTable;
 import xyz.hashdog.rdm.ui.entity.InfoTable;
@@ -310,6 +311,9 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     private void inintListener() {
         initFloatToggleSwitchListener();
         initScrollListener();
+        super.parameter.addListener((observable, oldValue, newValue) -> {
+            refresh();
+        });
     }
     private void initScrollListener() {
         Platform.runLater(() -> {
@@ -630,6 +634,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
     @Override
     public void refresh() {
-        System.out.println("刷新");
+        String infoStr = this.redisClient.info();
+        System.out.println();
     }
 }

@@ -11,7 +11,6 @@ public class InfoTable implements ITable {
     private String key;
     private String type;
     private String value;
-    private String size;
 
     public InfoTable() {
     }
@@ -52,11 +51,4 @@ public class InfoTable implements ITable {
         this.value = value;
     }
 
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
-    }
 }
