@@ -89,18 +89,18 @@
                                                 <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                    <children>
                                                       <Label text="Redis版本:" />
-                                                      <Label styleClass="success" text="7.2.10" />
+                                                      <Label fx:id="redisVersion" styleClass="success" text="7.2.10" />
                                                    </children>
                                                 </HBox>
                                                 <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                    <children>
                                                       <Label text="系统:" />
-                                                      <Label styleClass="success" text="Linux6.6.87.2-microsoft-standard-WSL2x86_64" />
+                                                      <Label fx:id="os" styleClass="success" text="Linux6.6.87.2-microsoft-standard-WSL2x86_64" />
                                                    </children>
                                                 </HBox>
                                                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                      <children>
-                                                         <Label text="进程id:" HBox.hgrow="ALWAYS" />
+                                                         <Label fx:id="processId" text="进程id:" HBox.hgrow="ALWAYS" />
                                                          <Label styleClass="success" text="1069" HBox.hgrow="ALWAYS" />
                                                      </children>
                                                  </HBox>
@@ -115,19 +115,19 @@
                                                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                         <children>
                                                             <Label text="已用内存:" />
-                                                            <Label styleClass="success" text="1.44MB" />
+                                                            <Label fx:id="usedMemory" styleClass="success" text="1.44MB" />
                                                         </children>
                                                     </HBox>
                                                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                         <children>
-                                                            <Label text="内存占用峰值:" />
-                                                            <Label styleClass="success" text="1.49MB" />
+                                                            <Label  text="内存占用峰值:" />
+                                                            <Label fx:id="usedMemoryPeak" styleClass="success" text="1.49MB" />
                                                         </children>
                                                     </HBox>
                                                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                         <children>
                                                             <Label text="Lua占用内存:" HBox.hgrow="ALWAYS" />
-                                                            <Label styleClass="success" text="31KB" HBox.hgrow="ALWAYS" />
+                                                            <Label fx:id="usedMemoryLua" styleClass="success" text="31KB" HBox.hgrow="ALWAYS" />
                                                         </children>
                                                     </HBox>
                                                 </children>
@@ -141,19 +141,19 @@
                                                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                         <children>
                                                             <Label text="客户端连接数:" />
-                                                            <Label styleClass="success" text="1" />
+                                                            <Label fx:id="connectedClients" styleClass="success" text="1" />
                                                         </children>
                                                     </HBox>
                                                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                         <children>
                                                             <Label text="历史连接数:" />
-                                                            <Label styleClass="success" text="7" />
+                                                            <Label fx:id="totalConnectionsReceived" styleClass="success" text="7" />
                                                         </children>
                                                     </HBox>
                                                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                         <children>
                                                             <Label text="历史命令数:" HBox.hgrow="ALWAYS" />
-                                                            <Label styleClass="success" text="862" HBox.hgrow="ALWAYS" />
+                                                            <Label fx:id="totalCommandsProcessed" styleClass="success" text="862" HBox.hgrow="ALWAYS" />
                                                         </children>
                                                     </HBox>
                                                 </children>

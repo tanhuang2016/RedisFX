@@ -55,6 +55,7 @@ import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static xyz.hashdog.rdm.ui.sampler.page.Page.FAKER;
@@ -95,6 +96,15 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public Button barRefresh;
     public ScrollPane scrollPane;
     public HBox trendHBox;
+    public Label redisVersion;
+    public Label os;
+    public Label processId;
+    public Label usedMemory;
+    public Label usedMemoryPeak;
+    public Label usedMemoryLua;
+    public Label connectedClients;
+    public Label totalConnectionsReceived;
+    public Label totalCommandsProcessed;
     private Popover refreshPopover;
     private XYChart.Series<String, Number> memorySeries;
     private Timeline memoryUpdateTimeline;
@@ -601,6 +611,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public void refresh() {
         String infoStr = this.redisClient.info();
         List<InfoTable> infos= Util.parseInfoOutput(infoStr);
+        Map<String, String> map = infos.stream().collect(Collectors.toMap(InfoTable::getKey, InfoTable::getValue));
         infoTable.getItems().setAll(infos);
         System.out.println();
     }
