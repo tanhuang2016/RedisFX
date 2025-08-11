@@ -88,6 +88,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public Label barConnection;
     public Button barRefresh;
     public ScrollPane scrollPane;
+    public HBox trendHBox;
     private Popover refreshPopover;
 
     @Override
@@ -225,8 +226,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         lineMemory.setMinHeight(300);
         lineMemory.getData().addAll(series2);
         lineMemory.setLegendVisible(false);
-
-
 
     }
 

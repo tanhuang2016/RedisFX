@@ -218,7 +218,7 @@
                                           <Label fx:id="trend" style="-fx-font-size: 1.25em" text="Trend Chart" />
                                        </children>
                                     </HBox>
-                                    <HBox prefHeight="300.0" VBox.vgrow="ALWAYS">
+                                    <HBox fx:id="trendHBox" prefHeight="300.0" VBox.vgrow="ALWAYS">
                                        <children>
                                                 <LineChart fx:id="lineKey" HBox.hgrow="ALWAYS">
                                                   <xAxis>
