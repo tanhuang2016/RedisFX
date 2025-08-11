@@ -15,6 +15,7 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
@@ -119,6 +120,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         initTextField();
         initModel();
         inintListener();
+        initRefreshPopover();
+
         DefaultEventBus.getInstance().subscribe(ThemeEvent.class, e -> {
             applyTheme();
         });
@@ -573,24 +576,29 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public void find(ActionEvent actionEvent) {
     }
 
+    @FXML
     public void openRefreshPopover(ActionEvent actionEvent) {
         if(refreshPopover!=null&&refreshPopover.isShowing()){
             return;
         }
         if(refreshPopover!=null){
             refreshPopover.show(barRefresh);
-        }else {
-            Tuple2<AnchorPane, RefreshPopover> tuple2 = loadFXML("/fxml/popover/RefreshPopover.fxml");
-            AnchorPane root = tuple2.getT1();
-            tuple2.getT2().setParentController(this);
-            tuple2.getT2().initAutoRefreshState(true);
-            var pop = new Popover(root);
-            pop.setHeaderAlwaysVisible(false);
-            pop.setDetachable(false);
-            pop.setArrowLocation(Popover.ArrowLocation.TOP_CENTER);
-            pop.show(barRefresh);
-            refreshPopover= pop;
         }
+    }
+
+    /**
+     * 初始化刷新弹出
+     */
+    private void initRefreshPopover() {
+        Tuple2<AnchorPane, RefreshPopover> tuple2 = loadFXML("/fxml/popover/RefreshPopover.fxml");
+        AnchorPane root = tuple2.getT1();
+        tuple2.getT2().setParentController(this);
+        tuple2.getT2().initAutoRefreshState(true);
+        var pop = new Popover(root);
+        pop.setHeaderAlwaysVisible(false);
+        pop.setDetachable(false);
+        pop.setArrowLocation(Popover.ArrowLocation.TOP_CENTER);
+        refreshPopover= pop;
     }
 
     @Override
