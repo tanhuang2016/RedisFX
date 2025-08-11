@@ -84,7 +84,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public ModalPane modalPane;
     public HBox topDialog;
     public HBox topDialogContent;
-    public TextField rate;
     public ToggleSwitch floatToggleSwitch;
     public Label barCpu;
     public Label barNet;
