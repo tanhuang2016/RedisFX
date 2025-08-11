@@ -637,8 +637,16 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             List<InfoTable> infos= Util.parseInfoOutput(infoStr);
             Map<String, String> map = infos.stream().filter(e->Constant.REDIS_INFO_KEYS.contains(e.getKey())).collect(Collectors.toMap(InfoTable::getKey, InfoTable::getValue));
             Platform.runLater(()-> {
+
+                barCpu.setText(map.get(Constant.REDIS_INFO_USED_CPU_USER));
+                barNet.setText(map.get(Constant.REDIS_INFO_INSTANTANEOUS_OPS_PER_SEC));
+                barMemory.setText(map.get(Constant.REDIS_INFO_USED_MEMORY));
+                barKey.setText(map.get(Constant.REDIS_INFO_RDB_LAST_LOAD_KEYS_LOADED));
+                barConnection.setText(map.get(Constant.REDIS_INFO_CONNECTED_CLIENTS));
+
                 infoTable.getItems().setAll(infos);
                 GuiUtil.adjustTableViewHeightPrecise(infoTable);
+
                 redisVersion.setText(map.get(Constant.REDIS_INFO_REDIS_VERSION));
                 os.setText(map.get(Constant.REDIS_INFO_OS));
                 processId.setText(map.get(Constant.REDIS_INFO_PROCESS_ID));

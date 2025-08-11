@@ -56,6 +56,7 @@ public interface Constant {
     String REDIS_INFO_TOTAL_COMMANDS_PROCESSED = "total_commands_processed";
     String REDIS_INFO_USED_CPU_USER = "used_cpu_user";
     String REDIS_INFO_INSTANTANEOUS_OPS_PER_SEC = "instantaneous_ops_per_sec";
+    String REDIS_INFO_RDB_LAST_LOAD_KEYS_LOADED = "rdb_last_load_keys_loaded";
 
     List<String> REDIS_INFO_KEYS=List.of(
             REDIS_INFO_REDIS_VERSION,
@@ -68,7 +69,8 @@ public interface Constant {
             REDIS_INFO_TOTAL_CONNECTIONS_RECEIVED,
             REDIS_INFO_TOTAL_COMMANDS_PROCESSED,
             REDIS_INFO_USED_CPU_USER,
-            REDIS_INFO_INSTANTANEOUS_OPS_PER_SEC
+            REDIS_INFO_INSTANTANEOUS_OPS_PER_SEC,
+            REDIS_INFO_RDB_LAST_LOAD_KEYS_LOADED
     );
 
 
