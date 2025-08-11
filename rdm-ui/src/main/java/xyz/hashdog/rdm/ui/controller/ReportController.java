@@ -37,6 +37,7 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2MZ;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.redis.client.RedisMonitor;
+import xyz.hashdog.rdm.ui.common.Constant;
 import xyz.hashdog.rdm.ui.controller.popover.RefreshPopover;
 import xyz.hashdog.rdm.ui.entity.HashTypeTable;
 import xyz.hashdog.rdm.ui.entity.InfoTable;
@@ -160,7 +161,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             );
 
             GuiUtil.initSimpleTableView(infoTable,new InfoTable());
-            GuiUtil.adjustTableViewHeightPrecise(infoTable);
             topTable.setColumnResizePolicy(
                     TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
             );
@@ -609,10 +609,28 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
     @Override
     public void refresh() {
-        String infoStr = this.redisClient.info();
-        List<InfoTable> infos= Util.parseInfoOutput(infoStr);
-        Map<String, String> map = infos.stream().collect(Collectors.toMap(InfoTable::getKey, InfoTable::getValue));
-        infoTable.getItems().setAll(infos);
-        System.out.println();
+        asynexec(()->{
+            String infoStr = this.redisClient.info();
+            List<InfoTable> infos= Util.parseInfoOutput(infoStr);
+            Map<String, String> map = infos.stream().filter(e->Constant.REDIS_INFO_KEYS.contains(e.getKey())).collect(Collectors.toMap(InfoTable::getKey, InfoTable::getValue));
+            Platform.runLater(()-> {
+                infoTable.getItems().setAll(infos);
+                GuiUtil.adjustTableViewHeightPrecise(infoTable);
+                redisVersion.setText(map.get(Constant.REDIS_INFO_REDIS_VERSION));
+                os.setText(map.get(Constant.REDIS_INFO_OS));
+                processId.setText(map.get(Constant.REDIS_INFO_process_id));
+                usedMemory.setText(map.get(Constant.REDIS_INFO_USED_MEMORY));
+                usedMemoryPeak.setText(map.get(Constant.REDIS_INFO_USED_MEMORY_PEAK));
+                usedMemoryLua.setText(map.get(Constant.REDIS_INFO_USED_MEMORY_LUA));
+                connectedClients.setText(map.get(Constant.REDIS_INFO_CONNECTED_CLIENTS));
+                totalConnectionsReceived.setText(map.get(Constant.REDIS_INFO_TOTAL_CONNECTIONS_RECEIVED));
+                totalCommandsProcessed.setText(map.get(Constant.REDIS_INFO_TOTAL_COMMANDS_PROCESSED));
+
+            });
+        });
+
+
+
+        System.out.println(123);
     }
 }
