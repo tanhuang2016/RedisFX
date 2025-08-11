@@ -220,9 +220,11 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         lineKey.setTitle("Stock Monitoring");
         lineKey.setMinHeight(300);
         lineKey.getData().addAll(series1);
+        lineKey.setLegendVisible(false);
         lineMemory.setTitle("Stock Monitoring");
         lineMemory.setMinHeight(300);
         lineMemory.getData().addAll(series2);
+        lineMemory.setLegendVisible(false);
 
 
 

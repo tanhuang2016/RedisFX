@@ -5,6 +5,7 @@
 <?import atlantafx.base.controls.ToggleSwitch?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.AreaChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -23,7 +24,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.chart.AreaChart?>
 <StackPane fx:id="root" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.ReportController">
    <children>
       <ModalPane fx:id="modalPane">
@@ -72,7 +72,7 @@
                               <Separator orientation="VERTICAL" />
                               <Label fx:id="barConnection" text="7" />
                                <Separator orientation="VERTICAL" />
-                               <Button fx:id="barRefresh" text="5s" onAction="#openRefreshPopover"/>
+                               <Button fx:id="barRefresh" onAction="#openRefreshPopover" text="5s" />
                                <Separator orientation="VERTICAL" />
                                <ToggleSwitch fx:id="floatToggleSwitch" selected="true" text="悬浮" />
                            </children>
@@ -218,7 +218,7 @@
                                           <Label fx:id="trend" style="-fx-font-size: 1.25em" text="Trend Chart" />
                                        </children>
                                     </HBox>
-                                    <HBox VBox.vgrow="ALWAYS">
+                                    <HBox prefHeight="300.0" VBox.vgrow="ALWAYS">
                                        <children>
                                                 <LineChart fx:id="lineKey" HBox.hgrow="ALWAYS">
                                                   <xAxis>
