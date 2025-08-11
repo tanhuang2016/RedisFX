@@ -260,7 +260,7 @@
                                     <TableView fx:id="infoTable" styleClass="no-vertical-lines">
                                        <columns>
                                           <TableColumn prefWidth="25.0" text="#" />
-                                           <TableColumn prefWidth="75.0" text="Type" />
+                                           <TableColumn prefWidth="50.0" text="Type" />
                                           <TableColumn prefWidth="75.0" text="Key" />
                                           <TableColumn prefWidth="75.0" text="Value" />
                                        </columns>

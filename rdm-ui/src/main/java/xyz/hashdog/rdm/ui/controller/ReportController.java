@@ -46,6 +46,7 @@ import xyz.hashdog.rdm.ui.sampler.event.ThemeEvent;
 import xyz.hashdog.rdm.ui.sampler.theme.SamplerTheme;
 import xyz.hashdog.rdm.ui.sampler.theme.ThemeManager;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
+import xyz.hashdog.rdm.ui.util.Util;
 
 import java.io.IOException;
 import java.net.URL;
@@ -149,42 +150,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             );
 
             GuiUtil.initSimpleTableView(infoTable,new InfoTable());
-            infoTable.getItems().addAll(
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","1","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3"),
-                    new InfoTable("1","2","3")
-            );
             GuiUtil.adjustTableViewHeightPrecise(infoTable);
             topTable.setColumnResizePolicy(
                     TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
@@ -635,6 +600,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     @Override
     public void refresh() {
         String infoStr = this.redisClient.info();
+        List<InfoTable> infos= Util.parseInfoOutput(infoStr);
+        infoTable.getItems().setAll(infos);
         System.out.println();
     }
 }
