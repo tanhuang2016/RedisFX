@@ -309,14 +309,12 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         });
     }
     private void initScrollListener() {
-        Platform.runLater(() -> {
-            if (scrollPane != null) {
-                // 监听垂直滚动属性变化
-                scrollPane.vvalueProperty().addListener((observable, oldValue, newValue) -> {
-                    handleScrollPercentageEvent(oldValue.doubleValue(), newValue.doubleValue());
-                });
-            }
-        });
+        if (scrollPane != null) {
+            // 监听垂直滚动属性变化
+            scrollPane.vvalueProperty().addListener((observable, oldValue, newValue) -> {
+                handleScrollPercentageEvent(oldValue.doubleValue(), newValue.doubleValue());
+            });
+        }
     }
 
     private void handleScrollPercentageEvent(double oldValue, double newValue) {
