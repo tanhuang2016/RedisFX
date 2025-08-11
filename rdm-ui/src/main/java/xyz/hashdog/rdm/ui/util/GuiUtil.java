@@ -571,9 +571,10 @@ public class GuiUtil {
 
     public static String hexToRgba(String hexColor, double alpha) {
         // 处理可能的#前缀
-        if (hexColor.startsWith("#")) {
-            hexColor = hexColor.substring(1);
+        if (!hexColor.startsWith("#")) {
+            return hexColor;
         }
+        hexColor = hexColor.substring(1);
 
         // 处理3位十六进制颜色（如#FFF）
         if (hexColor.length() == 3) {
