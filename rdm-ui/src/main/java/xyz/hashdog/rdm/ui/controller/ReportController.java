@@ -604,4 +604,12 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         previousTime=currentTime;
         return usage;
     }
+
+    @FXML
+    public void pieRefresh(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    public void topRefresh(ActionEvent actionEvent) {
+    }
 }
