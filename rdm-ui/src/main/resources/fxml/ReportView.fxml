@@ -168,7 +168,12 @@
                                  <children>
                               <VBox HBox.hgrow="ALWAYS">
                                  <children>
-                                    <Label fx:id="pie" style="-fx-font-size: 1.25em" text="Type Distribution" VBox.vgrow="ALWAYS" />
+                                     <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
+                                         <children>
+                                             <Label fx:id="pie" style="-fx-font-size: 1.25em" text="Type Distribution" VBox.vgrow="ALWAYS" />
+                                             <Button fx:id="pieRefresh" HBox.hgrow="ALWAYS" />
+                                         </children>
+                                     </HBox>
                                     <HBox VBox.vgrow="ALWAYS">
                                        <children>
                                                 <PieChart fx:id="memory" title="Memory" HBox.hgrow="ALWAYS" />
@@ -191,6 +196,7 @@
                                           <Label fx:id="top" style="-fx-font-size: 1.25em" text="TOP" HBox.hgrow="ALWAYS" />
                                           <FloatToggleButton fx:id="keySize" mnemonicParsing="false" text="Key大小" HBox.hgrow="ALWAYS" selected="true"/>
                                           <FloatToggleButton fx:id="keyLength" mnemonicParsing="false" text="Key长度" HBox.hgrow="ALWAYS" />
+                                           <Button fx:id="topRefresh" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                     <TableView fx:id="topTable" prefHeight="460.0" styleClass="no-vertical-lines">

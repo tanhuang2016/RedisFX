@@ -97,6 +97,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public Label capsuleMemory;
     public Label capsuleKey;
     public Label capsuleConnection;
+    public Button pieRefresh;
+    public Button topRefresh;
     private Popover refreshPopover;
     private XYChart.Series<String, Number> memorySeries;
     private XYChart.Series<String, Number> keySeries;
@@ -291,6 +293,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         barKey.setGraphic(new FontIcon(Feather.KEY ));
         barConnection.setGraphic(new FontIcon(Feather.LINK ));
         barRefresh.setGraphic(new FontIcon(Material2MZ.REFRESH ));
+        pieRefresh.setGraphic(new FontIcon(Material2MZ.REFRESH ));
+        topRefresh.setGraphic(new FontIcon(Material2MZ.REFRESH ));
 
 
 
@@ -333,6 +337,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         findButton.setCursor(Cursor.HAND);
         barRefresh.getStyleClass().addAll(Styles.ACCENT,Styles.FLAT);
         barRefresh.setCursor(Cursor.HAND);
+        pieRefresh.getStyleClass().addAll(Styles.FLAT,Styles.DANGER);
+        topRefresh.getStyleClass().addAll(Styles.FLAT,Styles.DANGER);
     }
 
     private void initLineBarStyle() {
