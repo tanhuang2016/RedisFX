@@ -401,11 +401,11 @@ public class JedisPoolClient implements RedisClient {
         return execut(jedis->jedis.strlen(key));
     }
     @Override
-    public List<Class<?>> jsonType(String key) {
+    public Class<?> jsonType(String key) {
         return execut(jedis -> {
             Connection connection = jedis.getConnection();
             CommandObjects commandObjects = new CommandObjects();
-            return connection.executeCommand(commandObjects.jsonType(key, Path2.ROOT_PATH));
+            return connection.executeCommand(commandObjects.jsonType(key, Path2.ROOT_PATH)).getFirst();
         });
     }
     @Override
