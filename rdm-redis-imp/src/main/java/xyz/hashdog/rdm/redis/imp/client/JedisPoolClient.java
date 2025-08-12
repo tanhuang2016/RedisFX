@@ -397,6 +397,11 @@ public class JedisPoolClient implements RedisClient {
     }
 
     @Override
+    public long strlen(String key) {
+        return execut(jedis->jedis.strlen(key));
+    }
+
+    @Override
     public List<String> lrange(String list, int start, int stop) {
         return execut(jedis->jedis.lrange(list,start,stop));
     }
@@ -559,6 +564,11 @@ public class JedisPoolClient implements RedisClient {
     @Override
     public long publish(String channel, String message) {
         return execut(jedis->jedis.publish(channel,message));
+    }
+
+    @Override
+    public long memoryUsage(String key, int samples) {
+        return execut(jedis->jedis.memoryUsage(key,samples));
     }
 
     @Override

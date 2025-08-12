@@ -399,6 +399,10 @@ public class JedisClusterClient implements RedisClient {
     public long llen(String list) {
         return execut(jedis->jedis.llen(list));
     }
+    @Override
+    public long strlen(String key) {
+        return execut(jedis->jedis.strlen(key));
+    }
 
     @Override
     public List<String> lrange(String list, int start, int stop) {
@@ -580,7 +584,10 @@ public class JedisClusterClient implements RedisClient {
     public long publish(String channel, String message) {
         return execut(jedis->jedis.publish(channel,message));
     }
-
+    @Override
+    public long memoryUsage(String key, int samples) {
+        return execut(jedis->jedis.memoryUsage(key,samples));
+    }
     @Override
     public Map<Double,String> zrangeWithScores(String key,long start, long stop) {
         return execut(jedis->{

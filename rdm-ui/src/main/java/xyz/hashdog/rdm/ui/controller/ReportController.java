@@ -28,6 +28,7 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2MZ;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.ui.common.Constant;
+import xyz.hashdog.rdm.ui.common.RedisDataTypeEnum;
 import xyz.hashdog.rdm.ui.controller.popover.RefreshPopover;
 import xyz.hashdog.rdm.ui.entity.InfoTable;
 import xyz.hashdog.rdm.ui.entity.TopKeyTable;
@@ -615,8 +616,34 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     @FXML
     public void topRefresh(ActionEvent actionEvent) {
         asynexec(() -> {
-            List<String> strings = this.redisClient.scanAll(null);
-            System.out.println(strings);
+            List<String> keys = this.redisClient.scanAll(null);
+            for (String key : keys) {
+                long memory=this.redisClient.memoryUsage(key,0);
+                String type = this.redisClient.type(key);
+                long ttl = this.redisClient.ttl(key);
+                long length=lengthByType(key,type);
+            }
         });
+    }
+
+    private long lengthByType(String key, String type) {
+        RedisDataTypeEnum byType = RedisDataTypeEnum.getByType(type);
+        switch (byType) {
+            case STRING:
+                return this.redisClient.strlen(key);
+            case LIST:
+                return this.redisClient.llen(key);
+            case HASH:
+                return this.redisClient.hlen(key);
+            case SET:
+                return this.redisClient.scard(key);
+            case ZSET:
+                return this.redisClient.zcard(key);
+            case JSON:
+                return this.redisClient.jsonArrLen(key, null);
+            case STREAM:
+                return this.redisClient.xlen(key);
+        }
+
     }
 }
