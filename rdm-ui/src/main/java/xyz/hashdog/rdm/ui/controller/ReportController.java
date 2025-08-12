@@ -306,19 +306,17 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     }
 
     private void dataHover() {
-        for (PieChart.Data data1 : keys.getData()) {
-            setUpHoverEffectWithTooltip(data1);
+        for (PieChart.Data data : keys.getData()) {
+            setUpHoverEffectWithTooltip(data);
         }
-        for (PieChart.Data data1 : memory.getData()) {
-            setUpHoverEffectWithTooltip(data1);
+        for (PieChart.Data data : memory.getData()) {
+            setUpHoverEffectWithTooltip(data);
         }
         for (XYChart.Series<String, Number> series : lineKey.getData()) {
             for (XYChart.Data<String, Number> data : series.getData()) {
                 addDataPointInteraction(data);
             }
         }
-
-        // 为lineMemory添加交互
         for (XYChart.Series<String, Number> series : lineMemory.getData()) {
             for (XYChart.Data<String, Number> data : series.getData()) {
                 addDataPointInteraction(data);
