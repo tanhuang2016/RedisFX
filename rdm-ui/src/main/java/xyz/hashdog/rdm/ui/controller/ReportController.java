@@ -235,8 +235,10 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
     @Override
     protected void paramInitEnd() {
-//        refresh();
+//        refresh();默认刷新是true，会自动触发
         initRefreshPopover();
+        pieRefresh(null);
+        topRefresh(null);
 
     }
 
@@ -607,9 +609,14 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
     @FXML
     public void pieRefresh(ActionEvent actionEvent) {
+        topRefresh(actionEvent);
     }
 
     @FXML
     public void topRefresh(ActionEvent actionEvent) {
+        asynexec(() -> {
+            List<String> strings = this.redisClient.scanAll(null);
+            System.out.println(strings);
+        });
     }
 }
