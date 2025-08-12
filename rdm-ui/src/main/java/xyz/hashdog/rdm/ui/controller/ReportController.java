@@ -6,12 +6,9 @@ import atlantafx.base.controls.Popover;
 import atlantafx.base.controls.ToggleSwitch;
 import atlantafx.base.theme.Styles;
 import atlantafx.base.theme.Tweaks;
-import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
-import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,16 +17,12 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.Cursor;
-import javafx.scene.ImageCursor;
 import javafx.scene.Node;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 import javafx.util.Duration;
@@ -37,10 +30,8 @@ import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2MZ;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
-import xyz.hashdog.rdm.redis.client.RedisMonitor;
 import xyz.hashdog.rdm.ui.common.Constant;
 import xyz.hashdog.rdm.ui.controller.popover.RefreshPopover;
-import xyz.hashdog.rdm.ui.entity.HashTypeTable;
 import xyz.hashdog.rdm.ui.entity.InfoTable;
 import xyz.hashdog.rdm.ui.entity.TopKeyTable;
 import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
@@ -115,7 +106,10 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     private Popover refreshPopover;
     private XYChart.Series<String, Number> memorySeries;
     private Timeline memoryUpdateTimeline;
-    private int maxDataPoints = 10;
+    private static final int MAX_DATA_POINTS = 10;
+
+    private double previousUsedCpu;
+    private long previousTime;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -274,7 +268,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         });
 
         // 限制数据点数量，避免图表过于拥挤
-        if (memorySeries.getData().size() > maxDataPoints) {
+        if (memorySeries.getData().size() > MAX_DATA_POINTS) {
             memorySeries.getData().remove(0);
         }
 
@@ -630,8 +624,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             List<InfoTable> infos= Util.parseInfoOutput(infoStr);
             Map<String, String> map = infos.stream().filter(e->Constant.REDIS_INFO_KEYS.contains(e.getKey())).collect(Collectors.toMap(InfoTable::getKey, InfoTable::getValue));
             Platform.runLater(()-> {
-
-                barCpu.setText(map.get(Constant.REDIS_INFO_USED_CPU_USER));
+                double v = cpuUsage(map);
+                barCpu.setText(String.valueOf(v));
                 barNet.setText(map.get(Constant.REDIS_INFO_INSTANTANEOUS_OPS_PER_SEC));
                 barMemory.setText(map.get(Constant.REDIS_INFO_USED_MEMORY));
                 barKey.setText(map.get(Constant.REDIS_INFO_RDB_LAST_LOAD_KEYS_LOADED));
@@ -656,5 +650,24 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
 
         System.out.println(123);
+    }
+
+
+    /**
+     * cpu使用率
+     * CPU Usage = (current_used_cpu - previous_used_cpu) / (current_time - previous_time) * 100
+     */
+    private double cpuUsage(Map<String, String> map) {
+       double currentUsedCpu= Double.parseDouble(map.get(Constant.REDIS_INFO_USED_CPU_USER))+ Double.parseDouble(map.get(Constant.REDIS_INFO_USED_CPU_SYS));
+       long currentTime = System.currentTimeMillis();
+        if(previousTime==0){
+            previousUsedCpu=currentUsedCpu;
+            previousTime=currentTime;
+            return 0;
+        }
+        double usage=(currentUsedCpu-previousUsedCpu)/((double) (currentTime - previousTime) /1000)*100;
+        previousUsedCpu=currentUsedCpu;
+        previousTime=currentTime;
+        return usage;
     }
 }
