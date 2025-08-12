@@ -228,8 +228,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             CategoryAxis xAxis = (CategoryAxis) xyChart.getXAxis();
             xAxis.setAnimated(false); // 关闭X轴动画，避免跳动
             xAxis.tickLabelRotationProperty().set(-45); // 旋转标签避免重叠
-            xAxis.setStartMargin(-28);
-            xAxis.setEndMargin(-28);
+            xAxis.setStartMargin(-25);
+            xAxis.setEndMargin(-25);
         }
     }
 
