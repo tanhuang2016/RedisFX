@@ -624,9 +624,10 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             List<InfoTable> infos= Util.parseInfoOutput(infoStr);
             Map<String, String> map = infos.stream().filter(e->Constant.REDIS_INFO_KEYS.contains(e.getKey())).collect(Collectors.toMap(InfoTable::getKey, InfoTable::getValue));
             Platform.runLater(()-> {
-                barCpu.setText(String.format("%.2f",cpuUsage(map)));
+                barCpu.setText(String.format("%.2g",cpuUsage(map)));
                 barNet.setText(map.get(Constant.REDIS_INFO_INSTANTANEOUS_OPS_PER_SEC));
-                barMemory.setText(map.get(Constant.REDIS_INFO_USED_MEMORY));
+                Tuple2<Double, String> barMemoryTu = Util.convertMemorySize(map.get(Constant.REDIS_INFO_USED_MEMORY));
+                barMemory.setText(String.format("%.2g%s",barMemoryTu.getT1(),barMemoryTu.getT2()));
                 barKey.setText(map.get(Constant.REDIS_INFO_RDB_LAST_LOAD_KEYS_LOADED));
                 barConnection.setText(map.get(Constant.REDIS_INFO_CONNECTED_CLIENTS));
 
@@ -636,9 +637,11 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                 redisVersion.setText(map.get(Constant.REDIS_INFO_REDIS_VERSION));
                 os.setText(map.get(Constant.REDIS_INFO_OS));
                 processId.setText(map.get(Constant.REDIS_INFO_PROCESS_ID));
-                usedMemory.setText(map.get(Constant.REDIS_INFO_USED_MEMORY));
-                usedMemoryPeak.setText(map.get(Constant.REDIS_INFO_USED_MEMORY_PEAK));
-                usedMemoryLua.setText(map.get(Constant.REDIS_INFO_USED_MEMORY_LUA));
+                usedMemory.setText(String.format("%.2g%s",barMemoryTu.getT1(),barMemoryTu.getT2()));
+                Tuple2<Double, String> usedMemoryPeakTu = Util.convertMemorySize(map.get(Constant.REDIS_INFO_USED_MEMORY_PEAK));
+                usedMemoryPeak.setText(String.format("%.2g%s",usedMemoryPeakTu.getT1(),usedMemoryPeakTu.getT2()));
+                Tuple2<Double, String> usedMemoryLuaTu = Util.convertMemorySize(map.get(Constant.REDIS_INFO_USED_MEMORY_LUA));
+                usedMemoryLua.setText(String.format("%.2g%s",usedMemoryLuaTu.getT1(),usedMemoryLuaTu.getT2()));
                 connectedClients.setText(map.get(Constant.REDIS_INFO_CONNECTED_CLIENTS));
                 totalConnectionsReceived.setText(map.get(Constant.REDIS_INFO_TOTAL_CONNECTIONS_RECEIVED));
                 totalCommandsProcessed.setText(map.get(Constant.REDIS_INFO_TOTAL_COMMANDS_PROCESSED));
