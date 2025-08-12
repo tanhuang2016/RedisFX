@@ -391,55 +391,41 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     }
 
     private void addDataPointInteraction(XYChart.Data<String, Number> data) {
-        Popup popup = new Popup();
-        Label popupContent = new Label(data.getXValue() + ": " + data.getYValue());
-        popupContent.setStyle(
-                "-fx-background-color: rgba(0, 0, 0, 0.8);" +
-                        "-fx-text-fill: white;" +
-                        "-fx-padding: 5px 10px;" +
-                        "-fx-background-radius: 4px;" +
-                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0, 2, 2);"
-        );
+        Popup popup =getPopup(data.getXValue() + ":" + data.getYValue());
+        dataNodeListener(data.getNode(),popup);
+    }
 
-        // 关键设置：使 Popup 内容对鼠标事件透明
-        popupContent.setMouseTransparent(true);
-        popup.getContent().add(popupContent);
-
-        // 关键设置：使整个 Popup 对鼠标事件透明
-        popup.setAutoFix(true);
-        popup.setAutoHide(false); // 不自动隐藏，由我们手动控制
-        popup.setHideOnEscape(true);
-        data.getNode().setOnMouseEntered(event -> {
+    private void dataNodeListener(Node node, Popup popup) {
+        node.setOnMouseEntered(event -> {
             // 放大效果
-            data.getNode().setScaleX(1.1);
-            data.getNode().setScaleY(1.1);
+            node.setScaleX(1.1);
+            node.setScaleY(1.1);
             // 使用节点自身的填充颜色创建阴影
             Color shadowColor = Color.web("#f3622d");
-            data.getNode().setEffect(new DropShadow(10, shadowColor));
-            popup.show(data.getNode(), event.getScreenX()+5, event.getScreenY() + 5);
+            node.setEffect(new DropShadow(10, shadowColor));
+            popup.show(node, event.getScreenX()+5, event.getScreenY() + 5);
         });
 
-        data.getNode().setOnMouseExited(event -> {
+        node.setOnMouseExited(event -> {
             // 恢复正常大小
-            data.getNode().setScaleX(1.0);
-            data.getNode().setScaleY(1.0);
-            data.getNode().setEffect(null);
+            node.setScaleX(1.0);
+            node.setScaleY(1.0);
+            node.setEffect(null);
             popup.hide();
         });
-        data.getNode().setOnMouseMoved(event -> {
+        node.setOnMouseMoved(event -> {
             // 动态更新位置，保持与鼠标的距离
             if (popup.isShowing()) {
                 popup.setAnchorX(event.getScreenX() + 5);
                 popup.setAnchorY(event.getScreenY() + 5);
             }
         });
-        data.getNode().setOnMouseClicked(event -> {
-            System.out.println("Clicked: " + data.getXValue() + " - " + data.getYValue());
-        });
+
     }
-    private void setUpHoverEffectWithTooltip(PieChart.Data data) {
+
+    private Popup getPopup(String text) {
         Popup popup = new Popup();
-        Label popupContent = new Label(data.getName() + ": " + String.format("%.1f", data.getPieValue()));
+        Label popupContent = new Label(text);
         popupContent.setStyle(
                 "-fx-background-color: rgba(0, 0, 0, 0.8);" +
                         "-fx-text-fill: white;" +
@@ -452,38 +438,19 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         popupContent.setMouseTransparent(true);
         popup.getContent().add(popupContent);
 
-        // 关键设置：使整个 Popup 对鼠标事件透明
+        // 使整个 Popup 对鼠标事件透明
         popup.setAutoFix(true);
-        popup.setAutoHide(false); // 不自动隐藏，由我们手动控制
+        // 不自动隐藏，由我们手动控制
+        popup.setAutoHide(false);
         popup.setHideOnEscape(true);
-        data.getNode().setOnMouseEntered(event -> {
-            System.out.println("Hovered: " + data.getName() + " - " + data.getPieValue());
-            // 放大效果
-            data.getNode().setScaleX(1.1);
-            data.getNode().setScaleY(1.1);
-            // 使用节点自身的填充颜色创建阴影
-            Color shadowColor = getRegionBackgroundColor(data);
-            data.getNode().setEffect(new DropShadow(10, shadowColor));
-            popup.show(data.getNode(), event.getScreenX()+5, event.getScreenY() + 5);
-        });
+        return popup;
+    }
 
-        data.getNode().setOnMouseExited(event -> {
-            // 恢复正常大小
-            data.getNode().setScaleX(1.0);
-            data.getNode().setScaleY(1.0);
-            data.getNode().setEffect(null);
-            popup.hide();
-        });
-        data.getNode().setOnMouseMoved(event -> {
-            // 动态更新位置，保持与鼠标的距离
-            if (popup.isShowing()) {
-                popup.setAnchorX(event.getScreenX() + 5);
-                popup.setAnchorY(event.getScreenY() + 5);
-            }
-        });
-        data.getNode().setOnMouseClicked(event -> {
-            System.out.println("Clicked: " + data.getName() + " - " + data.getPieValue());
-        });
+    private void setUpHoverEffectWithTooltip(PieChart.Data data) {
+        Color shadowColor = getRegionBackgroundColor(data);
+        Popup popup =getPopup(data.getName() + ":" + data.getPieValue());
+        dataNodeListener(data.getNode(),popup);
+
     }
     private Color getRegionBackgroundColor(PieChart.Data data) {
         // JavaFX PieChart 使用 CSS 样式来设置颜色
@@ -512,6 +479,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         return defaultColors[0];
     }
 
+    @FXML
     public void find(ActionEvent actionEvent) {
     }
 
