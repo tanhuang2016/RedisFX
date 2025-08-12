@@ -392,16 +392,15 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
     private void addDataPointInteraction(XYChart.Data<String, Number> data) {
         Popup popup =getPopup(data.getXValue() + ":" + data.getYValue());
-        dataNodeListener(data.getNode(),popup);
+        dataNodeListener(data.getNode(),popup,Color.web("#f3622d"));
     }
 
-    private void dataNodeListener(Node node, Popup popup) {
+    private void dataNodeListener(Node node, Popup popup,Color shadowColor) {
         node.setOnMouseEntered(event -> {
             // 放大效果
             node.setScaleX(1.1);
             node.setScaleY(1.1);
             // 使用节点自身的填充颜色创建阴影
-            Color shadowColor = Color.web("#f3622d");
             node.setEffect(new DropShadow(10, shadowColor));
             popup.show(node, event.getScreenX()+5, event.getScreenY() + 5);
         });
@@ -449,7 +448,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     private void setUpHoverEffectWithTooltip(PieChart.Data data) {
         Color shadowColor = getRegionBackgroundColor(data);
         Popup popup =getPopup(data.getName() + ":" + data.getPieValue());
-        dataNodeListener(data.getNode(),popup);
+        dataNodeListener(data.getNode(),popup,shadowColor);
 
     }
     private Color getRegionBackgroundColor(PieChart.Data data) {
