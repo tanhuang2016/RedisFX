@@ -114,7 +114,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         initLabel();
         initLineChar();
         initModel();
-        inintListener();
+        initListener();
 
         DefaultEventBus.getInstance().subscribe(ThemeEvent.class, e -> {
             applyTheme();
@@ -227,8 +227,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
 
 
-    private void inintListener() {
-        initFloatToggleSwitchListener();
+    private void initListener() {
         initScrollListener();
     }
 
@@ -262,14 +261,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         }
     }
 
-    private void initFloatToggleSwitchListener() {
-        floatToggleSwitch.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                //这里其实没用了，后面可以删除 todo，现在靠滚动条监听，判断是否显示
-                modalPane.hide();
-            }
-        });
-    }
 
     public void initModel() {
         topDialog.setOpacity(1);
