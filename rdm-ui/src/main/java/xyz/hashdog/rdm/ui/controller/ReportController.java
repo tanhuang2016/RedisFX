@@ -649,7 +649,12 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
     private long jsonLength(String key) {
         Class<?> type =this.redisClient.jsonType(key);
-        System.out.println(type);
+        if(type==Object.class){
+//            return this.redisClient.jsonLength(key);
+        }
+
         return 0;
+
+
     }
 }
