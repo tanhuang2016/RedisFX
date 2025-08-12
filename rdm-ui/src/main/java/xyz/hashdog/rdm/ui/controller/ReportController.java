@@ -118,6 +118,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         initFontIcon();
         initTextField();
         initLabel();
+        initLineChar();
         initModel();
         inintListener();
         initRefreshPopover();
@@ -194,38 +195,42 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                 )
         ));
 
-        memorySeries = new XYChart.Series<String, Number>();
-//        series2.setName(FAKER.stock().nsdqSymbol());
-//        IntStream.range(1, 120).forEach(i -> series2.getData().add(
-//                new XYChart.Data<>(
-//                        LocalTime.now().toString(),
-//                        rnd.nextInt(10, 80)
-//                )
-//        ));
+
 
         lineKey.setTitle("Stock Monitoring");
         lineKey.setMinHeight(300);
         lineKey.getData().addAll(series1);
         lineKey.setLegendVisible(false);
+
+        memorySeries = new XYChart.Series<>();
         lineMemory.setTitle("Stock Monitoring");
         lineMemory.setMinHeight(300);
         lineMemory.getData().addAll(memorySeries);
         lineMemory.setLegendVisible(false);
-        NumberAxis yAxis = (NumberAxis)lineMemory.getYAxis();
-        yAxis.setAutoRanging(false);
-        yAxis.setLowerBound(0);
-        yAxis.setUpperBound(1000);
-        yAxis.setTickUnit(50);
-        // 设置X轴样式
-        CategoryAxis xAxis = (CategoryAxis) lineMemory.getXAxis();
-        xAxis.setAnimated(false); // 关闭X轴动画，避免跳动
-        xAxis.tickLabelRotationProperty().set(-45); // 旋转标签避免重叠
-        xAxis.setStartMargin(-28);
-        xAxis.setEndMargin(-28);
+
         dataHover();
         // 启动定时更新
         startMemoryMonitoring();
 
+    }
+
+    private void initLineChar() {
+        initLineChar(lineKey,lineMemory);
+
+    }
+
+    @SafeVarargs
+    private void initLineChar(XYChart<String, Number>... lineKey) {
+        for (XYChart<String, Number> xyChart : lineKey) {
+            NumberAxis yAxis = (NumberAxis)xyChart.getYAxis();
+            yAxis.setAnimated(false);
+            // 设置X轴样式
+            CategoryAxis xAxis = (CategoryAxis) xyChart.getXAxis();
+            xAxis.setAnimated(false); // 关闭X轴动画，避免跳动
+            xAxis.tickLabelRotationProperty().set(-45); // 旋转标签避免重叠
+            xAxis.setStartMargin(-28);
+            xAxis.setEndMargin(-28);
+        }
     }
 
     private void initLabel() {
