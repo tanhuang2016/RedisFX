@@ -239,7 +239,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 //        refresh();默认刷新是true，会自动触发
         initRefreshPopover();
         pieRefresh(null);
-        topRefresh(null);
 
     }
 
@@ -518,11 +517,14 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
 
     }
-
+    private final Object lock = new Object();
     @Override
     public void refresh() {
         asynexec(()->{
-            String infoStr = this.redisClient.info();
+            String infoStr = null;
+            synchronized (lock){
+                 infoStr = this.redisClient.info();
+            }
             List<InfoTable> infos= Util.parseInfoOutput(infoStr);
             Map<String, String> map = infos.stream().filter(e->Constant.REDIS_INFO_KEYS.contains(e.getKey())).collect(Collectors.toMap(InfoTable::getKey, InfoTable::getValue));
             List<Tuple2<Integer,Integer>> dbSizeList = new ArrayList<>();
@@ -613,37 +615,40 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         topRefresh(actionEvent);
     }
 
+
     @FXML
     public void topRefresh(ActionEvent actionEvent) {
         asynexec(() -> {
-            List<String> keys = this.redisClient.scanAll(null);
-            for (String key : keys) {
-                long memory=this.redisClient.memoryUsage(key,0);
-                String type = this.redisClient.type(key);
-                long ttl = this.redisClient.ttl(key);
-                long length=lengthByType(key,type);
+            synchronized (lock){
+                List<String> keys = this.redisClient.scanAll(null);
+                for (String key : keys) {
+                    long memory=this.redisClient.memoryUsage(key,0);
+                    String type = this.redisClient.type(key);
+                    long ttl = this.redisClient.ttl(key);
+                    long length=lengthByType(key,type);
+                }
             }
+
         });
     }
 
     private long lengthByType(String key, String type) {
         RedisDataTypeEnum byType = RedisDataTypeEnum.getByType(type);
-        switch (byType) {
-            case STRING:
-                return this.redisClient.strlen(key);
-            case LIST:
-                return this.redisClient.llen(key);
-            case HASH:
-                return this.redisClient.hlen(key);
-            case SET:
-                return this.redisClient.scard(key);
-            case ZSET:
-                return this.redisClient.zcard(key);
-            case JSON:
-                return this.redisClient.jsonArrLen(key, null);
-            case STREAM:
-                return this.redisClient.xlen(key);
-        }
+        return switch (byType) {
+            case STRING -> this.redisClient.strlen(key);
+            case LIST -> this.redisClient.llen(key);
+            case HASH -> this.redisClient.hlen(key);
+            case SET -> this.redisClient.scard(key);
+            case ZSET -> this.redisClient.zcard(key);
+            case JSON -> jsonLength(key);
+            case STREAM -> this.redisClient.xlen(key);
+        };
 
+    }
+
+    private long jsonLength(String key) {
+        List<Class<?>> types =this.redisClient.jsonType(key);
+        System.out.println(types);
+        return 0;
     }
 }

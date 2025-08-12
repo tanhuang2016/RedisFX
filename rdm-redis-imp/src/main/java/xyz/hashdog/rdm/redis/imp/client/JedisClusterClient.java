@@ -405,6 +405,11 @@ public class JedisClusterClient implements RedisClient {
     }
 
     @Override
+    public List<Class<?>> jsonType(String key) {
+        return execut(jedis->jedis.jsonType(key,Path2.ROOT_PATH));
+    }
+
+    @Override
     public List<String> lrange(String list, int start, int stop) {
         return execut(jedis->jedis.lrange(list,start,stop));
     }
