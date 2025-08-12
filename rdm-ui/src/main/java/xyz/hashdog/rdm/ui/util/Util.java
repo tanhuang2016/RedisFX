@@ -6,7 +6,7 @@ import xyz.hashdog.rdm.ui.entity.InfoTable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Util {
+public class Util extends xyz.hashdog.rdm.redis.imp.Util {
     public static List<InfoTable> parseInfoOutput(String infoOutput) {
         List<InfoTable> infoTables = new ArrayList<>();
         if (infoOutput == null || infoOutput.isEmpty()) {
@@ -26,7 +26,7 @@ public class Util {
             }
             String[] split = line.split(":",2);
             // 创建InfoTable对象
-            InfoTable infoTable = new InfoTable(split[0], currentSection, split[1]);
+            InfoTable infoTable = new InfoTable(split[0], currentSection.trim(), split[1]);
             infoTables.add(infoTable);
         }
 
@@ -59,4 +59,6 @@ public class Util {
             return new Tuple2<>(0.0, "B");
         }
     }
+
+
 }

@@ -1,6 +1,5 @@
 package xyz.hashdog.rdm.redis.imp.client;
 
-import com.google.gson.Gson;
 import com.jcraft.jsch.Session;
 import org.json.JSONArray;
 import org.slf4j.Logger;
@@ -8,13 +7,13 @@ import org.slf4j.LoggerFactory;
 import redis.clients.jedis.*;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 import redis.clients.jedis.exceptions.JedisException;
-import redis.clients.jedis.json.JsonObjectMapper;
 import redis.clients.jedis.json.Path2;
 import redis.clients.jedis.params.ScanParams;
 import redis.clients.jedis.resps.ScanResult;
 import redis.clients.jedis.resps.StreamEntry;
 import redis.clients.jedis.resps.Tuple;
 import redis.clients.jedis.util.Pool;
+import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.common.util.TUtil;
 import xyz.hashdog.rdm.redis.Message;
@@ -127,10 +126,8 @@ public class JedisPoolClient implements RedisClient {
                 if(!row.startsWith("db")){
                     continue;
                 }
-                String[] a = row.split(":");
-                int db =Integer.parseInt(a[0].substring(2));
-                int size =Integer.parseInt(a[1].split(",")[0].substring(5)) ;
-                map.put(db,map.get(db)+String.format("[%d]",size));
+                Tuple2<Integer,Integer> tu=Util.keyspaceParseDb(row);
+                map.put(tu.getT1(),map.get(tu.getT1())+String.format("[%d]",tu.getT1()));
             }
             return map;
         });

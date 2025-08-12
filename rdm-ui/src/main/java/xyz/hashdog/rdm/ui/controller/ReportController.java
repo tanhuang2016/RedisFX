@@ -6,8 +6,6 @@ import atlantafx.base.controls.Popover;
 import atlantafx.base.controls.ToggleSwitch;
 import atlantafx.base.theme.Styles;
 import atlantafx.base.theme.Tweaks;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,7 +23,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
-import javafx.util.Duration;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2MZ;
@@ -44,12 +41,9 @@ import xyz.hashdog.rdm.ui.util.Util;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalTime;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static xyz.hashdog.rdm.ui.sampler.page.Page.FAKER;
 
@@ -105,7 +99,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public Label capsuleConnection;
     private Popover refreshPopover;
     private XYChart.Series<String, Number> memorySeries;
-    private Timeline memoryUpdateTimeline;
+    private XYChart.Series<String, Number> keySeries;
     private static final int MAX_DATA_POINTS = 10;
 
     private double previousUsedCpu;
@@ -121,7 +115,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         initLineChar();
         initModel();
         inintListener();
-        initRefreshPopover();
 
         DefaultEventBus.getInstance().subscribe(ThemeEvent.class, e -> {
             applyTheme();
@@ -180,26 +173,13 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
 
 
-        var x = new CategoryAxis();
-        x.setLabel("Month");
-
-        var y = new NumberAxis(0, 80, 10);
-        y.setLabel("Value");
-
-        var series1 = new XYChart.Series<String, Number>();
-        series1.setName(FAKER.stock().nsdqSymbol());
-        IntStream.range(1, 12).forEach(i -> series1.getData().add(
-                new XYChart.Data<>(
-                        Month.of(i).getDisplayName(TextStyle.SHORT, Locale.getDefault()),
-                        rnd.nextInt(10, 80)
-                )
-        ));
 
 
 
+        keySeries = new XYChart.Series<>();
         lineKey.setTitle("Stock Monitoring");
         lineKey.setMinHeight(300);
-        lineKey.getData().addAll(series1);
+        lineKey.getData().addAll(keySeries);
         lineKey.setLegendVisible(false);
 
         memorySeries = new XYChart.Series<>();
@@ -209,8 +189,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         lineMemory.setLegendVisible(false);
 
         dataHover();
-        // 启动定时更新
-        startMemoryMonitoring();
 
     }
 
@@ -241,72 +219,26 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         capsuleConnection.textProperty().bind(barConnection.textProperty());
     }
 
-    // 启动内存监控
-    private void startMemoryMonitoring() {
-        if (memoryUpdateTimeline != null) {
-            memoryUpdateTimeline.stop();
-        }
-
-        memoryUpdateTimeline = new Timeline(
-                new KeyFrame(Duration.seconds(5), event -> updateMemoryData())
-        );
-        memoryUpdateTimeline.setCycleCount(Timeline.INDEFINITE);
-        memoryUpdateTimeline.play();
-    }
-
-    // 更新内存数据
-    private void updateMemoryData() {
-        // 这里应该从Redis获取实际的内存数据
-        // 模拟数据：
-        int memoryValue = getRedisMemoryUsage(); // 你需要实现这个方法
-
-        // 获取当前时间
-        String timeLabel = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-
-        // 添加新数据点
-        XYChart.Data<String, Number> newData = new XYChart.Data<>(timeLabel, memoryValue);
-        memorySeries.getData().add(newData);
-
-        // 为新数据点添加交互效果
-        Platform.runLater(() -> {
-            addDataPointInteraction(newData);
-        });
-
-        // 限制数据点数量，避免图表过于拥挤
-        if (memorySeries.getData().size() > MAX_DATA_POINTS) {
-            memorySeries.getData().remove(0);
-        }
-
-        // 自动滚动X轴（如果需要的话）
-        // 这里可以调整X轴显示范围
-    }
 
 
-    // 获取Redis内存使用量的实际实现
-    private int getRedisMemoryUsage() {
-        // 你需要根据实际的Redis连接来获取内存信息
-        // 示例：
-        try {
-            // 假设你有Redis连接
-            // String info = redisClient.info("memory");
-            // 从info中解析出used_memory或used_memory_rss的值
 
-            // 临时返回模拟数据
-            Random random = new Random();
-            return 100 + random.nextInt(900); // 模拟100-1000MB的内存使用
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
-    }
+
+
+
+
 
     private void inintListener() {
         initFloatToggleSwitchListener();
         initScrollListener();
-        super.parameter.addListener((observable, oldValue, newValue) -> {
-            refresh();
-        });
     }
+
+    @Override
+    protected void paramInitEnd() {
+//        refresh();
+        initRefreshPopover();
+
+    }
+
     private void initScrollListener() {
         if (scrollPane != null) {
             // 监听垂直滚动属性变化
@@ -628,6 +560,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             String infoStr = this.redisClient.info();
             List<InfoTable> infos= Util.parseInfoOutput(infoStr);
             Map<String, String> map = infos.stream().filter(e->Constant.REDIS_INFO_KEYS.contains(e.getKey())).collect(Collectors.toMap(InfoTable::getKey, InfoTable::getValue));
+            List<Tuple2<Integer,Integer>> dbSizeList = new ArrayList<>();
+            infos.stream().filter(e->Constant.INFO_KEYSPACE.equals(e.getType())).forEach(e->dbSizeList.add(Util.keyspaceParseDb(e.getKey(),e.getValue())));
             Platform.runLater(()-> {
                 double cpuUsage = cpuUsage(map);
                 barCpu.setText(String.format("%.2g",cpuUsage));
@@ -637,8 +571,9 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                 Tuple2<Double, String> barMemoryTu = Util.convertMemorySize(map.get(Constant.REDIS_INFO_USED_MEMORY));
                 barMemory.setText(String.format("%.2g%s",barMemoryTu.getT1(),barMemoryTu.getT2()));
                 barMemory.setTooltip(GuiUtil.textTooltip(String.format("Used Memory: %.4g%s",barMemoryTu.getT1(),barMemoryTu.getT2())));
-                barKey.setText(map.get(Constant.REDIS_INFO_RDB_LAST_LOAD_KEYS_LOADED));
-                barKey.setTooltip(GuiUtil.textTooltip(String.format("Keys Loaded: %s",map.get(Constant.REDIS_INFO_RDB_LAST_LOAD_KEYS_LOADED))));
+                int keyTotalSize = dbSizeList.stream().mapToInt(Tuple2::getT2).sum();
+                barKey.setText(String.valueOf(keyTotalSize));
+                barKey.setTooltip(GuiUtil.textTooltip(String.format("Keys Loaded: %s",keyTotalSize)));
                 barConnection.setText(map.get(Constant.REDIS_INFO_CONNECTED_CLIENTS));
                 barConnection.setTooltip(GuiUtil.textTooltip(String.format("Connected Clients: %s",map.get(Constant.REDIS_INFO_CONNECTED_CLIENTS))));
 
@@ -657,6 +592,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                 totalConnectionsReceived.setText(map.get(Constant.REDIS_INFO_TOTAL_CONNECTIONS_RECEIVED));
                 totalCommandsProcessed.setText(map.get(Constant.REDIS_INFO_TOTAL_COMMANDS_PROCESSED));
 
+                updateLineCharData(Double.parseDouble(map.get(Constant.REDIS_INFO_USED_MEMORY)),keyTotalSize);
+
             });
         });
 
@@ -665,6 +602,28 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         System.out.println(123);
     }
 
+
+    private void updateLineCharData(double memoryValue,int keyTotalSize) {
+        // 获取当前时间
+        String timeLabel = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+        // 添加新数据点
+        XYChart.Data<String, Number> newDataArea = new XYChart.Data<>(timeLabel, memoryValue);
+        XYChart.Data<String, Number> newDataLine = new XYChart.Data<>(timeLabel, keyTotalSize);
+        memorySeries.getData().add(newDataArea);
+        keySeries.getData().add(newDataLine);
+        // 为新数据点添加交互效果
+        Platform.runLater(() -> {
+            addDataPointInteraction(newDataArea);
+            addDataPointInteraction(newDataLine);
+        });
+        // 限制数据点数量，避免图表过于拥挤
+        if (memorySeries.getData().size() > MAX_DATA_POINTS) {
+            memorySeries.getData().removeFirst();
+        }
+        if (keySeries.getData().size() > MAX_DATA_POINTS) {
+            keySeries.getData().removeFirst();
+        }
+    }
 
     /**
      * cpu使用率

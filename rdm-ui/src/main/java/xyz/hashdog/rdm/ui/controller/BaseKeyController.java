@@ -71,6 +71,11 @@ public class BaseKeyController<T> extends BaseController<T>{
         root.setUserData(this);
         this.currentDb=parameter.getDb();
         this.parameter.set(parameter);
+        paramInitEnd();
+    }
+
+    protected void paramInitEnd() {
+
     }
 
     public RedisClient getRedisClient() {

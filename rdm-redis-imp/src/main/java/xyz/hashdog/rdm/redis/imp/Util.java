@@ -14,12 +14,12 @@ import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 import org.bouncycastle.openssl.jcajce.JcePEMDecryptorProviderBuilder;
 import org.bouncycastle.pkcs.PKCS8EncryptedPrivateKeyInfo;
 import org.bouncycastle.pkcs.jcajce.JcePKCSPBEInputDecryptorProviderBuilder;
+import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.TUtil;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
-import java.io.Closeable;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
@@ -220,5 +220,16 @@ public class Util {
 
     public static String getUUID() {
         return UUID.randomUUID().toString();
+    }
+
+
+    public static Tuple2<Integer, Integer> keyspaceParseDb(String row) {
+        String[] a = row.split(":");
+        int db =Integer.parseInt(a[0].substring(2));
+        int size =Integer.parseInt(a[1].split(",")[0].substring(5)) ;
+        return new Tuple2<>(db,size);
+    }
+    public static Tuple2<Integer, Integer> keyspaceParseDb(String key, String value) {
+        return keyspaceParseDb(key+":"+value);
     }
 }
