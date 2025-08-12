@@ -715,6 +715,18 @@ public class GuiUtil {
         tableView.setFixedCellSize(rowHeight);
     }
 
+    /**
+     * 文本提示
+     * @param text
+     * @return
+     */
+    public static Tooltip textTooltip(String text) {
+        Tooltip tooltip = new Tooltip(text);
+        tooltip.setShowDelay(Duration.millis(200)); // 200ms 延迟
+        tooltip.setHideDelay(Duration.millis(100)); // 100ms 隐藏延迟
+        return tooltip;
+    }
+
 
     /**
      * 用于tableView压缩为单行,就是避免出现换行的情况

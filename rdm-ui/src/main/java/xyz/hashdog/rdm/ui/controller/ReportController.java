@@ -626,16 +626,16 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             Platform.runLater(()-> {
                 double cpuUsage = cpuUsage(map);
                 barCpu.setText(String.format("%.2g",cpuUsage));
-                barCpu.setTooltip(new Tooltip(String.format("CPU Usage: %.2g%%",cpuUsage)));
+                barCpu.setTooltip(GuiUtil.textTooltip(String.format("CPU Usage: %.2g%%",cpuUsage)));
                 barNet.setText(map.get(Constant.REDIS_INFO_INSTANTANEOUS_OPS_PER_SEC));
-                barNet.setTooltip(new Tooltip(String.format("Commands/s: %s",map.get(Constant.REDIS_INFO_INSTANTANEOUS_OPS_PER_SEC))));
+                barNet.setTooltip(GuiUtil.textTooltip(String.format("Commands/s: %s",map.get(Constant.REDIS_INFO_INSTANTANEOUS_OPS_PER_SEC))));
                 Tuple2<Double, String> barMemoryTu = Util.convertMemorySize(map.get(Constant.REDIS_INFO_USED_MEMORY));
                 barMemory.setText(String.format("%.2g%s",barMemoryTu.getT1(),barMemoryTu.getT2()));
-                barMemory.setTooltip(new Tooltip(String.format("Used Memory: %.4g%s",barMemoryTu.getT1(),barMemoryTu.getT2())));
+                barMemory.setTooltip(GuiUtil.textTooltip(String.format("Used Memory: %.4g%s",barMemoryTu.getT1(),barMemoryTu.getT2())));
                 barKey.setText(map.get(Constant.REDIS_INFO_RDB_LAST_LOAD_KEYS_LOADED));
-                barKey.setTooltip(new Tooltip(String.format("Keys Loaded: %s",map.get(Constant.REDIS_INFO_RDB_LAST_LOAD_KEYS_LOADED))));
+                barKey.setTooltip(GuiUtil.textTooltip(String.format("Keys Loaded: %s",map.get(Constant.REDIS_INFO_RDB_LAST_LOAD_KEYS_LOADED))));
                 barConnection.setText(map.get(Constant.REDIS_INFO_CONNECTED_CLIENTS));
-                barConnection.setTooltip(new Tooltip(String.format("Connected Clients: %s",map.get(Constant.REDIS_INFO_CONNECTED_CLIENTS))));
+                barConnection.setTooltip(GuiUtil.textTooltip(String.format("Connected Clients: %s",map.get(Constant.REDIS_INFO_CONNECTED_CLIENTS))));
 
                 infoTable.getItems().setAll(infos);
                 GuiUtil.adjustTableViewHeightPrecise(infoTable);
