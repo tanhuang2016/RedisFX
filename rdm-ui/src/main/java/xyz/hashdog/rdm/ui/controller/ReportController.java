@@ -107,6 +107,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
     private double previousUsedCpu;
     private long previousTime;
+    private final Object lock = new Object();
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -517,7 +519,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
 
     }
-    private final Object lock = new Object();
     @Override
     public void refresh() {
         asynexec(()->{
