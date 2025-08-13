@@ -128,15 +128,15 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         final var rnd = FAKER.random();
 
 
-        ObservableList<PieChart.Data> data2 = FXCollections.observableArrayList(
-                new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30)),
-                new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30)),
-                new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30)),
-                new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30)),
-                new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30))
-        );
-
-        memory.setData(data2);
+//        ObservableList<PieChart.Data> data2 = FXCollections.observableArrayList(
+//                new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30)),
+//                new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30)),
+//                new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30)),
+//                new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30)),
+//                new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30))
+//        );
+//
+//        memory.setData(data2);
 
 
         topTable.getStyleClass().addAll(Tweaks.EDGE_TO_EDGE,Styles.STRIPED);
@@ -632,6 +632,11 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
     private void updatePiesData(List<TopKeyTable> topKeyTables) {
         Map<String, Long> keysData = topKeyTables.stream().collect(Collectors.groupingBy(TopKeyTable::getType, Collectors.counting()));
+        updatePiesData(keysData,keys);
+        updatePiesData(keysData,memory);
+    }
+
+    private void updatePiesData(Map<String, Long> keysData, PieChart keys) {
         ObservableList<PieChart.Data> keysPieData = FXCollections.observableArrayList();
         List<Tuple2<String, String>> tagList=new ArrayList<>();
         keysData.forEach((type, count) -> {
