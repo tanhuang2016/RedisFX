@@ -190,7 +190,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         lineMemory.getData().addAll(memorySeries);
         lineMemory.setLegendVisible(false);
 
-        dataHover();
 
     }
 
@@ -301,24 +300,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
     }
 
-    private void dataHover() {
-//        for (PieChart.Data data : keys.getData()) {
-//            setUpHoverEffectWithTooltip(data);
-//        }
-//        for (PieChart.Data data : memory.getData()) {
-//            setUpHoverEffectWithTooltip(data);
-//        }
-        for (XYChart.Series<String, Number> series : lineKey.getData()) {
-            for (XYChart.Data<String, Number> data : series.getData()) {
-                addDataPointInteraction(data);
-            }
-        }
-        for (XYChart.Series<String, Number> series : lineMemory.getData()) {
-            for (XYChart.Data<String, Number> data : series.getData()) {
-                addDataPointInteraction(data);
-            }
-        }
-    }
+
 
     private void initStyle() {
         initLineBarStyle();
@@ -387,7 +369,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     }
 
     private void addDataPointInteraction(XYChart.Data<String, Number> data) {
-        Popup popup =getPopup(data.getXValue() + ":" + data.getYValue());
+        Popup popup =getPopup(String.valueOf(data.getYValue()));
         dataNodeListener(data.getNode(),popup,Color.web("#f3622d"));
     }
 
