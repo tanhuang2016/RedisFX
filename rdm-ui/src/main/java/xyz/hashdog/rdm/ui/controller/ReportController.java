@@ -632,8 +632,9 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
     private void updatePiesData(List<TopKeyTable> topKeyTables) {
         Map<String, Long> keysData = topKeyTables.stream().collect(Collectors.groupingBy(TopKeyTable::getType, Collectors.counting()));
+        Map<String, Long> memoryData = topKeyTables.stream().collect(Collectors.groupingBy(TopKeyTable::getType, Collectors.summingLong(TopKeyTable::getSize)));
         updatePiesData(keysData,keys);
-        updatePiesData(keysData,memory);
+        updatePiesData(memoryData,memory);
     }
 
     private void updatePiesData(Map<String, Long> keysData, PieChart keys) {
