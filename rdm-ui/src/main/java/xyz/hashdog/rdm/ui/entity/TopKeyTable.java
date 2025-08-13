@@ -10,9 +10,9 @@ public class TopKeyTable implements ITable {
 
     private String key;
     private String type;
-    private String ttl;
-    private String size;
-    private String length;
+    private Long ttl;
+    private Long size;
+    private Long length;
 
     public TopKeyTable() {
     }
@@ -23,7 +23,7 @@ public class TopKeyTable implements ITable {
     }
 
 
-    public TopKeyTable(String key, String type, String ttl, String size, String length) {
+    public TopKeyTable(String key, String type, Long ttl, Long size, Long length) {
         this.key = key;
         this.type = type;
         this.ttl = ttl;
@@ -47,27 +47,27 @@ public class TopKeyTable implements ITable {
         this.type = type;
     }
 
-    public String getTtl() {
+    public Long getTtl() {
         return ttl;
     }
 
-    public void setTtl(String ttl) {
+    public void setTtl(Long ttl) {
         this.ttl = ttl;
     }
 
-    public String getSize() {
+    public Long getSize() {
         return size;
     }
 
-    public void setSize(String size) {
+    public void setSize(Long size) {
         this.size = size;
     }
 
-    public String getLength() {
+    public Long getLength() {
         return length;
     }
 
-    public void setLength(String length) {
+    public void setLength(Long length) {
         this.length = length;
     }
 }

@@ -127,13 +127,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
         final var rnd = FAKER.random();
 
-        ObservableList<PieChart.Data> data = FXCollections.observableArrayList(
-                new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30)),
-                new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30)),
-                new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30)),
-                new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30)),
-                new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30))
-        );
+
         ObservableList<PieChart.Data> data2 = FXCollections.observableArrayList(
                 new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30)),
                 new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30)),
@@ -141,7 +135,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                 new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30)),
                 new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30))
         );
-        keys.setData(data);
+
         memory.setData(data2);
 
 
@@ -149,18 +143,18 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         infoTable.getStyleClass().addAll(Tweaks.EDGE_TO_EDGE,Styles.STRIPED);
         Platform.runLater(() -> {
             GuiUtil.initSimpleTableView(topTable,new TopKeyTable());
-            topTable.getItems().addAll(
-                    new TopKeyTable("1","2","3","4","5"),
-                    new TopKeyTable("1","2","3","4","5"),
-                    new TopKeyTable("1","2","3","4","5"),
-                    new TopKeyTable("1","2","3","4","5"),
-                    new TopKeyTable("1","2","3","4","5"),
-                    new TopKeyTable("1","2","3","4","5"),
-                    new TopKeyTable("1","2","3","4","5"),
-                    new TopKeyTable("1","2","3","4","5"),
-                    new TopKeyTable("1","2","3","4","5"),
-                    new TopKeyTable("1","2","3","4","5")
-            );
+//            topTable.getItems().addAll(
+//                    new TopKeyTable("1","2","3","4","5"),
+//                    new TopKeyTable("1","2","3","4","5"),
+//                    new TopKeyTable("1","2","3","4","5"),
+//                    new TopKeyTable("1","2","3","4","5"),
+//                    new TopKeyTable("1","2","3","4","5"),
+//                    new TopKeyTable("1","2","3","4","5"),
+//                    new TopKeyTable("1","2","3","4","5"),
+//                    new TopKeyTable("1","2","3","4","5"),
+//                    new TopKeyTable("1","2","3","4","5"),
+//                    new TopKeyTable("1","2","3","4","5")
+//            );
 
             GuiUtil.initSimpleTableView(infoTable,new InfoTable());
             topTable.setColumnResizePolicy(
@@ -305,9 +299,9 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     }
 
     private void dataHover() {
-        for (PieChart.Data data : keys.getData()) {
-            setUpHoverEffectWithTooltip(data);
-        }
+//        for (PieChart.Data data : keys.getData()) {
+//            setUpHoverEffectWithTooltip(data);
+//        }
         for (PieChart.Data data : memory.getData()) {
             setUpHoverEffectWithTooltip(data);
         }
@@ -620,6 +614,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     @FXML
     public void topRefresh(ActionEvent actionEvent) {
         asynexec(() -> {
+            List<TopKeyTable> topKeyTables = new ArrayList<>();
             synchronized (lock){
                 List<String> keys = this.redisClient.scanAll(null);
                 for (String key : keys) {
@@ -627,9 +622,31 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                     String type = this.redisClient.type(key);
                     long ttl = this.redisClient.ttl(key);
                     long length=lengthByType(key,type);
+                    TopKeyTable topKeyTable = new TopKeyTable(key, type, ttl, memory, length);
+                    topKeyTables.add(topKeyTable);
                 }
             }
+            updatePiesData(topKeyTables);
+        });
+    }
 
+    private void updatePiesData(List<TopKeyTable> topKeyTables) {
+        Map<String, Long> keysData = topKeyTables.stream().collect(Collectors.groupingBy(TopKeyTable::getType, Collectors.counting()));
+        ObservableList<PieChart.Data> keysPieData = FXCollections.observableArrayList();
+        List<Tuple2<String, String>> tagList=new ArrayList<>();
+        keysData.forEach((type, count) -> {
+            Tuple2<String, String> keyTypeTag = GuiUtil.getKeyTypeTag(type);
+            tagList.add(keyTypeTag);
+            PieChart.Data pieData = new PieChart.Data(keyTypeTag.getT1(), count);
+            keysPieData.add(pieData);
+        });
+        Platform.runLater(() -> {
+            keys.setData(keysPieData);
+            for (int i = 0; i < keys.getData().size(); i++) {
+                PieChart.Data datum = keys.getData().get(i);
+                datum.getNode().setStyle("-fx-pie-color: " + GuiUtil.hexToRgba(tagList.get(i).getT2()));
+                setUpHoverEffectWithTooltip(datum);
+            }
         });
     }
 

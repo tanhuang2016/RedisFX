@@ -524,12 +524,17 @@ public class GuiUtil {
      * @return
      */
     public static Label getKeyTypeLabel(String type) {
+       Tuple2<String,String> tag= getKeyTypeTag(type);
+        Label tagLabel = new Label(tag.getT1());
+        tagLabel.getStyleClass().add("tag");
+        tagLabel.setStyle("-fx-background-color:"+tag.getT2());
+        return tagLabel;
+    }
+
+    public static Tuple2<String, String> getKeyTypeTag(String type) {
         KeyTagSetting setting = Applications.getConfigSettings(ConfigSettingsEnum.KEY_TAG.name);
         int i  =RedisDataTypeEnum.getIndex(type);
-        Label tagLabel = new Label(setting.getTags().get(i));
-        tagLabel.getStyleClass().add("tag");
-        tagLabel.setStyle("-fx-background-color:"+setting.getColors().get(i));
-        return tagLabel;
+        return new Tuple2<>(setting.getTags().get(i),setting.getColors().get(i));
     }
 
     public static FXMLLoader loadFXML(String xml) {
