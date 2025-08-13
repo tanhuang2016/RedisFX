@@ -55,9 +55,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public PieChart keys;
     public HBox pies;
     public HBox lines;
-
     public HBox topTables;
-
     public TitledPane serverInfo;
     public TitledPane memoryInfo;
     public TitledPane statusInfo;
@@ -107,7 +105,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     private XYChart.Series<String, Number> memorySeries;
     private XYChart.Series<String, Number> keySeries;
     private static final int MAX_DATA_POINTS = 10;
-
     private double previousUsedCpu;
     private long previousTime;
     private final Object lock = new Object();
@@ -176,7 +173,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             xAxis.setEndMargin(-25);
         }
     }
-
     private void initLabel() {
         capsuleCpu.textProperty().bind(barCpu.textProperty());
         capsuleNet.textProperty().bind(barNet.textProperty());
@@ -184,13 +180,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         capsuleKey.textProperty().bind(barKey.textProperty());
         capsuleConnection.textProperty().bind(barConnection.textProperty());
     }
-
-
-
-
-
-
-
 
 
     private void initListener() {
@@ -202,7 +191,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 //        refresh();默认刷新是true，会自动触发
         initRefreshPopover();
         pieRefresh(null);
-
     }
 
     private void initScrollListener() {
@@ -238,7 +226,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 //        modalPane.show(topDialog);
     }
 
-
     private void initTextField() {
         findTextField.setRight(findButton);
     }
@@ -260,12 +247,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         barRefresh.setGraphic(new FontIcon(Material2MZ.REFRESH ));
         pieRefresh.setGraphic(new FontIcon(Material2MZ.REFRESH ));
         topRefresh.setGraphic(new FontIcon(Material2MZ.REFRESH ));
-
-
-
     }
-
-
 
     private void initStyle() {
         initLineBarStyle();
@@ -274,11 +256,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         ToggleGroup toggleGroup = new ToggleGroup();
         keySize.setToggleGroup(toggleGroup);
         keyLength.setToggleGroup(toggleGroup);
-
-
     }
-
-
 
     private void initButtonStyle() {
         findButton.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,Styles.ROUNDED,Styles.SMALL);
@@ -575,8 +553,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         Platform.runLater(() -> {
             topTable.getItems().setAll(top10BySize);
         });
-
-
     }
 
     private void updatePiesData(List<TopKeyTable> topKeyTables) {
@@ -605,9 +581,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         });
     }
 
-
-
-
     private long lengthByType(String key, String type) {
         RedisDataTypeEnum byType = RedisDataTypeEnum.getByType(type);
         return switch (byType) {
@@ -633,16 +606,11 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         }
 
         return 0;
-
-
     }
-
-
     @SuppressWarnings("unchecked")
     public void keySize(ActionEvent actionEvent) {
        topTable.getItems().setAll((List<TopKeyTable>) keySize.getUserData());
     }
-
     @SuppressWarnings("unchecked")
     public void keyLength(ActionEvent actionEvent) {
         topTable.getItems().setAll((List<TopKeyTable>) keyLength.getUserData());
