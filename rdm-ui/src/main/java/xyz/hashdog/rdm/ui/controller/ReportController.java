@@ -39,7 +39,6 @@ import xyz.hashdog.rdm.ui.sampler.theme.SamplerTheme;
 import xyz.hashdog.rdm.ui.sampler.theme.ThemeManager;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.Util;
-
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalTime;
@@ -180,8 +179,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         capsuleKey.textProperty().bind(barKey.textProperty());
         capsuleConnection.textProperty().bind(barConnection.textProperty());
     }
-
-
     private void initListener() {
         initScrollListener();
     }
