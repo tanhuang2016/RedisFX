@@ -634,7 +634,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     private void updatePiesData(List<TopKeyTable> topKeyTables) {
         Map<String, Long> keysData = topKeyTables.stream().collect(Collectors.groupingBy(TopKeyTable::getType, Collectors.counting()));
         Map<String, Long> memoryData = topKeyTables.stream().collect(Collectors.groupingBy(TopKeyTable::getType, Collectors.summingLong(TopKeyTable::getSize)));
-        updatePiesData(keysData,keys, d->Util.convertMemorySizeStr((long)d.doubleValue(),"%.2g"));
+        updatePiesData(keysData,keys, d->String.valueOf((long)d.doubleValue()));
         updatePiesData(memoryData,memory,d->Util.convertMemorySizeStr((long)d.doubleValue(),"%.2g"));
     }
 
