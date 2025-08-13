@@ -612,7 +612,22 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                 }
             }
             updatePiesData(topKeyTables);
+            updateTopData(topKeyTables);
         });
+    }
+
+    private void updateTopData(List<TopKeyTable> topKeyTables) {
+        List<TopKeyTable> top10BySize = topKeyTables.stream()
+                .sorted((t1, t2) -> Long.compare(t2.getSize(), t1.getSize())) // 按 size 降序排序
+                .limit(10)
+                .toList();
+        keySize.setUserData(top10BySize);
+        List<TopKeyTable> top10ByLength = topKeyTables.stream()
+                .sorted((t1, t2) -> Long.compare(t2.getSize(), t1.getSize())) // 按 size 降序排序
+                .limit(10)
+                .toList();
+        keyLength.setUserData(top10ByLength);
+
     }
 
     private void updatePiesData(List<TopKeyTable> topKeyTables) {
