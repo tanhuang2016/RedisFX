@@ -128,12 +128,27 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         initLineChar();
         initModel();
         initListener();
+        initTable();
+        initLineAndAreaChart();
         DefaultEventBus.getInstance().subscribe(ThemeEvent.class, e -> {
             applyTheme();
         });
+    }
 
+    private void initLineAndAreaChart() {
+        keySeries = new XYChart.Series<>();
+        memorySeries = new XYChart.Series<>();
+        initLineAndAreaChart(keySeries,lineKey,"key数量趋势");
+        initLineAndAreaChart(memorySeries,lineMemory,"内存趋势");
+    }
 
+    private void initLineAndAreaChart(XYChart.Series<String, Number> keySeries, XYChart<String, Number> lineKey, String name) {
+        lineKey.setTitle(name);
+        lineKey.getData().add(keySeries);
+        lineKey.setLegendVisible(false);
+    }
 
+    private void initTable() {
         topTable.getStyleClass().addAll(Tweaks.EDGE_TO_EDGE,Styles.STRIPED);
         infoTable.getStyleClass().addAll(Tweaks.EDGE_TO_EDGE,Styles.STRIPED);
         Platform.runLater(() -> {
@@ -145,31 +160,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             infoTable.setColumnResizePolicy(
                     TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
             );
-
-
         });
-
-
-
-
-
-
-
-
-
-        keySeries = new XYChart.Series<>();
-        lineKey.setTitle("Stock Monitoring");
-        lineKey.setMinHeight(300);
-        lineKey.getData().addAll(keySeries);
-        lineKey.setLegendVisible(false);
-
-        memorySeries = new XYChart.Series<>();
-        lineMemory.setTitle("Stock Monitoring");
-        lineMemory.setMinHeight(300);
-        lineMemory.getData().addAll(memorySeries);
-        lineMemory.setLegendVisible(false);
-
-
     }
 
     private void initLineChar() {
