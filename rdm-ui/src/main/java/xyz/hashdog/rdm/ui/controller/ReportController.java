@@ -368,8 +368,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         topDialogContent.setStyle("-fx-background-color:"+GuiUtil.hexToRgba(c2,0.8));
     }
 
-    private void addDataPointInteraction(XYChart.Data<String, Number> data) {
-        Popup popup =getPopup(String.valueOf(data.getYValue()));
+    private void addDataPointInteraction(XYChart.Data<String, Number> data,Function<Number,String> func) {
+        Popup popup =getPopup(func.apply(data.getYValue()));
         dataNodeListener(data.getNode(),popup,Color.web("#f3622d"));
     }
 
@@ -560,8 +560,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         keySeries.getData().add(newDataLine);
         // 为新数据点添加交互效果
         Platform.runLater(() -> {
-            addDataPointInteraction(newDataArea);
-            addDataPointInteraction(newDataLine);
+            addDataPointInteraction(newDataArea,e->Util.convertMemorySizeStr(e.longValue(),4));
+            addDataPointInteraction(newDataLine,Number::toString);
         });
         // 限制数据点数量，避免图表过于拥挤
         if (memorySeries.getData().size() > MAX_DATA_POINTS) {
