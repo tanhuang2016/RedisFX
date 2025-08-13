@@ -561,4 +561,10 @@ public interface RedisClient extends Closeable {
     long strlen(String key);
 
     Class<?> jsonType(String key);
+
+    long jsonObjLen(String key);
+
+    long jsonStrLen(String key);
+
+    long jsonArrLen(String key);
 }

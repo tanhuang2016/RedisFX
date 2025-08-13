@@ -408,6 +408,34 @@ public class JedisPoolClient implements RedisClient {
             return connection.executeCommand(commandObjects.jsonType(key, Path2.ROOT_PATH)).getFirst();
         });
     }
+
+    @Override
+    public long jsonObjLen(String key) {
+        return execut(jedis -> {
+            Connection connection = jedis.getConnection();
+            CommandObjects commandObjects = new CommandObjects();
+            return connection.executeCommand(commandObjects.jsonObjLen(key, Path2.ROOT_PATH)).getFirst();
+        });
+    }
+
+    @Override
+    public long jsonStrLen(String key) {
+        return execut(jedis -> {
+            Connection connection = jedis.getConnection();
+            CommandObjects commandObjects = new CommandObjects();
+            return connection.executeCommand(commandObjects.jsonStrLen(key, Path2.ROOT_PATH)).getFirst();
+        });
+    }
+
+    @Override
+    public long jsonArrLen(String key) {
+        return execut(jedis -> {
+            Connection connection = jedis.getConnection();
+            CommandObjects commandObjects = new CommandObjects();
+            return connection.executeCommand(commandObjects.jsonArrLen(key, Path2.ROOT_PATH)).getFirst();
+        });
+    }
+
     @Override
     public List<String> lrange(String list, int start, int stop) {
         return execut(jedis->jedis.lrange(list,start,stop));

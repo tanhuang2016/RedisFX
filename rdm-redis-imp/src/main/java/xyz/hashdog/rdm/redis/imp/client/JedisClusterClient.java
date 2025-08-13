@@ -410,6 +410,21 @@ public class JedisClusterClient implements RedisClient {
     }
 
     @Override
+    public long jsonObjLen(String key) {
+        return execut(jedis->jedis.jsonObjLen(key,Path2.ROOT_PATH).getFirst());
+    }
+
+    @Override
+    public long jsonStrLen(String key) {
+        return execut(jedis->jedis.jsonStrLen(key,Path2.ROOT_PATH).getFirst());
+    }
+
+    @Override
+    public long jsonArrLen(String key) {
+        return execut(jedis->jedis.jsonArrLen(key,Path2.ROOT_PATH).getFirst());
+    }
+
+    @Override
     public List<String> lrange(String list, int start, int stop) {
         return execut(jedis->jedis.lrange(list,start,stop));
     }
