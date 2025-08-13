@@ -44,6 +44,7 @@ import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static xyz.hashdog.rdm.ui.sampler.page.Page.FAKER;
@@ -302,9 +303,9 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 //        for (PieChart.Data data : keys.getData()) {
 //            setUpHoverEffectWithTooltip(data);
 //        }
-        for (PieChart.Data data : memory.getData()) {
-            setUpHoverEffectWithTooltip(data);
-        }
+//        for (PieChart.Data data : memory.getData()) {
+//            setUpHoverEffectWithTooltip(data);
+//        }
         for (XYChart.Series<String, Number> series : lineKey.getData()) {
             for (XYChart.Data<String, Number> data : series.getData()) {
                 addDataPointInteraction(data);
@@ -438,9 +439,9 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         return popup;
     }
 
-    private void setUpHoverEffectWithTooltip(PieChart.Data data) {
+    private void setUpHoverEffectWithTooltip(PieChart.Data data,Function<Double,String> func) {
         Color shadowColor = getRegionBackgroundColor(data);
-        Popup popup =getPopup(data.getName() + ":" + String.format("%.2g",data.getPieValue()));
+        Popup popup =getPopup(data.getName() + ":" + func.apply(data.getPieValue()));
         dataNodeListener(data.getNode(),popup,shadowColor);
 
     }
@@ -633,11 +634,11 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     private void updatePiesData(List<TopKeyTable> topKeyTables) {
         Map<String, Long> keysData = topKeyTables.stream().collect(Collectors.groupingBy(TopKeyTable::getType, Collectors.counting()));
         Map<String, Long> memoryData = topKeyTables.stream().collect(Collectors.groupingBy(TopKeyTable::getType, Collectors.summingLong(TopKeyTable::getSize)));
-        updatePiesData(keysData,keys);
-        updatePiesData(memoryData,memory);
+        updatePiesData(keysData,keys, d->Util.convertMemorySizeStr((long)d.doubleValue(),"%.2g"));
+        updatePiesData(memoryData,memory,d->Util.convertMemorySizeStr((long)d.doubleValue(),"%.2g"));
     }
 
-    private void updatePiesData(Map<String, Long> keysData, PieChart keys) {
+    private void updatePiesData(Map<String, Long> keysData, PieChart keys, Function<Double,String> func) {
         ObservableList<PieChart.Data> keysPieData = FXCollections.observableArrayList();
         List<Tuple2<String, String>> tagList=new ArrayList<>();
         keysData.forEach((type, count) -> {
@@ -651,7 +652,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             for (int i = 0; i < keys.getData().size(); i++) {
                 PieChart.Data datum = keys.getData().get(i);
                 datum.getNode().setStyle("-fx-pie-color: " + GuiUtil.hexToRgba(tagList.get(i).getT2()));
-                setUpHoverEffectWithTooltip(datum);
+                setUpHoverEffectWithTooltip(datum,func);
             }
         });
     }
