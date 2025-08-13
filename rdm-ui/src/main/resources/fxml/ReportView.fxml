@@ -82,25 +82,25 @@
                            <children>
                               <HBox spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <TitledPane fx:id="serverInfo" animated="false" styleClass="rounded-corner" text="服务器" HBox.hgrow="ALWAYS">
+                                    <TitledPane fx:id="serverInfo" animated="false" styleClass="rounded-corner" text="%server.report.server" HBox.hgrow="ALWAYS">
                                        <content>
                                           <VBox prefHeight="180.0" prefWidth="200.0" spacing="5.0">
                                              <children>
                                                 <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                    <children>
-                                                      <Label text="Redis版本:" />
+                                                      <Label text="%server.report.server.version" />
                                                       <Label fx:id="redisVersion" styleClass="success"  />
                                                    </children>
                                                 </HBox>
                                                 <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                    <children>
-                                                      <Label text="系统:" />
+                                                      <Label text="%server.report.server.os" />
                                                       <Label fx:id="os" styleClass="success"  />
                                                    </children>
                                                 </HBox>
                                                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                      <children>
-                                                         <Label  text="进程id:"  />
+                                                         <Label  text="%server.report.server.process"  />
                                                          <Label fx:id="processId" styleClass="success"  HBox.hgrow="ALWAYS" />
                                                      </children>
                                                  </HBox>
@@ -108,25 +108,25 @@
                                           </VBox>
                                        </content>
                                     </TitledPane>
-                                    <TitledPane fx:id="memoryInfo" animated="false" styleClass="rounded-corner" text="内存" HBox.hgrow="ALWAYS">
+                                    <TitledPane fx:id="memoryInfo" animated="false" styleClass="rounded-corner" text="%server.report.memory" HBox.hgrow="ALWAYS">
                                         <content>
                                             <VBox prefHeight="180.0" prefWidth="200.0" spacing="5.0">
                                                 <children>
                                                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                         <children>
-                                                            <Label text="已用内存:" />
+                                                            <Label text="%server.report.memory.use" />
                                                             <Label fx:id="usedMemory" styleClass="success"  />
                                                         </children>
                                                     </HBox>
                                                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                         <children>
-                                                            <Label  text="内存占用峰值:" />
+                                                            <Label  text="%server.report.memory.peek" />
                                                             <Label fx:id="usedMemoryPeak" styleClass="success"  />
                                                         </children>
                                                     </HBox>
                                                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                         <children>
-                                                            <Label text="Lua占用内存:" HBox.hgrow="ALWAYS" />
+                                                            <Label text="%server.report.memory.lua" HBox.hgrow="ALWAYS" />
                                                             <Label fx:id="usedMemoryLua" styleClass="success"  HBox.hgrow="ALWAYS" />
                                                         </children>
                                                     </HBox>
@@ -134,25 +134,25 @@
                                             </VBox>
                                         </content>
                                     </TitledPane>
-                                    <TitledPane fx:id="statusInfo" animated="false" styleClass="rounded-corner" text="状态" HBox.hgrow="ALWAYS">
+                                    <TitledPane fx:id="statusInfo" animated="false" styleClass="rounded-corner" text="%server.report.status" HBox.hgrow="ALWAYS">
                                         <content>
                                             <VBox prefHeight="180.0" prefWidth="200.0" spacing="5.0">
                                                 <children>
                                                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                         <children>
-                                                            <Label text="客户端连接数:" />
+                                                            <Label text="%server.report.status.connected" />
                                                             <Label fx:id="connectedClients" styleClass="success"  />
                                                         </children>
                                                     </HBox>
                                                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                         <children>
-                                                            <Label text="历史连接数:" />
+                                                            <Label text="%server.report.status.connects" />
                                                             <Label fx:id="totalConnectionsReceived" styleClass="success"  />
                                                         </children>
                                                     </HBox>
                                                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                         <children>
-                                                            <Label text="历史命令数:" HBox.hgrow="ALWAYS" />
+                                                            <Label text="%server.report.status.commands" HBox.hgrow="ALWAYS" />
                                                             <Label fx:id="totalCommandsProcessed" styleClass="success"  HBox.hgrow="ALWAYS" />
                                                         </children>
                                                     </HBox>

@@ -133,6 +133,9 @@ public class GuiUtil {
     public static FontIcon creatMonitorImageView() {
         return  new FontIcon(Feather.MONITOR);
     }
+    public static FontIcon creatInfoImageView() {
+        return  new FontIcon(Feather.INFO);
+    }
     public static FontIcon creatPubSubImageView() {
         return  new FontIcon(Feather.RSS);
     }

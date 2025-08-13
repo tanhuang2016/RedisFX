@@ -114,7 +114,7 @@
                                                           <MenuItem mnemonicParsing="false" onAction="#console" text="%server.console" />
                                                           <MenuItem mnemonicParsing="false" onAction="#monitor" text="%server.monitor" />
                                                           <MenuItem mnemonicParsing="false" onAction="#pubsub" text="%server.pubsub" />
-                                                          <MenuItem mnemonicParsing="false" onAction="#report" text="%server.pubsub" />
+                                                          <MenuItem mnemonicParsing="false" onAction="#report" text="%server.report" />
                                                       </items>
                                                   </ContextMenu>
                                               </contextMenu>
