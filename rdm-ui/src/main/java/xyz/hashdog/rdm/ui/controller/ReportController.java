@@ -440,7 +440,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
     private void setUpHoverEffectWithTooltip(PieChart.Data data) {
         Color shadowColor = getRegionBackgroundColor(data);
-        Popup popup =getPopup(data.getName() + ":" + data.getPieValue());
+        Popup popup =getPopup(data.getName() + ":" + String.format("%.2g",data.getPieValue()));
         dataNodeListener(data.getNode(),popup,shadowColor);
 
     }
