@@ -236,6 +236,7 @@ public class Util {
         return keyspaceParseDb(key+":"+value);
     }
 
+
     public static String format(double value,int scale) {
         BigDecimal bd = new BigDecimal(value).setScale(scale, RoundingMode.HALF_UP);
         return bd.stripTrailingZeros().toPlainString();

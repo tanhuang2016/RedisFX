@@ -128,37 +128,12 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             applyTheme();
         });
 
-        final var rnd = FAKER.random();
-
-
-//        ObservableList<PieChart.Data> data2 = FXCollections.observableArrayList(
-//                new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30)),
-//                new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30)),
-//                new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30)),
-//                new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30)),
-//                new PieChart.Data(FAKER.food().fruit(), rnd.nextInt(10, 30))
-//        );
-//
-//        memory.setData(data2);
 
 
         topTable.getStyleClass().addAll(Tweaks.EDGE_TO_EDGE,Styles.STRIPED);
         infoTable.getStyleClass().addAll(Tweaks.EDGE_TO_EDGE,Styles.STRIPED);
         Platform.runLater(() -> {
             GuiUtil.initSimpleTableView(topTable,new TopKeyTable());
-//            topTable.getItems().addAll(
-//                    new TopKeyTable("1","2","3","4","5"),
-//                    new TopKeyTable("1","2","3","4","5"),
-//                    new TopKeyTable("1","2","3","4","5"),
-//                    new TopKeyTable("1","2","3","4","5"),
-//                    new TopKeyTable("1","2","3","4","5"),
-//                    new TopKeyTable("1","2","3","4","5"),
-//                    new TopKeyTable("1","2","3","4","5"),
-//                    new TopKeyTable("1","2","3","4","5"),
-//                    new TopKeyTable("1","2","3","4","5"),
-//                    new TopKeyTable("1","2","3","4","5")
-//            );
-
             GuiUtil.initSimpleTableView(infoTable,new InfoTable());
             topTable.setColumnResizePolicy(
                     TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
@@ -618,15 +593,19 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
     private void updateTopData(List<TopKeyTable> topKeyTables) {
         List<TopKeyTable> top10BySize = topKeyTables.stream()
-                .sorted((t1, t2) -> Long.compare(t2.getSize(), t1.getSize())) // 按 size 降序排序
+                .sorted((t1, t2) -> Long.compare(t2.getSize(), t1.getSize()))
                 .limit(10)
                 .toList();
         keySize.setUserData(top10BySize);
         List<TopKeyTable> top10ByLength = topKeyTables.stream()
-                .sorted((t1, t2) -> Long.compare(t2.getSize(), t1.getSize())) // 按 size 降序排序
+                .sorted((t1, t2) -> Long.compare(t2.getLength(), t1.getLength()))
                 .limit(10)
                 .toList();
         keyLength.setUserData(top10ByLength);
+        Platform.runLater(() -> {
+            topTable.getItems().setAll(top10BySize);
+        });
+
 
     }
 
@@ -687,5 +666,16 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         return 0;
 
 
+    }
+
+
+    @SuppressWarnings("unchecked")
+    public void keySize(ActionEvent actionEvent) {
+       topTable.getItems().setAll((List<TopKeyTable>) keySize.getUserData());
+    }
+
+    @SuppressWarnings("unchecked")
+    public void keyLength(ActionEvent actionEvent) {
+        topTable.getItems().setAll((List<TopKeyTable>) keyLength.getUserData());
     }
 }
