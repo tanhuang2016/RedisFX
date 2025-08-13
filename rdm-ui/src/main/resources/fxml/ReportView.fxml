@@ -170,14 +170,14 @@
                                  <children>
                                      <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
                                          <children>
-                                             <Label fx:id="pie" style="-fx-font-size: 1.25em" text="Type Distribution" VBox.vgrow="ALWAYS" />
+                                             <Label fx:id="pie" style="-fx-font-size: 1.25em" text="%server.report.type" VBox.vgrow="ALWAYS" />
                                              <Button fx:id="pieRefresh" onAction="#pieRefresh" HBox.hgrow="ALWAYS" />
                                          </children>
                                      </HBox>
                                     <HBox VBox.vgrow="ALWAYS">
                                        <children>
-                                           <PieChart fx:id="keys" title="Keys" HBox.hgrow="ALWAYS" />
-                                            <PieChart fx:id="memory" title="Memory" HBox.hgrow="ALWAYS" />
+                                           <PieChart fx:id="keys" title="%server.report.type.key" HBox.hgrow="ALWAYS" />
+                                            <PieChart fx:id="memory" title="%server.report.type.memory" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -193,9 +193,9 @@
                                  <children>
                                     <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <Label fx:id="top" style="-fx-font-size: 1.25em" text="TOP" HBox.hgrow="ALWAYS" />
-                                          <FloatToggleButton fx:id="keySize" onAction="#keySize" mnemonicParsing="false" text="Key大小" HBox.hgrow="ALWAYS" selected="true"/>
-                                          <FloatToggleButton fx:id="keyLength" onAction="#keyLength" mnemonicParsing="false" text="Key长度" HBox.hgrow="ALWAYS" />
+                                          <Label fx:id="top" style="-fx-font-size: 1.25em" text="%server.report.top" HBox.hgrow="ALWAYS" />
+                                          <FloatToggleButton fx:id="keySize" onAction="#keySize" mnemonicParsing="false" text="%server.report.top.memory" HBox.hgrow="ALWAYS" selected="true"/>
+                                          <FloatToggleButton fx:id="keyLength" onAction="#keyLength" mnemonicParsing="false" text="%server.report.top.length" HBox.hgrow="ALWAYS" />
                                            <Button fx:id="topRefresh" onAction="#topRefresh" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
@@ -222,7 +222,7 @@
                                  <children>
                                     <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <Label fx:id="trend" style="-fx-font-size: 1.25em" text="Trend Chart" />
+                                          <Label fx:id="trend" style="-fx-font-size: 1.25em" text="%server.report.trend" />
                                        </children>
                                     </HBox>
                                     <HBox fx:id="trendHBox" prefHeight="300.0" VBox.vgrow="ALWAYS">
@@ -258,7 +258,7 @@
                                  <children>
                                     <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <Label fx:id="info" style="-fx-font-size: 1.25em" text="Info" HBox.hgrow="ALWAYS" />
+                                          <Label fx:id="info" style="-fx-font-size: 1.25em" text="%server.report.info" HBox.hgrow="ALWAYS" />
                                            <CustomTextField fx:id="findTextField" promptText="key find" />
                                            <Button fx:id="findButton" mnemonicParsing="false" onAction="#find" text="%key.hash.find" />
                                        </children>

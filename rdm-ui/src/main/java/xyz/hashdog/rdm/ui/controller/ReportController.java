@@ -49,6 +49,8 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
+
 public class ReportController extends BaseKeyController<ServerTabController> implements RefreshPopover.IRefreshPopover,Initializable {
     public PieChart memory;
     public PieChart keys;
@@ -129,8 +131,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     private void initLineAndAreaChart() {
         keySeries = new XYChart.Series<>();
         memorySeries = new XYChart.Series<>();
-        initLineAndAreaChart(keySeries,lineKey,"key数量趋势");
-        initLineAndAreaChart(memorySeries,lineMemory,"内存趋势");
+        initLineAndAreaChart(keySeries,lineKey,language("server.report.trend.key"));
+        initLineAndAreaChart(memorySeries,lineMemory,language("server.report.trend.memory"));
     }
 
     private void initLineAndAreaChart(XYChart.Series<String, Number> keySeries, XYChart<String, Number> lineKey, String name) {
