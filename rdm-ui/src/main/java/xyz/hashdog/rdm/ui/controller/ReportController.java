@@ -27,9 +27,11 @@ import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2MZ;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
+import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.ui.common.Constant;
 import xyz.hashdog.rdm.ui.common.RedisDataTypeEnum;
 import xyz.hashdog.rdm.ui.controller.popover.RefreshPopover;
+import xyz.hashdog.rdm.ui.entity.HashTypeTable;
 import xyz.hashdog.rdm.ui.entity.InfoTable;
 import xyz.hashdog.rdm.ui.entity.TopKeyTable;
 import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
@@ -47,6 +49,8 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static xyz.hashdog.rdm.ui.sampler.page.Page.FAKER;
@@ -75,6 +79,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public CustomTextField findTextField;
     public Button findButton;
     public TableView<InfoTable> infoTable;
+    public List<InfoTable> list;
     public ModalPane modalPane;
     public HBox topDialog;
     public HBox topDialogContent;
@@ -433,6 +438,19 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
     @FXML
     public void find(ActionEvent actionEvent) {
+        String text = this.findTextField.getText();
+        List<InfoTable> newList;
+        if (DataUtil.isBlank(text)) {
+            text = "*";
+        }
+        Predicate<InfoTable> nameFilter = createNameFilter(text);
+        newList = this.list.stream().filter(nameFilter).collect(Collectors.toList());
+        infoTable.getItems().setAll(newList);
+    }
+    private Predicate<InfoTable> createNameFilter(String query) {
+        String regex = query.replace("?", ".?").replace("*", ".*?");
+        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        return o -> pattern.matcher(o.getKey()).find();
     }
 
     @FXML
@@ -469,9 +487,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             barRefresh.getStyleClass().removeAll(Styles.ACCENT);
             barRefresh.setText("");
         }
-        System.out.println("状态"+b+"频率"+rateValue);
-
-
     }
     @Override
     public void refresh() {
@@ -481,6 +496,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                  infoStr = this.redisClient.info();
             }
             List<InfoTable> infos= Util.parseInfoOutput(infoStr);
+            this.list=infos;
             Map<String, String> map = infos.stream().filter(e->Constant.REDIS_INFO_KEYS.contains(e.getKey())).collect(Collectors.toMap(InfoTable::getKey, InfoTable::getValue));
             List<Tuple2<Integer,Integer>> dbSizeList = new ArrayList<>();
             infos.stream().filter(e->Constant.INFO_KEYSPACE.equals(e.getType())).forEach(e->dbSizeList.add(Util.keyspaceParseDb(e.getKey(),e.getValue())));
@@ -518,10 +534,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
             });
         });
-
-
-
-        System.out.println(123);
     }
 
 
@@ -654,7 +666,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
     private long jsonLength(String key) {
         Class<?> type =this.redisClient.jsonType(key);
-        System.out.println(type.getName());
         if(type==Object.class){
             return this.redisClient.jsonObjLen(key);
         } else if (type==String.class) {
