@@ -176,8 +176,8 @@
                                      </HBox>
                                     <HBox VBox.vgrow="ALWAYS">
                                        <children>
-                                                <PieChart fx:id="memory" title="Memory" HBox.hgrow="ALWAYS" />
-                                                <PieChart fx:id="keys" title="Keys" HBox.hgrow="ALWAYS" />
+                                           <PieChart fx:id="keys" title="Keys" HBox.hgrow="ALWAYS" />
+                                            <PieChart fx:id="memory" title="Memory" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                  </children>
