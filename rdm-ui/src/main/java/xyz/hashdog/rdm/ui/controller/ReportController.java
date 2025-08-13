@@ -128,7 +128,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         initLineChar();
         initModel();
         initListener();
-
         DefaultEventBus.getInstance().subscribe(ThemeEvent.class, e -> {
             applyTheme();
         });
