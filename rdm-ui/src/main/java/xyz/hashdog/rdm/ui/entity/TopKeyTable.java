@@ -37,7 +37,6 @@ public class TopKeyTable implements ITable {
                 if(s instanceof String str){
                     Label keyTypeLabel = GuiUtil.getKeyTypeLabelMax(str);
                     setGraphic(keyTypeLabel);
-                    System.out.println(str);
                 }
             }
         };
