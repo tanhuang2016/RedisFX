@@ -31,7 +31,6 @@ import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.ui.common.Constant;
 import xyz.hashdog.rdm.ui.common.RedisDataTypeEnum;
 import xyz.hashdog.rdm.ui.controller.popover.RefreshPopover;
-import xyz.hashdog.rdm.ui.entity.HashTypeTable;
 import xyz.hashdog.rdm.ui.entity.InfoTable;
 import xyz.hashdog.rdm.ui.entity.TopKeyTable;
 import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
@@ -42,8 +41,6 @@ import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.Util;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -52,8 +49,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import static xyz.hashdog.rdm.ui.sampler.page.Page.FAKER;
 
 public class ReportController extends BaseKeyController<ServerTabController> implements RefreshPopover.IRefreshPopover,Initializable {
     public PieChart memory;
@@ -393,38 +388,11 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         return popup;
     }
 
-    private void setUpHoverEffectWithTooltip(PieChart.Data data,Function<Double,String> func) {
-        Color shadowColor = getRegionBackgroundColor(data);
+    private void setPieUpHoverTooltip(PieChart.Data data, String color, Function<Double,String> func) {
         Popup popup =getPopup(data.getName() + ":" + func.apply(data.getPieValue()));
-        dataNodeListener(data.getNode(),popup,shadowColor);
-
+        dataNodeListener(data.getNode(),popup, Color.web(color));
     }
-    private Color getRegionBackgroundColor(PieChart.Data data) {
-        // JavaFX PieChart 使用 CSS 样式来设置颜色
-        // 默认颜色序列
-        Color[] defaultColors = {
-                Color.web("#f3622d"), // 橙色
-                Color.web("#fba71b"), // 黄色
-                Color.web("#57b757"), // 绿色
-                Color.web("#41a9c9"), // 蓝色
-                Color.web("#4258c9"), // 深蓝色
-                Color.web("#9a42c8"), // 紫色
-                Color.web("#c84164"), // 粉色
-                Color.web("#888888")  // 灰色
-        };
 
-        // 获取数据在数据集中的索引
-        PieChart chart = data.getChart();
-        if (chart != null) {
-            int index = chart.getData().indexOf(data);
-            if (index >= 0) {
-                return defaultColors[index % defaultColors.length];
-            }
-        }
-
-        // 默认返回第一个颜色
-        return defaultColors[0];
-    }
 
     @FXML
     public void find(ActionEvent actionEvent) {
@@ -632,7 +600,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             for (int i = 0; i < keys.getData().size(); i++) {
                 PieChart.Data datum = keys.getData().get(i);
                 datum.getNode().setStyle("-fx-pie-color: " + GuiUtil.hexToRgba(tagList.get(i).getT2()));
-                setUpHoverEffectWithTooltip(datum,func);
+                setPieUpHoverTooltip(datum,tagList.get(i).getT2(),func);
             }
         });
     }
