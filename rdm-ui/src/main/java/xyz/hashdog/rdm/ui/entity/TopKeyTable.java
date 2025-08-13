@@ -1,6 +1,10 @@
 package xyz.hashdog.rdm.ui.entity;
 
 
+import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
+import xyz.hashdog.rdm.ui.util.GuiUtil;
+
 /**
  * @author th
  * @version 2.2.0
@@ -22,6 +26,22 @@ public class TopKeyTable implements ITable {
         return new String[]{"#row", "type","key","ttl","size","length"};
     }
 
+    @Override
+    public <S, T extends ITable> GuiUtil.OneLineTableCell<T, S> getCellFactory(int i) {
+        if(i!=1){
+            return null;
+        }
+        return new GuiUtil.OneLineTableCell<>(){
+            @Override
+            protected void updateItem(S s, boolean b) {
+                if(s instanceof String str){
+                    Label keyTypeLabel = GuiUtil.getKeyTypeLabelMax(str);
+                    setGraphic(keyTypeLabel);
+                    System.out.println(str);
+                }
+            }
+        };
+    }
 
     public TopKeyTable(String key, String type, Long ttl, Long size, Long length) {
         this.key = key;

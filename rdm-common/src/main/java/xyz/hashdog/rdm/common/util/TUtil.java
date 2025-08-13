@@ -61,6 +61,10 @@ public class TUtil {
         return true;
     }
 
+    public static  <T> T ifNull(T t1,T t2) {
+        return t1==null?t2:t1;
+    }
+
 
     /**
      * 递归策略接口

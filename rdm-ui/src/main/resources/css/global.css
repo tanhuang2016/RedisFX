@@ -38,6 +38,9 @@
     -fx-font-size: 0.75em;
     -fx-background-color: red;
 }
+.tag.max {
+    -fx-font-size: 1em;
+}
 
 /*1圆角样式*/
 .rounded-corner {

@@ -32,11 +32,13 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.util.Callback;
 import javafx.util.Duration;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
+import xyz.hashdog.rdm.common.util.TUtil;
 import xyz.hashdog.rdm.ui.Main;
 import xyz.hashdog.rdm.ui.common.*;
 import xyz.hashdog.rdm.ui.controller.BaseController;
@@ -55,6 +57,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -530,6 +533,11 @@ public class GuiUtil {
         tagLabel.setStyle("-fx-background-color:"+tag.getT2());
         return tagLabel;
     }
+    public static Label getKeyTypeLabelMax(String type) {
+        Label tagLabel = getKeyTypeLabel(type);
+        tagLabel.getStyleClass().add("max");
+        return tagLabel;
+    }
 
     public static Tuple2<String, String> getKeyTypeTag(String type) {
         KeyTagSetting setting = Applications.getConfigSettings(ConfigSettingsEnum.KEY_TAG.name);
@@ -659,7 +667,7 @@ public class GuiUtil {
      * @param iTable
      */
     @SuppressWarnings("unchecked")
-    public static <T extends ITable>void initSimpleTableView(TableView<T> tableView, T iTable) {
+    public static <T extends ITable,S>void initSimpleTableView(TableView<T> tableView, T iTable) {
         ObservableList<TableColumn<T, ?>> columns = tableView.getColumns();
         TableColumn<T, Integer> c0 = (TableColumn<T,Integer>)columns.getFirst();
         c0.setCellValueFactory(
@@ -667,11 +675,12 @@ public class GuiUtil {
         );
         c0.setSortable(false);
         for (int i = 1; i < columns.size(); i++) {
-            TableColumn<T, Integer> c1 =  (TableColumn<T,Integer>)columns.get(i);
+            TableColumn<T, S> c1 =  (TableColumn<T, S>)columns.get(i);
             c1.setCellValueFactory(
                     new PropertyValueFactory<>(iTable.getProperties()[i])
             );
-            c1.setCellFactory(param -> new GuiUtil.OneLineTableCell<>());
+            int finalI = i;
+            c1.setCellFactory(param -> TUtil.ifNull(iTable.getCellFactory(finalI),new GuiUtil.OneLineTableCell<>()));
         }
     }
 
