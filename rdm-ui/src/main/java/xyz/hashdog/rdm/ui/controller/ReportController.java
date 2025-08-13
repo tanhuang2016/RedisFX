@@ -491,6 +491,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             List<Tuple2<Integer,Integer>> dbSizeList = new ArrayList<>();
             infos.stream().filter(e->Constant.INFO_KEYSPACE.equals(e.getType())).forEach(e->dbSizeList.add(Util.keyspaceParseDb(e.getKey(),e.getValue())));
             Platform.runLater(()-> {
+                //bar数据更新
                 double cpuUsage = cpuUsage(map);
                 barCpu.setText(Util.format(cpuUsage,2));
                 barCpu.setTooltip(GuiUtil.textTooltip(String.format("CPU Usage:%s",Util.format(cpuUsage,2))));
@@ -504,10 +505,10 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                 barKey.setTooltip(GuiUtil.textTooltip(String.format("Keys Loaded: %s",keyTotalSize)));
                 barConnection.setText(map.get(Constant.REDIS_INFO_CONNECTED_CLIENTS));
                 barConnection.setTooltip(GuiUtil.textTooltip(String.format("Connected Clients: %s",map.get(Constant.REDIS_INFO_CONNECTED_CLIENTS))));
-
+                //信息集合表数据更新
                 infoTable.getItems().setAll(infos);
                 GuiUtil.adjustTableViewHeightPrecise(infoTable);
-
+                //card数据更新
                 redisVersion.setText(map.get(Constant.REDIS_INFO_REDIS_VERSION));
                 os.setText(map.get(Constant.REDIS_INFO_OS));
                 processId.setText(map.get(Constant.REDIS_INFO_PROCESS_ID));
@@ -519,9 +520,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                 connectedClients.setText(map.get(Constant.REDIS_INFO_CONNECTED_CLIENTS));
                 totalConnectionsReceived.setText(map.get(Constant.REDIS_INFO_TOTAL_CONNECTIONS_RECEIVED));
                 totalCommandsProcessed.setText(map.get(Constant.REDIS_INFO_TOTAL_COMMANDS_PROCESSED));
-
+                //趋势图数据更新
                 updateLineCharData(Double.parseDouble(map.get(Constant.REDIS_INFO_USED_MEMORY)),keyTotalSize);
-
             });
         });
     }
