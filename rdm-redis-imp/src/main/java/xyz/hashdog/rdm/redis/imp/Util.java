@@ -23,11 +23,14 @@ import javax.net.ssl.TrustManagerFactory;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.*;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -232,4 +235,10 @@ public class Util {
     public static Tuple2<Integer, Integer> keyspaceParseDb(String key, String value) {
         return keyspaceParseDb(key+":"+value);
     }
+
+    public static String format(double value,int scale) {
+        BigDecimal bd = new BigDecimal(value).setScale(scale, RoundingMode.HALF_UP);
+        return bd.stripTrailingZeros().toPlainString();
+    }
+
 }

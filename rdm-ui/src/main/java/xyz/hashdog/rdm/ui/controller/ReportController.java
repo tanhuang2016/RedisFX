@@ -40,6 +40,8 @@ import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.Util;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -527,13 +529,13 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             infos.stream().filter(e->Constant.INFO_KEYSPACE.equals(e.getType())).forEach(e->dbSizeList.add(Util.keyspaceParseDb(e.getKey(),e.getValue())));
             Platform.runLater(()-> {
                 double cpuUsage = cpuUsage(map);
-                barCpu.setText(String.format("%.2g",cpuUsage));
-                barCpu.setTooltip(GuiUtil.textTooltip(String.format("CPU Usage: %.2g%%",cpuUsage)));
+                barCpu.setText(Util.format(cpuUsage,2));
+                barCpu.setTooltip(GuiUtil.textTooltip(String.format("CPU Usage:%s",Util.format(cpuUsage,2))));
                 barNet.setText(map.get(Constant.REDIS_INFO_INSTANTANEOUS_OPS_PER_SEC));
                 barNet.setTooltip(GuiUtil.textTooltip(String.format("Commands/s: %s",map.get(Constant.REDIS_INFO_INSTANTANEOUS_OPS_PER_SEC))));
                 Tuple2<Double, String> barMemoryTu = Util.convertMemorySize(map.get(Constant.REDIS_INFO_USED_MEMORY));
-                barMemory.setText(String.format("%.2g%s",barMemoryTu.getT1(),barMemoryTu.getT2()));
-                barMemory.setTooltip(GuiUtil.textTooltip(String.format("Used Memory: %.4g%s",barMemoryTu.getT1(),barMemoryTu.getT2())));
+                barMemory.setText(String.format("%s%s",Util.format(barMemoryTu.getT1(),2),barMemoryTu.getT2()));
+                barMemory.setTooltip(GuiUtil.textTooltip(String.format("Used Memory: %s%s",Util.format(barMemoryTu.getT1(),4),barMemoryTu.getT2())));
                 int keyTotalSize = dbSizeList.stream().mapToInt(Tuple2::getT2).sum();
                 barKey.setText(String.valueOf(keyTotalSize));
                 barKey.setTooltip(GuiUtil.textTooltip(String.format("Keys Loaded: %s",keyTotalSize)));
@@ -546,11 +548,11 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                 redisVersion.setText(map.get(Constant.REDIS_INFO_REDIS_VERSION));
                 os.setText(map.get(Constant.REDIS_INFO_OS));
                 processId.setText(map.get(Constant.REDIS_INFO_PROCESS_ID));
-                usedMemory.setText(String.format("%.2g%s",barMemoryTu.getT1(),barMemoryTu.getT2()));
+                usedMemory.setText(String.format("%s%s",Util.format(barMemoryTu.getT1(),2),barMemoryTu.getT2()));
                 Tuple2<Double, String> usedMemoryPeakTu = Util.convertMemorySize(map.get(Constant.REDIS_INFO_USED_MEMORY_PEAK));
-                usedMemoryPeak.setText(String.format("%.2g%s",usedMemoryPeakTu.getT1(),usedMemoryPeakTu.getT2()));
+                usedMemoryPeak.setText(String.format("%s%s",Util.format(usedMemoryPeakTu.getT1(),2),usedMemoryPeakTu.getT2()));
                 Tuple2<Double, String> usedMemoryLuaTu = Util.convertMemorySize(map.get(Constant.REDIS_INFO_USED_MEMORY_LUA));
-                usedMemoryLua.setText(String.format("%.2g%s",usedMemoryLuaTu.getT1(),usedMemoryLuaTu.getT2()));
+                usedMemoryLua.setText(String.format("%s%s",Util.format(usedMemoryLuaTu.getT1(),2),usedMemoryLuaTu.getT2()));
                 connectedClients.setText(map.get(Constant.REDIS_INFO_CONNECTED_CLIENTS));
                 totalConnectionsReceived.setText(map.get(Constant.REDIS_INFO_TOTAL_CONNECTIONS_RECEIVED));
                 totalCommandsProcessed.setText(map.get(Constant.REDIS_INFO_TOTAL_COMMANDS_PROCESSED));
@@ -635,7 +637,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         Map<String, Long> keysData = topKeyTables.stream().collect(Collectors.groupingBy(TopKeyTable::getType, Collectors.counting()));
         Map<String, Long> memoryData = topKeyTables.stream().collect(Collectors.groupingBy(TopKeyTable::getType, Collectors.summingLong(TopKeyTable::getSize)));
         updatePiesData(keysData,keys, d->String.valueOf((long)d.doubleValue()));
-        updatePiesData(memoryData,memory,d->Util.convertMemorySizeStr((long)d.doubleValue(),"%.2g"));
+        updatePiesData(memoryData,memory,d->Util.convertMemorySizeStr((long)d.doubleValue(),2));
     }
 
     private void updatePiesData(Map<String, Long> keysData, PieChart keys, Function<Double,String> func) {
@@ -656,6 +658,9 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             }
         });
     }
+
+
+
 
     private long lengthByType(String key, String type) {
         RedisDataTypeEnum byType = RedisDataTypeEnum.getByType(type);
