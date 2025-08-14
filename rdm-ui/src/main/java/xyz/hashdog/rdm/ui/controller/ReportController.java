@@ -442,7 +442,12 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                 barCpu.setText(Util.format(cpuUsage,2));
                 barCpu.setTooltip(GuiUtil.textTooltip(String.format("CPU Usage:%s",Util.format(cpuUsage,2))));
                 barNet.setText(map.get(Constant.REDIS_INFO_INSTANTANEOUS_OPS_PER_SEC));
-                barNet.setTooltip(GuiUtil.textTooltip(String.format("Commands/s: %s",map.get(Constant.REDIS_INFO_INSTANTANEOUS_OPS_PER_SEC))));
+                String barNetTooltip=String.format("Commands/s: %s",map.get(Constant.REDIS_INFO_INSTANTANEOUS_OPS_PER_SEC))
+                        + System.lineSeparator()
+                        + String.format("Instantaneous Input kbps: %s",map.get(Constant.REDIS_INFO_INSTANTANEOUS_INPUT_KBPS))
+                        + System.lineSeparator()
+                        + String.format("Instantaneous Output kbps: %s",map.get(Constant.REDIS_INFO_INSTANTANEOUS_OUTPUT_KBPS));
+                barNet.setTooltip(GuiUtil.textTooltip(barNetTooltip));
                 Tuple2<Double, String> barMemoryTu = Util.convertMemorySize(map.get(Constant.REDIS_INFO_USED_MEMORY));
                 barMemory.setText(String.format("%s%s",Util.format(barMemoryTu.getT1(),2),barMemoryTu.getT2()));
                 barMemory.setTooltip(GuiUtil.textTooltip(String.format("Used Memory: %s%s",Util.format(barMemoryTu.getT1(),4),barMemoryTu.getT2())));
