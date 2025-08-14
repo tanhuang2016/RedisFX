@@ -597,7 +597,6 @@ public class ServerTabController extends BaseKeyController<MainController> {
         Tab tab = new Tab(String.format("%s|%s|%s", this.currentDb,type, key));
         tab.setOnClosed(event2 -> {
             ThreadPool.getInstance().execute(()->{
-//                controller.getRedisClient().close();
                 controller.close();
             });
         });
