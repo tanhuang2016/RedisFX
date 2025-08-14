@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
  * @version 2.0.0
  * @since 2025/7/15 22:41
  */
-public class StreamTypeController extends BaseKeyController<KeyTabController> implements Initializable {
+public class StreamTypeController extends BaseKeyContentController implements Initializable {
     private static final int ROWS_PER_PAGE = 32;
     @FXML
     public TableView<StreamTypeTable> tableView;
@@ -339,5 +339,8 @@ public class StreamTypeController extends BaseKeyController<KeyTabController> im
         });
     }
 
-
+    @Override
+    public void reloadInfo() {
+        initInfo();
+    }
 }

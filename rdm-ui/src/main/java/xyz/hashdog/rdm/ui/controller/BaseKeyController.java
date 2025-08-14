@@ -15,7 +15,7 @@ import java.util.function.Function;
  * @version 1.0.0
  * @since 2023/7/23 22:30
  */
-public class BaseKeyController<T> extends BaseController<T>{
+public abstract class BaseKeyController<T> extends BaseController<T>{
     /**
      * 当前控制层操作的tab所用的redis客户端连接
      * 此客户端可能是单例,也就是共享的

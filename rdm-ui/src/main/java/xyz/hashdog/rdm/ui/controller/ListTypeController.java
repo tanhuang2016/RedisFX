@@ -28,6 +28,7 @@ import xyz.hashdog.rdm.ui.entity.ListTypeTable;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -43,7 +44,7 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
  * @version 1.0.0
  * @since 2023/8/3 9:52
  */
-public class ListTypeController extends BaseKeyController<KeyTabController> implements Initializable {
+public class ListTypeController extends BaseKeyContentController implements Initializable {
     private static final int ROWS_PER_PAGE = 32;
     @FXML
     public TableView<ListTypeTable> tableView;
@@ -232,10 +233,13 @@ public class ListTypeController extends BaseKeyController<KeyTabController> impl
         ThreadPool.getInstance().execute(() -> {
             long total = this.exeRedis(j -> j.llen(this.parameter.get().getKey()));
             List<byte[]> bytes = this.exeRedis(j -> j.lrange(this.parameter.get().getKey().getBytes(), 0, (int) total));
+            List<ListTypeTable> newList = new ArrayList<>();
             for (int i = 0; i < bytes.size(); i++) {
-                this.list.add(new ListTypeTable(bytes.get(i)));
+                newList.add(new ListTypeTable(bytes.get(i)));
             }
+
             Platform.runLater(() -> {
+                this.list.setAll(newList);
                 ObservableList<TableColumn<ListTypeTable, ?>> columns = tableView.getColumns();
                 TableColumn<ListTypeTable, Integer> c0 = (TableColumn) columns.get(0);
                 c0.setCellValueFactory(
@@ -437,5 +441,9 @@ public class ListTypeController extends BaseKeyController<KeyTabController> impl
     public void close(ActionEvent actionEvent) {
         super.parentController.parentController.removeTabByKeys(Arrays.asList(parameter.get().getKey()));
 
+    }
+    @Override
+    public void reloadInfo() {
+        initInfo();
     }
 }

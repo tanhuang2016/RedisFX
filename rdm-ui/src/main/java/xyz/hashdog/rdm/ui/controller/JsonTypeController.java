@@ -26,7 +26,7 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
  * @version 1.0.0
  * @since 2025/7/13 12:08
  */
-public class JsonTypeController extends BaseKeyController<KeyTabController> implements Initializable {
+public class JsonTypeController extends BaseKeyContentController implements Initializable {
 
 
     public BorderPane borderPane;
@@ -96,5 +96,9 @@ public class JsonTypeController extends BaseKeyController<KeyTabController> impl
                 GuiUtil.alert(Alert.AlertType.INFORMATION, language(ALERT_MESSAGE_SAVE_SUCCESS));
             });
         });
+    }
+    @Override
+    public void reloadInfo() {
+        initInfo();
     }
 }

@@ -25,7 +25,7 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
  * @version 1.0.0
  * @since 2023/7/31 12:08
  */
-public class StringTypeController extends BaseKeyController<KeyTabController> implements Initializable {
+public class StringTypeController extends BaseKeyContentController implements Initializable {
 
 
     public BorderPane borderPane;
@@ -95,5 +95,9 @@ public class StringTypeController extends BaseKeyController<KeyTabController> im
                 GuiUtil.alert(Alert.AlertType.INFORMATION, language(ALERT_MESSAGE_SAVE_SUCCESS));
             });
         });
+    }
+    @Override
+    public void reloadInfo() {
+        initInfo();
     }
 }

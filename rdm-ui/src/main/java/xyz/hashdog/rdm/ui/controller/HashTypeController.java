@@ -44,7 +44,7 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
  * @version 1.0.0
  * @since 2023/8/3 9:41
  */
-public class HashTypeController extends BaseKeyController<KeyTabController> implements Initializable {
+public class HashTypeController extends BaseKeyContentController implements Initializable {
     private static final int ROWS_PER_PAGE = 32;
     @FXML
     public TableView<HashTypeTable> tableView;
@@ -368,4 +368,8 @@ public class HashTypeController extends BaseKeyController<KeyTabController> impl
     }
 
 
+    @Override
+    public void reloadInfo() {
+        initInfo();
+    }
 }

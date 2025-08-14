@@ -41,7 +41,7 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
  * @version 1.0.0
  * @since 2023/8/3 9:52
  */
-public class SetTypeController extends BaseKeyController<KeyTabController> implements Initializable {
+public class SetTypeController extends BaseKeyContentController implements Initializable {
     private static final int ROWS_PER_PAGE = 32;
     @FXML
     public TableView<SetTypeTable> tableView;
@@ -336,5 +336,9 @@ public class SetTypeController extends BaseKeyController<KeyTabController> imple
                 });
             });
         });
+    }
+    @Override
+    public void reloadInfo() {
+        initInfo();
     }
 }

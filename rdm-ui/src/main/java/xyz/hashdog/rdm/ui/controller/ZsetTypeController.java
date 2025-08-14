@@ -43,7 +43,7 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
  * @version 1.0.0
  * @since 2023/8/3 9:41
  */
-public class ZsetTypeController extends BaseKeyController<KeyTabController> implements Initializable {
+public class ZsetTypeController extends BaseKeyContentController implements Initializable {
     private static final int ROWS_PER_PAGE = 32;
     @FXML
     public TableView<ZsetTypeTable> tableView;
@@ -367,6 +367,9 @@ public class ZsetTypeController extends BaseKeyController<KeyTabController> impl
             GuiUtil.remove2UI(this.list,this.tableView,lastSelect);
         });
     }
-
+    @Override
+    public void reloadInfo() {
+        initInfo();
+    }
 
 }

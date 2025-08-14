@@ -74,7 +74,7 @@ public class KeyTabController extends BaseKeyController<ServerTabController> imp
     /**
      * 子类型控制层
      */
-    private BaseKeyController subTypeController;
+    private BaseKeyContentController subTypeController;
 
 
     @Override
@@ -169,31 +169,7 @@ public class KeyTabController extends BaseKeyController<ServerTabController> imp
         ThreadPool.getInstance().execute(() -> {
             String text=null;
             loadData();
-            // todo 现在只刷新了基本信息,具体类型的信息刷新还没做,需要调用具体类型的子控制层
-            //subTypeController.刷新
-
-//            String fileTypeByStream = FileUtil.getFileTypeByStream(currentValue);
-//            //不是可识别的文件类型,都默认采用16进制展示
-//            if(fileTypeByStream==null){
-//                boolean isUtf8 = EncodeUtil.isUTF8(bytes);
-//                //是utf8编码或则非特殊字符,直接转utf8字符串
-//                if(isUtf8||!EncodeUtil.containsSpecialCharacters(bytes)){
-//                    text= new String(bytes);
-//                }
-//            }
-//            if(text==null){
-//                text = FileUtil.byte2HexString(bytes);
-//                type=ValueTypeEnum.HEX;
-//            } else {
-//                type = ValueTypeEnum.TEXT;
-//            }
-//            String finalText = text;
-//            Platform.runLater(() -> {
-//                this.ttl.setText(String.valueOf(ttl));
-//                this.value.setText(finalText);
-//                this.size.setText(String.format(SIZE, bytes.length));
-//                this.typeChoiceBox.setValue(type.name);
-//            });
+            this.subTypeController.reloadInfo();
         });
 
     }
@@ -227,7 +203,7 @@ public class KeyTabController extends BaseKeyController<ServerTabController> imp
         try {
             if(submit.get()){
                 RedisDataTypeEnum te = RedisDataTypeEnum.getByType(this.parameter.get().getKeyType());
-                Tuple2<AnchorPane,BaseKeyController> tuple2 = loadFXML(te.fxml);
+                Tuple2<AnchorPane,BaseKeyContentController> tuple2 = loadFXML(te.fxml);
                 AnchorPane anchorPane = tuple2.getT1();
                 this.subTypeController  = tuple2.getT2();
                 this.subTypeController.setParentController(this);
