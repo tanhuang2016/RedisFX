@@ -45,6 +45,7 @@ import xyz.hashdog.rdm.ui.controller.BaseController;
 import xyz.hashdog.rdm.ui.controller.BaseKeyController;
 import xyz.hashdog.rdm.ui.controller.ByteArrayController;
 import xyz.hashdog.rdm.ui.entity.ITable;
+import xyz.hashdog.rdm.ui.entity.KeyTreeNode;
 import xyz.hashdog.rdm.ui.entity.PassParameter;
 import xyz.hashdog.rdm.ui.entity.TopKeyTable;
 import xyz.hashdog.rdm.ui.entity.config.KeyTagSetting;
@@ -304,9 +305,9 @@ public class GuiUtil {
      * @param parent
      * @param key
      */
-    public static <T>void deleteTreeNodeByKey(TreeItem<T> parent, T key) {
-        for (TreeItem<T> child : parent.getChildren()) {
-            if (child.getValue().equals(key)) {
+    public static void deleteTreeNodeByKey(TreeItem<KeyTreeNode> parent, String key) {
+        for (TreeItem<KeyTreeNode> child : parent.getChildren()) {
+            if (child.getValue().getKey().equals(key)) {
                 parent.getChildren().remove(child); // 找到节点后，从父节点的子节点列表中移除它
                 return;
             } else {

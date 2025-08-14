@@ -28,7 +28,7 @@ public class PassParameter {
 
     private int tabType;
     private int db;
-    private StringProperty key=new SimpleStringProperty();
+    private final StringProperty key=new SimpleStringProperty();
     private String keyType;
     private RedisContext redisContext;
     private RedisClient redisClient;

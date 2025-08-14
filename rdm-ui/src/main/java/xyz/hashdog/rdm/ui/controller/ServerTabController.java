@@ -34,6 +34,7 @@ import xyz.hashdog.rdm.ui.common.ConfigSettingsEnum;
 import xyz.hashdog.rdm.ui.common.Constant;
 import xyz.hashdog.rdm.ui.common.RedisDataTypeEnum;
 import xyz.hashdog.rdm.ui.entity.DBNode;
+import xyz.hashdog.rdm.ui.entity.KeyTreeNode;
 import xyz.hashdog.rdm.ui.entity.PassParameter;
 import xyz.hashdog.rdm.ui.entity.config.KeyTabPaneSetting;
 import xyz.hashdog.rdm.ui.entity.config.ServerTabPaneSetting;
@@ -70,7 +71,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
     public Button reset;
     public MenuButton history;
     @FXML
-    private TreeView<String> treeView;
+    private TreeView<KeyTreeNode> treeView;
     @FXML
     private ChoiceBox<DBNode> choiceBox;
     /**
@@ -86,7 +87,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
     /**
      * 最后一个选中节点
      */
-    private TreeItem<String> lastSelectedNode;
+    private TreeItem<KeyTreeNode> lastSelectedNode;
 
 
     @FXML
@@ -303,7 +304,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         treeView.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
                 // 获取选中的节点
-                TreeItem<String> selectedItem = treeView.getSelectionModel().getSelectedItem();
+                TreeItem<KeyTreeNode> selectedItem = treeView.getSelectionModel().getSelectedItem();
                 if (selectedItem != null && selectedItem.isLeaf()) {
                     open(null);
                 }
@@ -400,16 +401,16 @@ public class ServerTabController extends BaseKeyController<MainController> {
         treeView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1) { // Check for single click
                 if (event.isShiftDown() || event.isControlDown()) {
-                    List<TreeItem<String>> list = new ArrayList<>();
-                    for (TreeItem<String> selectedItem : treeView.getSelectionModel().getSelectedItems()) {
+                    List<TreeItem<KeyTreeNode>> list = new ArrayList<>();
+                    for (TreeItem<KeyTreeNode> selectedItem : treeView.getSelectionModel().getSelectedItems()) {
                         if (!selectedItem.isLeaf()) { // Check if the selected node is a parent node
                             list.add(selectedItem);
 
                         }
                     }
-                    for (TreeItem<String> selectedItem : list) {
+                    for (TreeItem<KeyTreeNode> selectedItem : list) {
                         //设置选中
-                        selectChildren((TreeItem<String>) selectedItem);
+                        selectChildren((TreeItem<KeyTreeNode>) selectedItem);
                     }
                 }
 
@@ -422,7 +423,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
      */
     private void initTreeView(List<String> keys) {
 
-        ObservableList<TreeItem<String>> children = treeView.getRoot().getChildren();
+        ObservableList<TreeItem<KeyTreeNode>> children = treeView.getRoot().getChildren();
         children.clear();
         if(this.redisContext.getRedisConfig().isTreeShow()){
             Platform.runLater(() -> {
@@ -444,12 +445,12 @@ public class ServerTabController extends BaseKeyController<MainController> {
      * @param children
      * @param keys
      */
-    private void buildListView(ObservableList<TreeItem<String>> children, List<String> keys) {
+    private void buildListView(ObservableList<TreeItem<KeyTreeNode>> children, List<String> keys) {
         for (String key : keys) {
             String type = exeRedis(j -> j.type(key));
             Label keyTypeLabel = GuiUtil.getKeyTypeLabel(type);
             Platform.runLater(() -> {
-                children.add(new TreeItem<>(key, keyTypeLabel));
+                children.add(new TreeItem<>(KeyTreeNode.leaf(key), keyTypeLabel));
 //            children.add(new TreeItem<>(key, GuiUtil.creatKeyImageView()));
             });
 
@@ -462,29 +463,29 @@ public class ServerTabController extends BaseKeyController<MainController> {
      * @param root
      * @param keys
      */
-    private void buildTreeView(TreeItem<String> root,List<String> keys) {
+    private void buildTreeView(TreeItem<KeyTreeNode> root,List<String> keys) {
         for (String key : keys) {
             String type = exeRedis(j -> j.type(key));
             Label keyTypeLabel = GuiUtil.getKeyTypeLabel(type);
             String keySeparator = this.redisContext.getRedisConfig().getKeySeparator();
             String[] parts = key.split(keySeparator);
-            TreeItem<String> current = root;
+            TreeItem<KeyTreeNode> current = root;
             for (int i = 0; i < parts.length; i++) {
                 String part = parts[i];
                 //叶子节点是key类型
                 boolean isLeaf = (i == parts.length - 1);
 
-                TreeItem<String> childNode = findChild(current, part);
+                TreeItem<KeyTreeNode> childNode = findChild(current, part);
                 if (childNode == null|| isLeaf) {
 
                     if (isLeaf) {
-                        childNode = new TreeItem<>(key);
+                        childNode = new TreeItem<>(KeyTreeNode.leaf(key));
                         childNode.setGraphic(keyTypeLabel);
                     }else {
-                        childNode = new TreeItem<>(part,new FontIcon(Feather.FOLDER));
+                        childNode = new TreeItem<>(KeyTreeNode.dir(part),new FontIcon(Feather.FOLDER));
                     }
-                    TreeItem<String> finalChildNode = childNode;
-                    TreeItem<String> finalCurrent = current;
+                    TreeItem<KeyTreeNode> finalChildNode = childNode;
+                    TreeItem<KeyTreeNode> finalCurrent = current;
 //                    Platform.runLater(() -> {
 
 //                    });
@@ -502,9 +503,9 @@ public class ServerTabController extends BaseKeyController<MainController> {
     }
 
     // 查找子节点是否存在
-    private TreeItem<String> findChild(TreeItem<String> parent, String part) {
-        for (TreeItem<String> child : parent.getChildren()) {
-            if (part.equals(child.getValue())) {
+    private TreeItem<KeyTreeNode> findChild(TreeItem<KeyTreeNode> parent, String part) {
+        for (TreeItem<KeyTreeNode> child : parent.getChildren()) {
+            if (part.equals(child.getValue().getName())) {
                 return child;
             }
         }
@@ -530,13 +531,13 @@ public class ServerTabController extends BaseKeyController<MainController> {
      *
      * @param parent
      */
-    private void selectChildren(TreeItem<String> parent) {
+    private void selectChildren(TreeItem<KeyTreeNode> parent) {
         if (parent == null) {
             return;
         }
         if (!parent.isLeaf()) {
             parent.setExpanded(true); // Optional: Expand the parent to show all children
-            for (TreeItem<String> child : parent.getChildren()) {
+            for (TreeItem<KeyTreeNode> child : parent.getChildren()) {
                 treeView.getSelectionModel().select(child);
                 selectChildren(child); // Recursively select children of the child node
             }
@@ -580,7 +581,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
      * @param actionEvent
      */
     public void open(ActionEvent actionEvent)  {
-        String key = this.lastSelectedNode.getValue();
+        String key = this.lastSelectedNode.getValue().getKey();
         String type = RedisDataTypeEnum.getByType(exeRedis(j -> j.type(key))).type;
         Tuple2<AnchorPane,BaseKeyController> tuple2 = loadFXML("/fxml/KeyTabView.fxml");
         AnchorPane borderPane = tuple2.getT1();
@@ -594,7 +595,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         passParameter.setRedisContext(redisContext);
         StringProperty keySend = passParameter.keyProperty();
         //操作的kye和子界面进行绑定,这样更新key就会更新树节点
-        this.lastSelectedNode.valueProperty().bind(keySend);
+        this.lastSelectedNode.getValue().keyProperty().bind(keySend);
         controller.setParameter(passParameter);
         Tab tab = new Tab(String.format("%s|%s|%s", this.currentDb,type, key));
         tab.setOnClosed(event2 -> {
@@ -734,18 +735,18 @@ public class ServerTabController extends BaseKeyController<MainController> {
         }
         List<String> delKeys=new ArrayList<>();
         // 获取选中的节点
-        List<TreeItem<String>> delItems =new ArrayList<>();
+        List<TreeItem<KeyTreeNode>> delItems =new ArrayList<>();
         treeView.getSelectionModel().getSelectedItems().forEach(item -> {
             if (item != treeView.getRoot()) {
                 //叶子节点是连接,需要删除redis上的key
                 if(item.isLeaf()){
-                    delKeys.add(item.getValue());
+                    delKeys.add(item.getValue().getKey());
                 }
                 delItems.add(item);
             }
         });
         //删除tree节点,得从新用list装一次再遍历删除,否则会有安全问题
-        for (TreeItem<String> delItem : delItems) {
+        for (TreeItem<KeyTreeNode> delItem : delItems) {
             delItem.getParent().getChildren().remove(delItem); // 将选中的节点从父节点的子节点列表中移除
         }
 
