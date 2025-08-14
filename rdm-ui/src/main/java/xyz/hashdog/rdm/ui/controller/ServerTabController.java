@@ -476,10 +476,12 @@ public class ServerTabController extends BaseKeyController<MainController> {
 
                 TreeItem<String> childNode = findChild(current, part);
                 if (childNode == null|| isLeaf) {
-                    childNode = new TreeItem<>(part,new FontIcon(Feather.FOLDER));
+
                     if (isLeaf) {
                         childNode = new TreeItem<>(key);
                         childNode.setGraphic(keyTypeLabel);
+                    }else {
+                        childNode = new TreeItem<>(part,new FontIcon(Feather.FOLDER));
                     }
                     TreeItem<String> finalChildNode = childNode;
                     TreeItem<String> finalCurrent = current;
