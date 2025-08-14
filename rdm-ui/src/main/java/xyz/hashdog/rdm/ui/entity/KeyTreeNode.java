@@ -2,12 +2,13 @@ package xyz.hashdog.rdm.ui.entity;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import xyz.hashdog.rdm.common.util.TUtil;
 
 public class KeyTreeNode {
     private String name;
-    public StringProperty key=new SimpleStringProperty();
+    public String key;
     private int childKeyCount;
-    private boolean isLeaf;
+    private Boolean isLeaf;
     private String type;
 
     public static KeyTreeNode leaf(String key) {
@@ -23,10 +24,12 @@ public class KeyTreeNode {
         return dir;
     }
 
+
+
     @Override
     public String toString() {
         if (isLeaf) {
-            return key.get();
+            return key;
         } else {
             return name + " (" + childKeyCount + ")";
         }
@@ -40,7 +43,13 @@ public class KeyTreeNode {
         this.name = name;
     }
 
+    public String getKey() {
+        return key;
+    }
 
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public int getChildKeyCount() {
         return childKeyCount;
@@ -50,11 +59,11 @@ public class KeyTreeNode {
         this.childKeyCount = childKeyCount;
     }
 
-    public boolean isLeaf() {
+    public Boolean getLeaf() {
         return isLeaf;
     }
 
-    public void setLeaf(boolean leaf) {
+    public void setLeaf(Boolean leaf) {
         isLeaf = leaf;
     }
 
@@ -64,17 +73,5 @@ public class KeyTreeNode {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public String getKey() {
-        return key.get();
-    }
-
-    public StringProperty keyProperty() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key.set(key);
     }
 }

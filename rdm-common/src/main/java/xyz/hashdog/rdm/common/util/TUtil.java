@@ -17,6 +17,7 @@ import java.util.function.Function;
 public class TUtil {
 
     /**
+     * 只有包装类型才能复制，注意不要使用基本类型
      * 同类复制属性(只复制是null的属性)
      * @param souce
      * @param target

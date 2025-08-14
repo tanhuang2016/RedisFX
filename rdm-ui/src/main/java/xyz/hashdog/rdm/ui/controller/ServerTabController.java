@@ -595,7 +595,13 @@ public class ServerTabController extends BaseKeyController<MainController> {
         passParameter.setRedisContext(redisContext);
         StringProperty keySend = passParameter.keyProperty();
         //操作的kye和子界面进行绑定,这样更新key就会更新树节点
-        this.lastSelectedNode.getValue().keyProperty().bind(keySend);
+        keySend.addListener((observable, oldValue, newValue) -> {
+            KeyTreeNode value = this.lastSelectedNode.getValue();
+            value.setKey(newValue);
+            KeyTreeNode keyTreeNode = new KeyTreeNode();
+            TUtil.copyProperties(value,keyTreeNode);
+            this.lastSelectedNode.setValue(keyTreeNode);
+        });
         controller.setParameter(passParameter);
         Tab tab = new Tab(String.format("%s|%s|%s", this.currentDb,type, key));
         tab.setOnClosed(event2 -> {
@@ -818,17 +824,16 @@ public class ServerTabController extends BaseKeyController<MainController> {
      * @param p
      * @return
      */
-    public boolean addKeyAndSelect(ObjectProperty<PassParameter> p) {
+    public void addKeyAndSelect(ObjectProperty<PassParameter> p) {
         //如果treeView是的db和删除key的db相同,则需要对应删除treeView中的节点
         if(p.get().getDb()==this.currentDb){
             Platform.runLater(()->{
-                TreeItem treeItem = new TreeItem(p.get().getKey(),GuiUtil.getKeyTypeLabel(p.get().getKeyType()));
+                TreeItem<KeyTreeNode> treeItem = new TreeItem<>(KeyTreeNode.leaf(p.get().getKey()),GuiUtil.getKeyTypeLabel(p.get().getKeyType()));
                 treeView.getRoot().getChildren().add(treeItem);
                 treeView.getSelectionModel().select(treeItem);
                 open(null);
             });
         }
-        return true;
     }
 
 
