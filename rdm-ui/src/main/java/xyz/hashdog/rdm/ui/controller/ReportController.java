@@ -448,7 +448,12 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                 barMemory.setTooltip(GuiUtil.textTooltip(String.format("Used Memory: %s%s",Util.format(barMemoryTu.getT1(),4),barMemoryTu.getT2())));
                 int keyTotalSize = dbSizeList.stream().mapToInt(Tuple2::getT2).sum();
                 barKey.setText(String.valueOf(keyTotalSize));
-                barKey.setTooltip(GuiUtil.textTooltip(String.format("Keys Loaded: %s",keyTotalSize)));
+                StringBuilder barKeyTooltip = new StringBuilder(String.format("Keys Loaded: %s", keyTotalSize));
+                for (Tuple2<Integer, Integer> tus : dbSizeList) {
+                    barKeyTooltip.append(System.lineSeparator());
+                    barKeyTooltip.append(String.format("DB%s: %s", tus.getT1(), tus.getT2()));
+                }
+                barKey.setTooltip(GuiUtil.textTooltip(barKeyTooltip.toString()));
                 barConnection.setText(map.get(Constant.REDIS_INFO_CONNECTED_CLIENTS));
                 barConnection.setTooltip(GuiUtil.textTooltip(String.format("Connected Clients: %s",map.get(Constant.REDIS_INFO_CONNECTED_CLIENTS))));
                 //信息集合表数据更新
