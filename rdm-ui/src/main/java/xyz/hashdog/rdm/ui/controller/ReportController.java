@@ -426,7 +426,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     }
     @Override
     public void refresh() {
-        System.out.println(123);
         asynexec(()->{
             String infoStr = null;
             synchronized (lock){

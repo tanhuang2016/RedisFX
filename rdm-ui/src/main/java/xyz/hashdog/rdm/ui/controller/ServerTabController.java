@@ -595,6 +595,12 @@ public class ServerTabController extends BaseKeyController<MainController> {
         this.lastSelectedNode.valueProperty().bind(keySend);
         controller.setParameter(passParameter);
         Tab tab = new Tab(String.format("%s|%s|%s", this.currentDb,type, key));
+        tab.setOnClosed(event2 -> {
+            ThreadPool.getInstance().execute(()->{
+//                controller.getRedisClient().close();
+                controller.close();
+            });
+        });
         ContextMenu cm=GuiUtil.newTabContextMenu(tab);
         tab.setContent(borderPane);
         tab.setGraphic(GuiUtil.creatKeyImageView());

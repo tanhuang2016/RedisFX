@@ -423,6 +423,7 @@ public class KeyTabController extends BaseKeyController<ServerTabController> imp
             }else {
                 Tuple2<AnchorPane, RefreshPopover> tuple2 = loadFXML("/fxml/popover/RefreshPopover.fxml");
                 AnchorPane root = tuple2.getT1();
+                this.addChild(tuple2.getT2());
                 tuple2.getT2().setParentController(this);
                 var pop = new Popover(root);
                 pop.setHeaderAlwaysVisible(false);
