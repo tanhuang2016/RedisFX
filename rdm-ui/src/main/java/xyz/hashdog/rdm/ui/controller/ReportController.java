@@ -117,6 +117,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         initStyle();
         initFontIcon();
         initTextField();
+        initButton();
         initLabel();
         initLineChar();
         initModel();
@@ -126,6 +127,10 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         DefaultEventBus.getInstance().subscribe(ThemeEvent.class, e -> {
             applyTheme();
         });
+    }
+
+    private void initButton() {
+        barRefresh.setTooltip(GuiUtil.textTooltip(language("server.refresh.auto")));
     }
 
     private void initLineAndAreaChart() {

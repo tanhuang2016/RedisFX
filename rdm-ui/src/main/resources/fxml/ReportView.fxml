@@ -75,7 +75,7 @@
                                <Separator orientation="VERTICAL" />
                                <Button fx:id="barRefresh" onAction="#openRefreshPopover" text="5s" />
                                <Separator orientation="VERTICAL" />
-                               <ToggleSwitch fx:id="floatToggleSwitch" selected="true" text="悬浮" />
+                               <ToggleSwitch fx:id="floatToggleSwitch" selected="true" text="%server.report.bar.flot" />
                            </children>
                         </HBox>
                         <VBox>
