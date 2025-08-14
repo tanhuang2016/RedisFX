@@ -17,6 +17,7 @@ import xyz.hashdog.rdm.common.util.EncodeUtil;
 import xyz.hashdog.rdm.common.util.FileUtil;
 import xyz.hashdog.rdm.ui.common.ValueTypeEnum;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
+import xyz.hashdog.rdm.ui.util.Util;
 
 import java.io.File;
 import java.net.URL;
@@ -35,7 +36,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
     public ChoiceBox<String> typeChoiceBox;
     @FXML
     public TextArea value;
-    protected static final String SIZE = "Size:%dB";
+    protected static final String SIZE = "Size:%s";
 
     @FXML
     public Label size;
@@ -210,7 +211,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
             type = ValueTypeEnum.TEXT;
         }
 
-        this.size.setText(String.format(SIZE, currentSize));
+        this.size.setText(String.format(SIZE, Util.convertMemorySizeStr(currentSize,2)));
         this.typeChoiceBox.setValue(type.name);
     }
 
@@ -222,7 +223,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
     public void setByteArray(byte[] currentValue,ValueTypeEnum type) {
         this.currentValue = currentValue;
         this.currentSize = currentValue.length;
-        this.size.setText(String.format(SIZE, currentSize));
+        this.size.setText(String.format(SIZE, Util.convertMemorySizeStr(currentSize,2)));
         this.typeChoiceBox.setValue(type.name);
     }
 
