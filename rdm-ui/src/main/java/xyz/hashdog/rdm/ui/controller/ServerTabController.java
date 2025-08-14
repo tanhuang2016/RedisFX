@@ -544,14 +544,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         }
     }
 
-    /**
-     * 新增key
-     *
-     * @param actionEvent
-     */
-    public void newKey(ActionEvent actionEvent) {
 
-    }
 
     /**
      * 模糊搜索
