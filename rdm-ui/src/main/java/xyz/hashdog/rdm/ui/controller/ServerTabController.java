@@ -687,7 +687,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         }
         ContextMenu cm=GuiUtil.newTabContextMenu(tab);
         tab.setContent(anchorPane);
-        tab.setGraphic(GuiUtil.creatMonitorImageView());
+        tab.setGraphic(GuiUtil.creatInfoImageView());
         this.dbTabPane.getTabs().add(tab);
         this.dbTabPane.getSelectionModel().select(tab);
     }
