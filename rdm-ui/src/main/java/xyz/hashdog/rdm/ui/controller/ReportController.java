@@ -26,6 +26,7 @@ import javafx.stage.Popup;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2MZ;
+import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.ui.common.Constant;
@@ -194,6 +195,9 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
     @Override
     protected void paramInitEnd() {
+        if(currentDb!=0){
+            ThreadPool.getInstance().execute(()->this.redisClient.select(currentDb));
+        }
 //        refresh();默认刷新是true，会自动触发
         initRefreshPopover();
         pieRefresh(null);
