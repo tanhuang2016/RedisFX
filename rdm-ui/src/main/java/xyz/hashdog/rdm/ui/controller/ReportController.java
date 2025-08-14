@@ -440,27 +440,27 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                 //bar数据更新
                 double cpuUsage = cpuUsage(map);
                 barCpu.setText(Util.format(cpuUsage,2)+"%");
-                barCpu.setTooltip(GuiUtil.textTooltip(String.format("CPU Usage:%s%%",Util.format(cpuUsage,2))));
+                barCpu.setTooltip(GuiUtil.textTooltip(String.format(language("server.report.bar.cpu")+"%s%%",Util.format(cpuUsage,2))));
                 barNet.setText(map.get(Constant.REDIS_INFO_INSTANTANEOUS_OPS_PER_SEC));
-                String barNetTooltip=String.format("Commands/s: %s",map.get(Constant.REDIS_INFO_INSTANTANEOUS_OPS_PER_SEC))
+                String barNetTooltip=String.format(language("server.report.bar.commands")+" %s",map.get(Constant.REDIS_INFO_INSTANTANEOUS_OPS_PER_SEC))
                         + System.lineSeparator()
-                        + String.format("Instantaneous Input kbps: %s",map.get(Constant.REDIS_INFO_INSTANTANEOUS_INPUT_KBPS))
+                        + String.format(language("server.report.bar.input")+" %s",map.get(Constant.REDIS_INFO_INSTANTANEOUS_INPUT_KBPS))
                         + System.lineSeparator()
-                        + String.format("Instantaneous Output kbps: %s",map.get(Constant.REDIS_INFO_INSTANTANEOUS_OUTPUT_KBPS));
+                        + String.format(language("server.report.bar.output")+" %s",map.get(Constant.REDIS_INFO_INSTANTANEOUS_OUTPUT_KBPS));
                 barNet.setTooltip(GuiUtil.textTooltip(barNetTooltip));
                 Tuple2<Double, String> barMemoryTu = Util.convertMemorySize(map.get(Constant.REDIS_INFO_USED_MEMORY));
                 barMemory.setText(String.format("%s%s",Util.format(barMemoryTu.getT1(),2),barMemoryTu.getT2()));
-                barMemory.setTooltip(GuiUtil.textTooltip(String.format("Used Memory: %s%s",Util.format(barMemoryTu.getT1(),4),barMemoryTu.getT2())));
+                barMemory.setTooltip(GuiUtil.textTooltip(String.format(language("server.report.bar.memory")+" %s%s",Util.format(barMemoryTu.getT1(),4),barMemoryTu.getT2())));
                 int keyTotalSize = dbSizeList.stream().mapToInt(Tuple2::getT2).sum();
                 barKey.setText(String.valueOf(keyTotalSize));
-                StringBuilder barKeyTooltip = new StringBuilder(String.format("Keys Loaded: %s", keyTotalSize));
+                StringBuilder barKeyTooltip = new StringBuilder(String.format(language("server.report.bar.key")+" %s", keyTotalSize));
                 for (Tuple2<Integer, Integer> tus : dbSizeList) {
                     barKeyTooltip.append(System.lineSeparator());
                     barKeyTooltip.append(String.format("DB%s: %s", tus.getT1(), tus.getT2()));
                 }
                 barKey.setTooltip(GuiUtil.textTooltip(barKeyTooltip.toString()));
                 barConnection.setText(map.get(Constant.REDIS_INFO_CONNECTED_CLIENTS));
-                barConnection.setTooltip(GuiUtil.textTooltip(String.format("Connected Clients: %s",map.get(Constant.REDIS_INFO_CONNECTED_CLIENTS))));
+                barConnection.setTooltip(GuiUtil.textTooltip(String.format(language("server.report.bar.connected")+" %s",map.get(Constant.REDIS_INFO_CONNECTED_CLIENTS))));
                 //信息集合表数据更新
                 infoTable.getItems().setAll(infos);
                 GuiUtil.adjustTableViewHeightPrecise(infoTable);
