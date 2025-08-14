@@ -439,8 +439,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             Platform.runLater(()-> {
                 //bar数据更新
                 double cpuUsage = cpuUsage(map);
-                barCpu.setText(Util.format(cpuUsage,2));
-                barCpu.setTooltip(GuiUtil.textTooltip(String.format("CPU Usage:%s",Util.format(cpuUsage,2))));
+                barCpu.setText(Util.format(cpuUsage,2)+"%");
+                barCpu.setTooltip(GuiUtil.textTooltip(String.format("CPU Usage:%s%%",Util.format(cpuUsage,2))));
                 barNet.setText(map.get(Constant.REDIS_INFO_INSTANTANEOUS_OPS_PER_SEC));
                 String barNetTooltip=String.format("Commands/s: %s",map.get(Constant.REDIS_INFO_INSTANTANEOUS_OPS_PER_SEC))
                         + System.lineSeparator()
