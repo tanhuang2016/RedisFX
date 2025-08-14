@@ -404,6 +404,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     private void initRefreshPopover() {
         Tuple2<AnchorPane, RefreshPopover> tuple2 = loadFXML("/fxml/popover/RefreshPopover.fxml");
         AnchorPane root = tuple2.getT1();
+        this.addChild(tuple2.getT2());
         tuple2.getT2().setParentController(this);
         tuple2.getT2().initAutoRefreshState(true);
         var pop = new Popover(root);
@@ -425,6 +426,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     }
     @Override
     public void refresh() {
+        System.out.println(123);
         asynexec(()->{
             String infoStr = null;
             synchronized (lock){
@@ -614,4 +616,6 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public void keyLength(ActionEvent actionEvent) {
         topTable.getItems().setAll((List<TopKeyTable>) keyLength.getUserData());
     }
+
+
 }

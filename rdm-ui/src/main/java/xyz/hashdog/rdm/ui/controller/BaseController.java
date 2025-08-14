@@ -1,15 +1,14 @@
 package xyz.hashdog.rdm.ui.controller;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
-import xyz.hashdog.rdm.ui.Main;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -24,6 +23,7 @@ public abstract class BaseController<T> implements AutoCloseable{
      * 父控制器
      */
     public T parentController;
+    public List<BaseController<?>> children = new ArrayList<>();
 
     /**
      * port只能为正整数
@@ -66,6 +66,10 @@ public abstract class BaseController<T> implements AutoCloseable{
 
     @Override
     public void close()  {
+        this.children.forEach(BaseController::close);
+    }
 
+    protected void addChild(BaseController<?> t) {
+        this.children.add(t);
     }
 }
