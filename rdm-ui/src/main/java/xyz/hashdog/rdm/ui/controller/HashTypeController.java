@@ -28,10 +28,7 @@ import xyz.hashdog.rdm.ui.entity.HashTypeTable;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -223,8 +220,10 @@ public class HashTypeController extends BaseKeyContentController implements Init
     private void initInfo() {
         ThreadPool.getInstance().execute(() -> {
             Map<byte[], byte[]> map = this.exeRedis(j -> j.hscanAll(this.parameter.get().getKey().getBytes()));
-            map.forEach((k, v) -> this.list.add(new HashTypeTable(k, v)));
+            List<HashTypeTable> newList = new ArrayList<>();
+            map.forEach((k, v) -> newList.add(new HashTypeTable(k, v)));
             Platform.runLater(() -> {
+                this.list.setAll(newList);
                 ObservableList<TableColumn<HashTypeTable, ?>> columns = tableView.getColumns();
                 TableColumn<HashTypeTable, Integer> c0 = (TableColumn) columns.get(0);
                 c0.setCellValueFactory(

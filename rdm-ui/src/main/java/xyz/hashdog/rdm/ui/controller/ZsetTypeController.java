@@ -23,14 +23,12 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
+import xyz.hashdog.rdm.ui.entity.SetTypeTable;
 import xyz.hashdog.rdm.ui.entity.ZsetTypeTable;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -224,8 +222,10 @@ public class ZsetTypeController extends BaseKeyContentController implements Init
         ThreadPool.getInstance().execute(() -> {
             Long total = this.exeRedis(j -> j.zcard(this.parameter.get().getKey()));
             Map<Double, byte[]> map = this.exeRedis(j -> j.zrangeWithScores(this.parameter.get().getKey().getBytes(), 0L, total));
-            map.forEach((k, v) -> this.list.add(new ZsetTypeTable(k, v)));
+            List<ZsetTypeTable> newList = new ArrayList<>();
+            map.forEach((k, v) -> newList.add(new ZsetTypeTable(k, v)));
             Platform.runLater(() -> {
+                this.list.setAll(newList);
                 ObservableList<TableColumn<ZsetTypeTable, ?>> columns = tableView.getColumns();
                 TableColumn<ZsetTypeTable, Integer> c0 = (TableColumn) columns.get(0);
                 c0.setCellValueFactory(

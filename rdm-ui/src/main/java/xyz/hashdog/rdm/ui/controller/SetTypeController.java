@@ -26,6 +26,7 @@ import xyz.hashdog.rdm.ui.entity.SetTypeTable;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -215,10 +216,12 @@ public class SetTypeController extends BaseKeyContentController implements Initi
     private void initInfo() {
         ThreadPool.getInstance().execute(() -> {
             List<byte[]> bytes = this.exeRedis(j -> j.sscanAll(this.parameter.get().getKey().getBytes()));
+            List<SetTypeTable> newList = new ArrayList<>();
             for (int i = 0; i < bytes.size(); i++) {
-                this.list.add(new SetTypeTable(bytes.get(i)));
+                newList.add(new SetTypeTable(bytes.get(i)));
             }
             Platform.runLater(() -> {
+                this.list.setAll(newList);
                 ObservableList<TableColumn<SetTypeTable, ?>> columns = tableView.getColumns();
                 TableColumn<SetTypeTable, Integer> c0 = (TableColumn) columns.get(0);
                 c0.setCellValueFactory(

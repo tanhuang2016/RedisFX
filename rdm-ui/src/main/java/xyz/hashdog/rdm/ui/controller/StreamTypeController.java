@@ -24,15 +24,13 @@ import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.ui.common.ValueTypeEnum;
+import xyz.hashdog.rdm.ui.entity.SetTypeTable;
 import xyz.hashdog.rdm.ui.entity.StreamTypeTable;
 import xyz.hashdog.rdm.ui.entity.ZsetTypeTable;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -220,8 +218,10 @@ public class StreamTypeController extends BaseKeyContentController implements In
         ThreadPool.getInstance().execute(() -> {
             long total = this.exeRedis(j -> j.xlen(this.parameter.get().getKey()));
             Map<String, String> map = this.exeRedis(j -> j.xrevrange(this.parameter.get().getKey(),"+","-", (int)total));
+            List<StreamTypeTable> newList = new ArrayList<>();
+            map.forEach((k, v) -> newList.add(new StreamTypeTable(k, v)));
             Platform.runLater(() -> {
-                map.forEach((k, v) -> this.list.add(new StreamTypeTable(k, v)));
+                this.list.setAll(newList);
                 ObservableList<TableColumn<StreamTypeTable, ?>> columns = tableView.getColumns();
                 TableColumn<ZsetTypeTable, Integer> c0 = (TableColumn) columns.get(0);
                 c0.setCellValueFactory(
