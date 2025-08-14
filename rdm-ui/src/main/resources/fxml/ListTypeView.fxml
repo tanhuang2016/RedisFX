@@ -34,7 +34,8 @@
                                       spacing="10.0" BorderPane.alignment="CENTER">
                                     <children>
                                         <Button fx:id="save" mnemonicParsing="false" onAction="#save" text="%key.save"/>
-                                        <Button mnemonicParsing="false" onAction="#close" text="%common.tab.close"/>
+                                                        <!--      考虑要不要加上关闭按钮，先隐藏todo                                  -->
+                                        <Button mnemonicParsing="false" onAction="#close" text="%common.tab.close" visible="false"  managed="false"/>
                                     </children>
                                 </HBox>
                             </bottom>
