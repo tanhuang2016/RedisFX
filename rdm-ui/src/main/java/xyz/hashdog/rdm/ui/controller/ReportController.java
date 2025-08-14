@@ -103,6 +103,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public Label capsuleConnection;
     public Button pieRefresh;
     public Button topRefresh;
+    public Label barHost;
     private Popover refreshPopover;
     private XYChart.Series<String, Number> memorySeries;
     private XYChart.Series<String, Number> keySeries;
@@ -198,6 +199,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         if(currentDb!=0){
             ThreadPool.getInstance().execute(()->this.redisClient.select(currentDb));
         }
+        barHost.setText(String.format("%s:%s/db%s",redisContext.getRedisConfig().getHost(),redisContext.getRedisConfig().getPort(),currentDb));
 //        refresh();默认刷新是true，会自动触发
         initRefreshPopover();
         pieRefresh(null);

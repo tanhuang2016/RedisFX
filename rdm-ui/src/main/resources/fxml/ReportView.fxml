@@ -61,7 +61,7 @@
                            <children>
                         <HBox alignment="CENTER" prefHeight="30.0" spacing="10.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <Label text="127.0.0.1:6379/db0" />
+                              <Label fx:id="barHost"  />
                                <Separator orientation="VERTICAL" />
                               <Label fx:id="barCpu"  />
                               <Separator orientation="VERTICAL" />
