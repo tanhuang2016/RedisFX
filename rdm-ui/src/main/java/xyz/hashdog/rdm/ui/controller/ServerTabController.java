@@ -491,10 +491,17 @@ public class ServerTabController extends BaseKeyController<MainController> {
 //                    });
                     if (isLeaf) {
                         finalCurrent.getChildren().add(finalChildNode);
+                        if(finalCurrent.getValue()!=null){
+                            finalChildNode.getValue().setParent(finalCurrent.getValue());
+                            finalCurrent.getValue().addChildKeyCount();
+                        }
                     }else {
                         finalCurrent.getChildren().addFirst(finalChildNode);
+                        if(finalCurrent.getValue()!=null){
+                            //不是叶子节点，不用计数
+                            finalChildNode.getValue().setParent(finalCurrent.getValue());
+                        }
                     }
-
                 }
 
                 current = childNode;

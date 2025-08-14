@@ -5,6 +5,8 @@ import javafx.beans.property.StringProperty;
 import xyz.hashdog.rdm.common.util.TUtil;
 
 public class KeyTreeNode {
+
+    private KeyTreeNode parent;
     private String name;
     public String key;
     private int childKeyCount;
@@ -73,5 +75,20 @@ public class KeyTreeNode {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public KeyTreeNode getParent() {
+        return parent;
+    }
+
+    public void setParent(KeyTreeNode parent) {
+        this.parent = parent;
+    }
+
+    public void addChildKeyCount() {
+        this.childKeyCount+=1;
+        if(this.parent!=null){
+            parent.addChildKeyCount();
+        }
     }
 }
