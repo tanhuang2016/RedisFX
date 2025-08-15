@@ -126,9 +126,15 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         initListener();
         initTable();
         initLineAndAreaChart();
+        initPie();
         DefaultEventBus.getInstance().subscribe(ThemeEvent.class, e -> {
             applyTheme();
         });
+    }
+
+    private void initPie() {
+        keys.setLegendVisible(false);
+        memory.setLegendVisible(false);
     }
 
     private void initButton() {
