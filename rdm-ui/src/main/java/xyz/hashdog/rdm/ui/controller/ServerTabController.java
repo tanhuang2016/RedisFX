@@ -89,6 +89,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
      * 最后一个选中节点，可能是目录哦
      */
     private TreeItem<KeyTreeNode> lastSelectedNode;
+    private List<TreeItem<KeyTreeNode>> openTreeItems = new ArrayList<>();
 
 
     @FXML
@@ -623,7 +624,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         tab.setGraphic(GuiUtil.creatKeyImageView());
         this.dbTabPane.getTabs().add(tab);
         this.dbTabPane.getSelectionModel().select(tab);
-
+        this.openTreeItems.add(this.lastSelectedNode);
     }
 
     /**
@@ -1003,26 +1004,36 @@ public class ServerTabController extends BaseKeyController<MainController> {
         //如果treeView是的db和删除key的db相同,则需要对应删除treeView中的节点
         if(p.get().getDb()==this.currentDb){
             Platform.runLater(()->{
-                deleteTreeNodeByKey(treeView.getRoot(),p.get().getKey());
+                TreeItem<KeyTreeNode> find = findTreeItemByKey(treeView.getRoot(), p.get().getKey());
+                if(find!=null){
+                    deleteTreeItems( List.of(find));
+                }
             });
         }
         return true;
     }
 
     /**
-     * 递归方法，根据key查找并删除TreeView中的节点
+     * 递归方法，根据key查找并TreeView中的节点
      * @param parent
      * @param key
      */
-    public static void deleteTreeNodeByKey(TreeItem<KeyTreeNode> parent, String key) {
+    public  TreeItem<KeyTreeNode> findTreeItemByKey(TreeItem<KeyTreeNode> parent, String key) {
         for (TreeItem<KeyTreeNode> child : parent.getChildren()) {
             if (child.getValue().getKey()!=null&&child.getValue().getKey().equals(key)) {
-                parent.getChildren().remove(child); // 找到节点后，从父节点的子节点列表中移除它
-                return;
-            } else {
-                deleteTreeNodeByKey(child, key); // 递归查找子节点
+                return child;
+            }
+            // 如果当前节点不匹配且不是叶子节点，则递归搜索其子节点
+            if (!child.isLeaf()) {
+                TreeItem<KeyTreeNode> result = findTreeItemByKey(child, key);
+                // 只有在找到匹配节点时才返回，否则继续搜索其他兄弟节点
+                if (result != null) {
+                    return result;
+                }
             }
         }
+        return null;
+
     }
 
     /**
