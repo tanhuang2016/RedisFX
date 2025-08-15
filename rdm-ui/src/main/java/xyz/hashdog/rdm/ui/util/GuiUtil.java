@@ -300,21 +300,7 @@ public class GuiUtil {
         }
     }
 
-    /**
-     * 递归方法，根据key查找并删除TreeView中的节点
-     * @param parent
-     * @param key
-     */
-    public static void deleteTreeNodeByKey(TreeItem<KeyTreeNode> parent, String key) {
-        for (TreeItem<KeyTreeNode> child : parent.getChildren()) {
-            if (child.getValue().getKey().equals(key)) {
-                parent.getChildren().remove(child); // 找到节点后，从父节点的子节点列表中移除它
-                return;
-            } else {
-                deleteTreeNodeByKey(child, key); // 递归查找子节点
-            }
-        }
-    }
+
 
     /**
      * 创建新的邮件菜单,切添加菜单事件
