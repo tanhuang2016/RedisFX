@@ -43,9 +43,7 @@ import xyz.hashdog.rdm.ui.util.RecentHistory;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -97,7 +95,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
      * 存储的时候先进先出，保留最新的10个
      * 用
      */
-    private final List<WeakReference<TreeItem<KeyTreeNode>>> openTreeItems = new ArrayList<>();
+    private final LinkedHashSet<WeakReference<TreeItem<KeyTreeNode>>> openTreeItems = new LinkedHashSet<>();
 
 
     @FXML
