@@ -69,6 +69,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
     public HBox searchHbox;
     public Button reset;
     public MenuButton history;
+    public MenuItem delete;
+    public MenuItem open;
     @FXML
     private TreeView<KeyTreeNode> treeView;
     @FXML
@@ -84,7 +86,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
 
 
     /**
-     * 最后一个选中节点
+     * 最后一个选中节点，可能是目录哦
      */
     private TreeItem<KeyTreeNode> lastSelectedNode;
 
@@ -270,24 +272,24 @@ public class ServerTabController extends BaseKeyController<MainController> {
      * 将选中的节点,缓存到类
      */
     private void buttonIsShowAndSetSelectNode() {
+        contextMenu.setOnShowing(event -> {
+            if(treeView.getSelectionModel().getSelectedItems().isEmpty()){
+                this.delete.setVisible(false);
+                this.open.setVisible(false);
+                return;
+            }
+            this.open.setVisible(true);
+            //只要有一个选择节点是目录
+            boolean isDir = treeView.getSelectionModel().getSelectedItems()
+                    .stream()
+                    .anyMatch(item -> !item.isLeaf());
+            this.delete.setVisible(!isDir);
+
+        });
         treeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null) {
                 newValue = treeView.getRoot();
             }
-            //叶子节点是连接
-            boolean isLeafNode = newValue.isLeaf();
-            //是否为根
-            boolean isRoot = newValue.getParent() == null;
-            // 右键菜单显示/隐藏
-            ObservableList<MenuItem> items = contextMenu.getItems();
-            items.forEach(menuItem -> {
-                if (menuItem.getStyleClass().contains("isLeafNode")) {
-                    menuItem.setVisible(isLeafNode);
-                }
-                if (menuItem.getStyleClass().contains("isNotRoot")) {
-                    menuItem.setVisible(!isRoot);
-                }
-            });
             //设置最后一个选中节点
             this.lastSelectedNode = newValue;
 
@@ -580,6 +582,10 @@ public class ServerTabController extends BaseKeyController<MainController> {
      * @param actionEvent
      */
     public void open(ActionEvent actionEvent)  {
+        if(!this.lastSelectedNode.isLeaf()){
+            this.lastSelectedNode.setExpanded(true);
+            return;
+        }
         String key = this.lastSelectedNode.getValue().getKey();
         String type = RedisDataTypeEnum.getByType(exeRedis(j -> j.type(key))).type;
         Tuple2<AnchorPane,BaseKeyController> tuple2 = loadFXML("/fxml/KeyTabView.fxml");

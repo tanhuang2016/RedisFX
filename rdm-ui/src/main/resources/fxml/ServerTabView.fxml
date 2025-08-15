@@ -100,15 +100,10 @@
                                               <contextMenu>
                                                   <ContextMenu fx:id="contextMenu" opacity="0.8">
                                                       <items>
-                                                          <MenuItem mnemonicParsing="false" onAction="#open" text="%server.open">
-                                                              <styleClass>
-                                                                  <!-- 使用空格分隔，添加多个样式类 -->
-                                                                  <String fx:value="isLeafNode" />
-                                                                  <String fx:value="isNotRoot" />
-                                                              </styleClass>
+                                                          <MenuItem fx:id="open" mnemonicParsing="false" onAction="#open" text="%server.open">
                                                           </MenuItem>
                                                           <MenuItem mnemonicParsing="false" onAction="#refresh" text="%server.refresh" />
-                                                          <MenuItem mnemonicParsing="false" onAction="#delete" styleClass="isLeafNode" text="%server.delete" />
+                                                          <MenuItem fx:id="delete" mnemonicParsing="false" onAction="#delete" text="%server.delete" />
                                                           <MenuItem mnemonicParsing="false" onAction="#flush" text="%server.flush" />
                                                           <SeparatorMenuItem />
                                                           <MenuItem mnemonicParsing="false" onAction="#console" text="%server.console" />
