@@ -385,7 +385,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     }
 
     private void setPieUpHoverTooltip(PieChart.Data data, String color, Function<Double,String> func) {
-        Popup popup =getPopup(data.getName() + ":" + func.apply(data.getPieValue()));
+        Popup popup =getPopup(data.getName().split(" ")[0] + ":" + func.apply(data.getPieValue()));
         dataNodeListener(data.getNode(),popup, Color.web(color));
     }
 
@@ -592,12 +592,15 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     }
 
     private void updatePiesData(Map<String, Long> keysData, PieChart keys, Function<Double,String> func) {
+        long sum = keysData.values().stream().mapToLong(Long::longValue).sum();
         ObservableList<PieChart.Data> keysPieData = FXCollections.observableArrayList();
         List<Tuple2<String, String>> tagList=new ArrayList<>();
         keysData.forEach((type, count) -> {
             Tuple2<String, String> keyTypeTag = GuiUtil.getKeyTypeNameTag(type);
             tagList.add(keyTypeTag);
             PieChart.Data pieData = new PieChart.Data(keyTypeTag.getT1(), count);
+            double percentage = sum > 0 ? (pieData.getPieValue() / sum) * 100 : 0;
+            pieData.setName(String.format("%s %.2f%%", keyTypeTag.getT1(), percentage));
             keysPieData.add(pieData);
         });
         Platform.runLater(() -> {
