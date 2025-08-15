@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -41,6 +42,7 @@ import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.RecentHistory;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -91,8 +93,11 @@ public class ServerTabController extends BaseKeyController<MainController> {
     private TreeItem<KeyTreeNode> lastSelectedNode;
     /**
      * 缓存已打开的key节点，用户删除的时候提高性能，避免从根节点递归
+     * 删除缓存的策略没有想好，目前考虑只存放10个，一般不会打开超过10个窗口
+     * 存储的时候先进先出，保留最新的10个
+     * 用
      */
-    private final List<TreeItem<KeyTreeNode>> openTreeItems = new ArrayList<>();
+    private final List<WeakReference<TreeItem<KeyTreeNode>>> openTreeItems = new ArrayList<>();
 
 
     @FXML
@@ -202,11 +207,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
         treeViewListener();
         newKeyListener();
         searchTextListener();
-
-
-
-
     }
+
 
     private void searchTextListener() {
         searchText.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -627,7 +629,18 @@ public class ServerTabController extends BaseKeyController<MainController> {
         tab.setGraphic(GuiUtil.creatKeyImageView());
         this.dbTabPane.getTabs().add(tab);
         this.dbTabPane.getSelectionModel().select(tab);
-        this.openTreeItems.add(this.lastSelectedNode);
+        addOpenTreeItems();
+    }
+
+    /**
+     * 打开的key添加到缓存
+     */
+    private void addOpenTreeItems() {
+        if(this.openTreeItems.size()>=10){
+            this.openTreeItems.removeFirst();
+        }
+        this.openTreeItems.add(new WeakReference<>(this.lastSelectedNode));
+
     }
 
     /**
@@ -1027,9 +1040,10 @@ public class ServerTabController extends BaseKeyController<MainController> {
      * @return
      */
     private TreeItem<KeyTreeNode> findTreeItemByKeyInOpenTreeItems(String key) {
-        for (TreeItem<KeyTreeNode> openTreeItem : this.openTreeItems) {
-            if(openTreeItem.getValue().getKey().equals(key)){
-                return openTreeItem;
+        for (WeakReference<TreeItem<KeyTreeNode>> openTreeItem : this.openTreeItems) {
+            TreeItem<KeyTreeNode> keyTreeNodeTreeItem = openTreeItem.get();
+            if((keyTreeNodeTreeItem!=null&&keyTreeNodeTreeItem.getValue()!=null)&&keyTreeNodeTreeItem.getValue().getKey().equals(key)){
+                return openTreeItem.get();
             }
         }
         return null;
