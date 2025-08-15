@@ -42,6 +42,7 @@ public interface Constant {
     String COLOR_STRING="#6A1DC3";
     String COLOR_ZSET="#A00A6B";
     String COLOR_JSON="#b8c5db";
+//    String COLOR_JSON="#3f4b5f";
     String COLOR_UNKNOWN ="#000000";
 
     /*redis info重要的key*/

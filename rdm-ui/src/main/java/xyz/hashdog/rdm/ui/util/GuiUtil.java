@@ -518,13 +518,22 @@ public class GuiUtil {
      */
     public static Label getKeyTypeLabel(String type) {
        Tuple2<String,String> tag= getKeyTypeTag(type);
+        return createTypeLabel(tag);
+    }
+    public static Label getKeyTypeNameLabel(String type) {
+        Tuple2<String,String> tag= getKeyTypeNameTag(type);
+        return createTypeLabel(tag);
+    }
+
+    private static Label createTypeLabel(Tuple2<String, String> tag) {
         Label tagLabel = new Label(tag.getT1());
         tagLabel.getStyleClass().add("tag");
         tagLabel.setStyle("-fx-background-color:"+tag.getT2());
         return tagLabel;
     }
+
     public static Label getKeyTypeLabelMax(String type) {
-        Label tagLabel = getKeyTypeLabel(type);
+        Label tagLabel = getKeyTypeNameLabel(type);
         tagLabel.getStyleClass().add("max");
         return tagLabel;
     }
@@ -533,6 +542,12 @@ public class GuiUtil {
         KeyTagSetting setting = Applications.getConfigSettings(ConfigSettingsEnum.KEY_TAG.name);
         int i  =RedisDataTypeEnum.getIndex(type);
         return new Tuple2<>(setting.getTags().get(i),setting.getColors().get(i));
+    }
+    public static Tuple2<String, String> getKeyTypeNameTag(String type) {
+        KeyTagSetting setting = Applications.getConfigSettings(ConfigSettingsEnum.KEY_TAG.name);
+        int i  =RedisDataTypeEnum.getIndex(type);
+        RedisDataTypeEnum byType = RedisDataTypeEnum.getByType(type);
+        return new Tuple2<>(byType.type,setting.getColors().get(i));
     }
 
     public static FXMLLoader loadFXML(String xml) {

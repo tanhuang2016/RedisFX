@@ -595,7 +595,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         ObservableList<PieChart.Data> keysPieData = FXCollections.observableArrayList();
         List<Tuple2<String, String>> tagList=new ArrayList<>();
         keysData.forEach((type, count) -> {
-            Tuple2<String, String> keyTypeTag = GuiUtil.getKeyTypeTag(type);
+            Tuple2<String, String> keyTypeTag = GuiUtil.getKeyTypeNameTag(type);
             tagList.add(keyTypeTag);
             PieChart.Data pieData = new PieChart.Data(keyTypeTag.getT1(), count);
             keysPieData.add(pieData);
