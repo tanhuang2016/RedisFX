@@ -95,7 +95,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
      * 存储的时候先进先出，保留最新的10个
      * 用
      */
-    private final LinkedHashSet<WeakReference<TreeItem<KeyTreeNode>>> openTreeItems = new LinkedHashSet<>();
+    private final LinkedHashSet<WeakReference<TreeItem<KeyTreeNode>>> openTreeItems = new LinkedHashSet<>(10);
 
 
     @FXML
