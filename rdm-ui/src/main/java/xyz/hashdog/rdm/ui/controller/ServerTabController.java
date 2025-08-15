@@ -667,6 +667,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
                     break;
                 }
             }
+        }else {
+            isSameLevel = false;
         }
         //同级也直接更新
         if(isSameLevel){
