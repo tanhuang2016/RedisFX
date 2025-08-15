@@ -89,7 +89,10 @@ public class ServerTabController extends BaseKeyController<MainController> {
      * 最后一个选中节点，可能是目录哦
      */
     private TreeItem<KeyTreeNode> lastSelectedNode;
-    private List<TreeItem<KeyTreeNode>> openTreeItems = new ArrayList<>();
+    /**
+     * 缓存已打开的key节点，用户删除的时候提高性能，避免从根节点递归
+     */
+    private final List<TreeItem<KeyTreeNode>> openTreeItems = new ArrayList<>();
 
 
     @FXML
@@ -1004,7 +1007,12 @@ public class ServerTabController extends BaseKeyController<MainController> {
         //如果treeView是的db和删除key的db相同,则需要对应删除treeView中的节点
         if(p.get().getDb()==this.currentDb){
             Platform.runLater(()->{
-                TreeItem<KeyTreeNode> find = findTreeItemByKey(treeView.getRoot(), p.get().getKey());
+                TreeItem<KeyTreeNode> find=null;
+                //先从以打开的列表中找，找不到在从根节点递归找
+                find = findTreeItemByKeyInOpenTreeItems( p.get().getKey());
+                if(find==null){
+                    find = findTreeItemByKey(treeView.getRoot(), p.get().getKey());
+                }
                 if(find!=null){
                     deleteTreeItems( List.of(find));
                 }
@@ -1014,9 +1022,23 @@ public class ServerTabController extends BaseKeyController<MainController> {
     }
 
     /**
+     * 从打开的key列表中查找
+     * @param key key
+     * @return
+     */
+    private TreeItem<KeyTreeNode> findTreeItemByKeyInOpenTreeItems(String key) {
+        for (TreeItem<KeyTreeNode> openTreeItem : this.openTreeItems) {
+            if(openTreeItem.getValue().getKey().equals(key)){
+                return openTreeItem;
+            }
+        }
+        return null;
+    }
+
+    /**
      * 递归方法，根据key查找并TreeView中的节点
-     * @param parent
-     * @param key
+     * @param parent 父节点
+     * @param key key
      */
     public  TreeItem<KeyTreeNode> findTreeItemByKey(TreeItem<KeyTreeNode> parent, String key) {
         for (TreeItem<KeyTreeNode> child : parent.getChildren()) {
