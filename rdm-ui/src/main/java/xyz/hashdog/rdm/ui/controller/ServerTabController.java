@@ -696,7 +696,9 @@ public class ServerTabController extends BaseKeyController<MainController> {
             }
             this.lastSelectedNode = newTreeItem;
             treeView.getSelectionModel().select(this.lastSelectedNode);
-            treeView.scrollTo(treeView.getRow(this.lastSelectedNode));
+            Platform.runLater(() -> {
+                treeView.scrollTo(treeView.getRow(this.lastSelectedNode));
+            });
         } else {
             updateNodeAddress(renameItem.getValue());
         }
