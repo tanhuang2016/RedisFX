@@ -685,24 +685,32 @@ public class ServerTabController extends BaseKeyController<MainController> {
         TreeItem<KeyTreeNode> newTreeItem = treeNodePutDir(root, renameItem.getValue());
         // 更新选中节点
         if (newTreeItem != null) {
-            TreeItem<KeyTreeNode> newParent = newTreeItem.getParent();
-            treeView.getSelectionModel().clearSelection();
-            treeView.refresh();
-
-            // 展开从根节点到目标节点的所有父节点
-            while (newParent != null) {
-                newParent.setExpanded(true);
-                newParent = newParent.getParent();
-            }
-            this.lastSelectedNode = newTreeItem;
-            treeView.getSelectionModel().select(this.lastSelectedNode);
-            Platform.runLater(() -> {
-                treeView.scrollTo(treeView.getRow(this.lastSelectedNode));
-            });
+            selectAndScrollTo(newTreeItem);
         } else {
             updateNodeAddress(renameItem.getValue());
         }
 
+    }
+
+    /**
+     * 选中和定位
+     * @param newTreeItem 新节点
+     */
+    private void selectAndScrollTo(TreeItem<KeyTreeNode> newTreeItem) {
+        TreeItem<KeyTreeNode> newParent = newTreeItem.getParent();
+        treeView.getSelectionModel().clearSelection();
+        treeView.refresh();
+
+        // 展开从根节点到目标节点的所有父节点
+        while (newParent != null) {
+            newParent.setExpanded(true);
+            newParent = newParent.getParent();
+        }
+        this.lastSelectedNode = newTreeItem;
+        treeView.getSelectionModel().select(this.lastSelectedNode);
+        Platform.runLater(() -> {
+            treeView.scrollTo(treeView.getRow(this.lastSelectedNode));
+        });
     }
 
     /**
@@ -1083,9 +1091,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
         //如果treeView是的db和删除key的db相同,则需要对应删除treeView中的节点
         if(p.get().getDb()==this.currentDb){
             Platform.runLater(()->{
-                TreeItem<KeyTreeNode> treeItem = new TreeItem<>(KeyTreeNode.leaf(p.get().getKey()),GuiUtil.getKeyTypeLabel(p.get().getKeyType()));
-                treeView.getRoot().getChildren().add(treeItem);
-                treeView.getSelectionModel().select(treeItem);
+                TreeItem<KeyTreeNode> newTreeItem = treeNodePutDir(treeView.getRoot(), KeyTreeNode.leaf(p.get().getKey()));
+                selectAndScrollTo(newTreeItem);
                 open(null);
             });
         }
