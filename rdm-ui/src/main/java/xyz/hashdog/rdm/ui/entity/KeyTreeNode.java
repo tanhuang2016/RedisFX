@@ -91,4 +91,12 @@ public class KeyTreeNode {
             parent.addChildKeyCount();
         }
     }
+
+    public void subChildKeyCount() {
+        this.childKeyCount-=1;
+        if(this.parent!=null){
+            parent.subChildKeyCount();
+        }
+
+    }
 }

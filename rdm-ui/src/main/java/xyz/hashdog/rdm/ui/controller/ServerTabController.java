@@ -37,7 +37,6 @@ import xyz.hashdog.rdm.ui.entity.DBNode;
 import xyz.hashdog.rdm.ui.entity.KeyTreeNode;
 import xyz.hashdog.rdm.ui.entity.PassParameter;
 import xyz.hashdog.rdm.ui.entity.config.KeyTabPaneSetting;
-import xyz.hashdog.rdm.ui.entity.config.ServerTabPaneSetting;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.RecentHistory;
 
@@ -466,7 +465,6 @@ public class ServerTabController extends BaseKeyController<MainController> {
     private void buildTreeView(TreeItem<KeyTreeNode> root,List<String> keys) {
         for (String key : keys) {
             String type = exeRedis(j -> j.type(key));
-            Label keyTypeLabel = GuiUtil.getKeyTypeLabel(type);
             String keySeparator = this.redisContext.getRedisConfig().getKeySeparator();
             String[] parts = key.split(keySeparator);
             TreeItem<KeyTreeNode> current = root;
@@ -480,6 +478,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
 
                     if (isLeaf) {
                         childNode = new TreeItem<>(KeyTreeNode.leaf(key));
+                        Label keyTypeLabel = GuiUtil.getKeyTypeLabel(type);
                         childNode.setGraphic(keyTypeLabel);
                     }else {
                         childNode = new TreeItem<>(KeyTreeNode.dir(part),new FontIcon(Feather.FOLDER));
@@ -598,9 +597,13 @@ public class ServerTabController extends BaseKeyController<MainController> {
         keySend.addListener((observable, oldValue, newValue) -> {
             KeyTreeNode value = this.lastSelectedNode.getValue();
             value.setKey(newValue);
-            KeyTreeNode keyTreeNode = new KeyTreeNode();
-            TUtil.copyProperties(value,keyTreeNode);
-            this.lastSelectedNode.setValue(keyTreeNode);
+            //列表可以直接更新
+            if(!this.redisContext.getRedisConfig().isTreeShow()){
+                updateNodeAddress(value);
+                return;
+            }
+            //数列表要特殊处理咯
+            treeItemRename(treeView.getRoot(), this.lastSelectedNode,oldValue);
         });
         controller.setParameter(passParameter);
         Tab tab = new Tab(String.format("%s|%s|%s", this.currentDb,type, key));
@@ -616,6 +619,171 @@ public class ServerTabController extends BaseKeyController<MainController> {
         this.dbTabPane.getSelectionModel().select(tab);
 
     }
+
+    /**
+     * 当一个树节点，重命名了，那有可能成层级变更，需要移动位置了
+     * 也有可能出现新增层级，因为是根据:分隔符来进行判断是否有层级
+     * @param root 树根
+     * @param renameItem 已经重命名的节点
+     * @param oldValue 重命名节点的旧名字
+     */
+    private void treeItemRename(TreeItem<KeyTreeNode> root, TreeItem<KeyTreeNode> renameItem, String oldValue) {
+
+        String key = renameItem.getValue().getKey();
+        String keySeparator = this.redisContext.getRedisConfig().getKeySeparator();
+        String[] oldSplit = oldValue.split(keySeparator);
+        String[] newSplit = key.split(keySeparator);
+        //都不存在父目录的情况，直接更新
+        if(oldSplit.length==1&&newSplit.length==1){
+            updateNodeAddress(renameItem.getValue());
+            return;
+        }
+        boolean isSameLevel = true;
+        if(oldSplit.length==newSplit.length){
+            for (int i = 0; i < oldSplit.length-1; i++) {
+                if(!oldSplit[i].equals(newSplit[i])){
+                    isSameLevel = false;
+                    break;
+                }
+            }
+        }
+        //同级也直接更新
+        if(isSameLevel){
+            updateNodeAddress(renameItem.getValue());
+            return;
+        }
+        TreeItem<KeyTreeNode> parent = renameItem.getParent();
+        // 从旧位置删除节点
+        subChildKeyCount(parent);
+        renameItem.getParent().getChildren().remove(renameItem);
+        // 如果旧位置的父节点没有其他子节点，则递归删除空的父目录
+        removeEmptyParent(parent);
+        // 将节点添加到新位置
+        TreeItem<KeyTreeNode> newTreeItem = treeNodePutDir(root, renameItem.getValue());
+        // 更新选中节点
+        if (newTreeItem != null) {
+            TreeItem<KeyTreeNode> newParent = newTreeItem.getParent();
+            treeView.getSelectionModel().clearSelection();
+            treeView.refresh();
+
+            // 展开从根节点到目标节点的所有父节点
+            while (newParent != null) {
+                newParent.setExpanded(true);
+                newParent = newParent.getParent();
+            }
+            this.lastSelectedNode = newTreeItem;
+            treeView.getSelectionModel().select(this.lastSelectedNode);
+            treeView.scrollTo(treeView.getRow(this.lastSelectedNode));
+        } else {
+            updateNodeAddress(renameItem.getValue());
+        }
+
+    }
+
+    /**
+     * 给节点切换成新地址
+     * @param newNode
+     */
+    private void updateNodeAddress( KeyTreeNode newNode) {
+        KeyTreeNode keyTreeNode = new KeyTreeNode();
+        //新对象触发ui更新，应该是equals判断，但是这里sheKey导致equals也是相当的，还是得负责对象，不如直接copy一个新对象
+        TUtil.copyProperties(newNode,keyTreeNode);
+        this.lastSelectedNode.setValue(keyTreeNode);
+    }
+
+    /**
+     * 树节点减除子节点数量
+     * @param dirNode 目录节点
+     */
+    private void subChildKeyCount(TreeItem<KeyTreeNode> dirNode) {
+        if(dirNode!=null&&dirNode.getValue()!=null){
+            dirNode.getValue().subChildKeyCount();
+        }
+    }
+
+    /**
+     * 树节点增加子节点数量
+     * @param dirNode 目录节点
+     */
+    private void addChildKeyCount(TreeItem<KeyTreeNode> dirNode) {
+        if(dirNode!=null&&dirNode.getValue()!=null){
+            dirNode.getValue().addChildKeyCount();
+        }
+    }
+
+    /**
+     * 递归删除空的父目录节点
+     * @param dir 父节点,只能是目录
+     */
+    private void removeEmptyParent(TreeItem<KeyTreeNode> dir) {
+        // 如果是根节点或叶子节点，不处理
+        if (dir == null || dir == treeView.getRoot()) {
+            return;
+        }
+        // 如果父节点没有子节点了，并且属于目录类型，就删掉
+        if (dir.getChildren().isEmpty()) {
+            TreeItem<KeyTreeNode> grandParent = dir.getParent();
+            if (grandParent != null) {
+                grandParent.getChildren().remove(dir);
+                // 递归检查上层节点是否也需要删除
+                removeEmptyParent(grandParent);
+            }
+        }
+    }
+
+    /**
+     * 树节点尝试放入目录
+     * 当节点重命名、新增的时候，节点位置可能存在变更
+     * @param root 树根
+     * @param keyTreeNode 节点数据
+     * @return 新创建的树节点或null（如果未创建）
+     */
+    private TreeItem<KeyTreeNode> treeNodePutDir(TreeItem<KeyTreeNode> root, KeyTreeNode keyTreeNode) {
+        String key = keyTreeNode.getKey();
+        String keySeparator = this.redisContext.getRedisConfig().getKeySeparator();
+        String[] parts = key.split(keySeparator);
+        TreeItem<KeyTreeNode> current = root;
+
+        for (int i = 0; i < parts.length; i++) {
+            String part = parts[i];
+            // 叶子节点是key类型
+            boolean isLeaf = (i == parts.length - 1);
+
+            TreeItem<KeyTreeNode> childNode = findChild(current, part);
+            if (childNode == null || isLeaf) {
+                if (isLeaf) {
+                    // 获取key的类型，用于显示对应的图标
+                    String type = exeRedis(j -> j.type(key));
+                    childNode = new TreeItem<>(KeyTreeNode.leaf(key));
+                    Label keyTypeLabel = GuiUtil.getKeyTypeLabel(type);
+                    childNode.setGraphic(keyTypeLabel);
+                } else {
+                    childNode = new TreeItem<>(KeyTreeNode.dir(part), new FontIcon(Feather.FOLDER));
+                }
+
+                TreeItem<KeyTreeNode> finalChildNode = childNode;
+
+                if (isLeaf) {
+                    current.getChildren().add(finalChildNode);
+                    if (current.getValue() != null) {
+                        finalChildNode.getValue().setParent(current.getValue());
+                        current.getValue().addChildKeyCount();
+                    }
+                } else {
+                    current.getChildren().addFirst(finalChildNode);
+                    if (current.getValue() != null) {
+                        // 不是叶子节点，不用计数
+                        finalChildNode.getValue().setParent(current.getValue());
+                    }
+                }
+            }
+
+            current = childNode;
+        }
+
+        return current;
+    }
+
 
     /**
      * 控制台
