@@ -279,7 +279,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
                 return;
             }
             this.open.setVisible(true);
-            //只要有一个选择节点是目录
+            //只要有一个选择节点是目录，有选中目录就不能删除
             boolean isDir = treeView.getSelectionModel().getSelectedItems()
                     .stream()
                     .anyMatch(item -> !item.isLeaf());
