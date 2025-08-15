@@ -925,10 +925,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
                 delItems.add(item);
             }
         });
-        //删除tree节点,得从新用list装一次再遍历删除,否则会有安全问题
-        for (TreeItem<KeyTreeNode> delItem : delItems) {
-            delItem.getParent().getChildren().remove(delItem); // 将选中的节点从父节点的子节点列表中移除
-        }
+        deleteTreeItems(delItems);
 
         //删除服务器的key
         asynexec(()->{
@@ -940,6 +937,25 @@ public class ServerTabController extends BaseKeyController<MainController> {
 
 
 
+    }
+
+    private void deleteTreeItems(List<TreeItem<KeyTreeNode>> delItems) {
+        //如果是列表，那都是同一个父节点，直接删除
+        if(!this.redisContext.getRedisConfig().isTreeShow()){
+            TreeItem<KeyTreeNode> parent = delItems.getFirst().getParent();
+            delItems.forEach(item -> parent.getChildren().remove(item));
+            return;
+        }
+        //树节点需要，特殊处理层级关系
+        for (TreeItem<KeyTreeNode> delItem : delItems) {
+            TreeItem<KeyTreeNode> parent = delItem.getParent();
+            //删除选中节点
+            parent.getChildren().remove(delItem);
+            //计数器-1
+            subChildKeyCount(parent);
+            //删除控目录
+            removeEmptyParent(parent);
+        }
     }
 
     /**
