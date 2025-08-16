@@ -1,8 +1,10 @@
 package xyz.hashdog.rdm.ui.controller;
 
+import atlantafx.base.theme.Styles;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import xyz.hashdog.rdm.redis.Message;
@@ -30,9 +32,11 @@ public class NewKeyController extends BaseKeyController<ServerTabController> imp
 
     @FXML
     public TextField ttl;
+    public Button ok;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        ok.getStyleClass().add(Styles.ACCENT);
         
     }
 

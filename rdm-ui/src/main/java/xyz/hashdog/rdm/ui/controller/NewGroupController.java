@@ -1,7 +1,9 @@
 package xyz.hashdog.rdm.ui.controller;
 
+import atlantafx.base.theme.Styles;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import xyz.hashdog.rdm.redis.Message;
@@ -31,8 +33,12 @@ public class NewGroupController extends BaseWindowController<ServerConnectionsCo
      */
     @FXML
     public TextField dataId;
+    public Button ok;
 
-
+    @FXML
+    private void initialize() {
+        ok.getStyleClass().add(Styles.ACCENT);
+    }
 
     /**
      * 新增/修改的确定

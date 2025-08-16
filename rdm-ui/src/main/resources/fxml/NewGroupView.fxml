@@ -32,7 +32,7 @@
                                     <ButtonBar prefHeight="59.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <buttons>
                                            <TextField fx:id="dataId" maxWidth="-Infinity" prefWidth="-Infinity" visible="false" />
-                                          <Button mnemonicParsing="false" onAction="#ok" text="%common.ok" />
+                                          <Button fx:id="ok" mnemonicParsing="false" onAction="#ok" text="%common.ok" />
                                           <Button mnemonicParsing="false" onAction="#cancel" text="%common.cancel" />
                                       </buttons>
                                     </ButtonBar>

@@ -1,5 +1,6 @@
 package xyz.hashdog.rdm.ui.controller;
 
+import atlantafx.base.theme.Styles;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -22,6 +23,7 @@ public class AppendController extends BaseWindowController<BaseKeyController> im
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        ok.getStyleClass().add(Styles.ACCENT);
 
     }
 

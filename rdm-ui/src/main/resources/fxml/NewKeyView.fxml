@@ -35,7 +35,7 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="60.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button mnemonicParsing="false" onAction="#ok"  text="%common.ok" />
+                  <Button fx:id="ok" mnemonicParsing="false" onAction="#ok"  text="%common.ok" />
                   <Button mnemonicParsing="false" onAction="#cancel" text="%common.cancel" />
                </children>
             </HBox>
