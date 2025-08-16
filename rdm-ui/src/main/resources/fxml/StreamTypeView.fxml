@@ -69,7 +69,7 @@
                                                     <columns>
                                                         <TableColumn prefWidth="60.0" text="#" />
                                                         <TableColumn prefWidth="150.0" text="ID" />
-                                                        <TableColumn prefWidth="180.0" text="Value" />
+                                                        <TableColumn prefWidth="300.0" text="Value" />
                                                     </columns>
                                                 </TableView>
                                                 <Pagination fx:id="pagination" maxHeight="-Infinity" pageCount="205867"

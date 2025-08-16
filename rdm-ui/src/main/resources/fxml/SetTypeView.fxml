@@ -58,7 +58,7 @@
                                                 <TableView fx:id="tableView" layoutY="-3.0" tableMenuButtonVisible="true" VBox.vgrow="ALWAYS">
                                                     <columns>
                                                         <TableColumn prefWidth="60.0" text="#" />
-                                                        <TableColumn prefWidth="240.0" text="Value" />
+                                                        <TableColumn prefWidth="300.0" text="Value" />
                                                     </columns>
                                                 </TableView>
                                                 <Pagination fx:id="pagination" maxHeight="-Infinity" pageCount="205867"
