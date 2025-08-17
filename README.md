@@ -47,9 +47,19 @@
 
 ## 展示
 
-![create.gif](doc%2Fimage%2Fcreate.gif)
-![string.gif](doc%2Fimage%2Fstring.gif)
-![other.gif](doc%2Fimage%2Fother.gif)
+![String.png](doc/image/String.png)
+![List.png](doc/image/List.png)
+![Hash.png](doc/image/Hash.png)
+![Set.png](doc/image/Set.png)
+![Zset.png](doc/image/Zset.png)
+![JSON.png](doc/image/JSON.png)
+![Stream.png](doc/image/Stream.png)
+![Report.png](doc/image/Report.png)
+![Console.png](doc/image/Console.png)
+![PubSub.png](doc/image/PubSub.png)
+![Monitor.png](doc/image/Monitor.png)
+
+
 
 ## 感谢支持
 
