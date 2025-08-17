@@ -52,7 +52,7 @@
 ![Hash.png](doc/image/Hash.png)
 ![Set.png](doc/image/Set.png)
 ![Zset.png](doc/image/Zset.png)
-![JSON.png](doc/image/JSON.png)
+![Json.png](doc/image/Json.png)
 ![Stream.png](doc/image/Stream.png)
 ![Report.png](doc/image/Report.png)
 ![Console.png](doc/image/Console.png)
