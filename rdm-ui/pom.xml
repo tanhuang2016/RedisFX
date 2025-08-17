@@ -279,6 +279,11 @@
                                         <generateSetup>true</generateSetup>
                                         <generateMsi>true</generateMsi>
                                         <generateMsm>true</generateMsm>
+                                        <disableDirPage>false</disableDirPage>
+                                        <disableProgramGroupPage>false</disableProgramGroupPage>
+                                        <disableFinishedPage>false</disableFinishedPage>
+                                        <disableRunAfterInstall>false</disableRunAfterInstall>
+                                        <disableWelcomePage>false</disableWelcomePage>
                                     </winConfig>
                                     <vmArgs>
                                         <arg>--module-path</arg>
