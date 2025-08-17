@@ -1,72 +1,57 @@
-# RedisFX
+<img src="doc/image/redis-log.svg" width="300" height="100" alt="Redis Logo">
 
-- This is a Jedis based, using JavaFX development of Redis GUI tool, and provides Linux and Windows packages, has a built-in jre environment, decompression can be run.
-- If you already have JDK1.8 or more installed on your computer (which requires the JavaFX package), you can also start by running the jar package directly.
-- [Download address](https://github.com/tanhuang2016/RedisFX/releases)
+# RedisFX
+> Redis GUI tool developed with JavaFX
+[Download](https://github.com/tanhuang2016/RedisFX/releases)
+<br>
+
+[![LICENSE](https://img.shields.io/github/license/tanhuang2016/RedisFX)](LICENSE)
+[![Release](https://img.shields.io/github/release/tanhuang2016/RedisFX.svg)](https://github.com/tanhuang2016/RedisFX/releases)
+[![Download](https://img.shields.io/github/downloads/tanhuang2016/RedisFX/total.svg)](https://github.com/tanhuang2016/RedisFX/releases)
+[![STARS](https://img.shields.io/github/stars/tanhuang2016/RedisFX)](https://github.com/tanhuang2016/RedisFX/)
+[![GitHub forks](https://img.shields.io/github/forks/tanhuang2016/RedisFX)](https://github.com/tanhuang2016/RedisFX/fork)
+[![GitHub issues](https://img.shields.io/github/issues/tanhuang2016/RedisFX)](https://github.com/tanhuang2016/RedisFX/issues)
 
 ## Language
 English |  [中文](README.zh-CN.md)
 
-## Feature
+## Features
+- ✅ SSH and SSL protocol support
+- ✅ Cluster and Sentinel mode support
+- ✅ String, List, Hash, Set, Zset, JSON, Stream type support
+- ✅ Console, command monitoring, publish/subscribe, information reports
+- ✅ Multiple themes, multi-language, and other personalized configurations
+- ✅ Support for Windows (x86), Linux (x86 and arm), MacOS (x86 and arm)
 
-1. Multiple redis connections can be managed simultaneously
-2. Only single-node redis can be connected
-3. The string list hash set zset type is supported
-4. Support console mode to use command interaction
-5. string Character encoding Optional
-6. The string type supports image file display
+## Existing Issues
+- ⚠️ High memory usage and code not standardized
+- ⚠️ Some interactive functions use UI thread causing slow response
+- ⚠️ Other issues to be optimized...
 
-## TODO
+## Roadmap
+- ⬜ ⭐⭐⭐ Code refactoring, memory optimization, performance improvement
+- ⬜ ⭐⭐⭐ Interaction optimization, lazy loading design
+- ⬜ ⭐⭐ Cross-platform execution package improvement
+- ⬜ ⭐⭐ Operation detail optimization,完善 existing功能 design
+- ⬜ ⭐ More personalized configuration support
+- ⬜ ⭐ Custom plugin extension capability for key-value parsing
 
-1. Preferences support i18n switching
-2. Preferences support font switching
-3. Add loading animation
-4. Binary data of string type can be imported or exported
-5. Backup and restore keys
-6. Support for clusters and Sentinels
-7. Support for SSH and SSL
+## Development Environment
+- [v1.x](https://github.com/tanhuang2016/RedisFX/tree/freeze/v1.0.4) developed with JDK1.8 native JavaFX (frozen version)
+- [v2.x](https://github.com/tanhuang2016/RedisFX/tree/release-2.x) developed with JDK21 based on [v1.x](https://github.com/tanhuang2016/RedisFX/tree/freeze/v1.0.4), providing a beautiful UI library with more complete features (under continuous update)
 
-## DevBuild
+## Feature Demo
+![String.png](doc/image/String.png)
+![List.png](doc/image/List.png)
+![Hash.png](doc/image/Hash.png)
+![Set.png](doc/image/Set.png)
+![Zset.png](doc/image/Zset.png)
+![Json.png](doc/image/Json.png)
+![Stream.png](doc/image/Stream.png)
+![Report.png](doc/image/Report.png)
+![Console.png](doc/image/Console.png)
+![PubSub.png](doc/image/PubSub.png)
+![Monitor.png](doc/image/Monitor.png)
 
-- The development environment is JDK1.8, built on Maven3.8.8
-- Developed using Eclipase or Intellij IdeaDeveloped using Eclipase or Intellij Idea
-- This project relies only on [Jedis4.3.0](https://github.com/redis/jedis)
-- Use [JavaPackager](https://github.com/fvarrui/JavaPackager) plug-in to Packaging(which can be packaged Windows, Linux, Mac installation package)
-### Structure
-
-```text
-RedisFX
-├─rdm-common Common modules, defining common tools, thread pools, etc
-├─rdm-redis Redis service module, which constrains the interface required by the ui
-├─rdm-redis-imp Redis service implementation module, the implementation of specific client interface
-└─rdm-ui Gui module for the entire tool
-  └─src
-   ├─main
-   │  ├─java
-   │  │  └─xyz
-   │  │   └─hashdog
-   │  │     ─rdm
-   │  │      └─ui 
-   │  │       ├─common Common encapsulation
-   │  │       ├─controller View's controller
-   │  │       ├─entity Bean
-   │  │       ├─exceptions Ui exceptions
-   │  │       ├─handler Package processor
-   │  │       └─util Ui-related tools
-   │  └─resources 
-   │     ├─css Ui-related style sheets
-   │     ├─fxml View corresponding fxml file
-   │     ├─i18n internationalization
-   │     └─icon icon
-```
-
-## Show
-
-![create.gif](doc%2Fimage%2Fcreate.gif)
-![string.gif](doc%2Fimage%2Fstring.gif)
-![other.gif](doc%2Fimage%2Fother.gif)
-
-## Supported by
-
-[Jetbrains](https://www.jetbrains.com/)
-![https://www.jetbrains.com/](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg?_gl=1*389d01*_ga*MTcyNjk5OTM4MC4xNjg3NzkwNTEy*_ga_9J976DJZ68*MTcwNDk2NjczNi4xMC4xLjE3MDQ5NjY4OTUuMC4wLjA.&_ga=2.205748112.2037968390.1704966739-1726999380.1687790512)
+## Acknowledgements
+You've scrolled to the end, thank you for giving us a Star! 🙏🙏🙏
