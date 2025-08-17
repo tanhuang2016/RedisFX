@@ -32,7 +32,7 @@ English |  [中文](README.zh-CN.md)
 - ⬜ ⭐⭐⭐ Code refactoring, memory optimization, performance improvement
 - ⬜ ⭐⭐⭐ Interaction optimization, lazy loading design
 - ⬜ ⭐⭐ Cross-platform execution package improvement
-- ⬜ ⭐⭐ Operation detail optimization,完善 existing功能 design
+- ⬜ ⭐⭐ Optimize the operational details and improve the existing functional design
 - ⬜ ⭐ More personalized configuration support
 - ⬜ ⭐ Custom plugin extension capability for key-value parsing
 
