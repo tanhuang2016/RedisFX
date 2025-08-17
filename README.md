@@ -27,16 +27,13 @@
 - ✅ 支持windows(x86)、Linux(x86和arm)、MacOS(x86和arm)
 
 
-
 ## 规划
 
-- [ ] ⭐⭐⭐ 代码重构、优化内存占用、提升性能
-- [ ] ⭐⭐ 交互优化、惰性加载设计
-- [ ] ⭐ 构建跨平台执行包完善
-- [ ] ⭐⭐ 操作细节优化、完善功能设计
-- [ ] ⭐ 更多的个性化配置支持
-
-
+- ⬜ ⭐⭐⭐ 代码重构、优化内存占用、提升性能
+- ⬜ ⭐⭐ 交互优化、惰性加载设计
+- ⬜ ⭐ 构建跨平台执行包完善
+- ⬜ ⭐⭐ 操作细节优化、完善功能设计
+- ⬜ ⭐ 更多的个性化配置支持
 
 
 
@@ -44,8 +41,16 @@
 
 - [v1.x](https://github.com/tanhuang2016/RedisFX/tree/freeze/v1.0.4)使用JDK1.8原生JavaFX开发(已封版)
 - [v2.x](https://github.com/tanhuang2016/RedisFX/tree/release-2.x)使用JDK21基于[v1.x](https://github.com/tanhuang2016/RedisFX/tree/freeze/v1.0.4)开发，提供了漂亮的UI库且功能更完善(持续更新中)
+[![LICENSE](https://img.shields.io/github/license/tanhuang2016/RedisFX)](LICENSE)
+[![Release](https://img.shields.io/github/release/tanhuang2016/RedisFX.svg)](https://github.com/tanhuang2016/RedisFX/releases)
+[![Download](https://img.shields.io/github/downloads/tanhuang2016/RedisFX/total.svg)](https://github.com/tanhuang2016/RedisFX/releases)
+[![STARS](https://img.shields.io/github/stars/tanhuang2016/RedisFX)](https://github.com/tanhuang2016/RedisFX/)
+[![GitHub forks](https://img.shields.io/github/forks/tanhuang2016/RedisFX)](https://github.com/tanhuang2016/RedisFX/fork)
+[![GitHub issues](https://img.shields.io/github/issues/tanhuang2016/RedisFX)](https://github.com/tanhuang2016/RedisFX/issues)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/tanhuang2016/RedisFX/graphs/commit-activity)
+[![Project Status: Active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
-## 展示
+## 功能效果图展示
 
 ![String.png](doc/image/String.png)
 ![List.png](doc/image/List.png)
