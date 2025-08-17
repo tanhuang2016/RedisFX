@@ -22,7 +22,7 @@
 - ✅ String、List、Hash、Set、Zset、JSON、Stream 类型支持
 - ✅ 控制台、命令监控、发布订阅、信息报表
 - ✅ 多主题、多语言、其他个性化配置
-- ✅ 支持windows(x86)、Linux(x86和arm)、MacOS(x86和arm)
+- ✅ 支持Windows(x86)、Linux(x86和arm)、MacOS(x86和arm)
 
 ## 还存在的问题
 - ⚠️ 内存占用偏大、代码不够规范
