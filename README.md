@@ -1,10 +1,8 @@
-
-
 <img src="doc/image/redis-log.svg" width="300" height="100" alt="Redis Logo">
 
 # RedisFX
-> 使用JavaFX开发的Redis GUI工具
-[下载地址](https://github.com/tanhuang2016/RedisFX/releases)
+> Redis GUI tool developed with JavaFX
+[Download](https://github.com/tanhuang2016/RedisFX/releases)
 <br>
 
 [![LICENSE](https://img.shields.io/github/license/tanhuang2016/RedisFX)](LICENSE)
@@ -13,37 +11,36 @@
 [![STARS](https://img.shields.io/github/stars/tanhuang2016/RedisFX)](https://github.com/tanhuang2016/RedisFX/)
 [![GitHub forks](https://img.shields.io/github/forks/tanhuang2016/RedisFX)](https://github.com/tanhuang2016/RedisFX/fork)
 [![GitHub issues](https://img.shields.io/github/issues/tanhuang2016/RedisFX)](https://github.com/tanhuang2016/RedisFX/issues)
-## 语言
-[English](README.en-US.md)  | 中文
 
-## 特性
-- ✅ SSH、SSL 协议支持
-- ✅ Cluster、Sentinel 模式支持
-- ✅ String、List、Hash、Set、Zset、JSON、Stream 类型支持
-- ✅ 控制台、命令监控、发布订阅、信息报表
-- ✅ 多主题、多语言、其他个性化配置
-- ✅ 支持Windows(x86)、Linux(x86和arm)、MacOS(x86和arm)
+## Language
+English |  [中文](README.zh-CN.md)
 
-## 还存在的问题
-- ⚠️ 内存占用偏大、代码不够规范
-- ⚠️ 部分交互功能使用UI线程导致响应缓慢
-- ⚠️ 其他待优化问题...
+## Features
+- ✅ SSH and SSL protocol support
+- ✅ Cluster and Sentinel mode support
+- ✅ String, List, Hash, Set, Zset, JSON, Stream type support
+- ✅ Console, command monitoring, publish/subscribe, information reports
+- ✅ Multiple themes, multi-language, and other personalized configurations
+- ✅ Support for Windows (x86), Linux (x86 and arm), MacOS (x86 and arm)
 
-## 规划
-- ⬜ ⭐⭐⭐ 代码重构、优化内存占用、提升性能
-- ⬜ ⭐⭐⭐ 交互优化、惰性加载设计
-- ⬜ ⭐⭐ 构建跨平台执行包完善
-- ⬜ ⭐⭐ 操作细节优化、完善现有功能设计
-- ⬜ ⭐ 更多的个性化配置支持
-- ⬜ ⭐ 为键值解析提供自定义插件扩展能力
+## Existing Issues
+- ⚠️ High memory usage and code not standardized
+- ⚠️ Some interactive functions use UI thread causing slow response
+- ⚠️ Other issues to be optimized...
 
+## Roadmap
+- ⬜ ⭐⭐⭐ Code refactoring, memory optimization, performance improvement
+- ⬜ ⭐⭐⭐ Interaction optimization, lazy loading design
+- ⬜ ⭐⭐ Cross-platform execution package improvement
+- ⬜ ⭐⭐ Operation detail optimization,完善 existing功能 design
+- ⬜ ⭐ More personalized configuration support
+- ⬜ ⭐ Custom plugin extension capability for key-value parsing
 
+## Development Environment
+- [v1.x](https://github.com/tanhuang2016/RedisFX/tree/freeze/v1.0.4) developed with JDK1.8 native JavaFX (frozen version)
+- [v2.x](https://github.com/tanhuang2016/RedisFX/tree/release-2.x) developed with JDK21 based on [v1.x](https://github.com/tanhuang2016/RedisFX/tree/freeze/v1.0.4), providing a beautiful UI library with more complete features (under continuous update)
 
-## 开发环境
-- [v1.x](https://github.com/tanhuang2016/RedisFX/tree/freeze/v1.0.4)使用JDK1.8原生JavaFX开发(已封版)
-- [v2.x](https://github.com/tanhuang2016/RedisFX/tree/release-2.x)使用JDK21基于[v1.x](https://github.com/tanhuang2016/RedisFX/tree/freeze/v1.0.4)开发，提供了漂亮的UI库且功能更完善(持续更新中)
-
-## 功能效果图展示
+## Feature Demo
 ![String.png](doc/image/String.png)
 ![List.png](doc/image/List.png)
 ![Hash.png](doc/image/Hash.png)
@@ -56,6 +53,5 @@
 ![PubSub.png](doc/image/PubSub.png)
 ![Monitor.png](doc/image/Monitor.png)
 
-
-## 感谢支持
-都滑到最后了、谢谢大佬给个Star吧 🙏🙏🙏
+## Acknowledgements
+You've scrolled to the end, thank you for giving us a Star! 🙏🙏🙏
