@@ -13,12 +13,13 @@ import java.util.List;
 public class RecentHistory<T> {
 
     private int size = 5;
-    private final LinkedHashSet<T> historySet = new LinkedHashSet<>();
-    private Noticer<T> noticer;
+    private final LinkedHashSet<T> historySet;
+    private final Noticer<T> noticer;
 
     public RecentHistory(int size,Noticer<T> noticer) {
         this.size = size;
         this.noticer = noticer;
+        historySet = new LinkedHashSet<>(size);
     }
 
     public void add(T add) {
