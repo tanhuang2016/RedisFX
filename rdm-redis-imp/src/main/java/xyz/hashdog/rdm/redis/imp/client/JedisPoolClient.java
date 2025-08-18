@@ -153,22 +153,7 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
 
     @Override
     public List<byte[]> sscanAll(byte[] key) {
-        return execute(jedis -> {
-            List<byte[]> ress = new ArrayList<>();
-            // 定义SSCAN命令参数，匹配所有键
-            ScanParams scanParams = new ScanParams();
-            scanParams.count(5000);
-            // 开始SCAN迭代
-            String cursor = "0";
-            do {
-                ScanResult<byte[]> scanResult = jedis.sscan(key,cursor.getBytes(), scanParams);
-                for (byte[] res : scanResult.getResult()) {
-                    ress.add(res);
-                }
-                cursor = scanResult.getCursor();
-            } while (!"0".equals(cursor));
-            return ress;
-        });
+        return execute(jedis -> super.sscanAll(key, jedis::scan));
     }
 
 
