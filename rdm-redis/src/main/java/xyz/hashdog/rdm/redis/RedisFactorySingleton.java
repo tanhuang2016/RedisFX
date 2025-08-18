@@ -1,9 +1,5 @@
 package xyz.hashdog.rdm.redis;
 
-import xyz.hashdog.rdm.common.util.TUtil;
-import xyz.hashdog.rdm.redis.RedisFactory;
-
-import java.util.Iterator;
 import java.util.ServiceLoader;
 
 /**
@@ -19,32 +15,25 @@ import java.util.ServiceLoader;
 
     /**
      * 获取RedisFactory单例
-     * @return
      */
     public static RedisFactory getInstance(){
-        return SingletonHolder.instance;
+        return SingletonHolder.INSTANCE;
     }
     private static class SingletonHolder{
-        private static final RedisFactory instance ;
+        private static final RedisFactory INSTANCE;
         static {
-            instance= spi(RedisFactory.class);
+            INSTANCE= spi(RedisFactory.class);
         }
     }
 
     /**
      * spi获取此类服务
      *
-     * @param clazz
-     * @param <T>
-     * @return
      */
     public static <T> T spi(Class<T> clazz) {
         ServiceLoader<T> load = ServiceLoader.load(clazz);
-        Iterator<T> iterator = load.iterator();
-
         //循环获取所需的对象
-        while (iterator.hasNext()) {
-            T next = iterator.next();
+        for (T next : load) {
             if (next != null) {
                 return next;
             }

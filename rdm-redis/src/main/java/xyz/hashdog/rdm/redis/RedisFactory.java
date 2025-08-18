@@ -10,8 +10,6 @@ public interface RedisFactory {
 
     /**
      * 获取redis上下文
-     * @param redisConfig
-     * @return
      */
     RedisContext createRedisContext(RedisConfig redisConfig);
 }
