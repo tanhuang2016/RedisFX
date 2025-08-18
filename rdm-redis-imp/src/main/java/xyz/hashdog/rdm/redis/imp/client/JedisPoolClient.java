@@ -96,7 +96,7 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
      * db0:keys=6,expires=0,avg_ttl=0
      * db1:keys=1,expires=0,avg_ttl=0
      * 拆分获取
-     * @return
+     * @return 0:DB[size]
      */
     @Override
     public Map<Integer, String> dbSize() {
