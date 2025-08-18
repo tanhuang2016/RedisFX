@@ -16,7 +16,6 @@ import org.bouncycastle.pkcs.PKCS8EncryptedPrivateKeyInfo;
 import org.bouncycastle.pkcs.jcajce.JcePKCSPBEInputDecryptorProviderBuilder;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
-import xyz.hashdog.rdm.common.util.TUtil;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -31,15 +30,25 @@ import java.nio.file.Paths;
 import java.security.*;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-
+/**
+ * 工具类
+ * @author th
+ */
 public class Util extends xyz.hashdog.rdm.common.util.Util {
 
 
+    /**
+     * 创建 SSLSocketFactory 工厂
+     * @param caCrtFile 服务端 CA 证书
+     * @param crtFile 客户端 CRT 文件
+     * @param keyFile 客户端 Key 文件
+     * @param passwordStr SSL 密码
+     * @return {@link javax.net.ssl.SSLSocketFactory}
+     */
     public static javax.net.ssl.SSLSocketFactory getSocketFactory(final String caCrtFile, final String crtFile, final String keyFile, final String passwordStr)  {
         char[] password = passwordStr==null?null:passwordStr.toCharArray();
         return getSocketFactory(caCrtFile, crtFile, keyFile, password);
@@ -52,7 +61,6 @@ public class Util extends xyz.hashdog.rdm.common.util.Util {
      * @param keyFile 客户端 Key 文件
      * @param password SSL 密码，随机
      * @return {@link javax.net.ssl.SSLSocketFactory}
-     * @throws Exception 异常
      */
     public static javax.net.ssl.SSLSocketFactory getSocketFactory(final String caCrtFile, final String crtFile, final String keyFile, final char[] password)  {
         InputStream caInputStream = null;

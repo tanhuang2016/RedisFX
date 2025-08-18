@@ -16,7 +16,7 @@ public class RedisContext implements xyz.hashdog.rdm.redis.RedisContext{
     /**
      * redis配置
      */
-    private RedisConfig redisConfig;
+    private final RedisConfig redisConfig;
     /**
      * redis客户创建器
      */
@@ -32,7 +32,7 @@ public class RedisContext implements xyz.hashdog.rdm.redis.RedisContext{
 
     /**
      * 委派给 RedisClientCreator 进行redis客户端的创建
-     * @return
+     * @return redis客户端
      */
     @Override
     public RedisClient newRedisClient() {
@@ -53,7 +53,7 @@ public class RedisContext implements xyz.hashdog.rdm.redis.RedisContext{
 
     /**
      * 获取创建器,可以进行创建多个客户端实例
-     * @return
+     * @return 创建器
      */
     public RedisClientCreator getRedisClientCreator() {
         return redisClientCreator;
@@ -61,7 +61,7 @@ public class RedisContext implements xyz.hashdog.rdm.redis.RedisContext{
 
     /**
      * 设置创建器,可以自定义创建器
-     * @param redisClientCreator
+     * @param redisClientCreator 创建器
      */
     public void setRedisClientCreator(RedisClientCreator redisClientCreator) {
         this.redisClientCreator = redisClientCreator;
