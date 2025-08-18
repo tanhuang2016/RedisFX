@@ -1,5 +1,8 @@
 package xyz.hashdog.rdm.common.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
@@ -16,15 +19,16 @@ import java.util.Map;
  * @since 2023/7/19 17:13
  */
 public class FileUtil {
+    protected static Logger log = LoggerFactory.getLogger(FileUtil.class);
 
     /**
      * File转byte[]数组
      *
-     * @param fileFullPath
-     * @return
+     * @param fileFullPath 文件全路径
+     * @return byte[]
      */
     public static byte[] file2byte(String fileFullPath) {
-        if (fileFullPath == null || "".equals(fileFullPath)) {
+        if (fileFullPath == null || fileFullPath.isEmpty()) {
             return null;
         }
         return file2byte(new File(fileFullPath));
@@ -33,18 +37,14 @@ public class FileUtil {
     /**
      * File转byte[]数组
      *
-     * @param file
-     * @return
+     * @param file  文件
+     * @return byte[]
      */
     public static byte[] file2byte(File file) {
         if (file == null) {
             return null;
         }
-        FileInputStream fileInputStream = null;
-        ByteArrayOutputStream byteArrayOutputStream = null;
-        try {
-            fileInputStream = new FileInputStream(file);
-            byteArrayOutputStream = new ByteArrayOutputStream();
+        try (FileInputStream fileInputStream = new FileInputStream(file); ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
             byte[] b = new byte[1024];
             int n;
             while ((n = fileInputStream.read(b)) != -1) {
@@ -52,22 +52,7 @@ public class FileUtil {
             }
             return byteArrayOutputStream.toByteArray();
         } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (byteArrayOutputStream != null) {
-                try {
-                    byteArrayOutputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (fileInputStream != null) {
-                try {
-                    fileInputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            log.error("file2byte Exception", e);
         }
         return null;
     }
@@ -75,78 +60,62 @@ public class FileUtil {
     /**
      * byte[]数组转File
      *
-     * @param bytes
-     * @param fileFullPath
-     * @return
+     * @param bytes byte[]
+     * @param fileFullPath 文件全路径
      */
-    public static File byte2file(byte[] bytes, String fileFullPath) {
+    public static void byteWrite2file(byte[] bytes, String fileFullPath) {
         if (bytes == null) {
-            return null;
+            return;
         }
-        FileOutputStream fileOutputStream = null;
-        try {
-            File file = new File(fileFullPath);
-            //判断文件是否存在
-            if (file.exists()) {
-                file.mkdirs();
-            }
-            fileOutputStream = new FileOutputStream(file);
+        File file = new File(fileFullPath);
+        boolean mkdirs = file.mkdirs();
+        try(FileOutputStream fileOutputStream = new FileOutputStream(file);) {
             fileOutputStream.write(bytes);
-            return file;
         } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (fileOutputStream != null) {
-                try {
-                    fileOutputStream.close();
-                } catch (IOException ioe) {
-                    ioe.printStackTrace();
-                }
-            }
+            log.error("byteWrite2file Exception", e);
         }
-        return null;
     }
 
 
     public final static Map<String, String> FILE_TYPE_MAP = new HashMap<>();
 
 
-    /**
-     * 初始化文件类型信息
+    /*
+      初始化文件类型信息
      */
     static {
-        FILE_TYPE_MAP.put("jpg", "FFD8FF"); //JPEG (jpg)
-        FILE_TYPE_MAP.put("png", "89504E47");  //PNG (png)
-        FILE_TYPE_MAP.put("gif", "47494638");  //GIF (gif)
-        FILE_TYPE_MAP.put("tif", "49492A00");  //TIFF (tif)
-        FILE_TYPE_MAP.put("bmp", "424D"); //Windows Bitmap (bmp)
-        FILE_TYPE_MAP.put("dwg", "41433130"); //CAD (dwg)
-        FILE_TYPE_MAP.put("html", "68746D6C3E");  //HTML (html)
-        FILE_TYPE_MAP.put("rtf", "7B5C727466");  //Rich Text Format (rtf)
+        FILE_TYPE_MAP.put("jpg", "FFD8FF");
+        FILE_TYPE_MAP.put("png", "89504E47");
+        FILE_TYPE_MAP.put("gif", "47494638");
+        FILE_TYPE_MAP.put("tif", "49492A00");
+        FILE_TYPE_MAP.put("bmp", "424D");
+        FILE_TYPE_MAP.put("dwg", "41433130");
+        FILE_TYPE_MAP.put("html", "68746D6C3E");
+        FILE_TYPE_MAP.put("rtf", "7B5C727466");
         FILE_TYPE_MAP.put("xml", "3C3F786D6C");
         FILE_TYPE_MAP.put("zip", "504B0304");
         FILE_TYPE_MAP.put("rar", "52617221");
-        FILE_TYPE_MAP.put("psd", "38425053");  //Photoshop (psd)
-        FILE_TYPE_MAP.put("eml", "44656C69766572792D646174653A");  //Email [thorough only] (eml)
-        FILE_TYPE_MAP.put("dbx", "CFAD12FEC5FD746F");  //Outlook Express (dbx)
-        FILE_TYPE_MAP.put("pst", "2142444E");  //Outlook (pst)
-        FILE_TYPE_MAP.put("xls", "D0CF11E0");  //MS Word
-        FILE_TYPE_MAP.put("doc", "D0CF11E0");  //MS Excel 注意：word 和 excel的文件头一样
-        FILE_TYPE_MAP.put("mdb", "5374616E64617264204A");  //MS Access (mdb)
-        FILE_TYPE_MAP.put("wpd", "FF575043"); //WordPerfect (wpd)
+        FILE_TYPE_MAP.put("psd", "38425053");
+        FILE_TYPE_MAP.put("eml", "44656C69766572792D646174653A");
+        FILE_TYPE_MAP.put("dbx", "CFAD12FEC5FD746F");
+        FILE_TYPE_MAP.put("pst", "2142444E");
+        FILE_TYPE_MAP.put("xls", "D0CF11E0");
+        FILE_TYPE_MAP.put("doc", "D0CF11E0");
+        FILE_TYPE_MAP.put("mdb", "5374616E64617264204A");
+        FILE_TYPE_MAP.put("wpd", "FF575043");
         FILE_TYPE_MAP.put("eps", "252150532D41646F6265");
         FILE_TYPE_MAP.put("ps", "252150532D41646F6265");
-        FILE_TYPE_MAP.put("pdf", "255044462D312E");  //Adobe Acrobat (pdf)
-        FILE_TYPE_MAP.put("qdf", "AC9EBD8F");  //Quicken (qdf)
-        FILE_TYPE_MAP.put("pwl", "E3828596");  //Windows Password (pwl)
-        FILE_TYPE_MAP.put("wav", "57415645");  //Wave (wav)
+        FILE_TYPE_MAP.put("pdf", "255044462D312E");
+        FILE_TYPE_MAP.put("qdf", "AC9EBD8F");
+        FILE_TYPE_MAP.put("pwl", "E3828596");
+        FILE_TYPE_MAP.put("wav", "57415645");
         FILE_TYPE_MAP.put("avi", "41564920");
-        FILE_TYPE_MAP.put("ram", "2E7261FD");  //Real Audio (ram)
-        FILE_TYPE_MAP.put("rm", "2E524D46");  //Real Media (rm)
-        FILE_TYPE_MAP.put("mpg", "000001BA");  //
-        FILE_TYPE_MAP.put("mov", "6D6F6F76");  //Quicktime (mov)
-        FILE_TYPE_MAP.put("asf", "3026B2758E66CF11"); //Windows Media (asf)
-        FILE_TYPE_MAP.put("mid", "4D546864");  //MIDI (mid)
+        FILE_TYPE_MAP.put("ram", "2E7261FD");
+        FILE_TYPE_MAP.put("rm", "2E524D46");
+        FILE_TYPE_MAP.put("mpg", "000001BA");
+        FILE_TYPE_MAP.put("mov", "6D6F6F76");
+        FILE_TYPE_MAP.put("asf", "3026B2758E66CF11");
+        FILE_TYPE_MAP.put("mid", "4D546864");
     }
 
 

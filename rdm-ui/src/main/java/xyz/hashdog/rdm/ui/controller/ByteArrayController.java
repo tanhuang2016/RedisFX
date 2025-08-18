@@ -270,6 +270,6 @@ public class ByteArrayController extends BaseController<BaseController> implemen
      */
     public void export(ActionEvent actionEvent) {
         File file = GuiUtil.savaFileChoose(this.root.getScene().getWindow(), lastFile);
-        FileUtil.byte2file(this.currentValue,file.getAbsolutePath());
+        FileUtil.byteWrite2file(this.currentValue,file.getAbsolutePath());
     }
 }
