@@ -1,6 +1,7 @@
 package xyz.hashdog.rdm.redis.imp.client;
 
 import com.jcraft.jsch.Session;
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPool;
@@ -31,21 +32,21 @@ public class DefaultRedisClientCreator implements RedisClientCreator{
     private Session tunnel;
     /**
      * 根据RedisConfig 判断创建什么类型的redis客户端
-     * @param redisConfig
-     * @return
+     * @param redisConfig redis配置
+     * @return redis客户端
      */
     @Override
     public RedisClient create(RedisConfig redisConfig) {
         if(redisConfig.isSentinel()){
             Set<String> sentinels = new HashSet<>();
             sentinels.add(redisConfig.getHost()+":"+redisConfig.getPort());
-            jedisSentinelPool = new JedisSentinelPool(redisConfig.getMasterName(), sentinels,Constant.POOL_CONFIG,redisConfig.getConnectionTimeout(),redisConfig.getSoTimeout(),DataUtil.ifEmpty(redisConfig.getAuth(),null),0);
+            jedisSentinelPool = new JedisSentinelPool(redisConfig.getMasterName(), sentinels,defaultPoolConfig(),redisConfig.getConnectionTimeout(),redisConfig.getSoTimeout(),DataUtil.ifEmpty(redisConfig.getAuth(),null),0);
             return new JedisSentinelPoolClient(jedisSentinelPool);
         }
         if (redisConfig.isCluster()) {
             Set<HostAndPort> nodes = new HashSet<>();
             nodes.add(new HostAndPort(redisConfig.getHost(), redisConfig.getPort()));
-            jedisCluster = new JedisCluster(nodes,redisConfig.getConnectionTimeout(),redisConfig.getSoTimeout(),3,DataUtil.ifEmpty(redisConfig.getAuth(),null),Constant.POOL_CONFIG);
+            jedisCluster = new JedisCluster(nodes,redisConfig.getConnectionTimeout(),redisConfig.getSoTimeout(),3,DataUtil.ifEmpty(redisConfig.getAuth(),null),defaultPoolConfig());
             return new JedisClusterClient(jedisCluster,redisConfig);
         }
         int port = redisConfig.getPort();
@@ -56,14 +57,26 @@ public class DefaultRedisClientCreator implements RedisClientCreator{
             host="127.0.0.1";
         }
         if(redisConfig.isSsl()){
-            SSLSocketFactory SSLSocketFactory = Util.getSocketFactory(redisConfig.getCaCrt(), redisConfig.getRedisCrt(), redisConfig.getRedisKey(), redisConfig.getRedisKeyPassword());
-            this.jedisPool=new JedisPool(Constant.POOL_CONFIG, host, port,redisConfig.getConnectionTimeout(),redisConfig.getSoTimeout(),DataUtil.ifEmpty(redisConfig.getAuth(),null),0,null,true,SSLSocketFactory,null,null);
+            SSLSocketFactory sslSocketFactory = Util.getSocketFactory(redisConfig.getCaCrt(), redisConfig.getRedisCrt(), redisConfig.getRedisKey(), redisConfig.getRedisKeyPassword());
+            this.jedisPool=new JedisPool(defaultPoolConfig(), host, port,redisConfig.getConnectionTimeout(),redisConfig.getSoTimeout(),DataUtil.ifEmpty(redisConfig.getAuth(),null),0,null,true,sslSocketFactory,null,null);
             return new JedisPoolClient(jedisPool,tunnel);
         }
-        this.jedisPool=new JedisPool(Constant.POOL_CONFIG, host, port,redisConfig.getConnectionTimeout(),redisConfig.getSoTimeout(), DataUtil.ifEmpty(redisConfig.getAuth(),null),0,null);
+        this.jedisPool=new JedisPool(defaultPoolConfig(), host, port,redisConfig.getConnectionTimeout(),redisConfig.getSoTimeout(), DataUtil.ifEmpty(redisConfig.getAuth(),null),0,null);
         return new JedisPoolClient(jedisPool,tunnel);
     }
 
+    /**
+     * 获取默认的连接池配置
+     * @return 默认的连接池配置
+     */
+    @SuppressWarnings("unchecked")
+    private static <T> GenericObjectPoolConfig<T> defaultPoolConfig() {
+        return (GenericObjectPoolConfig<T>) Constant.POOL_CONFIG;
+    }
+
+    /**
+     * 关闭redis客户端
+     */
     @Override
     public void close()  {
         Util.close(jedisPool,jedisSentinelPool,jedisCluster);
