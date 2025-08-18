@@ -19,25 +19,23 @@ public class TUtil {
     /**
      * 只有包装类型才能复制，注意不要使用基本类型
      * 同类复制属性(只复制是null的属性)
-     * @param souce
-     * @param target
-     * @param <T>
-     * @throws IllegalAccessException
+     * @param source 源对象
+     * @param target 目标对象
+     * @param <T> 泛型
      */
-    public static <T> void copyProperties(T souce, T target) {
-        Class clazz = souce.getClass();
+    public static <T> void copyProperties(T source, T target) {
+        Class<?> clazz = source.getClass();
         Field[] fields = clazz.getDeclaredFields();
-        for (int i = 0; i < fields.length; i++) {
+        for (Field field : fields) {
             //得到属性
-            Field field = fields[i];
             //打开私有访问
             field.setAccessible(true);
             //如果是null,从源对象复制到模板对象
             try {
                 Object o = field.get(target);
-                Object o2 = field.get(souce);
-                if(o==null&&o2!=null){
-                    field.set(target, field.get(souce));
+                Object o2 = field.get(source);
+                if (o == null && o2 != null) {
+                    field.set(target, field.get(source));
                 }
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
@@ -47,20 +45,7 @@ public class TUtil {
 
 
 
-    /**
-     * 判断字符串是否为空
-     * @param str
-     * @return
-     */
-    public static boolean isNotEmpty(String str) {
-        if(str==null){
-            return false;
-        }
-        if(str.isEmpty()){
-            return false;
-        }
-        return true;
-    }
+
 
     public static  <T> T ifNull(T t1,T t2) {
         return t1==null?t2:t1;

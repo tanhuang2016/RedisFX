@@ -27,6 +27,7 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
+import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.common.util.TUtil;
 import xyz.hashdog.rdm.ui.Main;
 import xyz.hashdog.rdm.ui.common.Applications;
@@ -592,7 +593,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
             //得刷新一下，不然会出现目录和叶子节点未对齐的显示问题
             treeView.refresh();
             //搜索不是空，就加入历史记录
-            if(TUtil.isNotEmpty(searchText.getText())){
+            if(DataUtil.isNotEmpty(searchText.getText())){
                 recentHistory.add(searchText.getText());
             }
         });

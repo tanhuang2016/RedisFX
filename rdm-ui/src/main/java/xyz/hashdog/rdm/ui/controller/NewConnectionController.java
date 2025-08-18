@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import org.kordamp.ikonli.material2.Material2MZ;
+import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.common.util.TUtil;
 import xyz.hashdog.rdm.redis.Message;
 import xyz.hashdog.rdm.redis.RedisConfig;
@@ -308,7 +309,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         redisConfig.setRedisKeyPassword(redisKeyPassword.getText());
         redisConfig.setSsh(ssh.isSelected());
         redisConfig.setSshHost(sshHost.getText());
-        redisConfig.setSshPort(TUtil.isNotEmpty(sshPort.getEditor().getText()) ? Integer.parseInt(sshPort.getEditor().getText()) : 22);
+        redisConfig.setSshPort(DataUtil.isNotEmpty(sshPort.getEditor().getText()) ? Integer.parseInt(sshPort.getEditor().getText()) : 22);
         redisConfig.setSshUserName(sshUserName.getText());
         redisConfig.setSshPassword(sshPassword.getText());
         redisConfig.setSshPrivateKey(sshPrivateKey.getText());
@@ -359,7 +360,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         connectionServerNode.setRedisKeyPassword(redisKeyPassword.getText());
         connectionServerNode.setSsh(ssh.isSelected());
         connectionServerNode.setSshHost(sshHost.getText());
-        connectionServerNode.setSshPort(TUtil.isNotEmpty(sshPort.getEditor().getText())?Integer.parseInt(sshPort.getEditor().getText()):0);
+        connectionServerNode.setSshPort(DataUtil.isNotEmpty(sshPort.getEditor().getText())?Integer.parseInt(sshPort.getEditor().getText()):0);
         connectionServerNode.setSshUserName(sshUserName.getText());
         connectionServerNode.setSshPassword(sshPassword.getText());
         connectionServerNode.setSshPrivateKey(sshPrivateKey.getText());

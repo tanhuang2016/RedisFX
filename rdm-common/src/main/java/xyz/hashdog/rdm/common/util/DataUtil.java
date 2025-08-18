@@ -44,6 +44,21 @@ public class DataUtil {
     }
 
     /**
+     * 判断字符串是否为空
+     * @param str 需要判断的
+     * @return 是否为空
+     */
+    public static boolean isNotEmpty(String str) {
+        if(str==null){
+            return false;
+        }
+        if(str.isEmpty()){
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * 获取系统所有字体
      * @param locale 本地配置
      * @return 字体
