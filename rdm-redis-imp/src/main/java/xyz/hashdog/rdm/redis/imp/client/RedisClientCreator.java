@@ -15,8 +15,8 @@ import java.io.Closeable;
 public interface RedisClientCreator extends Closeable {
     /**
      * 创建redis客户端
-     * @param redisConfig
-     * @return
+     * @param redisConfig redis配置
+     * @return redis客户端
      */
     RedisClient create(RedisConfig redisConfig);
 

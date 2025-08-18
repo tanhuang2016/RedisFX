@@ -1,7 +1,5 @@
 package xyz.hashdog.rdm.redis.imp.client;
 
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisSentinelPool;
 
 /**
