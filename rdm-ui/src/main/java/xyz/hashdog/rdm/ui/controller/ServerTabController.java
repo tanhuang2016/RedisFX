@@ -828,6 +828,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
                         finalChildNode.getValue().setParent(current.getValue());
                     }
                 }
+                current.getChildren().sort(treeItemSortComparator());
             }
 
             current = childNode;
