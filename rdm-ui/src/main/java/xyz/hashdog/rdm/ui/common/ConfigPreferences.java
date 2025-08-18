@@ -1,5 +1,6 @@
 package xyz.hashdog.rdm.ui.common;
 
+import javafx.collections.ObservableMap;
 import xyz.hashdog.rdm.ui.entity.config.ConfigSettings;
 import xyz.hashdog.rdm.ui.entity.config.ConnectionServerNode;
 
@@ -12,22 +13,22 @@ import java.util.Map;
  */
 public class ConfigPreferences {
 
-    private Map<String, ConnectionServerNode> connectionNodeMap;
-    private Map<String, ConfigSettings> configSettingsMap;
+    private ObservableMap<String, ConnectionServerNode> connectionNodeMap;
+    private ObservableMap<String, ConfigSettings> configSettingsMap;
 
-    public Map<String, ConnectionServerNode> getConnectionNodeMap() {
+    public ObservableMap<String, ConnectionServerNode> getConnectionNodeMap() {
         return connectionNodeMap;
     }
 
-    protected void setConnectionNodeMap(Map<String, ConnectionServerNode> connectionNodeMap) {
+    protected void setConnectionNodeMap(ObservableMap<String, ConnectionServerNode> connectionNodeMap) {
         this.connectionNodeMap = connectionNodeMap;
     }
 
-    public Map<String, ConfigSettings> getConfigSettingsMap() {
+    public ObservableMap<String, ConfigSettings> getConfigSettingsMap() {
         return configSettingsMap;
     }
 
-    protected void setConfigSettingsMap(Map<String, ConfigSettings> configSettingsMap) {
+    protected void setConfigSettingsMap(ObservableMap<String, ConfigSettings> configSettingsMap) {
         this.configSettingsMap = configSettingsMap;
     }
 }

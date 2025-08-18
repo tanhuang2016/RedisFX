@@ -4,14 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
-import javafx.collections.ObservableMap;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.ui.entity.config.ConfigSettings;
 import xyz.hashdog.rdm.ui.entity.config.ConnectionServerNode;
-import xyz.hashdog.rdm.ui.entity.config.ThemeSetting;
-
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -105,13 +101,12 @@ public class CacheConfigSingleton {
     }
 
     private static void addListenerConfigSettings() {
-        ((ObservableMap) CONFIG.getConfigSettingsMap()).addListener((MapChangeListener<String, ConfigSettings>) change -> {
+        CONFIG.getConfigSettingsMap().addListener((MapChangeListener<String, ConfigSettings>) change -> {
             if (change.wasAdded() || change.wasRemoved()) {
                 ThreadPool.getInstance().execute(()->{
                     Preferences node = PREFERENCES.node(Applications.NODE_APP_CONE);
                     String key = change.getKey();
                     node.put(key,new Gson().toJson(CONFIG.getConfigSettingsMap().get(key)));
-                    System.out.println("触发保存");
                 });
             }
         });
@@ -121,12 +116,11 @@ public class CacheConfigSingleton {
      * 监听连接的数据变动，进行异步保存持久化
      */
     private static void addListenerConnectionNode() {
-        ((ObservableMap) CONFIG.getConnectionNodeMap()).addListener((MapChangeListener<String, ConnectionServerNode>) change -> {
+        CONFIG.getConnectionNodeMap().addListener((MapChangeListener<String, ConnectionServerNode>) change -> {
             if (change.wasAdded() || change.wasRemoved()) {
                 ThreadPool.getInstance().execute(()->{
                     Preferences node = PREFERENCES.node(Applications.NODE_APP_DATA);
                     node.put(Applications.KEY_CONNECTIONS,new Gson().toJson(CONFIG.getConnectionNodeMap().values()));
-                    System.out.println("触发保存");
                 });
             }
         });
