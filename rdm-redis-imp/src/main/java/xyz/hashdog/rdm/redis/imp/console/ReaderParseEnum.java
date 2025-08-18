@@ -18,19 +18,19 @@ public enum ReaderParseEnum {
      * 对于简单字符串（Simple Strings），回复的第一个字节是“+”
      */
     SIMPLE_STRINGS('+', (l, r) -> new ArrayList<String>() {{
-        add(l.substring(1, l.length()));
+        add(l.substring(1));
     }}),
     /**
      * 对于错误（Errors ），回复的第一个字节是“-”
      */
     ERRORS('-', (l, r) -> new ArrayList<String>() {{
-        add(l.substring(1, l.length()));
+        add(l.substring(1));
     }}),
     /**
      * 对于整数（Integers ），回复的第一个字节是“：”
      */
     INTEGERS(':', (l, r) -> new ArrayList<String>() {{
-        add(l.substring(1, l.length()));
+        add(l.substring(1));
     }}),
     /**
      * 对于批量字符串（Bulk Strings），回复的第一个字节是“$”
@@ -39,7 +39,7 @@ public enum ReaderParseEnum {
     BULK_STRINGS('$', (l, r) -> {
         String newl=null;
         List<String> res = new ArrayList<>();
-        int len = Integer.parseInt(l.substring(1, l.length()));
+        int len = Integer.parseInt(l.substring(1));
         if(len==-1){
             res.add(newl);
             return res;
@@ -69,7 +69,7 @@ public enum ReaderParseEnum {
     ARRAYS('*', (l, r) -> {
         List<String> result = new ArrayList<>();
         //返回的次数
-        int count = Integer.parseInt(l.substring(1, l.length()));
+        int count = Integer.parseInt(l.substring(1));
         if (count == -1) {
             result.add(null);
             return result;
@@ -92,8 +92,8 @@ public enum ReaderParseEnum {
     /**
      * 根据响应的单行数据,进行判断对应那个枚举
      *
-     * @param line
-     * @return
+     * @param line 一行字符
+     * @return 解析类型
      */
     public static ReaderParseEnum getByLine(String line) {
         ReaderParseEnum readerParseEnum = byLine(line);
@@ -117,11 +117,11 @@ public enum ReaderParseEnum {
     /**
      * 返回的协议标记
      */
-    public char mark;
+    public final char mark;
     /**
      * 解析器
      */
-    public ReaderParser readerParser;
+    public final ReaderParser readerParser;
 
 
     ReaderParseEnum(char mark, ReaderParser readerParser) {
