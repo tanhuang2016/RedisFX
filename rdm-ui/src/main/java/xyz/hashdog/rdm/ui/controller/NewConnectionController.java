@@ -11,7 +11,6 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import org.kordamp.ikonli.material2.Material2MZ;
 import xyz.hashdog.rdm.common.util.DataUtil;
-import xyz.hashdog.rdm.common.util.TUtil;
 import xyz.hashdog.rdm.redis.Message;
 import xyz.hashdog.rdm.redis.RedisConfig;
 import xyz.hashdog.rdm.redis.RedisContext;
@@ -28,7 +27,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import static xyz.hashdog.rdm.ui.common.Constant.ALERT_MESSAGE_CONNECT_SUCCESS;
-import static xyz.hashdog.rdm.ui.common.Constant.ALERT_MESSAGE_SAVE_SUCCESS;
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
 /**
@@ -300,7 +298,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         redisConfig.setPort(Integer.parseInt(portStr));
         redisConfig.setAuth(authStr);
         redisConfig.setCluster(clusterSelected);
-        redisConfig.setSentine(sentinel.isSelected());
+        redisConfig.setSentinel(sentinel.isSelected());
         redisConfig.setMasterName(masterName.getText());
         redisConfig.setSsl(ssl.isSelected());
         redisConfig.setCaCrt(caCrt.getText());

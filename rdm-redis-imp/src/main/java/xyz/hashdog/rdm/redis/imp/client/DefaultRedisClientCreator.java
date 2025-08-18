@@ -5,9 +5,7 @@ import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisSentinelPool;
-import redis.clients.jedis.util.Pool;
 import xyz.hashdog.rdm.common.util.DataUtil;
-import xyz.hashdog.rdm.common.util.TUtil;
 import xyz.hashdog.rdm.redis.RedisConfig;
 import xyz.hashdog.rdm.redis.client.RedisClient;
 import xyz.hashdog.rdm.redis.imp.Constant;
@@ -38,7 +36,7 @@ public class DefaultRedisClientCreator implements RedisClientCreator{
      */
     @Override
     public RedisClient create(RedisConfig redisConfig) {
-        if(redisConfig.isSentine()){
+        if(redisConfig.isSentinel()){
             Set<String> sentinels = new HashSet<>();
             sentinels.add(redisConfig.getHost()+":"+redisConfig.getPort());
             jedisSentinelPool = new JedisSentinelPool(redisConfig.getMasterName(), sentinels,Constant.POOL_CONFIG,redisConfig.getConnectionTimeout(),redisConfig.getSoTimeout(),DataUtil.ifEmpty(redisConfig.getAuth(),null),0);

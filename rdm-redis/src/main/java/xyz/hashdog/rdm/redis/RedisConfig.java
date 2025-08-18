@@ -34,7 +34,7 @@ public class RedisConfig {
     /**
      * 是否哨兵模式
      */
-    private boolean sentine;
+    private boolean sentinel;
     /**
      * 主节点名称
      */
@@ -157,12 +157,12 @@ public class RedisConfig {
         this.masterName = masterName;
     }
 
-    public boolean isSentine() {
-        return sentine;
+    public boolean isSentinel() {
+        return sentinel;
     }
 
-    public void setSentine(boolean sentine) {
-        this.sentine = sentine;
+    public void setSentinel(boolean sentinel) {
+        this.sentinel = sentinel;
     }
 
     public boolean isSsl() {

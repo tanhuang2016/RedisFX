@@ -7,9 +7,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
-import org.kordamp.ikonli.feather.Feather;
-import org.kordamp.ikonli.javafx.FontIcon;
-import org.kordamp.ikonli.material2.Material2AL;
 import xyz.hashdog.rdm.redis.Message;
 import xyz.hashdog.rdm.redis.RedisConfig;
 import xyz.hashdog.rdm.redis.RedisContext;
@@ -393,7 +390,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
             redisConfig.setAuth(this.selectedNode.getAuth());
             redisConfig.setName(this.selectedNode.getName());
             redisConfig.setCluster(this.selectedNode.isCluster());
-            redisConfig.setSentine(this.selectedNode.isSentine());
+            redisConfig.setSentinel(this.selectedNode.isSentine());
             redisConfig.setMasterName(this.selectedNode.getMasterName());
             redisConfig.setSsl(this.selectedNode.isSsl());
             redisConfig.setCaCrt(this.selectedNode.getCaCrt());
