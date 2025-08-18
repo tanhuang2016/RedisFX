@@ -39,6 +39,7 @@ public class MonitorController extends BaseKeyController<ServerTabController> im
     private int logCounter = 0;
     private static final int MAX_LOG_LINES = 1000; // 最大日志行数
     private Thread monitorThread;
+    private RedisMonitor redisMonitor;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         webView.setContextMenuEnabled(false);
@@ -50,7 +51,7 @@ public class MonitorController extends BaseKeyController<ServerTabController> im
         });
         super.parameter.addListener((observable, oldValue, newValue) -> {
             monitorThread = new Thread(() -> {
-                this.redisClient.monitor(new RedisMonitor() {
+                this.redisClient.monitor(redisMonitor=new RedisMonitor() {
                     @Override
                     public void onCommand(String msg) {
                         addLogLine(parseLogToList(msg));
@@ -358,6 +359,9 @@ public class MonitorController extends BaseKeyController<ServerTabController> im
             // 中断监控线程
             monitorThread.interrupt();
             monitorThread = null;
+        }
+        if(redisMonitor!=null){
+            redisMonitor.close();
         }
     }
 }

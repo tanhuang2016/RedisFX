@@ -37,7 +37,7 @@ import java.util.Map;
 import java.util.UUID;
 
 
-public class Util {
+public class Util extends xyz.hashdog.rdm.common.util.Util {
 
 
     public static javax.net.ssl.SSLSocketFactory getSocketFactory(final String caCrtFile, final String crtFile, final String keyFile, final String passwordStr)  {
@@ -131,17 +131,7 @@ public class Util {
         }
     }
 
-    public static void close(AutoCloseable... closeable) {
-        for (AutoCloseable close : closeable) {
-            if (null != close) {
-                try {
-                    close.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
+
 
 
     /**
