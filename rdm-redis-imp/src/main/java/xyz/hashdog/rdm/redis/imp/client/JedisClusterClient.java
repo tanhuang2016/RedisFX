@@ -32,7 +32,7 @@ import java.util.function.Function;
  * @version 1.0.1
  * @since 2025/6/08 12:59
  */
-public class JedisClusterClient implements RedisClient {
+public class JedisClusterClient extends AbstractRedisClient implements RedisClient {
     protected static Logger log = LoggerFactory.getLogger(JedisClusterClient.class);
 
 
