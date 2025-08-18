@@ -46,18 +46,17 @@ public class ThreadPool {
 
     /**
      * 获取线程池
-     * @return
+     * @return ThreadPoolExecutor
      */
     public static ThreadPoolExecutor getInstance() {
         if (executor == null) {
             synchronized (ThreadPoolExecutor.class) {
                 if (executor == null) {
-                    executor = new ThreadPoolExecutor(DEFAULT_CORE_SIZE,// 核心线程数
-                            MAX_QUEUE_SIZE, // 最大线程数
-                            60 * 1000, // 闲置线程存活时间
-                            TimeUnit.MILLISECONDS,// 时间单位
-                            new LinkedBlockingDeque<Runnable>(Integer.MAX_VALUE),// 线程队列
-//                            Executors.defaultThreadFactory()// 线程工厂
+                    executor = new ThreadPoolExecutor(DEFAULT_CORE_SIZE,
+                            MAX_QUEUE_SIZE,
+                            60 * 1000,
+                            TimeUnit.MILLISECONDS,
+                            new LinkedBlockingDeque<Runnable>(Integer.MAX_VALUE),
                             new DaemonThreadFactory("task")
                     );
                 }
