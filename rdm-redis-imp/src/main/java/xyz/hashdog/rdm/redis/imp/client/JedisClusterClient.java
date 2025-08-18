@@ -106,7 +106,9 @@ public class JedisClusterClient implements RedisClient {
 
     @Override
     public boolean isConnected() {
-        return jedis.getClusterNodes().values().stream().findFirst().get().getResource().isConnected();
+        return jedis.getClusterNodes().values().stream().findFirst()
+                .map(jedisPool -> jedisPool.getResource().isConnected())
+                .orElse(false);
     }
 
     /**
@@ -114,7 +116,7 @@ public class JedisClusterClient implements RedisClient {
      * db0:keys=6,expires=0,avg_ttl=0
      * db1:keys=1,expires=0,avg_ttl=0
      * 拆分获取
-     * @return
+     * @return 0:DB[size]
      */
     @Override
     public Map<Integer, String> dbSize() {
@@ -132,9 +134,11 @@ public class JedisClusterClient implements RedisClient {
 
     @Override
     public String select(int db) {
-        String execut =jedis.getClusterNodes().values().stream().findFirst().get().getResource().select(db);
+        String execute = jedis.getClusterNodes().values().stream().findFirst()
+                .map(jedisPool -> jedisPool.getResource().select(db))
+                .orElse("");
         this.db=db;
-        return execut;
+        return execute;
     }
 
     @Override
