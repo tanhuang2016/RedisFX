@@ -59,8 +59,8 @@ public enum RedisDataTypeEnum {
 
     /**
      * 根据类型获取下标
-     * @param type
-     * @return
+     * @param type  类型
+     * @return 下标
      */
     public static int getIndex(String type) {
         for (int i = 0; i < RedisDataTypeEnum.values().length; i++) {
@@ -73,9 +73,9 @@ public enum RedisDataTypeEnum {
 
     /**
      * 检查设置有效期
-     * @param redisClient
-     * @param ttl
-     * @param key
+     * @param redisClient redisClient
+     * @param ttl ttl
+     * @param key  key
      */
     private static void checkTTL(RedisClient redisClient, long ttl, String key) {
         if(ttl>0){
@@ -86,8 +86,8 @@ public enum RedisDataTypeEnum {
 
     /**
      *检查设置db
-     * @param redisClient
-     * @param db
+     * @param redisClient redisClient
+     * @param db  db
      */
     private static void checkDB(RedisClient redisClient, int db) {
         if(redisClient.getDb()!=db){
@@ -96,11 +96,11 @@ public enum RedisDataTypeEnum {
     }
 
 
-    public String type;
-    public String fxml;
-    public int tabType;
-    public NewKeyHandler newKeyHandler;
-    public KeyTypeTagEnum tagEnum;
+    public final String type;
+    public final String fxml;
+    public final int tabType;
+    public final NewKeyHandler newKeyHandler;
+    public final KeyTypeTagEnum tagEnum;
     RedisDataTypeEnum(String type,String fxml,int tabType,NewKeyHandler newKeyHandler,KeyTypeTagEnum keyTypeTagEnum) {
         this.type=type;
         this.fxml=fxml;
@@ -111,8 +111,8 @@ public enum RedisDataTypeEnum {
 
     /**
      * 根据类型字符串获取
-     * @param type
-     * @return
+     * @param type 类型字符串
+     * @return RedisDataTypeEnum
      */
     public static RedisDataTypeEnum getByType(String type) {
         //key不存在，返回的是none
