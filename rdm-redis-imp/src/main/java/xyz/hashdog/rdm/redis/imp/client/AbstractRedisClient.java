@@ -87,4 +87,19 @@ public abstract class AbstractRedisClient implements RedisClient {
         } while (!"0".equals(cursor));
         return keys;
     }
+
+    public List<String> sscanAll(String key,BiFunction<String,ScanParams, ScanResult<String>> function) {
+        List<String> res = new ArrayList<>();
+        // 定义SSCAN命令参数，匹配所有键
+        ScanParams scanParams = new ScanParams();
+        scanParams.count(5000);
+        // 开始SCAN迭代
+        String cursor = "0";
+        do {
+            ScanResult<String> scanResult = function.apply(cursor, scanParams);
+            res.addAll(scanResult.getResult());
+            cursor = scanResult.getCursor();
+        } while (!"0".equals(cursor));
+        return res;
+    }
 }
