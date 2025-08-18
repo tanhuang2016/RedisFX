@@ -511,7 +511,7 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
      * SocketAcquirer 每次都是从pool获取最新的socket
      * 但是使用socket后没关流,如果有必要可以用warp包装socket多传1个回调函数,
      * 进行cmd调用完之后关流
-     * @return
+     * @return 控制台对象
      */
     @Override
     public RedisConsole getRedisConsole() {

@@ -472,21 +472,17 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
             try {
                 String[] addr = nodeStr.split(":");
                 Jedis jedis = new Jedis(addr[0], Integer.parseInt(addr[1]));
-//                boolean connected = jedis.isConnected();
                 jedis.auth(redisConfig.getAuth());
                 Thread thread = new Thread(() -> {
                     jedis.monitor(new JedisMonitor() {
                         @Override
                         public void onCommand(String s) {
-//                            String log = String.format("[Node %s %s] %s",addr[0],addr[1],s);
-//                            System.out.println(log);
                             redisMonitor.onCommand(s);
                         }
                     });
                 });
                 thread.setDaemon(true);
                 thread.start();
-                System.out.println(nodeStr);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -526,13 +522,12 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
      * SocketAcquirer 每次都是从pool获取最新的socket
      * 但是使用socket后没关流,如果有必要可以用warp包装socket多传1个回调函数,
      * 进行cmd调用完之后关流
-     * @return
+     * @return 控制台对象
      */
     @Override
     public RedisConsole getRedisConsole() {
-        return new RedisConsole(() -> {
-            return TUtil.getField(jedis.getClusterNodes().values().stream().findFirst().get().getResource(), "socket");
-        });
+        Optional<ConnectionPool> firstPool = jedis.getClusterNodes().values().stream().findFirst();
+        return firstPool.<RedisConsole>map(connectionPool -> TUtil.getField(connectionPool.getResource(), "socket")).orElse(null);
     }
 
     @Override
