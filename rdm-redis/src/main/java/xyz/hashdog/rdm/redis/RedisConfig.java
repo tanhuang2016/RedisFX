@@ -303,7 +303,9 @@ public class RedisConfig {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         RedisConfig that = (RedisConfig) o;
         return Objects.equals(id, that.id);
     }
