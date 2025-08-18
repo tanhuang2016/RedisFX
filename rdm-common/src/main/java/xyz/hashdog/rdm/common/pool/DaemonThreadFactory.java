@@ -16,6 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 守护线程池工厂
+ * @author th
  */
 public class DaemonThreadFactory implements ThreadFactory {
 
@@ -29,8 +30,7 @@ public class DaemonThreadFactory implements ThreadFactory {
 
     DaemonThreadFactory(String name, int firstThreadNum) {
         threadNumber.set(firstThreadNum);
-        SecurityManager s = System.getSecurityManager();
-        group = (s != null) ? s.getThreadGroup() : Thread.currentThread().getThreadGroup();
+        group = Thread.currentThread().getThreadGroup();
         namePrefix = name + "-";
     }
 
