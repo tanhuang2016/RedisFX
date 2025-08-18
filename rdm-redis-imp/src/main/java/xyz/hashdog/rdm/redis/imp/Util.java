@@ -30,9 +30,7 @@ import java.nio.file.Paths;
 import java.security.*;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * 工具类
@@ -100,8 +98,6 @@ public class Util extends xyz.hashdog.rdm.common.util.Util {
                                         .build(password)
                         )
                 );
-
-
                 PublicKey publicKey = null;
                 if (cert != null) {
                     publicKey = cert.getPublicKey();
@@ -206,17 +202,35 @@ public class Util extends xyz.hashdog.rdm.common.util.Util {
     }
 
 
+    /**
+     * keyspace解析
+     * @param row keyspace
+     * @return db,size
+     */
     public static Tuple2<Integer, Integer> keyspaceParseDb(String row) {
         String[] a = row.split(":");
         int db =Integer.parseInt(a[0].substring(2));
         int size =Integer.parseInt(a[1].split(",")[0].substring(5)) ;
         return new Tuple2<>(db,size);
     }
+
+    /**
+     * keyspace解析
+     * @param key keyspace
+     * @param value keyspace
+     * @return db,size
+     */
     public static Tuple2<Integer, Integer> keyspaceParseDb(String key, String value) {
         return keyspaceParseDb(key+":"+value);
     }
 
 
+    /**
+     * 格式化
+     * @param value 值
+     * @param scale 小数位数
+     * @return 格式化后的值
+     */
     public static String format(double value,int scale) {
         BigDecimal bd = new BigDecimal(value).setScale(scale, RoundingMode.HALF_UP);
         return bd.stripTrailingZeros().toPlainString();
