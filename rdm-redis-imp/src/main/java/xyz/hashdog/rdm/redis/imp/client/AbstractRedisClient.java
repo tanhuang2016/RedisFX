@@ -1,9 +1,12 @@
 package xyz.hashdog.rdm.redis.imp.client;
 
+import redis.clients.jedis.StreamEntryID;
+import redis.clients.jedis.commands.StreamCommands;
 import redis.clients.jedis.params.ScanParams;
 import redis.clients.jedis.resps.ScanResult;
 import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.redis.client.RedisClient;
+import xyz.hashdog.rdm.redis.imp.Util;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -116,6 +119,16 @@ public abstract class AbstractRedisClient implements RedisClient {
             cursor = scanResult.getCursor();
         } while (!"0".equals(cursor));
         return ress;
+    }
+    public String xadd(StreamCommands jedis, String key, String id, String jsonValue) {
+        Map<String, String> map = Util.json2MapString(jsonValue);
+        StreamEntryID seid;
+        if(StreamEntryID.NEW_ENTRY.toString().equals(id)){
+            seid = StreamEntryID.NEW_ENTRY;
+        }else {
+            seid = new StreamEntryID(id);
+        }
+        return   jedis.xadd(key, seid , map).toString();
     }
 
 }

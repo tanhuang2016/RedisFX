@@ -268,16 +268,7 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
 
     @Override
     public String xadd(String key, String id, String jsonValue) {
-        return execute(jedis->{
-            Map<String, String> map = Util.json2MapString(jsonValue);
-            StreamEntryID streamEntryID;
-            if(StreamEntryID.NEW_ENTRY.toString().equals(id)){
-                streamEntryID = StreamEntryID.NEW_ENTRY;
-            }else {
-                streamEntryID = new StreamEntryID(id);
-            }
-            return   jedis.xadd(key, streamEntryID , map).toString();
-        });
+        return execute(jedis->super.xadd(jedis,key,id,jsonValue));
     }
 
     @Override
