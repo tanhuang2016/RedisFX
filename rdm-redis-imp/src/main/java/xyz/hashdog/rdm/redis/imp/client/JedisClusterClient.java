@@ -197,19 +197,18 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
 
     @Override
     public String ping() {
-//        return execut(UnifiedJedis::ping);
-        boolean ping = jedis.getClusterNodes().values().stream().findFirst().get().getResource().ping();
-        return ping?"PONG":"PONG FAIL";
-
+        return jedis.getClusterNodes().values().stream().findFirst()
+                .map(jedisPool -> jedisPool.getResource().ping())
+                .orElse(false)?"PONG":"PONG FAIL";
     }
     @Override
     public String info() {
-        return execute(jedis->jedis.info());
+        return execute(UnifiedJedis::info);
 
     }
     @Override
-    public String rename(String oldkey, String newkey) {
-        return execute(jedis->jedis.rename(oldkey,newkey));
+    public String rename(String oldKey, String newKey) {
+        return execute(jedis->jedis.rename(oldKey,newKey));
 
     }
     @Override
@@ -242,7 +241,7 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
     }
     @Override
     public String flushDB() {
-        return execute(jedis->jedis.flushDB());
+        return execute(UnifiedJedis::flushDB);
     }
 
 

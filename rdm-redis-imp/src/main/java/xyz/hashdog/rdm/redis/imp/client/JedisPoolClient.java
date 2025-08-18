@@ -179,12 +179,12 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
     }
     @Override
     public String info() {
-        return execute(jedis->jedis.info());
+        return execute(Jedis::info);
 
     }
     @Override
-    public String rename(String oldkey, String newkey) {
-        return execute(jedis->jedis.rename(oldkey,newkey));
+    public String rename(String oldKey, String newKey) {
+        return execute(jedis->jedis.rename(oldKey,newKey));
 
     }
     @Override
@@ -217,7 +217,7 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
     }
     @Override
     public String flushDB() {
-        return execute(jedis->jedis.flushDB());
+        return execute(Jedis::flushDB);
     }
 
 
@@ -247,11 +247,11 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
         return execute(jedis->jedis.set(key,value));
     }
     @Override
-    public String jsonSet(String key, String defualtJsonValue) {
+    public String jsonSet(String key, String defaultJsonValue) {
        return execute(jedis->{
             Connection connection = jedis.getConnection();
             CommandObjects commandObjects = new CommandObjects();
-           return connection.executeCommand(commandObjects.jsonSet(key, Path2.ROOT_PATH, defualtJsonValue));
+           return connection.executeCommand(commandObjects.jsonSet(key, Path2.ROOT_PATH, defaultJsonValue));
         });
 
     }
