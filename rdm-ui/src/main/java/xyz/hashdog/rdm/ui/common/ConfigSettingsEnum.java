@@ -5,7 +5,7 @@ import xyz.hashdog.rdm.ui.entity.config.*;
 
 /**
  * 配置枚举
- * @author Administrator
+ * @author th
  */
 
 public enum ConfigSettingsEnum {

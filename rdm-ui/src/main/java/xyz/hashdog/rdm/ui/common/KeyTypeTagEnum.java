@@ -4,6 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * key类型标签枚举
+ * @author th
+ */
+
 public enum KeyTypeTagEnum {
     STRING("string",Constant.COLOR_STRING),
     LIST("list",Constant.COLOR_LIST),
@@ -14,8 +19,8 @@ public enum KeyTypeTagEnum {
     STREAM("stream",Constant.COLOR_STREAM),
 
     UNKNOWN("unknown",Constant.COLOR_UNKNOWN);
-    public String tag;
-    public String color;
+    public final String tag;
+    public final String color;
     KeyTypeTagEnum(String tag, String color) {
         this.tag = tag;
         this.color = color;
@@ -31,12 +36,20 @@ public enum KeyTypeTagEnum {
         return color;
     }
 
+    /**
+     * 获取所有tag
+     * @return  tags
+     */
     public static List<String> tags() {
         return Arrays.stream(KeyTypeTagEnum.values())
                 .map(KeyTypeTagEnum::getTag)
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 获取所有颜色
+     * @return  colors
+     */
     public static List<String> colors() {
         return Arrays.stream(KeyTypeTagEnum.values())
                 .map(KeyTypeTagEnum::getColor)
