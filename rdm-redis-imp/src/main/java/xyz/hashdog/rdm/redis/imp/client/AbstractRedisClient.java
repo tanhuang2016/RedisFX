@@ -4,6 +4,7 @@ import redis.clients.jedis.StreamEntryID;
 import redis.clients.jedis.commands.StreamCommands;
 import redis.clients.jedis.params.ScanParams;
 import redis.clients.jedis.resps.ScanResult;
+import redis.clients.jedis.resps.StreamEntry;
 import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.redis.client.RedisClient;
 import xyz.hashdog.rdm.redis.imp.Util;
@@ -129,6 +130,16 @@ public abstract class AbstractRedisClient implements RedisClient {
             seid = new StreamEntryID(id);
         }
         return   jedis.xadd(key, seid , map).toString();
+    }
+
+    public Map<String, String> xrevrange(StreamCommands jedis,String key, String start, String end, int total) {
+        Map<String,String> map = new LinkedHashMap<>();
+        for (StreamEntry streamEntry : jedis.xrevrange(key, start, end, total)) {
+            Map<String, String> fields = streamEntry.getFields();
+            String jsonValue =Util.obj2Json(fields);
+            map.put(streamEntry.getID().toString(),jsonValue);
+        }
+        return map;
     }
 
 }

@@ -290,15 +290,7 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
 
     @Override
     public Map<String, String> xrevrange(String key, String start, String end, int total) {
-        return execute(jedis->{
-            Map<String,String> map = new LinkedHashMap<>();
-            for (StreamEntry streamEntry : jedis.xrevrange(key, start, end, total)) {
-                Map<String, String> fields = streamEntry.getFields();
-                String jsonValue =Util.obj2Json(fields);
-                map.put(streamEntry.getID().toString(),jsonValue);
-            }
-            return map;
-        });
+        return execute(jedis->super.xrevrange(jedis,key,start,end,total));
     }
 
     @Override
