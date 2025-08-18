@@ -163,23 +163,7 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
         CommandObjects commandObjects = new CommandObjects();
         for (String master : masters) {
             Connection connection = jedis.getClusterNodes().get(master).getResource();
-            List<String> execute = execute(jedis -> {
-                List<String> keys = new ArrayList<>();
-                // 定义SCAN命令参数，匹配所有键
-                ScanParams scanParams = new ScanParams();
-                scanParams.count(5000);
-                if (DataUtil.isNotBlank(pattern)) {
-                    scanParams.match(pattern);
-                }
-                // 开始SCAN迭代
-                String cursor = "0";
-                do {
-                    ScanResult<String> scanResult = connection.executeCommand(commandObjects.scan(cursor, scanParams));
-                    keys.addAll(scanResult.getResult());
-                    cursor = scanResult.getCursor();
-                } while (!"0".equals(cursor));
-                return keys;
-            });
+            List<String> execute=execute(jedis -> super.scanAll(pattern, ( cursor, scanParams)->connection.executeCommand(commandObjects.scan(cursor, scanParams))));
             all.addAll(execute);
         }
         return all;

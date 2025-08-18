@@ -3,9 +3,12 @@ package xyz.hashdog.rdm.redis.imp.client;
 import redis.clients.jedis.params.ScanParams;
 import redis.clients.jedis.resps.ScanResult;
 import xyz.hashdog.rdm.common.function.TriFunction;
+import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.redis.client.RedisClient;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -55,5 +58,23 @@ public abstract class AbstractRedisClient implements RedisClient {
             cursor = scanResult.getCursor();
         } while (!"0".equals(cursor));
         return map;
+    }
+
+    public List<String> scanAll(String pattern, BiFunction<String,ScanParams, ScanResult<String>> function) {
+        List<String> keys = new ArrayList<>();
+        // 定义SCAN命令参数，匹配所有键
+        ScanParams scanParams = new ScanParams();
+        scanParams.count(5000);
+        if(DataUtil.isNotBlank(pattern)){
+            scanParams.match(pattern);
+        }
+        // 开始SCAN迭代
+        String cursor = "0";
+        do {
+            ScanResult<String> scanResult = function.apply(cursor, scanParams);
+            keys.addAll(scanResult.getResult());
+            cursor = scanResult.getCursor();
+        } while (!"0".equals(cursor));
+        return keys;
     }
 }

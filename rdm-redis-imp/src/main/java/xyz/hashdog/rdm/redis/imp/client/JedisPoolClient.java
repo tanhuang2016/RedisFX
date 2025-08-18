@@ -143,23 +143,7 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
 
     @Override
     public List<String> scanAll(String pattern) {
-        return execute(jedis -> {
-            List<String> keys = new ArrayList<>();
-            // 定义SCAN命令参数，匹配所有键
-            ScanParams scanParams = new ScanParams();
-            scanParams.count(5000);
-            if(DataUtil.isNotBlank(pattern)){
-                scanParams.match(pattern);
-            }
-            // 开始SCAN迭代
-            String cursor = "0";
-            do {
-                ScanResult<String> scanResult = jedis.scan(cursor, scanParams);
-                keys.addAll(scanResult.getResult());
-                cursor = scanResult.getCursor();
-            } while (!"0".equals(cursor));
-            return keys;
-        });
+        return execute(jedis -> super.scanAll(pattern, jedis::scan));
     }
 
     @Override
