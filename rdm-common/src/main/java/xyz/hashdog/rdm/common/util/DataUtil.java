@@ -2,12 +2,9 @@ package xyz.hashdog.rdm.common.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import java.awt.*;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -51,7 +48,7 @@ public class DataUtil {
      * @param locale 本地配置
      * @return 字体
      */
-    public static java.util.List<String> getFonts(Locale locale) {
+    public static List<String> getFonts(Locale locale) {
         // 获取本地图形环境
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         // 获取所有可用的字体
@@ -64,28 +61,28 @@ public class DataUtil {
      *
      * @param value   待格式化的字符串
      * @param charset 字符集
-     * @return
+     * @return 格式化后的json
      */
     public static String formatJson(byte[] value, Charset charset,boolean isFormat) {
         String s = new String(value, charset);
         // 创建一个 GsonBuilder 来配置 Gson 的格式化选项
         GsonBuilder gsonBuilder = new GsonBuilder();
         if(isFormat){
-            gsonBuilder.setPrettyPrinting(); // 启用格式化输出
+            // 启用格式化输出
+            gsonBuilder.setPrettyPrinting();
         }
         Gson gson = gsonBuilder.create();
         // 使用 Gson 格式化 JSON 字符串
-        String formattedJson = gson.toJson(gson.fromJson(s, Object.class)); // 解析 JSON 字符串后再格式化
-        return formattedJson;
+        return gson.toJson(gson.fromJson(s, Object.class));
 
     }
 
     /**
      * json转byte[]
-     * @param value
-     * @param charset
+     * @param value json字符串
+     * @param charset 字符集
      * @param isFormat true是需要格式化
-     * @return
+     * @return byte[]
      */
     public static byte[] json2Byte(String value, Charset charset,boolean isFormat) {
        return formatJson(value.getBytes(charset),charset,isFormat).getBytes();
