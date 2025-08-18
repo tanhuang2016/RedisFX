@@ -149,7 +149,7 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
 
     @Override
     public Map<byte[],byte[]> hscanAll(byte[] key) {
-        return execute(jedis -> super.hscanAll(( cursor, scanParams) -> jedis.hscan(key, cursor, scanParams)));
+        return execute(jedis -> super.hscanAll(key,( cursor, scanParams) -> jedis.hscan(key, cursor, scanParams)));
     }
 
     @Override

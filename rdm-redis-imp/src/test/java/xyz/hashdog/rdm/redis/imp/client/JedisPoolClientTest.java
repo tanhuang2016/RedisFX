@@ -1,5 +1,6 @@
 package xyz.hashdog.rdm.redis.imp.client;
 
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.junit.Before;
 import org.junit.Test;
 import redis.clients.jedis.JedisPool;
@@ -31,7 +32,7 @@ public class JedisPoolClientTest {
         RedisConfig redisConfig =new RedisConfig();
         redisConfig.setHost("localhost");
         redisConfig.setPort(6379);
-        redisClient=new JedisPoolClient(new JedisPool(Constant.POOL_CONFIG, redisConfig.getHost(), redisConfig.getPort()));
+        redisClient=new JedisPoolClient(new JedisPool(new GenericObjectPoolConfig<>(), redisConfig.getHost(), redisConfig.getPort()));
     }
 
     @Test

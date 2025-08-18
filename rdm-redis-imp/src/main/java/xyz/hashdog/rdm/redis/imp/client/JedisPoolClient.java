@@ -133,27 +133,12 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
 
     @Override
     public Map<byte[],byte[]> hscanAll(byte[] key) {
-        return execute(jedis -> super.hscanAll(( cursor, scanParams) -> jedis.hscan(key, cursor, scanParams)));
+        return execute(jedis -> super.hscanAll(key,( cursor, scanParams) -> jedis.hscan(key, cursor, scanParams)));
     }
 
     @Override
     public Map<String,String> hscanAll(String key) {
-        return execute(jedis -> {
-            Map<String,String> map = new LinkedHashMap<>();
-            // 定义SCAN命令参数，匹配所有键
-            ScanParams scanParams = new ScanParams();
-            scanParams.count(5000);
-            // 开始SCAN迭代
-            String cursor = "0";
-            do {
-                ScanResult<Map.Entry<String, String>> scanResult = jedis.hscan(key, cursor, scanParams);
-                for (Map.Entry<String, String> entry : scanResult.getResult()) {
-                    map.put(entry.getKey(),entry.getValue());
-                }
-                cursor = scanResult.getCursor();
-            } while (!"0".equals(cursor));
-            return map;
-        });
+        return execute(jedis -> super.hscanAll(key,( cursor, scanParams) -> jedis.hscan(key, cursor, scanParams)));
     }
 
     @Override

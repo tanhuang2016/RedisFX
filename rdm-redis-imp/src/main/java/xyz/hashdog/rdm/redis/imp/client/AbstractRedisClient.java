@@ -23,7 +23,7 @@ public abstract class AbstractRedisClient implements RedisClient {
      * @param function 由于子类客户端没有同一个父类，所以需要传入一个函数封装查询逻辑
      * @return 所有键值对
      */
-    public Map<byte[],byte[]> hscanAll( BiFunction<byte[],ScanParams, ScanResult<Map.Entry<byte[],byte[]>>> function) {
+    public Map<byte[],byte[]> hscanAll(byte[] key, BiFunction<byte[],ScanParams, ScanResult<Map.Entry<byte[],byte[]>>> function) {
         Map<byte[],byte[]> map = new LinkedHashMap<>();
         // 定义SCAN命令参数，匹配所有键
         ScanParams scanParams = new ScanParams();
@@ -33,6 +33,23 @@ public abstract class AbstractRedisClient implements RedisClient {
         do {
             ScanResult<Map.Entry<byte[],byte[]>> scanResult = function.apply(cursor.getBytes(),scanParams);
             for (Map.Entry<byte[],byte[]> entry : scanResult.getResult()) {
+                map.put(entry.getKey(),entry.getValue());
+            }
+            cursor = scanResult.getCursor();
+        } while (!"0".equals(cursor));
+        return map;
+    }
+
+    public Map<String,String> hscanAll(String key, BiFunction<String,ScanParams, ScanResult<Map.Entry<String,String>>> function) {
+        Map<String,String> map = new LinkedHashMap<>();
+        // 定义SCAN命令参数，匹配所有键
+        ScanParams scanParams = new ScanParams();
+        scanParams.count(5000);
+        // 开始SCAN迭代
+        String cursor = "0";
+        do {
+            ScanResult<Map.Entry<String, String>> scanResult =  function.apply(cursor,scanParams);
+            for (Map.Entry<String, String> entry : scanResult.getResult()) {
                 map.put(entry.getKey(),entry.getValue());
             }
             cursor = scanResult.getCursor();
