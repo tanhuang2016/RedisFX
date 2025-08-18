@@ -31,18 +31,20 @@ import java.util.*;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+/**
+ * @author th
+ */
 public class Main extends Application {
     protected static Logger log = LoggerFactory.getLogger(Main.class);
-
-
     public static ResourceBundle RESOURCE_BUNDLE=ResourceBundle.getBundle(LanguageManager.BASE_NAME, LanguageManager.DEFAULT_LOCALE);
-
-
 
     public static void main(String[] args) {
         Application.launch(args);
     }
 
+    /**
+     * 重启窗口
+     */
     public static void restart() {
         try {
             // 关闭所有窗口
@@ -52,7 +54,7 @@ public class Main extends Application {
             Stage primaryStage = new Stage();
             new Main().start(primaryStage);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("restart Exception",e);
             // 错误处理
             GuiUtil.alert(Alert.AlertType.ERROR,"Failed to restart application: " + e.getMessage());
         }
@@ -64,7 +66,6 @@ public class Main extends Application {
             Save.init();
             // 设置默认的未捕获异常处理器
             Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
-                throwable.printStackTrace();
                 log.error("",throwable);
                 if(throwable instanceof RedisException||throwable instanceof GeneralException){
                     // 在此处您可以自定义处理异常的逻辑
@@ -76,49 +77,47 @@ public class Main extends Application {
                 GuiUtil.alert(Alert.AlertType.ERROR,cause.getMessage());
             });
             stage.setTitle(Applications.TITLE);
-//        Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainView.fxml"),RESOURCE_BUNDLE);
-//        stage.setTitle(RESOURCE_BUNDLE.getString(""Applications.NODE_APP_NAME"") );
-
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/MainView.fxml"),RESOURCE_BUNDLE);
             AnchorPane root = fxmlLoader.load();
             MainController controller = fxmlLoader.getController();
             Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/css/global.css").toExternalForm());
-//        Application.setUserAgentStylesheet();
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/global.css")).toExternalForm());
             stage.setScene(scene);
             controller.setCurrentStage(stage);
             initTm(scene);
-
             stage.show();
-
-
             //先默认打开
             controller.openServerLinkWindo(null);
         }catch (Exception e){
-            e.printStackTrace();
+           log.error("start Exception", e);
         }
 
     }
 
+    /**
+     * 初始化主题
+     */
     public static void initTm(Scene scene) {
         ThemeSetting themeSetting = Applications.getConfigSettings(ConfigSettingsEnum.THEME.name);
-        ThemeManager TM = ThemeManager.getInstance();
-        TM.setScene(scene);
-        SamplerTheme theme = TM.getTheme(themeSetting.getColorTheme());
-        TM.setTheme(theme,false);
-        TM.setFontSize(themeSetting.getFontSize(),false);
-        TM.setFontFamily(themeSetting.getFont(),false);
-
-//
-//            TM.setTheme(new SamplerTheme(new Dracula()));
+        ThemeManager tm = ThemeManager.getInstance();
+        tm.setScene(scene);
+        SamplerTheme theme = tm.getTheme(themeSetting.getColorTheme());
+        tm.setTheme(theme,false);
+        tm.setFontSize(themeSetting.getFontSize(),false);
+        tm.setFontFamily(themeSetting.getFont(),false);
     }
 
+    /**
+     * 获取异常的根异常
+     * @param throwable 异常
+     * @return 根异常
+     */
     public Throwable getRootCause(Throwable throwable) {
         Throwable cause = throwable.getCause();
         if (cause == null) {
-            return throwable; // This is the root cause
+            return throwable;
         }
-        return getRootCause(cause); // Continue searching deeper
+        return getRootCause(cause);
     }
     @Override
     public void init() throws Exception {
@@ -132,6 +131,9 @@ public class Main extends Application {
         Main.RESOURCE_BUNDLE= ResourceBundle.getBundle(LanguageManager.BASE_NAME,Locale.of(configSettings.getLocalLanguage(),configSettings.getLocalCountry()));
     }
 
+    /**
+     * 加载应用属性
+     */
     private void loadApplicationProperties() {
         Properties properties = new Properties();
         try (InputStreamReader in = new InputStreamReader(Objects.requireNonNull(Main.class.getResourceAsStream("/application.properties")),
@@ -147,6 +149,11 @@ public class Main extends Application {
         }
         parseArrayProperties(properties);
     }
+    /**
+     * 解析数组属性
+     *
+     * @param properties 属性
+     */
     private void parseArrayProperties(Properties properties) {
         // 使用 Map 存储所有数组属性
         Map<String, List<String>> arrayProperties = new HashMap<>();
@@ -169,12 +176,10 @@ public class Main extends Application {
                 while (list.size() <= index) {
                     list.add(null);
                 }
-
                 // 设置值
                 list.set(index, String.valueOf(value));
             }
         });
-        System.out.println(1);
     }
 
 }
