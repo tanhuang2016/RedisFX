@@ -149,22 +149,7 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
 
     @Override
     public Map<byte[],byte[]> hscanAll(byte[] key) {
-        return execute(jedis -> {
-            Map<byte[],byte[]> map = new LinkedHashMap<>();
-            // 定义SCAN命令参数，匹配所有键
-            ScanParams scanParams = new ScanParams();
-            scanParams.count(5000);
-            // 开始SCAN迭代
-            String cursor = "0";
-            do {
-                ScanResult<Map.Entry<byte[],byte[]>> scanResult = jedis.hscan(key, cursor.getBytes(), scanParams);
-                for (Map.Entry<byte[],byte[]> entry : scanResult.getResult()) {
-                    map.put(entry.getKey(),entry.getValue());
-                }
-                cursor = scanResult.getCursor();
-            } while (!"0".equals(cursor));
-            return map;
-        });
+        return execute(jedis -> super.hscanAll(( cursor, scanParams) -> jedis.hscan(key, cursor, scanParams)));
     }
 
     @Override
