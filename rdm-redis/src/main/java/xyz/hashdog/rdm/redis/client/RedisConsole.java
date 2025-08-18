@@ -11,9 +11,8 @@ import java.util.List;
 public interface RedisConsole {
     /**
      * 发送命令
-     * todo 需要改为队列形式
-     * 返回结果集
-     * @return
+     *
+     * @return 返回结果集
      */
     List<String> sendCommand(String cmd);
 }

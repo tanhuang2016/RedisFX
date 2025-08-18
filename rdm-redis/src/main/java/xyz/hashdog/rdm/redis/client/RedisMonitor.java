@@ -11,5 +11,9 @@ package xyz.hashdog.rdm.redis.client;
 @FunctionalInterface
 public interface RedisMonitor {
 
+     /**
+      * 命令监控功能
+      * @param msg 命令消息
+      */
      void onCommand(String msg);
 }

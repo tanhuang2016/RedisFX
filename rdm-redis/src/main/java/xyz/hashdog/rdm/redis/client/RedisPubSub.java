@@ -10,5 +10,10 @@ package xyz.hashdog.rdm.redis.client;
 @FunctionalInterface
 public interface RedisPubSub {
 
+     /**
+      * 获取消息
+      * @param channel 频道
+      * @param msg 消息
+      */
      void onMessage(String channel,String msg);
 }
