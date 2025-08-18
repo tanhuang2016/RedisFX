@@ -18,7 +18,7 @@ public class RedisConsole implements xyz.hashdog.rdm.redis.client.RedisConsole {
     /**
      * socket获取器
      */
-    private SocketAcquirer socketAcquirer;
+    private final SocketAcquirer socketAcquirer;
 
     public RedisConsole(SocketAcquirer socketAcquirer) {
         this.socketAcquirer = socketAcquirer;
@@ -35,8 +35,7 @@ public class RedisConsole implements xyz.hashdog.rdm.redis.client.RedisConsole {
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
             writer.write(cmd + "\r\n");
             writer.flush();
-            List<String> result = parseResult(reader);
-            return result;
+            return parseResult(reader);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -46,9 +45,9 @@ public class RedisConsole implements xyz.hashdog.rdm.redis.client.RedisConsole {
      * 解析到结果集
      * 需要根据RESP解析需要的结果
      *
-     * @param reader
-     * @return
-     * @throws IOException
+     * @param reader 输入流
+     * @return 结果集
+     * @throws IOException 输入流异常
      */
     private List<String> parseResult(BufferedReader reader) throws IOException {
         String line;

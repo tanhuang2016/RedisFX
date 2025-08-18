@@ -12,9 +12,9 @@ import java.util.List;
 public interface ReaderParser {
     /**
      * 解析
-     * @param line
-     * @param reader
-     * @return
+     * @param line 一行数据
+     * @param reader 读取器
+     * @return 解析结果
      */
     List<String> parse(String line, BufferedReader reader) throws IOException;
 }

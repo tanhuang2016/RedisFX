@@ -11,7 +11,7 @@ import java.net.Socket;
 public interface SocketAcquirer {
     /**
      * 获取套接字,每次都是拿去当前客户端最新的
-     * @return
+     * @return 套接字
      */
     Socket getSocket();
 }
