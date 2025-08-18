@@ -7,25 +7,26 @@ import xyz.hashdog.rdm.common.util.TUtil;
 import xyz.hashdog.rdm.redis.Message;
 import xyz.hashdog.rdm.ui.entity.config.ConfigSettings;
 import xyz.hashdog.rdm.ui.entity.config.ConnectionServerNode;
-import xyz.hashdog.rdm.ui.entity.config.ThemeSetting;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
  * 虚拟化和反虚拟化操作工具
  * 封装对数据持久化,及视图数据初始化的相关操作
+ * @author Administrator
  */
 public class Applications {
 
-    public static  final String DEFUALT_VALUE="520";
+    public static  final String DEFAULT_VALUE ="520";
 
 
     /**
      * 连接
      */
-    public static final String KEY_CONNECTIONS = "Conections";
+    public static final String KEY_CONNECTIONS = "Connections";
     /**
      * 树的根节点id
      */
@@ -47,13 +48,13 @@ public class Applications {
      * 设置数据
      */
     public static final String NODE_APP_SETTINGS = "Settings";
-    public static final String DEFUALT_JSON_VALUE = "{\"520 \": \"520\"}";
+    public static final String DEFAULT_JSON_VALUE = "{\"520 \": \"520\"}";
 
 
     /**
      * 获取系统支持的所有字体
      *
-     * @return
+     * @return 字体
      */
     public static List<String> getSystemFontNames() {
         return Font.getFontNames();
@@ -62,8 +63,8 @@ public class Applications {
     /**
      * 连接/或分组数据的新增和修改
      *
-     * @param connectionServerNode
-     * @return
+     * @param connectionServerNode 连接节点
+     * @return 响应
      */
     public static Message addOrUpdateConnectionOrGroup(ConnectionServerNode connectionServerNode) {
         //id存在则修改,否则是新增
@@ -85,8 +86,8 @@ public class Applications {
     /**
      * 节点重命名,包括连接和分组
      *
-     * @param groupNode
-     * @return
+     * @param groupNode 分组节点
+     * @return 响应
      */
     public static Message renameConnectionOrGroup(ConnectionServerNode groupNode) {
         ConnectionServerNode old = CacheConfigSingleton.CONFIG.getConnectionNodeMap().get(groupNode.getDataId());
@@ -100,10 +101,9 @@ public class Applications {
     /**
      * 根据id递归删除
      *
-     * @param tree
-     * @return
+     * @param tree 连接节点树
      */
-    public static Message deleteConnectionOrGroup(TreeItem<ConnectionServerNode> tree) {
+    public static void deleteConnectionOrGroup(TreeItem<ConnectionServerNode> tree) {
         List<String> ids = new ArrayList<>();
         TUtil.RecursiveTree2List.recursive(ids, tree, new TUtil.RecursiveTree2List<List<String>, TreeItem<ConnectionServerNode>>() {
             @Override
@@ -125,23 +125,17 @@ public class Applications {
         for (String id : ids) {
             CacheConfigSingleton.CONFIG.getConnectionNodeMap().remove(id);
         }
-        return new Message(true);
     }
 
     /**
      * 初始化连接树
      * 从缓存去的连接集合,进行递归组装成树4
      *
-     * @return
+     * @return 树
      */
     public static TreeItem<ConnectionServerNode> initConnectionTreeView() {
         List<ConnectionServerNode> list = new ArrayList<>(CacheConfigSingleton.CONFIG.getConnectionNodeMap().values());
-//        for (ConnectionServerNode connectionServerNode : list) {
-//            if(connectionServerNode.getParentDataId()==null){
-//                connectionServerNode.setParentDataId("-1");
-//            }
-//        }
-        list.sort((a, b) -> a.getTimestampSort() > b.getTimestampSort() ? 1 : -1);
+        list.sort(Comparator.comparingLong(ConnectionServerNode::getTimestampSort));
         TreeItem<ConnectionServerNode> root = new TreeItem<>();
         //得造一个隐形的父节点
         ConnectionServerNode node = new ConnectionServerNode(ConnectionServerNode.GROUP);
@@ -192,6 +186,7 @@ public class Applications {
         CacheConfigSingleton.CONFIG.getConfigSettingsMap().put(key, settings);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T extends ConfigSettings>T getConfigSettings(String name) {
        return (T) CacheConfigSingleton.CONFIG.getConfigSettingsMap().get(name);
     }

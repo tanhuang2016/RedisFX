@@ -1,6 +1,5 @@
 package xyz.hashdog.rdm.ui.common;
 
-import org.json.JSONObject;
 import xyz.hashdog.rdm.redis.Message;
 import xyz.hashdog.rdm.redis.client.RedisClient;
 import xyz.hashdog.rdm.ui.entity.PassParameter;
@@ -15,43 +14,43 @@ import xyz.hashdog.rdm.ui.handler.NewKeyHandler;
 public enum RedisDataTypeEnum {
     STRING("String","/fxml/StringTypeView.fxml", PassParameter.STRING,((redisClient, db, key, ttl) -> {
         checkDB(redisClient,db);
-        redisClient.set(key, Applications.DEFUALT_VALUE);
+        redisClient.set(key, Applications.DEFAULT_VALUE);
         checkTTL(redisClient,ttl,key);
         return new Message(true);
     }),KeyTypeTagEnum.STRING),
     LIST("List","/fxml/ListTypeView.fxml", PassParameter.LIST,((redisClient, db, key, ttl) -> {
         checkDB(redisClient,db);
-        redisClient.lpush(key, Applications.DEFUALT_VALUE);
+        redisClient.lpush(key, Applications.DEFAULT_VALUE);
         checkTTL(redisClient,ttl,key);
         return new Message(true);
     }),KeyTypeTagEnum.LIST),
     HASH("Hash","/fxml/HashTypeView.fxml", PassParameter.HASH,((redisClient, db, key, ttl) -> {
         checkDB(redisClient,db);
-        redisClient.hsetnx(key, Applications.DEFUALT_VALUE,Applications.DEFUALT_VALUE);
+        redisClient.hsetnx(key, Applications.DEFAULT_VALUE,Applications.DEFAULT_VALUE);
         checkTTL(redisClient,ttl,key);
         return new Message(true);
     }),KeyTypeTagEnum.HASH),
     SET("Set","/fxml/SetTypeView.fxml", PassParameter.SET,((redisClient, db, key, ttl) -> {
         checkDB(redisClient,db);
-        redisClient.sadd(key, Applications.DEFUALT_VALUE);
+        redisClient.sadd(key, Applications.DEFAULT_VALUE);
         checkTTL(redisClient,ttl,key);
         return new Message(true);
     }),KeyTypeTagEnum.SET),
     ZSET("Zset","/fxml/ZsetTypeView.fxml", PassParameter.ZSET,((redisClient, db, key, ttl) -> {
         checkDB(redisClient,db);
-        redisClient.zadd(key,0, Applications.DEFUALT_VALUE);
+        redisClient.zadd(key,0, Applications.DEFAULT_VALUE);
         checkTTL(redisClient,ttl,key);
         return new Message(true);
     }),KeyTypeTagEnum.ZSET),
     JSON("ReJSON-RL","/fxml/JsonTypeView.fxml", PassParameter.JSON,((redisClient, db, key, ttl) -> {
         checkDB(redisClient,db);
-        redisClient.jsonSet(key,Applications.DEFUALT_JSON_VALUE);
+        redisClient.jsonSet(key,Applications.DEFAULT_JSON_VALUE);
         checkTTL(redisClient,ttl,key);
         return new Message(true);
     }),KeyTypeTagEnum.JSON),
     STREAM("Stream","/fxml/StreamTypeView.fxml", PassParameter.STREAM,((redisClient, db, key, ttl) -> {
         checkDB(redisClient,db);
-        redisClient.xadd(key,"*", Applications.DEFUALT_JSON_VALUE);
+        redisClient.xadd(key,"*", Applications.DEFAULT_JSON_VALUE);
         checkTTL(redisClient,ttl,key);
         return new Message(true);
     }),KeyTypeTagEnum.STREAM),
