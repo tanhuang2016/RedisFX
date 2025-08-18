@@ -503,12 +503,7 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
 
     @Override
     public Map<Double,byte[]> zrangeWithScores(byte[] key,long start, long stop) {
-        return execute(jedis->{
-            List<Tuple> tuples = jedis.zrangeWithScores(key, start, stop);
-            Map<Double,byte[]> map = new LinkedHashMap<>();
-            tuples.forEach(e->map.put(e.getScore(),e.getBinaryElement()));
-            return map;
-        });
+        return execute(jedis->super.zrangeWithScores(jedis,key,start,stop));
     }
 
     /**

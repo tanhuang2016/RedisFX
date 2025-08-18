@@ -1,6 +1,7 @@
 package xyz.hashdog.rdm.redis.imp.client;
 
 import redis.clients.jedis.StreamEntryID;
+import redis.clients.jedis.commands.SortedSetBinaryCommands;
 import redis.clients.jedis.commands.SortedSetCommands;
 import redis.clients.jedis.commands.StreamCommands;
 import redis.clients.jedis.params.ScanParams;
@@ -148,6 +149,12 @@ public abstract class AbstractRedisClient implements RedisClient {
         List<Tuple> tuples = jedis.zrangeWithScores(key, start, stop);
         Map<Double,String> map = new LinkedHashMap<>();
         tuples.forEach(e->map.put(e.getScore(),e.getElement()));
+        return map;
+    }
+    public Map<Double,byte[]> zrangeWithScores(SortedSetBinaryCommands jedis, byte[] key, long start, long stop) {
+        List<Tuple> tuples = jedis.zrangeWithScores(key, start, stop);
+        Map<Double,byte[]> map = new LinkedHashMap<>();
+        tuples.forEach(e->map.put(e.getScore(),e.getBinaryElement()));
         return map;
     }
 
