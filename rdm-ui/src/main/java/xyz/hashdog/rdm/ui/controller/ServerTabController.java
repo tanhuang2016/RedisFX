@@ -117,11 +117,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
      * 最近使用搜索记录初始化
      */
     private void initRecentHistory() {
-        //搜索记录 未做持久化 todo
-        List<String> strings = new ArrayList<>();
-//        List<String> strings = List.of("1","2","3","4","5");
-        recentHistory = new RecentHistory<String>(5,strings,new RecentHistory.Noticer<String>() {
-
+        recentHistory = new RecentHistory<String>(5,new RecentHistory.Noticer<String>() {
             @Override
             public void notice(List<String> list) {
                 doRecentHistory(list);

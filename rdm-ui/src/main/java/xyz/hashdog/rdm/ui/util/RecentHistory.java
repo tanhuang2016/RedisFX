@@ -16,10 +16,9 @@ public class RecentHistory<T> {
     private final LinkedHashSet<T> historySet = new LinkedHashSet<>();
     private Noticer<T> noticer;
 
-    public RecentHistory(int size, List<T> data,Noticer<T> noticer) {
+    public RecentHistory(int size,Noticer<T> noticer) {
         this.size = size;
         this.noticer = noticer;
-        historySet.addAll(data);
     }
 
     public void add(T add) {

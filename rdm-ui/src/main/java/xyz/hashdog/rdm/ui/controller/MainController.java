@@ -88,11 +88,17 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
      * 服务连接的Stage
      */
     private Stage serverConnectionsWindowStage;
+    /**
+     * 服务连接的Controller
+     */
     private ServerConnectionsController serverConnectionsController;
     /**
      * 设置的stage
      */
     private Stage settingsStage;
+    /**
+     * 最近使用的服务，缓存的配置
+     */
     private RecentHistory<RedisConfig> recentHistory ;
 
     @FXML
@@ -104,19 +110,23 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
         initTabPane();
     }
 
+    /**
+     * 初始化tabPane
+     */
     private void initTabPane() {
         ServerTabPaneSetting setting =Applications.getConfigSettings(ConfigSettingsEnum.SERVER_TAB_PANE.name);
         this.serverTabPane.setSide(Side.valueOf(setting.getSide()));
     }
 
+    /**
+     * 初始化菜单组
+     */
     private void initMenuGroup() {
         setMenuGroup(serverTabPaneMenu,keyTabPaneMenu);
-        ServerTabPaneSetting ssetting =Applications.getConfigSettings(ConfigSettingsEnum.SERVER_TAB_PANE.name);
-        setRadioMenuItemSelected(ssetting,serverTabPaneMenu,false);
-        KeyTabPaneSetting ksetting =Applications.getConfigSettings(ConfigSettingsEnum.KEY_TAB_PANE.name);
-        setRadioMenuItemSelected(ksetting,keyTabPaneMenu,false);
-
-
+        ServerTabPaneSetting serverSetting =Applications.getConfigSettings(ConfigSettingsEnum.SERVER_TAB_PANE.name);
+        setRadioMenuItemSelected(serverSetting,serverTabPaneMenu,false);
+        KeyTabPaneSetting keySetting =Applications.getConfigSettings(ConfigSettingsEnum.KEY_TAB_PANE.name);
+        setRadioMenuItemSelected(keySetting,keyTabPaneMenu,false);
     }
 
 
@@ -163,11 +173,17 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
         });
     }
 
+    /**
+     * 初始化监听器
+     */
     private void initListener() {
         serverTabPaneListener();
         tabPaneChangeListener();
     }
 
+    /**
+     * 监听设置中TabPane切换事件，配置修改及时生效
+     */
     private void tabPaneChangeListener() {
         addTmEventSubscriber(TabPaneEvent.class, e -> {
             var eventType = e.getEventType();
@@ -229,22 +245,17 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
         });
     }
 
+    /**
+     * 初始化最近使用
+     */
     private void initRecentHistory() {
-        //搜索记录 未做持久化 todo
-        List<RedisConfig> rc = new ArrayList<>();
-        recentHistory = new RecentHistory<RedisConfig>(5,rc,new RecentHistory.Noticer<RedisConfig>() {
-
-            @Override
-            public void notice(List<RedisConfig> list) {
-                doRecentHistory(list);
-            }
-        });
+        recentHistory = new RecentHistory<>(5, this::doRecentHistory);
         doRecentHistory(recentHistory.get());
     }
 
     /**
      * 刷新历史记录
-     * @param list
+     * @param list 历史配置
      */
     private void doRecentHistory(List<RedisConfig> list) {
         ObservableList<MenuItem> items = history.getItems();
@@ -253,7 +264,6 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
         List<RedisConfig> reversed = list.reversed();
         for (RedisConfig rc : reversed) {
             items.addFirst(createHistoryMenuItem(rc));
-
         }
     }
 
