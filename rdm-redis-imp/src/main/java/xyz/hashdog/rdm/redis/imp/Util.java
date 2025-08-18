@@ -91,9 +91,8 @@ public class Util extends xyz.hashdog.rdm.common.util.Util {
             KeyPair key;
             if (object instanceof PEMEncryptedKeyPair) {
                 key = converter.getKeyPair(((PEMEncryptedKeyPair) object).decryptKeyPair(decProv));
-            } else if(object instanceof PKCS8EncryptedPrivateKeyInfo){
+            } else if(object instanceof PKCS8EncryptedPrivateKeyInfo encryptedInfo){
                 // 解密私钥
-                PKCS8EncryptedPrivateKeyInfo encryptedInfo = (PKCS8EncryptedPrivateKeyInfo) object;
                 PrivateKey privateKey = new JcaPEMKeyConverter().getPrivateKey(
                         encryptedInfo.decryptPrivateKeyInfo(
                                 new JcePKCSPBEInputDecryptorProviderBuilder()
@@ -102,13 +101,16 @@ public class Util extends xyz.hashdog.rdm.common.util.Util {
                         )
                 );
 
-                PublicKey publicKey = cert.getPublicKey();
+
+                PublicKey publicKey = null;
+                if (cert != null) {
+                    publicKey = cert.getPublicKey();
+                }
                 key=new KeyPair(publicKey, privateKey);
             } else{
                 key = converter.getKeyPair((PEMKeyPair) object);
             }
             pemParser.close();
-
             // CA certificate is used to authenticate server
             KeyStore caKs = KeyStore.getInstance(KeyStore.getDefaultType());
             caKs.load(null, null);
