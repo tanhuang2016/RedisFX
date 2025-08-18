@@ -155,9 +155,7 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
             String cursor = "0";
             do {
                 ScanResult<String> scanResult = jedis.scan(cursor, scanParams);
-                for (String key : scanResult.getResult()) {
-                    keys.add(key);
-                }
+                keys.addAll(scanResult.getResult());
                 cursor = scanResult.getCursor();
             } while (!"0".equals(cursor));
             return keys;
@@ -167,7 +165,7 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
     @Override
     public List<String> sscanAll(String key) {
         return execute(jedis -> {
-            List<String> ress = new ArrayList<>();
+            List<String> res = new ArrayList<>();
             // 定义SSCAN命令参数，匹配所有键
             ScanParams scanParams = new ScanParams();
             scanParams.count(5000);
@@ -175,12 +173,10 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
             String cursor = "0";
             do {
                 ScanResult<String> scanResult = jedis.sscan(key,cursor, scanParams);
-                for (String res : scanResult.getResult()) {
-                    ress.add(res);
-                }
+                res.addAll(scanResult.getResult());
                 cursor = scanResult.getCursor();
             } while (!"0".equals(cursor));
-            return ress;
+            return res;
         });
     }
 

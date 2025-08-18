@@ -154,22 +154,7 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
 
     @Override
     public Map<String,String> hscanAll(String key) {
-        return execute(jedis -> {
-            Map<String,String> map = new LinkedHashMap<>();
-            // 定义SCAN命令参数，匹配所有键
-            ScanParams scanParams = new ScanParams();
-            scanParams.count(5000);
-            // 开始SCAN迭代
-            String cursor = "0";
-            do {
-                ScanResult<Map.Entry<String, String>> scanResult = jedis.hscan(key, cursor, scanParams);
-                for (Map.Entry<String, String> entry : scanResult.getResult()) {
-                    map.put(entry.getKey(),entry.getValue());
-                }
-                cursor = scanResult.getCursor();
-            } while (!"0".equals(cursor));
-            return map;
-        });
+        return execute(jedis -> super.hscanAll(key,( cursor, scanParams) -> jedis.hscan(key, cursor, scanParams)));
     }
 
     @Override
@@ -178,7 +163,7 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
         CommandObjects commandObjects = new CommandObjects();
         for (String master : masters) {
             Connection connection = jedis.getClusterNodes().get(master).getResource();
-            List<String> execut = execute(jedis -> {
+            List<String> execute = execute(jedis -> {
                 List<String> keys = new ArrayList<>();
                 // 定义SCAN命令参数，匹配所有键
                 ScanParams scanParams = new ScanParams();
@@ -190,15 +175,12 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
                 String cursor = "0";
                 do {
                     ScanResult<String> scanResult = connection.executeCommand(commandObjects.scan(cursor, scanParams));
-//                    ScanResult<String> scanResult = jedis.scan(cursor, scanParams);
-                    for (String key : scanResult.getResult()) {
-                        keys.add(key);
-                    }
+                    keys.addAll(scanResult.getResult());
                     cursor = scanResult.getCursor();
                 } while (!"0".equals(cursor));
                 return keys;
             });
-            all.addAll(execut);
+            all.addAll(execute);
         }
         return all;
     }
