@@ -146,13 +146,13 @@ public class Util extends xyz.hashdog.rdm.common.util.Util {
 
     /**
      * 创建 SSH Session
-     * @param sshUserName
-     * @param sshHost
-     * @param sshPort
-     * @param sshPassword
-     * @param sshPrivateKey
-     * @param sshPassphrase
-     * @return
+     * @param sshUserName ssh用户名
+     * @param sshHost ssh主机
+     * @param sshPort ssh端口
+     * @param sshPassword ssh密码
+     * @param sshPrivateKey ssh私钥
+     * @param sshPassphrase ssh密码
+     * @return {@link com.jcraft.jsch.Session}
      */
     public static Session createTunnel(String sshUserName, String sshHost, int sshPort,String sshPassword,String sshPrivateKey, String sshPassphrase)  {
         try {
@@ -181,49 +181,28 @@ public class Util extends xyz.hashdog.rdm.common.util.Util {
     }
 
 
-    /**
-     * json 转为 Map<byte[], byte[]>
-     * @param jsonValue
-     * @return
-     */
-    public static Map<byte[], byte[]> json2MapByte(String jsonValue) {
-        Map<String, String> stringMap = json2MapString(jsonValue);
-        // 转换为 Map<byte[], byte[]>
-        Map<byte[], byte[]> byteMap = new HashMap<>();
-        for (Map.Entry<String, String> entry : stringMap.entrySet()) {
-            byte[] keyBytes = entry.getKey().getBytes();
-            byte[] valueBytes = entry.getValue().getBytes();
-            byteMap.put(keyBytes, valueBytes);
-        }
-        return byteMap;
-    }
 
     /**
      * json 转为 Map<String, String>
-     * @param jsonValue
-     * @return
+     * @param jsonValue json字符串
+     * @return 转map
      */
     public static Map<String, String> json2MapString(String jsonValue) {
         Gson gson = new Gson();
         // 先将 JSON 转换为 Map<String, String>
         Type type = new TypeToken<Map<String, String>>() {
         }.getType();
-        Map<String, String> stringMap = gson.fromJson(jsonValue, type);
-        return stringMap;
+        return gson.fromJson(jsonValue, type);
     }
 
     /**
      * 对象转json
-     * @param obj
-     * @return
+     * @param obj 对象
+     * @return json字符串
      */
     public static String obj2Json(Object obj) {
         Gson gson = new Gson();
         return gson.toJson(obj);
-    }
-
-    public static String getUUID() {
-        return UUID.randomUUID().toString();
     }
 
 

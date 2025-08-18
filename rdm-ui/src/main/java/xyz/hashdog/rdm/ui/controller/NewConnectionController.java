@@ -157,7 +157,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
     public Button sshPrivateKeyButton;
     public ToggleButton treeShow;
     public ToggleButton listShow;
-    public String id=Util.getUUID();
+    public String id=DataUtil.uuid();
 
     /**
      * 选中的最后的文件的父级目录
