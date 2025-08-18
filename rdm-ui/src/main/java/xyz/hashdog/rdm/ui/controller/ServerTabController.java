@@ -456,10 +456,27 @@ public class ServerTabController extends BaseKeyController<MainController> {
             Label keyTypeLabel = GuiUtil.getKeyTypeLabel(type);
             Platform.runLater(() -> {
                 children.add(new TreeItem<>(KeyTreeNode.leaf(key), keyTypeLabel));
-//            children.add(new TreeItem<>(key, GuiUtil.creatKeyImageView()));
             });
 
         }
+    }
+
+    /**
+     * key排序
+     * @return
+     */
+    private Comparator<TreeItem<KeyTreeNode>> treeItemSortComparator(){
+        return (o1, o2) -> {
+            if (o1.getValue().getLeaf() && o2.getValue().getLeaf()) {
+                return o1.getValue().getKey().compareTo(o2.getValue().getKey());
+            } else if (o1.getValue().getLeaf()) {
+                return 1;
+            } else if (o2.getValue().getLeaf()) {
+                return -1;
+            } else {
+                return o1.getValue().getName().compareTo(o2.getValue().getName());
+            }
+        };
     }
 
 
@@ -507,6 +524,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
                             finalChildNode.getValue().setParent(finalCurrent.getValue());
                         }
                     }
+                    finalCurrent.getChildren().sort(treeItemSortComparator());
+
                 }
 
                 current = childNode;
