@@ -26,7 +26,7 @@ import java.util.*;
 import java.util.function.Function;
 
 /**
- * jidis集群客户端实现
+ * jedis集群客户端实现
  *
  * @author th
  * @version 1.0.1
@@ -37,11 +37,9 @@ public class JedisClusterClient implements RedisClient {
 
 
     private final JedisCluster jedis;
-    private RedisConfig redisConfig;
+    private final RedisConfig redisConfig;
 
     private final List<String> masters;
-
-
 
     private int db;
 
@@ -70,8 +68,7 @@ public class JedisClusterClient implements RedisClient {
 
     /**
      * 这里通过message进行传输异常
-     * 可以优化为统一异常处理,这个方法暂时保留 FIXME
-     * @return
+     * 可以优化为统一异常处理,这个方法暂时保留
      */
     @Override
     public Message testConnect()  {
@@ -94,14 +91,13 @@ public class JedisClusterClient implements RedisClient {
     /**
      * 执行命令的封装
      * 统一命令的异常转换
-     * @param execCommand
-     * @return
-     * @param <R>
+     * @param execCommand 要执行的命令
+     * @return 结果
+     * @param <R> 结果泛型
      */
-    private  <R> R execut( Function<JedisCluster, R> execCommand) {
+    private  <R> R execute(Function<JedisCluster, R> execCommand) {
         try {
             return TUtil.execute(this.jedis,execCommand,JedisCluster::close);
-
         }catch (JedisException e){
             log.info("redis api exception",e);
             throw new RedisException(e.getMessage());
@@ -122,7 +118,7 @@ public class JedisClusterClient implements RedisClient {
      */
     @Override
     public Map<Integer, String> dbSize() {
-        return execut(jedis->{
+        return execute(jedis->{
             Map<Integer,String> map = new LinkedHashMap<>();
             long dbsize=0;
             for (String master : masters) {
@@ -143,13 +139,13 @@ public class JedisClusterClient implements RedisClient {
 
     @Override
     public long hlen(String key) {
-        return execut(jedis->jedis.hlen(key));
+        return execute(jedis->jedis.hlen(key));
     }
 
 
     @Override
     public Map<byte[],byte[]> hscanAll(byte[] key) {
-        return execut(jedis -> {
+        return execute(jedis -> {
             Map<byte[],byte[]> map = new LinkedHashMap<>();
             // 定义SCAN命令参数，匹配所有键
             ScanParams scanParams = new ScanParams();
@@ -169,7 +165,7 @@ public class JedisClusterClient implements RedisClient {
 
     @Override
     public Map<String,String> hscanAll(String key) {
-        return execut(jedis -> {
+        return execute(jedis -> {
             Map<String,String> map = new LinkedHashMap<>();
             // 定义SCAN命令参数，匹配所有键
             ScanParams scanParams = new ScanParams();
@@ -193,7 +189,7 @@ public class JedisClusterClient implements RedisClient {
         CommandObjects commandObjects = new CommandObjects();
         for (String master : masters) {
             Connection connection = jedis.getClusterNodes().get(master).getResource();
-            List<String> execut = execut(jedis -> {
+            List<String> execut = execute(jedis -> {
                 List<String> keys = new ArrayList<>();
                 // 定义SCAN命令参数，匹配所有键
                 ScanParams scanParams = new ScanParams();
@@ -220,7 +216,7 @@ public class JedisClusterClient implements RedisClient {
 
     @Override
     public List<String> sscanAll(String key) {
-        return execut(jedis -> {
+        return execute(jedis -> {
             List<String> ress = new ArrayList<>();
             // 定义SSCAN命令参数，匹配所有键
             ScanParams scanParams = new ScanParams();
@@ -240,7 +236,7 @@ public class JedisClusterClient implements RedisClient {
 
     @Override
     public List<byte[]> sscanAll(byte[] key) {
-        return execut(jedis -> {
+        return execute(jedis -> {
             List<byte[]> ress = new ArrayList<>();
             // 定义SSCAN命令参数，匹配所有键
             ScanParams scanParams = new ScanParams();
@@ -261,17 +257,17 @@ public class JedisClusterClient implements RedisClient {
 
     @Override
     public Set<String> keys(String pattern) {
-        return execut(jedis->jedis.keys(pattern));
+        return execute(jedis->jedis.keys(pattern));
     }
 
     @Override
     public String type(String key) {
-        return execut(jedis->jedis.type(key));
+        return execute(jedis->jedis.type(key));
     }
 
     @Override
     public long ttl(String key) {
-        return execut(jedis->jedis.ttl(key));
+        return execute(jedis->jedis.ttl(key));
     }
 
     @Override
@@ -283,68 +279,68 @@ public class JedisClusterClient implements RedisClient {
     }
     @Override
     public String info() {
-        return execut(jedis->jedis.info());
+        return execute(jedis->jedis.info());
 
     }
     @Override
     public String rename(String oldkey, String newkey) {
-        return execut(jedis->jedis.rename(oldkey,newkey));
+        return execute(jedis->jedis.rename(oldkey,newkey));
 
     }
     @Override
     public long expire(String key, long seconds) {
-        return execut(jedis->jedis.expire(key,seconds));
+        return execute(jedis->jedis.expire(key,seconds));
 
     }
     @Override
     public boolean exists(String key) {
-        return execut(jedis->jedis.exists(key));
+        return execute(jedis->jedis.exists(key));
     }
     @Override
     public long del(String... key) {
-        return execut(jedis->jedis.del(key));
+        return execute(jedis->jedis.del(key));
 
     }
     @Override
     public long persist(String key) {
-        return execut(jedis->jedis.persist(key));
+        return execute(jedis->jedis.persist(key));
 
     }
 
     @Override
     public String restore(String key, long ttl, byte[] serializedValue) {
-        return execut(jedis->jedis.restore(key,ttl,serializedValue));
+        return execute(jedis->jedis.restore(key,ttl,serializedValue));
     }
     @Override
     public byte[] dump(String key) {
-        return execut(jedis->jedis.dump(key));
+        return execute(jedis->jedis.dump(key));
     }
     @Override
     public String flushDB() {
-        return execut(jedis->jedis.flushDB());
+        return execute(jedis->jedis.flushDB());
     }
 
 
     @Override
     public String get(String key) {
-        return execut(jedis->jedis.get(key));
+        return execute(jedis->jedis.get(key));
     }
     @Override
     public byte[] get(byte[] key) {
-        return execut(jedis->jedis.get(key));
+        return execute(jedis->jedis.get(key));
     }
     @Override
     public String set(String key,String value) {
-        return execut(jedis->jedis.set(key,value));
+        return execute(jedis->jedis.set(key,value));
     }
     @Override
     public String set(byte[] key,byte[] value) {
-        return execut(jedis->jedis.set(key,value));
+        return execute(jedis->jedis.set(key,value));
     }
 
     @Override
     public String jsonGet(String key) {
-        return execut(jedis -> {
+        return execute(jedis -> {
             JSONArray o = (JSONArray) jedis.jsonGet(key, Path2.ROOT_PATH);
             return o.getJSONObject(0)
                     .toString();
@@ -353,14 +349,14 @@ public class JedisClusterClient implements RedisClient {
 
     @Override
     public String jsonSet(String key, String defualtJsonValue) {
-        return execut(jedis->{
+        return execute(jedis->{
             return jedis.jsonSet(key, Path2.ROOT_PATH, defualtJsonValue);
         });
     }
 
     @Override
     public String xadd(String key, String id, String jsonValue) {
-        return execut(jedis->{
+        return execute(jedis->{
             Map<String, String> map = Util.json2MapString(jsonValue);
             StreamEntryID streamEntryID;
             if(StreamEntryID.NEW_ENTRY.toString().equals(id)){
@@ -374,12 +370,12 @@ public class JedisClusterClient implements RedisClient {
 
     @Override
     public long xlen(String key) {
-        return execut(jedis -> jedis.xlen(key));
+        return execute(jedis -> jedis.xlen(key));
     }
 
     @Override
     public Map<String, String> xrevrange(String key, String start, String end, int total) {
-        return execut(jedis->{
+        return execute(jedis->{
             Map<String,String> map = new LinkedHashMap<>();
             for (StreamEntry streamEntry : jedis.xrevrange(key, start, end, total)) {
                 Map<String, String> fields = streamEntry.getFields();
@@ -392,175 +388,175 @@ public class JedisClusterClient implements RedisClient {
 
     @Override
     public long xdel(String key, String id) {
-        return execut(jedis -> jedis.xdel(key,new StreamEntryID(id)));
+        return execute(jedis -> jedis.xdel(key,new StreamEntryID(id)));
     }
 
     @Override
     public long llen(String list) {
-        return execut(jedis->jedis.llen(list));
+        return execute(jedis->jedis.llen(list));
     }
     @Override
     public long strlen(String key) {
-        return execut(jedis->jedis.strlen(key));
+        return execute(jedis->jedis.strlen(key));
     }
 
     @Override
     public Class<?> jsonType(String key) {
-        return execut(jedis->jedis.jsonType(key,Path2.ROOT_PATH).getFirst());
+        return execute(jedis->jedis.jsonType(key,Path2.ROOT_PATH).getFirst());
     }
 
     @Override
     public long jsonObjLen(String key) {
-        return execut(jedis->jedis.jsonObjLen(key,Path2.ROOT_PATH).getFirst());
+        return execute(jedis->jedis.jsonObjLen(key,Path2.ROOT_PATH).getFirst());
     }
 
     @Override
     public long jsonStrLen(String key) {
-        return execut(jedis->jedis.jsonStrLen(key,Path2.ROOT_PATH).getFirst());
+        return execute(jedis->jedis.jsonStrLen(key,Path2.ROOT_PATH).getFirst());
     }
 
     @Override
     public long jsonArrLen(String key) {
-        return execut(jedis->jedis.jsonArrLen(key,Path2.ROOT_PATH).getFirst());
+        return execute(jedis->jedis.jsonArrLen(key,Path2.ROOT_PATH).getFirst());
     }
 
     @Override
     public List<String> lrange(String list, int start, int stop) {
-        return execut(jedis->jedis.lrange(list,start,stop));
+        return execute(jedis->jedis.lrange(list,start,stop));
     }
 
     @Override
     public List<byte[]> lrange(byte[] list, int start, int stop) {
-        return execut(jedis->jedis.lrange(list,start,stop));
+        return execute(jedis->jedis.lrange(list,start,stop));
     }
 
 
 
     @Override
     public String lset(byte[] list, int i, byte[] value) {
-        return execut(jedis->jedis.lset(list,i,value));
+        return execute(jedis->jedis.lset(list,i,value));
     }
 
     @Override
     public String lset(String list, int i, String value) {
-        return execut(jedis->jedis.lset(list,i,value));
+        return execute(jedis->jedis.lset(list,i,value));
     }
 
     @Override
     public long lrem(byte[] list, int i, byte[] value) {
-        return execut(jedis->jedis.lrem(list,i,value));
+        return execute(jedis->jedis.lrem(list,i,value));
     }
 
     @Override
     public long lrem(String list, int i, String value) {
-        return execut(jedis->jedis.lrem(list,i,value));
+        return execute(jedis->jedis.lrem(list,i,value));
     }
 
     @Override
     public String lpop(String list) {
-        return execut(jedis->jedis.lpop(list));
+        return execute(jedis->jedis.lpop(list));
     }
 
     @Override
     public String rpop(String list) {
-        return execut(jedis->jedis.rpop(list));
+        return execute(jedis->jedis.rpop(list));
     }
 
     @Override
     public long lpush(String list, String value) {
-        return execut(jedis->jedis.lpush(list,value));
+        return execute(jedis->jedis.lpush(list,value));
     }
 
     @Override
     public long lpush(byte[] list, byte[] value) {
-        return execut(jedis->jedis.lpush(list,value));
+        return execute(jedis->jedis.lpush(list,value));
     }
 
     @Override
     public long rpush(String list, String value) {
-        return execut(jedis->jedis.rpush(list,value));
+        return execute(jedis->jedis.rpush(list,value));
     }
 
     @Override
     public long rpush(byte[] list, byte[] value) {
-        return execut(jedis->jedis.rpush(list,value));
+        return execute(jedis->jedis.rpush(list,value));
     }
 
     @Override
     public long hset(String key, String field, String value) {
-        return execut(jedis->jedis.hset(key,field,value));
+        return execute(jedis->jedis.hset(key,field,value));
     }
     @Override
     public long hset(byte[] key, byte[] field, byte[] value) {
-        return execut(jedis->jedis.hset(key,field,value));
+        return execute(jedis->jedis.hset(key,field,value));
     }
 
     @Override
     public long hsetnx(String key, String field, String value) {
-        return execut(jedis->jedis.hsetnx(key,field,value));
+        return execute(jedis->jedis.hsetnx(key,field,value));
     }
 
     @Override
     public long hsetnx(byte[] key, byte[] field, byte[] value) {
-        return execut(jedis->jedis.hsetnx(key,field,value));
+        return execute(jedis->jedis.hsetnx(key,field,value));
     }
 
     @Override
     public long hdel(byte[] key, byte[] field) {
-        return execut(jedis->jedis.hdel(key,field));
+        return execute(jedis->jedis.hdel(key,field));
     }
     @Override
     public long hdel(String key, String field) {
-        return execut(jedis->jedis.hdel(key,field));
+        return execute(jedis->jedis.hdel(key,field));
     }
 
     @Override
     public long scard(String key) {
-        return execut(jedis->jedis.scard(key));
+        return execute(jedis->jedis.scard(key));
     }
 
     @Override
     public long srem(String key,String value) {
-        return execut(jedis->jedis.srem(key,value));
+        return execute(jedis->jedis.srem(key,value));
     }
     @Override
     public long srem(byte[] key,byte[] value) {
-        return execut(jedis->jedis.srem(key,value));
+        return execute(jedis->jedis.srem(key,value));
     }
 
     @Override
     public long sadd(String key,String value) {
-        return execut(jedis->jedis.sadd(key,value));
+        return execute(jedis->jedis.sadd(key,value));
     }
     @Override
     public long sadd(byte[] key,byte[] value) {
-        return execut(jedis->jedis.sadd(key,value));
+        return execute(jedis->jedis.sadd(key,value));
     }
     @Override
     public long zadd(byte[] key, double score, byte[] value) {
-        return execut(jedis->jedis.zadd(key, score,value));
+        return execute(jedis->jedis.zadd(key, score,value));
     }
 
     @Override
     public long zadd(String key, double score, String value) {
-        return execut(jedis->jedis.zadd(key, score,value));
+        return execute(jedis->jedis.zadd(key, score,value));
     }
     @Override
     public long zrem(String key,String value) {
-        return execut(jedis->jedis.zrem(key,value));
+        return execute(jedis->jedis.zrem(key,value));
     }
     @Override
     public long zrem(byte[] key,byte[] value) {
-        return execut(jedis->jedis.zrem(key,value));
+        return execute(jedis->jedis.zrem(key,value));
     }
 
     @Override
     public long zcard(byte[] key) {
-        return execut(jedis->jedis.zcard(key));
+        return execute(jedis->jedis.zcard(key));
     }
     @Override
     public long zcard(String key) {
-        return execut(jedis->jedis.zcard(key));
+        return execute(jedis->jedis.zcard(key));
     }
 
     @Override
@@ -602,15 +598,15 @@ public class JedisClusterClient implements RedisClient {
     }
     @Override
     public long publish(String channel, String message) {
-        return execut(jedis->jedis.publish(channel,message));
+        return execute(jedis->jedis.publish(channel,message));
     }
     @Override
     public long memoryUsage(String key, int samples) {
-        return execut(jedis->jedis.memoryUsage(key,samples));
+        return execute(jedis->jedis.memoryUsage(key,samples));
     }
     @Override
     public Map<Double,String> zrangeWithScores(String key,long start, long stop) {
-        return execut(jedis->{
+        return execute(jedis->{
             List<Tuple> tuples = jedis.zrangeWithScores(key, start, stop);
             Map<Double,String> map = new LinkedHashMap<>();
             tuples.forEach(e->map.put(e.getScore(),e.getElement()));
@@ -620,7 +616,7 @@ public class JedisClusterClient implements RedisClient {
 
     @Override
     public Map<Double,byte[]> zrangeWithScores(byte[] key,long start, long stop) {
-        return execut(jedis->{
+        return execute(jedis->{
             List<Tuple> tuples = jedis.zrangeWithScores(key, start, stop);
             Map<Double,byte[]> map = new LinkedHashMap<>();
             tuples.forEach(e->map.put(e.getScore(),e.getBinaryElement()));
