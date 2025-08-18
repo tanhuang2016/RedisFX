@@ -74,7 +74,7 @@ public class Applications {
             connectionServerNode.setTimestampSort(old.getTimestampSort());
         } else {
             //新增需要设置id和时间戳字段
-            connectionServerNode.setDataId(DataUtil.getUUID());
+            connectionServerNode.setDataId(DataUtil.uuid());
             connectionServerNode.setTimestampSort(System.currentTimeMillis());
         }
         //put进缓存,会触发持久化

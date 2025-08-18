@@ -6,10 +6,12 @@ import com.google.gson.GsonBuilder;
 import java.awt.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author th
@@ -21,24 +23,24 @@ public class DataUtil {
 
     /**
      * 获取uuid
-     * @return
+     * @return uuid
      */
-    public static String getUUID() {
+    public static String uuid() {
         return UUID.randomUUID().toString();
     }
 
     /**
      * 判断字符是否为空
-     * @param str
-     * @return
+     * @param str 需要判断的字符串
+     * @return 是否为空
      */
     public static boolean isBlank(String str) {
         return str==null||str.isEmpty();
     }
     /**
      * 判断字符是否不为空
-     * @param str
-     * @return
+     * @param str 需要判断的字符串
+     * @return 是否不为空
      */
     public static boolean isNotBlank(String str) {
         return !isBlank(str);
@@ -46,17 +48,15 @@ public class DataUtil {
 
     /**
      * 获取系统所有字体
-     * @param locale
-     * @return
+     * @param locale 本地配置
+     * @return 字体
      */
     public static java.util.List<String> getFonts(Locale locale) {
-        java.util.List<String> fonts = new ArrayList<>();
         // 获取本地图形环境
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         // 获取所有可用的字体
         Font[] allFonts = ge.getAllFonts();
-        fonts.addAll(Arrays.asList(allFonts).stream().map(e->e.getFontName(locale)).collect(Collectors.toList()));
-        return fonts;
+        return Stream.of(allFonts).map(e->e.getFontName(locale)).collect(Collectors.toList());
     }
 
     /**
