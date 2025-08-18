@@ -100,7 +100,7 @@ public class JedisClusterClient implements RedisClient {
      */
     private  <R> R execut( Function<JedisCluster, R> execCommand) {
         try {
-            return TUtil.execut(this.jedis,execCommand,JedisCluster::close);
+            return TUtil.execute(this.jedis,execCommand,JedisCluster::close);
 
         }catch (JedisException e){
             log.info("redis api exception",e);

@@ -59,6 +59,19 @@ public class DataUtil {
     }
 
     /**
+     * 字符串为空时返回默认值
+     * @param str 字符串
+     * @param o 默认值
+     * @return 字符串
+     */
+    public static String ifEmpty(String str, String o) {
+        if(str==null||str.isEmpty()){
+            return o;
+        }
+        return str;
+    }
+
+    /**
      * 获取系统所有字体
      * @param locale 本地配置
      * @return 字体

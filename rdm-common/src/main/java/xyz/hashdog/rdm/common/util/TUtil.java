@@ -1,9 +1,7 @@
 package xyz.hashdog.rdm.common.util;
 
 import java.lang.reflect.Field;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ServiceLoader;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -62,44 +60,44 @@ public class TUtil {
         /**
          * 递归
          *
-         * @param h             结果集
-         * @param t             需要递归迭代的目标
-         * @param recursiveDeal
-         * @param <L>
-         * @param <T>
+         * @param res             结果集
+         * @param tag             需要递归迭代的目标
+         * @param recursiveDeal 递归处理
+         * @param <L> 泛型
+         * @param <T> 泛型
          */
-        static <L, T> void recursive(L h, T t, RecursiveTree2List<L, T> recursiveDeal) {
+        static <L, T> void recursive(L res, T tag, RecursiveTree2List<L, T> recursiveDeal) {
             //获取子集
-            List<T> ts = recursiveDeal.subset(t);
+            List<T> ts = recursiveDeal.subset(tag);
             if (ts == null || ts.isEmpty()) {
-                recursiveDeal.noSubset(h, t);
+                recursiveDeal.noSubset(res, tag);
             } else {
-                L newh = recursiveDeal.hasSubset(h, t);
+                L newRes = recursiveDeal.hasSubset(res, tag);
                 for (T t1 : ts) {
-                    recursive(newh, t1, recursiveDeal);
+                    recursive(newRes, t1, recursiveDeal);
                 }
             }
         }
 
         /**
          * 获取节点子集
-         * @param t
-         * @return
+         * @param tag 需要递归迭代的目标
+         * @return 子集
          */
-        List<T> subset(T t) ;
+        List<T> subset(T tag) ;
         /**
          * 没有子集的情况怎么处理
-         * @param h
-         * @param t
+         * @param res 结果集
+         * @param tag 需要递归迭代的目标
          */
-        void noSubset(L h, T t);
+        void noSubset(L res, T tag);
         /**
          * 有子集的情况怎么处理
-         * @param h
-         * @param t
-         * @return
+         * @param res 结果集
+         * @param tag 需要递归迭代的目标
+         * @return 新的集合
          */
-        L hasSubset(L h, T t);
+        L hasSubset(L res, T tag);
     }
 
 
@@ -117,8 +115,8 @@ public class TUtil {
          * @param tree               树结果
          * @param list               需要迭代的list
          * @param recursiveList2Tree 策略
-         * @param <T>
-         * @param <L>
+         * @param <T> 泛型
+         * @param <L> 泛型
          */
         static <T, L> void recursive(T tree, List<L> list, RecursiveList2Tree<T, L> recursiveList2Tree) {
 
@@ -165,11 +163,12 @@ public class TUtil {
     /**
      * 反射获取对象的字段
      *
-     * @param obj
+     * @param obj 对象
      * @param fieldName 获取的字段
-     * @param <T>
-     * @return
+     * @param <T> 泛型
+     * @return 字段值
      */
+    @SuppressWarnings("unchecked")
     public static <T> T getField(Object obj, String fieldName) {
         // 使用反射获取字段的值
         try {
@@ -188,26 +187,7 @@ public class TUtil {
     }
 
 
-    /**
-     * spi获取此类服务
-     *
-     * @param clazz
-     * @param <T>
-     * @return
-     */
-    public static <T> T spi(Class<T> clazz) {
-        ServiceLoader<T> load = ServiceLoader.load(clazz);
-        Iterator<T> iterator = load.iterator();
 
-        //循环获取所需的对象
-        while (iterator.hasNext()) {
-            T next = iterator.next();
-            if (next != null) {
-                return next;
-            }
-        }
-        throw new RuntimeException("no such spi:" + clazz.getName());
-    }
 
 
     /**
@@ -219,9 +199,9 @@ public class TUtil {
      * @param callback    执行逻辑之后的回调,比如关流
      * @param <T>         jedis
      * @param <R>         执行jedis命令之后的返回值
-     * @return
+     * @return 执行jedis命令之后的返回值
      */
-    public static <T, R> R execut(T t, Function<T, R> execCommand, Consumer<T> callback) {
+    public static <T, R> R execute(T t, Function<T, R> execCommand, Consumer<T> callback) {
         try {
             return execCommand.apply(t);
         } finally {
@@ -230,10 +210,5 @@ public class TUtil {
     }
 
 
-    public static String ifEmpty(String str, String o) {
-        if(str==null||str.isEmpty()){
-            return o;
-        }
-        return str;
-    }
+
 }

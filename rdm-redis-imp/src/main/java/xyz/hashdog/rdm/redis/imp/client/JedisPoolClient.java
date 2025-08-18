@@ -93,7 +93,7 @@ public class JedisPoolClient implements RedisClient {
      */
     private  <R> R execut( Function<Jedis, R> execCommand) {
         try {
-            return TUtil.execut(this.jedis,execCommand,Jedis::close);
+            return TUtil.execute(this.jedis,execCommand,Jedis::close);
 
         }catch (JedisException e){
             log.info("redis api exception",e);
