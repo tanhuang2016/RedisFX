@@ -124,11 +124,10 @@ public class FileUtil {
 
     /**
      * 获取图片文件实际类型
-     * @param f
-     * @return
-     * @throws IOException
+     * @param f  文件
+     * @return  图片文件类型
      */
-    public final static String getImageFileType(File f) throws IOException {
+    public static String getImageFileType(File f) throws IOException {
         if (isImage(f)) {
             ImageInputStream iis = ImageIO.createImageInputStream(f);
             Iterator<ImageReader> iter = ImageIO.getImageReaders(iis);
@@ -145,35 +144,29 @@ public class FileUtil {
 
     /**
      * 获取文件类型,包括图片,若格式不是已配置的,则返回null
-     * @param file
-     * @return
+     * @param file  文件
+     * @return 文件类型
      */
-    public final static String getFileByFile(File file) {
+    public  static String getFileByFile(File file) {
         String filetype = null;
         byte[] b = new byte[50];
-        try {
-            InputStream is = new FileInputStream(file);
-            is.read(b);
+        try(InputStream is = new FileInputStream(file);) {
+            int read = is.read(b);
             filetype = getFileTypeByStream(b);
-            is.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+           log.error("getFileByFile Exception", e);
         }
         return filetype;
     }
 
     /**
      * 获取文件类型,只用转前面一段16进制就行,没必要全部转
-     * @param b
-     * @return
+     * @param b 文件流
+     * @return 文件类型
      */
-    public final static String getFileTypeByStream(byte[] b) {
-        String filetypeHex = String.valueOf(getFileHexString(b,50));
-        Iterator<Map.Entry<String, String>> entryiterator = FILE_TYPE_MAP.entrySet().iterator();
-        while (entryiterator.hasNext()) {
-            Map.Entry<String, String> entry = entryiterator.next();
+    public  static String getFileTypeByStream(byte[] b) {
+        String filetypeHex = getFileHexString(b,50);
+        for (Map.Entry<String, String> entry : FILE_TYPE_MAP.entrySet()) {
             String fileTypeHexValue = entry.getValue();
             if (filetypeHex.toUpperCase().startsWith(fileTypeHexValue)) {
                 return entry.getKey();
@@ -184,34 +177,28 @@ public class FileUtil {
 
     /**
      * 判断文件是否为图片
-     * @param file
-     * @return
+     * @param file  文件
+     * @return 是否图片
      */
-    public static final boolean isImage(File file) {
+    public static  boolean isImage(File file) {
         boolean flag = false;
         try {
-            BufferedImage bufreader = ImageIO.read(file);
-            int width = bufreader.getWidth();
-            int height = bufreader.getHeight();
-            if (width == 0 || height == 0) {
-                flag = false;
-            } else {
-                flag = true;
-            }
+            BufferedImage proofreader = ImageIO.read(file);
+            int width = proofreader.getWidth();
+            int height = proofreader.getHeight();
+            flag = width != 0 && height != 0;
         } catch (IOException e) {
-            flag = false;
-        } catch (Exception e) {
-            flag = false;
+            log.error("isImage Exception", e);
         }
         return flag;
     }
 
     /**
      * 转16进制,从开头截止到stop
-     * @param
-     * @return
+     * @param byteArray byte[]
+     * @return 16进制字符串
      */
-    public final static String getFileHexString(byte[] byteArray,int stop) {
+    public  static String getFileHexString(byte[] byteArray,int stop) {
         if(byteArray.length<stop){
             stop=byteArray.length;
         }
@@ -221,6 +208,11 @@ public class FileUtil {
 
 
 
+    /**
+     * byte[]转16进制字符串
+     * @param bytes byte[]
+     * @return 16进制字符串
+     */
     public static String byte2HexString(byte[] bytes) {
         StringBuilder hex = new StringBuilder();
         if (bytes != null) {
@@ -231,6 +223,11 @@ public class FileUtil {
         return hex.toString();
     }
 
+    /**
+     * 16进制字符串转byte[]
+     * @param s 16进制字符串
+     * @return byte[]
+     */
     public static byte[] hexStringToByteArray(String s) {
         int len = s.length();
         byte[] data = new byte[len / 2];
@@ -240,15 +237,15 @@ public class FileUtil {
                         + Character.digit(s.charAt(i+1), 16));
             }
         } catch (Exception e) {
-            // Log.d("", "Argument(s) for hexStringToByteArray(String s)"+ "was not a hex string");
+           log.error("hexStringToByteArray Exception", e);
         }
         return data;
     }
 
     /**
      * byte[]转二进制字符串
-     * @param byteArray
-     * @return
+     * @param byteArray byte[]
+     * @return 二进制字符串
      */
     public static String byteArrayToBinaryString(byte[] byteArray) {
         StringBuilder binaryString = new StringBuilder();
@@ -262,8 +259,8 @@ public class FileUtil {
 
     /**
      * 二进制字符串转byte[]
-     * @param binaryString
-     * @return
+     * @param binaryString 二进制字符串
+     * @return byte[]
      */
     public static byte[] binaryStringToByteArray(String binaryString) {
         int length = binaryString.length() / 8;
