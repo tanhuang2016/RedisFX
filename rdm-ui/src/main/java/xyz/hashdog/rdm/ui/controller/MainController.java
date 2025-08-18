@@ -33,6 +33,7 @@ import xyz.hashdog.rdm.ui.entity.config.KeyTabPaneSetting;
 import xyz.hashdog.rdm.ui.entity.config.ServerTabPaneSetting;
 import xyz.hashdog.rdm.ui.entity.config.TabPaneSetting;
 import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
+import xyz.hashdog.rdm.ui.sampler.event.Event;
 import xyz.hashdog.rdm.ui.sampler.event.TabPaneEvent;
 import xyz.hashdog.rdm.ui.sampler.layout.ApplicationWindow;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
@@ -47,8 +48,9 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
 /**
  * 主控制层
+ * @author th
  */
-public class MainController extends BaseWindowController {
+public class MainController extends BaseWindowController<ApplicationWindow> {
     @FXML
     public AnchorPane root;
     /**
@@ -103,8 +105,8 @@ public class MainController extends BaseWindowController {
     }
 
     private void initTabPane() {
-        ServerTabPaneSetting ssetting =Applications.getConfigSettings(ConfigSettingsEnum.SERVER_TAB_PANE.name);
-        this.serverTabPane.setSide(Side.valueOf(ssetting.getSide()));
+        ServerTabPaneSetting setting =Applications.getConfigSettings(ConfigSettingsEnum.SERVER_TAB_PANE.name);
+        this.serverTabPane.setSide(Side.valueOf(setting.getSide()));
     }
 
     private void initMenuGroup() {
@@ -120,7 +122,7 @@ public class MainController extends BaseWindowController {
 
     /**
      * RadioMenuItem 设置分组
-     * @param menus
+     * @param menus 菜单
      */
     private void setMenuGroup(Menu... menus) {
         for (Menu menu : menus) {
@@ -134,6 +136,10 @@ public class MainController extends BaseWindowController {
 
     }
 
+    /**
+     * 重新方法，增加了监听当前场景中哪个节点拥有输入焦点，弃用相关编辑菜单项
+     * @param currentStage 当前场景，主场景
+     */
     @Override
     public void setCurrentStage(Stage currentStage) {
         super.setCurrentStage(currentStage);
@@ -153,8 +159,6 @@ public class MainController extends BaseWindowController {
                         tic.deleteText(start, end);
                     }
                 });
-            } else {
-                // 清除按钮事件或禁用按钮
             }
         });
     }
@@ -165,7 +169,7 @@ public class MainController extends BaseWindowController {
     }
 
     private void tabPaneChangeListener() {
-        DefaultEventBus.getInstance().subscribe(TabPaneEvent.class, e -> {
+        addTmEventSubscriber(TabPaneEvent.class, e -> {
             var eventType = e.getEventType();
             if (eventType == TabPaneEvent.EventType.SERVER_TAB_PANE_CHANGE ) {
                 ServerTabPaneSetting setting =Applications.getConfigSettings(ConfigSettingsEnum.SERVER_TAB_PANE.name);
@@ -181,15 +185,17 @@ public class MainController extends BaseWindowController {
 
     /**
      * 选择并点击
-     * @param setting
-     * @param menu
-     * @param b
+     * @param setting 撇嘴
+     * @param menu 菜单
+     * @param fire 是否需要触发点击
      */
-    private void setRadioMenuItemSelected(TabPaneSetting setting, Menu menu, boolean b) {
+    private void setRadioMenuItemSelected(TabPaneSetting setting, Menu menu, boolean fire) {
         Side side = Side.valueOf(setting.getSide());
         RadioMenuItem menuItem = (RadioMenuItem) menu.getItems().get(side.ordinal());
         menuItem.setSelected(true);
-        if(b)menuItem.fire();
+        if(fire) {
+            menuItem.fire();
+        }
     }
 
     /**

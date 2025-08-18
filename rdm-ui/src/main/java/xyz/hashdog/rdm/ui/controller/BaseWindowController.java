@@ -9,9 +9,19 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
+import xyz.hashdog.rdm.ui.common.Applications;
+import xyz.hashdog.rdm.ui.common.ConfigSettingsEnum;
+import xyz.hashdog.rdm.ui.entity.config.KeyTabPaneSetting;
+import xyz.hashdog.rdm.ui.entity.config.ServerTabPaneSetting;
+import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
+import xyz.hashdog.rdm.ui.sampler.event.Event;
+import xyz.hashdog.rdm.ui.sampler.event.TabPaneEvent;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * 用于新开窗口的父子关系
@@ -37,6 +47,21 @@ public abstract class BaseWindowController<T> extends BaseController<T> {
      */
     public Stage currentStage;
 
+    /**
+     * 临时事件订阅者
+     */
+    protected final List<Consumer<? extends Event>> tmEventSubscribers=new ArrayList<>();
+
+    /**
+     * 添加配置变更事件订阅者
+     * @param eventType 订阅的事件类型
+     * @param subscriber 订阅者
+     * @param <E> 订阅的事件类型
+     */
+    public <E extends Event> void addTmEventSubscriber(Class<? extends E> eventType, Consumer<E> subscriber) {
+        tmEventSubscribers.add( subscriber);
+        DefaultEventBus.getInstance().subscribe(eventType, subscriber);
+    }
 
     @FXML
     public void cancel(ActionEvent actionEvent) {
@@ -101,6 +126,9 @@ public abstract class BaseWindowController<T> extends BaseController<T> {
         this.currentStage.getIcons().add(GuiUtil.ICON_REDIS);
     }
 
-
-
+    @Override
+    public void close() {
+        super.close();
+        tmEventSubscribers.forEach(DefaultEventBus.getInstance()::unsubscribe);
+    }
 }
