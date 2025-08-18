@@ -37,34 +37,20 @@ import java.util.function.Function;
 public class JedisPoolClient implements RedisClient {
     protected static Logger log = LoggerFactory.getLogger(JedisPoolClient.class);
 
-    
-    private Jedis jedis;
-    private Pool<Jedis> jedisPool;
-    private Session tunnel;
+    private final Jedis jedis;
+    private final Pool<Jedis> jedisPool;
     public JedisPoolClient(Pool<Jedis> jedisPool) {
         this.jedisPool = jedisPool;
         this.jedis = jedisPool.getResource();
     }
 
-
     private int db;
 
-    public JedisPoolClient(JedisPool jedisPool, Session tunnel) {
-        this(jedisPool);
-        this.tunnel=tunnel;
-    }
-
-//    public JedisPoolClient(JedisPool pool, RedisConfig redisConfig) {
-//        jedis = pool.getResource();
-//        if(DataUtil.isNotBlank(redisConfig.getAuth())){
-//            jedis.auth(redisConfig.getAuth());
-//        }
-//    }
 
     /**
      * 这里通过message进行传输异常
-     * 可以优化为统一异常处理,这个方法暂时保留 FIXME
-     * @return
+     * 可以优化为统一异常处理,这个方法暂时保留
+     * @return 测试连接结果
      */
     @Override
     public Message testConnect()  {

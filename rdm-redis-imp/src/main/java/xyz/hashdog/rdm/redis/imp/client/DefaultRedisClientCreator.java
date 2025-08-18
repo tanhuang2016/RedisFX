@@ -59,10 +59,10 @@ public class DefaultRedisClientCreator implements RedisClientCreator{
         if(redisConfig.isSsl()){
             SSLSocketFactory sslSocketFactory = Util.getSocketFactory(redisConfig.getCaCrt(), redisConfig.getRedisCrt(), redisConfig.getRedisKey(), redisConfig.getRedisKeyPassword());
             this.jedisPool=new JedisPool(defaultPoolConfig(), host, port,redisConfig.getConnectionTimeout(),redisConfig.getSoTimeout(),DataUtil.ifEmpty(redisConfig.getAuth(),null),0,null,true,sslSocketFactory,null,null);
-            return new JedisPoolClient(jedisPool,tunnel);
+            return new JedisPoolClient(jedisPool);
         }
         this.jedisPool=new JedisPool(defaultPoolConfig(), host, port,redisConfig.getConnectionTimeout(),redisConfig.getSoTimeout(), DataUtil.ifEmpty(redisConfig.getAuth(),null),0,null);
-        return new JedisPoolClient(jedisPool,tunnel);
+        return new JedisPoolClient(jedisPool);
     }
 
     /**
