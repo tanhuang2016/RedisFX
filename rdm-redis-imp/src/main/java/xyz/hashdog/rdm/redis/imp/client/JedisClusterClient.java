@@ -513,12 +513,7 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
     }
     @Override
     public Map<Double,String> zrangeWithScores(String key,long start, long stop) {
-        return execute(jedis->{
-            List<Tuple> tuples = jedis.zrangeWithScores(key, start, stop);
-            Map<Double,String> map = new LinkedHashMap<>();
-            tuples.forEach(e->map.put(e.getScore(),e.getElement()));
-            return map;
-        });
+        return execute(jedis->super.zrangeWithScores(jedis,key,start,stop));
     }
 
     @Override

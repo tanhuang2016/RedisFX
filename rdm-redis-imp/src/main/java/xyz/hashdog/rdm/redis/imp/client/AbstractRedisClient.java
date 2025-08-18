@@ -1,10 +1,12 @@
 package xyz.hashdog.rdm.redis.imp.client;
 
 import redis.clients.jedis.StreamEntryID;
+import redis.clients.jedis.commands.SortedSetCommands;
 import redis.clients.jedis.commands.StreamCommands;
 import redis.clients.jedis.params.ScanParams;
 import redis.clients.jedis.resps.ScanResult;
 import redis.clients.jedis.resps.StreamEntry;
+import redis.clients.jedis.resps.Tuple;
 import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.redis.client.RedisClient;
 import xyz.hashdog.rdm.redis.imp.Util;
@@ -139,6 +141,13 @@ public abstract class AbstractRedisClient implements RedisClient {
             String jsonValue =Util.obj2Json(fields);
             map.put(streamEntry.getID().toString(),jsonValue);
         }
+        return map;
+    }
+
+    public Map<Double,String> zrangeWithScores(SortedSetCommands jedis, String key, long start, long stop) {
+        List<Tuple> tuples = jedis.zrangeWithScores(key, start, stop);
+        Map<Double,String> map = new LinkedHashMap<>();
+        tuples.forEach(e->map.put(e.getScore(),e.getElement()));
         return map;
     }
 
