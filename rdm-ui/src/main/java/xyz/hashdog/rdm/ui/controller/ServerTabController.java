@@ -7,7 +7,6 @@ import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -231,8 +230,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
                 String text = selectedItem.getText();
                 RedisDataTypeEnum byType = RedisDataTypeEnum.getByType(text);
                 Tuple2<AnchorPane,NewKeyController> tuple2 = loadFXML("/fxml/NewKeyView.fxml");
-                AnchorPane anchorPane = tuple2.getT1();
-                NewKeyController controller = tuple2.getT2();
+                AnchorPane anchorPane = tuple2.t1();
+                NewKeyController controller = tuple2.t2();
                 controller.setParentController(this);
                 PassParameter passParameter = new PassParameter(byType.tabType);
                 passParameter.setDb(this.currentDb);
@@ -612,8 +611,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
         String key = this.lastSelectedNode.getValue().getKey();
         String type = RedisDataTypeEnum.getByType(exeRedis(j -> j.type(key))).type;
         Tuple2<AnchorPane,BaseKeyController> tuple2 = loadFXML("/fxml/KeyTabView.fxml");
-        AnchorPane borderPane = tuple2.getT1();
-        BaseKeyController controller = tuple2.getT2();
+        AnchorPane borderPane = tuple2.t1();
+        BaseKeyController controller = tuple2.t2();
         controller.setParentController(this);
         PassParameter passParameter = new PassParameter(PassParameter.NONE);
         passParameter.setDb(this.currentDb);
@@ -845,8 +844,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
     @FXML
     public void console(ActionEvent actionEvent) throws IOException {
         Tuple2<AnchorPane,ConsoleController> tuple2 = loadFXML("/fxml/ConsoleView.fxml");
-        AnchorPane anchorPane = tuple2.getT1();
-        BaseKeyController controller = tuple2.getT2();
+        AnchorPane anchorPane = tuple2.t1();
+        BaseKeyController controller = tuple2.t2();
         controller.setParentController(this);
         PassParameter passParameter = new PassParameter(PassParameter.CONSOLE);
         passParameter.setDb(this.currentDb);
@@ -869,8 +868,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
     @FXML
     public void monitor(ActionEvent actionEvent) throws IOException {
         Tuple2<AnchorPane,ConsoleController> tuple2 = loadFXML("/fxml/MonitorView.fxml");
-        AnchorPane anchorPane = tuple2.getT1();
-        BaseKeyController controller = tuple2.getT2();
+        AnchorPane anchorPane = tuple2.t1();
+        BaseKeyController controller = tuple2.t2();
         controller.setParentController(this);
         PassParameter passParameter = new PassParameter(PassParameter.MONITOR);
         passParameter.setDb(this.currentDb);
@@ -897,8 +896,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
     @FXML
     public void report(ActionEvent actionEvent) throws IOException {
         Tuple2<ScrollPane,ConsoleController> tuple2 = loadFXML("/fxml/ReportView.fxml");
-        Region anchorPane = tuple2.getT1();
-        BaseKeyController controller = tuple2.getT2();
+        Region anchorPane = tuple2.t1();
+        BaseKeyController controller = tuple2.t2();
         controller.setParentController(this);
         PassParameter passParameter = new PassParameter(PassParameter.MONITOR);
         passParameter.setDb(this.currentDb);
@@ -925,8 +924,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
     @FXML
     public void pubsub(ActionEvent actionEvent) throws IOException {
         Tuple2<AnchorPane,ConsoleController> tuple2 = loadFXML("/fxml/PubSubView.fxml");
-        AnchorPane anchorPane = tuple2.getT1();
-        BaseKeyController controller = tuple2.getT2();
+        AnchorPane anchorPane = tuple2.t1();
+        BaseKeyController controller = tuple2.t2();
         controller.setParentController(this);
         PassParameter passParameter = new PassParameter(PassParameter.PUBSUB);
         passParameter.setDb(this.currentDb);

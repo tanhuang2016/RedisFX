@@ -62,8 +62,8 @@ public abstract class BaseWindowController<T> extends BaseController<T> {
         newConnctionWindowStage.setMaximized(false);
         newConnctionWindowStage.setTitle(title);
         Tuple2<AnchorPane,T> tuple2 = loadFXML(fxml);
-        AnchorPane borderPane = tuple2.getT1();
-        T controller = tuple2.getT2();
+        AnchorPane borderPane = tuple2.t1();
+        T controller = tuple2.t2();
         controller.setParentController(this);
         controller.setCurrentStage(newConnctionWindowStage);
         Scene scene = new Scene(borderPane);

@@ -7,7 +7,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.control.*;
@@ -20,7 +19,6 @@ import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
-import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.redis.Message;
 import xyz.hashdog.rdm.redis.RedisConfig;
 import xyz.hashdog.rdm.redis.RedisContext;
@@ -37,17 +35,12 @@ import xyz.hashdog.rdm.ui.entity.config.TabPaneSetting;
 import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
 import xyz.hashdog.rdm.ui.sampler.event.TabPaneEvent;
 import xyz.hashdog.rdm.ui.sampler.layout.ApplicationWindow;
-import xyz.hashdog.rdm.ui.sampler.layout.MainLayer;
-import xyz.hashdog.rdm.ui.sampler.layout.MainModel;
-import xyz.hashdog.rdm.ui.sampler.layout.Sidebar;
-import xyz.hashdog.rdm.ui.sampler.theme.ThemeManager;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.RecentHistory;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import static javafx.scene.input.KeyCombination.*;
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
@@ -320,8 +313,8 @@ public class MainController extends BaseWindowController {
             this.serverConnectionsWindowStage.setTitle(Main.RESOURCE_BUNDLE.getString(Constant.MAIN_FILE_CONNECT));
 
             Tuple2<AnchorPane,ServerConnectionsController> tuple2 = loadFXML("/fxml/ServerConnectionsView.fxml");
-            AnchorPane borderPane =tuple2.getT1();
-            serverConnectionsController = tuple2.getT2();
+            AnchorPane borderPane =tuple2.t1();
+            serverConnectionsController = tuple2.t2();
             Scene scene = new Scene(borderPane);
             this.serverConnectionsWindowStage.initOwner(root.getScene().getWindow());
             this.serverConnectionsWindowStage.setScene(scene);
@@ -342,8 +335,8 @@ public class MainController extends BaseWindowController {
      */
     public void newRedisTab(RedisContext redisContext, String name) throws IOException {
         Tuple2<AnchorPane,ServerTabController> tuple2 = loadFXML("/fxml/ServerTabView.fxml");
-        AnchorPane borderPane = tuple2.getT1();
-        ServerTabController controller = tuple2.getT2();
+        AnchorPane borderPane = tuple2.t1();
+        ServerTabController controller = tuple2.t2();
         controller.setParentController(this);
         PassParameter passParameter = new PassParameter(PassParameter.REDIS);
         passParameter.setRedisContext(redisContext);

@@ -51,7 +51,7 @@ public class Util extends xyz.hashdog.rdm.redis.imp.Util {
     }
     public static String convertMemorySizeStr(long bytes,int scala) {
         Tuple2<Double, String> tuple2 = convertMemorySize(bytes);
-        return format(tuple2.getT1(),scala)+ tuple2.getT2();
+        return format(tuple2.t1(),scala)+ tuple2.t2();
     }
 
     public static Tuple2<Double, String> convertMemorySize(String bytesStr) {

@@ -190,8 +190,8 @@ public class SetTypeController extends BaseKeyContentController implements Initi
                 this.lastSelect = newValue;
                 Platform.runLater(() -> {
                     Tuple2<AnchorPane, ByteArrayController> tuple2 = loadFXML("/fxml/ByteArrayView.fxml");
-                    AnchorPane anchorPane = tuple2.getT1();
-                    byteArrayController = tuple2.getT2();
+                    AnchorPane anchorPane = tuple2.t1();
+                    byteArrayController = tuple2.t2();
                     byteArrayController.setParentController(this);
                     byteArrayController.setByteArray(newValue.getBytes());
                     borderPane.setCenter(anchorPane);
@@ -323,13 +323,13 @@ public class SetTypeController extends BaseKeyContentController implements Initi
         Button source = (Button)actionEvent.getSource();
         Tuple2<AnchorPane, ByteArrayController> tuple2 = GuiUtil.loadByteArrayView( "".getBytes(),this);
         Tuple2<AnchorPane, AppendController> appendTuple2=loadFXML("/fxml/AppendView.fxml");
-        Stage stage= GuiUtil.createSubStage(source.getText(),appendTuple2.getT1(),root.getScene().getWindow());
-        appendTuple2.getT2().setCurrentStage(stage);
-        appendTuple2.getT2().setSubContent(tuple2.getT1());
+        Stage stage= GuiUtil.createSubStage(source.getText(),appendTuple2.t1(),root.getScene().getWindow());
+        appendTuple2.t2().setCurrentStage(stage);
+        appendTuple2.t2().setSubContent(tuple2.t1());
         stage.show();
         //设置确定事件咯
-        appendTuple2.getT2().ok.setOnAction(event -> {
-            byte[] byteArray = tuple2.getT2().getByteArray();
+        appendTuple2.t2().ok.setOnAction(event -> {
+            byte[] byteArray = tuple2.t2().getByteArray();
             asynexec(()->{
                 exeRedis(j->j.sadd(this.parameter.get().getKey().getBytes(),byteArray));
                 Platform.runLater(()->{

@@ -69,8 +69,8 @@ public class StringTypeController extends BaseKeyContentController implements In
                     this.currentValue = bytes;
                     Platform.runLater(()->{
                         Tuple2<AnchorPane,ByteArrayController> tuple2 = loadFXML("/fxml/ByteArrayView.fxml");
-                        AnchorPane anchorPane = tuple2.getT1();
-                        this.byteArrayController  = tuple2.getT2();
+                        AnchorPane anchorPane = tuple2.t1();
+                        this.byteArrayController  = tuple2.t2();
                         this.byteArrayController.setParentController(this);
                         this.byteArrayController.setByteArray(this.currentValue);
                         borderPane.setCenter(anchorPane);

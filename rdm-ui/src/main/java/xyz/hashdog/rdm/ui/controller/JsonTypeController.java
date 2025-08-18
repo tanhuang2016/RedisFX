@@ -15,7 +15,6 @@ import xyz.hashdog.rdm.ui.common.ValueTypeEnum;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ResourceBundle;
 
 import static xyz.hashdog.rdm.ui.common.Constant.ALERT_MESSAGE_SAVE_SUCCESS;
@@ -70,8 +69,8 @@ public class JsonTypeController extends BaseKeyContentController implements Init
                     this.currentValue = bytes.getBytes();
                     Platform.runLater(()->{
                         Tuple2<AnchorPane,ByteArrayController> tuple2 = loadFXML("/fxml/ByteArrayView.fxml");
-                        AnchorPane anchorPane = tuple2.getT1();
-                        this.byteArrayController  = tuple2.getT2();
+                        AnchorPane anchorPane = tuple2.t1();
+                        this.byteArrayController  = tuple2.t2();
                         this.byteArrayController.setParentController(this);
                         this.byteArrayController.setByteArray(this.currentValue, ValueTypeEnum.JSON);
                         borderPane.setCenter(anchorPane);

@@ -32,7 +32,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import javafx.util.Callback;
 import javafx.util.Duration;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -45,11 +44,8 @@ import xyz.hashdog.rdm.ui.controller.BaseController;
 import xyz.hashdog.rdm.ui.controller.BaseKeyController;
 import xyz.hashdog.rdm.ui.controller.ByteArrayController;
 import xyz.hashdog.rdm.ui.entity.ITable;
-import xyz.hashdog.rdm.ui.entity.KeyTreeNode;
 import xyz.hashdog.rdm.ui.entity.PassParameter;
-import xyz.hashdog.rdm.ui.entity.TopKeyTable;
 import xyz.hashdog.rdm.ui.entity.config.KeyTagSetting;
-import xyz.hashdog.rdm.ui.entity.config.ThemeSetting;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -58,7 +54,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -485,8 +480,8 @@ public class GuiUtil {
      */
     public static Tuple2<AnchorPane, ByteArrayController> loadByteArrayView(byte[] bytes, BaseController baseController) {
         Tuple2<AnchorPane, ByteArrayController> tuple2 = baseController.loadFXML("/fxml/ByteArrayView.fxml");
-        tuple2.getT2().setParentController(baseController);
-        tuple2.getT2().setByteArray(bytes);
+        tuple2.t2().setParentController(baseController);
+        tuple2.t2().setByteArray(bytes);
         return tuple2;
     }
 
@@ -526,9 +521,9 @@ public class GuiUtil {
     }
 
     private static Label createTypeLabel(Tuple2<String, String> tag) {
-        Label tagLabel = new Label(tag.getT1());
+        Label tagLabel = new Label(tag.t1());
         tagLabel.getStyleClass().add("tag");
-        tagLabel.setStyle("-fx-background-color:"+tag.getT2());
+        tagLabel.setStyle("-fx-background-color:"+tag.t2());
         return tagLabel;
     }
 

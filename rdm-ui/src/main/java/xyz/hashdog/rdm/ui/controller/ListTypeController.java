@@ -2,7 +2,6 @@ package xyz.hashdog.rdm.ui.controller;
 
 import atlantafx.base.controls.CustomTextField;
 import atlantafx.base.theme.Styles;
-import atlantafx.base.theme.Tweaks;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -20,7 +19,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
-import org.kordamp.ikonli.material2.Material2MZ;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
@@ -206,8 +204,8 @@ public class ListTypeController extends BaseKeyContentController implements Init
                 Platform.runLater(() -> {
                     Tuple2<AnchorPane, ByteArrayController> tuple2 = GuiUtil.loadByteArrayView(newValue.getBytes(),this);
 
-                    AnchorPane anchorPane = tuple2.getT1();
-                    byteArrayController = tuple2.getT2();
+                    AnchorPane anchorPane = tuple2.t1();
+                    byteArrayController = tuple2.t2();
                     borderPane.setCenter(anchorPane);
                 });
             }
@@ -344,13 +342,13 @@ public class ListTypeController extends BaseKeyContentController implements Init
         }
         Tuple2<AnchorPane, ByteArrayController> tuple2 =  GuiUtil.loadByteArrayView("".getBytes(),this);
         Tuple2<AnchorPane, AppendController> appendTuple2=loadFXML("/fxml/AppendView.fxml");
-        Stage stage= GuiUtil.createSubStage(text,appendTuple2.getT1(),root.getScene().getWindow());
-        appendTuple2.getT2().setCurrentStage(stage);
-        appendTuple2.getT2().setSubContent(tuple2.getT1());
+        Stage stage= GuiUtil.createSubStage(text,appendTuple2.t1(),root.getScene().getWindow());
+        appendTuple2.t2().setCurrentStage(stage);
+        appendTuple2.t2().setSubContent(tuple2.t1());
         stage.show();
         //设置确定事件咯
-        appendTuple2.getT2().ok.setOnAction(event -> {
-            byte[] byteArray = tuple2.getT2().getByteArray();
+        appendTuple2.t2().ok.setOnAction(event -> {
+            byte[] byteArray = tuple2.t2().getByteArray();
             asynexec(()->{
                 if(index==0){
                     exeRedis(j->j.lpush(this.parameter.get().getKey().getBytes(),byteArray));

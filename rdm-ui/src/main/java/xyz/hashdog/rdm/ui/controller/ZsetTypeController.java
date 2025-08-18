@@ -23,7 +23,6 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
-import xyz.hashdog.rdm.ui.entity.SetTypeTable;
 import xyz.hashdog.rdm.ui.entity.ZsetTypeTable;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
@@ -201,11 +200,11 @@ public class ZsetTypeController extends BaseKeyContentController implements Init
                 this.lastSelect = newValue;
                 Platform.runLater(() -> {
                     Tuple2<AnchorPane, ByteArrayController> valueTuple2 = GuiUtil.loadByteArrayView(newValue.getBytes(),this);
-                    byteArrayController = valueTuple2.getT2();
+                    byteArrayController = valueTuple2.t2();
                     VBox vBox = (VBox) borderPane.getCenter();
-                    VBox.setVgrow(valueTuple2.getT1(), Priority.ALWAYS);
+                    VBox.setVgrow(valueTuple2.t1(), Priority.ALWAYS);
                     ObservableList<Node> children = vBox.getChildren();
-                    children.set(children.size()-1,valueTuple2.getT1());
+                    children.set(children.size()-1,valueTuple2.t1());
                     score.setText(String.valueOf(newValue.getScore()));
 
                 });
@@ -317,7 +316,7 @@ public class ZsetTypeController extends BaseKeyContentController implements Init
         Button source = (Button)actionEvent.getSource();
         Tuple2<AnchorPane, ByteArrayController> tuple2 = GuiUtil.loadByteArrayView( "".getBytes(),this);
         VBox vBox = new VBox();
-        VBox.setVgrow(tuple2.getT1(), Priority.ALWAYS);
+        VBox.setVgrow(tuple2.t1(), Priority.ALWAYS);
         ObservableList<Node> children = vBox.getChildren();
         Label label = new Label("Score");
         label.setAlignment(Pos.CENTER);
@@ -331,17 +330,17 @@ public class ZsetTypeController extends BaseKeyContentController implements Init
         children.add(hBox);
         TextField score = new TextField();
         children.add(score);
-        children.add(tuple2.getT1());
+        children.add(tuple2.t1());
         VBox.setVgrow(hBox,Priority.ALWAYS);
         Tuple2<AnchorPane, AppendController> appendTuple2=loadFXML("/fxml/AppendView.fxml");
-        Stage stage= GuiUtil.createSubStage(source.getText(),appendTuple2.getT1(),root.getScene().getWindow());
-        appendTuple2.getT2().setCurrentStage(stage);
-        appendTuple2.getT2().setSubContent(vBox);
+        Stage stage= GuiUtil.createSubStage(source.getText(),appendTuple2.t1(),root.getScene().getWindow());
+        appendTuple2.t2().setCurrentStage(stage);
+        appendTuple2.t2().setSubContent(vBox);
         stage.show();
         //设置确定事件咯
-        appendTuple2.getT2().ok.setOnAction(event -> {
+        appendTuple2.t2().ok.setOnAction(event -> {
             double v = Double.parseDouble(score.getText());
-            byte[] byteArray = tuple2.getT2().getByteArray();
+            byte[] byteArray = tuple2.t2().getByteArray();
             asynexec(()->{
                 exeRedis(j->j.zadd(this.parameter.get().getKey().getBytes(),v,byteArray));
                 Platform.runLater(()->{

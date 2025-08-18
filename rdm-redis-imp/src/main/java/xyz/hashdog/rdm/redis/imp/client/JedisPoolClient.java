@@ -127,7 +127,7 @@ public class JedisPoolClient implements RedisClient {
                     continue;
                 }
                 Tuple2<Integer,Integer> tu=Util.keyspaceParseDb(row);
-                map.put(tu.getT1(),map.get(tu.getT1())+String.format("[%d]",tu.getT2()));
+                map.put(tu.t1(),map.get(tu.t1())+String.format("[%d]",tu.t2()));
             }
             return map;
         });

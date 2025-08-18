@@ -422,10 +422,10 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
      */
     private void initRefreshPopover() {
         Tuple2<AnchorPane, RefreshPopover> tuple2 = loadFXML("/fxml/popover/RefreshPopover.fxml");
-        AnchorPane root = tuple2.getT1();
-        this.addChild(tuple2.getT2());
-        tuple2.getT2().setParentController(this);
-        tuple2.getT2().initAutoRefreshState(true);
+        AnchorPane root = tuple2.t1();
+        this.addChild(tuple2.t2());
+        tuple2.t2().setParentController(this);
+        tuple2.t2().initAutoRefreshState(true);
         var pop = new Popover(root);
         pop.setHeaderAlwaysVisible(false);
         pop.setDetachable(false);
@@ -468,14 +468,14 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                         + String.format(language("server.report.bar.output")+" %s",map.get(Constant.REDIS_INFO_INSTANTANEOUS_OUTPUT_KBPS));
                 barNet.setTooltip(GuiUtil.textTooltip(barNetTooltip));
                 Tuple2<Double, String> barMemoryTu = Util.convertMemorySize(map.get(Constant.REDIS_INFO_USED_MEMORY));
-                barMemory.setText(String.format("%s%s",Util.format(barMemoryTu.getT1(),2),barMemoryTu.getT2()));
-                barMemory.setTooltip(GuiUtil.textTooltip(String.format(language("server.report.bar.memory")+" %s%s",Util.format(barMemoryTu.getT1(),4),barMemoryTu.getT2())));
-                int keyTotalSize = dbSizeList.stream().mapToInt(Tuple2::getT2).sum();
+                barMemory.setText(String.format("%s%s",Util.format(barMemoryTu.t1(),2),barMemoryTu.t2()));
+                barMemory.setTooltip(GuiUtil.textTooltip(String.format(language("server.report.bar.memory")+" %s%s",Util.format(barMemoryTu.t1(),4),barMemoryTu.t2())));
+                int keyTotalSize = dbSizeList.stream().mapToInt(Tuple2::t2).sum();
                 barKey.setText(String.valueOf(keyTotalSize));
                 StringBuilder barKeyTooltip = new StringBuilder(String.format(language("server.report.bar.key")+" %s", keyTotalSize));
                 for (Tuple2<Integer, Integer> tus : dbSizeList) {
                     barKeyTooltip.append(System.lineSeparator());
-                    barKeyTooltip.append(String.format("DB%s: %s", tus.getT1(), tus.getT2()));
+                    barKeyTooltip.append(String.format("DB%s: %s", tus.t1(), tus.t2()));
                 }
                 barKey.setTooltip(GuiUtil.textTooltip(barKeyTooltip.toString()));
                 barConnection.setText(map.get(Constant.REDIS_INFO_CONNECTED_CLIENTS));
@@ -487,11 +487,11 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                 redisVersion.setText(map.get(Constant.REDIS_INFO_REDIS_VERSION));
                 os.setText(map.get(Constant.REDIS_INFO_OS));
                 processId.setText(map.get(Constant.REDIS_INFO_PROCESS_ID));
-                usedMemory.setText(String.format("%s%s",Util.format(barMemoryTu.getT1(),2),barMemoryTu.getT2()));
+                usedMemory.setText(String.format("%s%s",Util.format(barMemoryTu.t1(),2),barMemoryTu.t2()));
                 Tuple2<Double, String> usedMemoryPeakTu = Util.convertMemorySize(map.get(Constant.REDIS_INFO_USED_MEMORY_PEAK));
-                usedMemoryPeak.setText(String.format("%s%s",Util.format(usedMemoryPeakTu.getT1(),2),usedMemoryPeakTu.getT2()));
+                usedMemoryPeak.setText(String.format("%s%s",Util.format(usedMemoryPeakTu.t1(),2),usedMemoryPeakTu.t2()));
                 Tuple2<Double, String> usedMemoryLuaTu = Util.convertMemorySize(map.get(Constant.REDIS_INFO_USED_MEMORY_LUA));
-                usedMemoryLua.setText(String.format("%s%s",Util.format(usedMemoryLuaTu.getT1(),2),usedMemoryLuaTu.getT2()));
+                usedMemoryLua.setText(String.format("%s%s",Util.format(usedMemoryLuaTu.t1(),2),usedMemoryLuaTu.t2()));
                 connectedClients.setText(map.get(Constant.REDIS_INFO_CONNECTED_CLIENTS));
                 totalConnectionsReceived.setText(map.get(Constant.REDIS_INFO_TOTAL_CONNECTIONS_RECEIVED));
                 totalCommandsProcessed.setText(map.get(Constant.REDIS_INFO_TOTAL_COMMANDS_PROCESSED));
@@ -598,17 +598,17 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         keysData.forEach((type, count) -> {
             Tuple2<String, String> keyTypeTag = GuiUtil.getKeyTypeNameTag(type);
             tagList.add(keyTypeTag);
-            PieChart.Data pieData = new PieChart.Data(keyTypeTag.getT1(), count);
+            PieChart.Data pieData = new PieChart.Data(keyTypeTag.t1(), count);
             double percentage = sum > 0 ? (pieData.getPieValue() / sum) * 100 : 0;
-            pieData.setName(String.format("%s %.2f%%", keyTypeTag.getT1(), percentage));
+            pieData.setName(String.format("%s %.2f%%", keyTypeTag.t1(), percentage));
             keysPieData.add(pieData);
         });
         Platform.runLater(() -> {
             keys.setData(keysPieData);
             for (int i = 0; i < keys.getData().size(); i++) {
                 PieChart.Data datum = keys.getData().get(i);
-                datum.getNode().setStyle("-fx-pie-color: " + GuiUtil.hexToRgba(tagList.get(i).getT2()));
-                setPieUpHoverTooltip(datum,tagList.get(i).getT2(),func);
+                datum.getNode().setStyle("-fx-pie-color: " + GuiUtil.hexToRgba(tagList.get(i).t2()));
+                setPieUpHoverTooltip(datum,tagList.get(i).t2(),func);
             }
         });
     }

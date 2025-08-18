@@ -2,7 +2,6 @@
 
 package xyz.hashdog.rdm.ui.sampler.page.custom;
 
-import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.ui.sampler.page.AbstractPage;
@@ -29,7 +28,7 @@ public final class KeyTagPage extends AbstractPage {
 //        AnchorPane t1 = tuple2.getT1();
 //        Node node = t1.getChildren().get(0);
         //todo 缩放的bug后面一起调整，现在先不管
-        addNode(tuple2.getT1());
+        addNode(tuple2.t1());
     }
 
 

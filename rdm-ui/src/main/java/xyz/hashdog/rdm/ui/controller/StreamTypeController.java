@@ -24,7 +24,6 @@ import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.ui.common.ValueTypeEnum;
-import xyz.hashdog.rdm.ui.entity.SetTypeTable;
 import xyz.hashdog.rdm.ui.entity.StreamTypeTable;
 import xyz.hashdog.rdm.ui.entity.ZsetTypeTable;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
@@ -196,12 +195,12 @@ public class StreamTypeController extends BaseKeyContentController implements In
                 this.lastSelect = newValue;
                 Platform.runLater(() -> {
                     Tuple2<AnchorPane, ByteArrayController> valueTuple2 = GuiUtil.loadByteArrayView(newValue.getBytes(),this);
-                    byteArrayController = valueTuple2.getT2();
+                    byteArrayController = valueTuple2.t2();
                     byteArrayController.setByteArray(newValue.getBytes(),ValueTypeEnum.JSON);
                     VBox vBox = (VBox) borderPane.getCenter();
-                    VBox.setVgrow(valueTuple2.getT1(), Priority.ALWAYS);
+                    VBox.setVgrow(valueTuple2.t1(), Priority.ALWAYS);
                     ObservableList<Node> children = vBox.getChildren();
-                    children.set(children.size()-1,valueTuple2.getT1());
+                    children.set(children.size()-1,valueTuple2.t1());
                     id.setText(String.valueOf(newValue.getId()));
 
                 });
@@ -285,9 +284,9 @@ public class StreamTypeController extends BaseKeyContentController implements In
     public void add(ActionEvent actionEvent) {
         Button source = (Button)actionEvent.getSource();
         Tuple2<AnchorPane, ByteArrayController> tuple2 = GuiUtil.loadByteArrayView( "".getBytes(),this);
-        tuple2.getT2().setByteArray("".getBytes(),ValueTypeEnum.JSON);
+        tuple2.t2().setByteArray("".getBytes(),ValueTypeEnum.JSON);
         VBox vBox = new VBox();
-        VBox.setVgrow(tuple2.getT1(), Priority.ALWAYS);
+        VBox.setVgrow(tuple2.t1(), Priority.ALWAYS);
         ObservableList<Node> children = vBox.getChildren();
         Label label = new Label("ID");
         label.setAlignment(Pos.CENTER);
@@ -302,17 +301,17 @@ public class StreamTypeController extends BaseKeyContentController implements In
         TextField id = new TextField();
         id.setText("*");
         children.add(id);
-        children.add(tuple2.getT1());
+        children.add(tuple2.t1());
         VBox.setVgrow(hBox,Priority.ALWAYS);
         Tuple2<AnchorPane, AppendController> appendTuple2=loadFXML("/fxml/AppendView.fxml");
-        Stage stage= GuiUtil.createSubStage(source.getText(),appendTuple2.getT1(),root.getScene().getWindow());
-        appendTuple2.getT2().setCurrentStage(stage);
-        appendTuple2.getT2().setSubContent(vBox);
+        Stage stage= GuiUtil.createSubStage(source.getText(),appendTuple2.t1(),root.getScene().getWindow());
+        appendTuple2.t2().setCurrentStage(stage);
+        appendTuple2.t2().setSubContent(vBox);
         stage.show();
         //设置确定事件咯
-        appendTuple2.getT2().ok.setOnAction(event -> {
+        appendTuple2.t2().ok.setOnAction(event -> {
             String v = id.getText();
-            byte[] byteArray = tuple2.getT2().getByteArray();
+            byte[] byteArray = tuple2.t2().getByteArray();
             asynexec(()->{
                 String idstr = exeRedis(j -> j.xadd(this.parameter.get().getKey(), v, new String(byteArray)));
                 Platform.runLater(()->{

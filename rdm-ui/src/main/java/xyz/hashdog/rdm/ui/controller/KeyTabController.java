@@ -5,16 +5,13 @@ import atlantafx.base.controls.Popover;
 import atlantafx.base.theme.Styles;
 import javafx.animation.*;
 import javafx.application.Platform;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -31,9 +28,6 @@ import xyz.hashdog.rdm.ui.controller.popover.RefreshPopover;
 import xyz.hashdog.rdm.ui.entity.PassParameter;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
@@ -204,8 +198,8 @@ public class KeyTabController extends BaseKeyController<ServerTabController> imp
             if(submit.get()){
                 RedisDataTypeEnum te = RedisDataTypeEnum.getByType(this.parameter.get().getKeyType());
                 Tuple2<AnchorPane,BaseKeyContentController> tuple2 = loadFXML(te.fxml);
-                AnchorPane anchorPane = tuple2.getT1();
-                this.subTypeController  = tuple2.getT2();
+                AnchorPane anchorPane = tuple2.t1();
+                this.subTypeController  = tuple2.t2();
                 this.subTypeController.setParentController(this);
                 PassParameter passParameter = new PassParameter(te.tabType);
                 passParameter.setDb(this.currentDb);
@@ -398,9 +392,9 @@ public class KeyTabController extends BaseKeyController<ServerTabController> imp
                 refreshPopover.show(keyRefresh);
             }else {
                 Tuple2<AnchorPane, RefreshPopover> tuple2 = loadFXML("/fxml/popover/RefreshPopover.fxml");
-                AnchorPane root = tuple2.getT1();
-                this.addChild(tuple2.getT2());
-                tuple2.getT2().setParentController(this);
+                AnchorPane root = tuple2.t1();
+                this.addChild(tuple2.t2());
+                tuple2.t2().setParentController(this);
                 var pop = new Popover(root);
                 pop.setHeaderAlwaysVisible(false);
                 pop.setDetachable(false);

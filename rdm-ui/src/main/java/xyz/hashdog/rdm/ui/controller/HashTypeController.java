@@ -199,14 +199,14 @@ public class HashTypeController extends BaseKeyContentController implements Init
                 Platform.runLater(() -> {
                     Tuple2<AnchorPane, ByteArrayController> keyTuple2 = GuiUtil.loadByteArrayView(newValue.getKeyBytes(),this);
                     Tuple2<AnchorPane, ByteArrayController> valueTuple2 = GuiUtil.loadByteArrayView(newValue.getBytes(),this);
-                    byteArrayController = valueTuple2.getT2();
-                    keyByteArrayController = keyTuple2.getT2();
+                    byteArrayController = valueTuple2.t2();
+                    keyByteArrayController = keyTuple2.t2();
                     keyByteArrayController.setName("Key");
                     VBox vBox = (VBox) borderPane.getCenter();
                     vBox.getChildren().clear();
-                    vBox.getChildren().add(keyTuple2.getT1());
-                    VBox.setVgrow(valueTuple2.getT1(), Priority.ALWAYS);
-                    vBox.getChildren().add(valueTuple2.getT1());
+                    vBox.getChildren().add(keyTuple2.t1());
+                    VBox.setVgrow(valueTuple2.t1(), Priority.ALWAYS);
+                    vBox.getChildren().add(valueTuple2.t1());
                 });
             }
         });
@@ -316,22 +316,22 @@ public class HashTypeController extends BaseKeyContentController implements Init
         Button source = (Button)actionEvent.getSource();
         Tuple2<AnchorPane, ByteArrayController> keyTuple2 = GuiUtil.loadByteArrayView("".getBytes(),this);
         Tuple2<AnchorPane, ByteArrayController> valueTuple2 = GuiUtil.loadByteArrayView("".getBytes(),this);
-        keyTuple2.getT2().setName("Key");
+        keyTuple2.t2().setName("Key");
         VBox vBox = new VBox();
-        vBox.getChildren().add(keyTuple2.getT1());
-        VBox.setVgrow(valueTuple2.getT1(), Priority.ALWAYS);
-        vBox.getChildren().add(valueTuple2.getT1());
+        vBox.getChildren().add(keyTuple2.t1());
+        VBox.setVgrow(valueTuple2.t1(), Priority.ALWAYS);
+        vBox.getChildren().add(valueTuple2.t1());
 
 
         Tuple2<AnchorPane, AppendController> appendTuple2=loadFXML("/fxml/AppendView.fxml");
-        Stage stage= GuiUtil.createSubStage(source.getText(),appendTuple2.getT1(),root.getScene().getWindow());
-        appendTuple2.getT2().setCurrentStage(stage);
-        appendTuple2.getT2().setSubContent(vBox);
+        Stage stage= GuiUtil.createSubStage(source.getText(),appendTuple2.t1(),root.getScene().getWindow());
+        appendTuple2.t2().setCurrentStage(stage);
+        appendTuple2.t2().setSubContent(vBox);
         stage.show();
         //设置确定事件咯
-        appendTuple2.getT2().ok.setOnAction(event -> {
-            byte[] key = keyTuple2.getT2().getByteArray();
-            byte[] value = valueTuple2.getT2().getByteArray();
+        appendTuple2.t2().ok.setOnAction(event -> {
+            byte[] key = keyTuple2.t2().getByteArray();
+            byte[] value = valueTuple2.t2().getByteArray();
             asynexec(()->{
                 exeRedis(j->j.hset(this.getParameter().getKey().getBytes(),key, value));
                 Platform.runLater(()->{
