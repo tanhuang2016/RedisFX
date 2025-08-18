@@ -549,13 +549,13 @@ public class JedisPoolClient implements RedisClient {
         return execut(jedis->jedis.sadd(key,value));
     }
     @Override
-    public long zadd(byte[] key,double scorem,byte[] value) {
-        return execut(jedis->jedis.zadd(key,scorem,value));
+    public long zadd(byte[] key, double score, byte[] value) {
+        return execut(jedis->jedis.zadd(key, score,value));
     }
 
     @Override
-    public long zadd(String key,double scorem,String value) {
-        return execut(jedis->jedis.zadd(key,scorem,value));
+    public long zadd(String key, double score, String value) {
+        return execut(jedis->jedis.zadd(key, score,value));
     }
     @Override
     public long zrem(String key,String value) {

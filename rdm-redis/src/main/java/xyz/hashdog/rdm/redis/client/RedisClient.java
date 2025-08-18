@@ -20,133 +20,105 @@ public interface RedisClient extends Closeable {
 
     /**
      * 测试连接
-     * @return
+     * @return 连接消息
      */
     Message testConnect();
     /**
      * 判断是否连接
      *
-     * @return
+     * @return 是否连接
      */
     boolean isConnected();
 
     /**
      * keys 模糊查新的命令
      *
-     * @param pattern
-     * @return
+     * @param pattern 规则
+     * @return key集合
      */
     Set<String> keys(String pattern);
 
     /**
      * 获取key的类型
      *
-     * @param key
-     * @return
+     * @param key  key
+     * @return key类型
      */
     String type(String key);
 
     /**
      * key的存活时间是多少秒
      *
-     * @param key
-     * @return
      */
     long ttl(String key);
 
     /**
-     * ping
      *
-     * @return
+     * @return  ping
      */
     String ping();
 
     /**
      * redis信息
-     *
-     * @return
      */
     String info();
 
     /**
      * key 重命名
      *
-     * @param oldkey
-     * @param newkey
-     * @return
      */
-    String rename(String oldkey, String newkey);
+    String rename(String oldKey, String newKey);
 
     /**
      * 控制台交互器
      *
-     * @return
      */
     RedisConsole getRedisConsole();
 
     /**
      * 设置key的时长
      *
-     * @param key
-     * @param seconds
-     * @return
      */
     long expire(String key, long seconds);
 
     /**
      * key是否存在
-     *
-     * @param key
-     * @return
      */
     boolean exists(String key);
 
     /**
      * 删除key
      *
-     * @param key
-     * @return
      */
     long del(String... key);
 
     /**
      * 设置key永不过期
      *
-     * @param key
-     * @return
      */
     long persist(String key);
 
     /**
      * 序列化
      *
-     * @param key
-     * @return
      */
     byte[] dump(String key);
 
     /**
      * 反序列化
      *
-     * @param key
-     * @param ttl
-     * @param serializedValue
-     * @return
      */
     String restore(String key, long ttl, byte[] serializedValue);
 
     /**
      * 清空当前库
      *
-     * @return
      */
     String flushDB();
 
     /**
      * String类型的获取
      *
-     * @param key
-     * @return
      */
     String get(String key);
 
@@ -156,34 +128,21 @@ public interface RedisClient extends Closeable {
     /**
      * String类型的获取
      *
-     * @param key
-     * @return
      */
     byte[] get(byte[] key);
 
     /**
      * String类型的增加
-     *
-     * @param key
-     * @param value
-     * @return
      */
     String set(String key, String value);
     /**
      * json类型的增加
-     * @param key
-     * @param defualtJsonValue
-     * @return
      */
     String jsonSet(String key, String defualtJsonValue);
 
 
     /**
      * String类型的增加
-     *
-     * @param key
-     * @param value
-     * @return
      */
     String set(byte[] key, byte[] value);
 
@@ -191,8 +150,6 @@ public interface RedisClient extends Closeable {
     /**
      * 返回各库的数量
      * value是库名,key是库号
-     *
-     * @return
      */
     Map<Integer, String> dbSize();
 
@@ -200,20 +157,16 @@ public interface RedisClient extends Closeable {
      * 切换库
      *
      * @param db 库号
-     * @return
      */
     String select(int db);
 
     /**
      * scan 模糊查所有key
-     * @param pattern 规则
-     * @return
      */
     List<String> scanAll(String pattern);
 
     /**
      * 返回当前db
-     * @return
      */
     int getDb();
 
@@ -222,349 +175,273 @@ public interface RedisClient extends Closeable {
 
     /**
      * 查询list类型元素长度
-     * @param list
-     * @return
      */
-    long llen(String list);
+    long llen(String key);
 
     /**
      * list范围查询
-     * @param list list的key
-     * @param start
-     * @param stop
-     * @return
      */
-    List<String> lrange(String list, int start, int stop);
+    List<String> lrange(String key, int start, int stop);
 
     /**
      * list范围查询
-     * @param list list的key
-     * @param start
-     * @param stop
-     * @return
      */
-    List<byte[]> lrange(byte[] list, int start, int stop);
+    List<byte[]> lrange(byte[] key, int start, int stop);
 
     /**
      * 给list指定下标元素设置值
-     * @param list
-     * @param i
-     * @param value
-     * @return
      */
     String lset(byte[] list, int i, byte[] value);
 
     /**
      * 给list指定下标元素设置值
-     * @param list
-     * @param i
-     * @param value
-     * @return
      */
-    String lset(String list, int i, String value);
+    String lset(String key, int i, String value);
 
     /**
      * 删除list元素
-     * @param list
      * @param i 删除个数
      * @param value 被删除的值为这个
-     * @return
      */
-    long lrem(byte[] list, int i, byte[] value);
+    long lrem(byte[] key, int i, byte[] value);
 
     /**
      * 删除list元素
-     * @param list
      * @param i 删除个数
      * @param value 被删除的值为这个
-     * @return
      */
-    long lrem(String list, int i, String value);
+    long lrem(String key, int i, String value);
 
     /**
      * 删除list头元素
-     * @param list
-     * @return
      */
-    String lpop(String list);
+    String lpop(String key);
 
     /**
      * 删除list尾元素
-     * @param list
-     * @return
      */
-    String rpop(String list);
+    String rpop(String key);
 
     /**
      * list头元素添加
-     * @param list
-     * @param value
-     * @return
      */
-    long lpush(String list, String value);
+    long lpush(String key, String value);
 
     /**
      * list头元素添加
-     * @param list
-     * @param value
-     * @return
      */
-    long lpush(byte[] list, byte[] value);
+    long lpush(byte[] key, byte[] value);
 
 
 
 
     /**
      * list尾元素添加
-     * @param list
-     * @param value
-     * @return
      */
-    long rpush(String list, String value);
+    long rpush(String key, String value);
 
     /**
      * list尾元素添加
-     * @param list
-     * @param value
-     * @return
      */
-    long rpush(byte[] list, byte[] value);
+    long rpush(byte[] key, byte[] value);
 
     /**
      * 查hash的元素数量
-     * @param key
-     * @return
      */
     long hlen(String key);
 
 
     /**
      * 查hash所有元素
-     * @param key
-     * @return
      */
     Map<byte[],byte[]> hscanAll(byte[] key);
 
     /**
      * 查hash所有元素
-     * @param key
-     * @return
      */
     Map<String,String> hscanAll(String key);
 
     /**
      * 给hash中设置数据,如果存在将覆盖原来的k
-     * @param key
-     * @param field
-     * @param value
-     * @return
      */
     long hset(String key, String field, String value);
     /**
      * 给hash中设置数据,如果存在将覆盖原来的k
-     * @param key
-     * @param field
-     * @param value
-     * @return
      */
     long hset(byte[] key, byte[] field, byte[] value);
     /**
      * 给hash中设置数据,不存在才能设置
-     * @param key
-     * @param field
-     * @param value
-     * @return
      */
     long hsetnx(String key, String field, String value);
     /**
      * 给hash中设置数据,不存在才能设置
-     * @param key
-     * @param field
-     * @param value
-     * @return
      */
     long hsetnx(byte[] key, byte[] field, byte[] value);
 
     /**
      * 删除哈数中的元素
-     * @param key
-     * @param field
-     * @return
      */
     long hdel(byte[] key, byte[] field);
 
     /**
      * 删除hash中的元素
-     * @param key
-     * @param field
-     * @return
      */
     long hdel(String key, String field);
 
     /**
      * 查询set的元素数量
-     * @param key
-     * @return
      */
     long scard(String key);
 
     /**
      * 删除set的元素
-     * @param key
-     * @param value
-     * @return
      */
     long srem(String key,String value);
     /**
      * 删除set的元素
-     * @param key
-     * @param value
-     * @return
      */
     long srem(byte[] key,byte[] value);
 
     /**
      * set添加元素
-     * @param key
-     * @param value
-     * @return
      */
     long sadd(String key,String value);
 
     /**
      * set添加元素
-     * @param key
-     * @param value
-     * @return
      */
     long sadd(byte[] key,byte[] value);
 
 
     /**
      * 查询set所有元素
-     * @param key
-     * @return
      */
     List<byte[]> sscanAll(byte[] key);
 
     /**
      * 查询set所有元素
-     * @param key
-     * @return
      */
     List<String> sscanAll(String key);
 
     /**
      * 对zset进行新增
-     * @param key
-     * @param scorem
-     * @param value
-     * @return
      */
-    long zadd(byte[] key,double scorem,byte[] value);
+    long zadd(byte[] key,double score,byte[] value);
     /**
      * 对zset进行新增
-     * @param key
-     * @param scorem
-     * @param value
-     * @return
      */
-    long zadd(String key,double scorem,String value);
+    long zadd(String key,double score,String value);
 
     /**
      * 对zset进行删除
-     * @param key
-     * @param value
-     * @return
      */
     long zrem(String key,String value);
 
     /**
      * 对zset进行删除
-     * @param key
-     * @param value
-     * @return
      */
     long zrem(byte[] key,byte[] value);
 
     /**
      * 查询zset元素个数
-     * @param key
-     * @return
      */
     long zcard(byte[] key);
     /**
      * 查询zset元素个数
-     * @param key
-     * @return
      */
     long zcard(String key);
 
     /**
      * 查询zset元素,并返回分数
-     * @param key
-     * @param start
-     * @param stop
-     * @return
      */
     Map<Double,String> zrangeWithScores(String key,long start, long stop);
     /**
      * 查询zset元素,并返回分数
-     * @param key
-     * @param start
-     * @param stop
-     * @return
      */
     Map<Double,byte[]> zrangeWithScores(byte[] key,long start, long stop);
 
     /**
      * 添加stream元素
-     * @param key
-     * @param id
-     * @param jsonValue
-     * @return
      */
     String xadd(String key, String id, String jsonValue);
 
     /**
      * 查询stream元素数量
-     * @param key
-     * @return
      */
     long xlen(String key);
 
     /**
      * 获取stream元素
-     * @param key
-     * @param start
-     * @param end
-     * @param total
-     * @return
      */
     Map<String, String> xrevrange(String key, String start, String end, int total);
 
+    /**
+     * 删除stream元素
+     */
     long xdel(String key, String id);
 
     /**
      * redis命令监控
-     * @param redisMonitor
+     * @param redisMonitor 监控对象
      */
      void monitor(RedisMonitor redisMonitor);
 
+     /**
+     * 订阅redis命令
+     * @param redisPubSub 订阅对象
+     * @param text 订阅命令
+     */
     void psubscribe(RedisPubSub redisPubSub, String text);
 
+    /**
+     * 发布redis命令
+     * @param channel 发布频道
+     * @param message 发布内容
+     * @return 发布数量
+     */
     long publish(String channel, String message);
 
+    /**
+     * 获取内存使用情况
+     * @param key key
+     * @param samples 采样数
+     * @return 内存使用情况
+     */
     long memoryUsage(String key, int samples);
 
 
+    /**
+     * 获取字符串长度
+     * @param key key
+     * @return 字符串长度
+     */
     long strlen(String key);
 
+    /**
+     * 获取json类型
+     * @param key key
+     * @return json类型
+     */
     Class<?> jsonType(String key);
 
+    /**
+     * 获取json对象长度
+     * @param key key
+     * @return json对象长度
+     */
     long jsonObjLen(String key);
 
+    /**
+     * 获取json字符串长度
+     * @param key key
+     * @return json字符串长度
+     */
     long jsonStrLen(String key);
 
+    /**
+     * 获取json数组长度
+     * @param key key
+     * @return json数组长度
+     */
     long jsonArrLen(String key);
 }
