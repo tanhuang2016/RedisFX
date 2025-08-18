@@ -7,7 +7,7 @@ import java.io.Closeable;
 
 /**
  *
- * RedisClinent创建器
+ * RedisClient创建器
  * @author th
  * @version 1.0.0
  * @since 2023/7/18 12:45
