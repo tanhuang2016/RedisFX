@@ -3,6 +3,11 @@ package xyz.hashdog.rdm.ui.common;
 
 import xyz.hashdog.rdm.ui.entity.config.*;
 
+/**
+ * 配置枚举
+ * @author Administrator
+ */
+
 public enum ConfigSettingsEnum {
     THEME("theme", ThemeSetting.class),
     KEY_TAG("keyTag", KeyTagSetting.class ),

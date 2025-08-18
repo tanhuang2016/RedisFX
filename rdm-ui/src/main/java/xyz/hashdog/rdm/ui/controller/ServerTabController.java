@@ -1028,7 +1028,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
      */
     @FXML
     public void flush(ActionEvent actionEvent) {
-        if(!GuiUtil.alert(Alert.AlertType.CONFIRMATION,Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DELCONNECTION) )){
+        if(!GuiUtil.alert(Alert.AlertType.CONFIRMATION,Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL_CONNECTION) )){
             return;
         }
         asynexec(()->{

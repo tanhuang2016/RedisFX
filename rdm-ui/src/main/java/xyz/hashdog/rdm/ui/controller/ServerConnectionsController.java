@@ -321,12 +321,12 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
     public void delete(ActionEvent actionEvent) {
         String message = null;
         if (this.selectedNode.isConnection()) {
-            message = Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DELCONNECTION);
+            message = Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL_CONNECTION);
         } else {
             if (treeView.getSelectionModel().getSelectedItem().getChildren().isEmpty()) {
-                message = Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DELGROUP);
+                message = Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL_GROUP);
             } else {
-                message = Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DELALL);
+                message = Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL_ALL);
             }
         }
         if (GuiUtil.alert(Alert.AlertType.CONFIRMATION, message)) {

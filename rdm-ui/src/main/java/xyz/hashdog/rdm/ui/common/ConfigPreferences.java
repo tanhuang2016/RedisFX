@@ -7,13 +7,20 @@ import xyz.hashdog.rdm.ui.entity.config.ConnectionServerNode;
 import java.util.Map;
 
 /**
+ * 配置文件
  * @author th
  * @version 1.0.0
  * @since 2023/7/20 16:46
  */
 public class ConfigPreferences {
 
+    /**
+     * 连接节点
+     */
     private ObservableMap<String, ConnectionServerNode> connectionNodeMap;
+    /**
+     * 配置项
+     */
     private ObservableMap<String, ConfigSettings> configSettingsMap;
 
     public ObservableMap<String, ConnectionServerNode> getConnectionNodeMap() {

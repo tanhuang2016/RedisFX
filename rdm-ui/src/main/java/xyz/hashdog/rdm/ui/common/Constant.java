@@ -24,15 +24,12 @@ public interface Constant {
     String ALERT_MESSAGE_CONNECT_SUCCESS = "alert.message.connect.success";
     String ALERT_MESSAGE_RESTART_SUCCESS = "alert.message.restart.success";
     String ALERT_MESSAGE_SET_TTL = "alert.message.set.ttl";
-    String ALERT_MESSAGE_DELCONNECTION = "alert.message.delConnection";
-    String ALERT_MESSAGE_DELGROUP ="alert.message.delGroup" ;
-    String ALERT_MESSAGE_DELFLUSH = "alert.message.delFlush";
-    String ALERT_MESSAGE_DELALL = "alert.message.delAll";
-    String TITLE_CONNECTION = "title.connection";
+    String ALERT_MESSAGE_DEL_CONNECTION = "alert.message.delConnection";
+    String ALERT_MESSAGE_DEL_GROUP ="alert.message.delGroup" ;
+    String ALERT_MESSAGE_DEL_ALL = "alert.message.delAll";
     String TITLE_NEW_KEY ="title.newKey";
 
     String MAIN_FILE_CONNECT = "main.file.connect";
-    String MAIN_FILE_SETTINGS = "main.file.settings";
 
     /*默认key标签颜色*/
     String COLOR_HASH="#364CFF";
@@ -63,6 +60,9 @@ public interface Constant {
     String REDIS_INFO_INSTANTANEOUS_INPUT_KBPS = "instantaneous_input_kbps";
     String REDIS_INFO_INSTANTANEOUS_OUTPUT_KBPS = "instantaneous_output_kbps";
 
+    /**
+     * 报表中需要用到的key进行缓存，到时候用于筛选提取需要的数据
+     */
     List<String> REDIS_INFO_KEYS=List.of(
             REDIS_INFO_REDIS_VERSION,
             REDIS_INFO_OS,
