@@ -18,8 +18,8 @@ public enum ValueTypeEnum {
     ;
 
 
-    public String name;
-    public ValueConvertHandler handler;
+    public final String name;
+    public final ValueConvertHandler handler;
 
     ValueTypeEnum(String name,ValueConvertHandler handler) {
         this.name = name;
