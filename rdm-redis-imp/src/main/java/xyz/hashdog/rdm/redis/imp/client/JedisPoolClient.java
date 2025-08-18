@@ -33,7 +33,7 @@ import java.util.function.Function;
  * @version 1.0.0
  * @since 2023/7/18 12:59
  */
-public class JedisPoolClient implements RedisClient {
+public class JedisPoolClient extends AbstractRedisClient implements RedisClient {
     protected static Logger log = LoggerFactory.getLogger(JedisPoolClient.class);
 
     private final Jedis jedis;
@@ -101,11 +101,11 @@ public class JedisPoolClient implements RedisClient {
     @Override
     public Map<Integer, String> dbSize() {
         return execute(jedis->{
+            String info = jedis.info("Keyspace");
             Map<Integer,String> map = new LinkedHashMap<>();
             for (int i = 0; i < 15; i++) {
                 map.put(i,"DB"+i);
             }
-            String info = jedis.info("Keyspace");
             String[] line = info.split("\r\n");
             for (String row : line) {
                 if(!row.startsWith("db")){
@@ -120,9 +120,9 @@ public class JedisPoolClient implements RedisClient {
 
     @Override
     public String select(int db) {
-        String execut = execute(jedis -> jedis.select(db));
+        String execute = execute(jedis -> jedis.select(db));
         this.db=db;
-        return execut;
+        return execute;
     }
 
     @Override
@@ -133,22 +133,7 @@ public class JedisPoolClient implements RedisClient {
 
     @Override
     public Map<byte[],byte[]> hscanAll(byte[] key) {
-        return execute(jedis -> {
-            Map<byte[],byte[]> map = new LinkedHashMap<>();
-            // 定义SCAN命令参数，匹配所有键
-            ScanParams scanParams = new ScanParams();
-            scanParams.count(5000);
-            // 开始SCAN迭代
-            String cursor = "0";
-            do {
-                ScanResult<Map.Entry<byte[],byte[]>> scanResult = jedis.hscan(key, cursor.getBytes(), scanParams);
-                for (Map.Entry<byte[],byte[]> entry : scanResult.getResult()) {
-                    map.put(entry.getKey(),entry.getValue());
-                }
-                cursor = scanResult.getCursor();
-            } while (!"0".equals(cursor));
-            return map;
-        });
+        return execute(jedis -> super.hscanAll(( cursor, scanParams) -> jedis.hscan(key, cursor, scanParams)));
     }
 
     @Override
