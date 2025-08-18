@@ -100,6 +100,9 @@ public class CacheConfigSingleton {
         addListenerConfigSettings();
     }
 
+    /**
+     * 监听配置数据的变动,进行异步保存
+     */
     private static void addListenerConfigSettings() {
         CONFIG.getConfigSettingsMap().addListener((MapChangeListener<String, ConfigSettings>) change -> {
             if (change.wasAdded() || change.wasRemoved()) {

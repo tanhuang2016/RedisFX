@@ -20,6 +20,9 @@ import java.util.List;
  */
 public class Applications {
 
+    /**
+     * 默认值
+     */
     public static  final String DEFAULT_VALUE ="520";
 
 
@@ -35,6 +38,9 @@ public class Applications {
      * 应用名称
      */
     public static final String NODE_APP_NAME = "RedisFX";
+    /**
+     * 应用标题
+     */
     public static final String TITLE = "RedisFX";
     /**
      * 配置节点
@@ -45,9 +51,8 @@ public class Applications {
      */
     public static final String NODE_APP_DATA = "Data";
     /**
-     * 设置数据
+     * 默认的json值
      */
-    public static final String NODE_APP_SETTINGS = "Settings";
     public static final String DEFAULT_JSON_VALUE = "{\"520 \": \"520\"}";
 
 
@@ -179,6 +184,11 @@ public class Applications {
     }
 
 
+    /**
+     * 配置设置保存
+     * @param key 配置名称
+     * @param settings 配置
+     */
     public static void putConfigSettings(String key, ConfigSettings settings) {
         ConfigSettings old = CacheConfigSingleton.CONFIG.getConfigSettingsMap().get(key);
         TUtil.copyProperties(old, settings);
@@ -186,6 +196,12 @@ public class Applications {
         CacheConfigSingleton.CONFIG.getConfigSettingsMap().put(key, settings);
     }
 
+    /**
+     * 获取配置
+     * @param name 配置名称
+     * @return  获取的配置
+     * @param <T> 配置类型
+     */
     @SuppressWarnings("unchecked")
     public static <T extends ConfigSettings>T getConfigSettings(String name) {
        return (T) CacheConfigSingleton.CONFIG.getConfigSettingsMap().get(name);
