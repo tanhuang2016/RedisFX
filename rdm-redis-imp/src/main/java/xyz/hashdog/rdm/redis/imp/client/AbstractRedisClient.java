@@ -83,7 +83,7 @@ public abstract class AbstractRedisClient implements RedisClient {
         ScanParams scanParams = new ScanParams();
         scanParams.count(5000);
         if(DataUtil.isNotBlank(pattern)){
-            scanParams.match(pattern);
+            scanParams.match(String.format("*%s*",pattern));
         }
         // 开始SCAN迭代
         String cursor = "0";
