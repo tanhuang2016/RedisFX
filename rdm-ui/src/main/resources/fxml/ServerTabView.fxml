@@ -120,8 +120,9 @@
                                        <HBox fx:id="toolBar" alignment="CENTER_LEFT" BorderPane.alignment="CENTER_LEFT">
                                           <children>
                                              <ProgressBar fx:id="progressBar" progress="0.6" />
-                                             <Label text="\%56" />
+                                             <Label text="\%56" styleClass="text-small"/>
                                              <Button fx:id="loadMore" mnemonicParsing="false" text="加载更多" />
+                                             <Button fx:id="loadAll" mnemonicParsing="false" text="加载所有" />
                                              <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                                                    <Button fx:id="locationButton" mnemonicParsing="false" />
                                                    <Button fx:id="expandedButton" mnemonicParsing="false" />
@@ -135,7 +136,7 @@
                                  </BorderPane>
                                       </children>
                                   </VBox>
-                           <Button fx:id="showButton" onAction="#showToolbar" mnemonicParsing="false" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0" visible="true"/>
+                           <Button fx:id="showButton" onAction="#showToolbar" mnemonicParsing="false" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0" visible="false"/>
                               </children>
                         <padding>
                            <Insets right="10.0" />

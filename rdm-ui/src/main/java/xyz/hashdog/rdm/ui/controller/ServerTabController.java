@@ -82,6 +82,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
     public Button hideButton;
     public HBox toolBar;
     public Button showButton;
+    public Button loadAll;
     @FXML
     private TreeView<KeyTreeNode> treeView;
     @FXML
@@ -118,7 +119,6 @@ public class ServerTabController extends BaseKeyController<MainController> {
         initButton();
         initTextField();
         initTabPane();
-        loadMore.getStyleClass().addAll(Styles.FLAT,Styles.SMALL);
         progressBar.getStyleClass().add(Styles.SMALL);
 
 
@@ -187,6 +187,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
         history.setCursor(Cursor.HAND);
         newKey.getStyleClass().addAll(Tweaks.NO_ARROW);
         initToolBarButtonStyles(locationButton,expandedButton,collapseButton,optionsButton,hideButton,showButton);
+        loadMore.getStyleClass().addAll(Styles.FLAT,Styles.SMALL);
+        loadAll.getStyleClass().addAll(Styles.FLAT,Styles.SMALL,Styles.DANGER);
     }
 
     private void initToolBarButtonStyles(Button... buttons) {
