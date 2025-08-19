@@ -1,6 +1,7 @@
 package xyz.hashdog.rdm.ui.controller;
 
 import atlantafx.base.controls.CustomTextField;
+import atlantafx.base.controls.RingProgressIndicator;
 import atlantafx.base.theme.Styles;
 import atlantafx.base.theme.Tweaks;
 import javafx.application.Platform;
@@ -25,6 +26,7 @@ import javafx.stage.Stage;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
+import org.kordamp.ikonli.material2.Material2MZ;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
@@ -71,6 +73,13 @@ public class ServerTabController extends BaseKeyController<MainController> {
     public MenuButton history;
     public MenuItem delete;
     public MenuItem open;
+    public ProgressBar progressBar;
+    public Button loadMore;
+    public Button locationButton;
+    public Button expandedButton;
+    public Button collapseButton;
+    public Button optionsButton;
+    public Button hideButton;
     @FXML
     private TreeView<KeyTreeNode> treeView;
     @FXML
@@ -107,6 +116,10 @@ public class ServerTabController extends BaseKeyController<MainController> {
         initButton();
         initTextField();
         initTabPane();
+        loadMore.getStyleClass().addAll(Styles.FLAT,Styles.SMALL);
+        progressBar.getStyleClass().add(Styles.SMALL);
+
+
     }
     private void initTabPane() {
         KeyTabPaneSetting ksetting =Applications.getConfigSettings(ConfigSettingsEnum.KEY_TAB_PANE.name);
@@ -171,12 +184,25 @@ public class ServerTabController extends BaseKeyController<MainController> {
         reset.setCursor(Cursor.HAND);
         history.setCursor(Cursor.HAND);
         newKey.getStyleClass().addAll(Tweaks.NO_ARROW);
+        initToolBarButtonStyles(locationButton,expandedButton,collapseButton,optionsButton,hideButton);
+    }
+
+    private void initToolBarButtonStyles(Button... buttons) {
+        for (Button button : buttons) {
+            button.getStyleClass().addAll(Styles.FONT_ICON,Styles.FLAT,Styles.SMALL,Styles.ROUNDED);
+        }
+
     }
 
     private void initButtonIcon() {
         search.setGraphic(new FontIcon(Feather.SEARCH));
         reset.setGraphic(new FontIcon(Material2AL.CLEAR));
         history.setGraphic(new FontIcon(Material2AL.ARROW_DROP_DOWN));
+        GuiUtil.setIcon(locationButton,new FontIcon((Material2AL.LOCATION_SEARCHING)));
+        GuiUtil.setIcon(expandedButton,new FontIcon((Material2MZ.UNFOLD_MORE)));
+        GuiUtil.setIcon(collapseButton,new FontIcon((Material2MZ.UNFOLD_LESS)));
+        GuiUtil.setIcon(optionsButton,new FontIcon((Material2MZ.MORE_VERT)));
+        GuiUtil.setIcon(hideButton,new FontIcon((Material2MZ.REMOVE)));
 
     }
 

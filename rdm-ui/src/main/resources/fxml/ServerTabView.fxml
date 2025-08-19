@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import atlantafx.base.controls.CustomTextField?>
-<?import atlantafx.base.controls.RingProgressIndicator?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -10,6 +9,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TabPane?>
@@ -119,9 +119,16 @@
                                     <top>
                                        <HBox alignment="CENTER_LEFT" BorderPane.alignment="CENTER_LEFT">
                                           <children>
-                                             <RingProgressIndicator />
-                                             <Label text="已加载数量" />
-                                             <Button mnemonicParsing="false" text="加载更多" />
+                                             <ProgressBar fx:id="progressBar" progress="0.6" />
+                                             <Label text="\%56" />
+                                             <Button fx:id="loadMore" mnemonicParsing="false" text="加载更多" />
+                                             <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                                                   <Button fx:id="locationButton" mnemonicParsing="false" />
+                                                   <Button fx:id="expandedButton" mnemonicParsing="false" />
+                                                   <Button fx:id="collapseButton" mnemonicParsing="false" />
+                                                   <Button fx:id="optionsButton" mnemonicParsing="false" />
+                                                   <Button fx:id="hideButton" mnemonicParsing="false" />
+                                             </HBox>
                                           </children>
                                        </HBox>
                                     </top>
