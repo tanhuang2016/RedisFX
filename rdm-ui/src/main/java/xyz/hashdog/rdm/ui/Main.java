@@ -4,9 +4,11 @@ import atlantafx.base.theme.Dracula;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.slf4j.Logger;
@@ -76,8 +78,6 @@ public class Main extends Application {
                 // 在此处您可以自定义处理异常的逻辑
                 GuiUtil.alert(Alert.AlertType.ERROR,cause.getMessage());
             });
-            //默认开启全屏功能
-            stage.setMaximized(true);
             stage.setTitle(Applications.TITLE);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/MainView.fxml"),RESOURCE_BUNDLE);
             AnchorPane root = fxmlLoader.load();
@@ -86,6 +86,12 @@ public class Main extends Application {
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/global.css")).toExternalForm());
             stage.setScene(scene);
             controller.setCurrentStage(stage);
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+
+            // 确保窗口不会超出屏幕边界
+            stage.setWidth(Math.min(root.getPrefWidth(), bounds.getWidth()));
+            stage.setHeight(Math.min(root.getPrefHeight(), bounds.getHeight()));
             initTm(scene);
             stage.show();
             //先默认打开
