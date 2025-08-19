@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import atlantafx.base.controls.CustomTextField?>
+<?import atlantafx.base.controls.RingProgressIndicator?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -15,17 +22,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<?import atlantafx.base.controls.CustomTextField?>
-<?import java.net.URL?>
-<?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.control.SeparatorMenuItem?>
 <AnchorPane fx:id="root" prefHeight="650.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.ServerTabController">
 
    <BorderPane prefHeight="650.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <center>
           <AnchorPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <children>
-                  <SplitPane dividerPositions="0.2" prefHeight="650.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <SplitPane dividerPositions="0.3" prefHeight="650.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                       <items>
                           <AnchorPane minHeight="0.0" minWidth="-Infinity" prefHeight="160.0" prefWidth="200.0">
                               <children>
@@ -60,24 +63,24 @@
                                           <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" prefHeight="23.0" prefWidth="200.0" spacing="3.0" VBox.vgrow="ALWAYS">
                                               <children>
                                                   <CustomTextField fx:id="searchText" minWidth="-Infinity" prefWidth="150.0" HBox.hgrow="ALWAYS" />
-                                                  <HBox fx:id="searchHbox" alignment="CENTER_RIGHT"  spacing="-2.0" VBox.vgrow="ALWAYS">
-                                                      <Button fx:id="reset"  mnemonicParsing="false" onAction="#reset"  text="%server.reset" HBox.hgrow="ALWAYS" managed="false" visible="false"  opacity="0.3">
+                                                  <HBox fx:id="searchHbox" alignment="CENTER_RIGHT" spacing="-2.0" VBox.vgrow="ALWAYS">
+                                                      <Button fx:id="reset" managed="false" mnemonicParsing="false" onAction="#reset" opacity="0.3" text="%server.reset" visible="false" HBox.hgrow="ALWAYS">
                                                           <tooltip>
                                                               <Tooltip text="%server.reset" />
                                                           </tooltip>
                                                       </Button>
-                                                      <MenuButton fx:id="history"  mnemonicParsing="false"    HBox.hgrow="ALWAYS"   prefWidth="2"   opacity="0.3">
+                                                      <MenuButton fx:id="history" mnemonicParsing="false" opacity="0.3" prefWidth="2" HBox.hgrow="ALWAYS">
                                                           <items>
 <!--                                                              <MenuItem mnemonicParsing="false" text="Action 1" />-->
 <!--                                                              <MenuItem mnemonicParsing="false" text="Action 2" />-->
                                                               <SeparatorMenuItem />
-                                                              <MenuItem mnemonicParsing="false" text="%server.clear" onAction="#clearHistory"/>
+                                                              <MenuItem mnemonicParsing="false" onAction="#clearHistory" text="%server.clear" />
                                                           </items>
                                                           <tooltip>
                                                               <Tooltip text="%server.history" />
                                                           </tooltip>
                                                       </MenuButton>
-                                                      <Button fx:id="search"  mnemonicParsing="false" onAction="#search"   HBox.hgrow="ALWAYS"   >
+                                                      <Button fx:id="search" mnemonicParsing="false" onAction="#search" HBox.hgrow="ALWAYS">
                                                           <tooltip>
                                                               <Tooltip text="%server.search" />
                                                           </tooltip>
@@ -92,33 +95,49 @@
                                                   </HBox>
                                               </children>
                                           </HBox>
-                                          <TreeView fx:id="treeView" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                                              <contextMenu>
-                                                  <ContextMenu fx:id="contextMenu" opacity="0.8">
-                                                      <items>
-                                                          <MenuItem fx:id="open" mnemonicParsing="false" onAction="#open" text="%server.open">
+                                 <BorderPane style="-fx-border-color: -color-border-default; -fx-border-width: 1; -fx-border-style: solid;" VBox.vgrow="ALWAYS">
+                                    <center>
+                                                <TreeView fx:id="treeView" style=" -fx-border-width: 0">
+                                                    <contextMenu>
+                                                        <ContextMenu fx:id="contextMenu" opacity="0.8">
+                                                            <items>
+                                                                <MenuItem fx:id="open" mnemonicParsing="false" onAction="#open" text="%server.open">
                                                           </MenuItem>
-                                                          <MenuItem mnemonicParsing="false" onAction="#refresh" text="%server.refresh" />
-                                                          <MenuItem fx:id="delete" mnemonicParsing="false" onAction="#delete" text="%server.delete" />
-                                                          <MenuItem mnemonicParsing="false" onAction="#flush" text="%server.flush" />
-                                                          <SeparatorMenuItem />
-                                                          <MenuItem mnemonicParsing="false" onAction="#console" text="%server.console" />
-                                                          <MenuItem mnemonicParsing="false" onAction="#monitor" text="%server.monitor" />
-                                                          <MenuItem mnemonicParsing="false" onAction="#pubsub" text="%server.pubsub" />
-                                                          <MenuItem mnemonicParsing="false" onAction="#report" text="%server.report" />
-                                                      </items>
-                                                  </ContextMenu>
-                                              </contextMenu>
-                                          </TreeView>
+                                                                <MenuItem mnemonicParsing="false" onAction="#refresh" text="%server.refresh" />
+                                                                <MenuItem fx:id="delete" mnemonicParsing="false" onAction="#delete" text="%server.delete" />
+                                                                <MenuItem mnemonicParsing="false" onAction="#flush" text="%server.flush" />
+                                                                <SeparatorMenuItem />
+                                                                <MenuItem mnemonicParsing="false" onAction="#console" text="%server.console" />
+                                                                <MenuItem mnemonicParsing="false" onAction="#monitor" text="%server.monitor" />
+                                                                <MenuItem mnemonicParsing="false" onAction="#pubsub" text="%server.pubsub" />
+                                                                <MenuItem mnemonicParsing="false" onAction="#report" text="%server.report" />
+                                                            </items>
+                                                        </ContextMenu>
+                                                    </contextMenu>
+                                                </TreeView>
+                                    </center>
+                                    <top>
+                                       <HBox alignment="CENTER_LEFT" BorderPane.alignment="CENTER_LEFT">
+                                          <children>
+                                             <RingProgressIndicator />
+                                             <Label text="已加载数量" />
+                                             <Button mnemonicParsing="false" text="加载更多" />
+                                          </children>
+                                       </HBox>
+                                    </top>
+                                 </BorderPane>
                                       </children>
                                   </VBox>
                               </children>
+                        <padding>
+                           <Insets right="10.0" />
+                        </padding>
                           </AnchorPane>
                           <AnchorPane minHeight="0.0" minWidth="-Infinity" prefHeight="160.0" prefWidth="200.0">
                               <children>
                                   <BorderPane layoutX="308.0" layoutY="161.0" prefHeight="648.0" prefWidth="955.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <center>
-                                          <TabPane fx:id="dbTabPane" prefHeight="200.0" prefWidth="200.0" side="BOTTOM" tabClosingPolicy="ALL_TABS" BorderPane.alignment="CENTER" >
+                                          <TabPane fx:id="dbTabPane" prefHeight="200.0" prefWidth="200.0" side="BOTTOM" tabClosingPolicy="ALL_TABS" BorderPane.alignment="CENTER">
                                               <tabs>
                                                   <!--    <Tab text="控制台">
                                                         <content>
