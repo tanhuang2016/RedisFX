@@ -127,7 +127,7 @@
                                                    <Button fx:id="expandedButton" mnemonicParsing="false" />
                                                    <Button fx:id="collapseButton" mnemonicParsing="false" />
                                                    <Button fx:id="optionsButton" mnemonicParsing="false" />
-                                                   <Button fx:id="hideButton" onAction="#hideToolbar" mnemonicParsing="false" />
+                                                   <Button fx:id="hideButton" mnemonicParsing="false" onAction="#hideToolbar" />
                                              </HBox>
                                           </children>
                                        </HBox>
@@ -135,6 +135,7 @@
                                  </BorderPane>
                                       </children>
                                   </VBox>
+                           <Button fx:id="showButton" onAction="#showToolbar" mnemonicParsing="false" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="58.0" visible="false"/>
                               </children>
                         <padding>
                            <Insets right="10.0" />

@@ -81,6 +81,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
     public Button optionsButton;
     public Button hideButton;
     public HBox toolBar;
+    public Button showButton;
     @FXML
     private TreeView<KeyTreeNode> treeView;
     @FXML
@@ -185,7 +186,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         reset.setCursor(Cursor.HAND);
         history.setCursor(Cursor.HAND);
         newKey.getStyleClass().addAll(Tweaks.NO_ARROW);
-        initToolBarButtonStyles(locationButton,expandedButton,collapseButton,optionsButton,hideButton);
+        initToolBarButtonStyles(locationButton,expandedButton,collapseButton,optionsButton,hideButton,showButton);
     }
 
     private void initToolBarButtonStyles(Button... buttons) {
@@ -204,6 +205,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         GuiUtil.setIcon(collapseButton,new FontIcon((Material2MZ.UNFOLD_LESS)));
         GuiUtil.setIcon(optionsButton,new FontIcon((Material2MZ.MORE_VERT)));
         GuiUtil.setIcon(hideButton,new FontIcon((Material2MZ.REMOVE)));
+        GuiUtil.setIcon(showButton,new FontIcon((Material2MZ.REMOVE)));
 
     }
 
@@ -1183,5 +1185,12 @@ public class ServerTabController extends BaseKeyController<MainController> {
     public void hideToolbar(ActionEvent actionEvent) {
         toolBar.setVisible(false);
         toolBar.setManaged(false);
+        showButton.setVisible(true);
+    }
+
+    public void showToolbar(ActionEvent actionEvent) {
+        toolBar.setVisible(true);
+        toolBar.setManaged(true);
+        showButton.setVisible(false);
     }
 }
