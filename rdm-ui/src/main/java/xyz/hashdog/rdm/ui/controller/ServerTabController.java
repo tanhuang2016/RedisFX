@@ -205,7 +205,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         GuiUtil.setIcon(collapseButton,new FontIcon((Material2MZ.UNFOLD_LESS)));
         GuiUtil.setIcon(optionsButton,new FontIcon((Material2MZ.MORE_VERT)));
         GuiUtil.setIcon(hideButton,new FontIcon((Material2MZ.REMOVE)));
-        GuiUtil.setIcon(showButton,new FontIcon((Material2MZ.REMOVE)));
+        GuiUtil.setIcon(showButton,new FontIcon((Material2MZ.PLUS)));
 
     }
 
