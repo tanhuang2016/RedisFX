@@ -80,6 +80,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
     public Button collapseButton;
     public Button optionsButton;
     public Button hideButton;
+    public HBox toolBar;
     @FXML
     private TreeView<KeyTreeNode> treeView;
     @FXML
@@ -1173,5 +1174,14 @@ public class ServerTabController extends BaseKeyController<MainController> {
      */
     public void clearHistory(ActionEvent actionEvent) {
         this.recentHistory.clear();
+    }
+
+    /**
+     * 隐藏工具栏
+     */
+    @FXML
+    public void hideToolbar(ActionEvent actionEvent) {
+        toolBar.setVisible(false);
+        toolBar.setManaged(false);
     }
 }

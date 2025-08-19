@@ -117,7 +117,7 @@
                                                 </TreeView>
                                     </center>
                                     <top>
-                                       <HBox alignment="CENTER_LEFT" BorderPane.alignment="CENTER_LEFT">
+                                       <HBox fx:id="toolBar" alignment="CENTER_LEFT" BorderPane.alignment="CENTER_LEFT">
                                           <children>
                                              <ProgressBar fx:id="progressBar" progress="0.6" />
                                              <Label text="\%56" />
@@ -127,7 +127,7 @@
                                                    <Button fx:id="expandedButton" mnemonicParsing="false" />
                                                    <Button fx:id="collapseButton" mnemonicParsing="false" />
                                                    <Button fx:id="optionsButton" mnemonicParsing="false" />
-                                                   <Button fx:id="hideButton" mnemonicParsing="false" />
+                                                   <Button fx:id="hideButton" onAction="#hideToolbar" mnemonicParsing="false" />
                                              </HBox>
                                           </children>
                                        </HBox>
