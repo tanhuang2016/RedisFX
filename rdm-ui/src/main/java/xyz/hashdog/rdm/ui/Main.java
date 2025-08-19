@@ -76,6 +76,8 @@ public class Main extends Application {
                 // 在此处您可以自定义处理异常的逻辑
                 GuiUtil.alert(Alert.AlertType.ERROR,cause.getMessage());
             });
+            //默认开启全屏功能
+            stage.setMaximized(true);
             stage.setTitle(Applications.TITLE);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/MainView.fxml"),RESOURCE_BUNDLE);
             AnchorPane root = fxmlLoader.load();
