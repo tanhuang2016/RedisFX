@@ -704,6 +704,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
     public void search(ActionEvent actionEvent) {
         ThreadPool.getInstance().execute(() -> {
             List<String> keys = exeRedis(j -> j.scanAll(searchText.getText()));
+            //todo 要做一个游标查询器，可以兼容集群模式
+//            List<String> keys = exeRedis(j -> j.scan(searchText.getText(),"0",100,null,true)).t2();
 //            Platform.runLater(() -> {
 //
 //            });

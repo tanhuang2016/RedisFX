@@ -1,5 +1,6 @@
 package xyz.hashdog.rdm.redis.client;
 
+import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.redis.Message;
 
 import java.io.Closeable;
@@ -164,6 +165,10 @@ public interface RedisClient extends Closeable {
      * scan 模糊查所有key
      */
     List<String> scanAll(String pattern);
+    /**
+     * scan 模糊查所有key
+     */
+    Tuple2<String,List<String>> scan(String pattern,String cursor,int count,String type,boolean isLike);
 
     /**
      * 返回当前db

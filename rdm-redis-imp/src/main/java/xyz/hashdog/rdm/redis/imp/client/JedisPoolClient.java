@@ -7,8 +7,11 @@ import redis.clients.jedis.*;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 import redis.clients.jedis.exceptions.JedisException;
 import redis.clients.jedis.json.Path2;
+import redis.clients.jedis.params.ScanParams;
+import redis.clients.jedis.resps.ScanResult;
 import redis.clients.jedis.util.Pool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
+import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.common.util.TUtil;
 import xyz.hashdog.rdm.redis.Message;
 import xyz.hashdog.rdm.redis.client.RedisClient;
@@ -139,6 +142,29 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
     @Override
     public List<String> scanAll(String pattern) {
         return execute(jedis -> super.scanAll(pattern, jedis::scan));
+    }
+
+    /**
+     * 封装key模糊查询
+     * 带cursor的scan
+     * @param pattern 匹配模式
+     * @param cursor 游标
+     * @param count 游标数量
+     * @param type 匹配类型
+     * @param isLike 是否模糊匹配
+     * @return 匹配结果
+     */
+    @Override
+    public Tuple2<String, List<String>> scan(String pattern, String cursor, int count, String type, boolean isLike) {
+        return execute(jedis -> super.scan(pattern,count, isLike,(scanParams)->{
+            if (DataUtil.isBlank(type)) {
+               return jedis.scan(cursor, scanParams);
+            } else {
+                return jedis.scan(cursor, scanParams, type);
+            }
+        }));
+
+
     }
 
     @Override

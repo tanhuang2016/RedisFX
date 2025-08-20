@@ -8,6 +8,8 @@ import redis.clients.jedis.params.ScanParams;
 import redis.clients.jedis.resps.ScanResult;
 import redis.clients.jedis.resps.StreamEntry;
 import redis.clients.jedis.resps.Tuple;
+import xyz.hashdog.rdm.common.function.TriFunction;
+import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.redis.client.RedisClient;
 import xyz.hashdog.rdm.redis.imp.Util;
@@ -17,6 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
  * 封装通用方法
@@ -93,6 +96,18 @@ public abstract class AbstractRedisClient implements RedisClient {
             cursor = scanResult.getCursor();
         } while (!"0".equals(cursor));
         return keys;
+    }
+
+    public Tuple2<String, List<String>> scan(String pattern, int count,  boolean isLike, Function<ScanParams, ScanResult<String>> function) {
+        ScanParams scanParams = new ScanParams();
+        scanParams.count(count);
+        if (isLike && DataUtil.isNotBlank(pattern)) {
+            scanParams.match(String.format("*%s*", pattern));
+        }
+        ScanResult<String> scanResult = function.apply( scanParams);
+        List<String> keys = new ArrayList<>(scanResult.getResult());
+        return new Tuple2<>(scanResult.getCursor(), keys);
+
     }
 
     public List<String> sscanAll(String key,BiFunction<String,ScanParams, ScanResult<String>> function) {

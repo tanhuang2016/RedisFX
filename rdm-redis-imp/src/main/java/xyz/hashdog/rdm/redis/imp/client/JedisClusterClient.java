@@ -7,6 +7,8 @@ import redis.clients.jedis.*;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 import redis.clients.jedis.exceptions.JedisException;
 import redis.clients.jedis.json.Path2;
+import xyz.hashdog.rdm.common.tuple.Tuple2;
+import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.common.util.TUtil;
 import xyz.hashdog.rdm.redis.Message;
 import xyz.hashdog.rdm.redis.RedisConfig;
@@ -161,6 +163,25 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
             all.addAll(execute);
         }
         return all;
+    }
+
+    @Override
+    public Tuple2<String, List<String>> scan(String pattern, String cursor, int count, String type, boolean isLike) {
+        List<String> all = new ArrayList<>();
+        CommandObjects commandObjects = new CommandObjects();
+        for (String master : masters) {
+            Connection connection = jedis.getClusterNodes().get(master).getResource();
+            List<String> execute=execute(jedis -> super.scan(pattern,count, isLike,(scanParams)->{
+                if (DataUtil.isBlank(type)) {
+                    return connection.executeCommand(commandObjects.scan(cursor, scanParams));
+                } else {
+                    return connection.executeCommand(commandObjects.scan(cursor, scanParams,type));
+                }
+            })).t2();
+            all.addAll(execute);
+        }
+        //todo 这里集群模式，游标要设置多个才行，考虑左一个游标查询器吧
+        return new Tuple2<>(null,all);
     }
 
     @Override
