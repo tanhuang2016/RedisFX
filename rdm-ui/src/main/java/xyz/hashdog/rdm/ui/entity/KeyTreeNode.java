@@ -13,9 +13,12 @@ public class KeyTreeNode {
     private String name;
     public String key;
     private int childKeyCount;
+    /**
+     * 需要时包装类型，copy的时候需要
+     */
     private Boolean isLeaf;
     private String type;
-    private boolean initialized;
+    private Boolean initialized;
     /**
      * 新增的key时间,用于排序，让新增的key排在第一，可以减少不必要地加载
      */
@@ -25,6 +28,7 @@ public class KeyTreeNode {
         KeyTreeNode keyTreeNode = new KeyTreeNode();
         keyTreeNode.setLeaf(true);
         keyTreeNode.setKey(key);
+        keyTreeNode.setInitialized(false);
         return keyTreeNode;
     }
     public static KeyTreeNode leaf(String key, String type) {
@@ -41,6 +45,7 @@ public class KeyTreeNode {
         KeyTreeNode dir = new KeyTreeNode();
         dir.setLeaf(false);
         dir.setName(name);
+        dir.setInitialized(false);
         return dir;
     }
 

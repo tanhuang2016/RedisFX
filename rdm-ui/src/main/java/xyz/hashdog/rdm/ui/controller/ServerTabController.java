@@ -957,6 +957,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
                     }
                 }
                 current.getChildren().sort(treeItemSortComparator());
+                ObservableList<TreeItem<KeyTreeNode>> children1 = current.getChildren();
+                System.out.println();
             }
 
             current = childNode;
