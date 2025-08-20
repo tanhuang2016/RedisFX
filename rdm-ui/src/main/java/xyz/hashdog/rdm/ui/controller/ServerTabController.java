@@ -831,9 +831,13 @@ public class ServerTabController extends BaseKeyController<MainController> {
         }
         this.lastSelectedNode = newTreeItem;
         treeView.getSelectionModel().select(this.lastSelectedNode);
-        Platform.runLater(() -> {
-            treeView.scrollTo(treeView.getRow(this.lastSelectedNode));
-        });
+        //列表直接定位到第一个，树节点需要滚动定位
+        if(redisContext.getRedisConfig().isTreeShow()){
+            Platform.runLater(() -> {
+                treeView.scrollTo(treeView.getRow(this.lastSelectedNode));
+            });
+        }
+
     }
 
     /**
