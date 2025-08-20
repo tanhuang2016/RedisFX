@@ -13,14 +13,17 @@ public class DBNode {
     /**
      * 名称
      */
-    private SimpleObjectProperty<String> name;
+    private final SimpleObjectProperty<String> name;
     /**
      * 库号
      */
     private int db;
+    private long dbSize;
 
-    public DBNode(String name, int db) {
+    public DBNode(int db,long dbSize) {
         this.db = db;
+        this.dbSize=dbSize;
+        String name = "DB"+db+"["+dbSize+"]";
         this.name = new SimpleObjectProperty<>(name);
     }
 

@@ -94,20 +94,20 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
      * @return 0:DB[size]
      */
     @Override
-    public Map<Integer, String> dbSize() {
+    public Map<Integer, Long> dbSize() {
         return execute(jedis->{
             String info = jedis.info("Keyspace");
-            Map<Integer,String> map = new LinkedHashMap<>();
+            Map<Integer,Long> map = new LinkedHashMap<>();
             for (int i = 0; i < 15; i++) {
-                map.put(i,"DB"+i);
+                map.put(i,0L);
             }
             String[] line = info.split("\r\n");
             for (String row : line) {
                 if(!row.startsWith("db")){
                     continue;
                 }
-                Tuple2<Integer,Integer> tu=Util.keyspaceParseDb(row);
-                map.put(tu.t1(),map.get(tu.t1())+String.format("[%d]",tu.t2()));
+                Tuple2<Integer,Long> tu=Util.keyspaceParseDb(row);
+                map.put(tu.t1(),tu.t2());
             }
             return map;
         });

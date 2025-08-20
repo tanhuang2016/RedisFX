@@ -151,7 +151,7 @@ public interface RedisClient extends Closeable {
      * 返回各库的数量
      * value是库名,key是库号
      */
-    Map<Integer, String> dbSize();
+    Map<Integer, Long> dbSize();
 
     /**
      * 切换库

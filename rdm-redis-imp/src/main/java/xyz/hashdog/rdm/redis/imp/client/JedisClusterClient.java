@@ -113,15 +113,15 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
      * @return 0:DB[size]
      */
     @Override
-    public Map<Integer, String> dbSize() {
+    public Map<Integer, Long> dbSize() {
         return execute(jedis->{
-            Map<Integer,String> map = new LinkedHashMap<>();
+            Map<Integer,Long> map = new LinkedHashMap<>();
             long dbsize=0;
             for (String master : masters) {
                 Connection connection = this.jedis.getClusterNodes().get(master).getResource();
                 dbsize += (long)connection.executeCommand(Protocol.Command.DBSIZE);
             }
-            map.put(0,"DB0"+String.format("[%d]",dbsize));
+            map.put(0,dbsize);
             return map;
         });
     }
