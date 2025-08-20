@@ -934,7 +934,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
                 if (isLeaf) {
                     // 获取key的类型，用于显示对应的图标
 //                    String type = exeRedis(j -> j.type(key));
-                    childNode = new TreeItem<>(KeyTreeNode.leaf(key));
+//                    childNode = new TreeItem<>(KeyTreeNode.leaf(key));
+                    childNode = new TreeItem<>(keyTreeNode);
 //                    Label keyTypeLabel = GuiUtil.getKeyTypeLabel(type);
 //                    childNode.setGraphic(keyTypeLabel);
                 } else {
@@ -957,8 +958,6 @@ public class ServerTabController extends BaseKeyController<MainController> {
                     }
                 }
                 current.getChildren().sort(treeItemSortComparator());
-                ObservableList<TreeItem<KeyTreeNode>> children1 = current.getChildren();
-                System.out.println();
             }
 
             current = childNode;
