@@ -16,6 +16,10 @@ public class KeyTreeNode {
     private Boolean isLeaf;
     private String type;
     private boolean initialized;
+    /**
+     * 新增的key时间,用于排序，让新增的key排在第一，可以减少不必要地加载
+     */
+    private long newKeyTime;
 
     public static KeyTreeNode leaf(String key) {
         KeyTreeNode keyTreeNode = new KeyTreeNode();
@@ -28,6 +32,11 @@ public class KeyTreeNode {
         leaf.setType(type);
         return leaf;
     }
+    public static KeyTreeNode newLeaf(String key, String type) {
+        KeyTreeNode leaf = leaf(key,type);
+        leaf.setNewKeyTime(System.currentTimeMillis());
+        return leaf;
+    }
     public static KeyTreeNode dir(String name) {
         KeyTreeNode dir = new KeyTreeNode();
         dir.setLeaf(false);
@@ -36,6 +45,13 @@ public class KeyTreeNode {
     }
 
 
+    public long getNewKeyTime() {
+        return newKeyTime;
+    }
+
+    public void setNewKeyTime(long newKeyTime) {
+        this.newKeyTime = newKeyTime;
+    }
 
     @Override
     public String toString() {

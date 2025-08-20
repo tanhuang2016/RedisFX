@@ -581,6 +581,21 @@ public class ServerTabController extends BaseKeyController<MainController> {
     private Comparator<TreeItem<KeyTreeNode>> treeItemSortComparator(){
         return (o1, o2) -> {
             if (o1.getValue().getLeaf() && o2.getValue().getLeaf()) {
+                long newKeyTime1 = o1.getValue().getNewKeyTime();
+                long newKeyTime2 = o2.getValue().getNewKeyTime();
+                if (newKeyTime1 > 0 && newKeyTime2 > 0) {
+                    int timeComparison = Long.compare(newKeyTime2, newKeyTime1);
+                    if (timeComparison != 0) {
+                        return timeComparison;
+                    }
+                }// 如果只有node1是新key，node1排前面
+                else if (newKeyTime1 > 0) {
+                    return -1;
+                }
+                // 如果只有node2是新key，node2排前面
+                else if (newKeyTime2 > 0) {
+                    return 1;
+                }
                 return o1.getValue().getKey().compareTo(o2.getValue().getKey());
             } else if (o1.getValue().getLeaf()) {
                 return 1;
@@ -1224,7 +1239,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         //如果treeView是的db和删除key的db相同,则需要对应删除treeView中的节点
         if(p.get().getDb()==this.currentDb){
             Platform.runLater(()->{
-                TreeItem<KeyTreeNode> newTreeItem = treeNodePutDir(treeView.getRoot(), KeyTreeNode.leaf(p.get().getKey(),p.get().getKeyType()));
+                TreeItem<KeyTreeNode> newTreeItem = treeNodePutDir(treeView.getRoot(), KeyTreeNode.newLeaf(p.get().getKey(),p.get().getKeyType()));
                 selectAndScrollTo(newTreeItem);
                 open(null);
             });
