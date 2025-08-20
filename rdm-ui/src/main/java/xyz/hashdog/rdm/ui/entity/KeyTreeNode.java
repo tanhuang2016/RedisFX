@@ -23,6 +23,11 @@ public class KeyTreeNode {
         keyTreeNode.setKey(key);
         return keyTreeNode;
     }
+    public static KeyTreeNode leaf(String key, String type) {
+        KeyTreeNode leaf = leaf(key);
+        leaf.setType(type);
+        return leaf;
+    }
     public static KeyTreeNode dir(String name) {
         KeyTreeNode dir = new KeyTreeNode();
         dir.setLeaf(false);

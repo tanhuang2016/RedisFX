@@ -345,7 +345,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
                 // 取出队列中所有待加载的节点
                 while ((treeItem = iconLoadQueue.poll()) != null) {
                     KeyTreeNode item = treeItem.getValue();
-                    String type = exeRedis(j -> j.type(item.getKey()));
+                    String type = item.getType()==null?exeRedis(j -> j.type(item.getKey())):item.getType();
                     Label keyTypeLabel = GuiUtil.getKeyTypeLabel(type);
                     treeItem.setGraphic(keyTypeLabel);
                     // 标记节点已初始化
@@ -895,6 +895,11 @@ public class ServerTabController extends BaseKeyController<MainController> {
      * @return 新创建的树节点或null（如果未创建）
      */
     private TreeItem<KeyTreeNode> treeNodePutDir(TreeItem<KeyTreeNode> root, KeyTreeNode keyTreeNode) {
+        if(!this.redisContext.getRedisConfig().isTreeShow()){
+            TreeItem<KeyTreeNode> keyTreeNodeTreeItem = new TreeItem<>(keyTreeNode);
+            root.getChildren().addFirst(keyTreeNodeTreeItem);
+            return  keyTreeNodeTreeItem;
+        }
         String key = keyTreeNode.getKey();
         String keySeparator = this.redisContext.getRedisConfig().getKeySeparator();
         String[] parts = key.split(keySeparator);
@@ -1215,7 +1220,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         //如果treeView是的db和删除key的db相同,则需要对应删除treeView中的节点
         if(p.get().getDb()==this.currentDb){
             Platform.runLater(()->{
-                TreeItem<KeyTreeNode> newTreeItem = treeNodePutDir(treeView.getRoot(), KeyTreeNode.leaf(p.get().getKey()));
+                TreeItem<KeyTreeNode> newTreeItem = treeNodePutDir(treeView.getRoot(), KeyTreeNode.leaf(p.get().getKey(),p.get().getKeyType()));
                 selectAndScrollTo(newTreeItem);
                 open(null);
             });
