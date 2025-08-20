@@ -4,6 +4,9 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import xyz.hashdog.rdm.common.util.TUtil;
 
+/**
+ * @author th
+ */
 public class KeyTreeNode {
 
     private KeyTreeNode parent;
@@ -12,6 +15,7 @@ public class KeyTreeNode {
     private int childKeyCount;
     private Boolean isLeaf;
     private String type;
+    private boolean initialized;
 
     public static KeyTreeNode leaf(String key) {
         KeyTreeNode keyTreeNode = new KeyTreeNode();
@@ -83,6 +87,14 @@ public class KeyTreeNode {
 
     public void setParent(KeyTreeNode parent) {
         this.parent = parent;
+    }
+
+    public boolean isInitialized() {
+        return initialized;
+    }
+
+    public void setInitialized(boolean initialized) {
+        this.initialized = initialized;
     }
 
     public void addChildKeyCount() {

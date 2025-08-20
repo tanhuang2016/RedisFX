@@ -46,8 +46,10 @@ import xyz.hashdog.rdm.ui.util.RecentHistory;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ServerTabController extends BaseKeyController<MainController> {
 
@@ -115,6 +117,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         initRecentHistory();
         initNewKey();
         initAutoWah();
+        initTreeViewRoot();
         initListener();
         initButton();
         initTextField();
@@ -228,7 +231,6 @@ public class ServerTabController extends BaseKeyController<MainController> {
     private void initListener() {
         userDataPropertyListener();
         choiceBoxSelectedLinstener();
-        initTreeViewRoot();
         treeViewListener();
         newKeyListener();
         searchTextListener();
@@ -277,6 +279,9 @@ public class ServerTabController extends BaseKeyController<MainController> {
         }
     }
 
+    private final Queue<TreeItem<KeyTreeNode>> iconLoadQueue = new ConcurrentLinkedQueue<>();
+    private final AtomicBoolean isLoading = new AtomicBoolean(false);
+
 
     /**
      * 根节点初始化一个空的
@@ -287,7 +292,90 @@ public class ServerTabController extends BaseKeyController<MainController> {
         treeView.setShowRoot(false); // 隐藏根节点
         //默认根节点为选中节点
         treeView.getSelectionModel().select(treeView.getRoot());
+        treeView.setCellFactory(tv -> new TreeCell<KeyTreeNode>() {
+
+            @Override
+            protected void updateItem(KeyTreeNode item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    // 设置基本文本
+                    setText(item.toString());
+                    // 只有叶子节点首次显示时才加载图标
+                    if (item.getLeaf()&&!item.isInitialized()) {
+                        loadNodeGraphicIfNeeded(this.getTreeItem());
+                        System.out.println(item.toString());
+                        item.setInitialized(true);
+                    }
+
+                    // 如果图标已经加载过，直接显示
+                    if (getTreeItem().getGraphic() != null) {
+                        setGraphic(getTreeItem().getGraphic());
+                    }
+                }
+            }
+
+
+
+        });
     }
+
+    private void loadNodeGraphicIfNeeded(TreeItem<KeyTreeNode> treeItem) {
+        if (!treeItem.getValue().getLeaf()) {
+            return;
+        }
+        // 将节点加入队列
+        iconLoadQueue.offer(treeItem);
+
+        // 尝试触发加载（使用CAS确保只有一个线程能触发加载）
+        if (isLoading.compareAndSet(false, true)) {
+            triggerBatchLoad();
+        }
+    }
+
+    private void triggerBatchLoad() {
+        ThreadPool.getInstance().execute(() -> {
+            try {
+                // 批量处理队列中的所有节点
+                TreeItem<KeyTreeNode> treeItem;
+                int n=0;
+                // 取出队列中所有待加载的节点
+                while ((treeItem = iconLoadQueue.poll()) != null) {
+                    KeyTreeNode item = treeItem.getValue();
+                    String type = exeRedis(j -> j.type(item.getKey()));
+                    Label keyTypeLabel = GuiUtil.getKeyTypeLabel(type);
+                    treeItem.setGraphic(keyTypeLabel);
+                    // 标记节点已初始化
+                    treeItem.getValue().setInitialized(true);
+                    n++;
+                }
+                // 只在需要时刷新
+                if (n>0) {
+                    // 在UI线程中更新所有图标
+                    Platform.runLater(() -> {
+                        treeView.refresh();
+                    });
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                // 释放锁，允许下一次加载
+                isLoading.set(false);
+                // 检查队列是否还有待处理的节点，如果有则继续触发加载
+                if (!iconLoadQueue.isEmpty()) {
+                    if (isLoading.compareAndSet(false, true)) {
+                        triggerBatchLoad();
+                    }
+                }
+            }
+        });
+    }
+
+
 
     /**
      * key树的监听
@@ -479,10 +567,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
      */
     private void buildListView(ObservableList<TreeItem<KeyTreeNode>> children, List<String> keys) {
         for (String key : keys) {
-            String type = exeRedis(j -> j.type(key));
-            Label keyTypeLabel = GuiUtil.getKeyTypeLabel(type);
             Platform.runLater(() -> {
-                children.add(new TreeItem<>(KeyTreeNode.leaf(key), keyTypeLabel));
+                children.add(new TreeItem<>(KeyTreeNode.leaf(key)));
             });
 
         }
@@ -514,7 +600,6 @@ public class ServerTabController extends BaseKeyController<MainController> {
      */
     private void buildTreeView(TreeItem<KeyTreeNode> root,List<String> keys) {
         for (String key : keys) {
-            String type = exeRedis(j -> j.type(key));
             String keySeparator = this.redisContext.getRedisConfig().getKeySeparator();
             String[] parts = key.split(keySeparator);
             TreeItem<KeyTreeNode> current = root;
@@ -522,37 +607,29 @@ public class ServerTabController extends BaseKeyController<MainController> {
                 String part = parts[i];
                 //叶子节点是key类型
                 boolean isLeaf = (i == parts.length - 1);
-
                 TreeItem<KeyTreeNode> childNode = findChild(current, part);
                 if (childNode == null|| isLeaf) {
-
                     if (isLeaf) {
                         childNode = new TreeItem<>(KeyTreeNode.leaf(key));
-                        Label keyTypeLabel = GuiUtil.getKeyTypeLabel(type);
-                        childNode.setGraphic(keyTypeLabel);
                     }else {
+                        //目录的话，直接设置图标
                         childNode = new TreeItem<>(KeyTreeNode.dir(part),new FontIcon(Feather.FOLDER));
                     }
                     TreeItem<KeyTreeNode> finalChildNode = childNode;
-                    TreeItem<KeyTreeNode> finalCurrent = current;
-//                    Platform.runLater(() -> {
-
-//                    });
                     if (isLeaf) {
-                        finalCurrent.getChildren().add(finalChildNode);
-                        if(finalCurrent.getValue()!=null){
-                            finalChildNode.getValue().setParent(finalCurrent.getValue());
-                            finalCurrent.getValue().addChildKeyCount();
+                        current.getChildren().add(finalChildNode);
+                        if(current.getValue()!=null){
+                            finalChildNode.getValue().setParent(current.getValue());
+                            current.getValue().addChildKeyCount();
                         }
                     }else {
-                        finalCurrent.getChildren().addFirst(finalChildNode);
-                        if(finalCurrent.getValue()!=null){
+                        current.getChildren().addFirst(finalChildNode);
+                        if(current.getValue()!=null){
                             //不是叶子节点，不用计数
-                            finalChildNode.getValue().setParent(finalCurrent.getValue());
+                            finalChildNode.getValue().setParent(current.getValue());
                         }
                     }
-                    finalCurrent.getChildren().sort(treeItemSortComparator());
-
+                    current.getChildren().sort(treeItemSortComparator());
                 }
 
                 current = childNode;
