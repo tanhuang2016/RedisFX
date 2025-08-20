@@ -909,10 +909,10 @@ public class ServerTabController extends BaseKeyController<MainController> {
             if (childNode == null || isLeaf) {
                 if (isLeaf) {
                     // 获取key的类型，用于显示对应的图标
-                    String type = exeRedis(j -> j.type(key));
+//                    String type = exeRedis(j -> j.type(key));
                     childNode = new TreeItem<>(KeyTreeNode.leaf(key));
-                    Label keyTypeLabel = GuiUtil.getKeyTypeLabel(type);
-                    childNode.setGraphic(keyTypeLabel);
+//                    Label keyTypeLabel = GuiUtil.getKeyTypeLabel(type);
+//                    childNode.setGraphic(keyTypeLabel);
                 } else {
                     childNode = new TreeItem<>(KeyTreeNode.dir(part), new FontIcon(Feather.FOLDER));
                 }
