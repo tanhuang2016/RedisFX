@@ -98,6 +98,13 @@ public class ServerTabController extends BaseKeyController<MainController> {
 
     private RecentHistory<String> recentHistory ;
 
+    /**
+     * 缓存的图标加载任务，用于批量处理类型tag，避免线程切换的开销
+     */
+    private final Queue<TreeItem<KeyTreeNode>> iconLoadQueue = new ConcurrentLinkedQueue<>();
+    private final AtomicBoolean isLoading = new AtomicBoolean(false);
+
+    private final static int SCAN_COUNT = 100;
 
 
     /**
@@ -280,8 +287,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         }
     }
 
-    private final Queue<TreeItem<KeyTreeNode>> iconLoadQueue = new ConcurrentLinkedQueue<>();
-    private final AtomicBoolean isLoading = new AtomicBoolean(false);
+
 
 
     /**
@@ -444,6 +450,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
                 return;
             }
             this.currentDb=newValue.getDb();
+            resetToolBar();
             Future<Boolean> submit = ThreadPool.getInstance().submit(() -> this.redisClient.select(this.currentDb), true);
             try {
                 if (submit.get()!=null) {
@@ -459,6 +466,13 @@ public class ServerTabController extends BaseKeyController<MainController> {
 //                search(null);
 //            });
         });
+    }
+
+    private void resetToolBar() {
+        boolean scanAll = this.choiceBox.getSelectionModel().getSelectedItem().getDbSize() <= SCAN_COUNT;
+        this.toolBar.setVisible(!scanAll);
+        this.toolBar.setManaged(!scanAll);
+        this.showButton.setVisible(scanAll);
     }
 
     /**
@@ -710,9 +724,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
      */
     public void search(ActionEvent actionEvent) {
         ThreadPool.getInstance().execute(() -> {
-//            List<String> keys = exeRedis(j -> j.scanAll(searchText.getText()));
-            //todo 要做一个游标查询器，可以兼容集群模式
-            scanner.init(searchText.getText(),100,null,true);
+            resetScanner();
             List<String> keys = scanner.scan();
             //key已经查出来,只管展示
             initTreeView(keys);
@@ -723,6 +735,13 @@ public class ServerTabController extends BaseKeyController<MainController> {
                 recentHistory.add(searchText.getText());
             }
         });
+    }
+
+    /**
+     * 重置查询器
+     */
+    private void resetScanner() {
+        scanner.init(searchText.getText(),SCAN_COUNT,null,true);
     }
 
     /**
