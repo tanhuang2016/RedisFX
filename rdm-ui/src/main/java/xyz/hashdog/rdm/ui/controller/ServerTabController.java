@@ -105,6 +105,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
     private final AtomicBoolean isLoading = new AtomicBoolean(false);
 
     private final static int SCAN_COUNT = 100;
+    private RedisKeyScanner scanner;
 
 
     /**
@@ -114,7 +115,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
     /**
      * 缓存已打开的key节点，用户删除的时候提高性能，避免从根节点递归
      * 删除缓存的策略没有想好，目前考虑只存放10个，一般不会打开超过10个窗口
-     * 存储的时候先进先出，保留最新的10个
+     * 存储的时候先进先出，保留最新的10个(todo 10个的数量后期可能优化成，tabs运行打开的数量，要做成可配置)
      * 用
      */
     private final LinkedHashSet<WeakReference<TreeItem<KeyTreeNode>>> openTreeItems = new LinkedHashSet<>(10);
@@ -719,7 +720,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
 
 
 
-    private RedisKeyScanner scanner;
+
     /**
      * 模糊搜索
      *
