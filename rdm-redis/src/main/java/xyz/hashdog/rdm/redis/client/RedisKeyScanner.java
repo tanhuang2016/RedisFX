@@ -37,9 +37,9 @@ public abstract class RedisKeyScanner {
         return this;
     }
     public final List<String> scan(){
-        List<String> strings = doScan();
-        sum+=strings.size();
-        return doScan();
+        List<String> keys = doScan();
+        sum+=keys.size();
+        return keys;
     }
     public abstract List<String> doScan();
 

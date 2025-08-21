@@ -1311,6 +1311,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
     @FXML
     public void loadMore(ActionEvent actionEvent) {
         if(scanner.getSum()>=this.choiceBox.getSelectionModel().getSelectedItem().getDbSize()){
+            GuiUtil.alert(Alert.AlertType.WARNING,"已经加载完");
             return;
         }
         List<String> keys = scanner.scan();
