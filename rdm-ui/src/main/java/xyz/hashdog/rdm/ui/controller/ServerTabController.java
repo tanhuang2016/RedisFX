@@ -486,9 +486,9 @@ public class ServerTabController extends BaseKeyController<MainController> {
     private void initDBSelects() {
         ObservableList<DBNode> items = choiceBox.getItems();
         ThreadPool.getInstance().execute(() -> {
-            Map<Integer, Long> map = this.redisClient.dbSize();
+            Map<Integer, Integer> map = this.redisClient.dbSize();
             Platform.runLater(() -> {
-                for (Map.Entry<Integer, Long> en : map.entrySet()) {
+                for (Map.Entry<Integer, Integer> en : map.entrySet()) {
                     items.add(new DBNode( en.getKey(),en.getValue()));
                 }
                 //默认选中第一个
@@ -506,9 +506,9 @@ public class ServerTabController extends BaseKeyController<MainController> {
         DBNode selectedItem = choiceBox.getSelectionModel().getSelectedItem();
         ObservableList<DBNode> items= FXCollections.observableArrayList();
         ThreadPool.getInstance().execute(() -> {
-            Map<Integer, Long> map = this.redisClient.dbSize();
+            Map<Integer, Integer> map = this.redisClient.dbSize();
             Platform.runLater(() -> {
-                for (Map.Entry<Integer, Long> en : map.entrySet()) {
+                for (Map.Entry<Integer, Integer> en : map.entrySet()) {
                     DBNode dbNode = new DBNode( en.getKey(),en.getValue());
                     items.add(dbNode);
                 }
@@ -1310,6 +1310,9 @@ public class ServerTabController extends BaseKeyController<MainController> {
      */
     @FXML
     public void loadMore(ActionEvent actionEvent) {
+        if(scanner.getSum()>=this.choiceBox.getSelectionModel().getSelectedItem().getDbSize()){
+            return;
+        }
         List<String> keys = scanner.scan();
         loadIntoTreeView(keys);
 

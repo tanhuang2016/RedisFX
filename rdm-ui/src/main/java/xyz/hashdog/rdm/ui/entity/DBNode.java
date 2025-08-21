@@ -18,9 +18,9 @@ public class DBNode {
      * 库号
      */
     private int db;
-    private long dbSize;
+    private int dbSize;
 
-    public DBNode(int db,long dbSize) {
+    public DBNode(int db,int dbSize) {
         this.db = db;
         this.dbSize=dbSize;
         String name = "DB"+db+"["+dbSize+"]";
@@ -30,6 +30,14 @@ public class DBNode {
 
     public int getDb() {
         return db;
+    }
+
+    public int getDbSize() {
+        return dbSize;
+    }
+
+    public void setDbSize(int dbSize) {
+        this.dbSize = dbSize;
     }
 
     public void setDb(int db) {

@@ -453,7 +453,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
             List<InfoTable> infos= Util.parseInfoOutput(infoStr);
             this.list=infos;
             Map<String, String> map = infos.stream().filter(e->Constant.REDIS_INFO_KEYS.contains(e.getKey())).collect(Collectors.toMap(InfoTable::getKey, InfoTable::getValue));
-            List<Tuple2<Integer,Long>> dbSizeList = new ArrayList<>();
+            List<Tuple2<Integer,Integer>> dbSizeList = new ArrayList<>();
             infos.stream().filter(e->Constant.INFO_KEYSPACE.equals(e.getType())).forEach(e->dbSizeList.add(Util.keyspaceParseDb(e.getKey(),e.getValue())));
             Platform.runLater(()-> {
                 //bar数据更新
@@ -473,7 +473,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                 long keyTotalSize = dbSizeList.stream().mapToLong(Tuple2::t2).sum();
                 barKey.setText(String.valueOf(keyTotalSize));
                 StringBuilder barKeyTooltip = new StringBuilder(String.format(language("server.report.bar.key")+" %s", keyTotalSize));
-                for (Tuple2<Integer, Long> tus : dbSizeList) {
+                for (Tuple2<Integer, Integer> tus : dbSizeList) {
                     barKeyTooltip.append(System.lineSeparator());
                     barKeyTooltip.append(String.format("DB%s: %s", tus.t1(), tus.t2()));
                 }

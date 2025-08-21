@@ -207,10 +207,10 @@ public class Util extends xyz.hashdog.rdm.common.util.Util {
      * @param row keyspace
      * @return db,size
      */
-    public static Tuple2<Integer, Long> keyspaceParseDb(String row) {
+    public static Tuple2<Integer, Integer> keyspaceParseDb(String row) {
         String[] a = row.split(":");
         int db =Integer.parseInt(a[0].substring(2));
-        long size =Long.parseLong(a[1].split(",")[0].substring(5)) ;
+        int size =Integer.parseInt(a[1].split(",")[0].substring(5)) ;
         return new Tuple2<>(db,size);
     }
 
@@ -220,7 +220,7 @@ public class Util extends xyz.hashdog.rdm.common.util.Util {
      * @param value keyspace
      * @return db,size
      */
-    public static Tuple2<Integer, Long> keyspaceParseDb(String key, String value) {
+    public static Tuple2<Integer, Integer> keyspaceParseDb(String key, String value) {
         return keyspaceParseDb(key+":"+value);
     }
 
