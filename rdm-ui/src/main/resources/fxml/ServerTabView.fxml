@@ -125,8 +125,8 @@
                                              <Button fx:id="loadAll" mnemonicParsing="false" text="加载所有" />
                                              <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                                                    <Button fx:id="locationButton" onAction="#location" mnemonicParsing="false" />
-                                                   <Button fx:id="expandedButton" mnemonicParsing="false" />
-                                                   <Button fx:id="collapseButton" mnemonicParsing="false" />
+                                                   <Button fx:id="expandedButton" onAction="#expanded" mnemonicParsing="false" />
+                                                   <Button fx:id="collapseButton" onAction="#collapse" mnemonicParsing="false" />
                                                    <Button fx:id="optionsButton" mnemonicParsing="false" />
                                                    <Button fx:id="hideButton" mnemonicParsing="false" onAction="#hideToolbar" />
                                              </HBox>

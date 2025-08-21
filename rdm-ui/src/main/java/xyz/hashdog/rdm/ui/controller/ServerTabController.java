@@ -1373,4 +1373,18 @@ public class ServerTabController extends BaseKeyController<MainController> {
             selectAndScrollTo(this.lastSelectedNode);
         }
     }
+
+    /**
+     * 树节点展开所有
+     */
+    @FXML
+    public void expanded(ActionEvent actionEvent) {
+    }
+
+    /**
+     * 树节点折叠所有
+     */
+    @FXML
+    public void collapse(ActionEvent actionEvent) {
+    }
 }
