@@ -750,9 +750,11 @@ public class ServerTabController extends BaseKeyController<MainController> {
     private void updateProgressBar() {
         int dbSize = this.choiceBox.getSelectionModel().getSelectedItem().getDbSize();
         final double progress = (double) scanner.getSum() / dbSize;
-        progressBar.setProgress(progress);
-        // 如果你有Label用于显示百分比，也可以在这里更新
-        progressText.setText(String.format("%.1f%%", progress * 100));
+        Platform.runLater(() -> {
+            progressBar.setProgress(progress);
+            // 如果你有Label用于显示百分比，也可以在这里更新
+            progressText.setText(String.format("%.1f%%", progress * 100));
+        });
     }
 
     /**
@@ -760,6 +762,11 @@ public class ServerTabController extends BaseKeyController<MainController> {
      */
     private void resetScanner() {
         scanner.init(searchText.getText(),SCAN_COUNT,null,true);
+        Platform.runLater(() -> {
+            progressBar.setProgress(0);
+            progressText.setText(String.format("%.1f%%", 0d));
+        });
+
     }
 
     /**
@@ -1363,13 +1370,33 @@ public class ServerTabController extends BaseKeyController<MainController> {
      */
     @FXML
     public void loadMore(ActionEvent actionEvent) {
-        if(scanner.getSum()>=this.choiceBox.getSelectionModel().getSelectedItem().getDbSize()){
-            GuiUtil.alert(Alert.AlertType.WARNING,"已经加载完");
-            return;
-        }
-        List<String> keys = scanner.scan();
-        loadIntoTreeView(keys);
-        updateProgressBar();
+        ThreadPool.getInstance().execute(() -> {
+            if(scanner.getSum()>=this.choiceBox.getSelectionModel().getSelectedItem().getDbSize()){
+                return;
+            }
+            List<String> keys = scanner.scan();
+            loadIntoTreeView(keys);
+            updateProgressBar();
+        });
+
+    }
+
+    /**
+     * 加载所有
+     */
+    @FXML
+    public void loadAll(ActionEvent actionEvent) {
+        ThreadPool.getInstance().execute(() -> {
+            if(scanner.getSum()>=this.choiceBox.getSelectionModel().getSelectedItem().getDbSize()){
+                return;
+            }
+            List<String> keys = scanner.scan();
+            while (!keys.isEmpty()){
+                loadIntoTreeView(keys);
+                updateProgressBar();
+                keys = scanner.scan();
+            }
+        });
 
     }
 
@@ -1418,4 +1445,6 @@ public class ServerTabController extends BaseKeyController<MainController> {
     public void collapse(ActionEvent actionEvent) {
         expandAllNodes(treeView.getRoot(),false);
     }
+
+
 }
