@@ -104,7 +104,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
     private final Queue<TreeItem<KeyTreeNode>> iconLoadQueue = new ConcurrentLinkedQueue<>();
     private final AtomicBoolean isLoading = new AtomicBoolean(false);
 
-    private final static int SCAN_COUNT = 100;
+    private final static int SCAN_COUNT = 500;
     private RedisKeyScanner scanner;
 
 

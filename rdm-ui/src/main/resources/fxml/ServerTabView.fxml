@@ -28,7 +28,7 @@
       <center>
           <AnchorPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <children>
-                  <SplitPane dividerPositions="0.3" prefHeight="650.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <SplitPane dividerPositions="0.28" prefHeight="650.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                       <items>
                           <AnchorPane minHeight="0.0" minWidth="-Infinity" prefHeight="160.0" prefWidth="200.0">
                               <children>
@@ -117,16 +117,16 @@
                                                 </TreeView>
                                     </center>
                                     <top>
-                                       <HBox fx:id="toolBar" alignment="CENTER_LEFT" BorderPane.alignment="CENTER_LEFT" visible="false" managed="false">
+                                       <HBox fx:id="toolBar" alignment="CENTER_LEFT" managed="false" visible="false" BorderPane.alignment="CENTER_LEFT">
                                           <children>
                                              <ProgressBar fx:id="progressBar" progress="0.6" />
-                                             <Label text="\%56" styleClass="text-small"/>
+                                             <Label styleClass="text-small" text="\%56" />
                                              <Button fx:id="loadMore" mnemonicParsing="false" onAction="#loadMore" text="加载更多" />
                                              <Button fx:id="loadAll" mnemonicParsing="false" text="加载所有" />
                                              <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
-                                                   <Button fx:id="locationButton" onAction="#location" mnemonicParsing="false" />
-                                                   <Button fx:id="expandedButton" onAction="#expanded" mnemonicParsing="false" />
-                                                   <Button fx:id="collapseButton" onAction="#collapse" mnemonicParsing="false" />
+                                                   <Button fx:id="locationButton" mnemonicParsing="false" onAction="#location" />
+                                                   <Button fx:id="expandedButton" mnemonicParsing="false" onAction="#expanded" />
+                                                   <Button fx:id="collapseButton" mnemonicParsing="false" onAction="#collapse" />
                                                    <Button fx:id="optionsButton" mnemonicParsing="false" />
                                                    <Button fx:id="hideButton" mnemonicParsing="false" onAction="#hideToolbar" />
                                              </HBox>
@@ -136,7 +136,7 @@
                                  </BorderPane>
                                       </children>
                                   </VBox>
-                           <Button fx:id="showButton" onAction="#showToolbar" mnemonicParsing="false" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0" />
+                           <Button fx:id="showButton" mnemonicParsing="false" onAction="#showToolbar" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0" />
                               </children>
                         <padding>
                            <Insets right="10.0" />
