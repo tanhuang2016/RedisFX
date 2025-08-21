@@ -106,7 +106,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
     private final Queue<TreeItem<KeyTreeNode>> iconLoadQueue = new ConcurrentLinkedQueue<>();
     private final AtomicBoolean isLoading = new AtomicBoolean(false);
 
-    private final static int SCAN_COUNT = 500;
+    private final static int SCAN_COUNT = 500000;
     private RedisKeyScanner scanner;
 
 
@@ -582,7 +582,13 @@ public class ServerTabController extends BaseKeyController<MainController> {
             if(this.redisContext.getRedisConfig().isTreeShow()){
                 buildTreeView(treeView.getRoot(),keys);
             }else {
+                long startTime = System.nanoTime();
                 buildListView(treeView.getRoot().getChildren(),keys);
+                long endTime = System.nanoTime();
+                long duration = endTime - startTime;
+                double seconds = duration / 1_000_000_000.0;
+                System.out.println("执行耗时: " + (duration / 1_000_000.0) + " 毫秒");
+                System.out.println("执行耗时: " + seconds + " 秒");
             }
         });
 
@@ -594,10 +600,12 @@ public class ServerTabController extends BaseKeyController<MainController> {
      * @param keys
      */
     private void buildListView(ObservableList<TreeItem<KeyTreeNode>> children, List<String> keys) {
+        List<TreeItem<KeyTreeNode>> list = new ArrayList<>();
         for (String key : keys) {
-            children.add(new TreeItem<>(KeyTreeNode.leaf(key)));
+            list.add(new TreeItem<>(KeyTreeNode.leaf(key)));
 
         }
+        children.addAll( list);
     }
 
     /**
@@ -754,7 +762,9 @@ public class ServerTabController extends BaseKeyController<MainController> {
             progressBar.setProgress(progress);
             // 如果你有Label用于显示百分比，也可以在这里更新
             progressText.setText(String.format("%.1f%%", progress * 100));
+            System.out.println("进度2   "+progress);
         });
+        System.out.println("进度1    "+progress);
     }
 
     /**
