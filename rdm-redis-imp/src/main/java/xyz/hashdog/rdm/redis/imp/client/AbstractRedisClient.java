@@ -115,7 +115,7 @@ public abstract class AbstractRedisClient implements RedisClient {
         }
         ScanResult<String> scanResult = function.apply( scanParams);
         List<String> keys = new ArrayList<>(scanResult.getResult());
-        return new Tuple2<>(scanResult.getCursor(), keys);
+        return new Tuple2<>("0".equals(scanResult.getCursor())?"-1":scanResult.getCursor(), keys);
 
     }
 

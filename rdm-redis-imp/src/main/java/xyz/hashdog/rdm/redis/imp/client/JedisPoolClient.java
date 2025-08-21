@@ -158,6 +158,9 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
     @Override
     public Tuple2<List<String>, List<String>> scan(String pattern, List<String>cursors, int count, String type, boolean isLike) {
         return execute(jedis -> {
+            if("-1".equals(cursors.getFirst())){
+                return new Tuple2<>(cursors, new ArrayList<>());
+            }
             Tuple2<String, List<String>> scan = super.scan(pattern, count, isLike, (scanParams) -> {
                 if (DataUtil.isBlank(type)) {
                     return jedis.scan(cursors.getFirst(), scanParams);

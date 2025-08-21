@@ -173,6 +173,10 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
         List<String> cursorList = new ArrayList<>();
         CommandObjects commandObjects = new CommandObjects();
         for (int i = 0; i < masters.size(); i++) {
+            if("-1".equals(cursors.get(i))){
+                cursorList.add("-1");
+                continue;
+            }
             String master = masters.get(i);
             Connection connection = jedis.getClusterNodes().get(master).getResource();
             int finalI = i;
