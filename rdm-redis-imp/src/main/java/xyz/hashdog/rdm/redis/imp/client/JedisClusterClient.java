@@ -206,7 +206,7 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
 
             }
             @Override
-            public List<String> scan() {
+            public List<String> doScan() {
                 Tuple2<List<String>, List<String>> scan = redisClient.scan(pattern, cursorList, count, type, isLike);
                 this.cursorList = scan.t1();
                 return scan.t2();

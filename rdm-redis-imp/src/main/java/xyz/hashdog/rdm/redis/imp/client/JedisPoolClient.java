@@ -179,7 +179,7 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
         RedisClient redisClient = this;
         return new RedisKeyScanner() {
             @Override
-            public List<String> scan() {
+            public List<String> doScan() {
                 Tuple2<List<String>, List<String>> scan = redisClient.scan(pattern, List.of(cursor), count, type, isLike);
                 this.cursor = scan.t1().getFirst();
                 return scan.t2();

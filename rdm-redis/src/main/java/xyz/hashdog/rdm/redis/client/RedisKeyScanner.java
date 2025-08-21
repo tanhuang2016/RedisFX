@@ -18,6 +18,10 @@ public abstract class RedisKeyScanner {
     protected String type;
     protected boolean isLike;
     protected String cursor;
+    /**
+     * 查询总数统计
+     */
+    private int sum;
 
     protected RedisKeyScanner() {
 
@@ -29,7 +33,17 @@ public abstract class RedisKeyScanner {
         this.type=type;
         this.isLike=isLike;
         this.cursor="0";
+        this.sum=0;
         return this;
     }
-    public abstract List<String> scan();
+    public final List<String> scan(){
+        List<String> strings = doScan();
+        sum+=strings.size();
+        return doScan();
+    }
+    public abstract List<String> doScan();
+
+    public int getSum() {
+        return sum;
+    }
 }
