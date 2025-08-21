@@ -31,6 +31,7 @@ import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.common.util.TUtil;
+import xyz.hashdog.rdm.redis.client.RedisKeyScanner;
 import xyz.hashdog.rdm.ui.Main;
 import xyz.hashdog.rdm.ui.common.Applications;
 import xyz.hashdog.rdm.ui.common.ConfigSettingsEnum;
@@ -467,7 +468,15 @@ public class ServerTabController extends BaseKeyController<MainController> {
     private void userDataPropertyListener() {
         super.parameter.addListener((observable, oldValue, newValue) -> {
             initDBSelects();
+            initScanner();
         });
+    }
+
+    /**
+     * 初始化key扫描器
+     */
+    private void initScanner() {
+        this.scanner=this.redisClient.getRedisKeyScanner();
     }
 
 
@@ -696,6 +705,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
 
 
 
+    private RedisKeyScanner scanner;
     /**
      * 模糊搜索
      *
@@ -703,12 +713,10 @@ public class ServerTabController extends BaseKeyController<MainController> {
      */
     public void search(ActionEvent actionEvent) {
         ThreadPool.getInstance().execute(() -> {
-            List<String> keys = exeRedis(j -> j.scanAll(searchText.getText()));
+//            List<String> keys = exeRedis(j -> j.scanAll(searchText.getText()));
             //todo 要做一个游标查询器，可以兼容集群模式
-//            List<String> keys = exeRedis(j -> j.scan(searchText.getText(),"0",100,null,true)).t2();
-//            Platform.runLater(() -> {
-//
-//            });
+            scanner.init(searchText.getText(),100,null,true);
+            List<String> keys = scanner.scan();
             //key已经查出来,只管展示
             initTreeView(keys);
             //得刷新一下，不然会出现目录和叶子节点未对齐的显示问题
