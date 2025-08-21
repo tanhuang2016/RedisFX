@@ -15,6 +15,7 @@ import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.common.util.TUtil;
 import xyz.hashdog.rdm.redis.Message;
 import xyz.hashdog.rdm.redis.client.RedisClient;
+import xyz.hashdog.rdm.redis.client.RedisKeyScanner;
 import xyz.hashdog.rdm.redis.client.RedisMonitor;
 import xyz.hashdog.rdm.redis.client.RedisPubSub;
 import xyz.hashdog.rdm.redis.exceptions.RedisException;
@@ -148,23 +149,39 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
      * 封装key模糊查询
      * 带cursor的scan
      * @param pattern 匹配模式
-     * @param cursor 游标
+     * @param cursors 游标
      * @param count 游标数量
      * @param type 匹配类型
      * @param isLike 是否模糊匹配
      * @return 匹配结果
      */
     @Override
-    public Tuple2<String, List<String>> scan(String pattern, String cursor, int count, String type, boolean isLike) {
-        return execute(jedis -> super.scan(pattern,count, isLike,(scanParams)->{
-            if (DataUtil.isBlank(type)) {
-               return jedis.scan(cursor, scanParams);
-            } else {
-                return jedis.scan(cursor, scanParams, type);
+    public Tuple2<List<String>, List<String>> scan(String pattern, List<String>cursors, int count, String type, boolean isLike) {
+        return execute(jedis -> {
+            Tuple2<String, List<String>> scan = super.scan(pattern, count, isLike, (scanParams) -> {
+                if (DataUtil.isBlank(type)) {
+                    return jedis.scan(cursors.getFirst(), scanParams);
+                } else {
+                    return jedis.scan(cursors.getFirst(), scanParams, type);
+                }
+            });
+            return new Tuple2<>(List.of(scan.t1()), scan.t2());
+        });
+
+
+    }
+
+    @Override
+    public RedisKeyScanner getRedisKeyScanner() {
+        RedisClient redisClient = this;
+        return new RedisKeyScanner() {
+            @Override
+            public List<String> scan() {
+                Tuple2<List<String>, List<String>> scan = redisClient.scan(pattern, List.of(cursor), count, type, isLike);
+                this.cursor = scan.t1().getFirst();
+                return scan.t2();
             }
-        }));
-
-
+        };
     }
 
     @Override

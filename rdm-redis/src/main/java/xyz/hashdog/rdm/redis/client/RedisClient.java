@@ -164,11 +164,14 @@ public interface RedisClient extends Closeable {
     /**
      * scan 模糊查所有key
      */
+    @Deprecated
     List<String> scanAll(String pattern);
     /**
      * scan 模糊查所有key
      */
-    Tuple2<String,List<String>> scan(String pattern,String cursor,int count,String type,boolean isLike);
+    Tuple2<List<String>,List<String>> scan(String pattern,List<String>cursors,int count,String type,boolean isLike);
+
+    RedisKeyScanner getRedisKeyScanner();
 
     /**
      * 返回当前db

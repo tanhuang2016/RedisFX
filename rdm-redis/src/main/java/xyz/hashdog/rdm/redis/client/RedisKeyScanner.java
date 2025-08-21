@@ -1,0 +1,35 @@
+package xyz.hashdog.rdm.redis.client;
+
+import xyz.hashdog.rdm.common.tuple.Tuple2;
+
+import java.util.List;
+
+/**
+ * redis key查询器
+ *
+ * @author th
+ * @version 2.2.2
+ * @since 2025/8/18 23:03
+ */
+public abstract class RedisKeyScanner {
+
+    protected String pattern;
+    protected int count;
+    protected String type;
+    protected boolean isLike;
+    protected String cursor;
+
+    protected RedisKeyScanner() {
+
+    }
+
+    public RedisKeyScanner init (String pattern, int count, String type, boolean isLike){
+        this.pattern=pattern;
+        this.count=count;
+        this.type=type;
+        this.isLike=isLike;
+        this.cursor="0";
+        return this;
+    }
+    public abstract List<String> scan();
+}

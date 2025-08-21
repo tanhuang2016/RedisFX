@@ -80,6 +80,7 @@ public abstract class AbstractRedisClient implements RedisClient {
      * @param function 由于子类客户端查询逻辑不一样，所以需要传入一个函数封装查询逻辑
      * @return 所有键
      */
+    @Deprecated
     protected final List<String> scanAll(String pattern, BiFunction<String,ScanParams, ScanResult<String>> function) {
         List<String> keys = new ArrayList<>();
         // 定义SCAN命令参数，匹配所有键
@@ -98,6 +99,14 @@ public abstract class AbstractRedisClient implements RedisClient {
         return keys;
     }
 
+    /**
+     * 封装scan获取键
+     * @param pattern key模糊查询条件
+     * @param count 迭代次数
+     * @param isLike 是否模糊匹配
+     * @param function 由于子类客户端查询逻辑不一样，所以需要传入一个函数封装查询逻辑
+     * @return 所有键
+     */
     public Tuple2<String, List<String>> scan(String pattern, int count,  boolean isLike, Function<ScanParams, ScanResult<String>> function) {
         ScanParams scanParams = new ScanParams();
         scanParams.count(count);

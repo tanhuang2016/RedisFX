@@ -13,6 +13,7 @@ import xyz.hashdog.rdm.common.util.TUtil;
 import xyz.hashdog.rdm.redis.Message;
 import xyz.hashdog.rdm.redis.RedisConfig;
 import xyz.hashdog.rdm.redis.client.RedisClient;
+import xyz.hashdog.rdm.redis.client.RedisKeyScanner;
 import xyz.hashdog.rdm.redis.client.RedisMonitor;
 import xyz.hashdog.rdm.redis.client.RedisPubSub;
 import xyz.hashdog.rdm.redis.exceptions.RedisException;
@@ -20,6 +21,7 @@ import xyz.hashdog.rdm.redis.imp.console.RedisConsole;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.IntStream;
 
 /**
  * jedis集群客户端实现
@@ -166,22 +168,46 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
     }
 
     @Override
-    public Tuple2<String, List<String>> scan(String pattern, String cursor, int count, String type, boolean isLike) {
+    public Tuple2<List<String>, List<String>> scan(String pattern, List<String>cursors, int count, String type, boolean isLike) {
         List<String> all = new ArrayList<>();
+        List<String> cursorList = new ArrayList<>();
         CommandObjects commandObjects = new CommandObjects();
-        for (String master : masters) {
+        for (int i = 0; i < masters.size(); i++) {
+            String master = masters.get(i);
             Connection connection = jedis.getClusterNodes().get(master).getResource();
-            List<String> execute=execute(jedis -> super.scan(pattern,count, isLike,(scanParams)->{
+            int finalI = i;
+            Tuple2<String, List<String>> execute = execute(jedis -> super.scan(pattern, count, isLike, (scanParams) -> {
                 if (DataUtil.isBlank(type)) {
-                    return connection.executeCommand(commandObjects.scan(cursor, scanParams));
+                    return connection.executeCommand(commandObjects.scan(cursors.get(finalI), scanParams));
                 } else {
-                    return connection.executeCommand(commandObjects.scan(cursor, scanParams,type));
+                    return connection.executeCommand(commandObjects.scan(cursors.get(finalI), scanParams, type));
                 }
-            })).t2();
-            all.addAll(execute);
+            }));
+            all.addAll(execute.t2());
+            cursorList.add(execute.t1());
         }
-        //todo 这里集群模式，游标要设置多个才行，考虑左一个游标查询器吧
-        return new Tuple2<>(null,all);
+        return new Tuple2<>(cursorList,all);
+    }
+
+    @Override
+    public RedisKeyScanner getRedisKeyScanner() {
+        JedisClusterClient redisClient = this;
+        return new RedisKeyScanner() {
+            private List<String> cursorList;
+            @Override
+            public RedisKeyScanner init(String pattern, int count, String type, boolean isLike) {
+                RedisKeyScanner init = super.init(pattern, count, type, isLike);
+                cursorList = Collections.nCopies(10, this.cursor);
+                return init;
+
+            }
+            @Override
+            public List<String> scan() {
+                Tuple2<List<String>, List<String>> scan = redisClient.scan(pattern, cursorList, count, type, isLike);
+                this.cursorList = scan.t1();
+                return scan.t2();
+            }
+        };
     }
 
     @Override
