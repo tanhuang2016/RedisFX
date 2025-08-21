@@ -119,15 +119,15 @@
                                     <top>
                                        <HBox fx:id="toolBar" alignment="CENTER_LEFT" managed="false" visible="false" BorderPane.alignment="CENTER_LEFT">
                                           <children>
-                                             <ProgressBar fx:id="progressBar" progress="0.6" />
-                                             <Label styleClass="text-small" text="\%56" />
+                                             <ProgressBar fx:id="progressBar" progress="0" />
+                                             <Label fx:id="progressText" styleClass="text-small" text="\%0" />
                                              <Button fx:id="loadMore" mnemonicParsing="false" onAction="#loadMore" text="加载更多" />
                                              <Button fx:id="loadAll" mnemonicParsing="false" text="加载所有" />
                                              <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                                                    <Button fx:id="locationButton" mnemonicParsing="false" onAction="#location" />
                                                    <Button fx:id="expandedButton" mnemonicParsing="false" onAction="#expanded" />
                                                    <Button fx:id="collapseButton" mnemonicParsing="false" onAction="#collapse" />
-                                                   <Button fx:id="optionsButton" mnemonicParsing="false" />
+                                                   <Button fx:id="optionsButton" mnemonicParsing="false" visible="false" managed="false" />
                                                    <Button fx:id="hideButton" mnemonicParsing="false" onAction="#hideToolbar" />
                                              </HBox>
                                           </children>

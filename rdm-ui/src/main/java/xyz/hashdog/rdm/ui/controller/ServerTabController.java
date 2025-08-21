@@ -77,6 +77,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
     public MenuItem delete;
     public MenuItem open;
     public ProgressBar progressBar;
+    public Label progressText;
+
     public Button loadMore;
     public Button locationButton;
     public Button expandedButton;
@@ -734,10 +736,21 @@ public class ServerTabController extends BaseKeyController<MainController> {
             initTreeView(keys);
             //得刷新一下，不然会出现目录和叶子节点未对齐的显示问题
             treeView.refresh();
+            updateProgressBar();
             //搜索不是空，就加入历史记录
             if(DataUtil.isNotEmpty(searchText.getText())){
                 recentHistory.add(searchText.getText());
             }
+        });
+    }
+
+    private void updateProgressBar() {
+        int dbSize = this.choiceBox.getSelectionModel().getSelectedItem().getDbSize();
+        final double progress = (double) scanner.getSum() / dbSize;
+        Platform.runLater(() -> {
+            progressBar.setProgress(progress); // 更新进度条
+            // 如果你有Label用于显示百分比，也可以在这里更新
+            progressText.setText(String.format("%.1f%%", progress * 100));
         });
     }
 
@@ -1355,6 +1368,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         }
         List<String> keys = scanner.scan();
         loadIntoTreeView(keys);
+        updateProgressBar();
 
     }
 
