@@ -118,7 +118,10 @@ public class ServerTabController extends BaseKeyController<MainController> {
      * 用
      */
     private final LinkedHashSet<WeakReference<TreeItem<KeyTreeNode>>> openTreeItems = new LinkedHashSet<>(10);
-
+    /**
+     * 当前打开窗口的key
+     */
+    private String selectTabKey;
 
     @FXML
     public void initialize() {
@@ -786,6 +789,11 @@ public class ServerTabController extends BaseKeyController<MainController> {
                 controller.close();
             });
         });
+        tab.setOnSelectionChanged(event -> {
+            if (tab.isSelected()) {
+              this.selectTabKey=controller.getParameter().getKey();
+            }
+        });
         ContextMenu cm=GuiUtil.newTabContextMenu(tab);
         tab.setContent(borderPane);
         tab.setGraphic(GuiUtil.creatKeyImageView());
@@ -1205,18 +1213,29 @@ public class ServerTabController extends BaseKeyController<MainController> {
         //如果treeView是的db和删除key的db相同,则需要对应删除treeView中的节点
         if(p.get().getDb()==this.currentDb){
             Platform.runLater(()->{
-                TreeItem<KeyTreeNode> find=null;
-                //先从以打开的列表中找，找不到在从根节点递归找
-                find = findTreeItemByKeyInOpenTreeItems( p.get().getKey());
-                if(find==null){
-                    find = findTreeItemByKey(treeView.getRoot(), p.get().getKey());
-                }
+                TreeItem<KeyTreeNode> find=tryFindTreeItemByKey(treeView.getRoot(), p.get().getKey());
                 if(find!=null){
                     deleteTreeItems( List.of(find));
                 }
             });
         }
         return true;
+    }
+
+    /**
+     * 尝试找key
+     * @param root 树根
+     * @param key key
+     * @return
+     */
+    private TreeItem<KeyTreeNode> tryFindTreeItemByKey(TreeItem<KeyTreeNode> root, String key) {
+        TreeItem<KeyTreeNode> find=null;
+        //先从以打开的列表中找，找不到在从根节点递归找
+        find = findTreeItemByKeyInOpenTreeItems( key);
+        if(find==null){
+            find = findTreeItemByKey(treeView.getRoot(), key);
+        }
+        return find;
     }
 
     /**
@@ -1336,5 +1355,21 @@ public class ServerTabController extends BaseKeyController<MainController> {
         List<String> keys = scanner.scan();
         loadIntoTreeView(keys);
 
+    }
+
+    /**
+     * 跳转到打开key窗口/最后选中窗口
+     */
+    @FXML
+    public void location(ActionEvent actionEvent) {
+        if(this.selectTabKey!=null){
+            TreeItem<KeyTreeNode> keyTreeNodeTreeItem = tryFindTreeItemByKey(treeView.getRoot(), this.selectTabKey);
+            if(keyTreeNodeTreeItem==null){
+                return;
+            }
+            treeView.scrollTo(treeView.getRow(keyTreeNodeTreeItem));
+            this.lastSelectedNode=keyTreeNodeTreeItem;
+            selectAndScrollTo(this.lastSelectedNode);
+        }
     }
 }

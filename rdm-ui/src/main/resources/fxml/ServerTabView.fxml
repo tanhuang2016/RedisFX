@@ -124,7 +124,7 @@
                                              <Button fx:id="loadMore" mnemonicParsing="false" onAction="#loadMore" text="加载更多" />
                                              <Button fx:id="loadAll" mnemonicParsing="false" text="加载所有" />
                                              <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
-                                                   <Button fx:id="locationButton" mnemonicParsing="false" />
+                                                   <Button fx:id="locationButton" onAction="#location" mnemonicParsing="false" />
                                                    <Button fx:id="expandedButton" mnemonicParsing="false" />
                                                    <Button fx:id="collapseButton" mnemonicParsing="false" />
                                                    <Button fx:id="optionsButton" mnemonicParsing="false" />
