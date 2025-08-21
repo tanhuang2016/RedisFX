@@ -106,7 +106,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
     private final Queue<TreeItem<KeyTreeNode>> iconLoadQueue = new ConcurrentLinkedQueue<>();
     private final AtomicBoolean isLoading = new AtomicBoolean(false);
 
-    private final static int SCAN_COUNT = 500000;
+    private final static int SCAN_COUNT = 500;
     private RedisKeyScanner scanner;
 
 
@@ -582,13 +582,14 @@ public class ServerTabController extends BaseKeyController<MainController> {
             if(this.redisContext.getRedisConfig().isTreeShow()){
                 buildTreeView(treeView.getRoot(),keys);
             }else {
-                long startTime = System.nanoTime();
+                // todo 加载优化，要先放list 在addall会快很多
+//                long startTime = System.nanoTime();
                 buildListView(treeView.getRoot().getChildren(),keys);
-                long endTime = System.nanoTime();
-                long duration = endTime - startTime;
-                double seconds = duration / 1_000_000_000.0;
-                System.out.println("执行耗时: " + (duration / 1_000_000.0) + " 毫秒");
-                System.out.println("执行耗时: " + seconds + " 秒");
+//                long endTime = System.nanoTime();
+//                long duration = endTime - startTime;
+//                double seconds = duration / 1_000_000_000.0;
+//                System.out.println("执行耗时: " + (duration / 1_000_000.0) + " 毫秒");
+//                System.out.println("执行耗时: " + seconds + " 秒");
             }
         });
 
@@ -603,7 +604,6 @@ public class ServerTabController extends BaseKeyController<MainController> {
         List<TreeItem<KeyTreeNode>> list = new ArrayList<>();
         for (String key : keys) {
             list.add(new TreeItem<>(KeyTreeNode.leaf(key)));
-
         }
         children.addAll( list);
     }
