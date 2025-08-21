@@ -744,14 +744,15 @@ public class ServerTabController extends BaseKeyController<MainController> {
         });
     }
 
+    /**
+     * 加载进度更新
+     */
     private void updateProgressBar() {
         int dbSize = this.choiceBox.getSelectionModel().getSelectedItem().getDbSize();
         final double progress = (double) scanner.getSum() / dbSize;
-        Platform.runLater(() -> {
-            progressBar.setProgress(progress); // 更新进度条
-            // 如果你有Label用于显示百分比，也可以在这里更新
-            progressText.setText(String.format("%.1f%%", progress * 100));
-        });
+        progressBar.setProgress(progress);
+        // 如果你有Label用于显示百分比，也可以在这里更新
+        progressText.setText(String.format("%.1f%%", progress * 100));
     }
 
     /**
