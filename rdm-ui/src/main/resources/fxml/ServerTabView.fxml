@@ -121,7 +121,7 @@
                                           <children>
                                              <ProgressBar fx:id="progressBar" progress="0.6" />
                                              <Label text="\%56" styleClass="text-small"/>
-                                             <Button fx:id="loadMore" mnemonicParsing="false" text="加载更多" />
+                                             <Button fx:id="loadMore" mnemonicParsing="false" onAction="#loadMore" text="加载更多" />
                                              <Button fx:id="loadAll" mnemonicParsing="false" text="加载所有" />
                                              <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                                                    <Button fx:id="locationButton" mnemonicParsing="false" />

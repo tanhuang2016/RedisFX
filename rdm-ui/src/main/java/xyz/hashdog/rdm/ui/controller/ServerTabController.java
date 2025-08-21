@@ -554,18 +554,17 @@ public class ServerTabController extends BaseKeyController<MainController> {
 
         ObservableList<TreeItem<KeyTreeNode>> children = treeView.getRoot().getChildren();
         children.clear();
-        if(this.redisContext.getRedisConfig().isTreeShow()){
-            Platform.runLater(() -> {
+        loadIntoTreeView(keys);
+    }
+
+    private void loadIntoTreeView(List<String> keys) {
+        Platform.runLater(() -> {
+            if(this.redisContext.getRedisConfig().isTreeShow()){
                 buildTreeView(treeView.getRoot(),keys);
-            });
-        }else {
-            buildListView(children,keys);
-        }
-
-
-
-
-
+            }else {
+                buildListView(treeView.getRoot().getChildren(),keys);
+            }
+        });
 
     }
 
@@ -576,9 +575,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
      */
     private void buildListView(ObservableList<TreeItem<KeyTreeNode>> children, List<String> keys) {
         for (String key : keys) {
-            Platform.runLater(() -> {
-                children.add(new TreeItem<>(KeyTreeNode.leaf(key)));
-            });
+            children.add(new TreeItem<>(KeyTreeNode.leaf(key)));
 
         }
     }
@@ -1306,5 +1303,15 @@ public class ServerTabController extends BaseKeyController<MainController> {
         toolBar.setVisible(true);
         toolBar.setManaged(true);
         showButton.setVisible(false);
+    }
+
+    /**
+     * 加载更多
+     */
+    @FXML
+    public void loadMore(ActionEvent actionEvent) {
+        List<String> keys = scanner.scan();
+        loadIntoTreeView(keys);
+
     }
 }
