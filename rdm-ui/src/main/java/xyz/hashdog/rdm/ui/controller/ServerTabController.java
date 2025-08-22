@@ -197,7 +197,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
     }
     private void initButtonStyles() {
         search.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.SMALL);
-        reset.getStyleClass().addAll(Styles.BUTTON_CIRCLE,Styles.FLAT);
+        reset.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,Styles.SMALL);
+        initToolBarButtonStyles(reset);
         history.getStyleClass().addAll(Styles.SMALL,Styles.FLAT, Tweaks.NO_ARROW);
         search.setCursor(Cursor.HAND);
         reset.setCursor(Cursor.HAND);

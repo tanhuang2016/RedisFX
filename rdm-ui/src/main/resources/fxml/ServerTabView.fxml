@@ -64,12 +64,12 @@
                                               <children>
                                                   <CustomTextField fx:id="searchText" minWidth="-Infinity" prefWidth="150.0" HBox.hgrow="ALWAYS" />
                                                   <HBox fx:id="searchHbox" alignment="CENTER_RIGHT" spacing="-2.0" VBox.vgrow="ALWAYS">
-                                                      <Button fx:id="reset" managed="false" mnemonicParsing="false" onAction="#reset" opacity="0.3" text="%server.reset" visible="false" HBox.hgrow="ALWAYS">
+                                                      <Button fx:id="reset" managed="false" mnemonicParsing="false" onAction="#reset" opacity="0.5" text="%server.reset" visible="false" HBox.hgrow="ALWAYS">
                                                           <tooltip>
                                                               <Tooltip text="%server.reset" />
                                                           </tooltip>
                                                       </Button>
-                                                      <MenuButton fx:id="history" mnemonicParsing="false" opacity="0.3" prefWidth="2" HBox.hgrow="ALWAYS">
+                                                      <MenuButton fx:id="history" mnemonicParsing="false" opacity="0.5" prefWidth="2" HBox.hgrow="ALWAYS">
                                                           <items>
 <!--                                                              <MenuItem mnemonicParsing="false" text="Action 1" />-->
 <!--                                                              <MenuItem mnemonicParsing="false" text="Action 2" />-->
