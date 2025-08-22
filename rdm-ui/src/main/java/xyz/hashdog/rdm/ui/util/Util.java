@@ -4,6 +4,7 @@ import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.ui.entity.InfoTable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Util extends xyz.hashdog.rdm.redis.imp.Util {
@@ -65,4 +66,17 @@ public class Util extends xyz.hashdog.rdm.redis.imp.Util {
     }
 
 
+    /**
+     * 拼接字符串
+     * @param separator 分隔符
+     * @param number 从0拼接至number下标
+     * @param parts 字符串数组
+     * @return 拼接后的字符串
+     */
+    public static String join(String separator, int number, String[] parts) {
+        if(number<=-1){
+            return null;
+        }
+        return String.join(separator, Arrays.copyOfRange(parts, 0, number + 1));
+    }
 }

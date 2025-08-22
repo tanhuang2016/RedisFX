@@ -82,4 +82,6 @@ public interface Constant {
 
 
     String INFO_KEYSPACE = "Keyspace";
+    String KEY_SEPARATOR =":" ;
+
 }

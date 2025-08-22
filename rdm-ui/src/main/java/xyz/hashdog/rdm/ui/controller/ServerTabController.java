@@ -43,6 +43,7 @@ import xyz.hashdog.rdm.ui.entity.PassParameter;
 import xyz.hashdog.rdm.ui.entity.config.KeyTabPaneSetting;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.RecentHistory;
+import xyz.hashdog.rdm.ui.util.Util;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -585,7 +586,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
             if(this.redisContext.getRedisConfig().isTreeShow()){
                 buildTreeView(keys);
             }else {
-                buildListView(treeView.getRoot().getChildren(),keys);
+                buildListView(keys);
             }
             long endTime = System.nanoTime();
             long duration = endTime - startTime;
@@ -598,10 +599,10 @@ public class ServerTabController extends BaseKeyController<MainController> {
 
     /**
      * key构建列表
-     * @param children
      * @param keys
      */
-    private void buildListView(ObservableList<TreeItem<KeyTreeNode>> children, List<String> keys) {
+    private void buildListView( List<String> keys) {
+        ObservableList<TreeItem<KeyTreeNode>> children = treeView.getRoot().getChildren();
         List<TreeItem<KeyTreeNode>> list = new ArrayList<>();
         for (String key : keys) {
             list.add(new TreeItem<>(KeyTreeNode.leaf(key)));
@@ -645,10 +646,11 @@ public class ServerTabController extends BaseKeyController<MainController> {
 
     /**
      * KEY展示构建树形结构
-     * @param root
+     * 递归构建，新能不好，已经过时
      * @param keys
      */
-    private void buildTreeView(List<String> keys) {
+    @Deprecated
+    private void buildTreeViewOld(List<String> keys) {
         TreeItem<KeyTreeNode> root = treeView.getRoot();
         for (String key : keys) {
             String keySeparator = this.redisContext.getRedisConfig().getKeySeparator();
@@ -689,7 +691,77 @@ public class ServerTabController extends BaseKeyController<MainController> {
         sortTreeItems(root);
     }
 
-    // 查找子节点是否存在
+    /**
+     * 控件换时间，利用缓存优化了key的树形结构构造，速度提升了10倍不止
+     * @param keys
+     */
+    private void buildTreeView(List<String> keys) {
+        TreeItem<KeyTreeNode> root = treeView.getRoot();
+        Map<String, TreeItem<KeyTreeNode>> treeItemDirMap = findTreeItemDir(root);
+        String keySeparator = this.redisContext.getRedisConfig().getKeySeparator();
+        for (String key : keys) {
+            String[] parts = key.split(keySeparator);
+            for (int i = 0; i < parts.length; i++) {
+                String part = parts[i];
+                //叶子节点是key类型
+                boolean isLeaf = (i == parts.length - 1);
+                TreeItem<KeyTreeNode> childNode;
+                TreeItem<KeyTreeNode> hasRoot;
+                //找到父节点，如果没有就是根目录
+                hasRoot = treeItemDirMap.get(Util.join(Constant.KEY_SEPARATOR, i - 1, parts));
+                if(hasRoot==null){
+                    hasRoot=root;
+                }
+                if (isLeaf) {
+                    childNode = new TreeItem<>(KeyTreeNode.leaf(key));
+                    if(hasRoot.getValue()!=null){
+                        childNode.getValue().setParent(hasRoot.getValue());
+                        hasRoot.getValue().addChildKeyCount();
+                    }
+                }else {
+                    String thisPrefix = Util.join(Constant.KEY_SEPARATOR, i, parts);
+                    childNode = treeItemDirMap.get(thisPrefix);
+                    //是目录先从缓存取，可能已经存在，存在的话不用做任何操作
+                    if(childNode!=null){
+                      continue;
+                    }
+                    //目录的话，直接设置图标
+                    childNode = new TreeItem<>(KeyTreeNode.dir(part),new FontIcon(Feather.FOLDER));
+                    treeItemDirMap.put(thisPrefix,childNode);
+                    if(hasRoot.getValue()!=null){
+                        childNode.getValue().setParent(hasRoot.getValue());
+                    }
+                }
+                hasRoot.getChildren().add(childNode);
+            }
+        }
+        sortTreeItems(root);
+    }
+
+    /**
+     * 根节点下的所有子目录
+     * @param root
+     * @return
+     */
+    private Map<String, TreeItem<KeyTreeNode>> findTreeItemDir(TreeItem<KeyTreeNode> root) {
+        Map<String, TreeItem<KeyTreeNode>> directoryNodes = new HashMap<>();
+        Deque<TreeItem<KeyTreeNode>> stack = new ArrayDeque<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeItem<KeyTreeNode> node = stack.pop();
+            if (!node.isLeaf()) {
+                if(node.getValue()!=null){
+                    directoryNodes.put(node.getValue().getPrefix(), node);
+                }
+                List<TreeItem<KeyTreeNode>> children = node.getChildren();
+                for (int i = children.size() - 1; i >= 0; i--) {
+                    stack.push(children.get(i));
+                }
+            }
+        }
+        return directoryNodes;
+    }
+
     private TreeItem<KeyTreeNode> findChild(TreeItem<KeyTreeNode> parent, String part) {
         for (TreeItem<KeyTreeNode> child : parent.getChildren()) {
             if (part.equals(child.getValue().getName())) {
@@ -700,6 +772,10 @@ public class ServerTabController extends BaseKeyController<MainController> {
     }
 
 
+    /**
+     * 递归树节点，将所有目录下存在子节点的进行排序
+     * @param node
+     */
     private void sortTreeItems(TreeItem<KeyTreeNode> node) {
         if (node != null && !node.getChildren().isEmpty()) {
             node.getChildren().sort(treeItemSortComparator());

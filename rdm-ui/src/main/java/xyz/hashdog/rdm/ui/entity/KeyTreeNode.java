@@ -1,8 +1,7 @@
 package xyz.hashdog.rdm.ui.entity;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import xyz.hashdog.rdm.common.util.TUtil;
+
+import xyz.hashdog.rdm.ui.common.Constant;
 
 /**
  * @author th
@@ -23,6 +22,8 @@ public class KeyTreeNode {
      * 新增的key时间,用于排序，让新增的key排在第一，可以减少不必要地加载
      */
     private long newKeyTime;
+    private String prefix;
+    private int level;
 
     public static KeyTreeNode leaf(String key) {
         KeyTreeNode keyTreeNode = new KeyTreeNode();
@@ -68,7 +69,11 @@ public class KeyTreeNode {
     }
 
     public String getName() {
-        return name;
+        if (isLeaf) {
+            return key;
+        } else {
+            return name;
+        }
     }
 
     public void setName(String name) {
@@ -113,6 +118,8 @@ public class KeyTreeNode {
 
     public void setParent(KeyTreeNode parent) {
         this.parent = parent;
+        this.prefix = parent.getPrefix() + Constant.KEY_SEPARATOR + getName();
+        this.level=this.prefix.split(Constant.KEY_SEPARATOR).length;
     }
 
     public boolean isInitialized() {
@@ -121,6 +128,17 @@ public class KeyTreeNode {
 
     public void setInitialized(boolean initialized) {
         this.initialized = initialized;
+    }
+
+    public String getPrefix() {
+        if(prefix==null){
+           return getName();
+        }
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
     }
 
     public void addChildKeyCount() {
