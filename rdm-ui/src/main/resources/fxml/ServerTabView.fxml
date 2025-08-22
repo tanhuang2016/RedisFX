@@ -28,7 +28,7 @@
       <center>
           <AnchorPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <children>
-                  <SplitPane dividerPositions="0.28" prefHeight="650.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <SplitPane dividerPositions="0.25" prefHeight="650.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                       <items>
                           <AnchorPane minHeight="0.0" minWidth="-Infinity" prefHeight="160.0" prefWidth="200.0">
                               <children>
@@ -119,7 +119,7 @@
                                     <top>
                                        <HBox fx:id="toolBar" alignment="CENTER_LEFT" managed="false" visible="false" BorderPane.alignment="CENTER_LEFT">
                                           <children>
-                                             <ProgressBar fx:id="progressBar" progress="0" />
+                                             <ProgressBar fx:id="progressBar" progress="0" maxWidth="30"/>
                                              <Label fx:id="progressText" styleClass="text-small" text="\%0" />
                                              <Button fx:id="loadMore" mnemonicParsing="false" onAction="#loadMore" text="加载更多" />
                                              <Button fx:id="loadAll" mnemonicParsing="false" onAction="#loadAll" text="加载所有" />

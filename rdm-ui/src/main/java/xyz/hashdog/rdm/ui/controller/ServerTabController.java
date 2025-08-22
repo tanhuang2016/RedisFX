@@ -581,18 +581,12 @@ public class ServerTabController extends BaseKeyController<MainController> {
 
     private void loadIntoTreeView(List<String> keys) {
         Platform.runLater(() -> {
-            // todo 加载优化，要先放list 在addall会快很多
             long startTime = System.nanoTime();
             if(this.redisContext.getRedisConfig().isTreeShow()){
                 buildTreeView(keys);
             }else {
                 buildListView(keys);
             }
-            long endTime = System.nanoTime();
-            long duration = endTime - startTime;
-            double seconds = duration / 1_000_000_000.0;
-            System.out.println("执行耗时: " + (duration / 1_000_000.0) + " 毫秒");
-            System.out.println("执行耗时: " + seconds + " 秒");
         });
 
     }
