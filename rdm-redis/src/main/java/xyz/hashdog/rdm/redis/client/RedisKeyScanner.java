@@ -46,4 +46,9 @@ public abstract class RedisKeyScanner {
     public int getSum() {
         return sum;
     }
+
+    public RedisKeyScanner setCount(int count) {
+        this.count = count;
+        return this;
+    }
 }

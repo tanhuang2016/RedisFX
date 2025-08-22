@@ -580,18 +580,18 @@ public class ServerTabController extends BaseKeyController<MainController> {
 
     private void loadIntoTreeView(List<String> keys) {
         Platform.runLater(() -> {
+            // todo 加载优化，要先放list 在addall会快很多
+            long startTime = System.nanoTime();
             if(this.redisContext.getRedisConfig().isTreeShow()){
                 buildTreeView(treeView.getRoot(),keys);
             }else {
-                // todo 加载优化，要先放list 在addall会快很多
-//                long startTime = System.nanoTime();
                 buildListView(treeView.getRoot().getChildren(),keys);
-//                long endTime = System.nanoTime();
-//                long duration = endTime - startTime;
-//                double seconds = duration / 1_000_000_000.0;
-//                System.out.println("执行耗时: " + (duration / 1_000_000.0) + " 毫秒");
-//                System.out.println("执行耗时: " + seconds + " 秒");
             }
+            long endTime = System.nanoTime();
+            long duration = endTime - startTime;
+            double seconds = duration / 1_000_000_000.0;
+            System.out.println("执行耗时: " + (duration / 1_000_000.0) + " 毫秒");
+            System.out.println("执行耗时: " + seconds + " 秒");
         });
 
     }
@@ -679,12 +679,13 @@ public class ServerTabController extends BaseKeyController<MainController> {
                             finalChildNode.getValue().setParent(current.getValue());
                         }
                     }
-                    current.getChildren().sort(treeItemSortComparator());
+//                    current.getChildren().sort(treeItemSortComparator());
                 }
 
                 current = childNode;
             }
         }
+        sortTreeItems(root);
     }
 
     // 查找子节点是否存在
@@ -695,6 +696,17 @@ public class ServerTabController extends BaseKeyController<MainController> {
             }
         }
         return null;
+    }
+
+
+    private void sortTreeItems(TreeItem<KeyTreeNode> node) {
+        if (node != null && !node.getChildren().isEmpty()) {
+            node.getChildren().sort(treeItemSortComparator());
+            // 递归排序子节点
+            for (TreeItem<KeyTreeNode> child : node.getChildren()) {
+                sortTreeItems(child);
+            }
+        }
     }
 
 
@@ -1401,7 +1413,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
             if(scanner.getSum()>=this.choiceBox.getSelectionModel().getSelectedItem().getDbSize()){
                 return;
             }
-            List<String> keys = scanner.scan();
+            List<String> keys = scanner.setCount(SCAN_COUNT*200).scan();
             while (!keys.isEmpty()){
                 loadIntoTreeView(keys);
                 updateProgressBar();
