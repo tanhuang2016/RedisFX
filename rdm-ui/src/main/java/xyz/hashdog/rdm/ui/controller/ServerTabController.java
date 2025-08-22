@@ -581,7 +581,6 @@ public class ServerTabController extends BaseKeyController<MainController> {
 
     private void loadIntoTreeView(List<String> keys) {
         Platform.runLater(() -> {
-            long startTime = System.nanoTime();
             if(this.redisContext.getRedisConfig().isTreeShow()){
                 buildTreeView(keys);
             }else {
