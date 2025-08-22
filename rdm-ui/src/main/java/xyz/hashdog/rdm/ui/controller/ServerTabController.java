@@ -220,7 +220,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         search.setGraphic(new FontIcon(Feather.SEARCH));
         reset.setGraphic(new FontIcon(Material2AL.CLEAR));
         history.setGraphic(new FontIcon(Material2AL.ARROW_DROP_DOWN));
-        GuiUtil.setIcon(locationButton,new FontIcon((Material2AL.LOCATION_SEARCHING)));
+        GuiUtil.setIcon(locationButton,new FontIcon((Material2AL.GPS_FIXED)));
         GuiUtil.setIcon(expandedButton,new FontIcon((Material2MZ.UNFOLD_MORE)));
         GuiUtil.setIcon(collapseButton,new FontIcon((Material2MZ.UNFOLD_LESS)));
         GuiUtil.setIcon(optionsButton,new FontIcon((Material2MZ.MORE_VERT)));
