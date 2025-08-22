@@ -583,7 +583,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
             // todo 加载优化，要先放list 在addall会快很多
             long startTime = System.nanoTime();
             if(this.redisContext.getRedisConfig().isTreeShow()){
-                buildTreeView(treeView.getRoot(),keys);
+                buildTreeView(keys);
             }else {
                 buildListView(treeView.getRoot().getChildren(),keys);
             }
@@ -648,7 +648,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
      * @param root
      * @param keys
      */
-    private void buildTreeView(TreeItem<KeyTreeNode> root,List<String> keys) {
+    private void buildTreeView(List<String> keys) {
+        TreeItem<KeyTreeNode> root = treeView.getRoot();
         for (String key : keys) {
             String keySeparator = this.redisContext.getRedisConfig().getKeySeparator();
             String[] parts = key.split(keySeparator);
