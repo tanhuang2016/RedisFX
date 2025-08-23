@@ -122,7 +122,6 @@ public class ByteArrayController extends BaseController<BaseController> implemen
      */
     private void characterChoiceBoxListener() {
         characterChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println(newValue);
             this.value.setText(type.handler.byte2Text(this.currentValue,Charset.forName(newValue)));
         });
     }
