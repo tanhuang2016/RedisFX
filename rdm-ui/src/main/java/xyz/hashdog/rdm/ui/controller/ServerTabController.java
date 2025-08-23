@@ -27,6 +27,8 @@ import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import org.kordamp.ikonli.material2.Material2MZ;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
@@ -53,10 +55,12 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
+
 public class ServerTabController extends BaseKeyController<MainController> {
 
 
-
+    private static final Logger log = LoggerFactory.getLogger(ServerTabController.class);
     /**
      * 搜索的内容
      */
@@ -139,9 +143,29 @@ public class ServerTabController extends BaseKeyController<MainController> {
         initTextField();
         initTabPane();
         progressBar.getStyleClass().add(Styles.SMALL);
+        initLanguage();
+
 
 
     }
+
+    private void initLanguage() {
+        progressBarLanguage();
+        locationButton.setTooltip(GuiUtil.textTooltip(language("server.toolBar.location")));
+        expandedButton.setTooltip(GuiUtil.textTooltip(language("server.toolBar.expanded")));
+        collapseButton.setTooltip(GuiUtil.textTooltip(language("server.toolBar.collapse")));
+        hideButton.setTooltip(GuiUtil.textTooltip(language("server.toolBar.hide")));
+        showButton.setTooltip(GuiUtil.textTooltip(language("server.toolBar.show")));
+    }
+
+    private void progressBarLanguage() {
+        if(scanner==null){
+            return;
+        }
+        progressBar.setTooltip(GuiUtil.textTooltip(String.format(language("server.toolBar.progress"),scanner.getSum())));
+        progressText.setTooltip(progressBar.getTooltip());
+    }
+
     private void initTabPane() {
         KeyTabPaneSetting ksetting =Applications.getConfigSettings(ConfigSettingsEnum.KEY_TAB_PANE.name);
         this.dbTabPane.setSide(Side.valueOf(ksetting.getSide()));
@@ -323,10 +347,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
                     // 只有叶子节点首次显示时才加载图标
                     if (item.getLeaf()&&!item.isInitialized()) {
                         loadNodeGraphicIfNeeded(this.getTreeItem());
-                        System.out.println(item.toString());
                         item.setInitialized(true);
                     }
-
                     // 如果图标已经加载过，直接显示
                     if (getTreeItem().getGraphic() != null) {
                         setGraphic(getTreeItem().getGraphic());
@@ -846,9 +868,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
             progressBar.setProgress(progress);
             // 如果你有Label用于显示百分比，也可以在这里更新
             progressText.setText(String.format("%.1f%%", progress * 100));
-            System.out.println("进度2   "+progress);
+            progressBarLanguage();
         });
-        System.out.println("进度1    "+progress);
     }
 
     /**
