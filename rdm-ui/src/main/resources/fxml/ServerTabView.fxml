@@ -95,7 +95,7 @@
                                                   </HBox>
                                               </children>
                                           </HBox>
-                                 <BorderPane style="-fx-border-color: -color-border-default; -fx-border-width: 1; -fx-border-style: solid;" onMouseExited="#tooBarRightHide" onMouseEntered="#tooBarRightShow" VBox.vgrow="ALWAYS">
+                                 <BorderPane onMouseEntered="#tooBarRightShow" onMouseExited="#tooBarRightHide" style="-fx-border-color: -color-border-default; -fx-border-width: 1; -fx-border-style: solid;" VBox.vgrow="ALWAYS">
                                     <center>
                                                 <TreeView fx:id="treeView" style=" -fx-border-width: 0">
                                                     <contextMenu>
@@ -117,17 +117,17 @@
                                                 </TreeView>
                                     </center>
                                     <top>
-                                       <HBox fx:id="toolBar" alignment="CENTER_LEFT" managed="false" visible="false"  BorderPane.alignment="CENTER_LEFT">
+                                       <HBox fx:id="toolBar" alignment="CENTER_LEFT" managed="false" visible="false" BorderPane.alignment="CENTER_LEFT">
                                           <children>
-                                             <ProgressBar fx:id="progressBar" progress="0" maxWidth="30"/>
+                                             <ProgressBar fx:id="progressBar" maxWidth="30" progress="0" />
                                              <Label fx:id="progressText" styleClass="text-small" text="\%0" />
                                              <Button fx:id="loadMore" mnemonicParsing="false" onAction="#loadMore" text="加载更多" />
                                              <Button fx:id="loadAll" mnemonicParsing="false" onAction="#loadAll" text="加载所有" />
-                                             <HBox fx:id="toolBarRight" alignment="CENTER_RIGHT" BorderPane.alignment="CENTER_LEFT" HBox.hgrow="ALWAYS"  visible="false">
+                                             <HBox fx:id="toolBarRight" alignment="CENTER_RIGHT" visible="false" BorderPane.alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                                                    <Button fx:id="locationButton" mnemonicParsing="false" onAction="#location" />
                                                    <Button fx:id="expandedButton" mnemonicParsing="false" onAction="#expanded" />
                                                    <Button fx:id="collapseButton" mnemonicParsing="false" onAction="#collapse" />
-                                                   <Button fx:id="optionsButton" mnemonicParsing="false" visible="false" managed="false" />
+                                                   <Button fx:id="optionsButton" managed="false" mnemonicParsing="false" visible="false" />
                                                    <Button fx:id="hideButton" mnemonicParsing="false" onAction="#hideToolbar" />
                                              </HBox>
                                           </children>
@@ -139,7 +139,7 @@
                            <Button fx:id="showButton" mnemonicParsing="false" onAction="#showToolbar" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0" />
                               </children>
                         <padding>
-                           <Insets right="10.0" />
+                           <Insets right="5.0" />
                         </padding>
                           </AnchorPane>
                           <AnchorPane minHeight="0.0" minWidth="-Infinity" prefHeight="160.0" prefWidth="200.0">
