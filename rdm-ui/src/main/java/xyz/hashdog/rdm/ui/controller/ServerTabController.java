@@ -89,6 +89,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
     public HBox toolBar;
     public Button showButton;
     public Button loadAll;
+    public HBox toolBarRight;
     @FXML
     private TreeView<KeyTreeNode> treeView;
     @FXML
@@ -1540,4 +1541,13 @@ public class ServerTabController extends BaseKeyController<MainController> {
     }
 
 
+    @FXML
+    public void tooBarRightHide(MouseEvent mouseEvent) {
+        toolBarRight.setVisible(false);
+    }
+
+    @FXML
+    public void tooBarRightShow(MouseEvent mouseEvent) {
+        toolBarRight.setVisible(true);
+    }
 }
