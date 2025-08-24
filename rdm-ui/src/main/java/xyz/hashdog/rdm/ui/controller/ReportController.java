@@ -117,6 +117,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     private final static int SCAN_COUNT = 500;
     private RedisKeyScanner scanner;
     private int currentDbSize;
+    private  List<TopKeyTable> topKeyTables ;
 
 
     @Override
@@ -222,6 +223,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
      */
     private void initScanner() {
         this.scanner=this.redisClient.getRedisKeyScanner();
+        this.topKeyTables = new ArrayList<>();
         resetScanner();
     }
     /**
@@ -229,6 +231,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
      */
     private void resetScanner() {
         scanner.init(null,SCAN_COUNT,null,true);
+        this.topKeyTables.clear();
 //        Platform.runLater(() -> {
 //            progressBar.setProgress(0);
 //            progressText.setText(String.format("%.1f%%", 0d));
@@ -579,24 +582,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     @FXML
     public void topRefresh(ActionEvent actionEvent) {
         resetScanner();
-        asynexec(() -> {
-            List<TopKeyTable> topKeyTables = new ArrayList<>();
-            synchronized (lock){
-                List<String> keys = this.scanner.scan();
-                for (String key : keys) {
-                    long memory=this.redisClient.memoryUsage(key,0);
-                    String type = this.redisClient.type(key);
-                    long ttl = this.redisClient.ttl(key);
-                    long length=lengthByType(key,type);
-                    TopKeyTable topKeyTable = new TopKeyTable(key, type, ttl, memory, length);
-                    topKeyTables.add(topKeyTable);
-                }
-                updateScannedKeys();
-
-            }
-            updatePiesData(topKeyTables);
-            updateTopData(topKeyTables);
-        });
+        scannedMore(actionEvent);
     }
 
     /**
@@ -606,7 +592,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     private void updateScannedKeys() {
         final double progress = (double) scanner.getSum() / currentDbSize;
         Platform.runLater(() -> {
-            this.scanned.setText(String.format("Scanned %.1f%%(%s/%s keys)",progress,scanner.getSum(),currentDbSize));
+            this.scanned.setText(String.format("Scanned %.1f%%(%s/%s keys)",progress*100,scanner.getSum(),currentDbSize));
             this.scanned2.setText(this.scanned.getText());
         });
     }
@@ -692,4 +678,24 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     }
 
 
+    public void scannedMore(ActionEvent actionEvent) {
+        asynexec(() -> {
+            synchronized (lock){
+                List<String> keys = this.scanner.scan();
+                for (String key : keys) {
+                    long memory=this.redisClient.memoryUsage(key,0);
+                    String type = this.redisClient.type(key);
+                    long ttl = this.redisClient.ttl(key);
+                    long length=lengthByType(key,type);
+                    TopKeyTable topKeyTable = new TopKeyTable(key, type, ttl, memory, length);
+                    topKeyTables.add(topKeyTable);
+                }
+                updateScannedKeys();
+
+            }
+            updatePiesData(topKeyTables);
+            updateTopData(topKeyTables);
+        });
+
+    }
 }
