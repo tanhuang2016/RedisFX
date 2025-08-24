@@ -65,6 +65,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage)  {
         try {
+            log.error("Application started");
             Save.init();
             // 设置默认的未捕获异常处理器
             Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
