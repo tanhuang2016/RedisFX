@@ -105,6 +105,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public Button pieRefresh;
     public Button topRefresh;
     public Label barHost;
+    public Label scanned;
+    public Label scanned2;
     private Popover refreshPopover;
     private XYChart.Series<String, Number> memorySeries;
     private XYChart.Series<String, Number> keySeries;
@@ -114,6 +116,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     private final Object lock = new Object();
     private final static int SCAN_COUNT = 500;
     private RedisKeyScanner scanner;
+    private int currentDbSize;
 
 
     @Override
@@ -496,6 +499,9 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                 barKey.setText(String.valueOf(keyTotalSize));
                 StringBuilder barKeyTooltip = new StringBuilder(String.format(language("server.report.bar.key")+" %s", keyTotalSize));
                 for (Tuple2<Integer, Integer> tus : dbSizeList) {
+                    if(this.currentDb==tus.t1()){
+                        this.currentDbSize=tus.t2();
+                    }
                     barKeyTooltip.append(System.lineSeparator());
                     barKeyTooltip.append(String.format("DB%s: %s", tus.t1(), tus.t2()));
                 }
@@ -585,9 +591,23 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
                     TopKeyTable topKeyTable = new TopKeyTable(key, type, ttl, memory, length);
                     topKeyTables.add(topKeyTable);
                 }
+                updateScannedKeys();
+
             }
             updatePiesData(topKeyTables);
             updateTopData(topKeyTables);
+        });
+    }
+
+    /**
+     * 更新scanned样本数
+     * Scanned 14%(10 003/70 000 keys)
+     */
+    private void updateScannedKeys() {
+        final double progress = (double) scanner.getSum() / currentDbSize;
+        Platform.runLater(() -> {
+            this.scanned.setText(String.format("Scanned %.1f%%(%s/%s keys)",progress,scanner.getSum(),currentDbSize));
+            this.scanned2.setText(this.scanned.getText());
         });
     }
 

@@ -171,6 +171,7 @@
                                      <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
                                          <children>
                                              <Label fx:id="pie" style="-fx-font-size: 1.25em" text="%server.report.type" VBox.vgrow="ALWAYS" />
+                                             <Label fx:id="scanned"  style="-fx-text-fill: #c79e4c" VBox.vgrow="ALWAYS" />
                                              <Button fx:id="pieRefresh" onAction="#pieRefresh" HBox.hgrow="ALWAYS" />
                                          </children>
                                      </HBox>
@@ -194,6 +195,7 @@
                                     <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
                                        <children>
                                           <Label fx:id="top" style="-fx-font-size: 1.25em" text="%server.report.top" HBox.hgrow="ALWAYS" />
+                                           <Label fx:id="scanned2"    style="-fx-text-fill: #c79e4c" VBox.vgrow="ALWAYS" />
                                           <FloatToggleButton fx:id="keySize" onAction="#keySize" mnemonicParsing="false" text="%server.report.top.memory" HBox.hgrow="ALWAYS" selected="true"/>
                                           <FloatToggleButton fx:id="keyLength" onAction="#keyLength" mnemonicParsing="false" text="%server.report.top.length" HBox.hgrow="ALWAYS" />
                                            <Button fx:id="topRefresh" onAction="#topRefresh" HBox.hgrow="ALWAYS" />
