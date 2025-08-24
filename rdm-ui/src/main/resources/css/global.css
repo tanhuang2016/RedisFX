@@ -101,7 +101,8 @@
 .modal-pane {
     -color-modal-pane-overlay: transparent;
 }
-/*1titledPane*/
+
+/********* titledPane*********/
 /* 隐藏TitledPane的标题栏背景 */
 .report-titled-pane > .title {
     -fx-background-color: transparent;
@@ -112,4 +113,10 @@
     -fx-background-color: transparent;
     -fx-border-width: 0;
     -fx-background-insets: 0;
+}
+
+/********* mini按钮*********/
+.button.mini {
+    -fx-padding: 2px 2px 2px 2px;
+    -fx-font-size: 0.8em;
 }

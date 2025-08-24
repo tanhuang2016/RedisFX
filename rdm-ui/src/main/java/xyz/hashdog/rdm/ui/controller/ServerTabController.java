@@ -231,9 +231,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
         history.setCursor(Cursor.HAND);
         newKey.getStyleClass().addAll(Tweaks.NO_ARROW);
         initToolBarButtonStyles(locationButton,expandedButton,collapseButton,optionsButton,hideButton,showButton);
-        loadMore.getStyleClass().addAll(Styles.SMALL);
-        loadMore.setStyle("-fx-pref-height: 20px; -fx-min-height: 20; -fx-max-height: 20px;-fx-padding: 2 5 2 5;");
-        loadAll.getStyleClass().addAll(Styles.SMALL,Styles.DANGER);
+        loadMore.getStyleClass().addAll(Styles.SMALL,"mini");
+        loadAll.getStyleClass().addAll(Styles.SMALL,Styles.DANGER,"mini");
     }
 
     private void initToolBarButtonStyles(Button... buttons) {
