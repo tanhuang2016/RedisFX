@@ -35,10 +35,7 @@ import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.common.util.TUtil;
 import xyz.hashdog.rdm.redis.client.RedisKeyScanner;
 import xyz.hashdog.rdm.ui.Main;
-import xyz.hashdog.rdm.ui.common.Applications;
-import xyz.hashdog.rdm.ui.common.ConfigSettingsEnum;
-import xyz.hashdog.rdm.ui.common.Constant;
-import xyz.hashdog.rdm.ui.common.RedisDataTypeEnum;
+import xyz.hashdog.rdm.ui.common.*;
 import xyz.hashdog.rdm.ui.entity.DBNode;
 import xyz.hashdog.rdm.ui.entity.KeyTreeNode;
 import xyz.hashdog.rdm.ui.entity.PassParameter;
@@ -231,8 +228,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
         history.setCursor(Cursor.HAND);
         newKey.getStyleClass().addAll(Tweaks.NO_ARROW);
         initToolBarButtonStyles(locationButton,expandedButton,collapseButton,optionsButton,hideButton,showButton);
-        loadMore.getStyleClass().addAll(Styles.SMALL,"mini");
-        loadAll.getStyleClass().addAll(Styles.SMALL,Styles.DANGER,"mini");
+        loadMore.getStyleClass().addAll(Styles.SMALL, UiStyles.MINI);
+        loadAll.getStyleClass().addAll(Styles.SMALL,Styles.DANGER, UiStyles.MINI);
     }
 
     private void initToolBarButtonStyles(Button... buttons) {

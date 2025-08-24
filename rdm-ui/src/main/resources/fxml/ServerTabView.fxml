@@ -121,8 +121,14 @@
                                           <children>
                                              <ProgressBar fx:id="progressBar" maxWidth="30" progress="0" />
                                              <Label fx:id="progressText" styleClass="text-small" text="\%0" />
-                                             <Button fx:id="loadMore" mnemonicParsing="false" onAction="#loadMore" text="%server.toolBar.loadMore" />
-                                             <Button fx:id="loadAll" mnemonicParsing="false" onAction="#loadAll" text="%server.toolBar.loadAll" />
+                                             <Button fx:id="loadMore" mnemonicParsing="false" onAction="#loadMore" text="%server.toolBar.loadMore">
+                                                <HBox.margin>
+                                                   <Insets left="5.0" />
+                                                </HBox.margin></Button>
+                                             <Button fx:id="loadAll" mnemonicParsing="false" onAction="#loadAll" text="%server.toolBar.loadAll">
+                                                <HBox.margin>
+                                                   <Insets left="5.0" />
+                                                </HBox.margin></Button>
                                              <HBox fx:id="toolBarRight" alignment="CENTER_RIGHT" visible="false" BorderPane.alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                                                    <Button fx:id="locationButton" mnemonicParsing="false" onAction="#location" />
                                                    <Button fx:id="expandedButton" mnemonicParsing="false" onAction="#expanded" />
