@@ -29,6 +29,7 @@ import org.kordamp.ikonli.material2.Material2MZ;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
+import xyz.hashdog.rdm.redis.client.RedisKeyScanner;
 import xyz.hashdog.rdm.ui.common.Constant;
 import xyz.hashdog.rdm.ui.common.RedisDataTypeEnum;
 import xyz.hashdog.rdm.ui.controller.popover.RefreshPopover;
@@ -111,6 +112,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     private double previousUsedCpu;
     private long previousTime;
     private final Object lock = new Object();
+    private final static int SCAN_COUNT = 500;
+    private RedisKeyScanner scanner;
 
 
     @Override
@@ -208,7 +211,26 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         barHost.setText(String.format("%s:%s/db%s",redisContext.getRedisConfig().getHost(),redisContext.getRedisConfig().getPort(),currentDb));
 //        refresh();默认刷新是true，会自动触发
         initRefreshPopover();
+        initScanner();
         pieRefresh(null);
+    }
+    /**
+     * 初始化key扫描器
+     */
+    private void initScanner() {
+        this.scanner=this.redisClient.getRedisKeyScanner();
+        resetScanner();
+    }
+    /**
+     * 重置查询器
+     */
+    private void resetScanner() {
+        scanner.init(null,SCAN_COUNT,null,true);
+//        Platform.runLater(() -> {
+//            progressBar.setProgress(0);
+//            progressText.setText(String.format("%.1f%%", 0d));
+//        });
+
     }
 
     private void initScrollListener() {
@@ -550,10 +572,11 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
     @FXML
     public void topRefresh(ActionEvent actionEvent) {
+        resetScanner();
         asynexec(() -> {
             List<TopKeyTable> topKeyTables = new ArrayList<>();
             synchronized (lock){
-                List<String> keys = this.redisClient.scanAll(null);
+                List<String> keys = this.scanner.scan();
                 for (String key : keys) {
                     long memory=this.redisClient.memoryUsage(key,0);
                     String type = this.redisClient.type(key);
