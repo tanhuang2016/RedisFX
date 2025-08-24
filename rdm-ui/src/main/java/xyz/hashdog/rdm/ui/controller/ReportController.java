@@ -25,6 +25,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.material2.Material2AL;
 import org.kordamp.ikonli.material2.Material2MZ;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
@@ -107,6 +108,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     public Label barHost;
     public Label scanned;
     public Label scanned2;
+    public Button scannedMore2;
+    public Button scannedMore;
     private Popover refreshPopover;
     private XYChart.Series<String, Number> memorySeries;
     private XYChart.Series<String, Number> keySeries;
@@ -293,6 +296,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         barRefresh.setGraphic(new FontIcon(Material2MZ.REFRESH ));
         pieRefresh.setGraphic(new FontIcon(Material2MZ.REFRESH ));
         topRefresh.setGraphic(new FontIcon(Material2MZ.REFRESH ));
+        scannedMore2.setGraphic(new FontIcon(Material2AL.MDAL_360));
+        scannedMore.setGraphic(new FontIcon(Material2AL.MDAL_360));
     }
 
     private void initStyle() {
@@ -311,6 +316,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         barRefresh.setCursor(Cursor.HAND);
         pieRefresh.getStyleClass().addAll(Styles.FLAT,Styles.DANGER);
         topRefresh.getStyleClass().addAll(Styles.FLAT,Styles.DANGER);
+        scannedMore2.getStyleClass().addAll(Styles.FLAT,Styles.SUCCESS);
+        scannedMore.getStyleClass().addAll(Styles.FLAT,Styles.SUCCESS);
     }
 
     private void initLineBarStyle() {
