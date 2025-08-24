@@ -94,8 +94,8 @@
                                                 </HBox>
                                                 <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                    <children>
-                                                      <Label text="%server.report.server.os" />
-                                                      <Label fx:id="os" styleClass="success"  />
+                                                      <Label text="%server.report.server.os" HBox.hgrow="NEVER"  minWidth="-Infinity"/>
+                                                      <Label fx:id="os" styleClass="success"  HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
                                                    </children>
                                                 </HBox>
                                                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
