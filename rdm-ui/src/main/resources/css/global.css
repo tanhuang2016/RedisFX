@@ -31,7 +31,7 @@
 /*    -fx-font-weight: bold;*/
 /*}*/
 
-/*1redis标签样式*/
+/********* redis标签样式*********/
 .tag {
     -fx-padding: 2px 4px 2px 4px;
     -fx-background-radius: 4px;
@@ -42,7 +42,8 @@
     -fx-font-size: 1em;
 }
 
-/*1圆角样式*/
+
+/********* 圆角样式*********/
 .rounded-corner {
     -fx-background-radius: 10;
     -fx-border-radius: 10;
@@ -58,7 +59,8 @@
 }
 
 
-/*1表格的head不显示竖线*/
+
+/********* 表格的head不显示竖线*********/
 .no-vertical-lines .column-header-background .table-column {
     -fx-border-width: 0;
     -fx-background-color: transparent;
@@ -79,8 +81,7 @@
     -fx-border-width: 0;
 }
 
-/*1自定义float-toggle-button的样式*/
-
+/********* 自定义float-toggle-button的样式*********/
 /* 添加圆角样式 */
 .float-toggle-button.flat {
     -fx-background-radius: 20;
@@ -96,7 +97,7 @@
     -fx-opacity: 0.5;
 }
 
-/*1胶囊*/
+/********* 胶囊*********/
 .modal-pane {
     -color-modal-pane-overlay: transparent;
 }
