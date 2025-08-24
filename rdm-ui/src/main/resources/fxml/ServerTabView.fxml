@@ -121,7 +121,7 @@
                                           <children>
                                              <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                                                 <children>
-                                                   <ProgressBar fx:id="progressBar" maxWidth="1.7976931348623157E308" progress="0" HBox.hgrow="ALWAYS" />
+                                                   <ProgressBar fx:id="progressBar" maxWidth="1.7976931348623157E308" prefWidth="30.0" progress="0" HBox.hgrow="ALWAYS" />
                                                    <Label fx:id="progressText" styleClass="text-small" text="\%0" />
                                                    <Button fx:id="loadMore" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadMore" text="%server.toolBar.loadMore" HBox.hgrow="ALWAYS">
                                                       <HBox.margin>
