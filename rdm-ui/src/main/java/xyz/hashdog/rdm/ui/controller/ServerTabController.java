@@ -75,6 +75,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
     @FXML
     public Button search;
     public HBox searchHbox;
+    public Button searchOptionsButton;
     public Button reset;
     public ToggleButton isLike;
 
@@ -241,10 +242,12 @@ public class ServerTabController extends BaseKeyController<MainController> {
     private void initButtonStyles() {
         search.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.SMALL,Styles.FLAT);
         isLike.getStyleClass().addAll(Styles.SMALL,Styles.FLAT);
-        reset.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,Styles.SMALL);
-        initToolBarButtonStyles(reset);
+        reset.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,UiStyles.MINI);
+        searchOptionsButton.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,UiStyles.MINI);
         search.setCursor(Cursor.HAND);
         reset.setCursor(Cursor.HAND);
+        isLike.setCursor(Cursor.HAND);
+        searchOptionsButton.setCursor(Cursor.HAND);
         newKey.getStyleClass().addAll(Tweaks.NO_ARROW);
         initToolBarButtonStyles(locationButton,expandedButton,collapseButton,optionsButton,hideButton,showButton);
         loadMore.getStyleClass().addAll(Styles.SMALL, UiStyles.MINI);
@@ -261,6 +264,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
     private void initButtonIcon() {
         search.setGraphic(new FontIcon(Feather.SEARCH));
         reset.setGraphic(new FontIcon(Material2AL.CLEAR));
+        GuiUtil.setIcon(searchOptionsButton,new FontIcon((Material2MZ.MORE_VERT)));
         GuiUtil.setIcon(locationButton,new FontIcon((Material2MZ.RADIO_BUTTON_CHECKED)));
         GuiUtil.setIcon(expandedButton,new FontIcon((Material2MZ.UNFOLD_MORE)));
         GuiUtil.setIcon(collapseButton,new FontIcon((Material2MZ.UNFOLD_LESS)));

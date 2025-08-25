@@ -75,14 +75,16 @@
                                                               <Tooltip text="%server.reset" />
                                                           </tooltip>
                                                       </Button>
-                                                      <ToggleButton fx:id="isLike" mnemonicParsing="false" opacity="0.5" text=".*" HBox.hgrow="ALWAYS" selected="true">
+                                                      <ToggleButton fx:id="isLike" mnemonicParsing="false" opacity="0.8"
+                                                                    text=".*" HBox.hgrow="ALWAYS" selected="true">
                                                           <tooltip>
-                                                              <Tooltip text="%server.reset" />
+                                                              <Tooltip text="%server.reset"/>
                                                           </tooltip>
-                                             <HBox.margin>
-                                                <Insets left="5.0" right="5.0" />
-                                             </HBox.margin>
+                                                          <HBox.margin>
+                                                              <Insets left="5.0" right="5.0"/>
+                                                          </HBox.margin>
                                                       </ToggleButton>
+                                                      <Button fx:id="searchOptionsButton"  mnemonicParsing="false" opacity="0.8" />
                                                   </HBox>
                                               </children>
                                           </HBox>
