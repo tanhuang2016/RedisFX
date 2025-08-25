@@ -13,6 +13,7 @@
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.image.Image?>
@@ -69,7 +70,7 @@
                                                               <Tooltip text="%server.reset" />
                                                           </tooltip>
                                                       </Button>
-                                                      <MenuButton fx:id="history" mnemonicParsing="false" opacity="0.5" prefWidth="2" HBox.hgrow="ALWAYS">
+                                                      <MenuButton fx:id="history" mnemonicParsing="false" opacity="0.5" prefWidth="2" HBox.hgrow="ALWAYS" >
                                                           <items>
 <!--                                                              <MenuItem mnemonicParsing="false" text="Action 1" />-->
 <!--                                                              <MenuItem mnemonicParsing="false" text="Action 2" />-->
@@ -80,6 +81,14 @@
                                                               <Tooltip text="%server.history" />
                                                           </tooltip>
                                                       </MenuButton>
+                                                      <ToggleButton fx:id="isLike" mnemonicParsing="false" opacity="0.5" text=".*" HBox.hgrow="ALWAYS" managed="false" visible="false">
+                                                          <tooltip>
+                                                              <Tooltip text="%server.reset" />
+                                                          </tooltip>
+                                             <HBox.margin>
+                                                <Insets left="5.0" right="5.0" />
+                                             </HBox.margin>
+                                                      </ToggleButton>
                                                       <Button fx:id="search" mnemonicParsing="false" onAction="#search" HBox.hgrow="ALWAYS">
                                                           <tooltip>
                                                               <Tooltip text="%server.search" />

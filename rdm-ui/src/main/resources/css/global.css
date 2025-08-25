@@ -120,3 +120,9 @@
     -fx-padding: 2px 2px 2px 2px;
     -fx-font-size: 0.8em;
 }
+
+/*toggleButton 的small样式*/
+.toggle-button.small {
+    -fx-padding: 5.7142857143px 8.5714285714px 5.7142857143px 8.5714285714px;
+    -fx-font-size: 0.8em;
+}

@@ -75,6 +75,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
     public Button search;
     public HBox searchHbox;
     public Button reset;
+    public ToggleButton isLike;
+
     public MenuButton history;
     public MenuItem delete;
     public MenuItem open;
@@ -220,6 +222,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
     }
     private void initButtonStyles() {
         search.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.SMALL);
+        isLike.getStyleClass().addAll(Styles.SMALL,Styles.FLAT);
         reset.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,Styles.SMALL);
         initToolBarButtonStyles(reset);
         history.getStyleClass().addAll(Styles.SMALL,Styles.FLAT, Tweaks.NO_ARROW);
