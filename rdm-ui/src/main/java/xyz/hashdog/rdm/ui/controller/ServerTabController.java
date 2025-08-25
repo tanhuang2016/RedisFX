@@ -17,6 +17,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -77,7 +78,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
     public Button reset;
     public ToggleButton isLike;
 
-    public MenuButton history;
+    public ContextMenu history;
     public MenuItem delete;
     public MenuItem open;
     public ProgressBar progressBar;
@@ -148,6 +149,15 @@ public class ServerTabController extends BaseKeyController<MainController> {
 
     }
 
+    /**
+     * 显示历史搜索记录
+     */
+    private void showHistoryPopup() {
+        history.show(search,
+                searchText.localToScreen(0, 0).getX(),
+                searchText.localToScreen(0, 0).getY() + searchText.getHeight());
+    }
+
     private void initLanguage() {
         progressBarLanguage();
         locationButton.setTooltip(GuiUtil.textTooltip(language("server.toolBar.location")));
@@ -174,6 +184,11 @@ public class ServerTabController extends BaseKeyController<MainController> {
      * 最近使用搜索记录初始化
      */
     private void initRecentHistory() {
+        history = new ContextMenu();
+        history.getItems().add(new SeparatorMenuItem());
+        MenuItem clearItem = new MenuItem(language("server.clear"));
+        clearItem.setOnAction(this::clearHistory);
+        history.getItems().add(clearItem);
         recentHistory = new RecentHistory<String>(5,new RecentHistory.Noticer<String>() {
             @Override
             public void notice(List<String> list) {
@@ -205,10 +220,12 @@ public class ServerTabController extends BaseKeyController<MainController> {
         //为了一致性，直接清空在重新赋值，虽然单个元素增加会减少消耗，但是复杂度增加，暂时不考虑
         items.remove(0,items.size() - 2);
         List<String> reversed = list.reversed();
-        for (String s : reversed) {
-            items.addFirst(createSearchHistoryMenuItem(s));
+        Platform.runLater(() -> {
+            for (String s : reversed) {
+                items.addFirst(createSearchHistoryMenuItem(s));
+            }
+        });
 
-        }
     }
 
     private void initTextField() {
@@ -225,10 +242,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
         isLike.getStyleClass().addAll(Styles.SMALL,Styles.FLAT);
         reset.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,Styles.SMALL);
         initToolBarButtonStyles(reset);
-        history.getStyleClass().addAll(Styles.SMALL,Styles.FLAT, Tweaks.NO_ARROW);
         search.setCursor(Cursor.HAND);
         reset.setCursor(Cursor.HAND);
-        history.setCursor(Cursor.HAND);
         newKey.getStyleClass().addAll(Tweaks.NO_ARROW);
         initToolBarButtonStyles(locationButton,expandedButton,collapseButton,optionsButton,hideButton,showButton);
         loadMore.getStyleClass().addAll(Styles.SMALL, UiStyles.MINI);
@@ -245,7 +260,6 @@ public class ServerTabController extends BaseKeyController<MainController> {
     private void initButtonIcon() {
         search.setGraphic(new FontIcon(Feather.SEARCH));
         reset.setGraphic(new FontIcon(Material2AL.CLEAR));
-        history.setGraphic(new FontIcon(Material2AL.ARROW_DROP_DOWN));
         GuiUtil.setIcon(locationButton,new FontIcon((Material2MZ.RADIO_BUTTON_CHECKED)));
         GuiUtil.setIcon(expandedButton,new FontIcon((Material2MZ.UNFOLD_MORE)));
         GuiUtil.setIcon(collapseButton,new FontIcon((Material2MZ.UNFOLD_LESS)));
@@ -287,6 +301,14 @@ public class ServerTabController extends BaseKeyController<MainController> {
             } else {
                 reset.setVisible(true);
                 reset.setManaged(true);
+            }
+        });
+        // 添加键盘事件监听,alt+down 显示历史搜索记录
+        searchText.setOnKeyPressed(event -> {
+            if (event.isAltDown() && event.getCode() == KeyCode.DOWN) {
+                showHistoryPopup();
+                // 阻止事件继续传播
+                event.consume();
             }
         });
     }

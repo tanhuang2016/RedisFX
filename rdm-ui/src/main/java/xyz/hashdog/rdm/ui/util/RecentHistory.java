@@ -13,7 +13,13 @@ import java.util.List;
 public class RecentHistory<T> {
 
     private int size = 5;
+    /**
+     * 最近记录
+     */
     private final LinkedHashSet<T> historySet;
+    /**
+     * 最近记录通知者
+     */
     private final Noticer<T> noticer;
 
     public RecentHistory(int size,Noticer<T> noticer) {
@@ -22,6 +28,10 @@ public class RecentHistory<T> {
         historySet = new LinkedHashSet<>(size);
     }
 
+    /**
+     * 添加
+     * @param add 添加一条最近记录
+     */
     public void add(T add) {
         historySet.remove(add);
         T remove = null;
@@ -29,9 +39,13 @@ public class RecentHistory<T> {
             remove = historySet.removeLast();
         }
         historySet.addFirst(add);
+        //添加之后通知
         notice();
     }
 
+    /**
+     * 通知最近记录，全量返回
+     */
     private void notice() {
         noticer.notice(get());
     }
