@@ -43,6 +43,7 @@ import xyz.hashdog.rdm.ui.entity.PassParameter;
 import xyz.hashdog.rdm.ui.entity.config.KeyTabPaneSetting;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.RecentHistory;
+import xyz.hashdog.rdm.ui.util.SvgManager;
 import xyz.hashdog.rdm.ui.util.Util;
 
 import java.io.IOException;
@@ -264,7 +265,8 @@ public class ServerTabController extends BaseKeyController<MainController> {
     private void initButtonIcon() {
         search.setGraphic(new FontIcon(Feather.SEARCH));
         reset.setGraphic(new FontIcon(Material2AL.CLEAR));
-        isLike.setGraphic(new Label(".*"));
+//        isLike.setGraphic(new Label(" .* "));
+        SvgManager.loadMini(isLike,"/svg/databaseLink/databaseLink.svg");
         GuiUtil.setIcon(searchOptionsButton,new FontIcon((Material2MZ.MORE_VERT)));
         GuiUtil.setIcon(locationButton,new FontIcon((Material2MZ.RADIO_BUTTON_CHECKED)));
         GuiUtil.setIcon(expandedButton,new FontIcon((Material2MZ.UNFOLD_MORE)));

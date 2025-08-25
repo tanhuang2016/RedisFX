@@ -13,6 +13,7 @@ public class SvgManager {
     private static final List<SvgManager> list = new ArrayList<>();
     private final ButtonBase base;
     private final String svg;
+    private  int w;
     private  static boolean light;
     static {
         light=ThemeManager.getInstance().getTheme().getName().contains("Light");
@@ -29,6 +30,12 @@ public class SvgManager {
         });
     }
 
+    public SvgManager(ButtonBase base, String svg, int w) {
+        this.base = base;
+        this.svg = svg;
+        this.w = w;
+    }
+
     private static void changeSvg() {
         for (SvgManager svgManager : list) {
             svgManager.setGraphic();
@@ -38,19 +45,36 @@ public class SvgManager {
     private SvgManager(ButtonBase base, String svg) {
         this.base = base;
         this.svg = svg;
+        this.w = 20;
     }
 
+    /**
+     * 加载svg图标 默认20w
+     * @param base
+     * @param svg
+     */
     public static void load(ButtonBase base, String svg) {
         SvgManager svgManager = new SvgManager(base, svg);
         svgManager.setGraphic();
         list.add(svgManager);
     }
 
+    /**
+     * 创建图标，默认16w
+     * @param base
+     * @param svg
+     */
+    public static void loadMini(ButtonBase base, String svg) {
+        SvgManager svgManager = new SvgManager(base, svg,16);
+        svgManager.setGraphic();
+        list.add(svgManager);
+    }
+
     private void setGraphic() {
         if(light){
-            GuiUtil.setIcon(this.base,GuiUtil.svgImageView(this.svg));
+            GuiUtil.setIcon(this.base,GuiUtil.svgImageView(this.svg,w));
         }else{
-            GuiUtil.setIcon(this.base,GuiUtil.svgImageView(this.svg.replace(".svg","_dark.svg")));
+            GuiUtil.setIcon(this.base,GuiUtil.svgImageView(this.svg.replace(".svg","_dark.svg"),w));
         }
     }
 }

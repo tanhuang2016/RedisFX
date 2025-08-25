@@ -615,6 +615,10 @@ public class GuiUtil {
         Image fxImage = svgImage(svg,20,1);
         return new ImageView(fxImage);
     }
+    public static ImageView svgImageView(String svg,int w) {
+        Image fxImage = svgImage(svg,w,1);
+        return new ImageView(fxImage);
+    }
 
     public static Image svgImage(String svg,int w){
        return svgImage(svg,w,1);
