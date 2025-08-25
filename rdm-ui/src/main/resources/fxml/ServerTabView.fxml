@@ -75,18 +75,7 @@
                                                               <Tooltip text="%server.reset" />
                                                           </tooltip>
                                                       </Button>
-<!--                                                      <MenuButton fx:id="history" mnemonicParsing="false" opacity="0.5" prefWidth="2" HBox.hgrow="ALWAYS" >-->
-<!--                                                          <items>-->
-<!--&lt;!&ndash;                                                              <MenuItem mnemonicParsing="false" text="Action 1" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                                              <MenuItem mnemonicParsing="false" text="Action 2" />&ndash;&gt;-->
-<!--                                                              <SeparatorMenuItem />-->
-<!--                                                              <MenuItem mnemonicParsing="false" onAction="#clearHistory" text="%server.clear" />-->
-<!--                                                          </items>-->
-<!--                                                          <tooltip>-->
-<!--                                                              <Tooltip text="%server.history" />-->
-<!--                                                          </tooltip>-->
-<!--                                                      </MenuButton>-->
-                                                      <ToggleButton fx:id="isLike" mnemonicParsing="false" opacity="0.5" text=".*" HBox.hgrow="ALWAYS" managed="false" visible="false">
+                                                      <ToggleButton fx:id="isLike" mnemonicParsing="false" opacity="0.5" text=".*" HBox.hgrow="ALWAYS" selected="true">
                                                           <tooltip>
                                                               <Tooltip text="%server.reset" />
                                                           </tooltip>
