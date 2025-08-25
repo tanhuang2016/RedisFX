@@ -64,6 +64,11 @@
                                           <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" prefHeight="23.0" prefWidth="200.0" spacing="3.0" VBox.vgrow="ALWAYS">
                                               <children>
                                                   <CustomTextField fx:id="searchText" minWidth="-Infinity" prefWidth="150.0" HBox.hgrow="ALWAYS" />
+                                                  <Button fx:id="search" mnemonicParsing="false" onAction="#search" HBox.hgrow="ALWAYS">
+                                                      <tooltip>
+                                                          <Tooltip text="%server.search" />
+                                                      </tooltip>
+                                                  </Button>
                                                   <HBox fx:id="searchHbox" alignment="CENTER_RIGHT" spacing="-2.0" VBox.vgrow="ALWAYS">
                                                       <Button fx:id="reset" managed="false" mnemonicParsing="false" onAction="#reset" opacity="0.5" text="%server.reset" visible="false" HBox.hgrow="ALWAYS">
                                                           <tooltip>
@@ -89,18 +94,6 @@
                                                 <Insets left="5.0" right="5.0" />
                                              </HBox.margin>
                                                       </ToggleButton>
-                                                      <Button fx:id="search" mnemonicParsing="false" onAction="#search" HBox.hgrow="ALWAYS">
-                                                          <tooltip>
-                                                              <Tooltip text="%server.search" />
-                                                          </tooltip>
-                                                          <graphic>
-    <!--                                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">-->
-    <!--                                                              <image>-->
-    <!--                                                                  <Image url="@../icon/search.png" />-->
-    <!--                                                              </image>-->
-    <!--                                                          </ImageView>-->
-                                                          </graphic>
-                                                      </Button>
                                                   </HBox>
                                               </children>
                                           </HBox>

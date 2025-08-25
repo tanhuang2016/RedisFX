@@ -230,6 +230,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
 
     private void initTextField() {
         searchText.setRight(searchHbox);
+        searchText.setLeft(search);
     }
 
     private void initButton() {
@@ -238,7 +239,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
 
     }
     private void initButtonStyles() {
-        search.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.SMALL);
+        search.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.SMALL,Styles.FLAT);
         isLike.getStyleClass().addAll(Styles.SMALL,Styles.FLAT);
         reset.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,Styles.SMALL);
         initToolBarButtonStyles(reset);
