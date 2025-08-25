@@ -243,7 +243,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
     private void initButtonStyles() {
         search.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.SMALL,Styles.FLAT);
         isLike.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,UiStyles.MINI,UiStyles.SEMI_CIRCLE);
-        reset.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,UiStyles.MINI,UiStyles.SEMI_CIRCLE);
+        reset.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,UiStyles.MINI,Styles.ROUNDED);
         searchOptionsButton.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,UiStyles.MINI,UiStyles.SEMI_CIRCLE);
         search.setCursor(Cursor.HAND);
         reset.setCursor(Cursor.HAND);
@@ -266,7 +266,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         search.setGraphic(new FontIcon(Feather.SEARCH));
         reset.setGraphic(new FontIcon(Material2AL.CLEAR));
 //        isLike.setGraphic(new Label(" .* "));
-        SvgManager.loadMini(isLike,"/svg/databaseLink/databaseLink.svg");
+        SvgManager.loadMini(isLike,"/svg/regex/regex.svg");
         GuiUtil.setIcon(searchOptionsButton,new FontIcon((Material2MZ.MORE_VERT)));
         GuiUtil.setIcon(locationButton,new FontIcon((Material2MZ.RADIO_BUTTON_CHECKED)));
         GuiUtil.setIcon(expandedButton,new FontIcon((Material2MZ.UNFOLD_MORE)));

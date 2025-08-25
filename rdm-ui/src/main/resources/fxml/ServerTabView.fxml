@@ -70,7 +70,7 @@
                                                       </tooltip>
                                                   </Button>
                                                   <HBox fx:id="searchHbox" alignment="CENTER_RIGHT" spacing="-2.0" VBox.vgrow="ALWAYS">
-                                                      <Button fx:id="reset" managed="false" mnemonicParsing="false" onAction="#reset" opacity="0.5" text="%server.reset" visible="false" HBox.hgrow="ALWAYS">
+                                                      <Button fx:id="reset" managed="false" mnemonicParsing="false" onAction="#reset" opacity="0.3" text="%server.reset" visible="false" HBox.hgrow="ALWAYS">
                                                           <tooltip>
                                                               <Tooltip text="%server.reset" />
                                                           </tooltip>

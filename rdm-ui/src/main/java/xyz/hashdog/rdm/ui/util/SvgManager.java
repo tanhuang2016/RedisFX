@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SvgManager {
+    /**
+     * todo 要改成map装，在close的时候，将缓存释放掉，根据key去查对应组件缓存的图标
+     */
     private static final List<SvgManager> list = new ArrayList<>();
     private final ButtonBase base;
     private final String svg;
