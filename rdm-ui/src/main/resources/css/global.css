@@ -120,6 +120,13 @@
     -fx-padding: 2px 2px 2px 2px;
     -fx-font-size: 0.8em;
 }
+.toggle-button.mini {
+    -fx-padding: 2px 2px 2px 2px;
+    -fx-font-size: 0.8em;
+}
+.mini.semi-circle {
+    -fx-background-radius: 5;
+}
 
 /*toggleButton 的small样式*/
 .toggle-button.small {
