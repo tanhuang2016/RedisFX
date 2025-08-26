@@ -46,6 +46,7 @@ import xyz.hashdog.rdm.ui.controller.ByteArrayController;
 import xyz.hashdog.rdm.ui.entity.ITable;
 import xyz.hashdog.rdm.ui.entity.PassParameter;
 import xyz.hashdog.rdm.ui.entity.config.KeyTagSetting;
+import xyz.hashdog.rdm.ui.sampler.custom.HintTooltip;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -740,8 +741,29 @@ public class GuiUtil {
      */
     public static Tooltip textTooltip(String text) {
         Tooltip tooltip = new Tooltip(text);
-        tooltip.setShowDelay(Duration.millis(200)); // 200ms 延迟
-        tooltip.setHideDelay(Duration.millis(100)); // 100ms 隐藏延迟
+        setShowDelay(tooltip);
+        return tooltip;
+    }
+
+    /**
+     * 设置提示延迟
+     */
+    private static void setShowDelay(Tooltip tooltip) {
+        // 200ms 延迟
+        tooltip.setShowDelay(Duration.millis(200));
+        // 100ms 隐藏延迟
+        tooltip.setHideDelay(Duration.millis(100));
+    }
+
+    /**
+     * 带提示的文本提示
+     * @param text 文本
+     * @param hint 提示
+     * @return 提示
+     */
+    public static Tooltip hintTooltip(String text,String hint) {
+        HintTooltip tooltip = new HintTooltip(text,hint);
+        setShowDelay(tooltip);
         return tooltip;
     }
 

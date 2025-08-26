@@ -41,6 +41,7 @@ import xyz.hashdog.rdm.ui.entity.DBNode;
 import xyz.hashdog.rdm.ui.entity.KeyTreeNode;
 import xyz.hashdog.rdm.ui.entity.PassParameter;
 import xyz.hashdog.rdm.ui.entity.config.KeyTabPaneSetting;
+import xyz.hashdog.rdm.ui.sampler.custom.HintTooltip;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.RecentHistory;
 import xyz.hashdog.rdm.ui.util.SvgManager;
@@ -161,6 +162,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
     }
 
     private void initLanguage() {
+        search.setTooltip(GuiUtil.hintTooltip(language("server.search"),language("server.search.hint")));
         progressBarLanguage();
         locationButton.setTooltip(GuiUtil.textTooltip(language("server.toolBar.location")));
         expandedButton.setTooltip(GuiUtil.textTooltip(language("server.toolBar.expanded")));
