@@ -599,7 +599,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     private void updateScannedKeys() {
         final double progress = (double) scanner.getSum() / currentDbSize;
         Platform.runLater(() -> {
-            this.scanned.setText(String.format("Scanned %.1f%%(%s/%s keys)",progress*100,scanner.getSum(),currentDbSize));
+            this.scanned.setText(language("server.report.top.scanned")+String.format(" %.1f%%(%s/%s keys)",progress*100,scanner.getSum(),currentDbSize));
             this.scanned2.setText(this.scanned.getText());
         });
     }
