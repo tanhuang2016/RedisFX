@@ -68,15 +68,9 @@
                                                   </Button>
                                                   <HBox fx:id="searchHbox" alignment="CENTER_RIGHT" spacing="-2.0" VBox.vgrow="ALWAYS">
                                                       <Button fx:id="reset" managed="false" mnemonicParsing="false" onAction="#reset" opacity="0.3" text="%server.reset" visible="false" HBox.hgrow="ALWAYS">
-                                                          <tooltip>
-                                                              <Tooltip text="%server.reset" />
-                                                          </tooltip>
                                                       </Button>
                                                       <ToggleButton fx:id="isLike" mnemonicParsing="false" opacity="0.8"
                                                                      HBox.hgrow="ALWAYS" selected="true" onAction="#isLikeChange">
-                                                          <tooltip>
-                                                              <Tooltip text="%server.like"/>
-                                                          </tooltip>
                                                           <HBox.margin>
                                                               <Insets left="5.0" right="5.0"/>
                                                           </HBox.margin>

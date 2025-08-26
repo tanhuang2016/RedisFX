@@ -163,6 +163,9 @@ public class ServerTabController extends BaseKeyController<MainController> {
 
     private void initLanguage() {
         search.setTooltip(GuiUtil.hintTooltip(language("server.search"),language("server.search.hint")));
+        reset.setTooltip(GuiUtil.textTooltip(language("server.reset")));
+        isLike.setTooltip(GuiUtil.textTooltip(language("server.like")));
+        searchOptionsButton.setTooltip(GuiUtil.textTooltip(language("server.search.option")));
         progressBarLanguage();
         locationButton.setTooltip(GuiUtil.textTooltip(language("server.toolBar.location")));
         expandedButton.setTooltip(GuiUtil.textTooltip(language("server.toolBar.expanded")));
