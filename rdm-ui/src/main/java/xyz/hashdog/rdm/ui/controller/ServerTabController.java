@@ -179,7 +179,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
             return;
         }
         progressBar.setTooltip(GuiUtil.textTooltip(String.format(language("server.toolBar.progress"),scanner.getSum())));
-        progressText.setTooltip(progressBar.getTooltip());
+        progressText.setTooltip(GuiUtil.textTooltip(String.format(language("server.toolBar.progress"),scanner.getSum())));
     }
 
     private void initTabPane() {
