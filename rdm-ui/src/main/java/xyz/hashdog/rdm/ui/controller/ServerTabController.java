@@ -906,7 +906,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
      * 重置查询器
      */
     private void resetScanner() {
-        scanner.init(searchText.getText(),SCAN_COUNT,null,true);
+        scanner.init(searchText.getText(),SCAN_COUNT,null,this.isLike.isSelected());
         Platform.runLater(() -> {
             progressBar.setProgress(0);
             progressText.setText(String.format("%.1f%%", 0d));
@@ -1600,5 +1600,13 @@ public class ServerTabController extends BaseKeyController<MainController> {
     @FXML
     public void tooBarRightShow(MouseEvent mouseEvent) {
         toolBarRight.setVisible(true);
+    }
+
+    /**
+     * 模糊匹配切换事件
+     */
+    @FXML
+    public void isLikeChange(ActionEvent actionEvent) {
+        search(null);
     }
 }

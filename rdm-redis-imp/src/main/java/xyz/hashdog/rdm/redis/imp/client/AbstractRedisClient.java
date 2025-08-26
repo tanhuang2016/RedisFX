@@ -112,6 +112,8 @@ public abstract class AbstractRedisClient implements RedisClient {
         scanParams.count(count);
         if (isLike && DataUtil.isNotBlank(pattern)) {
             scanParams.match(String.format("*%s*", pattern));
+        }else if (!isLike) {
+            scanParams.match(pattern);
         }
         ScanResult<String> scanResult = function.apply( scanParams);
         List<String> keys = new ArrayList<>(scanResult.getResult());

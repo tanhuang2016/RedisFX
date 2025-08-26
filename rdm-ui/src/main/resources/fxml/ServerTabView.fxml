@@ -76,7 +76,7 @@
                                                           </tooltip>
                                                       </Button>
                                                       <ToggleButton fx:id="isLike" mnemonicParsing="false" opacity="0.8"
-                                                                     HBox.hgrow="ALWAYS" selected="true">
+                                                                     HBox.hgrow="ALWAYS" selected="true" onAction="#isLikeChange">
                                                           <tooltip>
                                                               <Tooltip text="%server.reset"/>
                                                           </tooltip>
