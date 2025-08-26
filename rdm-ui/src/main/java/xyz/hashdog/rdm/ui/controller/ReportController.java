@@ -151,8 +151,8 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
         barRefresh.setTooltip(GuiUtil.textTooltip(language("server.refresh.auto")));
         pieRefresh.setTooltip(GuiUtil.textTooltip(language("server.refresh")));
         topRefresh.setTooltip(GuiUtil.textTooltip(language("server.refresh")));
-        scanned.setTooltip(GuiUtil.textTooltip(language("server.toolBar.loadMore")));
-        scanned2.setTooltip(GuiUtil.textTooltip(language("server.toolBar.loadMore")));
+        scannedMore.setTooltip(GuiUtil.textTooltip(language("server.toolBar.loadMore")));
+        scannedMore2.setTooltip(GuiUtil.textTooltip(language("server.toolBar.loadMore")));
     }
 
     private void initLineAndAreaChart() {
