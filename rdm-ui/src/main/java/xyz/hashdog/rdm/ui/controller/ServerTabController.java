@@ -241,7 +241,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
 
     }
     private void initButtonStyles() {
-        search.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.SMALL,Styles.FLAT);
+        search.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,Styles.BUTTON_CIRCLE);
         isLike.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,UiStyles.MINI,UiStyles.SEMI_CIRCLE);
         reset.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,UiStyles.MINI,Styles.ROUNDED);
         searchOptionsButton.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,UiStyles.MINI,UiStyles.SEMI_CIRCLE);
