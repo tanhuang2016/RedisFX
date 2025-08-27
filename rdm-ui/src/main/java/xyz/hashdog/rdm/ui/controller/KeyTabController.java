@@ -24,7 +24,7 @@ import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.ui.Main;
 import xyz.hashdog.rdm.ui.common.Constant;
 import xyz.hashdog.rdm.ui.common.RedisDataTypeEnum;
-import xyz.hashdog.rdm.ui.controller.base.BaseKeyContentController;
+import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
 import xyz.hashdog.rdm.ui.controller.base.BaseClientController;
 import xyz.hashdog.rdm.ui.controller.popover.RefreshPopover;
 import xyz.hashdog.rdm.ui.entity.PassParameter;
@@ -70,7 +70,7 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
     /**
      * 子类型控制层
      */
-    private BaseKeyContentController subTypeController;
+    private BaseKeyController subTypeController;
 
 
     @Override
@@ -195,7 +195,7 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
         try {
             if(submit.get()){
                 RedisDataTypeEnum te = RedisDataTypeEnum.getByType(this.parameter.get().getKeyType());
-                Tuple2<AnchorPane,BaseKeyContentController> tuple2 = loadFxml(te.fxml);
+                Tuple2<AnchorPane, BaseKeyController> tuple2 = loadFxml(te.fxml);
                 AnchorPane anchorPane = tuple2.t1();
                 this.subTypeController  = tuple2.t2();
                 this.subTypeController.setParentController(this);

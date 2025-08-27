@@ -9,7 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
-import xyz.hashdog.rdm.ui.controller.base.BaseKeyContentController;
+import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 import java.net.URL;
@@ -24,7 +24,7 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
  * @version 1.0.0
  * @since 2023/7/31 12:08
  */
-public class StringTypeController extends BaseKeyContentController implements Initializable {
+public class StringTypeController extends BaseKeyController implements Initializable {
 
 
     public BorderPane borderPane;

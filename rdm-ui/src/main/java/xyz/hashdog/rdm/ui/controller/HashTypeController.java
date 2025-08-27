@@ -24,7 +24,7 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
-import xyz.hashdog.rdm.ui.controller.base.BaseKeyContentController;
+import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
 import xyz.hashdog.rdm.ui.entity.HashTypeTable;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
@@ -42,7 +42,7 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
  * @version 1.0.0
  * @since 2023/8/3 9:41
  */
-public class HashTypeController extends BaseKeyContentController implements Initializable {
+public class HashTypeController extends BaseKeyController implements Initializable {
 
     @FXML
     public TableView<HashTypeTable> tableView;

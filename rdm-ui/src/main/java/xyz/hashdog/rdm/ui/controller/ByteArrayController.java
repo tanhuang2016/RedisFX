@@ -17,7 +17,7 @@ import xyz.hashdog.rdm.common.util.EncodeUtil;
 import xyz.hashdog.rdm.common.util.FileUtil;
 import xyz.hashdog.rdm.ui.common.ValueTypeEnum;
 import xyz.hashdog.rdm.ui.controller.base.BaseController;
-import xyz.hashdog.rdm.ui.controller.base.BaseKeyContentController;
+import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.Util;
 
@@ -267,7 +267,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
      * @param actionEvent  事件
      */
     public void export(ActionEvent actionEvent) {
-        BaseKeyContentController parentController = (BaseKeyContentController) this.parentController;
+        BaseKeyController parentController = (BaseKeyController) this.parentController;
         File file = GuiUtil.saveFileChoose(this.root.getScene().getWindow(), lastFile, parentController.getParameter().getKey());
         FileUtil.byteWrite2file(this.currentValue,file.getAbsolutePath());
     }

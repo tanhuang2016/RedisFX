@@ -11,7 +11,7 @@ import xyz.hashdog.rdm.ui.controller.KeyTabController;
  * 打开key的窗口才用这个基类
  * @author th
  */
-public abstract class BaseKeyContentController extends BaseClientController<KeyTabController> {
+public abstract class BaseKeyController extends BaseClientController<KeyTabController> {
     protected static final String SIZE = "Size:%dB";
     protected static final String TOTAL = "Total:%d";
     protected static final int ROWS_PER_PAGE = 32;

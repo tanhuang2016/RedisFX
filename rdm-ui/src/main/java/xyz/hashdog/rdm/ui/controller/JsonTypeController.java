@@ -10,7 +10,7 @@ import javafx.scene.layout.BorderPane;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.ui.common.ValueTypeEnum;
-import xyz.hashdog.rdm.ui.controller.base.BaseKeyContentController;
+import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 import java.net.URL;
@@ -24,7 +24,7 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
  * @version 1.0.0
  * @since 2025/7/13 12:08
  */
-public class JsonTypeController extends BaseKeyContentController implements Initializable {
+public class JsonTypeController extends BaseKeyController implements Initializable {
 
 
     public BorderPane borderPane;
