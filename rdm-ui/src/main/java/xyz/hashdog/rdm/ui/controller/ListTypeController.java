@@ -278,7 +278,7 @@ public class ListTypeController extends BaseKeyContentController implements Init
     public void save(ActionEvent actionEvent) {
         byte[] byteArray = byteArrayController.getByteArray();
         int i = this.list.indexOf(lastSelect);
-        asynexec(() -> {
+        async(() -> {
             exeRedis(j -> j.lset(this.getParameter().getKey().getBytes(), this.list.indexOf(lastSelect), byteArray));
             lastSelect.setBytes(byteArray);
             Platform.runLater(() -> {
@@ -349,7 +349,7 @@ public class ListTypeController extends BaseKeyContentController implements Init
         //设置确定事件咯
         appendTuple2.t2().ok.setOnAction(event -> {
             byte[] byteArray = tuple2.t2().getByteArray();
-            asynexec(()->{
+            async(()->{
                 if(index==0){
                     exeRedis(j->j.lpush(this.parameter.get().getKey().getBytes(),byteArray));
                 }else {
@@ -387,7 +387,7 @@ public class ListTypeController extends BaseKeyContentController implements Init
         if (GuiUtil.alertRemove()) {
             return;
         }
-        asynexec(() -> {
+        async(() -> {
             exeRedis(j -> j.lpop(this.getParameter().getKey()));
             ListTypeTable listTypeTable = list.get(0);
             GuiUtil.remove2TableView(this.list,this.tableView,listTypeTable);
@@ -407,7 +407,7 @@ public class ListTypeController extends BaseKeyContentController implements Init
         if (GuiUtil.alertRemove()) {
             return;
         }
-        asynexec(() -> {
+        async(() -> {
             exeRedis(j -> j.rpop(this.getParameter().getKey()));
             ListTypeTable listTypeTable = list.get(list.size() - 1);
             GuiUtil.remove2TableView(this.list,this.tableView,listTypeTable);
@@ -428,7 +428,7 @@ public class ListTypeController extends BaseKeyContentController implements Init
         if (GuiUtil.alertRemove()) {
             return;
         }
-        asynexec(() -> {
+        async(() -> {
             exeRedis(j -> j.lset(this.getParameter().getKey().getBytes(), this.list.indexOf(lastSelect), DEL_MARK));
             exeRedis(j -> j.lrem(this.getParameter().getKey().getBytes(), 0, DEL_MARK));
             GuiUtil.remove2TableView(this.list,this.tableView,lastSelect);

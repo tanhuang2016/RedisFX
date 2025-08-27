@@ -482,7 +482,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     }
     @Override
     public void refresh() {
-        asynexec(()->{
+        async(()->{
             String infoStr = null;
             synchronized (lock){
                  infoStr = this.redisClient.info();
@@ -688,7 +688,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
 
 
     public void scannedMore(ActionEvent actionEvent) {
-        asynexec(() -> {
+        async(() -> {
             synchronized (lock){
                 List<String> keys = this.scanner.scan();
                 for (String key : keys) {

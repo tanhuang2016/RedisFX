@@ -312,7 +312,7 @@ public class StreamTypeController extends BaseKeyContentController implements In
         appendTuple2.t2().ok.setOnAction(event -> {
             String v = id.getText();
             byte[] byteArray = tuple2.t2().getByteArray();
-            asynexec(()->{
+            async(()->{
                 String idstr = exeRedis(j -> j.xadd(this.parameter.get().getKey(), v, new String(byteArray)));
                 Platform.runLater(()->{
                     list.add(new StreamTypeTable(idstr,new String(byteArray)));
@@ -332,7 +332,7 @@ public class StreamTypeController extends BaseKeyContentController implements In
         if (GuiUtil.alertRemove()) {
             return;
         }
-        asynexec(() -> {
+        async(() -> {
             exeRedis(j -> j.xdel(this.getParameter().getKey(), lastSelect.getId()));
             GuiUtil.remove2TableView(this.list,this.tableView,lastSelect);
         });

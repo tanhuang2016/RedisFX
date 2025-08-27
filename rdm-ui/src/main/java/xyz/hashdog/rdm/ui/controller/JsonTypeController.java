@@ -88,7 +88,7 @@ public class JsonTypeController extends BaseKeyContentController implements Init
     @FXML
     public void save(ActionEvent actionEvent) {
         byte[] byteArray = byteArrayController.getByteArray();
-        asynexec(() -> {
+        async(() -> {
             exeRedis(j -> j.jsonSet(this.getParameter().getKey(), new String(byteArray)));
             Platform.runLater(() -> {
                 byteArrayController.setByteArray(byteArray);

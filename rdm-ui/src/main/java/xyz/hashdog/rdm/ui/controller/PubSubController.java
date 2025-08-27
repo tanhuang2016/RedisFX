@@ -11,7 +11,6 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
-import xyz.hashdog.rdm.redis.client.RedisMonitor;
 import xyz.hashdog.rdm.redis.client.RedisPubSub;
 import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
 import xyz.hashdog.rdm.ui.sampler.event.ThemeEvent;
@@ -21,8 +20,6 @@ import xyz.hashdog.rdm.ui.sampler.theme.ThemeManager;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -428,7 +425,7 @@ public class PubSubController extends BaseKeyController<ServerTabController> imp
     }
 
     public void publish(ActionEvent actionEvent) {
-        asynexec(() -> {
+        async(() -> {
             this.redisClient.publish(pubChannel.getText(),pubMessage.getText());
         });
     }

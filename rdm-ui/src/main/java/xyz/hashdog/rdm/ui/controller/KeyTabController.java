@@ -242,7 +242,7 @@ public class KeyTabController extends BaseKeyController<ServerTabController> imp
         if (GuiUtil.requiredTextField(this.key)) {
             return;
         }
-        asynexec(() -> {
+        async(() -> {
             this.exeRedis(j -> j.rename(this.getParameter().getKey(), this.key.getText()));
             this.getParameter().setKey(this.key.getText());
             Platform.runLater(() -> {
@@ -267,7 +267,7 @@ public class KeyTabController extends BaseKeyController<ServerTabController> imp
         int ttl = Integer.parseInt(this.ttl.getText());
         if (ttl <= -1) {
             if (GuiUtil.alert(Alert.AlertType.CONFIRMATION, language(ALERT_MESSAGE_SET_TTL))) {
-                asynexec(()->{
+                async(()->{
                     this.exeRedis(j -> j.persist(this.getParameter().getKey()));
                     Platform.runLater(()->{
                         GuiUtil.alert(Alert.AlertType.INFORMATION,language(ALERT_MESSAGE_SET_SUCCESS));
@@ -277,7 +277,7 @@ public class KeyTabController extends BaseKeyController<ServerTabController> imp
             return;
         }
 
-        asynexec(()->{
+        async(()->{
             this.exeRedis(j -> j.expire(this.getParameter().getKey(),ttl));
             Platform.runLater(()->{
                 GuiUtil.alert(Alert.AlertType.INFORMATION,language(ALERT_MESSAGE_SET_SUCCESS));

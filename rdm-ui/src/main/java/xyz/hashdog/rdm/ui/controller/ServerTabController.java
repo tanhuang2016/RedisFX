@@ -1308,7 +1308,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         deleteTreeItems(delItems);
 
         //删除服务器的key
-        asynexec(()->{
+        async(()->{
             exeRedis(j -> j.del(delKeys.toArray(new String[delKeys.size()])));
         });
 
@@ -1364,7 +1364,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         if(!GuiUtil.alert(Alert.AlertType.CONFIRMATION,Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL_CONNECTION) )){
             return;
         }
-        asynexec(()->{
+        async(()->{
             exeRedis(j -> j.flushDB());
             Platform.runLater(()->{
                 treeView.getRoot().getChildren().clear();

@@ -24,11 +24,14 @@ public abstract class BaseController<T> implements AutoCloseable{
      * 父控制器
      */
     public T parentController;
+    /**
+     * 子控制器
+     */
     public List<BaseController<?>> children = new ArrayList<>();
 
     /**
      * port只能为正整数
-     * @param keyEvent
+     * @param keyEvent 键盘事件
      */
     @FXML
     public void filterIntegerInput(KeyEvent keyEvent) {
@@ -42,9 +45,9 @@ public abstract class BaseController<T> implements AutoCloseable{
 
     /**
      * 线程池异步执行
-     * @param runnable
+     * @param runnable 任务
      */
-    protected void asynexec(Runnable runnable) {
+    protected void async(Runnable runnable) {
         ThreadPool.getInstance().execute(runnable);
     }
 

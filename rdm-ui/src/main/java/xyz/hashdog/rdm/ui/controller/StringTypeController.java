@@ -88,7 +88,7 @@ public class StringTypeController extends BaseKeyContentController implements In
     @FXML
     public void save(ActionEvent actionEvent) {
         byte[] byteArray = byteArrayController.getByteArray();
-        asynexec(() -> {
+        async(() -> {
             exeRedis(j -> j.set(this.getParameter().getKey().getBytes(), byteArray));
             Platform.runLater(() -> {
                 byteArrayController.setByteArray(byteArray);

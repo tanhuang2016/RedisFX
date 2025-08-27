@@ -288,7 +288,7 @@ public class ZsetTypeController extends BaseKeyContentController implements Init
         byte[] value = byteArrayController.getByteArray();
         Double score = Double.valueOf(this.score.getText());
         int i = this.list.indexOf(lastSelect);
-        asynexec(() -> {
+        async(() -> {
             //value发生变化的情况,需要先删后增
             if (!Arrays.equals(value,lastSelect.getBytes())) {
                 exeRedis(j -> j.zrem(this.getParameter().getKey().getBytes(), lastSelect.getBytes()));
@@ -341,7 +341,7 @@ public class ZsetTypeController extends BaseKeyContentController implements Init
         appendTuple2.t2().ok.setOnAction(event -> {
             double v = Double.parseDouble(score.getText());
             byte[] byteArray = tuple2.t2().getByteArray();
-            asynexec(()->{
+            async(()->{
                 exeRedis(j->j.zadd(this.parameter.get().getKey().getBytes(),v,byteArray));
                 Platform.runLater(()->{
                     list.add(new ZsetTypeTable(v,byteArray));
@@ -361,7 +361,7 @@ public class ZsetTypeController extends BaseKeyContentController implements Init
         if (GuiUtil.alertRemove()) {
             return;
         }
-        asynexec(() -> {
+        async(() -> {
             exeRedis(j -> j.zrem(this.getParameter().getKey().getBytes(), lastSelect.getBytes()));
             GuiUtil.remove2TableView(this.list,this.tableView,lastSelect);
         });

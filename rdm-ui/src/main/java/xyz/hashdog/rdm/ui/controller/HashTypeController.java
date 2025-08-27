@@ -287,7 +287,7 @@ public class HashTypeController extends BaseKeyContentController implements Init
         byte[] key = keyByteArrayController.getByteArray();
         byte[] value = byteArrayController.getByteArray();
         int i = this.list.indexOf(lastSelect);
-        asynexec(() -> {
+        async(() -> {
             //key发生变化的情况,需要set新键值对,切删除老键值对
             if (!Arrays.equals(key,lastSelect.getKeyBytes())) {
                 exeRedis(j -> j.hdel(this.getParameter().getKey().getBytes(), lastSelect.getKeyBytes()));
@@ -332,7 +332,7 @@ public class HashTypeController extends BaseKeyContentController implements Init
         appendTuple2.t2().ok.setOnAction(event -> {
             byte[] key = keyTuple2.t2().getByteArray();
             byte[] value = valueTuple2.t2().getByteArray();
-            asynexec(()->{
+            async(()->{
                 exeRedis(j->j.hset(this.getParameter().getKey().getBytes(),key, value));
                 Platform.runLater(()->{
                     //需要判断list是否存在该元素,由于是hash类型,只判断key是否存在就行,需要重新equals方法
@@ -360,7 +360,7 @@ public class HashTypeController extends BaseKeyContentController implements Init
         if (GuiUtil.alertRemove()) {
             return;
         }
-        asynexec(() -> {
+        async(() -> {
             exeRedis(j -> j.hdel(this.getParameter().getKey().getBytes(), lastSelect.getKeyBytes()));
             GuiUtil.remove2TableView(this.list,this.tableView,lastSelect);
         });

@@ -261,7 +261,7 @@ public class SetTypeController extends BaseKeyContentController implements Initi
     public void save(ActionEvent actionEvent) {
         byte[] byteArray = byteArrayController.getByteArray();
         int i = this.list.indexOf(lastSelect);
-        asynexec(() -> {
+        async(() -> {
             exeRedis(j -> j.srem(this.getParameter().getKey().getBytes(),  lastSelect.getBytes()));
             exeRedis(j -> j.sadd(this.getParameter().getKey().getBytes(),  byteArray));
             lastSelect.setBytes(byteArray);
@@ -311,7 +311,7 @@ public class SetTypeController extends BaseKeyContentController implements Initi
         if (GuiUtil.alertRemove()) {
             return;
         }
-        asynexec(() -> {
+        async(() -> {
             exeRedis(j -> j.srem(this.getParameter().getKey().getBytes(), lastSelect.getBytes()));
             GuiUtil.remove2TableView(this.list,this.tableView,lastSelect);
         });
@@ -330,7 +330,7 @@ public class SetTypeController extends BaseKeyContentController implements Initi
         //设置确定事件咯
         appendTuple2.t2().ok.setOnAction(event -> {
             byte[] byteArray = tuple2.t2().getByteArray();
-            asynexec(()->{
+            async(()->{
                 exeRedis(j->j.sadd(this.parameter.get().getKey().getBytes(),byteArray));
                 Platform.runLater(()->{
                     list.add(new SetTypeTable(byteArray));
