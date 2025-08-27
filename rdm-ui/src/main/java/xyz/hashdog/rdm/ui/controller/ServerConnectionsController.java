@@ -252,7 +252,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
     public void AddConnectionOrGroupNodeAndSelect(ConnectionServerNode connectionServerNode) {
         TreeItem<ConnectionServerNode> connectionServerNodeTreeItem = new TreeItem<>(connectionServerNode);
         if(connectionServerNode.isConnection()){
-            connectionServerNodeTreeItem.setGraphic(GuiUtil.creatConnctionImageView());
+            connectionServerNodeTreeItem.setGraphic(GuiUtil.creatConnectionIcon());
         }else {
             connectionServerNodeTreeItem.setGraphic(GuiUtil.creatGroupImageView());
         }

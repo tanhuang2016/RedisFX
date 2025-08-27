@@ -164,7 +164,7 @@ public class Applications {
                 List<TreeItem<ConnectionServerNode>> trees = new ArrayList<>();
                 for (ConnectionServerNode sub : subs) {
                     if(sub.isConnection()){
-                        trees.add(new TreeItem<>(sub,GuiUtil.creatConnctionImageView()));
+                        trees.add(new TreeItem<>(sub,GuiUtil.creatConnectionIcon()));
                     }else {
                         trees.add(new TreeItem<>(sub, GuiUtil.creatGroupImageView()));
                     }

@@ -32,8 +32,6 @@ import xyz.hashdog.rdm.ui.entity.PassParameter;
 import xyz.hashdog.rdm.ui.entity.config.KeyTabPaneSetting;
 import xyz.hashdog.rdm.ui.entity.config.ServerTabPaneSetting;
 import xyz.hashdog.rdm.ui.entity.config.TabPaneSetting;
-import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
-import xyz.hashdog.rdm.ui.sampler.event.Event;
 import xyz.hashdog.rdm.ui.sampler.event.TabPaneEvent;
 import xyz.hashdog.rdm.ui.sampler.layout.ApplicationWindow;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
@@ -363,7 +361,7 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
         tab.setUserData(controller);
         this.serverTabPane.getTabs().add(tab);
         this.serverTabPane.getSelectionModel().select(tab);
-        tab.setGraphic(GuiUtil.creatConnctionImageView());
+        tab.setGraphic(GuiUtil.creatConnectionIcon());
 
         if(passParameter.getTabType()== PassParameter.REDIS){
             // 监听Tab被关闭事件,但是remove是无法监听的

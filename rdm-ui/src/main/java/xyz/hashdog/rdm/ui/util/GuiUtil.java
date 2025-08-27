@@ -83,7 +83,7 @@ public class GuiUtil {
      * 创建新的连接图标
      * @return
      */
-    public static FontIcon creatConnctionImageView() {
+    public static FontIcon creatConnectionIcon() {
         return  new FontIcon(Feather.LINK);
     }
 //    public static ImageView creatConnctionImageView() {
