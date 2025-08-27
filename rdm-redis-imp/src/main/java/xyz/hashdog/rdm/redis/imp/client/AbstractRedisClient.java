@@ -8,7 +8,6 @@ import redis.clients.jedis.params.ScanParams;
 import redis.clients.jedis.resps.ScanResult;
 import redis.clients.jedis.resps.StreamEntry;
 import redis.clients.jedis.resps.Tuple;
-import xyz.hashdog.rdm.common.function.TriFunction;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.redis.client.RedisClient;
