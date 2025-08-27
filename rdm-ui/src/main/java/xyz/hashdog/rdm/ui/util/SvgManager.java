@@ -20,7 +20,7 @@ public class SvgManager {
      * 缓存 key是控制器，value是图标
      * 当窗口关闭，可以根据控制器删除图标
      */
-    private static final Map<BaseController<?>,List<SvgManager>> MAP = new ConcurrentHashMap<>();
+    private static final Map<Object,List<SvgManager>> MAP = new ConcurrentHashMap<>();
     private final ButtonBase base;
     private final String svg;
     private final int w;
