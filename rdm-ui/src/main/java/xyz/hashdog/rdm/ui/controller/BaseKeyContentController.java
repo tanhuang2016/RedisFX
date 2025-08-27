@@ -2,11 +2,8 @@ package xyz.hashdog.rdm.ui.controller;
 
 import atlantafx.base.theme.Styles;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 
 /**
  * key内容控制器

@@ -29,7 +29,6 @@ public class JsonTypeController extends BaseKeyContentController implements Init
 
 
     public BorderPane borderPane;
-    public Button save;
     private ByteArrayController byteArrayController;
     /**
      * 当前value的二进制
@@ -43,7 +42,6 @@ public class JsonTypeController extends BaseKeyContentController implements Init
     }
 
     private void initButton() {
-        save.getStyleClass().add(Styles.ACCENT);
     }
 
     /**

@@ -41,7 +41,6 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
  * @since 2023/8/3 9:41
  */
 public class ZsetTypeController extends BaseKeyContentController implements Initializable {
-    private static final int ROWS_PER_PAGE = 32;
     @FXML
     public TableView<ZsetTypeTable> tableView;
     @FXML
@@ -50,14 +49,10 @@ public class ZsetTypeController extends BaseKeyContentController implements Init
     public Label total;
     @FXML
     public Label size;
-    protected static final String SIZE = "Size:%dB";
-    protected static final String TOTAL = "Total:%d";
     @FXML
     public Button findButton;
     @FXML
     public CustomTextField findTextField;
-    @FXML
-    public Button save;
     @FXML
     public Button delRow;
     @FXML
@@ -100,7 +95,6 @@ public class ZsetTypeController extends BaseKeyContentController implements Init
         findTextField.setRight(findButton);
     }
     private void initButtonStyles() {
-        save.getStyleClass().add(Styles.ACCENT);
         findButton.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,Styles.ROUNDED,Styles.SMALL);
         findButton.setCursor(Cursor.HAND);
         add.getStyleClass().addAll(

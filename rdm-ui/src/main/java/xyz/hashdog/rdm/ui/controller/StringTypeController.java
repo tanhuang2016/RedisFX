@@ -29,7 +29,6 @@ public class StringTypeController extends BaseKeyContentController implements In
 
 
     public BorderPane borderPane;
-    public Button save;
     private ByteArrayController byteArrayController;
     /**
      * 当前value的二进制
@@ -42,7 +41,6 @@ public class StringTypeController extends BaseKeyContentController implements In
     }
 
     private void initButton() {
-        save.getStyleClass().add(Styles.ACCENT);
     }
 
 

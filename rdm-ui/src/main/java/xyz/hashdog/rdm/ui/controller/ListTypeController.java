@@ -59,8 +59,6 @@ public class ListTypeController extends BaseKeyContentController implements Init
     @FXML
     public CustomTextField findTextField;
     @FXML
-    public Button save;
-    @FXML
     public MenuItem addHead;
     @FXML
     public MenuItem addTail;
@@ -113,7 +111,6 @@ public class ListTypeController extends BaseKeyContentController implements Init
         findTextField.setRight(findButton);
     }
     private void initButtonStyles() {
-        save.getStyleClass().add(Styles.ACCENT);
         findButton.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,Styles.ROUNDED,Styles.SMALL);
         findButton.setCursor(Cursor.HAND);
         add.getStyleClass().addAll(

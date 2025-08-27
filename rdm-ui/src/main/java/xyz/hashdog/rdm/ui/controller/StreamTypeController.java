@@ -40,7 +40,6 @@ import java.util.stream.Collectors;
  * @since 2025/7/15 22:41
  */
 public class StreamTypeController extends BaseKeyContentController implements Initializable {
-    private static final int ROWS_PER_PAGE = 32;
     @FXML
     public TableView<StreamTypeTable> tableView;
     @FXML
@@ -49,8 +48,6 @@ public class StreamTypeController extends BaseKeyContentController implements In
     public Label total;
     @FXML
     public Label size;
-    protected static final String SIZE = "Size:%dB";
-    protected static final String TOTAL = "Total:%d";
     @FXML
     public Button findButton;
     @FXML
