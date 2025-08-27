@@ -42,21 +42,7 @@ public abstract class BaseWindowController<T> extends BaseController<T> {
      */
     public Stage currentStage;
 
-    /**
-     * 临时事件订阅者
-     */
-    protected final List<Consumer<? extends Event>> tmEventSubscribers=new ArrayList<>();
 
-    /**
-     * 添加配置变更事件订阅者
-     * @param eventType 订阅的事件类型
-     * @param subscriber 订阅者
-     * @param <E> 订阅的事件类型
-     */
-    public <E extends Event> void addTmEventSubscriber(Class<? extends E> eventType, Consumer<E> subscriber) {
-        tmEventSubscribers.add( subscriber);
-        DefaultEventBus.getInstance().subscribe(eventType, subscriber);
-    }
 
     /**
      * 取消
@@ -109,6 +95,5 @@ public abstract class BaseWindowController<T> extends BaseController<T> {
     @Override
     public void close() {
         super.close();
-        tmEventSubscribers.forEach(DefaultEventBus.getInstance()::unsubscribe);
     }
 }

@@ -5,11 +5,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
+import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
+import xyz.hashdog.rdm.ui.sampler.event.Event;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.SvgManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  *
@@ -28,6 +31,11 @@ public abstract class BaseController<T> implements AutoCloseable{
      * 子控制器
      */
     public List<BaseController<?>> children = new ArrayList<>();
+
+    /**
+     * 临时事件订阅者
+     */
+    protected final List<Consumer<? extends Event>> tmEventSubscribers=new ArrayList<>();
 
     /**
      * port只能为正整数
@@ -77,12 +85,27 @@ public abstract class BaseController<T> implements AutoCloseable{
         this.parentController = parentController;
     }
 
+
+
+    /**
+     * 添加配置变更事件订阅者
+     * @param eventType 订阅的事件类型
+     * @param subscriber 订阅者
+     * @param <E> 订阅的事件类型
+     */
+    public <E extends Event> void addTmEventSubscriber(Class<? extends E> eventType, Consumer<E> subscriber) {
+        tmEventSubscribers.add( subscriber);
+        DefaultEventBus.getInstance().subscribe(eventType, subscriber);
+    }
+
     @Override
     public void close()  {
         //子窗口挨个关闭
         this.children.forEach(BaseController::close);
         //svn缓存清除
         SvgManager.clear(this);
+        tmEventSubscribers.forEach(DefaultEventBus.getInstance()::unsubscribe);
+
     }
 
     protected void addChild(BaseController<?> t) {
