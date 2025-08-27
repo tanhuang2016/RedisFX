@@ -308,7 +308,7 @@ public class SetTypeController extends BaseKeyContentController implements Initi
      */
     @FXML
     public void delRow(ActionEvent actionEvent) {
-        if (!GuiUtil.alertRemove()) {
+        if (GuiUtil.alertRemove()) {
             return;
         }
         asynexec(() -> {

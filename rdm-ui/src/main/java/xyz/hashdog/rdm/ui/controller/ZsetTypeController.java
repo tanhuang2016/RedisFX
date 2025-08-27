@@ -358,7 +358,7 @@ public class ZsetTypeController extends BaseKeyContentController implements Init
      * @param actionEvent
      */
     public void delRow(ActionEvent actionEvent) {
-        if (!GuiUtil.alertRemove()) {
+        if (GuiUtil.alertRemove()) {
             return;
         }
         asynexec(() -> {

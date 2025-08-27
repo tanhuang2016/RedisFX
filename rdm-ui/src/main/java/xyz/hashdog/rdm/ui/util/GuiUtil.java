@@ -6,8 +6,6 @@ import com.github.weisj.jsvg.view.ViewBox;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
@@ -44,7 +42,6 @@ import xyz.hashdog.rdm.ui.controller.BaseController;
 import xyz.hashdog.rdm.ui.controller.BaseKeyController;
 import xyz.hashdog.rdm.ui.controller.ByteArrayController;
 import xyz.hashdog.rdm.ui.entity.ITable;
-import xyz.hashdog.rdm.ui.entity.KeyTreeNode;
 import xyz.hashdog.rdm.ui.entity.PassParameter;
 import xyz.hashdog.rdm.ui.entity.config.KeyTagSetting;
 import xyz.hashdog.rdm.ui.sampler.custom.HintTooltip;
@@ -374,8 +371,8 @@ public class GuiUtil {
 
     /**
      * 关闭多个
-     * @param tabPane
-     * @param dels
+     * @param tabPane tab页容器
+     * @param dels 需要删除的tab页
      */
     public static void closeTab(TabPane tabPane, List<Tab> dels) {
         for (Tab del : dels) {
@@ -385,11 +382,11 @@ public class GuiUtil {
 
     /**
      * 关闭redis连接,移除tab
-     * @param tabPane
-     * @param selectedTab
+     * @param tabPane tab页容器
+     * @param selectedTab 当前选中的tab页
      */
     public static void closeTab(TabPane tabPane,Tab selectedTab) {
-        BaseKeyController userData = (BaseKeyController)selectedTab.getContent().getUserData();
+        BaseKeyController<?> userData = (BaseKeyController<?>)selectedTab.getContent().getUserData();
         //CONSOLE类型需要关闭redis连接
         if(userData.getParameter().getTabType()== PassParameter.CONSOLE){
             ThreadPool.getInstance().execute(()->userData.getRedisClient().close());
@@ -402,10 +399,10 @@ public class GuiUtil {
 
     /**
      * 是否删除弹窗
-     * @return
+     * @return true是取消 false 确定
      */
     public static boolean alertRemove() {
-       return GuiUtil.alert(Alert.AlertType.CONFIRMATION, Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL));
+       return !GuiUtil.alert(Alert.AlertType.CONFIRMATION, Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL));
     }
 
     /**

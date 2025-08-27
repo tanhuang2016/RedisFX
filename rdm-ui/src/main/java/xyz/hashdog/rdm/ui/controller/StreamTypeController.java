@@ -329,7 +329,7 @@ public class StreamTypeController extends BaseKeyContentController implements In
      * @param actionEvent
      */
     public void delRow(ActionEvent actionEvent) {
-        if (!GuiUtil.alertRemove()) {
+        if (GuiUtil.alertRemove()) {
             return;
         }
         asynexec(() -> {

@@ -384,7 +384,7 @@ public class ListTypeController extends BaseKeyContentController implements Init
     public void delHead(ActionEvent actionEvent) {
         this.del.setOnAction(this::delHead);
         this.del.setText(this.delHead.getText());
-        if (!GuiUtil.alertRemove()) {
+        if (GuiUtil.alertRemove()) {
             return;
         }
         asynexec(() -> {
@@ -404,7 +404,7 @@ public class ListTypeController extends BaseKeyContentController implements Init
     public void delTail(ActionEvent actionEvent) {
         this.del.setOnAction(this::delTail);
         this.del.setText(this.delTail.getText());
-        if (!GuiUtil.alertRemove()) {
+        if (GuiUtil.alertRemove()) {
             return;
         }
         asynexec(() -> {
@@ -425,7 +425,7 @@ public class ListTypeController extends BaseKeyContentController implements Init
     public void delRow(ActionEvent actionEvent) {
         this.del.setOnAction(this::delRow);
         this.del.setText(this.delRow.getText());
-        if (!GuiUtil.alertRemove()) {
+        if (GuiUtil.alertRemove()) {
             return;
         }
         asynexec(() -> {
