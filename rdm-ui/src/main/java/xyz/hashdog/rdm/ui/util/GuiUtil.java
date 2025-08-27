@@ -56,6 +56,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
+
 /**
  * 针对视图的操作工具
  * @author th
@@ -801,7 +803,7 @@ public class GuiUtil {
      * @return  文件
      */
     public static File fileChoose(Window ownerWindow, File last, String description, String... extensions) {
-        FileChooser fileChooser =createFileChooser(last,"文件选择",description,extensions);
+        FileChooser fileChooser =createFileChooser(last,language("file.choose"),description,extensions);
         return fileChooser.showOpenDialog(ownerWindow);
     }
 
@@ -832,7 +834,7 @@ public class GuiUtil {
      * @return
      */
     public static File savaFileChoose(Window ownerWindow, File last) {
-        FileChooser fileChooser =createFileChooser(last,"文件保存","file(*)","*.*");
+        FileChooser fileChooser =createFileChooser(last,language("file.save"),"file(*)","*.*");
         File chooseFile =  fileChooser.showSaveDialog(ownerWindow);
         return chooseFile;
     }
