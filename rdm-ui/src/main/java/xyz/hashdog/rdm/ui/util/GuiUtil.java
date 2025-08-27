@@ -80,32 +80,26 @@ public class GuiUtil {
     }
 
     /**
-     * 创建新的连接图标
-     * @return
+     * 创建新地连接图标
+     * @return 连接图标
      */
     public static FontIcon creatConnectionIcon() {
         return  new FontIcon(Feather.LINK);
     }
-//    public static ImageView creatConnctionImageView() {
-//        return GuiUtil.creatImageView(ICON_CONNECTION ,16,16);
-//    }
 
     /**
      * 创建新的分组图标
-     * @return
+     * @return 分组图标
      */
-    public static FontIcon creatGroupImageView() {
+    public static FontIcon creatGroupIcon() {
         return new FontIcon(Feather.FOLDER);
     }
-//    public static ImageView creatGroupImageView() {
-//        return GuiUtil.creatImageView(ICON_GTOUP,16,16);
-//    }
     /**
      * 创建新的key图标
-     * 只有png是可以在下拉选中显示图标，但是要想办法把tag也做出图片来，后续优化吧 todo
-     * @return
+     * 只有png是可以在下拉选中显示图标，但是要想办法把tag也做出图片来，后续优化吧 ，其实不展示下拉图标也无所谓
+     * @return key图标
      */
-    public static FontIcon creatKeyImageView() {
+    public static FontIcon creatKeyIcon() {
         return new FontIcon(Feather.KEY);
     }
     /**

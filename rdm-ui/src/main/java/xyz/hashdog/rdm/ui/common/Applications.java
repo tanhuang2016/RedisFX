@@ -166,7 +166,7 @@ public class Applications {
                     if(sub.isConnection()){
                         trees.add(new TreeItem<>(sub,GuiUtil.creatConnectionIcon()));
                     }else {
-                        trees.add(new TreeItem<>(sub, GuiUtil.creatGroupImageView()));
+                        trees.add(new TreeItem<>(sub, GuiUtil.creatGroupIcon()));
                     }
                 }
                 tree.getChildren().addAll(trees);

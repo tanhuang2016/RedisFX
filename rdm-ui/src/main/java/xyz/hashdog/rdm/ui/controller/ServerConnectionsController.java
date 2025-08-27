@@ -254,7 +254,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
         if(connectionServerNode.isConnection()){
             connectionServerNodeTreeItem.setGraphic(GuiUtil.creatConnectionIcon());
         }else {
-            connectionServerNodeTreeItem.setGraphic(GuiUtil.creatGroupImageView());
+            connectionServerNodeTreeItem.setGraphic(GuiUtil.creatGroupIcon());
         }
         if (connectionServerNode.getParentDataId().equals(Applications.ROOT_ID)) {
             treeView.getRoot().getChildren().add(connectionServerNodeTreeItem);

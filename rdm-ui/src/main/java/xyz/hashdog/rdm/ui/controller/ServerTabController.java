@@ -1,7 +1,6 @@
 package xyz.hashdog.rdm.ui.controller;
 
 import atlantafx.base.controls.CustomTextField;
-import atlantafx.base.controls.RingProgressIndicator;
 import atlantafx.base.theme.Styles;
 import atlantafx.base.theme.Tweaks;
 import javafx.application.Platform;
@@ -41,7 +40,6 @@ import xyz.hashdog.rdm.ui.entity.DBNode;
 import xyz.hashdog.rdm.ui.entity.KeyTreeNode;
 import xyz.hashdog.rdm.ui.entity.PassParameter;
 import xyz.hashdog.rdm.ui.entity.config.KeyTabPaneSetting;
-import xyz.hashdog.rdm.ui.sampler.custom.HintTooltip;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.RecentHistory;
 import xyz.hashdog.rdm.ui.util.SvgManager;
@@ -968,7 +966,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         });
         ContextMenu cm=GuiUtil.newTabContextMenu(tab);
         tab.setContent(borderPane);
-        tab.setGraphic(GuiUtil.creatKeyImageView());
+        tab.setGraphic(GuiUtil.creatKeyIcon());
         this.dbTabPane.getTabs().add(tab);
         this.dbTabPane.getSelectionModel().select(tab);
         addOpenTreeItems();
