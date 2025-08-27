@@ -784,17 +784,25 @@ public class GuiUtil {
     /**
      * 文件选择
      *
-     * @param ownerWindow
-     * @param last
-     * @return
+     * @param ownerWindow 父窗口
+     * @param last 最后选择的一个文件，用于位置参考
+     * @return  文件
      */
     public static File fileChoose(Window ownerWindow, File last) {
         return fileChoose(ownerWindow,last,"file(*)","*.*");
     }
+    /**
+     * 文件选择
+     *
+     * @param ownerWindow 父窗口
+     * @param last 最后选择的一个文件，用于位置参考
+     * @param description 文件描述
+     * @param extensions 文件扩展名
+     * @return  文件
+     */
     public static File fileChoose(Window ownerWindow, File last, String description, String... extensions) {
         FileChooser fileChooser =createFileChooser(last,"文件选择",description,extensions);
-        File chooseFile = fileChooser.showOpenDialog(ownerWindow);
-        return chooseFile;
+        return fileChooser.showOpenDialog(ownerWindow);
     }
 
     /**
