@@ -43,7 +43,6 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
  * @since 2023/8/3 9:52
  */
 public class ListTypeController extends BaseKeyContentController implements Initializable {
-    private static final int ROWS_PER_PAGE = 32;
     @FXML
     public TableView<ListTypeTable> tableView;
     @FXML
@@ -52,8 +51,6 @@ public class ListTypeController extends BaseKeyContentController implements Init
     public Label total;
     @FXML
     public Label size;
-    protected static final String SIZE = "Size:%dB";
-    protected static final String TOTAL = "Total:%d";
     @FXML
     public Button findButton;
     @FXML
