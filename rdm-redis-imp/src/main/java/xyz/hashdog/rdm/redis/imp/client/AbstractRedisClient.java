@@ -121,6 +121,12 @@ public abstract class AbstractRedisClient implements RedisClient {
 
     }
 
+    /**
+     * 封装sscanAll获取所有键
+     * @param key 键
+     * @param function 由于子类客户端查询逻辑不一样，所以需要传入一个函数封装查询逻辑
+     * @return 所有键
+     */
     public List<String> sscanAll(String key,BiFunction<String,ScanParams, ScanResult<String>> function) {
         List<String> res = new ArrayList<>();
         // 定义SSCAN命令参数，匹配所有键
@@ -136,6 +142,13 @@ public abstract class AbstractRedisClient implements RedisClient {
         return res;
     }
 
+
+    /**
+     * 封装sscanAll获取所有键
+     * @param key 键
+     * @param function 由于子类客户端查询逻辑不一样，所以需要传入一个函数封装查询逻辑
+     * @return 所有键
+     */
     public List<byte[]> sscanAll(byte[] key,BiFunction<byte[],ScanParams, ScanResult<byte[]>> function) {
         List<byte[]> ress = new ArrayList<>();
         // 定义SSCAN命令参数，匹配所有键
@@ -150,6 +163,15 @@ public abstract class AbstractRedisClient implements RedisClient {
         } while (!"0".equals(cursor));
         return ress;
     }
+
+    /**
+     * 封装xadd
+     * @param jedis 客户端
+     * @param key key
+     * @param id id
+     * @param jsonValue jsonValue
+     * @return 添加的id
+     */
     public String xadd(StreamCommands jedis, String key, String id, String jsonValue) {
         Map<String, String> map = Util.json2MapString(jsonValue);
         StreamEntryID seid;
@@ -161,6 +183,15 @@ public abstract class AbstractRedisClient implements RedisClient {
         return   jedis.xadd(key, seid , map).toString();
     }
 
+    /**
+     * 封装xrevrange
+     * @param jedis  客户端
+     * @param key key
+     * @param start start
+     * @param end end
+     * @param total total
+     * @return 查询结果
+     */
     public Map<String, String> xrevrange(StreamCommands jedis,String key, String start, String end, int total) {
         Map<String,String> map = new LinkedHashMap<>();
         for (StreamEntry streamEntry : jedis.xrevrange(key, start, end, total)) {
@@ -171,12 +202,28 @@ public abstract class AbstractRedisClient implements RedisClient {
         return map;
     }
 
+    /**
+     * 封装zrangeWithScores
+     * @param jedis  客户端
+     * @param key key
+     * @param start start
+     * @param stop stop
+     * @return 集合
+     */
     public Map<Double,String> zrangeWithScores(SortedSetCommands jedis, String key, long start, long stop) {
         List<Tuple> tuples = jedis.zrangeWithScores(key, start, stop);
         Map<Double,String> map = new LinkedHashMap<>();
         tuples.forEach(e->map.put(e.getScore(),e.getElement()));
         return map;
     }
+    /**
+     * 封装zrangeWithScores
+     * @param jedis  客户端
+     * @param key key
+     * @param start start
+     * @param stop stop
+     * @return 集合
+     */
     public Map<Double,byte[]> zrangeWithScores(SortedSetBinaryCommands jedis, byte[] key, long start, long stop) {
         List<Tuple> tuples = jedis.zrangeWithScores(key, start, stop);
         Map<Double,byte[]> map = new LinkedHashMap<>();
