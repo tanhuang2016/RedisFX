@@ -23,6 +23,7 @@ import java.io.File;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -121,9 +122,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
      * 字符集选中监听
      */
     private void characterChoiceBoxListener() {
-        characterChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            this.value.setText(type.handler.byte2Text(this.currentValue,Charset.forName(newValue)));
-        });
+        characterChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> this.value.setText(type.handler.byte2Text(this.currentValue,Charset.forName(newValue))));
     }
 
     /**
@@ -143,7 +142,6 @@ public class ByteArrayController extends BaseController<BaseController> implemen
             if(isText && !EncodeUtil.isUTF8(this.currentValue)){
                 characterChoiceBox.setValue(StandardCharsets.US_ASCII.displayName());
             }
-            //todo 导入导出先不做
             boolean isBinary = newValue.equals(ValueTypeEnum.BINARY.name);
             into.setVisible(isBinary);
             into.setManaged(isBinary);
@@ -156,7 +154,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
 
 
             this.type=ValueTypeEnum.getByName(newValue);
-            this.value.setText(type.handler.byte2Text(this.currentValue,Charset.forName(characterChoiceBox.getValue())));
+            this.value.setText(Objects.requireNonNull(type).handler.byte2Text(this.currentValue,Charset.forName(characterChoiceBox.getValue())));
             if(this.type.handler.isView()){
                 view(null);
             }
@@ -167,7 +165,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
     /**
      * 复制值
      *
-     * @param actionEvent
+     * @param actionEvent 事件
      */
     @FXML
     public void copy(ActionEvent actionEvent) {
@@ -178,7 +176,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
     /**
      * 返回最新的数据
      *
-     * @return
+     * @return 最新的数据
      */
     public byte[] getByteArray() {
         //这里需要通过Text即时计算byte数组,根据类型进行转换为byte数组
@@ -189,7 +187,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
     /**
      * 设置数据
      *
-     * @param currentValue
+     * @param currentValue  数据
      */
     public void setByteArray(byte[] currentValue) {
         this.currentValue = currentValue;
@@ -209,15 +207,14 @@ public class ByteArrayController extends BaseController<BaseController> implemen
         } else {
             type = ValueTypeEnum.TEXT;
         }
-
         this.size.setText(String.format(SIZE, Util.convertMemorySizeStr(currentSize,2)));
         this.typeChoiceBox.setValue(type.name);
     }
 
     /**
      * 设置数据，并使用默认类型
-     * @param currentValue
-     * @param type
+     * @param currentValue  数据
+     * @param type  类型
      */
     public void setByteArray(byte[] currentValue,ValueTypeEnum type) {
         this.currentValue = currentValue;
@@ -229,7 +226,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
     /**
      * 设置名称
      *
-     * @param key
+     * @param key 名称
      */
     public void setName(String key) {
         this.name.setText(key);
@@ -238,7 +235,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
 
     /**
      * 查看
-     * @param actionEvent
+     * @param actionEvent  事件
      */
     @FXML
     public void view(ActionEvent actionEvent) {
@@ -254,7 +251,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
 
     /**
      * 导入文件
-     * @param actionEvent
+     * @param actionEvent  事件
      */
     public void into(ActionEvent actionEvent) {
         File file = GuiUtil.fileChoose(this.root.getScene().getWindow(), lastFile);
@@ -265,7 +262,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
 
     /**
      * 导出文件
-     * @param actionEvent
+     * @param actionEvent  事件
      */
     public void export(ActionEvent actionEvent) {
         BaseKeyContentController parentController = (BaseKeyContentController) this.parentController;

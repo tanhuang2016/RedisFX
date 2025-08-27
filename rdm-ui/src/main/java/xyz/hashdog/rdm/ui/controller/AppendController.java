@@ -28,11 +28,9 @@ public class AppendController extends BaseWindowController<BaseKeyController> im
     }
 
 
-
-
     /**
      * 设置内容
-     * @param t1
+     * @param t1 子容器
      */
     public void setSubContent(Pane t1) {
         borderPane.setCenter(t1);
