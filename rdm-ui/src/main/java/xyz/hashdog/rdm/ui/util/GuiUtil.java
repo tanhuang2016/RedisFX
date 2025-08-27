@@ -554,8 +554,7 @@ public class GuiUtil {
      * @param <T2> 控制器
      * @return 新的容器和控制器
      */
-    @Contract("_ -> new")
-    public static  <T1,T2> @NotNull Tuple2<T1,T2> doLoadFXML(String fxml) {
+    public static  <T1,T2> @NotNull Tuple2<T1,T2> doLoadFxml(String fxml) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxml), Main.RESOURCE_BUNDLE);
             T1 t1 = fxmlLoader.load();

@@ -24,7 +24,7 @@ public final class LanguagePage extends AbstractPage {
 
         addPageHeader();
         addFormattedText(language("main.setting.general.language.describe"));
-        Tuple2<AnchorPane, Object> tuple2 = GuiUtil.doLoadFXML("/fxml/setting/LanguagePage.fxml");
+        Tuple2<AnchorPane, Object> tuple2 = GuiUtil.doLoadFxml("/fxml/setting/LanguagePage.fxml");
         addNode(tuple2.t1());
     }
 

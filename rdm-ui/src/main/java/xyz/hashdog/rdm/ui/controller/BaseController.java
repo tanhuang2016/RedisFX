@@ -55,7 +55,7 @@ public abstract class BaseController<T> implements AutoCloseable{
     }
 
     public <T1,T2>Tuple2<T1,T2> loadFXML(String fxml) {
-        return GuiUtil.doLoadFXML(fxml);
+        return GuiUtil.doLoadFxml(fxml);
     }
 
 

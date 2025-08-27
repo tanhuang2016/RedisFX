@@ -24,7 +24,7 @@ public final class AdvancedPage extends AbstractPage {
 
         addPageHeader();
         addFormattedText(language("main.setting.general.advanced.describe"));
-        Tuple2<AnchorPane, Object> tuple2 = GuiUtil.doLoadFXML("/fxml/setting/AdvancedPage.fxml");
+        Tuple2<AnchorPane, Object> tuple2 = GuiUtil.doLoadFxml("/fxml/setting/AdvancedPage.fxml");
         addNode(tuple2.t1());
     }
 
