@@ -58,6 +58,10 @@ public abstract class BaseWindowController<T> extends BaseController<T> {
         DefaultEventBus.getInstance().subscribe(eventType, subscriber);
     }
 
+    /**
+     * 取消
+     * @param actionEvent  事件
+     */
     @FXML
     public void cancel(ActionEvent actionEvent) {
         currentStage.close();
@@ -71,9 +75,8 @@ public abstract class BaseWindowController<T> extends BaseController<T> {
      * @param fxml   fxml路径
      * @param parent 父窗口
      * @param model 模式
-     * @throws IOException
      */
-    protected <T extends BaseWindowController>T loadSubWindow(String title, String fxml, Window parent, int model) throws IOException {
+    protected <T2 extends BaseWindowController>T2 loadSubWindow(String title, String fxml, Window parent, int model)  {
         Stage newConnctionWindowStage = new Stage();
         newConnctionWindowStage.initModality(Modality.WINDOW_MODAL);
         //去掉最小化和最大化
@@ -81,41 +84,23 @@ public abstract class BaseWindowController<T> extends BaseController<T> {
         //禁用掉最大最小化
         newConnctionWindowStage.setMaximized(false);
         newConnctionWindowStage.setTitle(title);
-        Tuple2<AnchorPane,T> tuple2 = loadFxml(fxml);
+        Tuple2<AnchorPane,T2> tuple2 = loadFxml(fxml);
         AnchorPane borderPane = tuple2.t1();
-        T controller = tuple2.t2();
+        T2 controller = tuple2.t2();
         controller.setParentController(this);
         controller.setCurrentStage(newConnctionWindowStage);
         Scene scene = new Scene(borderPane);
         newConnctionWindowStage.initOwner(parent);
         newConnctionWindowStage.setScene(scene);
         newConnctionWindowStage.show();
-        controller.setModel(model);
+        controller.model=model;
         return controller;
     }
 
-
-
     /**
-     * 子窗口模态框
-     * 每次都是打开最新的
-     *
-     * @param title  窗口标题
-     * @param fxml   fxml路径
-     * @param parent 父窗口
-     * @throws IOException
+     * 设置当前Stage
+     * @param currentStage 当前Stage
      */
-    public <T extends BaseWindowController>T loadSubWindow(String title, String fxml, Window parent) throws IOException {
-        return loadSubWindow(title, fxml, parent,NONE);
-    }
-
-
-
-
-    public void setModel(int model) {
-        this.model = model;
-    }
-
     public void setCurrentStage(Stage currentStage) {
         this.currentStage = currentStage;
         this.currentStage.getIcons().add(GuiUtil.ICON_REDIS);
