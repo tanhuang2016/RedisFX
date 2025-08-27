@@ -7,7 +7,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * @author th
+ */
 public class Util extends xyz.hashdog.rdm.redis.imp.Util {
+    /**
+     * 解析Redis的INFO命令输出
+     * @param infoOutput INFO命令的输出结果
+     * @return 一个包含INFO命令输出的InfoTable对象的列表
+     */
     public static List<InfoTable> parseInfoOutput(String infoOutput) {
         List<InfoTable> infoTables = new ArrayList<>();
         if (infoOutput == null || infoOutput.isEmpty()) {
@@ -50,11 +58,22 @@ public class Util extends xyz.hashdog.rdm.redis.imp.Util {
             return new Tuple2<>(bytes / (1024.0 * 1024 * 1024), "GB");
         }
     }
+    /**
+     * 将字节单位的内存大小转换为合适的单位
+     * @param bytes 字节数
+     * @param scala 保留小数点位数
+     * @return 字符串
+     */
     public static String convertMemorySizeStr(long bytes,int scala) {
         Tuple2<Double, String> tuple2 = convertMemorySize(bytes);
         return format(tuple2.t1(),scala)+ tuple2.t2();
     }
 
+    /**
+     * 将字节单位的内存大小转换为合适的单位
+     * @param bytesStr 字节数字符串
+     * @return Tuple2<Double, String> 第1个元素是转换后的数值，第2个元素是单位名称
+     */
     public static Tuple2<Double, String> convertMemorySize(String bytesStr) {
         try {
             long bytes = Long.parseLong(bytesStr);
