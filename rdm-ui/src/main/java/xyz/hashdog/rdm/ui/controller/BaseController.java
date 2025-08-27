@@ -1,6 +1,7 @@
 package xyz.hashdog.rdm.ui.controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
@@ -10,8 +11,10 @@ import xyz.hashdog.rdm.ui.sampler.event.Event;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.SvgManager;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 /**
@@ -22,7 +25,7 @@ import java.util.function.Consumer;
  * @version 1.0.0
  * @since 2023/7/22 10:43
  */
-public abstract class BaseController<T> implements AutoCloseable{
+public abstract class BaseController<T> implements AutoCloseable {
     /**
      * 父控制器
      */
@@ -36,6 +39,8 @@ public abstract class BaseController<T> implements AutoCloseable{
      * 临时事件订阅者
      */
     protected final List<Consumer<? extends Event>> tmEventSubscribers=new ArrayList<>();
+
+
 
     /**
      * port只能为正整数

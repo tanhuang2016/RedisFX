@@ -42,7 +42,7 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
  * @since 2023/8/3 9:41
  */
 public class HashTypeController extends BaseKeyContentController implements Initializable {
-    private static final int ROWS_PER_PAGE = 32;
+
     @FXML
     public TableView<HashTypeTable> tableView;
     @FXML
@@ -51,14 +51,12 @@ public class HashTypeController extends BaseKeyContentController implements Init
     public Label total;
     @FXML
     public Label size;
-    protected static final String SIZE = "Size:%dB";
-    protected static final String TOTAL = "Total:%d";
+
     @FXML
     public Button findButton;
     @FXML
     public CustomTextField findTextField;
-    @FXML
-    public Button save;
+
     @FXML
     public Button delRow;
     @FXML
@@ -68,11 +66,11 @@ public class HashTypeController extends BaseKeyContentController implements Init
     /**
      * 缓存所有表格数据
      */
-    private ObservableList<HashTypeTable> list = FXCollections.observableArrayList();
+    private final ObservableList<HashTypeTable> list = FXCollections.observableArrayList();
     /**
      * 查询后的表格数据
      */
-    private ObservableList<HashTypeTable> findList = FXCollections.observableArrayList();
+    private final ObservableList<HashTypeTable> findList = FXCollections.observableArrayList();
     /**
      * 最后选中的行缓存
      */
@@ -98,7 +96,6 @@ public class HashTypeController extends BaseKeyContentController implements Init
         findTextField.setRight(findButton);
     }
     private void initButtonStyles() {
-        save.getStyleClass().add(Styles.ACCENT);
         findButton.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,Styles.ROUNDED,Styles.SMALL);
         findButton.setCursor(Cursor.HAND);
         add.getStyleClass().addAll(
@@ -136,7 +133,7 @@ public class HashTypeController extends BaseKeyContentController implements Init
     /**
      * 可以手动触发分页
      *
-     * @param pageIndex
+     * @param pageIndex 页码
      */
     private void setCurrentPageIndex(int pageIndex) {
         if (pageIndex < pagination.getPageCount() - 1) {
@@ -158,8 +155,8 @@ public class HashTypeController extends BaseKeyContentController implements Init
         this.list.addListener((ListChangeListener<HashTypeTable>) change -> {
             while (change.next()) {
                 //删除到最后一个元素时,key也被删了,需要关闭tab
-                if (change.wasRemoved() && this.list.size() == 0) {
-                    super.parentController.parentController.removeTabByKeys(Arrays.asList(parameter.get().getKey()));
+                if (change.wasRemoved() && this.list.isEmpty()) {
+                    super.parentController.parentController.removeTabByKeys(Collections.singletonList(parameter.get().getKey()));
                     super.parentController.parentController.delKey(parameter);
                 }
             }
@@ -219,7 +216,7 @@ public class HashTypeController extends BaseKeyContentController implements Init
             Platform.runLater(() -> {
                 this.list.setAll(newList);
                 ObservableList<TableColumn<HashTypeTable, ?>> columns = tableView.getColumns();
-                TableColumn<HashTypeTable, Integer> c0 = (TableColumn) columns.get(0);
+                TableColumn<HashTypeTable, Integer> c0 = (TableColumn) columns.getFirst();
                 c0.setCellValueFactory(
                         param -> new ReadOnlyObjectWrapper<>(tableView.getItems().indexOf(param.getValue()) + 1)
                 );
@@ -244,7 +241,7 @@ public class HashTypeController extends BaseKeyContentController implements Init
     /**
      * 列表查询
      *
-     * @param actionEvent
+     * @param actionEvent 事件
      */
     public void find(ActionEvent actionEvent) {
         String text = this.findTextField.getText();
