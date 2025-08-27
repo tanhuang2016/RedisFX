@@ -6,13 +6,14 @@ import java.util.List;
 
 /**
  * 最近记录保存，用于搜索记录，打开最近连接等功能
+ *
  * @author th
  * @version 2.0.0
  * @since 2025/7/20 13:10
  */
 public class RecentHistory<T> {
 
-    private int size = 5;
+    private final int size;
     /**
      * 最近记录
      */
@@ -22,7 +23,7 @@ public class RecentHistory<T> {
      */
     private final Noticer<T> noticer;
 
-    public RecentHistory(int size,Noticer<T> noticer) {
+    public RecentHistory(int size, Noticer<T> noticer) {
         this.size = size;
         this.noticer = noticer;
         historySet = new LinkedHashSet<>(size);
@@ -30,13 +31,13 @@ public class RecentHistory<T> {
 
     /**
      * 添加
+     *
      * @param add 添加一条最近记录
      */
     public void add(T add) {
         historySet.remove(add);
-        T remove = null;
         if (historySet.size() >= size) {
-            remove = historySet.removeLast();
+            historySet.removeLast();
         }
         historySet.addFirst(add);
         //添加之后通知
@@ -50,11 +51,20 @@ public class RecentHistory<T> {
         noticer.notice(get());
     }
 
-    public void clear(){
+    /**
+     * 清空最近记录
+     */
+    public void clear() {
         historySet.clear();
         notice();
     }
 
+
+    /**
+     * 获取最近记录
+     *
+     * @return 最近记录
+     */
     public List<T> get() {
         List<T> list = new ArrayList<>(historySet);
         if (list.size() > size) {
@@ -63,11 +73,13 @@ public class RecentHistory<T> {
         return list;
     }
 
-    public int size() {
-        return size;
-    }
 
-    public static interface Noticer<T>{
+    /**
+     * 最近记录通知者
+     *
+     * @param <T>
+     */
+    public interface Noticer<T> {
         void notice(List<T> list);
 
     }
