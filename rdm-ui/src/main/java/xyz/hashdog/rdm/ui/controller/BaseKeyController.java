@@ -60,9 +60,7 @@ public abstract class BaseKeyController<T> extends BaseController<T>{
         return parameter.get();
     }
 
-    public ObjectProperty<PassParameter> parameterProperty() {
-        return parameter;
-    }
+
 
     public void setParameter(PassParameter parameter) {
         this.redisClient=parameter.getRedisClient();

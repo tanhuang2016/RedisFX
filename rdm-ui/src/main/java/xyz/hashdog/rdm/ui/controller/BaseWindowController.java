@@ -9,14 +9,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
-import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
-import xyz.hashdog.rdm.ui.sampler.event.Event;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
 
 /**
  * 用于新开窗口的父子关系
