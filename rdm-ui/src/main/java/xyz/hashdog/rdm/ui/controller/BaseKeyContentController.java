@@ -1,5 +1,10 @@
 package xyz.hashdog.rdm.ui.controller;
 
+/**
+ * key内容控制器
+ * 打开key的窗口才用这个基类
+ * @author th
+ */
 public abstract class BaseKeyContentController extends  BaseKeyController<KeyTabController> {
 
     /**
@@ -12,7 +17,7 @@ public abstract class BaseKeyContentController extends  BaseKeyController<KeyTab
         initInfo();
     }
     /**
-     * 参数初始化结束后调用
+     * 初始化数据
      */
     protected abstract void initInfo();
 }
