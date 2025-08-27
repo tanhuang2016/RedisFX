@@ -325,7 +325,7 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
             this.serverConnectionsWindowStage=new Stage();
             serverConnectionsWindowStage.initModality(Modality.WINDOW_MODAL);
             this.serverConnectionsWindowStage.setTitle(Main.RESOURCE_BUNDLE.getString(Constant.MAIN_FILE_CONNECT));
-            Tuple2<AnchorPane,ServerConnectionsController> tuple2 = loadFXML("/fxml/ServerConnectionsView.fxml");
+            Tuple2<AnchorPane,ServerConnectionsController> tuple2 = loadFxml("/fxml/ServerConnectionsView.fxml");
             AnchorPane borderPane =tuple2.t1();
             serverConnectionsController = tuple2.t2();
             Scene scene = new Scene(borderPane);
@@ -345,7 +345,7 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
      * @param name 服务名称
      */
     public void newRedisTab(RedisContext redisContext, String name) throws IOException {
-        Tuple2<AnchorPane,ServerTabController> tuple2 = loadFXML("/fxml/ServerTabView.fxml");
+        Tuple2<AnchorPane,ServerTabController> tuple2 = loadFxml("/fxml/ServerTabView.fxml");
         AnchorPane borderPane = tuple2.t1();
         ServerTabController controller = tuple2.t2();
         controller.setParentController(this);

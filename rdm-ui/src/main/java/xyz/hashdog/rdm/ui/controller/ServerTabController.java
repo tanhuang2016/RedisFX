@@ -333,7 +333,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
                 MenuItem selectedItem = (MenuItem) e.getSource();
                 String text = selectedItem.getText();
                 RedisDataTypeEnum byType = RedisDataTypeEnum.getByType(text);
-                Tuple2<AnchorPane,NewKeyController> tuple2 = loadFXML("/fxml/NewKeyView.fxml");
+                Tuple2<AnchorPane,NewKeyController> tuple2 = loadFxml("/fxml/NewKeyView.fxml");
                 AnchorPane anchorPane = tuple2.t1();
                 NewKeyController controller = tuple2.t2();
                 controller.setParentController(this);
@@ -929,7 +929,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         }
         String key = this.lastSelectedNode.getValue().getKey();
         String type = RedisDataTypeEnum.getByType(exeRedis(j -> j.type(key))).type;
-        Tuple2<AnchorPane,BaseKeyController> tuple2 = loadFXML("/fxml/KeyTabView.fxml");
+        Tuple2<AnchorPane,BaseKeyController> tuple2 = loadFxml("/fxml/KeyTabView.fxml");
         AnchorPane borderPane = tuple2.t1();
         BaseKeyController controller = tuple2.t2();
         controller.setParentController(this);
@@ -1177,7 +1177,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
      */
     @FXML
     public void console(ActionEvent actionEvent) throws IOException {
-        Tuple2<AnchorPane,ConsoleController> tuple2 = loadFXML("/fxml/ConsoleView.fxml");
+        Tuple2<AnchorPane,ConsoleController> tuple2 = loadFxml("/fxml/ConsoleView.fxml");
         AnchorPane anchorPane = tuple2.t1();
         BaseKeyController controller = tuple2.t2();
         controller.setParentController(this);
@@ -1201,7 +1201,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
     }
     @FXML
     public void monitor(ActionEvent actionEvent) throws IOException {
-        Tuple2<AnchorPane,ConsoleController> tuple2 = loadFXML("/fxml/MonitorView.fxml");
+        Tuple2<AnchorPane,ConsoleController> tuple2 = loadFxml("/fxml/MonitorView.fxml");
         AnchorPane anchorPane = tuple2.t1();
         BaseKeyController controller = tuple2.t2();
         controller.setParentController(this);
@@ -1229,7 +1229,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
 
     @FXML
     public void report(ActionEvent actionEvent) throws IOException {
-        Tuple2<ScrollPane,ConsoleController> tuple2 = loadFXML("/fxml/ReportView.fxml");
+        Tuple2<ScrollPane,ConsoleController> tuple2 = loadFxml("/fxml/ReportView.fxml");
         Region anchorPane = tuple2.t1();
         BaseKeyController controller = tuple2.t2();
         controller.setParentController(this);
@@ -1257,7 +1257,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
 
     @FXML
     public void pubsub(ActionEvent actionEvent) throws IOException {
-        Tuple2<AnchorPane,ConsoleController> tuple2 = loadFXML("/fxml/PubSubView.fxml");
+        Tuple2<AnchorPane,ConsoleController> tuple2 = loadFxml("/fxml/PubSubView.fxml");
         AnchorPane anchorPane = tuple2.t1();
         BaseKeyController controller = tuple2.t2();
         controller.setParentController(this);

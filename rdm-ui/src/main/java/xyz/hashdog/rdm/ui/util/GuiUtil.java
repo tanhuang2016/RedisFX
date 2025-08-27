@@ -454,7 +454,7 @@ public class GuiUtil {
      * @return 可用的容器和控制器
      */
     public static Tuple2<AnchorPane, ByteArrayController> loadByteArrayView(byte[] bytes, BaseController<?> baseController) {
-        Tuple2<AnchorPane, ByteArrayController> tuple2 = baseController.loadFXML("/fxml/ByteArrayView.fxml");
+        Tuple2<AnchorPane, ByteArrayController> tuple2 = baseController.loadFxml("/fxml/ByteArrayView.fxml");
         tuple2.t2().setParentController(baseController);
         tuple2.t2().setByteArray(bytes);
         return tuple2;

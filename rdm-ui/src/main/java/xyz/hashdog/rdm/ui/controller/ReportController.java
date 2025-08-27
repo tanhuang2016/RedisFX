@@ -458,7 +458,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
      * 初始化刷新弹出
      */
     private void initRefreshPopover() {
-        Tuple2<AnchorPane, RefreshPopover> tuple2 = loadFXML("/fxml/popover/RefreshPopover.fxml");
+        Tuple2<AnchorPane, RefreshPopover> tuple2 = loadFxml("/fxml/popover/RefreshPopover.fxml");
         AnchorPane root = tuple2.t1();
         this.addChild(tuple2.t2());
         tuple2.t2().setParentController(this);

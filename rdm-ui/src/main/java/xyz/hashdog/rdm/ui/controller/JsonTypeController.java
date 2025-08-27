@@ -68,7 +68,7 @@ public class JsonTypeController extends BaseKeyContentController implements Init
                     String bytes = this.exeRedis(j -> j.jsonGet(this.getParameter().getKey()));
                     this.currentValue = bytes.getBytes();
                     Platform.runLater(()->{
-                        Tuple2<AnchorPane,ByteArrayController> tuple2 = loadFXML("/fxml/ByteArrayView.fxml");
+                        Tuple2<AnchorPane,ByteArrayController> tuple2 = loadFxml("/fxml/ByteArrayView.fxml");
                         AnchorPane anchorPane = tuple2.t1();
                         this.byteArrayController  = tuple2.t2();
                         this.byteArrayController.setParentController(this);

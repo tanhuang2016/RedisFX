@@ -341,7 +341,7 @@ public class ListTypeController extends BaseKeyContentController implements Init
             text=source.getText();
         }
         Tuple2<AnchorPane, ByteArrayController> tuple2 =  GuiUtil.loadByteArrayView("".getBytes(),this);
-        Tuple2<AnchorPane, AppendController> appendTuple2=loadFXML("/fxml/AppendView.fxml");
+        Tuple2<AnchorPane, AppendController> appendTuple2= loadFxml("/fxml/AppendView.fxml");
         Stage stage= GuiUtil.createSubStage(text,appendTuple2.t1(),root.getScene().getWindow());
         appendTuple2.t2().setCurrentStage(stage);
         appendTuple2.t2().setSubContent(tuple2.t1());

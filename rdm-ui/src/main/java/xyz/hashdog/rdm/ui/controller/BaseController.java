@@ -58,19 +58,30 @@ public abstract class BaseController<T> implements AutoCloseable{
         GuiUtil.filterIntegerInput(flg,port);
     }
 
-    public <T1,T2>Tuple2<T1,T2> loadFXML(String fxml) {
+    /**
+     * 加载fxml
+     * @param fxml fxml文件名
+     * @param <T1> 容器
+     * @param <T2> 控制器
+     * @return 容器和控制器
+     */
+    public <T1,T2>Tuple2<T1,T2> loadFxml(String fxml) {
         return GuiUtil.doLoadFxml(fxml);
     }
 
-
-
+    /**
+     * 设置父控制器
+     * @param parentController 父控制器
+     */
     public void setParentController(T parentController) {
         this.parentController = parentController;
     }
 
     @Override
     public void close()  {
+        //子窗口挨个关闭
         this.children.forEach(BaseController::close);
+        //svn缓存清除
         SvgManager.clear(this);
     }
 

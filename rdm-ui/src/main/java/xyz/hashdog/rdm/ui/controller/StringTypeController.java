@@ -68,7 +68,7 @@ public class StringTypeController extends BaseKeyContentController implements In
                     byte[] bytes = this.exeRedis(j -> j.get(this.getParameter().getKey().getBytes(StandardCharsets.UTF_8)));
                     this.currentValue = bytes;
                     Platform.runLater(()->{
-                        Tuple2<AnchorPane,ByteArrayController> tuple2 = loadFXML("/fxml/ByteArrayView.fxml");
+                        Tuple2<AnchorPane,ByteArrayController> tuple2 = loadFxml("/fxml/ByteArrayView.fxml");
                         AnchorPane anchorPane = tuple2.t1();
                         this.byteArrayController  = tuple2.t2();
                         this.byteArrayController.setParentController(this);

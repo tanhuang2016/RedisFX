@@ -303,7 +303,7 @@ public class StreamTypeController extends BaseKeyContentController implements In
         children.add(id);
         children.add(tuple2.t1());
         VBox.setVgrow(hBox,Priority.ALWAYS);
-        Tuple2<AnchorPane, AppendController> appendTuple2=loadFXML("/fxml/AppendView.fxml");
+        Tuple2<AnchorPane, AppendController> appendTuple2= loadFxml("/fxml/AppendView.fxml");
         Stage stage= GuiUtil.createSubStage(source.getText(),appendTuple2.t1(),root.getScene().getWindow());
         appendTuple2.t2().setCurrentStage(stage);
         appendTuple2.t2().setSubContent(vBox);

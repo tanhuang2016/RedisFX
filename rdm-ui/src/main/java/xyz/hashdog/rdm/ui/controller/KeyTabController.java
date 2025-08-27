@@ -197,7 +197,7 @@ public class KeyTabController extends BaseKeyController<ServerTabController> imp
         try {
             if(submit.get()){
                 RedisDataTypeEnum te = RedisDataTypeEnum.getByType(this.parameter.get().getKeyType());
-                Tuple2<AnchorPane,BaseKeyContentController> tuple2 = loadFXML(te.fxml);
+                Tuple2<AnchorPane,BaseKeyContentController> tuple2 = loadFxml(te.fxml);
                 AnchorPane anchorPane = tuple2.t1();
                 this.subTypeController  = tuple2.t2();
                 this.subTypeController.setParentController(this);
@@ -391,7 +391,7 @@ public class KeyTabController extends BaseKeyController<ServerTabController> imp
             if(refreshPopover!=null){
                 refreshPopover.show(keyRefresh);
             }else {
-                Tuple2<AnchorPane, RefreshPopover> tuple2 = loadFXML("/fxml/popover/RefreshPopover.fxml");
+                Tuple2<AnchorPane, RefreshPopover> tuple2 = loadFxml("/fxml/popover/RefreshPopover.fxml");
                 AnchorPane root = tuple2.t1();
                 this.addChild(tuple2.t2());
                 tuple2.t2().setParentController(this);

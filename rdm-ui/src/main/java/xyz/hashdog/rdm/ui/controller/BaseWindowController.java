@@ -9,13 +9,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
-import xyz.hashdog.rdm.ui.common.Applications;
-import xyz.hashdog.rdm.ui.common.ConfigSettingsEnum;
-import xyz.hashdog.rdm.ui.entity.config.KeyTabPaneSetting;
-import xyz.hashdog.rdm.ui.entity.config.ServerTabPaneSetting;
 import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
 import xyz.hashdog.rdm.ui.sampler.event.Event;
-import xyz.hashdog.rdm.ui.sampler.event.TabPaneEvent;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 import java.io.IOException;
@@ -86,7 +81,7 @@ public abstract class BaseWindowController<T> extends BaseController<T> {
         //禁用掉最大最小化
         newConnctionWindowStage.setMaximized(false);
         newConnctionWindowStage.setTitle(title);
-        Tuple2<AnchorPane,T> tuple2 = loadFXML(fxml);
+        Tuple2<AnchorPane,T> tuple2 = loadFxml(fxml);
         AnchorPane borderPane = tuple2.t1();
         T controller = tuple2.t2();
         controller.setParentController(this);
