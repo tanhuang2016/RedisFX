@@ -21,7 +21,6 @@ import xyz.hashdog.rdm.redis.imp.console.RedisConsole;
 
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.IntStream;
 
 /**
  * jedis集群客户端实现
