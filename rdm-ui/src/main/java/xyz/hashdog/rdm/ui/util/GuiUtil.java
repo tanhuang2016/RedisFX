@@ -127,7 +127,7 @@ public class GuiUtil {
         return  new FontIcon(Feather.INFO);
     }
     /**
-     * 创建新的发布订阅图标
+     * 创建新地发布订阅图标
      * @return 发布订阅图标
      */
     public static FontIcon creatPubSubIcon() {
@@ -313,14 +313,14 @@ public class GuiUtil {
             // 获取与MenuItem关联的ContextMenu
             ContextMenu triggeredMenu = clickedMenuItem.getParentPopup();
             TabPane tabPane = tab.getTabPane();
-            List<Tab> dels  = new ArrayList<>();
+            List<Tab> tabsToClose  = new ArrayList<>();
             for (Tab tab1 : tabPane.getTabs()) {
                 if (tab1.getContextMenu() != triggeredMenu) {
-                    dels.add(tab1);
+                    tabsToClose.add(tab1);
                 }
             }
             //关闭redis连接,移除tab
-            closeTab(tabPane,dels);
+            closeTab(tabPane,tabsToClose);
         });
 
         // 关闭左边所有
@@ -330,16 +330,16 @@ public class GuiUtil {
             // 获取与MenuItem关联的ContextMenu
             ContextMenu triggeredMenu = clickedMenuItem.getParentPopup();
             TabPane tabPane = tab.getTabPane();
-            List<Tab> dels  = new ArrayList<>();
+            List<Tab> tabsToClose  = new ArrayList<>();
             for (Tab tab1 : tabPane.getTabs()) {
                 if (tab1.getContextMenu() != triggeredMenu) {
-                    dels.add(tab1);
+                    tabsToClose.add(tab1);
                 }else{
                     break;
                 }
             }
             //关闭redis连接,移除tab
-            closeTab(tabPane,dels);
+            closeTab(tabPane,tabsToClose);
         });
 
         // 关闭右边所有
@@ -350,25 +350,25 @@ public class GuiUtil {
             ContextMenu triggeredMenu = clickedMenuItem.getParentPopup();
             TabPane tabPane = tab.getTabPane();
             boolean flg=false;
-            List<Tab> dels  = new ArrayList<>();
+            List<Tab> tabsToClose  = new ArrayList<>();
             for (Tab tab1 : tabPane.getTabs()) {
                 if (tab1.getContextMenu() == triggeredMenu) {
                     flg=true;
                 }else{
                     if(flg){
-                        dels.add(tab1);
+                        tabsToClose.add(tab1);
                     }
                 }
             }
             //关闭redis连接,移除tab
-            closeTab(tabPane,dels);
+            closeTab(tabPane,tabsToClose);
         });
         // 关闭所有
         closeAll.setOnAction(event -> {
             TabPane tabPane = tab.getTabPane();
-            List<Tab> dels = new ArrayList<>(tabPane.getTabs());
+            List<Tab> tabsToClose = new ArrayList<>(tabPane.getTabs());
             //关闭redis连接,移除tab
-            closeTab(tabPane,dels);
+            closeTab(tabPane,tabsToClose);
         });
         return cm;
     }
@@ -376,10 +376,10 @@ public class GuiUtil {
     /**
      * 关闭多个
      * @param tabPane tab页容器
-     * @param dels 需要删除的tab页
+     * @param tabsToClose 需要删除的tab页
      */
-    public static void closeTab(TabPane tabPane, List<Tab> dels) {
-        for (Tab del : dels) {
+    public static void closeTab(TabPane tabPane, List<Tab> tabsToClose) {
+        for (Tab del : tabsToClose) {
             closeTab(tabPane,del);
         }
     }
