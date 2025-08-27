@@ -118,7 +118,7 @@ public class KeyTabController extends BaseKeyController<ServerTabController> imp
     }
 
     private void rotation() {
-        ImageView fontIcon =  GuiUtil.svgImageView("/svg/refresh.svg");
+        ImageView fontIcon =  null;
         RotateTransition rotateTransition = new RotateTransition(Duration.seconds(5), fontIcon);
         rotateTransition.setByAngle(360); // 一圈
         rotateTransition.setCycleCount(Animation.INDEFINITE);

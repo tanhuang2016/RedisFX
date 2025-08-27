@@ -53,6 +53,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -446,10 +447,10 @@ public class GuiUtil {
     /**
      * 加载byteArrayView
      *
-     * @param bytes
-     * @return
+     * @param bytes 数据内容
+     * @return 可用的容器和控制器
      */
-    public static Tuple2<AnchorPane, ByteArrayController> loadByteArrayView(byte[] bytes, BaseController baseController) {
+    public static Tuple2<AnchorPane, ByteArrayController> loadByteArrayView(byte[] bytes, BaseController<?> baseController) {
         Tuple2<AnchorPane, ByteArrayController> tuple2 = baseController.loadFXML("/fxml/ByteArrayView.fxml");
         tuple2.t2().setParentController(baseController);
         tuple2.t2().setByteArray(bytes);
@@ -459,9 +460,9 @@ public class GuiUtil {
 
     /**
      * 设置图标和快捷键
-     * @param item
-     * @param fontIcon
-     * @param keyCodeCombination
+     * @param item 菜单项
+     * @param fontIcon 图标
+     * @param keyCodeCombination 快捷键
      */
     public static void setIconAndKey(MenuItem item, FontIcon fontIcon, KeyCodeCombination keyCodeCombination) {
         item.setGraphic(fontIcon);
@@ -470,8 +471,8 @@ public class GuiUtil {
 
     /**
      * 设置图标
-     * @param button
-     * @param fontIcon
+     * @param button 按钮
+     * @param fontIcon 图标
      */
     public static void setIcon(ButtonBase button, Node fontIcon) {
         button.setGraphic(fontIcon);
@@ -479,18 +480,28 @@ public class GuiUtil {
 
     /**
      * 获取key的标签
-     * @param type
-     * @return
+     * @param type key类型
+     * @return 标签
      */
     public static Label getKeyTypeLabel(String type) {
        Tuple2<String,String> tag= getKeyTypeTag(type);
         return createTypeLabel(tag);
     }
+    /**
+     * 获取key name的label表示
+     * @param type key类型
+     * @return 标签
+     */
     public static Label getKeyTypeNameLabel(String type) {
         Tuple2<String,String> tag= getKeyTypeNameTag(type);
         return createTypeLabel(tag);
     }
 
+    /**
+     * 创建标签
+     * @param tag 标签
+     * @return 标签
+     */
     private static Label createTypeLabel(Tuple2<String, String> tag) {
         Label tagLabel = new Label(tag.t1());
         tagLabel.getStyleClass().add("tag");
@@ -498,17 +509,32 @@ public class GuiUtil {
         return tagLabel;
     }
 
+    /**
+     * 获取key的标签 大的
+     * @param type key类型
+     * @return 标签
+     */
     public static Label getKeyTypeLabelMax(String type) {
         Label tagLabel = getKeyTypeNameLabel(type);
         tagLabel.getStyleClass().add("max");
         return tagLabel;
     }
 
+    /**
+     * 获取key的标签 颜色
+     * @param type key类型
+     * @return 颜色
+     */
     public static Tuple2<String, String> getKeyTypeTag(String type) {
         KeyTagSetting setting = Applications.getConfigSettings(ConfigSettingsEnum.KEY_TAG.name);
         int i  =RedisDataTypeEnum.getIndex(type);
         return new Tuple2<>(setting.getTags().get(i),setting.getColors().get(i));
     }
+    /**
+     * 获取key name的标签 颜色
+     * @param type key类型
+     * @return 颜色
+     */
     public static Tuple2<String, String> getKeyTypeNameTag(String type) {
         KeyTagSetting setting = Applications.getConfigSettings(ConfigSettingsEnum.KEY_TAG.name);
         int i  =RedisDataTypeEnum.getIndex(type);
@@ -516,16 +542,20 @@ public class GuiUtil {
         return new Tuple2<>(byType.type,setting.getColors().get(i));
     }
 
-    public static FXMLLoader loadFXML(String xml) {
-        return new FXMLLoader(Main.class.getResource(xml),Main.RESOURCE_BUNDLE);
-    }
+
+    /**
+     * 加载fxml
+     * @param fxml fxml文件
+     * @param <T1> 容器
+     * @param <T2> 控制器
+     * @return 新的容器和控制器
+     */
     public static  <T1,T2>Tuple2<T1,T2> doLoadFXML(String fxml) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxml), Main.RESOURCE_BUNDLE);
             T1 t1 = fxmlLoader.load();
             T2 t2 = fxmlLoader.getController();
-            Tuple2<T1,T2> tuple2 =new Tuple2<>(t1,t2);
-            return tuple2;
+            return new Tuple2<>(t1,t2);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -534,14 +564,18 @@ public class GuiUtil {
 
     /**
      * 设置TabPane的side
-     * @param tabPane
-     * @param side
+     * @param tabPane tab容器
+     * @param side 边
      */
     public static void setTabPaneSide(TabPane tabPane, Side side) {
         tabPane.setSide(side);
-
     }
 
+    /**
+     * 颜色转16进制
+     * @param newValue 颜色
+     * @return 16进制
+     */
     public static String color2hex(Color newValue) {
         return String.format("#%02X%02X%02X",
                 (int)(newValue.getRed() * 255),
@@ -549,17 +583,28 @@ public class GuiUtil {
                 (int)(newValue.getBlue() * 255));
     }
 
+    /**
+     * 16进制转rgba
+     * @param hexColor 16进制
+     * @return rgba
+     */
     public static String hexToRgba(String hexColor) {
-        return hexToRgba(hexColor, 1.0); // 默认不透明
+        // 默认不透明
+        return hexToRgba(hexColor, 1.0);
     }
 
+    /**
+     * 16进制转rgba
+     * @param hexColor 16进制
+     * @param alpha 透明度
+     * @return rgba
+     */
     public static String hexToRgba(String hexColor, double alpha) {
         // 处理可能的#前缀
         if (!hexColor.startsWith("#")) {
             return hexColor;
         }
         hexColor = hexColor.substring(1);
-
         // 处理3位十六进制颜色（如#FFF）
         if (hexColor.length() == 3) {
             StringBuilder expanded = new StringBuilder();
@@ -568,73 +613,56 @@ public class GuiUtil {
             }
             hexColor = expanded.toString();
         }
-
         // 解析RGB值
         int r = Integer.parseInt(hexColor.substring(0, 2), 16);
         int g = Integer.parseInt(hexColor.substring(2, 4), 16);
         int b = Integer.parseInt(hexColor.substring(4, 6), 16);
-
         return String.format("rgba(%d, %d, %d, %.2f)", r, g, b, alpha);
     }
 
     /**
-     * svg图标
-     * @param svg
-     * @return
+     * svg图片
+     * @param svg svg文件
+     * @param w 宽度
+     * @return 图片
      */
-    public static ImageView svgImageView(String svg) {
-        Image fxImage = svgImage(svg,20,1);
-        return new ImageView(fxImage);
-    }
     public static ImageView svgImageView(String svg,int w) {
         Image fxImage = svgImage(svg,w,1);
         return new ImageView(fxImage);
     }
 
+    /**
+     * svg图片
+     * @param svg svg文件
+     * @param w 宽度
+     * @return 图片
+     */
     public static Image svgImage(String svg,int w){
        return svgImage(svg,w,1);
     }
     /**
      * zoom用于图标在画布上的整体大小，zoom=2,相当于图片大小不变，图标缩小一倍
-     * @param svg
-     * @param w
-     * @param zoom
+     * @param svg svg文件
+     * @param w 宽度
+     * @param zoom 缩放
      * @return
      */
     public static Image svgImage(String svg,int w,int zoom) {
         SVGLoader loader = new SVGLoader();
         URL svgUrl = Main.class.getResource(svg);
-        SVGDocument svgDocument = loader.load(svgUrl);
+        SVGDocument svgDocument = loader.load(Objects.requireNonNull(svgUrl));
         BufferedImage image = new BufferedImage(w*zoom,w*zoom,BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = image.createGraphics();
-        ((Graphics2D) g).setRenderingHint(
+        g.setRenderingHint(
                 RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-        ((Graphics2D) g).setRenderingHint(
+        g.setRenderingHint(
                 RenderingHints.KEY_STROKE_CONTROL,
                 RenderingHints.VALUE_STROKE_PURE);
-        svgDocument.render(null,g,new ViewBox((zoom-1)*w, (zoom-1)*w, w, w));
+        Objects.requireNonNull(svgDocument).render(null,g,new ViewBox((zoom-1)*w, (zoom-1)*w, w, w));
         g.dispose();
-        Image fxImage = SwingFXUtils.toFXImage(image, null);
-        return fxImage;
+        return SwingFXUtils.toFXImage(image, null);
     }
-/*    public static Image svgImage2(String svg,int w) {
-        SVGLoader loader = new SVGLoader();
-        URL svgUrl = Main.class.getResource(svg);
-        SVGDocument svgDocument = loader.load(svgUrl);
-        BufferedImage image = new BufferedImage(w,w,BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = image.createGraphics();
-        ((Graphics2D) g).setRenderingHint(
-                RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-        ((Graphics2D) g).setRenderingHint(
-                RenderingHints.KEY_STROKE_CONTROL,
-                RenderingHints.VALUE_STROKE_PURE);
-        svgDocument.render(null,g,new ViewBox(0, 0, w, w));
-        g.dispose();
-        Image fxImage = SwingFXUtils.toFXImage(image, null);
-        return fxImage;
-    }*/
 
     /**
      * 创建普通的表格
