@@ -710,7 +710,8 @@ public class GuiUtil {
             if (firstRow != null) {
                 rowHeight = firstRow.getBoundsInLocal().getHeight();
             } else {
-                rowHeight = 24.0; // 默认行高
+                // 默认行高
+                rowHeight = 24.0;
             }
         }
         // 如果无法获取行高，则使用默认值
