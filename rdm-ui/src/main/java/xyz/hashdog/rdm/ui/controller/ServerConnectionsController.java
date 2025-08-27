@@ -90,18 +90,12 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
     }
 
     private void initButtonIcon() {
-//        GuiUtil.setIcon(connect,new FontIcon(Feather.LINK_2));
-        SvgManager.load(connect,"/svg/databaseLink/databaseLink.svg");
-//        GuiUtil.setIcon(newGroup,new FontIcon(Feather.FOLDER_PLUS));
-        SvgManager.load(newGroup,"/svg/newFolder/newFolder.svg");
-//        GuiUtil.setIcon(newConnection,new FontIcon(Feather.PLUS));
-        SvgManager.load(newConnection,"/svg/addFile/addFile.svg");
-//        GuiUtil.setIcon(edit,new FontIcon(Material2AL.EDIT));
-        SvgManager.load(edit,"/svg/editFolder/editFolder.svg");
-//        GuiUtil.setIcon(rename,new FontIcon(Feather.EDIT_2));
-        SvgManager.load(rename,"/svg/suggestedRefactoringBulb/suggestedRefactoringBulb.svg");
-//        GuiUtil.setIcon(delete,new FontIcon(Material2AL.DELETE));
-        SvgManager.load(delete,"/svg/delete/delete.svg");
+        SvgManager.load(this,connect,"/svg/databaseLink/databaseLink.svg");
+        SvgManager.load(this,newGroup,"/svg/newFolder/newFolder.svg");
+        SvgManager.load(this,newConnection,"/svg/addFile/addFile.svg");
+        SvgManager.load(this,edit,"/svg/editFolder/editFolder.svg");
+        SvgManager.load(this,rename,"/svg/suggestedRefactoringBulb/suggestedRefactoringBulb.svg");
+        SvgManager.load(this,delete,"/svg/delete/delete.svg");
 
     }
 

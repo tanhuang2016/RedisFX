@@ -269,7 +269,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         search.setGraphic(new FontIcon(Feather.SEARCH));
         reset.setGraphic(new FontIcon(Material2AL.CLEAR));
 //        isLike.setGraphic(new Label(" .* "));
-        SvgManager.loadMini(isLike,"/svg/regex/regex.svg");
+        SvgManager.loadMini(this,isLike,"/svg/regex/regex.svg");
         GuiUtil.setIcon(searchOptionsButton,new FontIcon((Material2MZ.MORE_VERT)));
         GuiUtil.setIcon(locationButton,new FontIcon((Material2MZ.RADIO_BUTTON_CHECKED)));
         GuiUtil.setIcon(expandedButton,new FontIcon((Material2MZ.UNFOLD_MORE)));

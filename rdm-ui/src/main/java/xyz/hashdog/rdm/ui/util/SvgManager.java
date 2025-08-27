@@ -1,6 +1,7 @@
 package xyz.hashdog.rdm.ui.util;
 
 import javafx.scene.control.ButtonBase;
+import xyz.hashdog.rdm.ui.controller.BaseController;
 import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
 import xyz.hashdog.rdm.ui.sampler.event.ThemeEvent;
 import xyz.hashdog.rdm.ui.sampler.theme.SamplerTheme;
@@ -8,15 +9,21 @@ import xyz.hashdog.rdm.ui.sampler.theme.ThemeManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * @author th
+ */
 public class SvgManager {
     /**
-     * todo 要改成map装，在close的时候，将缓存释放掉，根据key去查对应组件缓存的图标
+     * 缓存 key是控制器，value是图标
+     * 当窗口关闭，可以根据控制器删除图标
      */
-    private static final List<SvgManager> list = new ArrayList<>();
+    private static final Map<BaseController<?>,List<SvgManager>> MAP = new ConcurrentHashMap<>();
     private final ButtonBase base;
     private final String svg;
-    private  int w;
+    private final int w;
     private  static boolean light;
     static {
         light=ThemeManager.getInstance().getTheme().getName().contains("Light");
@@ -40,9 +47,11 @@ public class SvgManager {
     }
 
     private static void changeSvg() {
-        for (SvgManager svgManager : list) {
-            svgManager.setGraphic();
-        }
+        MAP.forEach((baseController, svgManagers) -> {
+            for (SvgManager svgManager : svgManagers) {
+                svgManager.setGraphic();
+            }
+        });
     }
 
     private SvgManager(ButtonBase base, String svg) {
@@ -53,26 +62,29 @@ public class SvgManager {
 
     /**
      * 加载svg图标 默认20w
-     * @param base
-     * @param svg
+     * @param base 按钮
+     * @param svg 文件名
      */
-    public static void load(ButtonBase base, String svg) {
+    public static void load(BaseController<?> controller,ButtonBase base, String svg) {
         SvgManager svgManager = new SvgManager(base, svg);
         svgManager.setGraphic();
+        List<SvgManager> list = MAP.computeIfAbsent(controller, k -> new ArrayList<>());
         list.add(svgManager);
     }
 
     /**
      * 创建图标，默认16w
-     * @param base
-     * @param svg
+     * @param base 按钮
+     * @param svg 文件名
      */
-    public static void loadMini(ButtonBase base, String svg) {
+    public static void loadMini(BaseController<?> controller,ButtonBase base, String svg) {
         SvgManager svgManager = new SvgManager(base, svg,16);
-        svgManager.setGraphic();
+        List<SvgManager> list = MAP.computeIfAbsent(controller, k -> new ArrayList<>());
         list.add(svgManager);
     }
-
+    /**
+     * 设置图标
+     */
     private void setGraphic() {
         if(light){
             GuiUtil.setIcon(this.base,GuiUtil.svgImageView(this.svg,w));
