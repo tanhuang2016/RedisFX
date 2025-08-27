@@ -334,7 +334,7 @@ public class StreamTypeController extends BaseKeyContentController implements In
         }
         asynexec(() -> {
             exeRedis(j -> j.xdel(this.getParameter().getKey(), lastSelect.getId()));
-            GuiUtil.remove2UI(this.list,this.tableView,lastSelect);
+            GuiUtil.remove2TableView(this.list,this.tableView,lastSelect);
         });
     }
 

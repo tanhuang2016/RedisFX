@@ -313,7 +313,7 @@ public class SetTypeController extends BaseKeyContentController implements Initi
         }
         asynexec(() -> {
             exeRedis(j -> j.srem(this.getParameter().getKey().getBytes(), lastSelect.getBytes()));
-            GuiUtil.remove2UI(this.list,this.tableView,lastSelect);
+            GuiUtil.remove2TableView(this.list,this.tableView,lastSelect);
         });
     }
 

@@ -362,7 +362,7 @@ public class HashTypeController extends BaseKeyContentController implements Init
         }
         asynexec(() -> {
             exeRedis(j -> j.hdel(this.getParameter().getKey().getBytes(), lastSelect.getKeyBytes()));
-            GuiUtil.remove2UI(this.list,this.tableView,lastSelect);
+            GuiUtil.remove2TableView(this.list,this.tableView,lastSelect);
         });
     }
 

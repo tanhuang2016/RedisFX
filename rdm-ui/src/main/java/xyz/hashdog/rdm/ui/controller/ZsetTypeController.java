@@ -363,7 +363,7 @@ public class ZsetTypeController extends BaseKeyContentController implements Init
         }
         asynexec(() -> {
             exeRedis(j -> j.zrem(this.getParameter().getKey().getBytes(), lastSelect.getBytes()));
-            GuiUtil.remove2UI(this.list,this.tableView,lastSelect);
+            GuiUtil.remove2TableView(this.list,this.tableView,lastSelect);
         });
     }
     @Override

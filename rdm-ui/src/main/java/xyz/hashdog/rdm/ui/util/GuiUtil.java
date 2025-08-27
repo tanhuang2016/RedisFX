@@ -408,29 +408,28 @@ public class GuiUtil {
     /**
      * 视图上删除对应数据
      *
-     * @param lastSelect
+     * @param lastSelect 最后选择的数据
      */
-    public static <T>void remove2UI(ObservableList<T> list, TableView<T> tableView, T lastSelect) {
+    public static <T> void remove2TableView(ObservableList<T> list, TableView<T> tableView, T lastSelect) {
         Platform.runLater(() -> {
             //缓存的所有数据需要删除
             list.remove(lastSelect);
-        });
-        int i = tableView.getItems().indexOf(lastSelect);
-        if (i > -1) {
-            Platform.runLater(() -> {
+            int i = tableView.getItems().indexOf(lastSelect);
+            if (i > -1) {
                 //视图需要删除
                 tableView.getItems().remove(i);
                 tableView.refresh();
-            });
-        }
+            }
+        });
+
     }
 
     /**
-     * 创建通用子stae
-     * @param title
-     * @param anchorPane
-     * @param window
-     * @return
+     * 创建通用子stage
+     * @param title 标题
+     * @param anchorPane 容器
+     * @param window 父窗口
+     * @return 新窗口
      */
     public static Stage createSubStage(String title, Parent anchorPane, Window window) {
         Stage stage = new Stage();

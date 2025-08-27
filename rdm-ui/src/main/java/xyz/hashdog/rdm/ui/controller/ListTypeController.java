@@ -390,7 +390,7 @@ public class ListTypeController extends BaseKeyContentController implements Init
         asynexec(() -> {
             exeRedis(j -> j.lpop(this.getParameter().getKey()));
             ListTypeTable listTypeTable = list.get(0);
-            GuiUtil.remove2UI(this.list,this.tableView,listTypeTable);
+            GuiUtil.remove2TableView(this.list,this.tableView,listTypeTable);
         });
 
     }
@@ -410,7 +410,7 @@ public class ListTypeController extends BaseKeyContentController implements Init
         asynexec(() -> {
             exeRedis(j -> j.rpop(this.getParameter().getKey()));
             ListTypeTable listTypeTable = list.get(list.size() - 1);
-            GuiUtil.remove2UI(this.list,this.tableView,listTypeTable);
+            GuiUtil.remove2TableView(this.list,this.tableView,listTypeTable);
         });
 
     }
@@ -431,7 +431,7 @@ public class ListTypeController extends BaseKeyContentController implements Init
         asynexec(() -> {
             exeRedis(j -> j.lset(this.getParameter().getKey().getBytes(), this.list.indexOf(lastSelect), DEL_MARK));
             exeRedis(j -> j.lrem(this.getParameter().getKey().getBytes(), 0, DEL_MARK));
-            GuiUtil.remove2UI(this.list,this.tableView,lastSelect);
+            GuiUtil.remove2TableView(this.list,this.tableView,lastSelect);
         });
     }
 
