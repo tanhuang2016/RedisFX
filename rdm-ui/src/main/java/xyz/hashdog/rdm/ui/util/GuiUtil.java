@@ -645,7 +645,7 @@ public class GuiUtil {
      * @param svg svg文件
      * @param w 宽度
      * @param zoom 缩放
-     * @return
+     * @return  图片
      */
     public static Image svgImage(String svg,int w,int zoom) {
         SVGLoader loader = new SVGLoader();
@@ -666,8 +666,8 @@ public class GuiUtil {
 
     /**
      * 创建普通的表格
-     * @param tableView
-     * @param iTable
+     * @param tableView 表格
+     * @param iTable  数据
      */
     @SuppressWarnings("unchecked")
     public static <T extends ITable,S>void initSimpleTableView(TableView<T> tableView, T iTable) {
@@ -689,21 +689,18 @@ public class GuiUtil {
 
     /**
      * 动态调整表格高度，不显示滚动条
-     * @param tableView
+     * @param tableView 表格
      */
     public static void adjustTableViewHeightPrecise(TableView<?> tableView) {
         // 确保表格已经渲染
         tableView.layout();
-
         double headerHeight = 0;
         double rowHeight = 0;
-
         // 获取表头高度
         Node header = tableView.lookup(".column-header-background");
         if (header != null) {
             headerHeight = header.getBoundsInLocal().getHeight();
         }
-
         // 获取行高（通过第一行计算）
         if (!tableView.getItems().isEmpty()) {
             Node firstRow = tableView.lookup(".table-row-cell");
@@ -713,29 +710,25 @@ public class GuiUtil {
                 rowHeight = 24.0; // 默认行高
             }
         }
-
         // 如果无法获取行高，则使用默认值
         if (rowHeight <= 0) {
             rowHeight = 24.0;
         }
-
         // 计算总高度
         int rowCount = tableView.getItems().size();
         double totalHeight = headerHeight + (rowCount * rowHeight);
-
         // 设置高度
         tableView.setPrefHeight(totalHeight);
         tableView.setMinHeight(totalHeight);
         tableView.setMaxHeight(totalHeight);
-
         // 同时禁用滚动
         tableView.setFixedCellSize(rowHeight);
     }
 
     /**
      * 文本提示
-     * @param text
-     * @return
+     * @param text 文本
+     * @return 提示
      */
     public static Tooltip textTooltip(String text) {
         Tooltip tooltip = new Tooltip(text);
