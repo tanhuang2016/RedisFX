@@ -8,6 +8,10 @@ import java.util.List;
  * @since 2023/8/13 20:53
  */
 public interface Constant {
+    /**
+     * 明亮主题标识
+     */
+    String THEME_LIGHT="Light";
 
     /*国际化配置*/
     String CLOSE = "common.tab.close";

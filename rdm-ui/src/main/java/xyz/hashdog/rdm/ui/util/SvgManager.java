@@ -1,6 +1,7 @@
 package xyz.hashdog.rdm.ui.util;
 
 import javafx.scene.control.ButtonBase;
+import xyz.hashdog.rdm.ui.common.Constant;
 import xyz.hashdog.rdm.ui.controller.BaseController;
 import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
 import xyz.hashdog.rdm.ui.sampler.event.ThemeEvent;
@@ -26,12 +27,12 @@ public class SvgManager {
     private final int w;
     private  static boolean light;
     static {
-        light=ThemeManager.getInstance().getTheme().getName().contains("Light");
+        light=ThemeManager.getInstance().getTheme().getName().contains(Constant.THEME_LIGHT);
         DefaultEventBus.getInstance().subscribe(ThemeEvent.class, e -> {
             var eventType = e.getEventType();
             if (eventType == ThemeEvent.EventType.THEME_CHANGE ) {
                 SamplerTheme theme = ThemeManager.getInstance().getTheme();
-                boolean light1 = theme.getName().contains("Light");
+                boolean light1 = theme.getName().contains(Constant.THEME_LIGHT);
                 if(light1!=light){
                     light=light1;
                     changeSvg();
@@ -79,6 +80,7 @@ public class SvgManager {
      */
     public static void loadMini(BaseController<?> controller,ButtonBase base, String svg) {
         SvgManager svgManager = new SvgManager(base, svg,16);
+        svgManager.setGraphic();
         List<SvgManager> list = MAP.computeIfAbsent(controller, k -> new ArrayList<>());
         list.add(svgManager);
     }
