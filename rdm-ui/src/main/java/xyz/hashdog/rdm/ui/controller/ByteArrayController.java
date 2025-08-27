@@ -16,6 +16,8 @@ import xyz.hashdog.rdm.common.Constant;
 import xyz.hashdog.rdm.common.util.EncodeUtil;
 import xyz.hashdog.rdm.common.util.FileUtil;
 import xyz.hashdog.rdm.ui.common.ValueTypeEnum;
+import xyz.hashdog.rdm.ui.controller.base.BaseController;
+import xyz.hashdog.rdm.ui.controller.base.BaseKeyContentController;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.Util;
 

@@ -15,6 +15,7 @@ import xyz.hashdog.rdm.redis.exceptions.RedisException;
 import xyz.hashdog.rdm.ui.Main;
 import xyz.hashdog.rdm.ui.common.Applications;
 import xyz.hashdog.rdm.ui.common.Constant;
+import xyz.hashdog.rdm.ui.controller.base.BaseWindowController;
 import xyz.hashdog.rdm.ui.entity.config.ConnectionServerNode;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.SvgManager;

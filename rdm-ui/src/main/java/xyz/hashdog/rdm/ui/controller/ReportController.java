@@ -33,6 +33,7 @@ import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.redis.client.RedisKeyScanner;
 import xyz.hashdog.rdm.ui.common.Constant;
 import xyz.hashdog.rdm.ui.common.RedisDataTypeEnum;
+import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
 import xyz.hashdog.rdm.ui.controller.popover.RefreshPopover;
 import xyz.hashdog.rdm.ui.entity.InfoTable;
 import xyz.hashdog.rdm.ui.entity.TopKeyTable;
@@ -213,7 +214,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     }
 
     @Override
-    void paramInitEnd() {
+    protected void paramInitEnd() {
         if(currentDb!=0){
             ThreadPool.getInstance().execute(()->this.redisClient.select(currentDb));
         }

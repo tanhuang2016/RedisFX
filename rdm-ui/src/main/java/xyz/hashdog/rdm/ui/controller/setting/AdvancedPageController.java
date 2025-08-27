@@ -11,15 +11,8 @@ import org.kordamp.ikonli.material2.Material2AL;
 import org.kordamp.ikonli.material2.Material2MZ;
 import xyz.hashdog.rdm.ui.common.Applications;
 import xyz.hashdog.rdm.ui.common.ConfigSettingsEnum;
-import xyz.hashdog.rdm.ui.controller.BaseWindowController;
-import xyz.hashdog.rdm.ui.controller.MainController;
 import xyz.hashdog.rdm.ui.entity.config.AdvancedSetting;
-import xyz.hashdog.rdm.ui.entity.config.KeyTagSetting;
-import xyz.hashdog.rdm.ui.sampler.layout.MainModel;
-import xyz.hashdog.rdm.ui.sampler.layout.Sidebar;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
-
-import java.util.List;
 
 public class AdvancedPageController  {
     @FXML

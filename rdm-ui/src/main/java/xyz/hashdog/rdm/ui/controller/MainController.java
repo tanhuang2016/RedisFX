@@ -30,6 +30,7 @@ import xyz.hashdog.rdm.ui.Main;
 import xyz.hashdog.rdm.ui.common.Applications;
 import xyz.hashdog.rdm.ui.common.ConfigSettingsEnum;
 import xyz.hashdog.rdm.ui.common.Constant;
+import xyz.hashdog.rdm.ui.controller.base.BaseWindowController;
 import xyz.hashdog.rdm.ui.entity.PassParameter;
 import xyz.hashdog.rdm.ui.entity.config.KeyTabPaneSetting;
 import xyz.hashdog.rdm.ui.entity.config.ServerTabPaneSetting;

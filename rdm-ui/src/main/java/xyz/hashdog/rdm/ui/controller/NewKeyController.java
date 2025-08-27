@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import xyz.hashdog.rdm.redis.Message;
 import xyz.hashdog.rdm.ui.common.RedisDataTypeEnum;
+import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
 import xyz.hashdog.rdm.ui.handler.NewKeyHandler;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 

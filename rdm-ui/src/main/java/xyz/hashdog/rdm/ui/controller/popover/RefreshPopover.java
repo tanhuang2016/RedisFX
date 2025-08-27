@@ -3,18 +3,14 @@ package xyz.hashdog.rdm.ui.controller.popover;
 import atlantafx.base.controls.ToggleSwitch;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
-import xyz.hashdog.rdm.ui.controller.BaseController;
-import xyz.hashdog.rdm.ui.controller.KeyTabController;
+import xyz.hashdog.rdm.ui.controller.base.BaseController;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
 public  class RefreshPopover extends BaseController<RefreshPopover.IRefreshPopover> implements Initializable {
     public ToggleSwitch autoRefreshToggleSwitch;

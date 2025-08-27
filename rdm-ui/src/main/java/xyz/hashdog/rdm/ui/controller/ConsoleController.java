@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
+import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
 
 import java.net.URL;
 import java.util.List;
@@ -61,7 +62,7 @@ public class ConsoleController extends BaseKeyController<ServerTabController> im
     }
 
     @Override
-    void paramInitEnd() {
+    protected void paramInitEnd() {
         label.setText(redisContext.getRedisConfig().getName()+":"+this.currentDb+">");
         textArea.appendText( "\n"+redisContext.getRedisConfig().getName()+" "+language(ALERT_MESSAGE_CONNECT_SUCCESS) );
         if(currentDb!=0){

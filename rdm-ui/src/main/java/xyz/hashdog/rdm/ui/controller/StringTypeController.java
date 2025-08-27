@@ -1,16 +1,15 @@
 package xyz.hashdog.rdm.ui.controller;
 
-import atlantafx.base.theme.Styles;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
+import xyz.hashdog.rdm.ui.controller.base.BaseKeyContentController;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 import java.net.URL;

@@ -2,7 +2,7 @@ package xyz.hashdog.rdm.ui.util;
 
 import javafx.scene.control.ButtonBase;
 import xyz.hashdog.rdm.ui.common.Constant;
-import xyz.hashdog.rdm.ui.controller.BaseController;
+import xyz.hashdog.rdm.ui.controller.base.BaseController;
 import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
 import xyz.hashdog.rdm.ui.sampler.event.ThemeEvent;
 import xyz.hashdog.rdm.ui.sampler.theme.SamplerTheme;

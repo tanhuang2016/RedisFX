@@ -1,4 +1,4 @@
-package xyz.hashdog.rdm.ui.controller;
+package xyz.hashdog.rdm.ui.controller.base;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -72,7 +72,7 @@ public abstract class BaseKeyController<T> extends BaseController<T>{
         paramInitEnd();
     }
 
-     void paramInitEnd() {
+     protected void paramInitEnd() {
 
     }
 

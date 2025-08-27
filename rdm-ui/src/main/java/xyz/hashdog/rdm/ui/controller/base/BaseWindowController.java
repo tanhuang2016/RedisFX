@@ -1,4 +1,4 @@
-package xyz.hashdog.rdm.ui.controller;
+package xyz.hashdog.rdm.ui.controller.base;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

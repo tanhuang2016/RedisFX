@@ -1,7 +1,6 @@
-package xyz.hashdog.rdm.ui.controller;
+package xyz.hashdog.rdm.ui.controller.base;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
@@ -11,10 +10,8 @@ import xyz.hashdog.rdm.ui.sampler.event.Event;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.SvgManager;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 /**

@@ -1,8 +1,6 @@
 package xyz.hashdog.rdm.ui.controller;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.Clipboard;
@@ -10,10 +8,8 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
-import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.redis.client.RedisMonitor;
-import xyz.hashdog.rdm.ui.common.Applications;
-import xyz.hashdog.rdm.ui.entity.config.ThemeSetting;
+import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
 import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
 import xyz.hashdog.rdm.ui.sampler.event.ThemeEvent;
 import xyz.hashdog.rdm.ui.sampler.theme.SamplerTheme;
@@ -21,12 +17,10 @@ import xyz.hashdog.rdm.ui.sampler.theme.ThemeManager;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import static xyz.hashdog.rdm.ui.common.Constant.ALERT_MESSAGE_CONNECT_SUCCESS;
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
 public class MonitorController extends BaseKeyController<ServerTabController> implements Initializable {
@@ -56,7 +50,7 @@ public class MonitorController extends BaseKeyController<ServerTabController> im
     }
 
     @Override
-    void paramInitEnd() {
+    protected void paramInitEnd() {
         monitorThread = new Thread(() -> {
             this.redisClient.monitor(redisMonitor=new RedisMonitor() {
                 @Override

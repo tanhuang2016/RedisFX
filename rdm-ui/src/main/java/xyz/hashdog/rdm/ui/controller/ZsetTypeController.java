@@ -23,6 +23,7 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
+import xyz.hashdog.rdm.ui.controller.base.BaseKeyContentController;
 import xyz.hashdog.rdm.ui.entity.ZsetTypeTable;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 

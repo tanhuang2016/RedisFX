@@ -36,6 +36,7 @@ import xyz.hashdog.rdm.common.util.TUtil;
 import xyz.hashdog.rdm.redis.client.RedisKeyScanner;
 import xyz.hashdog.rdm.ui.Main;
 import xyz.hashdog.rdm.ui.common.*;
+import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
 import xyz.hashdog.rdm.ui.entity.DBNode;
 import xyz.hashdog.rdm.ui.entity.KeyTreeNode;
 import xyz.hashdog.rdm.ui.entity.PassParameter;

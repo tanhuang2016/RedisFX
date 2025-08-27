@@ -1,8 +1,9 @@
-package xyz.hashdog.rdm.ui.controller;
+package xyz.hashdog.rdm.ui.controller.base;
 
 import atlantafx.base.theme.Styles;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import xyz.hashdog.rdm.ui.controller.KeyTabController;
 
 
 /**
