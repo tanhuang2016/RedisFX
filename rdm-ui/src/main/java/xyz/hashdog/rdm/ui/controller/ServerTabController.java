@@ -1569,29 +1569,16 @@ public class ServerTabController extends BaseKeyController<MainController> {
      */
     @FXML
     public void expanded(ActionEvent actionEvent) {
-        expandAllNodes(treeView.getRoot(),true);
+        GuiUtil.expandAllNodes(treeView.getRoot(),true);
     }
-    private void expandAllNodes(TreeItem<KeyTreeNode> node,boolean expanded) {
-        if (node != null) {
-            if(node.isLeaf()){
-                return;
-            }
-            if(node!=treeView.getRoot()){
-                node.setExpanded(expanded);
-            }
-            for (TreeItem<KeyTreeNode> child : node.getChildren()) {
-                // 递归展开所有子节点
-                expandAllNodes(child,expanded);
-            }
-        }
-    }
+
 
     /**
      * 树节点折叠所有
      */
     @FXML
     public void collapse(ActionEvent actionEvent) {
-        expandAllNodes(treeView.getRoot(),false);
+        GuiUtil.expandAllNodes(treeView.getRoot(),false);
     }
 
 

@@ -44,6 +44,7 @@ import xyz.hashdog.rdm.ui.controller.BaseController;
 import xyz.hashdog.rdm.ui.controller.BaseKeyController;
 import xyz.hashdog.rdm.ui.controller.ByteArrayController;
 import xyz.hashdog.rdm.ui.entity.ITable;
+import xyz.hashdog.rdm.ui.entity.KeyTreeNode;
 import xyz.hashdog.rdm.ui.entity.PassParameter;
 import xyz.hashdog.rdm.ui.entity.config.KeyTagSetting;
 import xyz.hashdog.rdm.ui.sampler.custom.HintTooltip;
@@ -163,8 +164,8 @@ public class GuiUtil {
     /**
      * 返回为true证明有未填的
      *
-     * @param textFields
-     * @return
+     * @param textFields 输入框
+     * @return 判断是否有未填
      */
     public static boolean requiredTextField(TextField... textFields) {
         boolean flg = false;
@@ -184,7 +185,6 @@ public class GuiUtil {
 
     /**
      * 提示框
-     *
      * @param alertType 弹框类型
      * @param message   附带消息
      * @return 确定/取消
@@ -193,16 +193,12 @@ public class GuiUtil {
         Alert a=createAlert(alertType,message);
         // 添加响应处理程序
         Optional<ButtonType> result = a.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            return true;
-        } else {
-            return false;
-        }
+        return result.isPresent() && result.get() == ButtonType.OK;
     }
 
     /**
      * 瞬间显示
-     * @param message
+     * @param message 弹框信息
      */
     public static void alertMoment( String message) {
         Alert a=createAlert(Alert.AlertType.NONE,message);
@@ -223,24 +219,19 @@ public class GuiUtil {
      * 创建alert
      * @param alertType 类型
      * @param message 消息
-     * @return
+     * @return  alert
      */
     private static Alert createAlert(Alert.AlertType alertType, String message) {
         Alert a = new Alert(alertType);
         Stage stage = (Stage) a.getDialogPane().getScene().getWindow();
         stage.getIcons().add(ICON_REDIS);
-//        a.setGraphic(creatImageView(ICON_REDIS,32,32));
-        a.getDialogPane().getStylesheets().add("/css/global.css");
         a.setHeaderText(Main.RESOURCE_BUNDLE.getString("alert."+alertType.name().toLowerCase()));
         a.setContentText(message);
-
-
         // 设置按钮文本
         Button okButton = (Button) a.getDialogPane().lookupButton(ButtonType.OK);
         if(okButton!=null){
             okButton.setText(Main.RESOURCE_BUNDLE.getString(Constant.OK));
         }
-
         Button cancelButton = (Button) a.getDialogPane().lookupButton(ButtonType.CANCEL);
         if(cancelButton!=null){
             cancelButton.setText(Main.RESOURCE_BUNDLE.getString(Constant.CANCEL));
@@ -248,31 +239,33 @@ public class GuiUtil {
         return a;
     }
 
-    /**
-     * 创建新的ImageView
-     * @param icon 图标
-     * @param w 宽
-     * @param h 高
-     * @return
-     */
-    public static ImageView creatImageView(Image icon, int w, int h) {
-        ImageView imageView = new ImageView(icon);
-        imageView.setFitWidth(w);
-        imageView.setFitHeight(h);
-        return imageView;
-
-    }
 
 
     /**
      * 所有节点展开
-     * @param item
+     * @param item 节点
      */
     public static void expandAllNodes(TreeItem<?> item) {
-        if (item != null && !item.isLeaf()) {
-            item.setExpanded(true);
-            for (TreeItem<?> child : item.getChildren()) {
-                expandAllNodes(child);
+        expandAllNodes(item,true);
+    }
+
+    /**
+     * 所有节点展开/收起
+     * @param node 节点
+     * @param expanded true是展开false是收起
+     */
+    public static void expandAllNodes(TreeItem<?> node, boolean expanded) {
+        if (node != null) {
+            if(node.isLeaf()){
+                return;
+            }
+            //只操作非根节点
+            if(node.getParent()!=null){
+                node.setExpanded(expanded);
+            }
+            for (TreeItem<?> child : node.getChildren()) {
+                // 递归展开所有子节点
+                expandAllNodes(child,expanded);
             }
         }
     }
