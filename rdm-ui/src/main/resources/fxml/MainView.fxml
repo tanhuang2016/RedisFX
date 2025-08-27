@@ -44,7 +44,7 @@
                     <menus>
                         <Menu mnemonicParsing="false" text="%main.file">
                             <MenuItem fx:id="fileConnect" mnemonicParsing="false" text="%main.file.connect"
-                                      onAction="#openServerLinkWindo"/>
+                                      onAction="#openServerLinkWindow"/>
                             <MenuItem fx:id="fileFastConnect" mnemonicParsing="false" text="%main.file.fast" onAction="#quickConnection"/>
                             <items>
                                 <Menu mnemonicParsing="false" text="%main.file.new">

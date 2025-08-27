@@ -17,6 +17,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.redis.Message;
@@ -49,6 +51,7 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
  * @author th
  */
 public class MainController extends BaseWindowController<ApplicationWindow> {
+    protected static Logger log = LoggerFactory.getLogger(MainController.class);
     @FXML
     public AnchorPane root;
     /**
@@ -145,7 +148,7 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
     }
 
     /**
-     * 重新方法，增加了监听当前场景中哪个节点拥有输入焦点，弃用相关编辑菜单项
+     * 重写方法，增加了监听当前场景中哪个节点拥有输入焦点，弃用相关编辑菜单项
      * @param currentStage 当前场景，主场景
      */
     @Override
@@ -233,7 +236,7 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
                 } else if (change.wasRemoved()) {
                     for (int i = 0; i < items.size()-2; i++) {
                         MenuItem item= items.get(i);
-                        if (item.getUserData() == change.getRemoved().get(0)) {
+                        if (item.getUserData() == change.getRemoved().getFirst()) {
                             items.remove(item);
                             break;
                         }
@@ -267,15 +270,13 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
 
     /**
      * 创建历史菜单项
-     * @param str
-     * @return
+     * @param redisConfig 配置
+     * @return 菜单项
      */
-    private MenuItem createHistoryMenuItem(RedisConfig str) {
-        MenuItem menuItem = new MenuItem(str.getName());
-        menuItem.setUserData(str);
-        menuItem.setOnAction(event -> {
-            newRedisTab((RedisConfig)menuItem.getUserData());
-        });
+    private MenuItem createHistoryMenuItem(RedisConfig redisConfig) {
+        MenuItem menuItem = new MenuItem(redisConfig.getName());
+        menuItem.setUserData(redisConfig);
+        menuItem.setOnAction(event -> newRedisTab((RedisConfig)menuItem.getUserData()));
         return menuItem;
     }
 
@@ -310,22 +311,20 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
 
     }
 
+    /**
+     * 打开服务器连接窗口
+     * @param actionEvent 事件
+     */
     @FXML
-    public void openServerLinkWindo(ActionEvent actionEvent)   {
+    public void openServerLinkWindow(ActionEvent actionEvent)   {
         if(this.serverConnectionsWindowStage!=null){
-            if(this.serverConnectionsWindowStage.isShowing()){
-                //已经设置为WINDOW_MODAL模式,子窗口未关闭是不能操作的,所以子窗口显示在最上方的操作已经没有意义
-//                serverConnectionsWindowStage.setAlwaysOnTop(true);
-//                serverConnectionsWindowStage.setAlwaysOnTop(false);
-
-            }else {
+            if(!this.serverConnectionsWindowStage.isShowing()){
                 serverConnectionsWindowStage.show();
             }
         }else{
             this.serverConnectionsWindowStage=new Stage();
             serverConnectionsWindowStage.initModality(Modality.WINDOW_MODAL);
             this.serverConnectionsWindowStage.setTitle(Main.RESOURCE_BUNDLE.getString(Constant.MAIN_FILE_CONNECT));
-
             Tuple2<AnchorPane,ServerConnectionsController> tuple2 = loadFXML("/fxml/ServerConnectionsView.fxml");
             AnchorPane borderPane =tuple2.t1();
             serverConnectionsController = tuple2.t2();
@@ -335,8 +334,6 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
             this.serverConnectionsWindowStage.show();
             serverConnectionsController.setParentController(this);
             serverConnectionsController.setCurrentStage(serverConnectionsWindowStage);
-
-
         }
 
     }
@@ -365,19 +362,16 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
 
         if(passParameter.getTabType()== PassParameter.REDIS){
             // 监听Tab被关闭事件,但是remove是无法监听的
-            tab.setOnClosed(event2 -> {
-                ThreadPool.getInstance().execute(()->controller.getRedisContext().close());
-            });
+            tab.setOnClosed(event2 -> ThreadPool.getInstance().execute(()->controller.getRedisContext().close()));
         }
-        ContextMenu cm= GuiUtil.newTabContextMenu(tab);
+        GuiUtil.newTabContextMenu(tab);
         //写入最近连接记录
         recentHistory.add(redisContext.getRedisConfig());
     }
 
     /**
      * 新建redis连接tab页
-     * @param redisConfig
-     * @throws IOException
+     * @param redisConfig redis连接配置
      */
     public void newRedisTab(RedisConfig redisConfig)  {
         RedisContext redisContext = RedisFactorySingleton.getInstance().createRedisContext(redisConfig);
@@ -389,19 +383,19 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
         try {
             this.newRedisTab(redisContext,redisConfig.getName());
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("new redis tab exception",e);
             throw new RedisException(e.getMessage());
         }
     }
 
     /**
      * 打开设置窗口
-     * @param actionEvent
+     * @param actionEvent  事件
      */
+    @FXML
     public void openSettings(ActionEvent actionEvent) {
         if(this.settingsStage!=null){
-            if(this.settingsStage.isShowing()){
-            }else {
+            if(!this.settingsStage.isShowing()){
                 settingsStage.show();
             }
         }else{
@@ -409,11 +403,7 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
             settingsStage.initModality(Modality.WINDOW_MODAL);
             settingsStage.getIcons().add(GuiUtil.ICON_REDIS);
             this.settingsStage.setTitle(language("main.file.setting"));
-
-//            Tuple2<AnchorPane,SettingsController> tuple2 = loadFXML("/fxml/AdvancedPage.fxml");
-//            AnchorPane borderPane =tuple2.getT1();
             ApplicationWindow applicationWindow = new ApplicationWindow();
-//            SettingsController controller = tuple2.getT2();
             var antialiasing = Platform.isSupported(ConditionalFeature.SCENE3D)
                     ? SceneAntialiasing.BALANCED
                     : SceneAntialiasing.DISABLED;
@@ -422,25 +412,23 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
             this.settingsStage.initOwner(root.getScene().getWindow());
             this.settingsStage.setScene(scene);
             this.settingsStage.show();
-//            controller.setParentController(this);
-//            controller.setCurrentStage(settingsStage);
-
-
         }
     }
 
     /**
      * 清除所有最近连接记录
-     * @param actionEvent
+     * @param actionEvent  事件
      */
+    @FXML
     public void clearHistory(ActionEvent actionEvent) {
         this.recentHistory.clear();
     }
 
     /**
      * 关闭tabPan当前服务
-     * @param actionEvent
+     * @param actionEvent  事件
      */
+    @FXML
     public void closeCurrentServer(ActionEvent actionEvent) {
         Tab selectedItem = this.serverTabPane.getSelectionModel().getSelectedItem();
         if(selectedItem!=null){
@@ -450,8 +438,9 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
 
     /**
      * 关闭所有服务
-     * @param actionEvent
+     * @param actionEvent  事件
      */
+    @FXML
     public void closeServerAll(ActionEvent actionEvent) {
         ObservableList<Tab> tabs = this.serverTabPane.getTabs();
         GuiUtil.closeTab(this.serverTabPane,new ArrayList<>(tabs));
@@ -459,50 +448,76 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
 
     /**
      * 快速新建连接
-     * @param actionEvent
+     * @param actionEvent  事件
      */
+    @FXML
     public void newConnection(ActionEvent actionEvent) throws IOException {
-        openServerLinkWindo(actionEvent);
+        openServerLinkWindow(actionEvent);
         serverConnectionsController.newConnection(actionEvent);
     }
 
     /**
      * 快速新建分组
-     * @param actionEvent
-     * @throws IOException
+     * @param actionEvent  事件
+     * @throws IOException 抛出
      */
     @FXML
     public void newGroup(ActionEvent actionEvent) throws IOException {
-        openServerLinkWindo(actionEvent);
+        openServerLinkWindow(actionEvent);
         serverConnectionsController.newGroup(actionEvent);
     }
 
     /**
      * 快速连接
-     * @param actionEvent
+     * @param actionEvent  事件
      */
     public void quickConnection(ActionEvent actionEvent) throws IOException {
-        openServerLinkWindo(actionEvent);
+        openServerLinkWindow(actionEvent);
         serverConnectionsController.quickConnection();
     }
 
+    /**
+     * 退出
+     * @param actionEvent  事件
+     */
+    @FXML
     public void exit(ActionEvent actionEvent) {
         System.exit(0);
     }
 
+    /**
+     * 最大化
+     * @param actionEvent  事件
+     */
+    @FXML
     public void maximized(ActionEvent actionEvent) {
         currentStage.setMaximized(true);
     }
 
+    /**
+     * 最小化
+     * @param actionEvent  事件
+     */
+    @FXML
     public void minimized(ActionEvent actionEvent) {
         currentStage.setIconified(true);
 
     }
 
+    /**
+     * 全屏
+     * @param actionEvent  事件
+     */
+    @FXML
     public void fullScreen(ActionEvent actionEvent) {
         currentStage.setFullScreen(true);
     }
 
+    /**
+     * 重置窗口大小
+     * @param actionEvent  事件
+     */
+    @FXML
     public void resetWindow(ActionEvent actionEvent) {
         double contentWidth = root.getPrefWidth();
         double contentHeight = root.getPrefHeight();
@@ -517,26 +532,56 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
 
     }
 
+    /**
+     * 服务器tab页顶部
+     * @param actionEvent  事件
+     */
+    @FXML
     public void serverTabTop(ActionEvent actionEvent) {
         GuiUtil.setTabPaneSide(serverTabPane,Side.TOP);
     }
 
+    /**
+     * 服务器tab页底部
+     * @param actionEvent  事件
+     */
+    @FXML
     public void serverTabBottom(ActionEvent actionEvent) {
         GuiUtil.setTabPaneSide(serverTabPane,Side.BOTTOM);
     }
 
+    /**
+     * 服务器tab页左侧
+     * @param actionEvent  事件
+     */
+    @FXML
     public void serverTabLeft(ActionEvent actionEvent) {
         GuiUtil.setTabPaneSide(serverTabPane,Side.LEFT);
     }
 
+    /**
+     * 服务器tab页右侧
+     * @param actionEvent  事件
+     */
+    @FXML
     public void serverTabRight(ActionEvent actionEvent) {
         GuiUtil.setTabPaneSide(serverTabPane,Side.RIGHT);
     }
 
+    /**
+     * keytab页顶部
+     * @param actionEvent  事件
+     */
+    @FXML
     public void keyTabTop(ActionEvent actionEvent) {
         setKeyTabSide(serverTabPane,Side.TOP);
     }
 
+    /**
+     * 设置key tab页放置位置
+     * @param serverTabPane  容器
+     * @param side  side
+     */
     private void setKeyTabSide(TabPane serverTabPane, Side side) {
         for (Tab tab : this.serverTabPane.getTabs()) {
             Object userData = tab.getUserData();
@@ -546,14 +591,29 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
         }
     }
 
+    /**
+     * keytab页底部
+     * @param actionEvent  事件
+     */
+    @FXML
     public void keyTabBottom(ActionEvent actionEvent) {
         setKeyTabSide(serverTabPane,Side.BOTTOM);
     }
 
+    /**
+     * keytab页左侧
+     * @param actionEvent  事件
+     */
+    @FXML
     public void keyTabLeft(ActionEvent actionEvent) {
         setKeyTabSide(serverTabPane,Side.LEFT);
     }
 
+    /**
+     * keytab页右侧
+     * @param actionEvent  事件
+     */
+    @FXML
     public void keyTabRight(ActionEvent actionEvent) {
         setKeyTabSide(serverTabPane,Side.RIGHT);
     }
