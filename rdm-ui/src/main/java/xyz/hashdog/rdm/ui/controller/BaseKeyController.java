@@ -47,7 +47,7 @@ public abstract class BaseKeyController<T> extends BaseController<T>{
      *
      * @param execCommand 需要执行的具体逻辑
      * @param <R>         执行jedis命令之后的返回值
-     * @return
+     * @return 执行结果
      */
     public  <R> R exeRedis( Function<RedisClient, R> execCommand) {
         if(redisClient.getDb()!=this.currentDb){
@@ -74,9 +74,10 @@ public abstract class BaseKeyController<T> extends BaseController<T>{
         paramInitEnd();
     }
 
-    protected void paramInitEnd() {
-
+     void paramInitEnd() {
     }
+
+
 
     public RedisClient getRedisClient() {
         return redisClient;

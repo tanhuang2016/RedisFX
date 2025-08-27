@@ -62,13 +62,16 @@ public class ConsoleController extends BaseKeyController<ServerTabController> im
 //            textArea.positionCaret(textArea.getText().length());
 //            textArea.setScrollTop(-1d);
         });
-        super.parameter.addListener((observable, oldValue, newValue) -> {
-            label.setText(redisContext.getRedisConfig().getName()+":"+this.currentDb+">");
-            textArea.appendText( "\n"+redisContext.getRedisConfig().getName()+" "+language(ALERT_MESSAGE_CONNECT_SUCCESS) );
-            if(currentDb!=0){
-                ThreadPool.getInstance().execute(()->this.redisClient.select(currentDb));
-            }
-        });
+    }
+
+    @Override
+    void paramInitEnd() {
+        label.setText(redisContext.getRedisConfig().getName()+":"+this.currentDb+">");
+        textArea.appendText( "\n"+redisContext.getRedisConfig().getName()+" "+language(ALERT_MESSAGE_CONNECT_SUCCESS) );
+        if(currentDb!=0){
+            ThreadPool.getInstance().execute(()->this.redisClient.select(currentDb));
+        }
+
     }
 }
 

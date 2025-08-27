@@ -49,23 +49,24 @@ public class MonitorController extends BaseKeyController<ServerTabController> im
         DefaultEventBus.getInstance().subscribe(ThemeEvent.class, e -> {
             applyTheme();
         });
-        super.parameter.addListener((observable, oldValue, newValue) -> {
-            monitorThread = new Thread(() -> {
-                this.redisClient.monitor(redisMonitor=new RedisMonitor() {
-                    @Override
-                    public void onCommand(String msg) {
-                        addLogLine(parseLogToList(msg));
-                    }
-                });
-            });
-            monitorThread.setDaemon(true);
-            monitorThread.start();
-
-        });
 
 
 //        this.addLogLine(parseLogToList("10:58:13.606 [0 172.18.0.1:36200] \"TYPE\" \"foo\""));
 //        this.addLogLine(parseLogToList("11:23:45.123 [1 192.168.1.100:8080] \"GET\" \"key1\""));
+    }
+
+    @Override
+    void paramInitEnd() {
+        monitorThread = new Thread(() -> {
+            this.redisClient.monitor(redisMonitor=new RedisMonitor() {
+                @Override
+                public void onCommand(String msg) {
+                    addLogLine(parseLogToList(msg));
+                }
+            });
+        });
+        monitorThread.setDaemon(true);
+        monitorThread.start();
     }
 
     /**

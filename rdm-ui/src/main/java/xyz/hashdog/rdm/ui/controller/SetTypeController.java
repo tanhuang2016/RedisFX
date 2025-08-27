@@ -118,7 +118,6 @@ public class SetTypeController extends BaseKeyContentController implements Initi
      * 初始化监听
      */
     private void initListener() {
-        userDataPropertyListener();
         tableViewListener();
         listListener();
         paginationListener();
@@ -200,20 +199,13 @@ public class SetTypeController extends BaseKeyContentController implements Initi
         });
     }
 
-    /**
-     * 父层传送的数据监听
-     * 监听到key的传递
-     */
-    private void userDataPropertyListener() {
-        super.parameter.addListener((observable, oldValue, newValue) -> {
-            initInfo();
-        });
-    }
+
+
 
     /**
      * 初始化数据展示
      */
-    private void initInfo() {
+    protected void initInfo() {
         ThreadPool.getInstance().execute(() -> {
             List<byte[]> bytes = this.exeRedis(j -> j.sscanAll(this.parameter.get().getKey().getBytes()));
             List<SetTypeTable> newList = new ArrayList<>();

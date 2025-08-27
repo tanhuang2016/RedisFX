@@ -38,7 +38,6 @@ public class StringTypeController extends BaseKeyContentController implements In
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initListener();
         initButton();
     }
 
@@ -46,24 +45,12 @@ public class StringTypeController extends BaseKeyContentController implements In
         save.getStyleClass().add(Styles.ACCENT);
     }
 
-    /**
-     * 初始化监听
-     */
-    private void initListener() {
-        userDataPropertyListener();
-    }
 
-    /**
-     * 父层传送的数据监听
-     * 监听到key的传递
-     */
-    private void userDataPropertyListener() {
-        super.parameter.addListener((observable, oldValue, newValue) -> {
-            initInfo();
-        });
-    }
 
-    private void initInfo() {
+
+
+
+    protected void initInfo() {
         ThreadPool.getInstance().execute(() -> {
                     byte[] bytes = this.exeRedis(j -> j.get(this.getParameter().getKey().getBytes(StandardCharsets.UTF_8)));
                     this.currentValue = bytes;

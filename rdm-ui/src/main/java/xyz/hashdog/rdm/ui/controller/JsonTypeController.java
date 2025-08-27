@@ -50,20 +50,14 @@ public class JsonTypeController extends BaseKeyContentController implements Init
      * 初始化监听
      */
     private void initListener() {
-        userDataPropertyListener();
     }
 
-    /**
-     * 父层传送的数据监听
-     * 监听到key的传递
-     */
-    private void userDataPropertyListener() {
-        super.parameter.addListener((observable, oldValue, newValue) -> {
-            initInfo();
-        });
-    }
 
-    private void initInfo() {
+
+
+
+    @Override
+    protected void initInfo() {
         ThreadPool.getInstance().execute(() -> {
                     String bytes = this.exeRedis(j -> j.jsonGet(this.getParameter().getKey()));
                     this.currentValue = bytes.getBytes();

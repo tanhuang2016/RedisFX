@@ -116,7 +116,6 @@ public class HashTypeController extends BaseKeyContentController implements Init
      * 初始化监听
      */
     private void initListener() {
-        userDataPropertyListener();
         tableViewListener();
         listListener();
         paginationListener();
@@ -167,15 +166,9 @@ public class HashTypeController extends BaseKeyContentController implements Init
         });
     }
 
-    /**
-     * 父层传送的数据监听
-     * 监听到key的传递
-     */
-    private void userDataPropertyListener() {
-        super.parameter.addListener((observable, oldValue, newValue) -> {
-            initInfo();
-        });
-    }
+
+
+
 
     private void bindData() {
         total.textProperty().bind(Bindings.createStringBinding(() -> String.format(TOTAL, this.list.size()), this.list));
@@ -217,7 +210,8 @@ public class HashTypeController extends BaseKeyContentController implements Init
     /**
      * 初始化数据展示
      */
-    private void initInfo() {
+    @Override
+    protected void initInfo() {
         ThreadPool.getInstance().execute(() -> {
             Map<byte[], byte[]> map = this.exeRedis(j -> j.hscanAll(this.parameter.get().getKey().getBytes()));
             List<HashTypeTable> newList = new ArrayList<>();

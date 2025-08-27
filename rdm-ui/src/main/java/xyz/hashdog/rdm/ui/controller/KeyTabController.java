@@ -139,20 +139,16 @@ public class KeyTabController extends BaseKeyController<ServerTabController> imp
      * 初始化监听
      */
     private void initListener() {
-        userDataPropertyListener();
         filterIntegerInputListener(true,this.ttl);
     }
 
 
 
-    /**
-     * 父层传送的数据监听
-     * 监听到key的传递
-     */
-    private void userDataPropertyListener() {
-        super.parameter.addListener((observable, oldValue, newValue) -> {
-            initInfo();
-        });
+
+
+    @Override
+    void paramInitEnd() {
+        initInfo();
     }
 
     /**

@@ -213,7 +213,7 @@ public class ReportController extends BaseKeyController<ServerTabController> imp
     }
 
     @Override
-    protected void paramInitEnd() {
+    void paramInitEnd() {
         if(currentDb!=0){
             ThreadPool.getInstance().execute(()->this.redisClient.select(currentDb));
         }
