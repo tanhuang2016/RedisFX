@@ -82,6 +82,15 @@ public class SvgManager {
         List<SvgManager> list = MAP.computeIfAbsent(controller, k -> new ArrayList<>());
         list.add(svgManager);
     }
+
+    /**
+     * 删除图标
+     * @param controller 控制器
+     */
+    public static  void clear(BaseController<?> controller) {
+        MAP.remove(controller);
+    }
+
     /**
      * 设置图标
      */

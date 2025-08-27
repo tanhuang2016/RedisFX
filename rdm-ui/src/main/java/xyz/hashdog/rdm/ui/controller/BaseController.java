@@ -6,6 +6,7 @@ import javafx.scene.input.KeyEvent;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
+import xyz.hashdog.rdm.ui.util.SvgManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +68,7 @@ public abstract class BaseController<T> implements AutoCloseable{
     @Override
     public void close()  {
         this.children.forEach(BaseController::close);
+        SvgManager.clear(this);
     }
 
     protected void addChild(BaseController<?> t) {
