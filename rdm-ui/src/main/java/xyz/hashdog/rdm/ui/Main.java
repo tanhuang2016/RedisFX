@@ -1,6 +1,5 @@
 package xyz.hashdog.rdm.ui;
 
-import atlantafx.base.theme.Dracula;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +16,6 @@ import xyz.hashdog.rdm.redis.exceptions.RedisException;
 import xyz.hashdog.rdm.ui.common.Applications;
 import xyz.hashdog.rdm.ui.common.ConfigSettingsEnum;
 import xyz.hashdog.rdm.ui.controller.MainController;
-import xyz.hashdog.rdm.ui.entity.config.ConfigSettings;
 import xyz.hashdog.rdm.ui.entity.config.LanguageSetting;
 import xyz.hashdog.rdm.ui.entity.config.ThemeSetting;
 import xyz.hashdog.rdm.ui.exceptions.GeneralException;
@@ -26,11 +24,9 @@ import xyz.hashdog.rdm.ui.sampler.theme.SamplerTheme;
 import xyz.hashdog.rdm.ui.sampler.theme.ThemeManager;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.LanguageManager;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
-
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
