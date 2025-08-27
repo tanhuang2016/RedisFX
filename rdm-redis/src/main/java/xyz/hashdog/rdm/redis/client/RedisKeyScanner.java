@@ -1,6 +1,5 @@
 package xyz.hashdog.rdm.redis.client;
 
-import xyz.hashdog.rdm.common.tuple.Tuple2;
 
 import java.util.List;
 
