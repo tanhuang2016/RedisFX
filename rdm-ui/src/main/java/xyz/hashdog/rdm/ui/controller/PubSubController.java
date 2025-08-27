@@ -12,7 +12,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
 import xyz.hashdog.rdm.redis.client.RedisPubSub;
-import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
+import xyz.hashdog.rdm.ui.controller.base.BaseClientController;
 import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
 import xyz.hashdog.rdm.ui.sampler.event.ThemeEvent;
 import xyz.hashdog.rdm.ui.sampler.theme.SamplerTheme;
@@ -26,7 +26,7 @@ import java.util.ResourceBundle;
 
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
-public class PubSubController extends BaseKeyController<ServerTabController> implements Initializable {
+public class PubSubController extends BaseClientController<ServerTabController> implements Initializable {
 
 
     public WebView webView;

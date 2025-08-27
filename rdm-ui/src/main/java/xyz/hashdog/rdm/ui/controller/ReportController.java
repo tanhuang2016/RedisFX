@@ -33,7 +33,7 @@ import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.redis.client.RedisKeyScanner;
 import xyz.hashdog.rdm.ui.common.Constant;
 import xyz.hashdog.rdm.ui.common.RedisDataTypeEnum;
-import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
+import xyz.hashdog.rdm.ui.controller.base.BaseClientController;
 import xyz.hashdog.rdm.ui.controller.popover.RefreshPopover;
 import xyz.hashdog.rdm.ui.entity.InfoTable;
 import xyz.hashdog.rdm.ui.entity.TopKeyTable;
@@ -55,7 +55,7 @@ import java.util.stream.Collectors;
 
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
-public class ReportController extends BaseKeyController<ServerTabController> implements RefreshPopover.IRefreshPopover,Initializable {
+public class ReportController extends BaseClientController<ServerTabController> implements RefreshPopover.IRefreshPopover,Initializable {
     public PieChart memory;
     public PieChart keys;
     public HBox pies;

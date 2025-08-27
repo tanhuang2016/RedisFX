@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import xyz.hashdog.rdm.redis.Message;
 import xyz.hashdog.rdm.ui.common.RedisDataTypeEnum;
-import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
+import xyz.hashdog.rdm.ui.controller.base.BaseClientController;
 import xyz.hashdog.rdm.ui.handler.NewKeyHandler;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
  * @version 1.0.0
  * @since 2023/8/11 22:56
  */
-public class NewKeyController extends BaseKeyController<ServerTabController> implements Initializable {
+public class NewKeyController extends BaseClientController<ServerTabController> implements Initializable {
 
     /**
      * 当前Stage

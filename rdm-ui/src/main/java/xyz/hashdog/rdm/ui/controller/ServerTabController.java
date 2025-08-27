@@ -36,7 +36,7 @@ import xyz.hashdog.rdm.common.util.TUtil;
 import xyz.hashdog.rdm.redis.client.RedisKeyScanner;
 import xyz.hashdog.rdm.ui.Main;
 import xyz.hashdog.rdm.ui.common.*;
-import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
+import xyz.hashdog.rdm.ui.controller.base.BaseClientController;
 import xyz.hashdog.rdm.ui.entity.DBNode;
 import xyz.hashdog.rdm.ui.entity.KeyTreeNode;
 import xyz.hashdog.rdm.ui.entity.PassParameter;
@@ -56,7 +56,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
-public class ServerTabController extends BaseKeyController<MainController> {
+public class ServerTabController extends BaseClientController<MainController> {
 
 
     private static final Logger log = LoggerFactory.getLogger(ServerTabController.class);
@@ -930,9 +930,9 @@ public class ServerTabController extends BaseKeyController<MainController> {
         }
         String key = this.lastSelectedNode.getValue().getKey();
         String type = RedisDataTypeEnum.getByType(exeRedis(j -> j.type(key))).type;
-        Tuple2<AnchorPane,BaseKeyController> tuple2 = loadFxml("/fxml/KeyTabView.fxml");
+        Tuple2<AnchorPane, BaseClientController> tuple2 = loadFxml("/fxml/KeyTabView.fxml");
         AnchorPane borderPane = tuple2.t1();
-        BaseKeyController controller = tuple2.t2();
+        BaseClientController controller = tuple2.t2();
         controller.setParentController(this);
         PassParameter passParameter = new PassParameter(PassParameter.NONE);
         passParameter.setDb(this.currentDb);
@@ -1180,7 +1180,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
     public void console(ActionEvent actionEvent) throws IOException {
         Tuple2<AnchorPane,ConsoleController> tuple2 = loadFxml("/fxml/ConsoleView.fxml");
         AnchorPane anchorPane = tuple2.t1();
-        BaseKeyController controller = tuple2.t2();
+        BaseClientController controller = tuple2.t2();
         controller.setParentController(this);
         PassParameter passParameter = new PassParameter(PassParameter.CONSOLE);
         passParameter.setDb(this.currentDb);
@@ -1204,7 +1204,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
     public void monitor(ActionEvent actionEvent) throws IOException {
         Tuple2<AnchorPane,ConsoleController> tuple2 = loadFxml("/fxml/MonitorView.fxml");
         AnchorPane anchorPane = tuple2.t1();
-        BaseKeyController controller = tuple2.t2();
+        BaseClientController controller = tuple2.t2();
         controller.setParentController(this);
         PassParameter passParameter = new PassParameter(PassParameter.MONITOR);
         passParameter.setDb(this.currentDb);
@@ -1232,7 +1232,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
     public void report(ActionEvent actionEvent) throws IOException {
         Tuple2<ScrollPane,ConsoleController> tuple2 = loadFxml("/fxml/ReportView.fxml");
         Region anchorPane = tuple2.t1();
-        BaseKeyController controller = tuple2.t2();
+        BaseClientController controller = tuple2.t2();
         controller.setParentController(this);
         PassParameter passParameter = new PassParameter(PassParameter.MONITOR);
         passParameter.setDb(this.currentDb);
@@ -1260,7 +1260,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
     public void pubsub(ActionEvent actionEvent) throws IOException {
         Tuple2<AnchorPane,ConsoleController> tuple2 = loadFxml("/fxml/PubSubView.fxml");
         AnchorPane anchorPane = tuple2.t1();
-        BaseKeyController controller = tuple2.t2();
+        BaseClientController controller = tuple2.t2();
         controller.setParentController(this);
         PassParameter passParameter = new PassParameter(PassParameter.PUBSUB);
         passParameter.setDb(this.currentDb);
@@ -1346,7 +1346,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
     public void removeTabByKeys(List<String> delKeys) {
         List<Tab> delTabs = new ArrayList<>();
         for (Tab tab : dbTabPane.getTabs()) {
-            BaseKeyController controller =(BaseKeyController) tab.getContent().getUserData();
+            BaseClientController controller =(BaseClientController) tab.getContent().getUserData();
             String key = controller.getParameter().getKey();
             if(delKeys.contains(key)){
                 delTabs.add(tab);

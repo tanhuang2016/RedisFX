@@ -25,7 +25,7 @@ import xyz.hashdog.rdm.ui.Main;
 import xyz.hashdog.rdm.ui.common.Constant;
 import xyz.hashdog.rdm.ui.common.RedisDataTypeEnum;
 import xyz.hashdog.rdm.ui.controller.base.BaseKeyContentController;
-import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
+import xyz.hashdog.rdm.ui.controller.base.BaseClientController;
 import xyz.hashdog.rdm.ui.controller.popover.RefreshPopover;
 import xyz.hashdog.rdm.ui.entity.PassParameter;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
@@ -39,7 +39,7 @@ import java.util.concurrent.Future;
 import static xyz.hashdog.rdm.ui.common.Constant.*;
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
-public class KeyTabController extends BaseKeyController<ServerTabController> implements RefreshPopover.IRefreshPopover,Initializable {
+public class KeyTabController extends BaseClientController<ServerTabController> implements RefreshPopover.IRefreshPopover,Initializable {
 
 
     @FXML

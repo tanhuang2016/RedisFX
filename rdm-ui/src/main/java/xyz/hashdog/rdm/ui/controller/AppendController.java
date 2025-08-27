@@ -6,7 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
+import xyz.hashdog.rdm.ui.controller.base.BaseClientController;
 import xyz.hashdog.rdm.ui.controller.base.BaseWindowController;
 
 import java.net.URL;
@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
  * @version 1.0.0
  * @since 2023/8/12 22:10
  */
-public class AppendController extends BaseWindowController<BaseKeyController> implements Initializable {
+public class AppendController extends BaseWindowController<BaseClientController> implements Initializable {
     @FXML
     public BorderPane borderPane;
     @FXML

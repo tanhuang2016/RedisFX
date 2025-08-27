@@ -40,7 +40,7 @@ import xyz.hashdog.rdm.common.util.TUtil;
 import xyz.hashdog.rdm.ui.Main;
 import xyz.hashdog.rdm.ui.common.*;
 import xyz.hashdog.rdm.ui.controller.base.BaseController;
-import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
+import xyz.hashdog.rdm.ui.controller.base.BaseClientController;
 import xyz.hashdog.rdm.ui.controller.ByteArrayController;
 import xyz.hashdog.rdm.ui.entity.ITable;
 import xyz.hashdog.rdm.ui.entity.PassParameter;
@@ -390,7 +390,7 @@ public class GuiUtil {
      * @param selectedTab 当前选中的tab页
      */
     public static void closeTab(TabPane tabPane,Tab selectedTab) {
-        BaseKeyController<?> userData = (BaseKeyController<?>)selectedTab.getContent().getUserData();
+        BaseClientController<?> userData = (BaseClientController<?>)selectedTab.getContent().getUserData();
         //CONSOLE类型需要关闭redis连接
         if(userData.getParameter().getTabType()== PassParameter.CONSOLE){
             ThreadPool.getInstance().execute(()->userData.getRedisClient().close());

@@ -8,7 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
-import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
+import xyz.hashdog.rdm.ui.controller.base.BaseClientController;
 
 import java.net.URL;
 import java.util.List;
@@ -20,7 +20,7 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 /**
  * @author th
  */
-public class ConsoleController extends BaseKeyController<ServerTabController> implements Initializable {
+public class ConsoleController extends BaseClientController<ServerTabController> implements Initializable {
 
     @FXML
     public TextArea textArea;
