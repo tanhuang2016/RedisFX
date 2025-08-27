@@ -273,9 +273,9 @@ public class GuiUtil {
 
 
     /**
-     * 创建新的邮件菜单,切添加菜单事件
-     * @param tab
-     * @return
+     * 创建新的右键菜单,切添加菜单事件
+     * @param tab tab页
+     * @return 上下文菜单
      */
     public static ContextMenu newTabContextMenu(Tab tab) {
         MenuItem close = new MenuItem(Main.RESOURCE_BUNDLE.getString(Constant.CLOSE)+"(_C)");
