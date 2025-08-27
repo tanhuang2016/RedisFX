@@ -1195,7 +1195,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         }
         ContextMenu cm=GuiUtil.newTabContextMenu(tab);
         tab.setContent(anchorPane);
-        tab.setGraphic(GuiUtil.creatConsoleImageView());
+        tab.setGraphic(GuiUtil.creatConsoleIcon());
         this.dbTabPane.getTabs().add(tab);
         this.dbTabPane.getSelectionModel().select(tab);
     }
@@ -1222,7 +1222,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         }
         ContextMenu cm=GuiUtil.newTabContextMenu(tab);
         tab.setContent(anchorPane);
-        tab.setGraphic(GuiUtil.creatMonitorImageView());
+        tab.setGraphic(GuiUtil.creatMonitorIcon());
         this.dbTabPane.getTabs().add(tab);
         this.dbTabPane.getSelectionModel().select(tab);
     }
@@ -1250,7 +1250,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         }
         ContextMenu cm=GuiUtil.newTabContextMenu(tab);
         tab.setContent(anchorPane);
-        tab.setGraphic(GuiUtil.creatInfoImageView());
+        tab.setGraphic(GuiUtil.creatInfoIcon());
         this.dbTabPane.getTabs().add(tab);
         this.dbTabPane.getSelectionModel().select(tab);
     }
@@ -1278,7 +1278,7 @@ public class ServerTabController extends BaseKeyController<MainController> {
         }
         ContextMenu cm=GuiUtil.newTabContextMenu(tab);
         tab.setContent(anchorPane);
-        tab.setGraphic(GuiUtil.creatPubSubImageView());
+        tab.setGraphic(GuiUtil.creatPubSubIcon());
         this.dbTabPane.getTabs().add(tab);
         this.dbTabPane.getSelectionModel().select(tab);
     }

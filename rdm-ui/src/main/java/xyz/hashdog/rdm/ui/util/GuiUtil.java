@@ -104,44 +104,38 @@ public class GuiUtil {
     }
     /**
      * 创建新的控制台图标
-     * @return
+     * @return 控制台图标
      */
-    public static FontIcon creatConsoleImageView() {
+    public static FontIcon creatConsoleIcon() {
         return  new FontIcon(Feather.TERMINAL);
-//        return  new FontIcon(Feather.MONITOR);
     }
-//    public static ImageView creatConsoleImageView() {
-//        return GuiUtil.creatImageView(ICON_CONSOLE,16,16);
-//    }
 
-    public static FontIcon creatMonitorImageView() {
+    /**
+     * 创建新的监控图标
+     * @return 监控图标
+     */
+    public static FontIcon creatMonitorIcon() {
         return  new FontIcon(Feather.MONITOR);
     }
-    public static FontIcon creatInfoImageView() {
+    /**
+     * 创建新的信息图标
+     * @return 信息图标
+     */
+    public static FontIcon creatInfoIcon() {
         return  new FontIcon(Feather.INFO);
     }
-    public static FontIcon creatPubSubImageView() {
+    /**
+     * 创建新的发布订阅图标
+     * @return 发布订阅图标
+     */
+    public static FontIcon creatPubSubIcon() {
         return  new FontIcon(Feather.RSS);
     }
 
-    /**
-     *  创建String绑定对象
-     *  重新toString,是为了展示在ui上
-     * @param key
-     * @return
-     */
-    public static StringProperty creatStringProperty(String key) {
-        return new SimpleStringProperty(key){
-            @Override
-            public String toString() {
-                return get();
-            }
-        };
-    }
 
     /**
      * 只允许输入整数,可以负数
-     * @param textFields
+     * @param textFields 输入框
      */
     public static void filterIntegerInput(TextField... textFields) {
         filterIntegerInput(true,textFields);
@@ -149,7 +143,7 @@ public class GuiUtil {
     /**
      * flg为true允许输入整数,可以负数
      * flg为false只能正整数
-     * @param textFields
+     * @param textFields 输入框
      */
     public static void filterIntegerInput(boolean flg,TextField... textFields) {
         for (TextField textField : textFields) {
