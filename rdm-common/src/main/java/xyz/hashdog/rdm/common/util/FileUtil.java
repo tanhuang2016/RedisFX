@@ -68,7 +68,7 @@ public class FileUtil {
             return;
         }
         File file = new File(fileFullPath);
-        boolean mkdirs = file.mkdirs();
+        boolean mkdirs = file.getParentFile().mkdirs();
         try(FileOutputStream fileOutputStream = new FileOutputStream(file);) {
             fileOutputStream.write(bytes);
         } catch (Exception e) {

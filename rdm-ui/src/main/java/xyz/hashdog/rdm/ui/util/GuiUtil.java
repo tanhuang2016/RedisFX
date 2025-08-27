@@ -31,6 +31,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Duration;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
@@ -552,7 +554,8 @@ public class GuiUtil {
      * @param <T2> 控制器
      * @return 新的容器和控制器
      */
-    public static  <T1,T2>Tuple2<T1,T2> doLoadFXML(String fxml) {
+    @Contract("_ -> new")
+    public static  <T1,T2> @NotNull Tuple2<T1,T2> doLoadFXML(String fxml) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxml), Main.RESOURCE_BUNDLE);
             T1 t1 = fxmlLoader.load();
@@ -811,9 +814,9 @@ public class GuiUtil {
      * 创建文件选择器
      * @param last 最后一个文件
      * @param title 标题
-     * @param description
-     * @param extensions
-     * @return
+     * @param description 描述
+     * @param extensions 扩展名
+     * @return 文件选择器
      */
     private static FileChooser createFileChooser(File last, String title, String description, String... extensions) {
         FileChooser fileChooser = new FileChooser();
@@ -827,15 +830,45 @@ public class GuiUtil {
     }
 
     /**
-     * 文件选择
+     * 文件保存
      *
-     * @param ownerWindow
-     * @param last
-     * @return
+     * @param ownerWindow 父窗口
+     * @param last 最后选择一个文件，用于位置参考
+     * @param defaultFileName 默认文件名
+     * @return 选择的文件
      */
-    public static File savaFileChoose(Window ownerWindow, File last) {
-        FileChooser fileChooser =createFileChooser(last,language("file.save"),"file(*)","*.*");
-        File chooseFile =  fileChooser.showSaveDialog(ownerWindow);
-        return chooseFile;
+    public static File saveFileChoose(Window ownerWindow, File last, String defaultFileName) {
+        FileChooser fileChooser = createSaveFileChooser(last, language("file.save"), defaultFileName, "*.*");
+        return fileChooser.showSaveDialog(ownerWindow);
     }
+
+    /**
+     * 创建文件保存选择器
+     *
+     * @param last            最后一个文件
+     * @param title           标题
+     * @param defaultFileName 默认文件名
+     * @param extensions      扩展名
+     * @return 文件选择器
+     */
+    private static FileChooser createSaveFileChooser(File last, String title, String defaultFileName, String... extensions) {
+        FileChooser fileChooser = new FileChooser();
+        // 设置初始目录
+        if (last != null && last.exists()) {
+            if (last.isDirectory()) {
+                fileChooser.setInitialDirectory(last);
+            } else {
+                // 如果是文件，则使用其父目录作为初始目录
+                fileChooser.setInitialDirectory(last.getParentFile());
+            }
+        }
+        // 设置默认文件名
+        fileChooser.setInitialFileName(defaultFileName);
+        // 设置文件过滤器
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("file(*)", extensions);
+        fileChooser.setTitle(title);
+        fileChooser.getExtensionFilters().add(extFilter);
+        return fileChooser;
+    }
+
 }

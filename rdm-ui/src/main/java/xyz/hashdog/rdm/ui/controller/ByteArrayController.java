@@ -268,7 +268,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
      * @param actionEvent
      */
     public void export(ActionEvent actionEvent) {
-        File file = GuiUtil.savaFileChoose(this.root.getScene().getWindow(), lastFile);
+        File file = GuiUtil.saveFileChoose(this.root.getScene().getWindow(), lastFile, this.name.getText());
         FileUtil.byteWrite2file(this.currentValue,file.getAbsolutePath());
     }
 }
