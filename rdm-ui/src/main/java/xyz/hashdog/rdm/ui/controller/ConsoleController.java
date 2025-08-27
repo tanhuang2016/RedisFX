@@ -16,6 +16,9 @@ import java.util.ResourceBundle;
 import static xyz.hashdog.rdm.ui.common.Constant.ALERT_MESSAGE_CONNECT_SUCCESS;
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
+/**
+ * @author th
+ */
 public class ConsoleController extends BaseKeyController<ServerTabController> implements Initializable {
 
     @FXML
@@ -40,12 +43,12 @@ public class ConsoleController extends BaseKeyController<ServerTabController> im
             ThreadPool.getInstance().execute(()->{
                 List<String> strings = redisClient.getRedisConsole().sendCommand(inputText);
                 Platform.runLater(()->{
-                    if(inputText.trim().startsWith("select")&&!strings.isEmpty()&& "ok".equalsIgnoreCase(strings.get(0))){
+                    if(inputText.trim().startsWith("select")&&!strings.isEmpty()&& "ok".equalsIgnoreCase(strings.getFirst())){
                         this.currentDb=Integer.parseInt(inputText.replace("select","").trim());
                         label.setText(redisContext.getRedisConfig().getName()+":"+this.currentDb+">");
                     }
                     for (String string : strings) {
-                        textArea.appendText( "\n"+""+string );
+                        textArea.appendText( "\n"+string );
                     }
                 });
             });
@@ -55,13 +58,6 @@ public class ConsoleController extends BaseKeyController<ServerTabController> im
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         textArea.setPrefRowCount(10);
-
-        // 监听TextArea的textProperty，每当有新内容添加时滚动到底部
-        textArea.textProperty().addListener((observable, oldValue, newValue) -> {
-            // 将光标定位到文本末尾，这会自动将滚动条滚动到最下面
-//            textArea.positionCaret(textArea.getText().length());
-//            textArea.setScrollTop(-1d);
-        });
     }
 
     @Override
