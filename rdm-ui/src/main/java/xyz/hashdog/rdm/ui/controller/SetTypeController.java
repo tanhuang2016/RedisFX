@@ -1,42 +1,27 @@
 package xyz.hashdog.rdm.ui.controller;
 
-import atlantafx.base.controls.CustomTextField;
 import atlantafx.base.theme.Styles;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Cursor;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import org.kordamp.ikonli.feather.Feather;
-import org.kordamp.ikonli.javafx.FontIcon;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
-import xyz.hashdog.rdm.common.util.DataUtil;
-import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
 import xyz.hashdog.rdm.ui.controller.base.BaseKeyPageController;
-import xyz.hashdog.rdm.ui.entity.HashTypeTable;
-import xyz.hashdog.rdm.ui.entity.ListTypeTable;
 import xyz.hashdog.rdm.ui.entity.SetTypeTable;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
-
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static xyz.hashdog.rdm.ui.common.Constant.ALERT_MESSAGE_SAVE_SUCCESS;
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
@@ -49,8 +34,6 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 public class SetTypeController extends BaseKeyPageController<SetTypeTable> implements Initializable {
     @FXML
     public BorderPane borderPane;
-    @FXML
-    public Button save;
     @FXML
     public Button add;
     @FXML
@@ -103,8 +86,8 @@ public class SetTypeController extends BaseKeyPageController<SetTypeTable> imple
         this.list.addListener((ListChangeListener<SetTypeTable>) change -> {
             while (change.next()) {
                 //删除到最后一个元素时,key也被删了,需要关闭tab
-                if (change.wasRemoved() && this.list.size()==0) {
-                    super.parentController.parentController.removeTabByKeys(Arrays.asList(parameter.get().getKey()));
+                if (change.wasRemoved() && this.list.isEmpty()) {
+                    super.parentController.parentController.removeTabByKeys(Collections.singletonList(parameter.get().getKey()));
                     super.parentController.parentController.delKey(parameter);
                 }
             }
@@ -143,12 +126,13 @@ public class SetTypeController extends BaseKeyPageController<SetTypeTable> imple
     /**
      * 初始化数据展示
      */
+    @Override
     protected void initInfo() {
         ThreadPool.getInstance().execute(() -> {
             List<byte[]> bytes = this.exeRedis(j -> j.sscanAll(this.parameter.get().getKey().getBytes()));
             List<SetTypeTable> newList = new ArrayList<>();
-            for (int i = 0; i < bytes.size(); i++) {
-                newList.add(new SetTypeTable(bytes.get(i)));
+            for (byte[] aByte : bytes) {
+                newList.add(new SetTypeTable(aByte));
             }
             Platform.runLater(() -> {
                 this.list.setAll(newList);
@@ -175,7 +159,7 @@ public class SetTypeController extends BaseKeyPageController<SetTypeTable> imple
     /**
      * 保存值
      *
-     * @param actionEvent
+     * @param actionEvent 事件
      */
     @FXML
     public void save(ActionEvent actionEvent) {
@@ -203,7 +187,7 @@ public class SetTypeController extends BaseKeyPageController<SetTypeTable> imple
     /**
      * 删除选中行
      *
-     * @param actionEvent
+     * @param actionEvent  事件
      */
     @FXML
     public void delRow(ActionEvent actionEvent) {

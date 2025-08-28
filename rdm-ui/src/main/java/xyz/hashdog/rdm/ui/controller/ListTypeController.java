@@ -113,7 +113,6 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
                 this.lastSelect = newValue;
                 Platform.runLater(() -> {
                     Tuple2<AnchorPane, ByteArrayController> tuple2 = GuiUtil.loadByteArrayView(newValue.getBytes(), this);
-
                     AnchorPane anchorPane = tuple2.t1();
                     byteArrayController = tuple2.t2();
                     borderPane.setCenter(anchorPane);
