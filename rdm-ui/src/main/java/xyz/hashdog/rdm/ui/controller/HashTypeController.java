@@ -137,7 +137,7 @@ public class HashTypeController extends BaseKeyPageController<HashTypeTable> imp
      */
     @Override
     protected void initInfo() {
-        ThreadPool.getInstance().execute(() -> {
+        async(() -> {
             Map<byte[], byte[]> map = this.exeRedis(j -> j.hscanAll(this.parameter.get().getKey().getBytes()));
             List<HashTypeTable> newList = new ArrayList<>();
             map.forEach((k, v) -> newList.add(new HashTypeTable(k, v)));
