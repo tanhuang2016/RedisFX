@@ -27,6 +27,8 @@ import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
 import xyz.hashdog.rdm.ui.controller.base.BaseKeyPageController;
 import xyz.hashdog.rdm.ui.entity.HashTypeTable;
+import xyz.hashdog.rdm.ui.entity.ITable;
+import xyz.hashdog.rdm.ui.entity.TopKeyTable;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 import java.net.URL;
@@ -43,40 +45,20 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
  * @version 1.0.0
  * @since 2023/8/3 9:41
  */
-public class HashTypeController extends BaseKeyPageController implements Initializable {
+public class HashTypeController extends BaseKeyPageController<HashTypeTable> implements Initializable {
 
-    @FXML
-    public TableView<HashTypeTable> tableView;
+
     @FXML
     public BorderPane borderPane;
-    @FXML
-    public Label total;
-    @FXML
-    public Label size;
 
-    @FXML
-    public Button findButton;
-    @FXML
-    public CustomTextField findTextField;
+
 
     @FXML
     public Button delRow;
     @FXML
     public Button add;
-    @FXML
-    public Pagination pagination;
-    /**
-     * 缓存所有表格数据
-     */
-    private final ObservableList<HashTypeTable> list = FXCollections.observableArrayList();
-    /**
-     * 查询后的表格数据
-     */
-    private final ObservableList<HashTypeTable> findList = FXCollections.observableArrayList();
-    /**
-     * 最后选中的行缓存
-     */
-    private HashTypeTable lastSelect;
+
+
     /**
      * 最后一个选中的行对应的最新的value展示
      */
@@ -88,18 +70,13 @@ public class HashTypeController extends BaseKeyPageController implements Initial
         bindData();
         initListener();
         initButton();
-        initTextField();
+
     }
     private void initButton() {
         initButtonStyles();
-        initButtonIcon();
     }
-    private void initTextField() {
-        findTextField.setRight(findButton);
-    }
+
     private void initButtonStyles() {
-        findButton.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,Styles.ROUNDED,Styles.SMALL);
-        findButton.setCursor(Cursor.HAND);
         add.getStyleClass().addAll(
                 Styles.BUTTON_OUTLINED, Styles.ACCENT
         );
@@ -107,9 +84,7 @@ public class HashTypeController extends BaseKeyPageController implements Initial
                 Styles.BUTTON_OUTLINED, Styles.DANGER
         );
     }
-    private void initButtonIcon() {
-        findButton.setGraphic(new FontIcon(Feather.SEARCH));
-    }
+
 
     /**
      * 初始化监听
@@ -117,44 +92,16 @@ public class HashTypeController extends BaseKeyPageController implements Initial
     private void initListener() {
         tableViewListener();
         listListener();
-        paginationListener();
-    }
-
-    /**
-     * 分页监听
-     * 数据显示,全靠分页监听
-     */
-    private void paginationListener() {
-        pagination.currentPageIndexProperty().addListener((obs, oldIndex, newIndex) -> {
-            int pageIndex = (int) newIndex;
-            setCurrentPageIndex(pageIndex);
-
-        });
-    }
-
-    /**
-     * 可以手动触发分页
-     *
-     * @param pageIndex 页码
-     */
-    private void setCurrentPageIndex(int pageIndex) {
-        if (pageIndex < pagination.getPageCount() - 1) {
-            List<HashTypeTable> pageList = findList.subList(pageIndex * ROWS_PER_PAGE, (pageIndex + 1) * ROWS_PER_PAGE + 1);
-            tableView.setItems(FXCollections.observableArrayList(pageList));
-        } else {
-            List<HashTypeTable> pageList = findList.subList(pageIndex * ROWS_PER_PAGE, findList.size());
-            tableView.setItems(FXCollections.observableArrayList(pageList));
-        }
-
-        tableView.refresh();
 
     }
+
+
 
     /**
      * 缓存list数据监听
      */
     private void listListener() {
-        this.list.addListener((ListChangeListener<HashTypeTable>) change -> {
+        this.list.addListener((ListChangeListener<ITable>) change -> {
             while (change.next()) {
                 //删除到最后一个元素时,key也被删了,需要关闭tab
                 if (change.wasRemoved() && this.list.isEmpty()) {
@@ -184,13 +131,13 @@ public class HashTypeController extends BaseKeyPageController implements Initial
                 delRow.setDisable(true);
                 save.setDisable(true);
             }
-            if (newValue != null) {
+            if (newValue instanceof HashTypeTable newTable) {
                 delRow.setDisable(false);
                 save.setDisable(false);
-                this.lastSelect = newValue;
+                this.lastSelect = newTable;
                 Platform.runLater(() -> {
-                    Tuple2<AnchorPane, ByteArrayController> keyTuple2 = GuiUtil.loadByteArrayView(newValue.getKeyBytes(),this);
-                    Tuple2<AnchorPane, ByteArrayController> valueTuple2 = GuiUtil.loadByteArrayView(newValue.getBytes(),this);
+                    Tuple2<AnchorPane, ByteArrayController> keyTuple2 = GuiUtil.loadByteArrayView(newTable.getKeyBytes(), this);
+                    Tuple2<AnchorPane, ByteArrayController> valueTuple2 = GuiUtil.loadByteArrayView(newTable.getBytes(), this);
                     byteArrayController = valueTuple2.t2();
                     keyByteArrayController = keyTuple2.t2();
                     keyByteArrayController.setName("Key");
@@ -201,6 +148,8 @@ public class HashTypeController extends BaseKeyPageController implements Initial
                     vBox.getChildren().add(valueTuple2.t1());
                 });
             }
+
+
         });
     }
 
@@ -217,18 +166,7 @@ public class HashTypeController extends BaseKeyPageController implements Initial
             map.forEach((k, v) -> newList.add(new HashTypeTable(k, v)));
             Platform.runLater(() -> {
                 this.list.setAll(newList);
-                ObservableList<TableColumn<HashTypeTable, ?>> columns = tableView.getColumns();
-                TableColumn<HashTypeTable, Integer> c0 = (TableColumn) columns.getFirst();
-                c0.setCellValueFactory(
-                        param -> new ReadOnlyObjectWrapper<>(tableView.getItems().indexOf(param.getValue()) + 1)
-                );
-                for (int i = 1; i < columns.size(); i++) {
-                    TableColumn c1 = (TableColumn) columns.get(i);
-                    c1.setCellValueFactory(
-                            new PropertyValueFactory<HashTypeTable, String>(HashTypeTable.getProperties()[i])
-                    );
-                    c1.setCellFactory(param -> new GuiUtil.OneLineTableCell<>());
-                }
+                GuiUtil.initSimpleTableView(tableView,new HashTypeTable());
                 find(null);
                 //设置默认选中第一行
                 tableView.getSelectionModel().selectFirst();
@@ -240,30 +178,11 @@ public class HashTypeController extends BaseKeyPageController implements Initial
 
     }
 
-    /**
-     * 列表查询
-     *
-     * @param actionEvent 事件
-     */
-    public void find(ActionEvent actionEvent) {
-        String text = this.findTextField.getText();
-        List<HashTypeTable> newList;
-        if (DataUtil.isBlank(text)) {
-            text = "*";
-        }
-        Predicate<HashTypeTable> nameFilter = createNameFilter(text);
-        newList = this.list.stream().filter(nameFilter).collect(Collectors.toList());
-        findList.clear();
-        findList.addAll(newList);
-        pagination.setPageCount((int) Math.ceil((double) findList.size() / ROWS_PER_PAGE));
-        //当前页就是0页才需要手动触发,否则原事件触发不了
-        if (pagination.getCurrentPageIndex() == 0) {
-            this.setCurrentPageIndex(0);
-        }
-    }
 
 
-    private Predicate<HashTypeTable> createNameFilter(String query) {
+
+    @Override
+    protected Predicate<HashTypeTable> createNameFilter(String query) {
         String regex = query.replace("?", ".?").replace("*", ".*?");
         Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         return o -> pattern.matcher(o.getKey()).find();

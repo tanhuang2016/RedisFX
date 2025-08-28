@@ -215,12 +215,12 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
 
     @Override
     public List<String> sscanAll(String key) {
-        return execute(jedis -> super.sscanAll(key, jedis::scan));
+        return execute(jedis -> super.sscanAll(key,  ( cursor, scanParams) -> jedis.sscan(key, cursor, scanParams)));
     }
 
     @Override
     public List<byte[]> sscanAll(byte[] key) {
-        return execute(jedis -> super.sscanAll(key, jedis::scan));
+        return execute(jedis -> super.sscanAll(key,  ( cursor, scanParams) -> jedis.sscan(key, cursor, scanParams)));
     }
 
 

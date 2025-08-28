@@ -5,12 +5,15 @@ package xyz.hashdog.rdm.ui.entity;
  * @version 1.0.0
  * @since 2023/8/3 22:35
  */
-public class ZsetTypeTable {
+public class ZsetTypeTable implements ITable{
 
 
     private double score;
     private byte[] bytes;
     private String value;
+
+    public ZsetTypeTable() {
+    }
 
     public ZsetTypeTable(double score, byte[] bytes) {
         this.score=score;
@@ -18,8 +21,8 @@ public class ZsetTypeTable {
         this.bytes = bytes;
         this.value = new String(bytes);
     }
-    // 获取所有属性名称
-    public static String[] getProperties() {
+    @Override
+    public  String[] getProperties() {
         return new String[]{"#row", "score","value"};
     }
 

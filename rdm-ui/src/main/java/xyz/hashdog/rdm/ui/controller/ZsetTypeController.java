@@ -25,6 +25,8 @@ import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
 import xyz.hashdog.rdm.ui.controller.base.BaseKeyPageController;
+import xyz.hashdog.rdm.ui.entity.HashTypeTable;
+import xyz.hashdog.rdm.ui.entity.ListTypeTable;
 import xyz.hashdog.rdm.ui.entity.ZsetTypeTable;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
@@ -42,39 +44,15 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
  * @version 1.0.0
  * @since 2023/8/3 9:41
  */
-public class ZsetTypeController extends BaseKeyPageController implements Initializable {
-    @FXML
-    public TableView<ZsetTypeTable> tableView;
+public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> implements Initializable {
     @FXML
     public BorderPane borderPane;
-    @FXML
-    public Label total;
-    @FXML
-    public Label size;
-    @FXML
-    public Button findButton;
-    @FXML
-    public CustomTextField findTextField;
     @FXML
     public Button delRow;
     @FXML
     public Button add;
     @FXML
-    public Pagination pagination;
-    @FXML
     public TextField score;
-    /**
-     * 缓存所有表格数据
-     */
-    private ObservableList<ZsetTypeTable> list = FXCollections.observableArrayList();
-    /**
-     * 查询后的表格数据
-     */
-    private ObservableList<ZsetTypeTable> findList = FXCollections.observableArrayList();
-    /**
-     * 最后选中的行缓存
-     */
-    private ZsetTypeTable lastSelect;
     /**
      * 最后一个选中的行对应的最新的value展示
      */
@@ -86,28 +64,18 @@ public class ZsetTypeController extends BaseKeyPageController implements Initial
         bindData();
         initListener();
         initButton();
-        initTextField();
     }
 
     private void initButton() {
         initButtonStyles();
-        initButtonIcon();
-    }
-    private void initTextField() {
-        findTextField.setRight(findButton);
     }
     private void initButtonStyles() {
-        findButton.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,Styles.ROUNDED,Styles.SMALL);
-        findButton.setCursor(Cursor.HAND);
         add.getStyleClass().addAll(
                 Styles.BUTTON_OUTLINED, Styles.ACCENT
         );
         delRow.getStyleClass().addAll(
                 Styles.BUTTON_OUTLINED, Styles.DANGER
         );
-    }
-    private void initButtonIcon() {
-        findButton.setGraphic(new FontIcon(Feather.SEARCH));
     }
 
     /**
@@ -116,38 +84,9 @@ public class ZsetTypeController extends BaseKeyPageController implements Initial
     private void initListener() {
         tableViewListener();
         listListener();
-        paginationListener();
     }
 
-    /**
-     * 分页监听
-     * 数据显示,全靠分页监听
-     */
-    private void paginationListener() {
-        pagination.currentPageIndexProperty().addListener((obs, oldIndex, newIndex) -> {
-            int pageIndex = (int) newIndex;
-            setCurrentPageIndex(pageIndex);
 
-        });
-    }
-
-    /**
-     * 可以手动触发分页
-     *
-     * @param pageIndex
-     */
-    private void setCurrentPageIndex(int pageIndex) {
-        if (pageIndex < pagination.getPageCount() - 1) {
-            List<ZsetTypeTable> pageList = findList.subList(pageIndex * ROWS_PER_PAGE, (pageIndex + 1) * ROWS_PER_PAGE + 1);
-            tableView.setItems(FXCollections.observableArrayList(pageList));
-        } else {
-            List<ZsetTypeTable> pageList = findList.subList(pageIndex * ROWS_PER_PAGE, findList.size());
-            tableView.setItems(FXCollections.observableArrayList(pageList));
-        }
-
-        tableView.refresh();
-
-    }
 
     /**
      * 缓存list数据监听
@@ -214,18 +153,7 @@ public class ZsetTypeController extends BaseKeyPageController implements Initial
             map.forEach((k, v) -> newList.add(new ZsetTypeTable(k, v)));
             Platform.runLater(() -> {
                 this.list.setAll(newList);
-                ObservableList<TableColumn<ZsetTypeTable, ?>> columns = tableView.getColumns();
-                TableColumn<ZsetTypeTable, Integer> c0 = (TableColumn) columns.get(0);
-                c0.setCellValueFactory(
-                        param -> new ReadOnlyObjectWrapper<>(tableView.getItems().indexOf(param.getValue()) + 1)
-                );
-                for (int i = 1; i < columns.size(); i++) {
-                    TableColumn c1 = (TableColumn) columns.get(i);
-                    c1.setCellValueFactory(
-                            new PropertyValueFactory<ZsetTypeTable, String>(ZsetTypeTable.getProperties()[i])
-                    );
-                    c1.setCellFactory(param -> new GuiUtil.OneLineTableCell<>());
-                }
+                GuiUtil.initSimpleTableView(tableView,new ZsetTypeTable());
                 find(null);
                 //设置默认选中第一行
                 tableView.getSelectionModel().selectFirst();
@@ -260,7 +188,8 @@ public class ZsetTypeController extends BaseKeyPageController implements Initial
     }
 
 
-    private Predicate<ZsetTypeTable> createNameFilter(String query) {
+    @Override
+    protected Predicate<ZsetTypeTable> createNameFilter(String query) {
         String regex = query.replace("?", ".?").replace("*", ".*?");
         Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         return o -> pattern.matcher(o.getValue()).find();

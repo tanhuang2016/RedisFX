@@ -24,6 +24,8 @@ import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
 import xyz.hashdog.rdm.ui.controller.base.BaseKeyPageController;
+import xyz.hashdog.rdm.ui.entity.HashTypeTable;
+import xyz.hashdog.rdm.ui.entity.ListTypeTable;
 import xyz.hashdog.rdm.ui.entity.SetTypeTable;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
@@ -44,39 +46,15 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
  * @version 1.0.0
  * @since 2023/8/3 9:52
  */
-public class SetTypeController extends BaseKeyPageController implements Initializable {
-    @FXML
-    public TableView<SetTypeTable> tableView;
+public class SetTypeController extends BaseKeyPageController<SetTypeTable> implements Initializable {
     @FXML
     public BorderPane borderPane;
-    @FXML
-    public Label total;
-    @FXML
-    public Label size;
-    @FXML
-    public Button findButton;
-    @FXML
-    public CustomTextField findTextField;
     @FXML
     public Button save;
     @FXML
     public Button add;
     @FXML
     public Button delRow;
-    @FXML
-    public Pagination pagination;
-    /**
-     * 缓存所有表格数据
-     */
-    private ObservableList<SetTypeTable> list = FXCollections.observableArrayList();
-    /**
-     * 查询后的表格数据
-     */
-    private ObservableList<SetTypeTable> findList = FXCollections.observableArrayList();
-    /**
-     * 最后选中的行缓存
-     */
-    private SetTypeTable lastSelect;
     /**
      * 最后一个选中的行对应的最新的value展示
      */
@@ -88,28 +66,18 @@ public class SetTypeController extends BaseKeyPageController implements Initiali
         bindData();
         initListener();
         initButton();
-        initTextField();
 
     }
     private void initButton() {
         initButtonStyles();
-        initButtonIcon();
-    }
-    private void initTextField() {
-        findTextField.setRight(findButton);
     }
     private void initButtonStyles() {
-        findButton.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,Styles.ROUNDED,Styles.SMALL);
-        findButton.setCursor(Cursor.HAND);
         add.getStyleClass().addAll(
                 Styles.BUTTON_OUTLINED, Styles.ACCENT
         );
         delRow.getStyleClass().addAll(
                 Styles.BUTTON_OUTLINED, Styles.DANGER
         );
-    }
-    private void initButtonIcon() {
-        findButton.setGraphic(new FontIcon(Feather.SEARCH));
     }
 
     /**
@@ -118,38 +86,10 @@ public class SetTypeController extends BaseKeyPageController implements Initiali
     private void initListener() {
         tableViewListener();
         listListener();
-        paginationListener();
     }
 
 
-    /**
-     * 分页监听
-     * 数据显示,全靠分页监听
-     */
-    private void paginationListener() {
-        pagination.currentPageIndexProperty().addListener((obs, oldIndex, newIndex) -> {
-            int pageIndex=(int)newIndex;
-            setCurrentPageIndex(pageIndex);
 
-        });
-    }
-
-    /**
-     * 可以手动触发分页
-     * @param pageIndex
-     */
-    private void setCurrentPageIndex(int pageIndex) {
-        if(pageIndex<pagination.getPageCount()-1){
-            List<SetTypeTable> pageList = findList.subList(pageIndex * ROWS_PER_PAGE, (pageIndex + 1) * ROWS_PER_PAGE+1);
-            tableView.setItems(FXCollections.observableArrayList(pageList));
-        }else{
-            List<SetTypeTable> pageList = findList.subList(pageIndex * ROWS_PER_PAGE, findList.size());
-            tableView.setItems(FXCollections.observableArrayList(pageList));
-        }
-
-        tableView.refresh();
-
-    }
 
     private void bindData() {
         total.textProperty().bind(Bindings.createStringBinding(() -> String.format(TOTAL,this.list.size()), this.list));
@@ -212,18 +152,7 @@ public class SetTypeController extends BaseKeyPageController implements Initiali
             }
             Platform.runLater(() -> {
                 this.list.setAll(newList);
-                ObservableList<TableColumn<SetTypeTable, ?>> columns = tableView.getColumns();
-                TableColumn<SetTypeTable, Integer> c0 = (TableColumn) columns.get(0);
-                c0.setCellValueFactory(
-                        param -> new ReadOnlyObjectWrapper<>(tableView.getItems().indexOf(param.getValue()) + 1)
-                );
-                for (int i = 1; i < columns.size(); i++) {
-                    TableColumn c1 = (TableColumn) columns.get(i);
-                    c1.setCellValueFactory(
-                            new PropertyValueFactory<SetTypeTable, String>(SetTypeTable.getProperties()[i])
-                    );
-                    c1.setCellFactory(param -> new GuiUtil.OneLineTableCell<>());
-                }
+                GuiUtil.initSimpleTableView(tableView,new SetTypeTable());
                 find(null);
                 //设置默认选中第一行
                 tableView.getSelectionModel().selectFirst();
@@ -235,7 +164,8 @@ public class SetTypeController extends BaseKeyPageController implements Initiali
 
     }
 
-    private Predicate<SetTypeTable> createNameFilter(String query) {
+    @Override
+    protected Predicate<SetTypeTable> createNameFilter(String query) {
         String regex = query.replace("?", ".?").replace("*", ".*?");
         Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         return o -> pattern.matcher(o.getValue()).find();

@@ -16,7 +16,6 @@ public abstract class BaseKeyController extends BaseClientController<KeyTabContr
     @FXML
     public Button save;
 
-
     /**
      * 重新加载数据
      */
@@ -28,7 +27,7 @@ public abstract class BaseKeyController extends BaseClientController<KeyTabContr
         initInfo();
     }
 
-    private void initCommon() {
+     void initCommon() {
         save.getStyleClass().add(Styles.ACCENT);
     }
 

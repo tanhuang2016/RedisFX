@@ -24,6 +24,7 @@ import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
 import xyz.hashdog.rdm.ui.controller.base.BaseKeyPageController;
+import xyz.hashdog.rdm.ui.entity.HashTypeTable;
 import xyz.hashdog.rdm.ui.entity.ListTypeTable;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
@@ -44,19 +45,9 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
  * @version 1.0.0
  * @since 2023/8/3 9:52
  */
-public class ListTypeController extends BaseKeyPageController implements Initializable {
-    @FXML
-    public TableView<ListTypeTable> tableView;
+public class ListTypeController extends BaseKeyPageController<ListTypeTable> implements Initializable {
     @FXML
     public BorderPane borderPane;
-    @FXML
-    public Label total;
-    @FXML
-    public Label size;
-    @FXML
-    public Button findButton;
-    @FXML
-    public CustomTextField findTextField;
     @FXML
     public MenuItem addHead;
     @FXML
@@ -67,22 +58,8 @@ public class ListTypeController extends BaseKeyPageController implements Initial
     public MenuItem delTail;
     @FXML
     public MenuItem delRow;
-    @FXML
-    public Pagination pagination;
     public SplitMenuButton add;
     public SplitMenuButton del;
-    /**
-     * 缓存所有表格数据
-     */
-    private ObservableList<ListTypeTable> list = FXCollections.observableArrayList();
-    /**
-     * 查询后的表格数据
-     */
-    private ObservableList<ListTypeTable> findList = FXCollections.observableArrayList();
-    /**
-     * 最后选中的行缓存
-     */
-    private ListTypeTable lastSelect;
     /**
      * 最后一个选中的行对应的最新的value展示
      */
@@ -96,7 +73,6 @@ public class ListTypeController extends BaseKeyPageController implements Initial
         initListener();
 //        initPagination();
         initButton();
-        initTextField();
 
     }
 
@@ -104,23 +80,14 @@ public class ListTypeController extends BaseKeyPageController implements Initial
 
     private void initButton() {
         initButtonStyles();
-        initButtonIcon();
-    }
-    private void initTextField() {
-        findTextField.setRight(findButton);
     }
     private void initButtonStyles() {
-        findButton.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,Styles.ROUNDED,Styles.SMALL);
-        findButton.setCursor(Cursor.HAND);
         add.getStyleClass().addAll(
                 Styles.BUTTON_OUTLINED, Styles.ACCENT
         );
         del.getStyleClass().addAll(
                 Styles.BUTTON_OUTLINED, Styles.DANGER
         );
-    }
-    private void initButtonIcon() {
-        findButton.setGraphic(new FontIcon(Feather.SEARCH));
     }
 
     /**
@@ -129,38 +96,10 @@ public class ListTypeController extends BaseKeyPageController implements Initial
     private void initListener() {
         tableViewListener();
         listListener();
-        paginationListener();
     }
 
 
-    /**
-     * 分页监听
-     * 数据显示,全靠分页监听
-     */
-    private void paginationListener() {
-        pagination.currentPageIndexProperty().addListener((obs, oldIndex, newIndex) -> {
-            int pageIndex=(int)newIndex;
-            setCurrentPageIndex(pageIndex);
 
-        });
-    }
-
-    /**
-     * 可以手动触发分页
-     * @param pageIndex
-     */
-    private void setCurrentPageIndex(int pageIndex) {
-        if(pageIndex<pagination.getPageCount()-1){
-            List<ListTypeTable> pageList = findList.subList(pageIndex * ROWS_PER_PAGE, (pageIndex + 1) * ROWS_PER_PAGE+1);
-            tableView.setItems(FXCollections.observableArrayList(pageList));
-        }else{
-            List<ListTypeTable> pageList = findList.subList(pageIndex * ROWS_PER_PAGE, findList.size());
-            tableView.setItems(FXCollections.observableArrayList(pageList));
-        }
-
-        tableView.refresh();
-
-    }
 
     private void bindData() {
         total.textProperty().bind(Bindings.createStringBinding(() -> String.format(TOTAL,this.list.size()), this.list));
@@ -227,19 +166,7 @@ public class ListTypeController extends BaseKeyPageController implements Initial
 
             Platform.runLater(() -> {
                 this.list.setAll(newList);
-                ObservableList<TableColumn<ListTypeTable, ?>> columns = tableView.getColumns();
-                TableColumn<ListTypeTable, Integer> c0 = (TableColumn) columns.get(0);
-                c0.setCellValueFactory(
-                        param -> new ReadOnlyObjectWrapper<>(tableView.getItems().indexOf(param.getValue()) + 1)
-                );
-                for (int i = 1; i < columns.size(); i++) {
-                    TableColumn c1 = (TableColumn) columns.get(i);
-                    c1.setCellValueFactory(
-                            new PropertyValueFactory<ListTypeTable, String>(ListTypeTable.getProperties()[i])
-                    );
-                    c1.setCellFactory(param -> new GuiUtil.OneLineTableCell<>());
-
-                }
+                GuiUtil.initSimpleTableView(tableView,new ListTypeTable());
                 find(null);
                 //设置默认选中第一行
                 tableView.getSelectionModel().selectFirst();
@@ -251,7 +178,8 @@ public class ListTypeController extends BaseKeyPageController implements Initial
 
     }
 
-    private Predicate<ListTypeTable> createNameFilter(String query) {
+    @Override
+    protected Predicate<ListTypeTable> createNameFilter(String query) {
         String regex = query.replace("?", ".?").replace("*", ".*?");
         Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         return o -> pattern.matcher(o.getValue()).find();
@@ -280,27 +208,7 @@ public class ListTypeController extends BaseKeyPageController implements Initial
         });
     }
 
-    /**
-     * 列表查询
-     *
-     * @param actionEvent
-     */
-    public void find(ActionEvent actionEvent) {
-        String text = this.findTextField.getText();
-        List<ListTypeTable> newList;
-        if (DataUtil.isBlank(text)) {
-            text = "*";
-        }
-        Predicate<ListTypeTable> nameFilter = createNameFilter(text);
-        newList = this.list.stream().filter(nameFilter).collect(Collectors.toList());
-        findList.clear();
-        findList.addAll(newList);
-        pagination.setPageCount((int) Math.ceil((double) findList.size() / ROWS_PER_PAGE));
-        //当前页就是0页才需要手动触发,否则原事件触发不了
-        if(pagination.getCurrentPageIndex()==0){
-            this.setCurrentPageIndex(0);
-        }
-    }
+
 
     /**
      * 插入头

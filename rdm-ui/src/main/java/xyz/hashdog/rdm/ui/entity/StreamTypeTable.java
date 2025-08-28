@@ -5,12 +5,15 @@ package xyz.hashdog.rdm.ui.entity;
  * @version 2.0.0
  * @since 2025/7/14 22:35
  */
-public class StreamTypeTable {
+public class StreamTypeTable implements ITable{
 
 
     private String id;
     private byte[] bytes;
     private String value;
+
+    public StreamTypeTable() {
+    }
 
     public StreamTypeTable(String id, String value) {
         this.id=id;
@@ -19,7 +22,8 @@ public class StreamTypeTable {
         this.value = value;
     }
     // 获取所有属性名称
-    public static String[] getProperties() {
+    @Override
+    public  String[] getProperties() {
         return new String[]{"#row", "id","value"};
     }
 

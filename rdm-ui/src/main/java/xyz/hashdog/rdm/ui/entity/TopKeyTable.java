@@ -21,7 +21,7 @@ public class TopKeyTable implements ITable {
     public TopKeyTable() {
     }
 
-    // 获取所有属性名称
+    @Override
     public  String[] getProperties() {
         return new String[]{"#row", "type","key","ttl","size","length"};
     }
