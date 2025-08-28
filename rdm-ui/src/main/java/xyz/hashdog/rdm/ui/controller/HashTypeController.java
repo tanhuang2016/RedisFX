@@ -47,17 +47,12 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
  */
 public class HashTypeController extends BaseKeyPageController<HashTypeTable> implements Initializable {
 
-
     @FXML
     public BorderPane borderPane;
-
-
-
     @FXML
     public Button delRow;
     @FXML
     public Button add;
-
 
     /**
      * 最后一个选中的行对应的最新的value展示
@@ -233,8 +228,6 @@ public class HashTypeController extends BaseKeyPageController<HashTypeTable> imp
         vBox.getChildren().add(keyTuple2.t1());
         VBox.setVgrow(valueTuple2.t1(), Priority.ALWAYS);
         vBox.getChildren().add(valueTuple2.t1());
-
-
         Tuple2<AnchorPane, AppendController> appendTuple2= loadFxml("/fxml/AppendView.fxml");
         Stage stage= GuiUtil.createSubStage(source.getText(),appendTuple2.t1(),root.getScene().getWindow());
         appendTuple2.t2().setCurrentStage(stage);
