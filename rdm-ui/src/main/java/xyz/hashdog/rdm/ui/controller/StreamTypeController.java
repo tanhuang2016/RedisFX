@@ -25,6 +25,7 @@ import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.ui.common.ValueTypeEnum;
 import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
+import xyz.hashdog.rdm.ui.controller.base.BaseKeyPageController;
 import xyz.hashdog.rdm.ui.entity.StreamTypeTable;
 import xyz.hashdog.rdm.ui.entity.ZsetTypeTable;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
@@ -40,7 +41,7 @@ import java.util.stream.Collectors;
  * @version 2.0.0
  * @since 2025/7/15 22:41
  */
-public class StreamTypeController extends BaseKeyController implements Initializable {
+public class StreamTypeController extends BaseKeyPageController implements Initializable {
     @FXML
     public TableView<StreamTypeTable> tableView;
     @FXML

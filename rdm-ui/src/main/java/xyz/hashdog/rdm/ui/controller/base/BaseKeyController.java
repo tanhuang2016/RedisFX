@@ -12,9 +12,7 @@ import xyz.hashdog.rdm.ui.controller.KeyTabController;
  * @author th
  */
 public abstract class BaseKeyController extends BaseClientController<KeyTabController> {
-    protected static final String SIZE = "Size:%dB";
-    protected static final String TOTAL = "Total:%d";
-    protected static final int ROWS_PER_PAGE = 32;
+
     @FXML
     public Button save;
 

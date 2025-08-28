@@ -24,6 +24,7 @@ import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
+import xyz.hashdog.rdm.ui.controller.base.BaseKeyPageController;
 import xyz.hashdog.rdm.ui.entity.ZsetTypeTable;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
@@ -41,7 +42,7 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
  * @version 1.0.0
  * @since 2023/8/3 9:41
  */
-public class ZsetTypeController extends BaseKeyController implements Initializable {
+public class ZsetTypeController extends BaseKeyPageController implements Initializable {
     @FXML
     public TableView<ZsetTypeTable> tableView;
     @FXML
