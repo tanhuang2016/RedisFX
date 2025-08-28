@@ -1,6 +1,4 @@
 package xyz.hashdog.rdm.ui.controller.base;
-
-
 import atlantafx.base.controls.CustomTextField;
 import atlantafx.base.theme.Styles;
 import javafx.collections.FXCollections;
@@ -15,12 +13,9 @@ import javafx.scene.control.TableView;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import xyz.hashdog.rdm.common.util.DataUtil;
-import xyz.hashdog.rdm.ui.entity.HashTypeTable;
 import xyz.hashdog.rdm.ui.entity.ITable;
-
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -70,12 +65,26 @@ public abstract class BaseKeyPageController<P extends ITable> extends BaseKeyCon
     void initCommon() {
         super.initCommon();
         initTextField();
+        initButtonIcon();
         initButtonStyles();
         paginationListener();
     }
+    /**
+     * 初始化文本框
+     */
     private void initTextField() {
         findTextField.setRight(findButton);
     }
+
+    /**
+     * 初始化按钮图标
+     */
+    private void initButtonIcon() {
+        findButton.setGraphic(new FontIcon(Feather.SEARCH));
+    }
+    /**
+     * 初始化按钮样式
+     */
     private void initButtonStyles() {
         findButton.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,Styles.ROUNDED,Styles.SMALL);
         findButton.setCursor(Cursor.HAND);
@@ -122,7 +131,7 @@ public abstract class BaseKeyPageController<P extends ITable> extends BaseKeyCon
             text = "*";
         }
         Predicate<P> nameFilter = createNameFilter(text);
-        newList = this.list.stream().filter(nameFilter).collect(Collectors.toList());
+        newList = this.list.stream().filter(nameFilter).toList();
         findList.clear();
         findList.addAll(newList);
         pagination.setPageCount((int) Math.ceil((double) findList.size() / ROWS_PER_PAGE));
@@ -131,6 +140,11 @@ public abstract class BaseKeyPageController<P extends ITable> extends BaseKeyCon
             this.setCurrentPageIndex(0);
         }
     }
-
+    /**
+     * 创建过滤器
+     *
+     * @param text 搜索文本
+     * @return 过滤器
+     */
     protected abstract Predicate<P> createNameFilter(String text);
 }

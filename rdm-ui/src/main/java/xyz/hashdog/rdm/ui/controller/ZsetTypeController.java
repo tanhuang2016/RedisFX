@@ -165,27 +165,7 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
 
     }
 
-    /**
-     * 列表查询
-     *
-     * @param actionEvent
-     */
-    public void find(ActionEvent actionEvent) {
-        String text = this.findTextField.getText();
-        List<ZsetTypeTable> newList;
-        if (DataUtil.isBlank(text)) {
-            text = "*";
-        }
-        Predicate<ZsetTypeTable> nameFilter = createNameFilter(text);
-        newList = this.list.stream().filter(nameFilter).collect(Collectors.toList());
-        findList.clear();
-        findList.addAll(newList);
-        pagination.setPageCount((int) Math.ceil((double) findList.size() / ROWS_PER_PAGE));
-        //当前页就是0页才需要手动触发,否则原事件触发不了
-        if (pagination.getCurrentPageIndex() == 0) {
-            this.setCurrentPageIndex(0);
-        }
-    }
+
 
 
     @Override
