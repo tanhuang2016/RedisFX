@@ -33,7 +33,9 @@ public abstract class BaseKeyController extends BaseClientController<KeyTabContr
     }
 
      void initCommon() {
-        save.getStyleClass().add(Styles.ACCENT);
+        if(save!=null){
+            save.getStyleClass().add(Styles.ACCENT);
+        }
     }
 
     /**
