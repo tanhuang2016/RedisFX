@@ -1,41 +1,24 @@
 package xyz.hashdog.rdm.ui.controller;
 
-import atlantafx.base.controls.CustomTextField;
 import atlantafx.base.theme.Styles;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Cursor;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import org.kordamp.ikonli.feather.Feather;
-import org.kordamp.ikonli.javafx.FontIcon;
-import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
-import xyz.hashdog.rdm.common.util.DataUtil;
-import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
 import xyz.hashdog.rdm.ui.controller.base.BaseKeyPageController;
-import xyz.hashdog.rdm.ui.entity.HashTypeTable;
 import xyz.hashdog.rdm.ui.entity.ListTypeTable;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
-
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static xyz.hashdog.rdm.ui.common.Constant.ALERT_MESSAGE_SAVE_SUCCESS;
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
@@ -71,23 +54,18 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
     public void initialize(URL location, ResourceBundle resources) {
         bindData();
         initListener();
-//        initPagination();
         initButton();
 
     }
 
 
-
     private void initButton() {
         initButtonStyles();
     }
+
     private void initButtonStyles() {
-        add.getStyleClass().addAll(
-                Styles.BUTTON_OUTLINED, Styles.ACCENT
-        );
-        del.getStyleClass().addAll(
-                Styles.BUTTON_OUTLINED, Styles.DANGER
-        );
+        add.getStyleClass().addAll(Styles.BUTTON_OUTLINED, Styles.ACCENT);
+        del.getStyleClass().addAll(Styles.BUTTON_OUTLINED, Styles.DANGER);
     }
 
     /**
@@ -99,11 +77,9 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
     }
 
 
-
-
     private void bindData() {
-        total.textProperty().bind(Bindings.createStringBinding(() -> String.format(TOTAL,this.list.size()), this.list));
-        size.textProperty().bind(Bindings.createStringBinding(() -> String.format(SIZE,this.list.stream().mapToLong(e -> e.getBytes().length).sum()), this.list));
+        total.textProperty().bind(Bindings.createStringBinding(() -> String.format(TOTAL, this.list.size()), this.list));
+        size.textProperty().bind(Bindings.createStringBinding(() -> String.format(SIZE, this.list.stream().mapToLong(e -> e.getBytes().length).sum()), this.list));
     }
 
     /**
@@ -113,8 +89,8 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
         this.list.addListener((ListChangeListener<ListTypeTable>) change -> {
             while (change.next()) {
                 //删除到最后一个元素时,key也被删了,需要关闭tab
-                if (change.wasRemoved() && this.list.size()==0) {
-                    super.parentController.parentController.removeTabByKeys(Arrays.asList(parameter.get().getKey()));
+                if (change.wasRemoved() && this.list.isEmpty()) {
+                    super.parentController.parentController.removeTabByKeys(Collections.singletonList(parameter.get().getKey()));
                     super.parentController.parentController.delKey(parameter);
                 }
             }
@@ -136,7 +112,7 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
                 save.setDisable(false);
                 this.lastSelect = newValue;
                 Platform.runLater(() -> {
-                    Tuple2<AnchorPane, ByteArrayController> tuple2 = GuiUtil.loadByteArrayView(newValue.getBytes(),this);
+                    Tuple2<AnchorPane, ByteArrayController> tuple2 = GuiUtil.loadByteArrayView(newValue.getBytes(), this);
 
                     AnchorPane anchorPane = tuple2.t1();
                     byteArrayController = tuple2.t2();
@@ -147,26 +123,21 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
     }
 
 
-
-
-
-
-
     /**
      * 初始化数据展示
      */
+    @Override
     protected void initInfo() {
-        ThreadPool.getInstance().execute(() -> {
+        async(() -> {
             long total = this.exeRedis(j -> j.llen(this.parameter.get().getKey()));
             List<byte[]> bytes = this.exeRedis(j -> j.lrange(this.parameter.get().getKey().getBytes(), 0, (int) total));
             List<ListTypeTable> newList = new ArrayList<>();
-            for (int i = 0; i < bytes.size(); i++) {
-                newList.add(new ListTypeTable(bytes.get(i)));
+            for (byte[] aByte : bytes) {
+                newList.add(new ListTypeTable(aByte));
             }
-
             Platform.runLater(() -> {
                 this.list.setAll(newList);
-                GuiUtil.initSimpleTableView(tableView,new ListTypeTable());
+                GuiUtil.initSimpleTableView(tableView, new ListTypeTable());
                 find(null);
                 //设置默认选中第一行
                 tableView.getSelectionModel().selectFirst();
@@ -189,7 +160,7 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
     /**
      * 保存值
      *
-     * @param actionEvent
+     * @param actionEvent 事件
      */
     @FXML
     public void save(ActionEvent actionEvent) {
@@ -200,7 +171,7 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
             lastSelect.setBytes(byteArray);
             Platform.runLater(() -> {
                 //实际上list存的引用,lastSelect修改,list中的元素也会修改,重新set进去是为了触发更新事件
-                this.list.set(i,lastSelect);
+                this.list.set(i, lastSelect);
                 tableView.refresh();
                 byteArrayController.setByteArray(byteArray);
                 GuiUtil.alert(Alert.AlertType.INFORMATION, language(ALERT_MESSAGE_SAVE_SUCCESS));
@@ -209,51 +180,52 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
     }
 
 
-
     /**
      * 插入头
-     * @param actionEvent
+     *
+     * @param actionEvent  事件
      */
     @FXML
     public void addHead(ActionEvent actionEvent) {
         this.add.setOnAction(this::addHead);
         this.add.setText(this.addHead.getText());
-        this.add(actionEvent,0);
+        this.add(actionEvent, 0);
     }
 
 
     /**
      * 封装插入方法
-     * @param actionEvent
-     * @param index 下标
+     *
+     * @param actionEvent  事件
+     * @param index       下标
      */
     private void add(ActionEvent actionEvent, int index) {
         Object source1 = actionEvent.getSource();
-        String text="";
-        if(source1 instanceof MenuItem){
-            MenuItem source = (MenuItem)actionEvent.getSource();
-            text=source.getText();
-        }else if(source1 instanceof MenuButton){
-            MenuButton source = (MenuButton)actionEvent.getSource();
-            text=source.getText();
+        String text = "";
+        if (source1 instanceof MenuItem) {
+            MenuItem source = (MenuItem) actionEvent.getSource();
+            text = source.getText();
+        } else if (source1 instanceof MenuButton) {
+            MenuButton source = (MenuButton) actionEvent.getSource();
+            text = source.getText();
         }
-        Tuple2<AnchorPane, ByteArrayController> tuple2 =  GuiUtil.loadByteArrayView("".getBytes(),this);
-        Tuple2<AnchorPane, AppendController> appendTuple2= loadFxml("/fxml/AppendView.fxml");
-        Stage stage= GuiUtil.createSubStage(text,appendTuple2.t1(),root.getScene().getWindow());
+        Tuple2<AnchorPane, ByteArrayController> tuple2 = GuiUtil.loadByteArrayView("".getBytes(), this);
+        Tuple2<AnchorPane, AppendController> appendTuple2 = loadFxml("/fxml/AppendView.fxml");
+        Stage stage = GuiUtil.createSubStage(text, appendTuple2.t1(), root.getScene().getWindow());
         appendTuple2.t2().setCurrentStage(stage);
         appendTuple2.t2().setSubContent(tuple2.t1());
         stage.show();
         //设置确定事件咯
         appendTuple2.t2().ok.setOnAction(event -> {
             byte[] byteArray = tuple2.t2().getByteArray();
-            async(()->{
-                if(index==0){
-                    exeRedis(j->j.lpush(this.parameter.get().getKey().getBytes(),byteArray));
-                }else {
-                    exeRedis(j->j.rpush(this.parameter.get().getKey().getBytes(),byteArray));
+            async(() -> {
+                if (index == 0) {
+                    exeRedis(j -> j.lpush(this.parameter.get().getKey().getBytes(), byteArray));
+                } else {
+                    exeRedis(j -> j.rpush(this.parameter.get().getKey().getBytes(), byteArray));
                 }
-                Platform.runLater(()->{
-                    list.add(index,new ListTypeTable(byteArray));
+                Platform.runLater(() -> {
+                    list.add(index, new ListTypeTable(byteArray));
                     find(null);
                     stage.close();
                 });
@@ -263,19 +235,20 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
 
     /**
      * 插入尾
-     * @param actionEvent
+     *
+     * @param actionEvent  事件
      */
     @FXML
     public void addTail(ActionEvent actionEvent) {
         this.add.setOnAction(this::addTail);
         this.add.setText(this.addTail.getText());
-        this.add(actionEvent,list.size());
+        this.add(actionEvent, list.size());
     }
 
     /**
      * 删除头数据
      *
-     * @param actionEvent
+     * @param actionEvent 事件
      */
     @FXML
     public void delHead(ActionEvent actionEvent) {
@@ -286,8 +259,8 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
         }
         async(() -> {
             exeRedis(j -> j.lpop(this.getParameter().getKey()));
-            ListTypeTable listTypeTable = list.get(0);
-            GuiUtil.remove2TableView(this.list,this.tableView,listTypeTable);
+            ListTypeTable listTypeTable = list.getFirst();
+            GuiUtil.remove2TableView(this.list, this.tableView, listTypeTable);
         });
 
     }
@@ -295,7 +268,7 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
     /**
      * 删除尾数据
      *
-     * @param actionEvent
+     * @param actionEvent  事件
      */
     @FXML
     public void delTail(ActionEvent actionEvent) {
@@ -306,8 +279,8 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
         }
         async(() -> {
             exeRedis(j -> j.rpop(this.getParameter().getKey()));
-            ListTypeTable listTypeTable = list.get(list.size() - 1);
-            GuiUtil.remove2TableView(this.list,this.tableView,listTypeTable);
+            ListTypeTable listTypeTable = list.getLast();
+            GuiUtil.remove2TableView(this.list, this.tableView, listTypeTable);
         });
 
     }
@@ -316,7 +289,7 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
     /**
      * 删除选中行
      *
-     * @param actionEvent
+     * @param actionEvent  事件
      */
     @FXML
     public void delRow(ActionEvent actionEvent) {
@@ -328,15 +301,17 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
         async(() -> {
             exeRedis(j -> j.lset(this.getParameter().getKey().getBytes(), this.list.indexOf(lastSelect), DEL_MARK));
             exeRedis(j -> j.lrem(this.getParameter().getKey().getBytes(), 0, DEL_MARK));
-            GuiUtil.remove2TableView(this.list,this.tableView,lastSelect);
+            GuiUtil.remove2TableView(this.list, this.tableView, lastSelect);
         });
     }
 
 
+    @FXML
     public void close(ActionEvent actionEvent) {
-        super.parentController.parentController.removeTabByKeys(Arrays.asList(parameter.get().getKey()));
+        super.parentController.parentController.removeTabByKeys(Collections.singletonList(parameter.get().getKey()));
 
     }
+
     @Override
     public void reloadInfo() {
         initInfo();
