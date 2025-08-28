@@ -1,42 +1,28 @@
 package xyz.hashdog.rdm.ui.controller;
 
-import atlantafx.base.controls.CustomTextField;
 import atlantafx.base.theme.Styles;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Cursor;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.kordamp.ikonli.feather.Feather;
-import org.kordamp.ikonli.javafx.FontIcon;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
-import xyz.hashdog.rdm.common.util.DataUtil;
-import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
 import xyz.hashdog.rdm.ui.controller.base.BaseKeyPageController;
 import xyz.hashdog.rdm.ui.entity.HashTypeTable;
 import xyz.hashdog.rdm.ui.entity.ITable;
-import xyz.hashdog.rdm.ui.entity.TopKeyTable;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
-
 import java.net.URL;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
 import static xyz.hashdog.rdm.ui.common.Constant.ALERT_MESSAGE_SAVE_SUCCESS;
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
@@ -67,6 +53,7 @@ public class HashTypeController extends BaseKeyPageController<HashTypeTable> imp
         initButton();
 
     }
+
     private void initButton() {
         initButtonStyles();
     }
@@ -91,7 +78,6 @@ public class HashTypeController extends BaseKeyPageController<HashTypeTable> imp
     }
 
 
-
     /**
      * 缓存list数据监听
      */
@@ -106,9 +92,6 @@ public class HashTypeController extends BaseKeyPageController<HashTypeTable> imp
             }
         });
     }
-
-
-
 
 
     private void bindData() {
@@ -149,7 +132,6 @@ public class HashTypeController extends BaseKeyPageController<HashTypeTable> imp
     }
 
 
-
     /**
      * 初始化数据展示
      */
@@ -161,7 +143,7 @@ public class HashTypeController extends BaseKeyPageController<HashTypeTable> imp
             map.forEach((k, v) -> newList.add(new HashTypeTable(k, v)));
             Platform.runLater(() -> {
                 this.list.setAll(newList);
-                GuiUtil.initSimpleTableView(tableView,new HashTypeTable());
+                GuiUtil.initSimpleTableView(tableView, new HashTypeTable());
                 find(null);
                 //设置默认选中第一行
                 tableView.getSelectionModel().selectFirst();
@@ -174,8 +156,6 @@ public class HashTypeController extends BaseKeyPageController<HashTypeTable> imp
     }
 
 
-
-
     @Override
     protected Predicate<HashTypeTable> createNameFilter(String query) {
         String regex = query.replace("?", ".?").replace("*", ".*?");
@@ -186,7 +166,7 @@ public class HashTypeController extends BaseKeyPageController<HashTypeTable> imp
     /**
      * 保存值
      *
-     * @param actionEvent
+     * @param actionEvent 事件
      */
     @FXML
     public void save(ActionEvent actionEvent) {
@@ -196,7 +176,7 @@ public class HashTypeController extends BaseKeyPageController<HashTypeTable> imp
         int i = this.list.indexOf(lastSelect);
         async(() -> {
             //key发生变化的情况,需要set新键值对,切删除老键值对
-            if (!Arrays.equals(key,lastSelect.getKeyBytes())) {
+            if (!Arrays.equals(key, lastSelect.getKeyBytes())) {
                 exeRedis(j -> j.hdel(this.getParameter().getKey().getBytes(), lastSelect.getKeyBytes()));
                 lastSelect.setKeyBytes(key);
             }
@@ -204,7 +184,7 @@ public class HashTypeController extends BaseKeyPageController<HashTypeTable> imp
             lastSelect.setBytes(value);
             Platform.runLater(() -> {
                 //实际上list存的引用,lastSelect修改,list中的元素也会修改,重新set进去是为了触发更新事件
-                this.list.set(i,lastSelect);
+                this.list.set(i, lastSelect);
                 tableView.refresh();
                 keyByteArrayController.setByteArray(key);
                 byteArrayController.setByteArray(value);
@@ -216,20 +196,20 @@ public class HashTypeController extends BaseKeyPageController<HashTypeTable> imp
     /**
      * 新增
      *
-     * @param actionEvent
+     * @param actionEvent 事件
      */
     @FXML
     public void add(ActionEvent actionEvent) {
-        Button source = (Button)actionEvent.getSource();
-        Tuple2<AnchorPane, ByteArrayController> keyTuple2 = GuiUtil.loadByteArrayView("".getBytes(),this);
-        Tuple2<AnchorPane, ByteArrayController> valueTuple2 = GuiUtil.loadByteArrayView("".getBytes(),this);
+        Button source = (Button) actionEvent.getSource();
+        Tuple2<AnchorPane, ByteArrayController> keyTuple2 = GuiUtil.loadByteArrayView("".getBytes(), this);
+        Tuple2<AnchorPane, ByteArrayController> valueTuple2 = GuiUtil.loadByteArrayView("".getBytes(), this);
         keyTuple2.t2().setName("Key");
         VBox vBox = new VBox();
         vBox.getChildren().add(keyTuple2.t1());
         VBox.setVgrow(valueTuple2.t1(), Priority.ALWAYS);
         vBox.getChildren().add(valueTuple2.t1());
-        Tuple2<AnchorPane, AppendController> appendTuple2= loadFxml("/fxml/AppendView.fxml");
-        Stage stage= GuiUtil.createSubStage(source.getText(),appendTuple2.t1(),root.getScene().getWindow());
+        Tuple2<AnchorPane, AppendController> appendTuple2 = loadFxml("/fxml/AppendView.fxml");
+        Stage stage = GuiUtil.createSubStage(source.getText(), appendTuple2.t1(), root.getScene().getWindow());
         appendTuple2.t2().setCurrentStage(stage);
         appendTuple2.t2().setSubContent(vBox);
         stage.show();
@@ -237,15 +217,15 @@ public class HashTypeController extends BaseKeyPageController<HashTypeTable> imp
         appendTuple2.t2().ok.setOnAction(event -> {
             byte[] key = keyTuple2.t2().getByteArray();
             byte[] value = valueTuple2.t2().getByteArray();
-            async(()->{
-                exeRedis(j->j.hset(this.getParameter().getKey().getBytes(),key, value));
-                Platform.runLater(()->{
+            async(() -> {
+                exeRedis(j -> j.hset(this.getParameter().getKey().getBytes(), key, value));
+                Platform.runLater(() -> {
                     //需要判断list是否存在该元素,由于是hash类型,只判断key是否存在就行,需要重新equals方法
                     HashTypeTable hashTypeTable = new HashTypeTable(key, value);
-                    if(list.contains(hashTypeTable)){
+                    if (list.contains(hashTypeTable)) {
                         int i = list.indexOf(hashTypeTable);
-                        list.set(i,hashTypeTable);
-                    }else{
+                        list.set(i, hashTypeTable);
+                    } else {
                         list.add(hashTypeTable);
                     }
                     find(null);
@@ -259,7 +239,7 @@ public class HashTypeController extends BaseKeyPageController<HashTypeTable> imp
     /**
      * 删除行
      *
-     * @param actionEvent
+     * @param actionEvent 事件
      */
     public void delRow(ActionEvent actionEvent) {
         if (GuiUtil.alertRemove()) {
@@ -267,7 +247,7 @@ public class HashTypeController extends BaseKeyPageController<HashTypeTable> imp
         }
         async(() -> {
             exeRedis(j -> j.hdel(this.getParameter().getKey().getBytes(), lastSelect.getKeyBytes()));
-            GuiUtil.remove2TableView(this.list,this.tableView,lastSelect);
+            GuiUtil.remove2TableView(this.list, this.tableView, lastSelect);
         });
     }
 
