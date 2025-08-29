@@ -276,19 +276,25 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         sentinel.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
             if (isNowSelected) {
                 cluster.setSelected(false);
-                showSentinelVBox();
+                showSentinelVbox();
             }else {
-                hideSentinelVBox();
+                hideSentinelVbox();
             }
         });
     }
 
-    private void showSentinelVBox() {
+    /**
+     * 显示sentinelVBox
+     */
+    private void showSentinelVbox() {
         sentinelVBox.setVisible(true);
         sentinelVBox.setManaged(true);
     }
 
-    private void hideSentinelVBox() {
+    /**
+     * 隐藏sentinelVBox
+     */
+    private void hideSentinelVbox() {
         sentinelVBox.setVisible(false);
         sentinelVBox.setManaged(false);
     }
@@ -299,11 +305,35 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         if(GuiUtil.requiredTextField(host, port.getEditor())){
             return;
         }
+
+        RedisConfig redisConfig = new RedisConfig();
+        setRedisConfig(redisConfig);
+
+        try(RedisContext redisContext = RedisFactorySingleton.getInstance().createRedisContext(redisConfig)) {
+            Message message = redisContext.newRedisClient().testConnect();
+            if (message.isSuccess()) {
+                testConnectButton.getStyleClass().add(Styles.SUCCESS);
+                GuiUtil.alert(Alert.AlertType.INFORMATION, language(ALERT_MESSAGE_CONNECT_SUCCESS));
+            } else {
+                testConnectButton.getStyleClass().add(Styles.DANGER);
+                GuiUtil.alert(Alert.AlertType.WARNING, message.getMessage());
+            }
+        }catch (Exception e){
+            testConnectButton.getStyleClass().add(Styles.DANGER);
+            throw e;
+        }
+
+    }
+
+    /**
+     * 设置redisConfig
+     * @param redisConfig redisConfig
+     */
+    private void setRedisConfig(RedisConfig redisConfig) {
         String hostStr = host.getText();
         String portStr = port.getEditor().getText();
         String authStr = auth.getText();
         boolean clusterSelected = cluster.isSelected();
-        RedisConfig redisConfig = new RedisConfig();
         redisConfig.setHost(hostStr);
         redisConfig.setPort(Integer.parseInt(portStr));
         redisConfig.setAuth(authStr);
@@ -326,21 +356,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         redisConfig.setSoTimeout(soTimeout.getValue());
         redisConfig.setKeySeparator(keySeparator.getText());
         redisConfig.setTreeShow(treeShow.isSelected());
-        RedisContext redisContext = RedisFactorySingleton.getInstance().createRedisContext(redisConfig);
-        try {
-            Message message = redisContext.newRedisClient().testConnect();
-            if (message.isSuccess()) {
-                testConnectButton.getStyleClass().add(Styles.SUCCESS);
-                GuiUtil.alert(Alert.AlertType.INFORMATION, language(ALERT_MESSAGE_CONNECT_SUCCESS));
-            } else {
-                testConnectButton.getStyleClass().add(Styles.DANGER);
-                GuiUtil.alert(Alert.AlertType.WARNING, message.getMessage());
-            }
-        }catch (Exception e){
-            testConnectButton.getStyleClass().add(Styles.DANGER);
-            throw e;
-        }
-
+        redisConfig.setId(this.id);
     }
 
     /**
@@ -354,30 +370,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
             return;
         }
         ConnectionServerNode connectionServerNode =new ConnectionServerNode(ConnectionServerNode.SERVER);
-        connectionServerNode.setName(name.getText());
-        connectionServerNode.setHost(host.getText());
-        connectionServerNode.setPort(Integer.parseInt(port.getEditor().getText()));
-        connectionServerNode.setAuth(auth.getText());
-        connectionServerNode.setCluster(cluster.isSelected());
-        connectionServerNode.setSentinel(sentinel.isSelected());
-        connectionServerNode.setMasterName(masterName.getText());
-        connectionServerNode.setSsl(ssl.isSelected());
-        connectionServerNode.setCaCrt(caCrt.getText());
-        connectionServerNode.setRedisCrt(redisCrt.getText());
-        connectionServerNode.setRedisKey(redisKey.getText());
-        connectionServerNode.setRedisKeyPassword(redisKeyPassword.getText());
-        connectionServerNode.setSsh(ssh.isSelected());
-        connectionServerNode.setSshHost(sshHost.getText());
-        connectionServerNode.setSshPort(DataUtil.isNotEmpty(sshPort.getEditor().getText())?Integer.parseInt(sshPort.getEditor().getText()):0);
-        connectionServerNode.setSshUserName(sshUserName.getText());
-        connectionServerNode.setSshPassword(sshPassword.getText());
-        connectionServerNode.setSshPrivateKey(sshPrivateKey.getText());
-        connectionServerNode.setSshPassphrase(sshPassphrase.getText());
-        connectionServerNode.setConnectionTimeout(connectionTimeout.getValue());
-        connectionServerNode.setSoTimeout(soTimeout.getValue());
-        connectionServerNode.setKeySeparator(keySeparator.getText());
-        connectionServerNode.setTreeShow(treeShow.isSelected());
-        connectionServerNode.setId(this.id);
+        setRedisConfig(connectionServerNode);
         Message message=null;
         switch (this.model){
             case QUICK:
