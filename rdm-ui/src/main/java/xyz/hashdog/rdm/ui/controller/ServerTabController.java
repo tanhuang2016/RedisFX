@@ -704,51 +704,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     }
 
 
-    /**
-     * KEY展示构建树形结构
-     * 递归构建，新能不好，已经过时
-     * @param keys key列表
-     */
-    @Deprecated
-    private void buildTreeViewOld(List<String> keys) {
-        TreeItem<KeyTreeNode> root = treeView.getRoot();
-        for (String key : keys) {
-            String keySeparator = this.redisContext.getRedisConfig().getKeySeparator();
-            String[] parts = key.split(keySeparator);
-            TreeItem<KeyTreeNode> current = root;
-            for (int i = 0; i < parts.length; i++) {
-                String part = parts[i];
-                //叶子节点是key类型
-                boolean isLeaf = (i == parts.length - 1);
-                TreeItem<KeyTreeNode> childNode = findChild(current, part);
-                if (childNode == null|| isLeaf) {
-                    if (isLeaf) {
-                        childNode = new TreeItem<>(KeyTreeNode.leaf(key));
-                    }else {
-                        //目录的话，直接设置图标
-                        childNode = new TreeItem<>(KeyTreeNode.dir(part),new FontIcon(Feather.FOLDER));
-                    }
-                    TreeItem<KeyTreeNode> finalChildNode = childNode;
-                    if (isLeaf) {
-                        current.getChildren().add(finalChildNode);
-                        if(current.getValue()!=null){
-                            finalChildNode.getValue().setParent(current.getValue());
-                            current.getValue().addChildKeyCount();
-                        }
-                    }else {
-                        current.getChildren().addFirst(finalChildNode);
-                        if(current.getValue()!=null){
-                            //不是叶子节点，不用计数
-                            finalChildNode.getValue().setParent(current.getValue());
-                        }
-                    }
-                }
 
-                current = childNode;
-            }
-        }
-        sortTreeItems(root);
-    }
 
     /**
      * 控件换时间，利用缓存优化了key的树形结构构造，速度提升了10倍不止
@@ -970,9 +926,7 @@ public class ServerTabController extends BaseClientController<MainController> {
         controller.setParameter(passParameter);
         Tab tab = new Tab(String.format("%s|%s|%s", this.currentDb,type, key));
         tab.setOnClosed(event2 -> {
-            ThreadPool.getInstance().execute(()->{
-                controller.close();
-            });
+            async(controller::close);
         });
         tab.setOnSelectionChanged(event -> {
             if (tab.isSelected()) {
@@ -1076,7 +1030,7 @@ public class ServerTabController extends BaseClientController<MainController> {
 
     /**
      * 给节点切换成新地址
-     * @param newNode
+     * @param newNode 新节点
      */
     private void updateNodeAddress( KeyTreeNode newNode) {
         KeyTreeNode keyTreeNode = new KeyTreeNode();
@@ -1151,16 +1105,10 @@ public class ServerTabController extends BaseClientController<MainController> {
             TreeItem<KeyTreeNode> childNode = findChild(current, part);
             if (childNode == null || isLeaf) {
                 if (isLeaf) {
-                    // 获取key的类型，用于显示对应的图标
-//                    String type = exeRedis(j -> j.type(key));
-//                    childNode = new TreeItem<>(KeyTreeNode.leaf(key));
                     childNode = new TreeItem<>(keyTreeNode);
-//                    Label keyTypeLabel = GuiUtil.getKeyTypeLabel(type);
-//                    childNode.setGraphic(keyTypeLabel);
                 } else {
                     childNode = new TreeItem<>(KeyTreeNode.dir(part), new FontIcon(Feather.FOLDER));
                 }
-
                 TreeItem<KeyTreeNode> finalChildNode = childNode;
 
                 if (isLeaf) {
@@ -1188,7 +1136,7 @@ public class ServerTabController extends BaseClientController<MainController> {
 
     /**
      * 控制台
-     * @param actionEvent
+     * @param actionEvent 触发事件
      */
     @FXML
     public void console(ActionEvent actionEvent) throws IOException {
