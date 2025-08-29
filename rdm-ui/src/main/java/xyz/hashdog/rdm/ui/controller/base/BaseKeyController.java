@@ -5,9 +5,12 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import xyz.hashdog.rdm.common.tuple.Tuple2;
+import xyz.hashdog.rdm.ui.controller.ByteArrayController;
 import xyz.hashdog.rdm.ui.controller.KeyTabController;
 
 
@@ -60,5 +63,17 @@ public abstract class BaseKeyController extends BaseClientController<KeyTabContr
         hBox.setAlignment(Pos.CENTER_LEFT);
         VBox.setVgrow(hBox,Priority.ALWAYS);
         return hBox;
+    }
+
+    /**
+     * 加载byteArrayView
+     *
+     * @param bytes 数据内容
+     * @return 可用的容器和控制器
+     */
+    protected  final  Tuple2<AnchorPane, ByteArrayController> loadByteArrayView(byte[] bytes) {
+        Tuple2<AnchorPane, ByteArrayController> tuple2 = loadFxml("/fxml/ByteArrayView.fxml");
+        tuple2.t2().setByteArray(bytes);
+        return tuple2;
     }
 }

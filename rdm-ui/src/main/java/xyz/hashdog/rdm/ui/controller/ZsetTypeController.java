@@ -113,7 +113,7 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
                 save.setDisable(false);
                 this.lastSelect = newValue;
                 Platform.runLater(() -> {
-                    Tuple2<AnchorPane, ByteArrayController> valueTuple2 = GuiUtil.loadByteArrayView(newValue.getBytes(), this);
+                    Tuple2<AnchorPane, ByteArrayController> valueTuple2 = loadByteArrayView(newValue.getBytes());
                     byteArrayController = valueTuple2.t2();
                     VBox vBox = (VBox) borderPane.getCenter();
                     VBox.setVgrow(valueTuple2.t1(), Priority.ALWAYS);
@@ -196,7 +196,7 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
     @FXML
     public void add(ActionEvent actionEvent) {
         Button source = (Button) actionEvent.getSource();
-        Tuple2<AnchorPane, ByteArrayController> tuple2 = GuiUtil.loadByteArrayView("".getBytes(), this);
+        Tuple2<AnchorPane, ByteArrayController> tuple2 = loadByteArrayView("".getBytes());
         VBox vBox = new VBox();
         VBox.setVgrow(tuple2.t1(), Priority.ALWAYS);
         ObservableList<Node> children = vBox.getChildren();

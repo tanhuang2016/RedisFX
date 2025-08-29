@@ -337,7 +337,6 @@ public class ServerTabController extends BaseClientController<MainController> {
                 Tuple2<AnchorPane,NewKeyController> tuple2 = loadFxml("/fxml/NewKeyView.fxml");
                 AnchorPane anchorPane = tuple2.t1();
                 NewKeyController controller = tuple2.t2();
-                controller.setParentController(this);
                 PassParameter passParameter = new PassParameter(byType.tabType);
                 passParameter.setDb(this.currentDb);
                 //这里设置null,是怕忘记
@@ -933,7 +932,6 @@ public class ServerTabController extends BaseClientController<MainController> {
         Tuple2<AnchorPane, BaseClientController> tuple2 = loadFxml("/fxml/KeyTabView.fxml");
         AnchorPane borderPane = tuple2.t1();
         BaseClientController controller = tuple2.t2();
-        controller.setParentController(this);
         PassParameter passParameter = new PassParameter(PassParameter.NONE);
         passParameter.setDb(this.currentDb);
         passParameter.setKey(key);
@@ -1181,7 +1179,6 @@ public class ServerTabController extends BaseClientController<MainController> {
         Tuple2<AnchorPane,ConsoleController> tuple2 = loadFxml("/fxml/ConsoleView.fxml");
         AnchorPane anchorPane = tuple2.t1();
         BaseClientController controller = tuple2.t2();
-        controller.setParentController(this);
         PassParameter passParameter = new PassParameter(PassParameter.CONSOLE);
         passParameter.setDb(this.currentDb);
         passParameter.setRedisClient(redisContext.newRedisClient());
@@ -1205,7 +1202,6 @@ public class ServerTabController extends BaseClientController<MainController> {
         Tuple2<AnchorPane,ConsoleController> tuple2 = loadFxml("/fxml/MonitorView.fxml");
         AnchorPane anchorPane = tuple2.t1();
         BaseClientController controller = tuple2.t2();
-        controller.setParentController(this);
         PassParameter passParameter = new PassParameter(PassParameter.MONITOR);
         passParameter.setDb(this.currentDb);
         passParameter.setRedisClient(redisContext.newRedisClient());
@@ -1233,7 +1229,6 @@ public class ServerTabController extends BaseClientController<MainController> {
         Tuple2<ScrollPane,ConsoleController> tuple2 = loadFxml("/fxml/ReportView.fxml");
         Region anchorPane = tuple2.t1();
         BaseClientController controller = tuple2.t2();
-        controller.setParentController(this);
         PassParameter passParameter = new PassParameter(PassParameter.MONITOR);
         passParameter.setDb(this.currentDb);
         passParameter.setRedisClient(redisContext.newRedisClient());
@@ -1261,7 +1256,6 @@ public class ServerTabController extends BaseClientController<MainController> {
         Tuple2<AnchorPane,ConsoleController> tuple2 = loadFxml("/fxml/PubSubView.fxml");
         AnchorPane anchorPane = tuple2.t1();
         BaseClientController controller = tuple2.t2();
-        controller.setParentController(this);
         PassParameter passParameter = new PassParameter(PassParameter.PUBSUB);
         passParameter.setDb(this.currentDb);
         passParameter.setRedisClient(redisContext.newRedisClient());

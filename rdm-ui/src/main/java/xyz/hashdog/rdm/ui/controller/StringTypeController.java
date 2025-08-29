@@ -39,7 +39,6 @@ public class StringTypeController extends BaseKeyController {
                 Tuple2<AnchorPane, ByteArrayController> tuple2 = loadFxml("/fxml/ByteArrayView.fxml");
                 AnchorPane anchorPane = tuple2.t1();
                 this.byteArrayController = tuple2.t2();
-                this.byteArrayController.setParentController(this);
                 this.byteArrayController.setByteArray(this.currentValue);
                 borderPane.setCenter(anchorPane);
             });

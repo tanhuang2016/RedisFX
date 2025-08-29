@@ -112,7 +112,6 @@ public class SetTypeController extends BaseKeyPageController<SetTypeTable> imple
                     Tuple2<AnchorPane, ByteArrayController> tuple2 = loadFxml("/fxml/ByteArrayView.fxml");
                     AnchorPane anchorPane = tuple2.t1();
                     byteArrayController = tuple2.t2();
-                    byteArrayController.setParentController(this);
                     byteArrayController.setByteArray(newValue.getBytes());
                     borderPane.setCenter(anchorPane);
                 });
@@ -204,7 +203,7 @@ public class SetTypeController extends BaseKeyPageController<SetTypeTable> imple
     @FXML
     public void add(ActionEvent actionEvent) {
         Button source = (Button)actionEvent.getSource();
-        Tuple2<AnchorPane, ByteArrayController> tuple2 = GuiUtil.loadByteArrayView( "".getBytes(),this);
+        Tuple2<AnchorPane, ByteArrayController> tuple2 = loadByteArrayView( "".getBytes());
         Tuple2<AnchorPane, AppendController> appendTuple2= loadFxml("/fxml/AppendView.fxml");
         Stage stage= GuiUtil.createSubStage(source.getText(),appendTuple2.t1(),root.getScene().getWindow());
         appendTuple2.t2().setCurrentStage(stage);

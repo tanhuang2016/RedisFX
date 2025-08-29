@@ -112,7 +112,7 @@ public class StreamTypeController extends BaseKeyPageController<StreamTypeTable>
                 delRow.setDisable(false);
                 this.lastSelect = newValue;
                 Platform.runLater(() -> {
-                    Tuple2<AnchorPane, ByteArrayController> valueTuple2 = GuiUtil.loadByteArrayView(newValue.getBytes(),this);
+                    Tuple2<AnchorPane, ByteArrayController> valueTuple2 = loadByteArrayView(newValue.getBytes());
                     byteArrayController = valueTuple2.t2();
                     byteArrayController.setByteArray(newValue.getBytes(),ValueTypeEnum.JSON);
                     VBox vBox = (VBox) borderPane.getCenter();
@@ -172,7 +172,7 @@ public class StreamTypeController extends BaseKeyPageController<StreamTypeTable>
     @FXML
     public void add(ActionEvent actionEvent) {
         Button source = (Button)actionEvent.getSource();
-        Tuple2<AnchorPane, ByteArrayController> tuple2 = GuiUtil.loadByteArrayView( "".getBytes(),this);
+        Tuple2<AnchorPane, ByteArrayController> tuple2 = loadByteArrayView( "".getBytes());
         tuple2.t2().setByteArray("".getBytes(),ValueTypeEnum.JSON);
         VBox vBox = new VBox();
         VBox.setVgrow(tuple2.t1(), Priority.ALWAYS);

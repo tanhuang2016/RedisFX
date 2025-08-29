@@ -7,22 +7,25 @@ import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.ui.controller.base.BaseKeyPageController;
 import xyz.hashdog.rdm.ui.entity.HashTypeTable;
 import xyz.hashdog.rdm.ui.entity.ITable;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
+
 import java.net.URL;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
+
 import static xyz.hashdog.rdm.ui.common.Constant.ALERT_MESSAGE_SAVE_SUCCESS;
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
@@ -114,8 +117,8 @@ public class HashTypeController extends BaseKeyPageController<HashTypeTable> imp
                 save.setDisable(false);
                 this.lastSelect = newTable;
                 Platform.runLater(() -> {
-                    Tuple2<AnchorPane, ByteArrayController> keyTuple2 = GuiUtil.loadByteArrayView(newTable.getKeyBytes(), this);
-                    Tuple2<AnchorPane, ByteArrayController> valueTuple2 = GuiUtil.loadByteArrayView(newTable.getBytes(), this);
+                    Tuple2<AnchorPane, ByteArrayController> keyTuple2 = loadByteArrayView(newTable.getKeyBytes());
+                    Tuple2<AnchorPane, ByteArrayController> valueTuple2 = loadByteArrayView(newTable.getBytes());
                     byteArrayController = valueTuple2.t2();
                     keyByteArrayController = keyTuple2.t2();
                     keyByteArrayController.setName("Key");
@@ -201,8 +204,8 @@ public class HashTypeController extends BaseKeyPageController<HashTypeTable> imp
     @FXML
     public void add(ActionEvent actionEvent) {
         Button source = (Button) actionEvent.getSource();
-        Tuple2<AnchorPane, ByteArrayController> keyTuple2 = GuiUtil.loadByteArrayView("".getBytes(), this);
-        Tuple2<AnchorPane, ByteArrayController> valueTuple2 = GuiUtil.loadByteArrayView("".getBytes(), this);
+        Tuple2<AnchorPane, ByteArrayController> keyTuple2 = loadByteArrayView("".getBytes());
+        Tuple2<AnchorPane, ByteArrayController> valueTuple2 = loadByteArrayView("".getBytes());
         keyTuple2.t2().setName("Key");
         VBox vBox = new VBox();
         vBox.getChildren().add(keyTuple2.t1());

@@ -175,7 +175,6 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
                 Tuple2<AnchorPane, BaseKeyController> tuple2 = loadFxml(te.fxml);
                 AnchorPane anchorPane = tuple2.t1();
                 this.subTypeController  = tuple2.t2();
-                this.subTypeController.setParentController(this);
                 PassParameter passParameter = new PassParameter(te.tabType);
                 passParameter.setDb(this.currentDb);
                 passParameter.setKey(this.parameter.get().getKey());

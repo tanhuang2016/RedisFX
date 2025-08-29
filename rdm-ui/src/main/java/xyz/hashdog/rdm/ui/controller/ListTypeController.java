@@ -112,7 +112,7 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
                 save.setDisable(false);
                 this.lastSelect = newValue;
                 Platform.runLater(() -> {
-                    Tuple2<AnchorPane, ByteArrayController> tuple2 = GuiUtil.loadByteArrayView(newValue.getBytes(), this);
+                    Tuple2<AnchorPane, ByteArrayController> tuple2 = loadByteArrayView(newValue.getBytes());
                     AnchorPane anchorPane = tuple2.t1();
                     byteArrayController = tuple2.t2();
                     borderPane.setCenter(anchorPane);
@@ -208,7 +208,7 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
             MenuButton source = (MenuButton) actionEvent.getSource();
             text = source.getText();
         }
-        Tuple2<AnchorPane, ByteArrayController> tuple2 = GuiUtil.loadByteArrayView("".getBytes(), this);
+        Tuple2<AnchorPane, ByteArrayController> tuple2 = loadByteArrayView("".getBytes());
         Tuple2<AnchorPane, AppendController> appendTuple2 = loadFxml("/fxml/AppendView.fxml");
         Stage stage = GuiUtil.createSubStage(text, appendTuple2.t1(), root.getScene().getWindow());
         appendTuple2.t2().setCurrentStage(stage);

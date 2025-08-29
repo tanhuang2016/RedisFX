@@ -333,7 +333,6 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
             this.serverConnectionsWindowStage.initOwner(root.getScene().getWindow());
             this.serverConnectionsWindowStage.setScene(scene);
             this.serverConnectionsWindowStage.show();
-            serverConnectionsController.setParentController(this);
             serverConnectionsController.setCurrentStage(serverConnectionsWindowStage);
         }
 
@@ -349,7 +348,6 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
         Tuple2<AnchorPane,ServerTabController> tuple2 = loadFxml("/fxml/ServerTabView.fxml");
         AnchorPane borderPane = tuple2.t1();
         ServerTabController controller = tuple2.t2();
-        controller.setParentController(this);
         PassParameter passParameter = new PassParameter(PassParameter.REDIS);
         passParameter.setRedisContext(redisContext);
         passParameter.setRedisClient(redisContext.newRedisClient());
