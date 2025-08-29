@@ -52,7 +52,7 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
  * @author th
  */
 public class MainController extends BaseWindowController<ApplicationWindow> {
-    protected static Logger log = LoggerFactory.getLogger(MainController.class);
+    private static final Logger log = LoggerFactory.getLogger(MainController.class);
     @FXML
     public AnchorPane root;
     /**

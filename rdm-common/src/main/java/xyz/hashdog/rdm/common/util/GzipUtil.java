@@ -16,7 +16,7 @@ import java.util.zip.GZIPOutputStream;
  * @since 2023/8/9 12:37
  */
 public class GzipUtil {
-    protected static Logger log = LoggerFactory.getLogger(GzipUtil.class);
+    private static final Logger log = LoggerFactory.getLogger(GzipUtil.class);
     /**
      * 使用gzip压缩字符串
      */

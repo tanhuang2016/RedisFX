@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
  * @since 2025/8/17 14:05
  */
 public class Util {
-    protected static Logger log = LoggerFactory.getLogger(Util.class);
+    private static final Logger log = LoggerFactory.getLogger(Util.class);
     /**
      * 关闭资源
      * @param closeable 需要关闭的资源

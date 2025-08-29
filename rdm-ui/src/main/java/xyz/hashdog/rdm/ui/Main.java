@@ -33,7 +33,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * @author th
  */
 public class Main extends Application {
-    protected static Logger log = LoggerFactory.getLogger(Main.class);
+    private static final Logger log = LoggerFactory.getLogger(Main.class);
     public static ResourceBundle RESOURCE_BUNDLE=ResourceBundle.getBundle(LanguageManager.BASE_NAME, LanguageManager.DEFAULT_LOCALE);
 
     public static void main(String[] args) {

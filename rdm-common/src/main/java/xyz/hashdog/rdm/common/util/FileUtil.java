@@ -19,7 +19,7 @@ import java.util.Map;
  * @since 2023/7/19 17:13
  */
 public class FileUtil {
-    protected static Logger log = LoggerFactory.getLogger(FileUtil.class);
+    private static final Logger log = LoggerFactory.getLogger(FileUtil.class);
 
     /**
      * File转byte[]数组

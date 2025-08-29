@@ -60,7 +60,7 @@ public class NewGroupController extends BaseWindowController<ServerConnectionsCo
                 //父窗口树节点新增,切选中新增节点
                 groupNode.setParentDataId(super.parentController.getSelectedDataId());
                 message= Applications.addOrUpdateConnectionOrGroup(groupNode);
-                parentController.AddConnectionOrGroupNodeAndSelect(groupNode);
+                parentController.addConnectionOrGroupNodeAndSelect(groupNode);
                 break;
             case UPDATE:
                 groupNode.setDataId(dataId.getText());

@@ -31,7 +31,7 @@ import java.util.function.Function;
  * @since 2023/7/18 12:59
  */
 public class JedisPoolClient extends AbstractRedisClient implements RedisClient {
-    protected static Logger log = LoggerFactory.getLogger(JedisPoolClient.class);
+    private static final Logger log = LoggerFactory.getLogger(JedisPoolClient.class);
 
     private final Jedis jedis;
     private final Pool<Jedis> jedisPool;

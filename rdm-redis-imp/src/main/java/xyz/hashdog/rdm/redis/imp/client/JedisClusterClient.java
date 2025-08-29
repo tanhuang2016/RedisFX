@@ -30,7 +30,7 @@ import java.util.function.Function;
  * @since 2025/6/08 12:59
  */
 public class JedisClusterClient extends AbstractRedisClient implements RedisClient {
-    protected static Logger log = LoggerFactory.getLogger(JedisClusterClient.class);
+    private static final Logger log = LoggerFactory.getLogger(JedisClusterClient.class);
 
 
     private final JedisCluster jedis;

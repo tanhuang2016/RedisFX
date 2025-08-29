@@ -381,7 +381,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
                 //更新或修改保存
                 message=Applications.addOrUpdateConnectionOrGroup(connectionServerNode);
                 //父窗口树节点新增,切选中新增节点
-                parentController.AddConnectionOrGroupNodeAndSelect(connectionServerNode);
+                parentController.addConnectionOrGroupNodeAndSelect(connectionServerNode);
                 break;
             case UPDATE:
                 connectionServerNode.setDataId(dataId.getText());

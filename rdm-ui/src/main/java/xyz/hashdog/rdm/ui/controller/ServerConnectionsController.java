@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import xyz.hashdog.rdm.redis.Message;
 import xyz.hashdog.rdm.redis.RedisConfig;
 import xyz.hashdog.rdm.redis.RedisContext;
@@ -29,6 +31,7 @@ import java.io.IOException;
  * @version 1.0.0
  */
 public class ServerConnectionsController extends BaseWindowController<MainController> {
+    private static final Logger log = LoggerFactory.getLogger(ServerConnectionsController.class);
     @FXML
     public AnchorPane root;
     /**
@@ -222,9 +225,9 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
     /**
      * 新增树节点,并选中
      *
-     * @param connectionServerNode
+     * @param connectionServerNode 新增的节点
      */
-    public void AddConnectionOrGroupNodeAndSelect(ConnectionServerNode connectionServerNode) {
+    public void addConnectionOrGroupNodeAndSelect(ConnectionServerNode connectionServerNode) {
         TreeItem<ConnectionServerNode> connectionServerNodeTreeItem = new TreeItem<>(connectionServerNode);
         if(connectionServerNode.isConnection()){
             connectionServerNodeTreeItem.setGraphic(GuiUtil.creatConnectionIcon());
@@ -242,7 +245,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
     }
 
     @FXML
-    public void newGroup(ActionEvent actionEvent) throws IOException {
+    public void newGroup(ActionEvent actionEvent)  {
         super.loadSubWindow(newGroup.getText(), "/fxml/NewGroupView.fxml", root.getScene().getWindow(), ADD);
     }
 
@@ -250,7 +253,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
     /**
      * 获取被选中节点的id
      *
-     * @return
+     * @return 节点id
      */
     public String getSelectedDataId() {
         return this.selectedNode.getDataId();
@@ -259,7 +262,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
     /**
      * 编辑节点
      *
-     * @param actionEvent
+     * @param actionEvent 点击事件
      */
     @FXML
     public void edit(ActionEvent actionEvent) throws IOException {
@@ -279,7 +282,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
      * 该名称不区分连接还是分组
      * 用分组的视图
      *
-     * @param actionEvent
+     * @param actionEvent 点击事件
      */
     @FXML
     public void rename(ActionEvent actionEvent) throws IOException {
@@ -290,11 +293,11 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
     /**
      * 删除节点,如果该节点有子节点将递归删除掉
      *
-     * @param actionEvent
+     * @param actionEvent 点击事件
      */
     @FXML
     public void delete(ActionEvent actionEvent) {
-        String message = null;
+        String message ;
         if (this.selectedNode.isConnection()) {
             message = Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL_CONNECTION);
         } else {
@@ -313,7 +316,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
     /**
      * 节点名称修改
      *
-     * @param name
+     * @param name 新名称
      */
     public void updateNodeName(String name) {
         this.selectedNode.setName(name);
@@ -324,7 +327,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
      * 节点信息更新
      * 主要是针对连接而不是分组
      *
-     * @param connectionServerNode
+     * @param connectionServerNode 新的节点信息
      */
     public void updateNodeInfo(ConnectionServerNode connectionServerNode) {
         this.selectedNode.setName(connectionServerNode.getName());
@@ -354,9 +357,10 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
     }
 
     /**
-     * todo
-     * @param actionEvent
+     * 连接
+     * @param actionEvent 点击事件
      */
+    @FXML
     public void connect(ActionEvent actionEvent) {
         try {
             RedisConfig redisConfig = new RedisConfig();
@@ -386,7 +390,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
             redisConfig.setId(this.selectedNode.getId());
             doConnect(redisConfig);
         }catch (Exception e){
-            e.printStackTrace();
+            log.error("connect Exception", e);
             throw new RedisException(e.getMessage());
         }
 
