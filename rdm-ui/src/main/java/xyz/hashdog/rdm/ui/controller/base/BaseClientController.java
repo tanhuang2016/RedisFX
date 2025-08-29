@@ -93,4 +93,8 @@ public abstract class BaseClientController<T> extends BaseController<T>{
     }
 
 
+//    protected final  <T1,T2> Tuple2<T1,T2> loadClientFxml(String fxml) {
+//        Tuple2<Object, Object> objectObjectTuple2 = super.loadFxml(fxml);
+//        return (Tuple2<T1, T2>) tuple2;
+//    }
 }
