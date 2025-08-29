@@ -12,6 +12,8 @@ import xyz.hashdog.rdm.ui.controller.base.BaseWindowController;
 import xyz.hashdog.rdm.ui.entity.config.ConnectionServerNode;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
+import java.util.Objects;
+
 /**
  * 新建分组/分组和连接重命名通用控制层
  * @author th
@@ -43,7 +45,7 @@ public class NewGroupController extends BaseWindowController<ServerConnectionsCo
 
     /**
      * 新增/修改的确定
-     * @param actionEvent
+     * @param actionEvent 事件
      */
     @FXML
     public void ok(ActionEvent actionEvent) {
@@ -76,7 +78,7 @@ public class NewGroupController extends BaseWindowController<ServerConnectionsCo
                 break;
 
         }
-        if(message.isSuccess()){
+        if(Objects.requireNonNull(message).isSuccess()){
             currentStage.close();
         }
 
@@ -84,7 +86,7 @@ public class NewGroupController extends BaseWindowController<ServerConnectionsCo
 
     /**
      * 填充编辑数据
-     * @param selectedNode
+     * @param selectedNode 选择的最后一个节点
      */
     public void editInfo(ConnectionServerNode selectedNode) {
         name.setText(selectedNode.getName());
