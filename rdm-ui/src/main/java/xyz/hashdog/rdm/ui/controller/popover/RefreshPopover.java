@@ -83,10 +83,10 @@ public  class RefreshPopover extends BaseController<RefreshPopover.IRefreshPopov
 
         /**
          * 更新刷新状态，和频率
-         * @param b
-         * @param rateValue
+         * @param isAutoRefresh 是否自动刷新
+         * @param rateValue 刷新频率
          */
-        void  setUpdateRefreshState(boolean b,int rateValue);
+        void  setUpdateRefreshState(boolean isAutoRefresh,int rateValue);
 
         /**
          * 触发刷新

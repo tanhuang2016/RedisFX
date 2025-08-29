@@ -3,7 +3,9 @@ package xyz.hashdog.rdm.ui.controller;
 import atlantafx.base.controls.CustomTextField;
 import atlantafx.base.controls.Popover;
 import atlantafx.base.theme.Styles;
-import javafx.animation.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,7 +14,6 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -24,14 +25,14 @@ import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.ui.Main;
 import xyz.hashdog.rdm.ui.common.Constant;
 import xyz.hashdog.rdm.ui.common.RedisDataTypeEnum;
-import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
 import xyz.hashdog.rdm.ui.controller.base.BaseClientController;
+import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
 import xyz.hashdog.rdm.ui.controller.popover.RefreshPopover;
 import xyz.hashdog.rdm.ui.entity.PassParameter;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 import java.net.URL;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -39,6 +40,9 @@ import java.util.concurrent.Future;
 import static xyz.hashdog.rdm.ui.common.Constant.*;
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
+/**
+ * @author th
+ */
 public class KeyTabController extends BaseClientController<ServerTabController> implements RefreshPopover.IRefreshPopover,Initializable {
 
 
@@ -53,17 +57,13 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
     public Button keyRefresh;
     public Button keyDelete;
     public Label keyRename;
-    public Label keyEditTTL;
+    public Label keyEditTtl;
     public Label refreshText;
 
 
     private long currentTtl;
 
 
-    /**
-     * 刷新弹框的延迟显示
-     */
-    private PauseTransition showRefreshPopoverDelay;
     private Popover refreshPopover;
 
 
@@ -86,15 +86,15 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
         keyRename.getStyleClass().addAll( Styles.BUTTON_ICON,Styles.SUCCESS,Styles.FLAT);
         keyRename.setGraphic(new FontIcon(Feather.CHECK));
         keyRename.setCursor(Cursor.HAND);
-        keyEditTTL.getStyleClass().addAll( Styles.BUTTON_ICON,Styles.SUCCESS,Styles.FLAT);
-        keyEditTTL.setGraphic(new FontIcon(Feather.CHECK));
-        keyEditTTL.setCursor(Cursor.HAND);
+        keyEditTtl.getStyleClass().addAll( Styles.BUTTON_ICON,Styles.SUCCESS,Styles.FLAT);
+        keyEditTtl.setGraphic(new FontIcon(Feather.CHECK));
+        keyEditTtl.setCursor(Cursor.HAND);
 
     }
 
     private void initTextField() {
         key.setRight(keyRename);
-        ttl.setRight(keyEditTTL);
+        ttl.setRight(keyEditTtl);
     }
 
 
@@ -114,28 +114,8 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
         GuiUtil.setIcon(keyDelete,new FontIcon(Feather.TRASH_2));
 
 
-//        rotation();
-
 
     }
-
-    private void rotation() {
-        ImageView fontIcon =  null;
-        RotateTransition rotateTransition = new RotateTransition(Duration.seconds(5), fontIcon);
-        rotateTransition.setByAngle(360); // 一圈
-        rotateTransition.setCycleCount(Animation.INDEFINITE);
-        rotateTransition.setAutoReverse(false);
-        rotateTransition.setInterpolator(Interpolator.LINEAR);
-        rotateTransition.play();
-        keyRefresh.setGraphic(fontIcon);
-    }
-    //停止旋转
-//    public void stopRotation() {
-//        if (rotateTransition != null) {
-//            rotateTransition.stop();
-//            rotateTransition.getNode().setRotate(0); // 可选：重置旋转角度
-//        }
-//    }
 
     /**
      * 初始化监听
@@ -155,11 +135,9 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
 
     /**
      * 重新加载
-     * todo 需要 先把其他key类型的命令写完再做
      */
     private void reloadInfo() {
-        ThreadPool.getInstance().execute(() -> {
-            String text=null;
+        async(() -> {
             loadData();
             this.subTypeController.reloadInfo();
         });
@@ -171,8 +149,7 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
      */
     private void loadData() {
 
-        long ttl = this.exeRedis(j -> j.ttl(this.getParameter().getKey()));
-        this.currentTtl=ttl;
+        this.currentTtl= this.exeRedis(j -> j.ttl(this.getParameter().getKey()));
         Platform.runLater(() -> {
             this.key.setText(this.getParameter().getKey());
             this.ttl.setText(String.valueOf(currentTtl));
@@ -208,34 +185,13 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
                 this.subTypeController.setParameter(passParameter);
                 borderPane.setCenter(anchorPane);
             }
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
 
 
     }
 
-//    /**
-//     * key重命名
-//     *
-//     * @param actionEvent
-//     */
-//    @FXML
-//    public void rename(ActionEvent actionEvent) {
-//        if (GuiUtil.requiredTextField(this.key)) {
-//            return;
-//        }
-//        asynexec(() -> {
-//            this.exeRedis(j -> j.rename(this.getParameter().getKey(), this.key.getText()));
-//            this.getParameter().setKey(this.key.getText());
-//            Platform.runLater(() -> {
-//                GuiUtil.alert(Alert.AlertType.INFORMATION, "重命名成功");
-//            });
-//        });
-//
-//    }
     public void rename(MouseEvent mouseEvent) {
         if (GuiUtil.requiredTextField(this.key)) {
             return;
@@ -243,9 +199,7 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
         async(() -> {
             this.exeRedis(j -> j.rename(this.getParameter().getKey(), this.key.getText()));
             this.getParameter().setKey(this.key.getText());
-            Platform.runLater(() -> {
-                GuiUtil.alert(Alert.AlertType.INFORMATION, language(ALERT_MESSAGE_RENAME_SUCCESS));
-            });
+            Platform.runLater(() -> GuiUtil.alert(Alert.AlertType.INFORMATION, language(ALERT_MESSAGE_RENAME_SUCCESS)));
         });
     }
 
@@ -255,10 +209,10 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
     /**
      * 设置有效期
      *
-     * @param mouseEvent
+     * @param mouseEvent 鼠标事件
      */
     @FXML
-    public void editTTL(MouseEvent mouseEvent) {
+    public void editTtl(MouseEvent mouseEvent) {
         if (GuiUtil.requiredTextField(this.ttl)) {
             return;
         }
@@ -267,9 +221,7 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
             if (GuiUtil.alert(Alert.AlertType.CONFIRMATION, language(ALERT_MESSAGE_SET_TTL))) {
                 async(()->{
                     this.exeRedis(j -> j.persist(this.getParameter().getKey()));
-                    Platform.runLater(()->{
-                        GuiUtil.alert(Alert.AlertType.INFORMATION,language(ALERT_MESSAGE_SET_SUCCESS));
-                    });
+                    Platform.runLater(()-> GuiUtil.alert(Alert.AlertType.INFORMATION,language(ALERT_MESSAGE_SET_SUCCESS)));
                 });
             }
             return;
@@ -277,23 +229,21 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
 
         async(()->{
             this.exeRedis(j -> j.expire(this.getParameter().getKey(),ttl));
-            Platform.runLater(()->{
-                GuiUtil.alert(Alert.AlertType.INFORMATION,language(ALERT_MESSAGE_SET_SUCCESS));
-            });
+            Platform.runLater(()-> GuiUtil.alert(Alert.AlertType.INFORMATION,language(ALERT_MESSAGE_SET_SUCCESS)));
         });
     }
 
     /**
      * 删除键
      * 切需要关闭当前tab
-     * @param actionEvent
+     * @param actionEvent 鼠标事件
      */
     @FXML
     public void delete(ActionEvent actionEvent) {
         if (GuiUtil.alert(Alert.AlertType.CONFIRMATION, Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL))) {
             exeRedis(j -> j.del(parameter.get().getKey()));
             if(super.parentController.delKey(parameter)){
-                super.parentController.removeTabByKeys(Arrays.asList(parameter.get().getKey()));
+                super.parentController.removeTabByKeys(Collections.singletonList(parameter.get().getKey()));
             }
         }
     }
@@ -302,7 +252,7 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
 
     /**
      * 刷新数据
-     * @param actionEvent
+     * @param actionEvent 鼠标事件
      */
     @FXML
     public void refresh(ActionEvent actionEvent) {
@@ -318,6 +268,10 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
     private long refreshTime;
     private boolean autoRefreshState=false;
     private Timeline refreshTextTimeline;
+
+    /**
+     * 每5秒更新刷新描述
+     */
     private void refreshTextUpdate() {
         refreshTime=System.currentTimeMillis();
         updateRefreshText();
@@ -337,6 +291,9 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
 
     }
 
+    /**
+     * 更新刷新描述
+     */
     private void updateRefreshText() {
         //如果是自动刷新，不更新描述，默认是自动刷新xxx
         if(autoRefreshState){
@@ -380,11 +337,16 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
     }
 
 
+    /**
+     * 鼠标移入1.5秒，显示自动刷新设置弹窗
+     * @param mouseEvent 鼠标事件
+     */
+    @FXML
     public void openRefreshPopover(MouseEvent mouseEvent) {
         if(refreshPopover!=null&&refreshPopover.isShowing()){
             return;
         }
-        showRefreshPopoverDelay = new PauseTransition(Duration.seconds(1.5));
+        PauseTransition showRefreshPopoverDelay = new PauseTransition(Duration.seconds(1.5));
         showRefreshPopoverDelay.setOnFinished(event -> {
             if(refreshPopover!=null){
                 refreshPopover.show(keyRefresh);
@@ -405,23 +367,21 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
         showRefreshPopoverDelay.play();
     }
 
-    @Deprecated
-    public void closeRefreshPopover(MouseEvent mouseEvent) {
-    }
 
-    /**
-     * 自动刷新的话，不显示更新频率
-     * @param b
-     * @param rateValue
-     */
-    public void setUpdateRefreshState(boolean b,int rateValue) {
-        autoRefreshState=b;
-        if(b){
+    @Override
+    public void setUpdateRefreshState(boolean isAutoRefresh, int rateValue) {
+        autoRefreshState=isAutoRefresh;
+        if(isAutoRefresh){
             refreshText.setText("now");
         }else {
             refreshText.setText(language("server.refresh.auto")+": "+rateValue+"s");
         }
     }
 
-
+    @Override
+    public void close() {
+        super.close();
+        refreshTextTimeline.stop();
+        refreshTextTimeline=null;
+    }
 }

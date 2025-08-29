@@ -37,7 +37,7 @@
                          </Label>
                         <Label text="TTL:" />
                         <CustomTextField fx:id="ttl" />
-                         <Label fx:id="keyEditTTL" onMouseClicked="#editTTL">
+                         <Label fx:id="keyEditTtl" onMouseClicked="#editTtl">
                              <tooltip>
                                  <Tooltip text="%key.edit" />
                              </tooltip>
@@ -48,7 +48,7 @@
                                 </tooltip>
                         </Button>
 
-                        <Button fx:id="keyRefresh" mnemonicParsing="false" onAction="#refresh" onMouseEntered="#openRefreshPopover" onMouseExited="#closeRefreshPopover" text="%key.refresh">
+                        <Button fx:id="keyRefresh" mnemonicParsing="false" onAction="#refresh" onMouseEntered="#openRefreshPopover"  text="%key.refresh">
                             <tooltip>
                                 <Tooltip text="%key.refresh" />
                             </tooltip>
