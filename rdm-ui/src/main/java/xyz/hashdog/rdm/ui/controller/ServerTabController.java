@@ -1493,7 +1493,7 @@ public class ServerTabController extends BaseClientController<MainController> {
      */
     @FXML
     public void refresh(ActionEvent actionEvent) {
-        resetDBSelects();
+        resetDbSelects();
     }
 
     public void reset(ActionEvent actionEvent) {
