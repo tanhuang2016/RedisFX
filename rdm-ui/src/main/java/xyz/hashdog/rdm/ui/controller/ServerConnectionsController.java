@@ -208,11 +208,15 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
      * @param actionEvent 点击事件
      */
     @FXML
-    public void newConnection(ActionEvent actionEvent) throws IOException {
+    public void newConnection(ActionEvent actionEvent)  {
         super.loadSubWindow(newConnection.getText(), "/fxml/NewConnectionView.fxml", root.getScene().getWindow(), ADD);
     }
-    public void quickConnection() throws IOException {
-        NewConnectionController newConnectionController = super.loadSubWindow(newConnection.getText(), "/fxml/NewConnectionView.fxml", root.getScene().getWindow(), QUICK);
+    /**
+     * 快速连接
+     * 快速连接,新建之后直接打开连接
+     */
+    public void quickConnection()  {
+        super.loadSubWindow(newConnection.getText(), "/fxml/NewConnectionView.fxml", root.getScene().getWindow(), QUICK);
     }
 
     /**

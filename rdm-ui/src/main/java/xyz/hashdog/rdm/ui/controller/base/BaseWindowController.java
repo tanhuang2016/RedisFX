@@ -73,6 +73,8 @@ public abstract class BaseWindowController<T> extends BaseController<T> {
         newConnctionWindowStage.setScene(scene);
         newConnctionWindowStage.show();
         controller.model=model;
+        controller.setParentController(this);
+        this.addChild(controller);
         return controller;
     }
 
