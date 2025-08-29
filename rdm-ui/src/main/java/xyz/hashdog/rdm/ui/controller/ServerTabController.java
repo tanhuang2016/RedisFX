@@ -554,7 +554,7 @@ public class ServerTabController extends BaseClientController<MainController> {
      */
     private void userDataPropertyListener() {
         super.parameter.addListener((observable, oldValue, newValue) -> {
-            initDBSelects();
+            initDbSelects();
             initScanner();
         });
     }
@@ -570,7 +570,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     /**
      * 初始化db选择框
      */
-    private void initDBSelects() {
+    private void initDbSelects() {
         ObservableList<DBNode> items = choiceBox.getItems();
         async(() -> {
             Map<Integer, Integer> map = this.redisClient.dbSize();
@@ -588,7 +588,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     /**
      * 重置db数量
      */
-    private void resetDBSelects(){
+    private void resetDbSelects(){
         DBNode selectedItem = choiceBox.getSelectionModel().getSelectedItem();
         ObservableList<DBNode> items= FXCollections.observableArrayList();
         ThreadPool.getInstance().execute(() -> {
@@ -821,6 +821,12 @@ public class ServerTabController extends BaseClientController<MainController> {
         return directoryNodes;
     }
 
+    /**
+     * 递归查子节点
+     * @param parent 父节点
+     * @param part 子节点名称
+     * @return 子节点
+     */
     private TreeItem<KeyTreeNode> findChild(TreeItem<KeyTreeNode> parent, String part) {
         for (TreeItem<KeyTreeNode> child : parent.getChildren()) {
             if (part.equals(child.getValue().getName())) {
@@ -833,7 +839,7 @@ public class ServerTabController extends BaseClientController<MainController> {
 
     /**
      * 递归树节点，将所有目录下存在子节点的进行排序
-     * @param node
+     * @param node 节点
      */
     private void sortTreeItems(TreeItem<KeyTreeNode> node) {
         if (node != null && !node.getChildren().isEmpty()) {
@@ -861,18 +867,18 @@ public class ServerTabController extends BaseClientController<MainController> {
 
     /**
      * 选中父节点就把子节点全选
-     *
-     * @param parent
+     * FIXME 待完善 目前没生效，可能是为刷新的缘故，但是目前也不需要选择所有子节点
+     * @param parent 父节点
      */
     private void selectChildren(TreeItem<KeyTreeNode> parent) {
         if (parent == null) {
             return;
         }
         if (!parent.isLeaf()) {
-            parent.setExpanded(true); // Optional: Expand the parent to show all children
+            parent.setExpanded(true);
             for (TreeItem<KeyTreeNode> child : parent.getChildren()) {
                 treeView.getSelectionModel().select(child);
-                selectChildren(child); // Recursively select children of the child node
+                selectChildren(child);
             }
         }
     }
@@ -883,10 +889,10 @@ public class ServerTabController extends BaseClientController<MainController> {
     /**
      * 模糊搜索
      *
-     * @param actionEvent
+     * @param actionEvent 触发事件
      */
     public void search(ActionEvent actionEvent) {
-        ThreadPool.getInstance().execute(() -> {
+        async(() -> {
             resetScanner();
             List<String> keys = scanner.scan();
             //key已经查出来,只管展示
@@ -930,7 +936,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     /**
      * 打开key
      *
-     * @param actionEvent
+     * @param actionEvent 触发事件
      */
     public void open(ActionEvent actionEvent)  {
         if(!this.lastSelectedNode.isLeaf()){
