@@ -1,5 +1,6 @@
 package xyz.hashdog.rdm.ui.entity.config;
 
+import xyz.hashdog.rdm.redis.RedisConfig;
 import xyz.hashdog.rdm.ui.common.Applications;
 
 /**
@@ -9,10 +10,9 @@ import xyz.hashdog.rdm.ui.common.Applications;
  * @version 1.0.0
  * @since 2023/7/20 16:21
  */
-public class ConnectionServerNode {
+public class ConnectionServerNode extends RedisConfig {
     public static final int SERVER = 2;
     public static final int GROUP = 1;
-    private String id;
     /**
      * 类型,分组为1,连接为2
      */
@@ -26,103 +26,10 @@ public class ConnectionServerNode {
      */
     private String parentDataId;
     /**
-     * 名称
-     */
-    private String name;
-    /**
-     * 地址
-     */
-    private String host;
-    /**
-     * 端口
-     */
-    private int port;
-    /**
-     * 密码
-     */
-    private String auth;
-    /**
-     * 是否集群模式
-     */
-    private boolean cluster;
-    /**
-     * 是否哨兵模式
-     */
-    private boolean sentine;
-    /**
-     * 主节点名称
-     */
-    private String masterName;
-    /**
      * 时间戳排序
      */
     private long timestampSort;
 
-    /**
-     * 是否ssl
-     */
-    private boolean ssl;
-    /**
-     * ca证书
-     */
-    private String caCrt;
-    /**
-     * 服务端证书
-     */
-    private String redisCrt;
-    /**
-     * 私钥文件
-     */
-    private String redisKey;
-    /**
-     * 私钥密码
-     */
-    private String redisKeyPassword;
-
-    /**
-     * 是否ssh
-     */
-    private boolean ssh;
-    /**
-     * ssh主机
-     */
-    private String sshHost;
-    /**
-     * ssh端口
-     */
-    private int sshPort;
-    /**
-     * ssh用户名
-     */
-    private String sshUserName;
-    /**
-     * ssh密码
-     */
-    private String sshPassword;
-    /**
-     * 私钥文件
-     */
-    private String sshPrivateKey;
-    /**
-     * 私钥密码
-     */
-    private String sshPassphrase;
-    /**
-     * 连接超时
-     */
-    private int connectionTimeout;
-    /**
-     * 读超时
-     */
-    private int soTimeout;
-    /**
-     * key 分隔符
-     */
-    private String keySeparator;
-    /**
-     * 是否树形显示
-     */
-    private boolean treeShow;
 
 
     public ConnectionServerNode() {
@@ -140,29 +47,6 @@ public class ConnectionServerNode {
         this.type=type;
     }
 
-    public String getHost() {
-        return host;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-    public String getAuth() {
-        return auth;
-    }
-
-    public void setAuth(String auth) {
-        this.auth = auth;
-    }
 
     public int getType() {
         return type;
@@ -188,177 +72,10 @@ public class ConnectionServerNode {
         this.parentDataId = parentDataId;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean isCluster() {
-        return cluster;
-    }
-
-    public void setCluster(boolean cluster) {
-        this.cluster = cluster;
-    }
-
-    public boolean isSentine() {
-        return sentine;
-    }
-
-    public void setSentine(boolean sentine) {
-        this.sentine = sentine;
-    }
-
-    public String getMasterName() {
-        return masterName;
-    }
-
-    public void setMasterName(String masterName) {
-        this.masterName = masterName;
-    }
-
-    public boolean isSsl() {
-        return ssl;
-    }
-
-    public void setSsl(boolean ssl) {
-        this.ssl = ssl;
-    }
-
-    public String getCaCrt() {
-        return caCrt;
-    }
-
-    public void setCaCrt(String caCrt) {
-        this.caCrt = caCrt;
-    }
-
-    public String getRedisCrt() {
-        return redisCrt;
-    }
-
-    public void setRedisCrt(String redisCrt) {
-        this.redisCrt = redisCrt;
-    }
-
-    public String getRedisKey() {
-        return redisKey;
-    }
-
-    public void setRedisKey(String redisKey) {
-        this.redisKey = redisKey;
-    }
-
-    public String getRedisKeyPassword() {
-        return redisKeyPassword;
-    }
-
-    public void setRedisKeyPassword(String redisKeyPassword) {
-        this.redisKeyPassword = redisKeyPassword;
-    }
-
-    public boolean isSsh() {
-        return ssh;
-    }
-
-    public void setSsh(boolean ssh) {
-        this.ssh = ssh;
-    }
-
-    public String getSshHost() {
-        return sshHost;
-    }
-
-    public void setSshHost(String sshHost) {
-        this.sshHost = sshHost;
-    }
-
-    public int getSshPort() {
-        return sshPort;
-    }
-
-    public void setSshPort(int sshPort) {
-        this.sshPort = sshPort;
-    }
-
-    public String getSshUserName() {
-        return sshUserName;
-    }
-
-    public void setSshUserName(String sshUserName) {
-        this.sshUserName = sshUserName;
-    }
-
-    public String getSshPassword() {
-        return sshPassword;
-    }
-
-    public void setSshPassword(String sshPassword) {
-        this.sshPassword = sshPassword;
-    }
-
-    public String getSshPrivateKey() {
-        return sshPrivateKey;
-    }
-
-    public void setSshPrivateKey(String sshPrivateKey) {
-        this.sshPrivateKey = sshPrivateKey;
-    }
-
-    public String getSshPassphrase() {
-        return sshPassphrase;
-    }
-
-    public void setSshPassphrase(String sshPassphrase) {
-        this.sshPassphrase = sshPassphrase;
-    }
-
-    public int getConnectionTimeout() {
-        return connectionTimeout;
-    }
-
-    public void setConnectionTimeout(int connectionTimeout) {
-        this.connectionTimeout = connectionTimeout;
-    }
-
-    public int getSoTimeout() {
-        return soTimeout;
-    }
-
-    public void setSoTimeout(int soTimeout) {
-        this.soTimeout = soTimeout;
-    }
-
-    public String getKeySeparator() {
-        return keySeparator;
-    }
-
-    public void setKeySeparator(String keySeparator) {
-        this.keySeparator = keySeparator;
-    }
-
-    public boolean isTreeShow() {
-        return treeShow;
-    }
-
-    public void setTreeShow(boolean treeShow) {
-        this.treeShow = treeShow;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     /**
      * 是否是连接
-     * @return
+     * @return true:连接,false:分组
      */
     public boolean isConnection() {
         return type==2;
@@ -366,7 +83,7 @@ public class ConnectionServerNode {
 
     /**
      * 是否是跟
-     * @return
+     * @return true:跟,false:非跟
      */
     public boolean isRoot() {
         return dataId.equals(Applications.ROOT_ID) ;
@@ -374,6 +91,6 @@ public class ConnectionServerNode {
 
     @Override
     public String toString() {
-        return name.toString();
+        return getName();
     }
 }

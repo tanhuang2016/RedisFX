@@ -173,19 +173,26 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         initListener();
         initToggleButton();
         initDefaultData();
-
-
-
     }
 
+    /**
+     * 初始化默认数据
+     */
     private void initDefaultData() {
         initAdvancedSettingData();
     }
+    /**
+     * 初始化高级设置数据默认配置
+     */
     private void initAdvancedSettingData() {
         AdvancedSetting setting = Applications.getConfigSettings(ConfigSettingsEnum.ADVANCED.name);
         setData(setting);
     }
 
+    /**
+     * 首选项配置 设置到数据
+     * @param setting 配置数据
+     */
     private void setData(AdvancedSetting setting) {
         connectionTimeout.getEditor().setText(String.valueOf(setting.getConnectionTimeout()));
         soTimeout.getEditor().setText(String.valueOf(setting.getConnectionTimeout()));
@@ -194,6 +201,9 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         keySeparator.setText(setting.getKeySeparator());
     }
 
+    /**
+     * 初始化Spinner 输入范围
+     */
     private void initSpinner() {
         port.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 65535, 6379));
         sshPort.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 65535, 22));
@@ -349,7 +359,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         connectionServerNode.setPort(Integer.parseInt(port.getEditor().getText()));
         connectionServerNode.setAuth(auth.getText());
         connectionServerNode.setCluster(cluster.isSelected());
-        connectionServerNode.setSentine(sentinel.isSelected());
+        connectionServerNode.setSentinel(sentinel.isSelected());
         connectionServerNode.setMasterName(masterName.getText());
         connectionServerNode.setSsl(ssl.isSelected());
         connectionServerNode.setCaCrt(caCrt.getText());
@@ -415,7 +425,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         auth.setText(selectedNode.getAuth());
         dataId.setText(selectedNode.getDataId());
         cluster.setSelected(selectedNode.isCluster());
-        sentinel.setSelected(selectedNode.isSentine());
+        sentinel.setSelected(selectedNode.isSentinel());
         masterName.setText(selectedNode.getMasterName());
         ssl.setSelected(selectedNode.isSsl());
         caCrt.setText(selectedNode.getCaCrt());
