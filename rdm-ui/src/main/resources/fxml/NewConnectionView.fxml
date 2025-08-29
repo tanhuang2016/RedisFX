@@ -97,7 +97,7 @@
                                     </HBox>
                                     <HBox VBox.vgrow="ALWAYS">
                                        <children>
-                                          <VBox fx:id="sentinelVBox" alignment="CENTER_LEFT" managed="false" visible="false" HBox.hgrow="ALWAYS">
+                                          <VBox fx:id="sentinelVbox" alignment="CENTER_LEFT" managed="false" visible="false" HBox.hgrow="ALWAYS">
                                              <children>
                                                 <Separator />
                                                 <VBox alignment="CENTER_LEFT" spacing="2.0" VBox.vgrow="ALWAYS">

@@ -24,6 +24,7 @@ import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static xyz.hashdog.rdm.ui.common.Constant.ALERT_MESSAGE_CONNECT_SUCCESS;
@@ -90,7 +91,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
      * 哨兵模式下的节点列表
      */
     @FXML
-    public VBox sentinelVBox;
+    public VBox sentinelVbox;
     /**
      * 是否ssl
      */
@@ -287,16 +288,16 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
      * 显示sentinelVBox
      */
     private void showSentinelVbox() {
-        sentinelVBox.setVisible(true);
-        sentinelVBox.setManaged(true);
+        sentinelVbox.setVisible(true);
+        sentinelVbox.setManaged(true);
     }
 
     /**
      * 隐藏sentinelVBox
      */
     private void hideSentinelVbox() {
-        sentinelVBox.setVisible(false);
-        sentinelVBox.setManaged(false);
+        sentinelVbox.setVisible(false);
+        sentinelVbox.setManaged(false);
     }
 
 
@@ -362,7 +363,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
     /**
      * 确定之后将新增的节点持久化
      * 再对父窗口视图进行更新
-     * @param actionEvent
+     * @param actionEvent actionEvent
      */
     @FXML
     public void ok(ActionEvent actionEvent) {
@@ -394,7 +395,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
                 break;
 
         }
-        if(message.isSuccess()){
+        if(Objects.requireNonNull(message).isSuccess()){
             currentStage.close();
         }
         //如果是快速连接的话，确认之后，直接打开连接
@@ -405,11 +406,9 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
     }
 
 
-
-
     /**
      * 填充编辑数据
-     * @param selectedNode
+     * @param selectedNode 选中的节点
      */
     public void editInfo(ConnectionServerNode selectedNode) {
         name.setText(selectedNode.getName());
@@ -438,29 +437,57 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         treeShow.setSelected(selectedNode.isTreeShow());
         listShow.setSelected(!selectedNode.isTreeShow());
         this.id=selectedNode.getId();
-
     }
 
+    /**
+     * caCrt文件选择
+     * @param actionEvent actionEvent
+     */
+    @FXML
     public void caCrtFile(ActionEvent actionEvent) {
         File file = GuiUtil.fileChoose(this.root.getScene().getWindow(), lastFile);
+        if(file==null){
+            return;
+        }
         lastFile=file.getParentFile();
         this.caCrt.setText(file.getPath());
     }
-
+    /**
+     * redisCrt文件选择
+     * @param actionEvent actionEvent
+     */
+    @FXML
     public void redisCrtFile(ActionEvent actionEvent) {
         File file = GuiUtil.fileChoose(this.root.getScene().getWindow(), lastFile);
+        if(file==null){
+            return;
+        }
         lastFile=file.getParentFile();
         this.redisCrt.setText(file.getPath());
     }
-
+    /**
+     * redisKey文件选择
+     * @param actionEvent actionEvent
+     */
+    @FXML
     public void redisKeyFile(ActionEvent actionEvent) {
         File file = GuiUtil.fileChoose(this.root.getScene().getWindow(), lastFile);
+        if(file==null){
+            return;
+        }
         lastFile=file.getParentFile();
         this.redisKey.setText(file.getPath());
     }
-
+    /**
+     * sshPrivateKey文件选择
+     * @param actionEvent actionEvent
+     */
+    @FXML
     public void sshPrivateKeyFile(ActionEvent actionEvent) {
         File file = GuiUtil.fileChoose(this.root.getScene().getWindow(), lastFile);
+        if(file==null){
+            return;
+        }
         lastFile=file.getParentFile();
         this.sshPrivateKey.setText(file.getPath());
     }
