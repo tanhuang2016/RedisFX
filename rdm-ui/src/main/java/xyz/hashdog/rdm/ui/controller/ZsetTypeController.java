@@ -47,7 +47,6 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
      * 最后一个选中的行对应的最新的value展示
      */
     private ByteArrayController byteArrayController;
-    private ByteArrayController keyByteArrayController;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -59,6 +58,7 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
     private void initButton() {
         initButtonStyles();
     }
+
     private void initButtonStyles() {
         add.getStyleClass().addAll(
                 Styles.BUTTON_OUTLINED, Styles.ACCENT
@@ -77,7 +77,6 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
     }
 
 
-
     /**
      * 缓存list数据监听
      */
@@ -85,8 +84,8 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
         this.list.addListener((ListChangeListener<ZsetTypeTable>) change -> {
             while (change.next()) {
                 //删除到最后一个元素时,key也被删了,需要关闭tab
-                if (change.wasRemoved() && this.list.size() == 0) {
-                    super.parentController.parentController.removeTabByKeys(Arrays.asList(parameter.get().getKey()));
+                if (change.wasRemoved() && this.list.isEmpty()) {
+                    super.parentController.parentController.removeTabByKeys(Collections.singletonList(parameter.get().getKey()));
                     super.parentController.parentController.delKey(parameter);
                 }
             }
@@ -94,12 +93,9 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
     }
 
 
-
-
-
     private void bindData() {
         total.textProperty().bind(Bindings.createStringBinding(() -> String.format(TOTAL, this.list.size()), this.list));
-        size.textProperty().bind(Bindings.createStringBinding(() -> String.format(SIZE, this.list.stream().mapToLong(e -> e.getBytes().length ).sum()), this.list));
+        size.textProperty().bind(Bindings.createStringBinding(() -> String.format(SIZE, this.list.stream().mapToLong(e -> e.getBytes().length).sum()), this.list));
     }
 
     /**
@@ -117,12 +113,12 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
                 save.setDisable(false);
                 this.lastSelect = newValue;
                 Platform.runLater(() -> {
-                    Tuple2<AnchorPane, ByteArrayController> valueTuple2 = GuiUtil.loadByteArrayView(newValue.getBytes(),this);
+                    Tuple2<AnchorPane, ByteArrayController> valueTuple2 = GuiUtil.loadByteArrayView(newValue.getBytes(), this);
                     byteArrayController = valueTuple2.t2();
                     VBox vBox = (VBox) borderPane.getCenter();
                     VBox.setVgrow(valueTuple2.t1(), Priority.ALWAYS);
                     ObservableList<Node> children = vBox.getChildren();
-                    children.set(children.size()-1,valueTuple2.t1());
+                    children.set(children.size() - 1, valueTuple2.t1());
                     score.setText(String.valueOf(newValue.getScore()));
 
                 });
@@ -131,10 +127,10 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
     }
 
 
-
     /**
      * 初始化数据展示
      */
+    @Override
     protected void initInfo() {
         ThreadPool.getInstance().execute(() -> {
             Long total = this.exeRedis(j -> j.zcard(this.parameter.get().getKey()));
@@ -143,7 +139,7 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
             map.forEach((k, v) -> newList.add(new ZsetTypeTable(k, v)));
             Platform.runLater(() -> {
                 this.list.setAll(newList);
-                GuiUtil.initSimpleTableView(tableView,new ZsetTypeTable());
+                GuiUtil.initSimpleTableView(tableView, new ZsetTypeTable());
                 find(null);
                 //设置默认选中第一行
                 tableView.getSelectionModel().selectFirst();
@@ -156,8 +152,6 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
     }
 
 
-
-
     @Override
     protected Predicate<ZsetTypeTable> createNameFilter(String query) {
         String regex = query.replace("?", ".?").replace("*", ".*?");
@@ -168,17 +162,17 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
     /**
      * 保存值
      *
-     * @param actionEvent
+     * @param actionEvent 事件
      */
     @FXML
     public void save(ActionEvent actionEvent) {
         //修改后的value
         byte[] value = byteArrayController.getByteArray();
-        Double score = Double.valueOf(this.score.getText());
+        double score = Double.parseDouble(this.score.getText());
         int i = this.list.indexOf(lastSelect);
         async(() -> {
             //value发生变化的情况,需要先删后增
-            if (!Arrays.equals(value,lastSelect.getBytes())) {
+            if (!Arrays.equals(value, lastSelect.getBytes())) {
                 exeRedis(j -> j.zrem(this.getParameter().getKey().getBytes(), lastSelect.getBytes()));
                 lastSelect.setBytes(value);
             }
@@ -186,7 +180,7 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
             lastSelect.setScore(score);
             Platform.runLater(() -> {
                 //实际上list存的引用,lastSelect修改,list中的元素也会修改,重新set进去是为了触发更新事件
-                this.list.set(i,lastSelect);
+                this.list.set(i, lastSelect);
                 tableView.refresh();
                 byteArrayController.setByteArray(value);
                 GuiUtil.alert(Alert.AlertType.INFORMATION, language(ALERT_MESSAGE_SAVE_SUCCESS));
@@ -197,21 +191,21 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
     /**
      * 新增
      *
-     * @param actionEvent
+     * @param actionEvent 事件
      */
     @FXML
     public void add(ActionEvent actionEvent) {
-        Button source = (Button)actionEvent.getSource();
-        Tuple2<AnchorPane, ByteArrayController> tuple2 = GuiUtil.loadByteArrayView( "".getBytes(),this);
+        Button source = (Button) actionEvent.getSource();
+        Tuple2<AnchorPane, ByteArrayController> tuple2 = GuiUtil.loadByteArrayView("".getBytes(), this);
         VBox vBox = new VBox();
         VBox.setVgrow(tuple2.t1(), Priority.ALWAYS);
         ObservableList<Node> children = vBox.getChildren();
-        HBox hBox =createLabelHbox("Score");
+        HBox hBox = createLabelHbox("Score");
         children.add(hBox);
         TextField score = new TextField();
-        children.addAll(score,tuple2.t1());
-        Tuple2<AnchorPane, AppendController> appendTuple2= loadFxml("/fxml/AppendView.fxml");
-        Stage stage= GuiUtil.createSubStage(source.getText(),appendTuple2.t1(),root.getScene().getWindow());
+        children.addAll(score, tuple2.t1());
+        Tuple2<AnchorPane, AppendController> appendTuple2 = loadFxml("/fxml/AppendView.fxml");
+        Stage stage = GuiUtil.createSubStage(source.getText(), appendTuple2.t1(), root.getScene().getWindow());
         appendTuple2.t2().setCurrentStage(stage);
         appendTuple2.t2().setSubContent(vBox);
         stage.show();
@@ -219,10 +213,10 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
         appendTuple2.t2().ok.setOnAction(event -> {
             double v = Double.parseDouble(score.getText());
             byte[] byteArray = tuple2.t2().getByteArray();
-            async(()->{
-                exeRedis(j->j.zadd(this.parameter.get().getKey().getBytes(),v,byteArray));
-                Platform.runLater(()->{
-                    list.add(new ZsetTypeTable(v,byteArray));
+            async(() -> {
+                exeRedis(j -> j.zadd(this.parameter.get().getKey().getBytes(), v, byteArray));
+                Platform.runLater(() -> {
+                    list.add(new ZsetTypeTable(v, byteArray));
                     find(null);
                     stage.close();
                 });
@@ -233,7 +227,7 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
     /**
      * 删除行
      *
-     * @param actionEvent
+     * @param actionEvent 事件
      */
     public void delRow(ActionEvent actionEvent) {
         if (GuiUtil.alertRemove()) {
@@ -241,9 +235,10 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
         }
         async(() -> {
             exeRedis(j -> j.zrem(this.getParameter().getKey().getBytes(), lastSelect.getBytes()));
-            GuiUtil.remove2TableView(this.list,this.tableView,lastSelect);
+            GuiUtil.remove2TableView(this.list, this.tableView, lastSelect);
         });
     }
+
     @Override
     public void reloadInfo() {
         initInfo();
