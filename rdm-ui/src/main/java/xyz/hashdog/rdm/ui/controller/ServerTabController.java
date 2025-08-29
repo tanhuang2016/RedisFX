@@ -300,7 +300,7 @@ public class ServerTabController extends BaseClientController<MainController> {
      */
     private void initListener() {
         userDataPropertyListener();
-        choiceBoxSelectedLinstener();
+        choiceBoxSelectedListener();
         treeViewListener();
         newKeyListener();
         searchTextListener();
@@ -518,7 +518,7 @@ public class ServerTabController extends BaseClientController<MainController> {
      * db选择框监听
      * db切换后,更新key节点
      */
-    private void choiceBoxSelectedLinstener() {
+    private void choiceBoxSelectedListener() {
 
         choiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue==null){
@@ -531,18 +531,16 @@ public class ServerTabController extends BaseClientController<MainController> {
                 if (submit.get()!=null) {
                     search(null);
                 }
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            } catch (ExecutionException e) {
+            } catch (InterruptedException | ExecutionException e) {
+                log.error("choiceBoxSelectedListener Exception", e);
                 throw new RuntimeException(e);
             }
-//            ThreadPool.getInstance().execute(() -> {
-//                this.redisClient.select(db);
-//                search(null);
-//            });
         });
     }
 
+    /**
+     * 当key首次加载就完全加载完，就不显示工具栏
+     */
     private void resetToolBar() {
         boolean scanAll = this.choiceBox.getSelectionModel().getSelectedItem().getDbSize() <= SCAN_COUNT;
         this.toolBar.setVisible(!scanAll);
@@ -574,7 +572,7 @@ public class ServerTabController extends BaseClientController<MainController> {
      */
     private void initDBSelects() {
         ObservableList<DBNode> items = choiceBox.getItems();
-        ThreadPool.getInstance().execute(() -> {
+        async(() -> {
             Map<Integer, Integer> map = this.redisClient.dbSize();
             Platform.runLater(() -> {
                 for (Map.Entry<Integer, Integer> en : map.entrySet()) {
@@ -591,7 +589,6 @@ public class ServerTabController extends BaseClientController<MainController> {
      * 重置db数量
      */
     private void resetDBSelects(){
-
         DBNode selectedItem = choiceBox.getSelectionModel().getSelectedItem();
         ObservableList<DBNode> items= FXCollections.observableArrayList();
         ThreadPool.getInstance().execute(() -> {
@@ -615,20 +612,20 @@ public class ServerTabController extends BaseClientController<MainController> {
     private void initTreeViewMultiple() {
         // 启用多选功能
         treeView.getSelectionModel().setSelectionMode(javafx.scene.control.SelectionMode.MULTIPLE);
-        //shift 或则ctrol+鼠标单机为选取操作,会触发选中,选择父节点会同步选中子节点
+        //shift 或则ctrl+鼠标单机为选取操作,会触发选中,选择父节点会同步选中子节点
         treeView.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 1) { // Check for single click
+            if (event.getClickCount() == 1) {
                 if (event.isShiftDown() || event.isControlDown()) {
                     List<TreeItem<KeyTreeNode>> list = new ArrayList<>();
                     for (TreeItem<KeyTreeNode> selectedItem : treeView.getSelectionModel().getSelectedItems()) {
-                        if (!selectedItem.isLeaf()) { // Check if the selected node is a parent node
+                        if (!selectedItem.isLeaf()) {
                             list.add(selectedItem);
 
                         }
                     }
                     for (TreeItem<KeyTreeNode> selectedItem : list) {
                         //设置选中
-                        selectChildren((TreeItem<KeyTreeNode>) selectedItem);
+                        selectChildren( selectedItem);
                     }
                 }
 
@@ -640,12 +637,14 @@ public class ServerTabController extends BaseClientController<MainController> {
      * 数据已经有了,直接更新到视图
      */
     private void initTreeView(List<String> keys) {
-
         ObservableList<TreeItem<KeyTreeNode>> children = treeView.getRoot().getChildren();
         children.clear();
         loadIntoTreeView(keys);
     }
 
+    /**
+     * 把查询到的key加载到视图，可以增量加载
+     */
     private void loadIntoTreeView(List<String> keys) {
         Platform.runLater(() -> {
             if(this.redisContext.getRedisConfig().isTreeShow()){
@@ -654,12 +653,11 @@ public class ServerTabController extends BaseClientController<MainController> {
                 buildListView(keys);
             }
         });
-
     }
 
     /**
      * key构建列表
-     * @param keys
+     * @param keys key列表
      */
     private void buildListView( List<String> keys) {
         ObservableList<TreeItem<KeyTreeNode>> children = treeView.getRoot().getChildren();
@@ -672,7 +670,9 @@ public class ServerTabController extends BaseClientController<MainController> {
 
     /**
      * key排序
-     * @return
+     * 目录排前，key排后面，如果有创建时间，则根据创建时间新建的key排前面
+     * 这样是避免定位的时候滚动条滑动，造成不必要的图标加载
+     * @return 排序规则
      */
     private Comparator<TreeItem<KeyTreeNode>> treeItemSortComparator(){
         return (o1, o2) -> {
@@ -707,7 +707,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     /**
      * KEY展示构建树形结构
      * 递归构建，新能不好，已经过时
-     * @param keys
+     * @param keys key列表
      */
     @Deprecated
     private void buildTreeViewOld(List<String> keys) {
@@ -742,7 +742,6 @@ public class ServerTabController extends BaseClientController<MainController> {
                             finalChildNode.getValue().setParent(current.getValue());
                         }
                     }
-//                    current.getChildren().sort(treeItemSortComparator());
                 }
 
                 current = childNode;
@@ -753,7 +752,7 @@ public class ServerTabController extends BaseClientController<MainController> {
 
     /**
      * 控件换时间，利用缓存优化了key的树形结构构造，速度提升了10倍不止
-     * @param keys
+     * @param keys key列表
      */
     private void buildTreeView(List<String> keys) {
         TreeItem<KeyTreeNode> root = treeView.getRoot();
@@ -799,9 +798,9 @@ public class ServerTabController extends BaseClientController<MainController> {
     }
 
     /**
-     * 根节点下的所有子目录
-     * @param root
-     * @return
+     * 找到根节点下的所有子目录
+     * @param root 根节点
+     * @return 子目录节点
      */
     private Map<String, TreeItem<KeyTreeNode>> findTreeItemDir(TreeItem<KeyTreeNode> root) {
         Map<String, TreeItem<KeyTreeNode>> directoryNodes = new HashMap<>();
