@@ -55,7 +55,11 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
-
+/**
+ * 服务tab页
+ *
+ * @author th
+ */
 public class ServerTabController extends BaseClientController<MainController> {
 
 
@@ -206,8 +210,8 @@ public class ServerTabController extends BaseClientController<MainController> {
 
     /**
      * 创建搜索记录的菜单项
-     * @param str
-     * @return
+     * @param str 历史记录名称
+     * @return 菜单项
      */
     private MenuItem createSearchHistoryMenuItem(String str) {
         MenuItem menuItem = new MenuItem(str);
@@ -219,7 +223,7 @@ public class ServerTabController extends BaseClientController<MainController> {
 
     /**
      * 搜索记录变更，需要更新menuButton的显示内容
-     * @param list
+     * @param list 最新历史记录列表
      */
     private void doRecentHistory(List<String> list) {
         ObservableList<MenuItem> items = history.getItems();
@@ -269,7 +273,6 @@ public class ServerTabController extends BaseClientController<MainController> {
     private void initButtonIcon() {
         search.setGraphic(new FontIcon(Feather.SEARCH));
         reset.setGraphic(new FontIcon(Material2AL.CLEAR));
-//        isLike.setGraphic(new Label(" .* "));
         SvgManager.loadMini(this,isLike,"/svg/regex/regex.svg");
         GuiUtil.setIcon(searchOptionsButton,new FontIcon((Material2MZ.MORE_VERT)));
         GuiUtil.setIcon(locationButton,new FontIcon((Material2MZ.RADIO_BUTTON_CHECKED)));
@@ -361,8 +364,8 @@ public class ServerTabController extends BaseClientController<MainController> {
      */
     private void initTreeViewRoot() {
         treeView.setRoot(new TreeItem<>());
-        // 自动展开根节点
-        treeView.setShowRoot(false); // 隐藏根节点
+        // 隐藏根节点
+        treeView.setShowRoot(false);
         //默认根节点为选中节点
         treeView.getSelectionModel().select(treeView.getRoot());
         treeView.setCellFactory(tv -> new TreeCell<KeyTreeNode>() {
@@ -394,6 +397,11 @@ public class ServerTabController extends BaseClientController<MainController> {
         });
     }
 
+    /**
+     * 加兹安节点图标
+     * 先加入队列，再批量触发加载，避免线程频繁切换带来的开销
+     * @param treeItem 节点
+     */
     private void loadNodeGraphicIfNeeded(TreeItem<KeyTreeNode> treeItem) {
         if (!treeItem.getValue().getLeaf()) {
             return;
@@ -407,8 +415,11 @@ public class ServerTabController extends BaseClientController<MainController> {
         }
     }
 
+    /**
+     * 触发批量加载图标
+     */
     private void triggerBatchLoad() {
-        ThreadPool.getInstance().execute(() -> {
+        async(() -> {
             try {
                 // 批量处理队列中的所有节点
                 TreeItem<KeyTreeNode> treeItem;
@@ -432,7 +443,7 @@ public class ServerTabController extends BaseClientController<MainController> {
                 }
 
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("triggerBatchLoad Exception", e);
             } finally {
                 // 释放锁，允许下一次加载
                 isLoading.set(false);
