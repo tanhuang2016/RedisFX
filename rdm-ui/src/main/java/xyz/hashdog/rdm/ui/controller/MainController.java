@@ -575,15 +575,14 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
      */
     @FXML
     public void keyTabTop(ActionEvent actionEvent) {
-        setKeyTabSide(serverTabPane,Side.TOP);
+        setKeyTabSide(Side.TOP);
     }
 
     /**
      * 设置key tab页放置位置
-     * @param serverTabPane  容器
      * @param side  side
      */
-    private void setKeyTabSide(TabPane serverTabPane, Side side) {
+    private void setKeyTabSide( Side side) {
         for (Tab tab : this.serverTabPane.getTabs()) {
             Object userData = tab.getUserData();
             if(userData instanceof ServerTabController stc){
@@ -598,7 +597,7 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
      */
     @FXML
     public void keyTabBottom(ActionEvent actionEvent) {
-        setKeyTabSide(serverTabPane,Side.BOTTOM);
+        setKeyTabSide(Side.BOTTOM);
     }
 
     /**
@@ -607,7 +606,7 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
      */
     @FXML
     public void keyTabLeft(ActionEvent actionEvent) {
-        setKeyTabSide(serverTabPane,Side.LEFT);
+        setKeyTabSide(Side.LEFT);
     }
 
     /**
@@ -616,6 +615,6 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
      */
     @FXML
     public void keyTabRight(ActionEvent actionEvent) {
-        setKeyTabSide(serverTabPane,Side.RIGHT);
+        setKeyTabSide(Side.RIGHT);
     }
 }
