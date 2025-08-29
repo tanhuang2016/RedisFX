@@ -35,7 +35,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
      * 上边栏的按钮父节点
      */
     @FXML
-    public ToolBar buttonsHBox;
+    public ToolBar buttonsHbox;
     /**
      * 右键菜单
      */
@@ -141,15 +141,15 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
             //是否为根
             boolean isRoot = newValue.getValue().isRoot();
             // 使用选择器获取一组按钮,原子叶子节点才能连接,否则是目录才能新建分组和新建连接
-            buttonsHBox.lookupAll(".isLeafNode").forEach(node -> {
+            buttonsHbox.lookupAll(".isLeafNode").forEach(node -> {
                 Button button = (Button) node;
                 button.setDisable(!isLeafNode);
             });
-            buttonsHBox.lookupAll(".isNotLeafNode").forEach(node -> {
+            buttonsHbox.lookupAll(".isNotLeafNode").forEach(node -> {
                 Button button = (Button) node;
                 button.setDisable(isLeafNode);
             });
-            buttonsHBox.lookupAll(".isNotRoot").forEach(node -> {
+            buttonsHbox.lookupAll(".isNotRoot").forEach(node -> {
                 Button button = (Button) node;
                 button.setDisable(isRoot);
             });
@@ -180,11 +180,10 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
      * 初始化树节点
      */
     private void initTreeView() {
-        initTreeViewCellFactory();
         initTreeViewData();
+        // 隐藏根节点
+        treeView.setShowRoot(false);
         // 自动展开根节点
-        treeView.setShowRoot(false); // 隐藏根节点
-        // Expand all nodes
         GuiUtil.expandAllNodes(treeView.getRoot());
         //默认根节点为选中节点
         treeView.getSelectionModel().select(treeView.getRoot());
@@ -198,30 +197,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
         treeView.setRoot(rootItem);
     }
 
-    /**
-     * 设置树节点的显示方式
-     * 改为直接用TreeView泛型实体类的toString方法来显示
-     */
-    @Deprecated
-    private void initTreeViewCellFactory() {
-//        treeView.setCellFactory(new Callback<TreeView<ConnectionServerNode>, TreeCell<ConnectionServerNode>>() {
-//            @Override
-//            public TreeCell<ConnectionServerNode> call(TreeView<ConnectionServerNode> param) {
-//
-//                return new TreeCell<ConnectionServerNode>() {
-//                    @Override
-//                    protected void updateItem(ConnectionServerNode item, boolean empty) {
-//                        super.updateItem(item, empty);
-//                        if (empty) {
-//                            setText(null);
-//                        } else {
-//                            setText(item.getName());
-//                        }
-//                    }
-//                };
-//            }
-//        });
-    }
+
 
 
 
@@ -229,7 +205,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
      * 新建连接
      * 每次打开新窗口,所以Stage不用缓存
      *
-     * @param actionEvent
+     * @param actionEvent 点击事件
      */
     @FXML
     public void newConnection(ActionEvent actionEvent) throws IOException {

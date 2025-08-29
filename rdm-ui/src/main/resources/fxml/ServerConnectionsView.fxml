@@ -19,7 +19,7 @@
          <top>
             <VBox prefHeight="25.0" prefWidth="470.0" BorderPane.alignment="CENTER">
                <children>
-                  <ToolBar fx:id="buttonsHBox" prefHeight="23.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                  <ToolBar fx:id="buttonsHbox" prefHeight="23.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                         <Button fx:id="connect" mnemonicParsing="false" onAction="#connect" styleClass="isLeafNode" disable="true">
                             <tooltip>
                                 <Tooltip text="%main.file.connect.connect" />
