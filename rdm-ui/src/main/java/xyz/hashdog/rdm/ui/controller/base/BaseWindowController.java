@@ -67,14 +67,13 @@ public abstract class BaseWindowController<T> extends BaseController<T> {
         AnchorPane borderPane = tuple2.t1();
         T2 controller = tuple2.t2();
         controller.setParentController(this);
+        this.addChild(controller);
         controller.setCurrentStage(newConnctionWindowStage);
         Scene scene = new Scene(borderPane);
         newConnctionWindowStage.initOwner(parent);
         newConnctionWindowStage.setScene(scene);
         newConnctionWindowStage.show();
         controller.model=model;
-        controller.setParentController(this);
-        this.addChild(controller);
         return controller;
     }
 

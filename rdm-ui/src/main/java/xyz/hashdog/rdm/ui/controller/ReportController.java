@@ -461,8 +461,6 @@ public class ReportController extends BaseClientController<ServerTabController> 
     private void initRefreshPopover() {
         Tuple2<AnchorPane, RefreshPopover> tuple2 = loadFxml("/fxml/popover/RefreshPopover.fxml");
         AnchorPane root = tuple2.t1();
-        this.addChild(tuple2.t2());
-        tuple2.t2().setParentController(this);
         tuple2.t2().initAutoRefreshState(true);
         var pop = new Popover(root);
         pop.setHeaderAlwaysVisible(false);

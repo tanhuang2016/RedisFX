@@ -75,7 +75,10 @@ public abstract class BaseController<T> implements AutoCloseable {
      * @param <T2> 控制器
      * @return 容器和控制器
      */
-    public <T1,T2>Tuple2<T1,T2> loadFxml(String fxml) {
+    public <T1,T2 extends BaseController>Tuple2<T1,T2> loadFxml(String fxml) {
+        Tuple2<Object, BaseController> tuple2 = GuiUtil.doLoadFxml(fxml);
+        tuple2.t2().setParentController(this);
+        this.addChild(tuple2.t2());
         return GuiUtil.doLoadFxml(fxml);
     }
 
@@ -83,7 +86,7 @@ public abstract class BaseController<T> implements AutoCloseable {
      * 设置父控制器
      * @param parentController 父控制器
      */
-    public void setParentController(T parentController) {
+    void setParentController(T parentController) {
         this.parentController = parentController;
     }
 
@@ -110,7 +113,7 @@ public abstract class BaseController<T> implements AutoCloseable {
 
     }
 
-    protected void addChild(BaseController<?> t) {
+    void addChild(BaseController<?> t) {
         this.children.add(t);
     }
 }
