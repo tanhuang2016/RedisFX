@@ -132,7 +132,7 @@
                                  </BorderPane>
                                       </children>
                                   </VBox>
-                           <Button fx:id="showButton" mnemonicParsing="false" onAction="#showToolbar" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0" />
+                           <Button fx:id="showButton" mnemonicParsing="false" onAction="#showToolbar" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="72.0" />
                               </children>
                         <padding>
                            <Insets right="5.0" />
