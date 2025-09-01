@@ -14,6 +14,7 @@ import javafx.scene.web.WebView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.hashdog.rdm.redis.client.RedisPubSub;
+import xyz.hashdog.rdm.redis.client.RedisSubscriber;
 import xyz.hashdog.rdm.ui.controller.base.BaseClientController;
 import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
 import xyz.hashdog.rdm.ui.sampler.event.ThemeEvent;
@@ -25,8 +26,6 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
@@ -45,8 +44,8 @@ public class PubSubController extends BaseClientController<ServerTabController> 
     public Label messageSize;
     private int messageCounter = 0;
     private static final int MAX_MESSAGES = 200;
-    private final AtomicReference<Thread> subscribeThreadRef = new AtomicReference<>();
-    private final AtomicBoolean isSub = new AtomicBoolean(false);
+
+    private RedisSubscriber subscriber;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initButton();
@@ -59,7 +58,12 @@ public class PubSubController extends BaseClientController<ServerTabController> 
         });
 
 
+    }
 
+    @Override
+    protected void paramInitEnd() {
+        super.paramInitEnd();
+        this.subscriber = this.redisClient.subscriber();
     }
 
     private void initButton() {
@@ -411,49 +415,20 @@ public class PubSubController extends BaseClientController<ServerTabController> 
      * 取消订阅
      */
     private void unsubscribe() {
-        async(() -> {
-            Thread thread = subscribeThreadRef.getAndSet(null);
-            if (thread != null && thread.isAlive()) {
-                // 中断监控线程
-                thread.interrupt();
-                this.redisClient.unsubscribe(subChannel.getText());
-                isSub.set(false);
-            }
-        });
-
+        this.subscriber.unsubscribe();
     }
 
     @FXML
     public void subscribe(ActionEvent actionEvent) {
         if (subscribe.isSelected()) {
-            this.unsubscribe();
             subscribe.setText(language("server.pubsub.unsubscribe"));
-            Thread subscribeThread = new Thread(() -> {
-                try {
-                    this.redisClient.psubscribe(new RedisPubSub() {
-                        @Override
-                        public void onMessage(String channel, String msg) {
-                            if(!isSub.get()){
-                                Thread.currentThread().interrupt();
-                            }else {
-                                addSubscriptionMessage(LocalDateTime.now().toString(),channel,msg);
-                            }
-                        }
-                    },subChannel.getText());
-                }catch (Exception e){
-                    // 检查是否因为中断导致的异常
-                    if (Thread.currentThread().isInterrupted()) {
-                        log.warn("subscribe is interrupted");
-                    } else {
-                        log.error("subscribe error",e);
-                    }
+            this.subscriber.redisPubSub(new RedisPubSub() {
+                @Override
+                public void onMessage(String channel, String msg) {
+                    addSubscriptionMessage(LocalDateTime.now().toString(),channel,msg);
                 }
-
-            });
-            subscribeThread.setDaemon(true);
-            subscribeThreadRef.set(subscribeThread);
-            isSub.set(true);
-            subscribeThread.start();
+            }).text(subChannel.getText());
+            this.subscriber.subscribe();
             subChannel.setEditable(false);
         }else {
             this.unsubscribe();

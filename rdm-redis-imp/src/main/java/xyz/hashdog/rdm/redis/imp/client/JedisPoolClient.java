@@ -12,10 +12,7 @@ import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.common.util.TUtil;
 import xyz.hashdog.rdm.redis.Message;
-import xyz.hashdog.rdm.redis.client.RedisClient;
-import xyz.hashdog.rdm.redis.client.RedisKeyScanner;
-import xyz.hashdog.rdm.redis.client.RedisMonitor;
-import xyz.hashdog.rdm.redis.client.RedisPubSub;
+import xyz.hashdog.rdm.redis.client.*;
 import xyz.hashdog.rdm.redis.exceptions.RedisException;
 import xyz.hashdog.rdm.redis.imp.Util;
 import xyz.hashdog.rdm.redis.imp.console.RedisConsole;
@@ -34,10 +31,6 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
     private static final Logger log = LoggerFactory.getLogger(JedisPoolClient.class);
 
     private final Jedis jedis;
-    /**
-     * 订阅的jedis
-     */
-    private volatile   Jedis subJedis;
     private final Pool<Jedis> jedisPool;
     public JedisPoolClient(Pool<Jedis> jedisPool) {
         this.jedisPool = jedisPool;
@@ -520,10 +513,8 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
 
     @Override
     public void psubscribe(RedisPubSub redisPubSub, String text) {
-        unsubscribe(text);
-        this.subJedis=jedisPool.getResource();
         //订阅模式有命令限制，得单独拿一个连接来操作
-        this.subJedis.psubscribe(new JedisPubSub() {
+        jedisPool.getResource().psubscribe(new JedisPubSub() {
             @Override
             public void onPMessage(String pattern, String channel, String message) {
                 redisPubSub.onMessage(channel,message);
@@ -532,14 +523,39 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
     }
 
     @Override
-    public void unsubscribe(String text) {
-        if(subJedis!=null){
-            jedis.sendCommand(Protocol.Command.PUNSUBSCRIBE, text);
-//        subJedis.sendCommand(CommandExt.QUIT);
-            Util.close(subJedis);
-            subJedis=null;
-        }
+    public RedisSubscriber subscriber(){
+        return new RedisSubscriber(){
+            private volatile Jedis subJedis;
+            @Override
+            public void doSubscribe() {
+                this.subJedis=jedisPool.getResource();
+                //订阅模式有命令限制，得单独拿一个连接来操作
+                this.subJedis.psubscribe(new JedisPubSub() {
+                    @Override
+                    public void onPMessage(String pattern, String channel, String message) {
+                        if(isSub.get()){
+                            redisPubSub.onMessage(channel,message);
+                        }else {
+                            Thread.currentThread().interrupt();
+                        }
+                    }
+                },text);
+            }
+
+
+            @Override
+            public void unsubscribe() {
+                super.unsubscribe();
+                if(subJedis!=null){
+                    jedis.sendCommand(Protocol.Command.PUNSUBSCRIBE, text);
+                    Util.close(subJedis);
+                    subJedis=null;
+                }
+            }
+        };
     }
+
+
 
     @Override
     public long publish(String channel, String message) {

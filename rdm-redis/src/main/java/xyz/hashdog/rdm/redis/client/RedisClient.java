@@ -396,16 +396,17 @@ public interface RedisClient extends Closeable {
 
      /**
      * 订阅redis命令
+     * 该订阅，要取消只能靠中断线程，现在改用subscriber
      * @param redisPubSub 订阅对象
      * @param text 订阅命令
      */
     void psubscribe(RedisPubSub redisPubSub, String text);
 
     /**
-     * 取消订阅
-     * @param text 订阅命令
+     * 获取订阅者
+     * @return 订阅者
      */
-    void unsubscribe(String text);
+    RedisSubscriber subscriber();
 
     /**
      * 发布redis命令

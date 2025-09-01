@@ -12,10 +12,7 @@ import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.common.util.TUtil;
 import xyz.hashdog.rdm.redis.Message;
 import xyz.hashdog.rdm.redis.RedisConfig;
-import xyz.hashdog.rdm.redis.client.RedisClient;
-import xyz.hashdog.rdm.redis.client.RedisKeyScanner;
-import xyz.hashdog.rdm.redis.client.RedisMonitor;
-import xyz.hashdog.rdm.redis.client.RedisPubSub;
+import xyz.hashdog.rdm.redis.client.*;
 import xyz.hashdog.rdm.redis.exceptions.RedisException;
 import xyz.hashdog.rdm.redis.imp.console.RedisConsole;
 
@@ -546,9 +543,13 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
     }
 
     @Override
-    public void unsubscribe(String text) {
-        jedis.sendCommand(Protocol.Command.PUNSUBSCRIBE, text);
-//        jedis.sendCommand(CommandExt.QUIT);
+    public RedisSubscriber subscriber(){
+        return new RedisSubscriber(){
+            @Override
+            public void doSubscribe() {
+                psubscribe(redisPubSub,text);
+            }
+        };
     }
 
     @Override
