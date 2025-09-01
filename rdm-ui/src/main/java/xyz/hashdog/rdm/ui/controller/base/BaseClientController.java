@@ -102,7 +102,7 @@ public abstract class BaseClientController<T> extends BaseController<T>{
      * @return
      */
     protected final  <T1,T2> Tuple2<T1,T2> loadClientFxml(String fxml) {
-        Tuple2<Object, BaseClientController> tuple2 = super.loadFxml(fxml);
+        Tuple2<T1, BaseClientController> tuple2 = super.loadFxml(fxml);
         BaseClientController controller = tuple2.t2();
         PassParameter passParameter = new PassParameter(PassParameter.CONSOLE);
         passParameter.setDb(this.currentDb);

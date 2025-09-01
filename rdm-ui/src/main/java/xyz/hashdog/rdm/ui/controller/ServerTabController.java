@@ -12,16 +12,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -1150,7 +1147,7 @@ public class ServerTabController extends BaseClientController<MainController> {
      * @param tab tab
      * @param tuple2 tuple2
      */
-    private void setTab(Tab tab, Tuple2<AnchorPane, ? extends BaseClientController> tuple2) {
+    private void setTab(Tab tab, Tuple2<? extends Node, ? extends BaseClientController> tuple2) {
         // 监听Tab被关闭事件,但是remove是无法监听的
         tab.setOnClosed(event2 -> {
             async(()->tuple2.t2().close());
@@ -1163,83 +1160,23 @@ public class ServerTabController extends BaseClientController<MainController> {
 
     @FXML
     public void monitor(ActionEvent actionEvent) throws IOException {
-        Tuple2<AnchorPane,ConsoleController> tuple2 = loadFxml("/fxml/MonitorView.fxml");
-        AnchorPane anchorPane = tuple2.t1();
-        BaseClientController controller = tuple2.t2();
-        PassParameter passParameter = new PassParameter(PassParameter.MONITOR);
-        passParameter.setDb(this.currentDb);
-        passParameter.setRedisClient(redisContext.newRedisClient());
-        passParameter.setRedisContext(redisContext);
-        controller.setParameter(passParameter);
-        Tab tab = new Tab("Monitor");
-        if(passParameter.getTabType()==PassParameter.MONITOR){
-            // 监听Tab被关闭事件,但是remove是无法监听的
-            tab.setOnClosed(event2 -> {
-                ThreadPool.getInstance().execute(()->{
-                    controller.getRedisClient().close();
-                    controller.close();
-                });
-            });
-        }
-        ContextMenu cm=GuiUtil.newTabContextMenu(tab);
-        tab.setContent(anchorPane);
-        tab.setGraphic(GuiUtil.creatMonitorIcon());
-        this.dbTabPane.getTabs().add(tab);
-        this.dbTabPane.getSelectionModel().select(tab);
+        Tuple2<AnchorPane,ConsoleController> tuple2 = loadClientFxml("/fxml/MonitorView.fxml");
+        Tab tab = new Tab("Monitor",GuiUtil.creatMonitorIcon());
+        setTab(tab,tuple2);
     }
 
     @FXML
     public void report(ActionEvent actionEvent) throws IOException {
-        Tuple2<ScrollPane,ConsoleController> tuple2 = loadFxml("/fxml/ReportView.fxml");
-        Region anchorPane = tuple2.t1();
-        BaseClientController controller = tuple2.t2();
-        PassParameter passParameter = new PassParameter(PassParameter.MONITOR);
-        passParameter.setDb(this.currentDb);
-        passParameter.setRedisClient(redisContext.newRedisClient());
-        passParameter.setRedisContext(redisContext);
-        controller.setParameter(passParameter);
-        Tab tab = new Tab("Report");
-        if(passParameter.getTabType()==PassParameter.MONITOR){
-            // 监听Tab被关闭事件,但是remove是无法监听的
-            tab.setOnClosed(event2 -> {
-                ThreadPool.getInstance().execute(()->{
-                    controller.getRedisClient().close();
-                    controller.close();
-                });
-            });
-        }
-        ContextMenu cm=GuiUtil.newTabContextMenu(tab);
-        tab.setContent(anchorPane);
-        tab.setGraphic(GuiUtil.creatInfoIcon());
-        this.dbTabPane.getTabs().add(tab);
-        this.dbTabPane.getSelectionModel().select(tab);
+        Tuple2<ScrollPane,ConsoleController> tuple2 = loadClientFxml("/fxml/ReportView.fxml");
+        Tab tab = new Tab("Report",GuiUtil.creatInfoIcon());
+        setTab(tab,tuple2);
     }
 
     @FXML
     public void pubsub(ActionEvent actionEvent) throws IOException {
-        Tuple2<AnchorPane,ConsoleController> tuple2 = loadFxml("/fxml/PubSubView.fxml");
-        AnchorPane anchorPane = tuple2.t1();
-        BaseClientController controller = tuple2.t2();
-        PassParameter passParameter = new PassParameter(PassParameter.PUBSUB);
-        passParameter.setDb(this.currentDb);
-        passParameter.setRedisClient(redisContext.newRedisClient());
-        passParameter.setRedisContext(redisContext);
-        controller.setParameter(passParameter);
-        Tab tab = new Tab("Pub/Sub");
-        if(passParameter.getTabType()==PassParameter.PUBSUB){
-            // 监听Tab被关闭事件,但是remove是无法监听的
-            tab.setOnClosed(event2 -> {
-                ThreadPool.getInstance().execute(()->{
-                    controller.getRedisClient().close();
-                    controller.close();
-                });
-            });
-        }
-        ContextMenu cm=GuiUtil.newTabContextMenu(tab);
-        tab.setContent(anchorPane);
-        tab.setGraphic(GuiUtil.creatPubSubIcon());
-        this.dbTabPane.getTabs().add(tab);
-        this.dbTabPane.getSelectionModel().select(tab);
+        Tuple2<AnchorPane,ConsoleController> tuple2 = loadClientFxml("/fxml/PubSubView.fxml");
+        Tab tab = new Tab("Pub/Sub",GuiUtil.creatPubSubIcon());
+        setTab(tab,tuple2);
     }
 
     /**
