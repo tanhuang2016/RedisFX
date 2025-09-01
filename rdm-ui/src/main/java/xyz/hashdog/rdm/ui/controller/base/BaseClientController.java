@@ -99,16 +99,25 @@ public abstract class BaseClientController<T> extends BaseController<T>{
      * @param fxml fxml文件
      * @param <T1> 容器
      * @param <T2> 控制器
-     * @return
+     * @return 子窗口
      */
-    protected final  <T1,T2> Tuple2<T1,T2> loadClientFxml(String fxml) {
+    protected final  <T1,T2> Tuple2<T1,T2> loadClientFxml(String fxml,int dbType) {
         Tuple2<T1, BaseClientController> tuple2 = super.loadFxml(fxml);
         BaseClientController controller = tuple2.t2();
-        PassParameter passParameter = new PassParameter(PassParameter.CONSOLE);
+        PassParameter passParameter = new PassParameter(dbType);
         passParameter.setDb(this.currentDb);
         passParameter.setRedisClient(redisContext.newRedisClient());
         passParameter.setRedisContext(redisContext);
         controller.setParameter(passParameter);
         return (Tuple2<T1, T2>) tuple2;
+    }
+    @Override
+    public void close() {
+        super.close();
+        int tabType = parameter.get().getTabType();
+        //这几个类型，使用单独的客户端连接，需要单独关闭
+        if(tabType== PassParameter.CONSOLE||tabType== PassParameter.MONITOR||tabType== PassParameter.PUBSUB||tabType== PassParameter.REPORT){
+            this.redisClient.close();
+        }
     }
 }

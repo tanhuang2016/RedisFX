@@ -561,9 +561,7 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
 
     @Override
     public void close()  {
-        if(this.jedis!=null){
-            this.jedis.close();
-        }
-
+        //jedisPool在上下文中关闭
+        Util.close(jedis);
     }
 }

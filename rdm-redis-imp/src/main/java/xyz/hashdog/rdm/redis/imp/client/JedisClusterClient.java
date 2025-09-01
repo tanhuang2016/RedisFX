@@ -577,8 +577,7 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
 
     @Override
     public void close()  {
-        if(this.jedis!=null){
-            this.jedis.close();
-        }
+        //jedis集群模式属于连接池，要在上下文中关闭
+//        Util.close(jedis);
     }
 }

@@ -25,6 +25,7 @@ public class PassParameter {
     public static final int STREAM = 10;
     public final  static int MONITOR=11;
     public final  static int PUBSUB=12;
+    public static final int REPORT = 13;
 
     private int tabType;
     private int db;

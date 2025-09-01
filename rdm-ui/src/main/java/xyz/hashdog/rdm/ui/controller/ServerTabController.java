@@ -1137,7 +1137,7 @@ public class ServerTabController extends BaseClientController<MainController> {
      */
     @FXML
     public void console(ActionEvent actionEvent) throws IOException {
-        Tuple2<AnchorPane,ConsoleController> tuple2 = loadClientFxml("/fxml/ConsoleView.fxml");
+        Tuple2<AnchorPane,ConsoleController> tuple2 = loadClientFxml("/fxml/ConsoleView.fxml",PassParameter.CONSOLE);
         Tab tab = new Tab("Console");
         tab.setGraphic(GuiUtil.creatConsoleIcon());
         setTab(tab,tuple2);
@@ -1161,7 +1161,7 @@ public class ServerTabController extends BaseClientController<MainController> {
 
     @FXML
     public void monitor(ActionEvent actionEvent) throws IOException {
-        Tuple2<AnchorPane,ConsoleController> tuple2 = loadClientFxml("/fxml/MonitorView.fxml");
+        Tuple2<AnchorPane,ConsoleController> tuple2 = loadClientFxml("/fxml/MonitorView.fxml",PassParameter.MONITOR);
         Tab tab = new Tab("Monitor");
         tab.setGraphic(GuiUtil.creatMonitorIcon());
         setTab(tab,tuple2);
@@ -1169,7 +1169,7 @@ public class ServerTabController extends BaseClientController<MainController> {
 
     @FXML
     public void report(ActionEvent actionEvent) throws IOException {
-        Tuple2<ScrollPane,ConsoleController> tuple2 = loadClientFxml("/fxml/ReportView.fxml");
+        Tuple2<ScrollPane,ConsoleController> tuple2 = loadClientFxml("/fxml/ReportView.fxml",PassParameter.REPORT);
         Tab tab = new Tab("Report");
         tab.setGraphic(GuiUtil.creatInfoIcon());
         setTab(tab,tuple2);
@@ -1177,7 +1177,7 @@ public class ServerTabController extends BaseClientController<MainController> {
 
     @FXML
     public void pubsub(ActionEvent actionEvent) throws IOException {
-        Tuple2<AnchorPane,ConsoleController> tuple2 = loadClientFxml("/fxml/PubSubView.fxml");
+        Tuple2<AnchorPane,ConsoleController> tuple2 = loadClientFxml("/fxml/PubSubView.fxml",PassParameter.PUBSUB);
         Tab tab = new Tab("Pub/Sub");
         tab.setGraphic(GuiUtil.creatPubSubIcon());
         setTab(tab,tuple2);
@@ -1498,5 +1498,12 @@ public class ServerTabController extends BaseClientController<MainController> {
     @FXML
     public void isLikeChange(ActionEvent actionEvent) {
         search(null);
+    }
+
+    @Override
+    public void close() {
+        super.close();
+        //key的服务tab都关闭了，那所有连接都要关闭
+        this.redisContext.close();
     }
 }
