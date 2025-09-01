@@ -397,6 +397,13 @@ public class PubSubController extends BaseClientController<ServerTabController> 
 
     @Override
     public void close() {
+        super.close();
+        unsubscribe();
+    }
+    /**
+     * 取消订阅
+     */
+    private void unsubscribe() {
         if (subscribeThread != null && subscribeThread.isAlive()) {
             // 中断监控线程
             subscribeThread.interrupt();
@@ -419,11 +426,13 @@ public class PubSubController extends BaseClientController<ServerTabController> 
             subscribeThread.setDaemon(true);
             subscribeThread.start();
         }else {
-            this.close();
+            this.unsubscribe();
             subscribe.setText(language("server.pubsub.subscribe"));
         }
 
     }
+
+
 
     public void publish(ActionEvent actionEvent) {
         async(() -> {
