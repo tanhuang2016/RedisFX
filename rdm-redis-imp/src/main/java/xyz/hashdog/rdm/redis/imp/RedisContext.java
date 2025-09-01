@@ -24,6 +24,7 @@ public class RedisContext implements xyz.hashdog.rdm.redis.RedisContext{
      * redis客户创建器
      */
     private RedisClientCreator redisClientCreator;
+    private RedisClient useRedisClient;
 
 
 
@@ -44,6 +45,18 @@ public class RedisContext implements xyz.hashdog.rdm.redis.RedisContext{
         return redisClientCreator.newRedisClient();
     }
 
+    @Override
+    public RedisClient useRedisClient() {
+        if(useRedisClient==null){
+            return useRedisClient=newRedisClient();
+        }
+        return useRedisClient;
+    }
+
+    /**
+     * 创建redis客户端
+     * @return redis客户端
+     */
     private RedisClient createRedisClient() {
         try {
             this.redisClientCreator=new DefaultRedisClientCreator(redisConfig);
@@ -79,6 +92,6 @@ public class RedisContext implements xyz.hashdog.rdm.redis.RedisContext{
 
     @Override
     public void close()  {
-        redisClientCreator.close();
+        Util.close(useRedisClient,redisClientCreator);
     }
 }

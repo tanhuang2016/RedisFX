@@ -402,6 +402,12 @@ public interface RedisClient extends Closeable {
     void psubscribe(RedisPubSub redisPubSub, String text);
 
     /**
+     * 取消订阅
+     * @param text 订阅命令
+     */
+    void unsubscribe(String text);
+
+    /**
      * 发布redis命令
      * @param channel 发布频道
      * @param message 发布内容
@@ -452,4 +458,6 @@ public interface RedisClient extends Closeable {
      * @return json数组长度
      */
     long jsonArrLen(String key);
+
+
 }

@@ -19,6 +19,7 @@ import xyz.hashdog.rdm.redis.client.RedisPubSub;
 import xyz.hashdog.rdm.redis.exceptions.RedisException;
 import xyz.hashdog.rdm.redis.imp.Util;
 import xyz.hashdog.rdm.redis.imp.console.RedisConsole;
+import xyz.hashdog.rdm.redis.imp.ext.CommandExt;
 
 import java.util.*;
 import java.util.function.Function;
@@ -34,6 +35,10 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
     private static final Logger log = LoggerFactory.getLogger(JedisPoolClient.class);
 
     private final Jedis jedis;
+    /**
+     * 订阅的jedis
+     */
+    private  Jedis subJedis;
     private final Pool<Jedis> jedisPool;
     public JedisPoolClient(Pool<Jedis> jedisPool) {
         this.jedisPool = jedisPool;
@@ -516,13 +521,22 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
 
     @Override
     public void psubscribe(RedisPubSub redisPubSub, String text) {
+        this.subJedis=jedisPool.getResource();
         //订阅模式有命令限制，得单独拿一个连接来操作
-        jedisPool.getResource().psubscribe(new JedisPubSub() {
+        this.subJedis.psubscribe(new JedisPubSub() {
             @Override
             public void onPMessage(String pattern, String channel, String message) {
                 redisPubSub.onMessage(channel,message);
             }
         },text);
+    }
+
+    @Override
+    public void unsubscribe(String text) {
+        jedis.sendCommand(Protocol.Command.PUNSUBSCRIBE, text);
+        jedis.sendCommand(CommandExt.QUIT);
+        Util.close(subJedis);
+        subJedis=null;
     }
 
     @Override

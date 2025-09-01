@@ -350,7 +350,7 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
         ServerTabController controller = tuple2.t2();
         PassParameter passParameter = new PassParameter(PassParameter.REDIS);
         passParameter.setRedisContext(redisContext);
-        passParameter.setRedisClient(redisContext.newRedisClient());
+        passParameter.setRedisClient(redisContext.useRedisClient());
         controller.setParameter(passParameter);
         Tab tab = new Tab(name);
         tab.setContent(borderPane);
@@ -374,7 +374,7 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
      */
     public void newRedisTab(RedisConfig redisConfig)  {
         RedisContext redisContext = RedisFactorySingleton.getInstance().createRedisContext(redisConfig);
-        Message message = redisContext.newRedisClient().testConnect();
+        Message message = redisContext.useRedisClient().testConnect();
         if (!message.isSuccess()) {
             GuiUtil.alert(Alert.AlertType.WARNING, message.getMessage());
             return;

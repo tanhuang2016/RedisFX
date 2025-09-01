@@ -18,6 +18,7 @@ import xyz.hashdog.rdm.redis.client.RedisMonitor;
 import xyz.hashdog.rdm.redis.client.RedisPubSub;
 import xyz.hashdog.rdm.redis.exceptions.RedisException;
 import xyz.hashdog.rdm.redis.imp.console.RedisConsole;
+import xyz.hashdog.rdm.redis.imp.ext.CommandExt;
 
 import java.util.*;
 import java.util.function.Function;
@@ -544,6 +545,13 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
             }
         },text);
     }
+
+    @Override
+    public void unsubscribe(String text) {
+        jedis.sendCommand(Protocol.Command.PUNSUBSCRIBE, text);
+        jedis.sendCommand(CommandExt.QUIT);
+    }
+
     @Override
     public long publish(String channel, String message) {
         return execute(jedis->jedis.publish(channel,message));

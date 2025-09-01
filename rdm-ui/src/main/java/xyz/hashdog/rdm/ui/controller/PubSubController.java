@@ -11,6 +11,8 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import xyz.hashdog.rdm.redis.client.RedisPubSub;
 import xyz.hashdog.rdm.ui.controller.base.BaseClientController;
 import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
@@ -27,7 +29,7 @@ import java.util.ResourceBundle;
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
 public class PubSubController extends BaseClientController<ServerTabController> implements Initializable {
-
+    private static final Logger log = LoggerFactory.getLogger(PubSubController.class);
 
     public WebView webView;
 
@@ -41,7 +43,7 @@ public class PubSubController extends BaseClientController<ServerTabController> 
     public Label messageSize;
     private int messageCounter = 0;
     private static final int MAX_MESSAGES = 1000;
-    private Thread subscribeThread;
+    private volatile Thread subscribeThread;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initButton();
@@ -404,11 +406,20 @@ public class PubSubController extends BaseClientController<ServerTabController> 
      * 取消订阅
      */
     private void unsubscribe() {
-        if (subscribeThread != null && subscribeThread.isAlive()) {
-            // 中断监控线程
-            subscribeThread.interrupt();
-            subscribeThread = null;
-        }
+        async(() -> {
+            if (subscribeThread != null && subscribeThread.isAlive()) {
+                // 中断监控线程
+                subscribeThread.interrupt();
+                try {
+                    subscribeThread.join(2000);
+                } catch (InterruptedException e) {
+                    log.error("unsubscribe Exception", e);
+                }
+                subscribeThread = null;
+                this.redisClient.unsubscribe(subChannel.getText());
+            }
+        });
+
     }
 
     @FXML
@@ -416,18 +427,30 @@ public class PubSubController extends BaseClientController<ServerTabController> 
         if (subscribe.isSelected()) {
             subscribe.setText(language("server.pubsub.unsubscribe"));
             subscribeThread = new Thread(() -> {
-                this.redisClient.psubscribe(new RedisPubSub() {
-                    @Override
-                    public void onMessage(String channel, String msg) {
-                        addSubscriptionMessage(LocalDateTime.now().toString(),channel,msg);
+                try {
+                    this.redisClient.psubscribe(new RedisPubSub() {
+                        @Override
+                        public void onMessage(String channel, String msg) {
+                            addSubscriptionMessage(LocalDateTime.now().toString(),channel,msg);
+                        }
+                    },subChannel.getText());
+                }catch (Exception e){
+                    // 检查是否因为中断导致的异常
+                    if (Thread.currentThread().isInterrupted()) {
+                        log.warn("subscribe is interrupted");
+                    } else {
+                        log.error("subscribe error",e);
                     }
-                },subChannel.getText());
+                }
+
             });
             subscribeThread.setDaemon(true);
             subscribeThread.start();
+            subChannel.setEditable(false);
         }else {
             this.unsubscribe();
             subscribe.setText(language("server.pubsub.subscribe"));
+            subChannel.setEditable(true);
         }
 
     }

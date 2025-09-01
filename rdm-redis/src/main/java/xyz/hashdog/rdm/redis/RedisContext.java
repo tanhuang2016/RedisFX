@@ -13,9 +13,13 @@ import java.io.Closeable;
  */
 public interface RedisContext extends Closeable {
     /**
-     * redis客户端获取,用于操作redis
+     * 获取一个新的redis客户端获，但连接池始终是一个
      */
     RedisClient newRedisClient();
+    /**
+     * 获取当前使用的redis客户端
+     */
+    RedisClient useRedisClient();
 
     /**
      * 获取redis的配置

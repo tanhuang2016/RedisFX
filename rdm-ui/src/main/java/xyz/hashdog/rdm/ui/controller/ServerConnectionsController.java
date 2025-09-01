@@ -398,7 +398,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
 
     private void doConnect(RedisConfig redisConfig) throws IOException {
         RedisContext redisContext = RedisFactorySingleton.getInstance().createRedisContext(redisConfig);
-        Message message = redisContext.newRedisClient().testConnect();
+        Message message = redisContext.useRedisClient().testConnect();
         if (!message.isSuccess()) {
             GuiUtil.alert(Alert.AlertType.WARNING, message.getMessage());
             return;

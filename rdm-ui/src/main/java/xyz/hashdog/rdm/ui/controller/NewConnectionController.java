@@ -311,7 +311,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         setRedisConfig(redisConfig);
 
         try(RedisContext redisContext = RedisFactorySingleton.getInstance().createRedisContext(redisConfig)) {
-            Message message = redisContext.newRedisClient().testConnect();
+            Message message = redisContext.useRedisClient().testConnect();
             if (message.isSuccess()) {
                 testConnectButton.getStyleClass().add(Styles.SUCCESS);
                 GuiUtil.alert(Alert.AlertType.INFORMATION, language(ALERT_MESSAGE_CONNECT_SUCCESS));
