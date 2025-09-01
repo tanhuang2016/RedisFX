@@ -4,6 +4,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.redis.RedisContext;
 import xyz.hashdog.rdm.redis.client.RedisClient;
 import xyz.hashdog.rdm.ui.entity.PassParameter;
@@ -93,8 +94,21 @@ public abstract class BaseClientController<T> extends BaseController<T>{
     }
 
 
-//    protected final  <T1,T2> Tuple2<T1,T2> loadClientFxml(String fxml) {
-//        Tuple2<Object, Object> objectObjectTuple2 = super.loadFxml(fxml);
-//        return (Tuple2<T1, T2>) tuple2;
-//    }
+    /**
+     * 加载需要redis client的子窗口
+     * @param fxml fxml文件
+     * @param <T1> 容器
+     * @param <T2> 控制器
+     * @return
+     */
+    protected final  <T1,T2> Tuple2<T1,T2> loadClientFxml(String fxml) {
+        Tuple2<Object, BaseClientController> tuple2 = super.loadFxml(fxml);
+        BaseClientController controller = tuple2.t2();
+        PassParameter passParameter = new PassParameter(PassParameter.CONSOLE);
+        passParameter.setDb(this.currentDb);
+        passParameter.setRedisClient(redisContext.newRedisClient());
+        passParameter.setRedisContext(redisContext);
+        controller.setParameter(passParameter);
+        return (Tuple2<T1, T2>) tuple2;
+    }
 }

@@ -23,7 +23,7 @@ import java.util.function.Function;
 /**
  * 封装通用方法
  * @author th
- * @version 2.3.0
+ * @version 2.3.1
  * @since 2025/8/17 17:05
  */
 public abstract class AbstractRedisClient implements RedisClient {

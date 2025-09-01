@@ -1140,27 +1140,27 @@ public class ServerTabController extends BaseClientController<MainController> {
      */
     @FXML
     public void console(ActionEvent actionEvent) throws IOException {
-        Tuple2<AnchorPane,ConsoleController> tuple2 = loadFxml("/fxml/ConsoleView.fxml");
-        AnchorPane anchorPane = tuple2.t1();
-        BaseClientController controller = tuple2.t2();
-        PassParameter passParameter = new PassParameter(PassParameter.CONSOLE);
-        passParameter.setDb(this.currentDb);
-        passParameter.setRedisClient(redisContext.newRedisClient());
-        passParameter.setRedisContext(redisContext);
-        controller.setParameter(passParameter);
-        Tab tab = new Tab("Console");
-        if(passParameter.getTabType()==PassParameter.CONSOLE){
-            // 监听Tab被关闭事件,但是remove是无法监听的
-            tab.setOnClosed(event2 -> {
-                ThreadPool.getInstance().execute(()->controller.getRedisClient().close());
-            });
-        }
-        ContextMenu cm=GuiUtil.newTabContextMenu(tab);
-        tab.setContent(anchorPane);
-        tab.setGraphic(GuiUtil.creatConsoleIcon());
+        Tuple2<AnchorPane,ConsoleController> tuple2 = loadClientFxml("/fxml/ConsoleView.fxml");
+        Tab tab = new Tab("Console",GuiUtil.creatConsoleIcon());
+        setTab(tab,tuple2);
+    }
+
+    /**
+     * 设置Tab 封装对新建tab的设置
+     * @param tab tab
+     * @param tuple2 tuple2
+     */
+    private void setTab(Tab tab, Tuple2<AnchorPane, ? extends BaseClientController> tuple2) {
+        // 监听Tab被关闭事件,但是remove是无法监听的
+        tab.setOnClosed(event2 -> {
+            async(()->tuple2.t2().close());
+        });
+        GuiUtil.newTabContextMenu(tab);
+        tab.setContent(tuple2.t1());
         this.dbTabPane.getTabs().add(tab);
         this.dbTabPane.getSelectionModel().select(tab);
     }
+
     @FXML
     public void monitor(ActionEvent actionEvent) throws IOException {
         Tuple2<AnchorPane,ConsoleController> tuple2 = loadFxml("/fxml/MonitorView.fxml");
