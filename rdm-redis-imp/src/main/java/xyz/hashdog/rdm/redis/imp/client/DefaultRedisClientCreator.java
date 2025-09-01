@@ -30,13 +30,18 @@ public class DefaultRedisClientCreator implements RedisClientCreator{
     private JedisSentinelPool jedisSentinelPool;
     private JedisCluster jedisCluster;
     private Session tunnel;
+    private final RedisConfig redisConfig;
+
+    public DefaultRedisClientCreator(RedisConfig redisConfig) {
+        this.redisConfig = redisConfig;
+    }
+
     /**
      * 根据RedisConfig 判断创建什么类型的redis客户端
-     * @param redisConfig redis配置
      * @return redis客户端
      */
     @Override
-    public RedisClient create(RedisConfig redisConfig) {
+    public RedisClient create() {
         if(redisConfig.isSentinel()){
             Set<String> sentinels = new HashSet<>();
             sentinels.add(redisConfig.getHost()+":"+redisConfig.getPort());
@@ -62,6 +67,17 @@ public class DefaultRedisClientCreator implements RedisClientCreator{
             return new JedisPoolClient(jedisPool);
         }
         this.jedisPool=new JedisPool(defaultPoolConfig(), host, port,redisConfig.getConnectionTimeout(),redisConfig.getSoTimeout(), DataUtil.ifEmpty(redisConfig.getAuth(),null),0,null);
+        return new JedisPoolClient(jedisPool);
+    }
+
+    @Override
+    public RedisClient newRedisClient() {
+        if(redisConfig.isSentinel()){
+            return new JedisSentinelPoolClient(jedisSentinelPool);
+        }
+        if (redisConfig.isCluster()) {
+            return new JedisClusterClient(jedisCluster,redisConfig);
+        }
         return new JedisPoolClient(jedisPool);
     }
 

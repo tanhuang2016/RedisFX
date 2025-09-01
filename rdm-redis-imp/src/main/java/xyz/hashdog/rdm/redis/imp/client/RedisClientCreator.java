@@ -1,6 +1,5 @@
 package xyz.hashdog.rdm.redis.imp.client;
 
-import xyz.hashdog.rdm.redis.RedisConfig;
 import xyz.hashdog.rdm.redis.client.RedisClient;
 
 import java.io.Closeable;
@@ -15,11 +14,16 @@ import java.io.Closeable;
 public interface RedisClientCreator extends Closeable {
     /**
      * 创建redis客户端
-     * @param redisConfig redis配置
      * @return redis客户端
      */
-    RedisClient create(RedisConfig redisConfig);
+    RedisClient create();
 
     @Override
     void close();
+
+    /**
+     * 获取一个新的redis客户端，不会创建多余的连接池
+     * @return redis客户端
+     */
+    RedisClient newRedisClient();
 }

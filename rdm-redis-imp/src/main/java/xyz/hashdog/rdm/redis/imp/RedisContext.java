@@ -1,5 +1,7 @@
 package xyz.hashdog.rdm.redis.imp;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import redis.clients.jedis.exceptions.JedisException;
 import xyz.hashdog.rdm.redis.RedisConfig;
 import xyz.hashdog.rdm.redis.client.RedisClient;
@@ -13,6 +15,7 @@ import xyz.hashdog.rdm.redis.imp.client.RedisClientCreator;
  * @since 2023/7/18 10:53
  */
 public class RedisContext implements xyz.hashdog.rdm.redis.RedisContext{
+    private static final Logger log = LoggerFactory.getLogger(RedisContext.class);
     /**
      * redis配置
      */
@@ -27,7 +30,6 @@ public class RedisContext implements xyz.hashdog.rdm.redis.RedisContext{
 
     public RedisContext(RedisConfig redisConfig) {
         this.redisConfig=redisConfig;
-        this.redisClientCreator=new DefaultRedisClientCreator();
     }
 
     /**
@@ -36,10 +38,18 @@ public class RedisContext implements xyz.hashdog.rdm.redis.RedisContext{
      */
     @Override
     public RedisClient newRedisClient() {
-        try {
-            return redisClientCreator.create(redisConfig);
+        if(redisClientCreator==null){
+            return createRedisClient();
+        }
+        return redisClientCreator.newRedisClient();
+    }
 
+    private RedisClient createRedisClient() {
+        try {
+            this.redisClientCreator=new DefaultRedisClientCreator(redisConfig);
+            return redisClientCreator.create();
         }catch (JedisException e){
+            log.error("create redis client exception",e);
             throw new RedisException(e.getMessage());
         }
     }
