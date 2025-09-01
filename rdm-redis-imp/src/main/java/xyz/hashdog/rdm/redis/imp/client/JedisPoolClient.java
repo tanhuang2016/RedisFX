@@ -37,7 +37,7 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
     /**
      * 订阅的jedis
      */
-    private  Jedis subJedis;
+    private volatile   Jedis subJedis;
     private final Pool<Jedis> jedisPool;
     public JedisPoolClient(Pool<Jedis> jedisPool) {
         this.jedisPool = jedisPool;
@@ -520,6 +520,7 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
 
     @Override
     public void psubscribe(RedisPubSub redisPubSub, String text) {
+        unsubscribe(text);
         this.subJedis=jedisPool.getResource();
         //订阅模式有命令限制，得单独拿一个连接来操作
         this.subJedis.psubscribe(new JedisPubSub() {
@@ -532,10 +533,12 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
 
     @Override
     public void unsubscribe(String text) {
-        jedis.sendCommand(Protocol.Command.PUNSUBSCRIBE, text);
+        if(subJedis!=null){
+            jedis.sendCommand(Protocol.Command.PUNSUBSCRIBE, text);
 //        subJedis.sendCommand(CommandExt.QUIT);
-        Util.close(subJedis);
-        subJedis=null;
+            Util.close(subJedis);
+            subJedis=null;
+        }
     }
 
     @Override
