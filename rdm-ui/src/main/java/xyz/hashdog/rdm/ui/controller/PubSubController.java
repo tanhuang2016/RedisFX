@@ -145,7 +145,7 @@ public class PubSubController extends BaseClientController<ServerTabController> 
         webView.getEngine().executeScript(
                 "var selection = window.getSelection();" +
                         "var range = document.createRange();" +
-                        "range.selectNodeContents(document.getElementById('log-container'));" +
+                        "range.selectNodeContents(document.getElementById('table-body'));" +
                         "selection.removeAllRanges();" +
                         "selection.addRange(range);"
         );
