@@ -19,7 +19,6 @@ import xyz.hashdog.rdm.redis.client.RedisPubSub;
 import xyz.hashdog.rdm.redis.exceptions.RedisException;
 import xyz.hashdog.rdm.redis.imp.Util;
 import xyz.hashdog.rdm.redis.imp.console.RedisConsole;
-import xyz.hashdog.rdm.redis.imp.ext.CommandExt;
 
 import java.util.*;
 import java.util.function.Function;
@@ -534,7 +533,7 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
     @Override
     public void unsubscribe(String text) {
         jedis.sendCommand(Protocol.Command.PUNSUBSCRIBE, text);
-        jedis.sendCommand(CommandExt.QUIT);
+//        subJedis.sendCommand(CommandExt.QUIT);
         Util.close(subJedis);
         subJedis=null;
     }
