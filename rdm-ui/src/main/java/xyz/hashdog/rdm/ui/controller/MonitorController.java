@@ -31,7 +31,7 @@ public class MonitorController extends BaseClientController<ServerTabController>
     private final StringBuilder logContent = new StringBuilder();
     public StackPane webViewContainer;
     private int logCounter = 0;
-    private static final int MAX_LOG_LINES = 20;
+    private static final int MAX_LOG_LINES = 200;
     private Thread monitorThread;
     private RedisMonitor redisMonitor;
     @Override
