@@ -37,17 +37,20 @@ import xyz.hashdog.rdm.ui.controller.base.BaseClientController;
 import xyz.hashdog.rdm.ui.controller.popover.RefreshPopover;
 import xyz.hashdog.rdm.ui.entity.InfoTable;
 import xyz.hashdog.rdm.ui.entity.TopKeyTable;
-import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
 import xyz.hashdog.rdm.ui.sampler.event.ThemeEvent;
 import xyz.hashdog.rdm.ui.sampler.theme.SamplerTheme;
 import xyz.hashdog.rdm.ui.sampler.theme.ThemeManager;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.Util;
+
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -138,9 +141,7 @@ public class ReportController extends BaseClientController<ServerTabController> 
         initTable();
         initLineAndAreaChart();
         initPie();
-        DefaultEventBus.getInstance().subscribe(ThemeEvent.class, e -> {
-            applyTheme();
-        });
+        addTmEventSubscriber(ThemeEvent.class, e -> applyTheme());
     }
 
     private void initPie() {
@@ -196,8 +197,10 @@ public class ReportController extends BaseClientController<ServerTabController> 
             yAxis.setAnimated(false);
             // 设置X轴样式
             CategoryAxis xAxis = (CategoryAxis) xyChart.getXAxis();
-            xAxis.setAnimated(false); // 关闭X轴动画，避免跳动
-            xAxis.tickLabelRotationProperty().set(-45); // 旋转标签避免重叠
+            // 关闭X轴动画，避免跳动
+            xAxis.setAnimated(false);
+            // 旋转标签避免重叠
+            xAxis.tickLabelRotationProperty().set(-45);
             xAxis.setStartMargin(-25);
             xAxis.setEndMargin(-25);
         }
@@ -248,9 +251,7 @@ public class ReportController extends BaseClientController<ServerTabController> 
     private void initScrollListener() {
         if (scrollPane != null) {
             // 监听垂直滚动属性变化
-            scrollPane.vvalueProperty().addListener((observable, oldValue, newValue) -> {
-                handleScrollPercentageEvent(oldValue.doubleValue(), newValue.doubleValue());
-            });
+            scrollPane.vvalueProperty().addListener((observable, oldValue, newValue) -> handleScrollPercentageEvent(oldValue.doubleValue(), newValue.doubleValue()));
         }
     }
 
@@ -616,9 +617,7 @@ public class ReportController extends BaseClientController<ServerTabController> 
                 .limit(10)
                 .toList();
         keyLength.setUserData(top10ByLength);
-        Platform.runLater(() -> {
-            topTable.getItems().setAll(top10BySize);
-        });
+        Platform.runLater(() -> topTable.getItems().setAll(top10BySize));
     }
 
     private void updatePiesData(List<TopKeyTable> topKeyTables) {
