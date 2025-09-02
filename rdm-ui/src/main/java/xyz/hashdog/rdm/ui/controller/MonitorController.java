@@ -2,7 +2,9 @@ package xyz.hashdog.rdm.ui.controller;
 
 import javafx.application.Platform;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.MouseButton;
@@ -10,7 +12,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
 import xyz.hashdog.rdm.redis.client.RedisMonitor;
 import xyz.hashdog.rdm.ui.controller.base.BaseClientController;
-import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
 import xyz.hashdog.rdm.ui.sampler.event.ThemeEvent;
 import xyz.hashdog.rdm.ui.sampler.theme.SamplerTheme;
 import xyz.hashdog.rdm.ui.sampler.theme.ThemeManager;
@@ -23,6 +24,9 @@ import java.util.ResourceBundle;
 
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
+/**
+ * @author th
+ */
 public class MonitorController extends BaseClientController<ServerTabController> implements Initializable {
 
 
@@ -31,7 +35,7 @@ public class MonitorController extends BaseClientController<ServerTabController>
     private final StringBuilder logContent = new StringBuilder();
     public StackPane webViewContainer;
     private int logCounter = 0;
-    private static final int MAX_LOG_LINES = 1000; // 最大日志行数
+    private static final int MAX_LOG_LINES = 20;
     private Thread monitorThread;
     private RedisMonitor redisMonitor;
     @Override
@@ -40,13 +44,10 @@ public class MonitorController extends BaseClientController<ServerTabController>
         initCustomContextMenu();
         initWebView();
         applyTheme();
-        DefaultEventBus.getInstance().subscribe(ThemeEvent.class, e -> {
+        addTmEventSubscriber(ThemeEvent.class, e -> {
             applyTheme();
         });
 
-
-//        this.addLogLine(parseLogToList("10:58:13.606 [0 172.18.0.1:36200] \"TYPE\" \"foo\""));
-//        this.addLogLine(parseLogToList("11:23:45.123 [1 192.168.1.100:8080] \"GET\" \"key1\""));
     }
 
     @Override
