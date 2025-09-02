@@ -197,12 +197,7 @@ public class ServerTabController extends BaseClientController<MainController> {
         MenuItem clearItem = new MenuItem(language("server.clear"));
         clearItem.setOnAction(this::clearHistory);
         history.getItems().add(clearItem);
-        recentHistory = new RecentHistory<String>(5,new RecentHistory.Noticer<String>() {
-            @Override
-            public void notice(List<String> list) {
-                doRecentHistory(list);
-            }
-        });
+        recentHistory = new RecentHistory<>(5, this::doRecentHistory);
         doRecentHistory(recentHistory.get());
     }
 
@@ -213,9 +208,7 @@ public class ServerTabController extends BaseClientController<MainController> {
      */
     private MenuItem createSearchHistoryMenuItem(String str) {
         MenuItem menuItem = new MenuItem(str);
-        menuItem.setOnAction(event -> {
-            searchText.setText(menuItem.getText());
-        });
+        menuItem.setOnAction(event -> searchText.setText(menuItem.getText()));
         return menuItem;
     }
 
@@ -366,7 +359,7 @@ public class ServerTabController extends BaseClientController<MainController> {
         treeView.setShowRoot(false);
         //默认根节点为选中节点
         treeView.getSelectionModel().select(treeView.getRoot());
-        treeView.setCellFactory(tv -> new TreeCell<KeyTreeNode>() {
+        treeView.setCellFactory(tv -> new TreeCell<>() {
 
             @Override
             protected void updateItem(KeyTreeNode item, boolean empty) {
@@ -379,7 +372,7 @@ public class ServerTabController extends BaseClientController<MainController> {
                     // 设置基本文本
                     setText(item.toString());
                     // 只有叶子节点首次显示时才加载图标
-                    if (item.getLeaf()&&!item.isInitialized()) {
+                    if (item.getLeaf() && !item.isInitialized()) {
                         loadNodeGraphicIfNeeded(this.getTreeItem());
                         item.setInitialized(true);
                     }
@@ -389,7 +382,6 @@ public class ServerTabController extends BaseClientController<MainController> {
                     }
                 }
             }
-
 
 
         });
@@ -435,9 +427,7 @@ public class ServerTabController extends BaseClientController<MainController> {
                 // 只在需要时刷新
                 if (n>0) {
                     // 在UI线程中更新所有图标
-                    Platform.runLater(() -> {
-                        treeView.refresh();
-                    });
+                    Platform.runLater(() -> treeView.refresh());
                 }
 
             } catch (Exception e) {
@@ -923,9 +913,7 @@ public class ServerTabController extends BaseClientController<MainController> {
         });
         controller.setParameter(passParameter);
         Tab tab = new Tab(String.format("%s|%s|%s", this.currentDb,type, key));
-        tab.setOnClosed(event2 -> {
-            async(controller::close);
-        });
+        tab.setOnClosed(event2 -> async(controller::close));
         tab.setOnSelectionChanged(event -> {
             if (tab.isSelected()) {
               this.selectTabKey=controller.getParameter().getKey();
