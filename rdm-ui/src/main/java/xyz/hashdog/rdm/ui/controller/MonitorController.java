@@ -201,11 +201,11 @@ public class MonitorController extends BaseClientController<ServerTabController>
             <html>
             <head>
                 <style>
-                    body { 
-                        font-family: monospace; 
-                        background-color: rgb(44,44,46); 
-                        color: #fff; 
-                        margin: 0; 
+                    body {
+                        font-family: monospace;
+                        background-color: rgb(44,44,46);
+                        color: #fff;
+                        margin: 0;
                         padding: 5px;
                         font-size: 14px;
                     }
@@ -238,11 +238,11 @@ public class MonitorController extends BaseClientController<ServerTabController>
                                 String hostColor, String typeColor,String commandColor, String fontSize) {
         Platform.runLater(() -> {
             String cssContent = String.format("""
-                body { 
-                    font-family: %s; 
-                    background-color: %s; 
-                    color: %s; 
-                    margin: 0; 
+                body {
+                    font-family: %s;
+                    background-color: %s;
+                    color: %s;
+                    margin: 0;
                     padding: 5px;
                     font-size: %s;
                 }
