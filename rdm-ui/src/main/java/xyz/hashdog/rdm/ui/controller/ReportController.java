@@ -38,12 +38,9 @@ import xyz.hashdog.rdm.ui.controller.popover.RefreshPopover;
 import xyz.hashdog.rdm.ui.entity.InfoTable;
 import xyz.hashdog.rdm.ui.entity.TopKeyTable;
 import xyz.hashdog.rdm.ui.sampler.event.ThemeEvent;
-import xyz.hashdog.rdm.ui.sampler.theme.SamplerTheme;
-import xyz.hashdog.rdm.ui.sampler.theme.ThemeManager;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.Util;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -241,11 +238,6 @@ public class ReportController extends BaseClientController<ServerTabController> 
     private void resetScanner() {
         scanner.init(null,SCAN_COUNT,null,true);
         this.topKeyTables.clear();
-//        Platform.runLater(() -> {
-//            progressBar.setProgress(0);
-//            progressText.setText(String.format("%.1f%%", 0d));
-//        });
-
     }
 
     private void initScrollListener() {
@@ -349,23 +341,16 @@ public class ReportController extends BaseClientController<ServerTabController> 
     }
 
     private void applyTheme() {
-        SamplerTheme theme = ThemeManager.getInstance().getTheme();
-        Map<String, String> colors = null;
-        try {
-            colors = theme.parseColors();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        String c1 = colors.get("-color-bg-subtle");
-        String c2 = colors.get("-color-bg-default");
-        pies.setStyle("-fx-background-color:"+c1);
-        lines.setStyle("-fx-background-color:"+c1);
-        topTables.setStyle("-fx-background-color:"+c1);
-        infoTables.setStyle("-fx-background-color:"+c1);
-        serverInfo.setStyle("-fx-background-color:"+c1);
-        memoryInfo.setStyle("-fx-background-color:"+c1);
-        statusInfo.setStyle("-fx-background-color:"+c1);
-        topDialogContent.setStyle("-fx-background-color:"+GuiUtil.hexToRgba(c2,0.8));
+        String bgSubtle = Constant.THEME_COLOR_BG_SUBTLE;
+        String bgDefault = GuiUtil.themeNeedColors(Constant.THEME_COLOR_BG_DEFAULT);
+        pies.setStyle("-fx-background-color:"+bgSubtle);
+        lines.setStyle("-fx-background-color:"+bgSubtle);
+        topTables.setStyle("-fx-background-color:"+bgSubtle);
+        infoTables.setStyle("-fx-background-color:"+bgSubtle);
+        serverInfo.setStyle("-fx-background-color:"+bgSubtle);
+        memoryInfo.setStyle("-fx-background-color:"+bgSubtle);
+        statusInfo.setStyle("-fx-background-color:"+bgSubtle);
+        topDialogContent.setStyle("-fx-background-color:"+GuiUtil.hexToRgba(bgDefault,0.8));
     }
 
     private void addDataPointInteraction(XYChart.Data<String, Number> data,Function<Number,String> func) {

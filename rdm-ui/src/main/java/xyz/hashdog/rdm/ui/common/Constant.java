@@ -21,6 +21,10 @@ public interface Constant {
      */
     String THEME_COLOR_FG_DEFAULT="-color-fg-default";
     /**
+     * 内容背景色
+     */
+    String THEME_COLOR_BG_DEFAULT="-color-bg-default";
+    /**
      * 成功色
      */
     String THEME_COLOR_SUCCESS_FG="-color-success-fg";

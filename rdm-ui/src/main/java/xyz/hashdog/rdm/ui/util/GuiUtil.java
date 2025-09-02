@@ -844,6 +844,21 @@ public class GuiUtil {
         }
     }
 
+    /**
+     * 获取需要的主题颜色
+     * @param key 颜色key
+     * @return 颜色值
+     */
+    public static String themeNeedColors(String key) {
+        try {
+            Map<String, String> map = ThemeManager.getInstance().getTheme().parseColors();
+            return map.get(key);
+        } catch (IOException e) {
+            log.error("themeNeedColors exception", e);
+            throw new RuntimeException(e);
+        }
+    }
+
 
     /**
      * 用于tableView压缩为单行,就是避免出现换行的情况
