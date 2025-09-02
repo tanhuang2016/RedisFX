@@ -6,8 +6,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
 import org.slf4j.Logger;
@@ -15,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import xyz.hashdog.rdm.redis.client.RedisPubSub;
 import xyz.hashdog.rdm.redis.client.RedisSubscriber;
 import xyz.hashdog.rdm.ui.controller.base.BaseClientController;
-import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
 import xyz.hashdog.rdm.ui.sampler.event.ThemeEvent;
 import xyz.hashdog.rdm.ui.sampler.theme.SamplerTheme;
 import xyz.hashdog.rdm.ui.sampler.theme.ThemeManager;
@@ -29,6 +26,9 @@ import java.util.ResourceBundle;
 
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
+/**
+ * @author th
+ */
 public class PubSubController extends BaseClientController<ServerTabController> implements Initializable {
     private static final Logger log = LoggerFactory.getLogger(PubSubController.class);
 
@@ -53,7 +53,7 @@ public class PubSubController extends BaseClientController<ServerTabController> 
         initCustomContextMenu();
         initWebView();
         applyTheme();
-        DefaultEventBus.getInstance().subscribe(ThemeEvent.class, e -> {
+        addTmEventSubscriber(ThemeEvent.class, e -> {
             applyTheme();
         });
 
@@ -80,7 +80,7 @@ public class PubSubController extends BaseClientController<ServerTabController> 
 
         // 复制选中文本
         MenuItem copyItem = new MenuItem(language("main.edit.copy"));
-        copyItem.setOnAction(e -> copySelectedText());
+        copyItem.setOnAction(e -> GuiUtil.copyWebViewSelectedText(webView));
 
         // 全选
         MenuItem selectAllItem = new MenuItem(language("main.edit.selectall"));
@@ -94,18 +94,7 @@ public class PubSubController extends BaseClientController<ServerTabController> 
 
 
 
-    /**
-     * 复制选中文本
-     */
-    private void copySelectedText() {
-        String selectedText = (String) webView.getEngine().executeScript("window.getSelection().toString();");
-        if (selectedText != null && !selectedText.isEmpty()) {
-            Clipboard clipboard = Clipboard.getSystemClipboard();
-            ClipboardContent content = new ClipboardContent();
-            content.putString(selectedText);
-            clipboard.setContent(content);
-        }
-    }
+
 
     /**
      * 全选文本

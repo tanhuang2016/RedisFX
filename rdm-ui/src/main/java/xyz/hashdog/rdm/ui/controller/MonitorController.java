@@ -3,8 +3,6 @@ package xyz.hashdog.rdm.ui.controller;
 import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import javafx.scene.control.MenuItem;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
 import xyz.hashdog.rdm.redis.client.RedisMonitor;
@@ -72,7 +70,7 @@ public class MonitorController extends BaseClientController<ServerTabController>
 
         // 复制选中文本
         MenuItem copyItem = new MenuItem(language("main.edit.copy"));
-        copyItem.setOnAction(e -> copySelectedText());
+        copyItem.setOnAction(e -> GuiUtil.copyWebViewSelectedText(webView));
 
         // 全选
         MenuItem selectAllItem = new MenuItem(language("main.edit.selectall"));
@@ -97,18 +95,7 @@ public class MonitorController extends BaseClientController<ServerTabController>
         });
     }
 
-    /**
-     * 复制选中文本
-     */
-    private void copySelectedText() {
-        String selectedText = (String) webView.getEngine().executeScript("window.getSelection().toString();");
-        if (selectedText != null && !selectedText.isEmpty()) {
-            Clipboard clipboard = Clipboard.getSystemClipboard();
-            ClipboardContent content = new ClipboardContent();
-            content.putString(selectedText);
-            clipboard.setContent(content);
-        }
-    }
+
 
     /**
      * 全选文本

@@ -793,6 +793,19 @@ public class GuiUtil {
         });
     }
 
+    /**
+     * 复制选中文本
+     */
+    public static void copyWebViewSelectedText(WebView webView) {
+        String selectedText = (String) webView.getEngine().executeScript("window.getSelection().toString();");
+        if (selectedText != null && !selectedText.isEmpty()) {
+            Clipboard clipboard = Clipboard.getSystemClipboard();
+            ClipboardContent content = new ClipboardContent();
+            content.putString(selectedText);
+            clipboard.setContent(content);
+        }
+    }
+
 
     /**
      * 用于tableView压缩为单行,就是避免出现换行的情况
