@@ -8,17 +8,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import xyz.hashdog.rdm.redis.client.RedisPubSub;
 import xyz.hashdog.rdm.redis.client.RedisSubscriber;
+import xyz.hashdog.rdm.ui.common.Constant;
 import xyz.hashdog.rdm.ui.controller.base.BaseClientController;
 import xyz.hashdog.rdm.ui.sampler.event.ThemeEvent;
-import xyz.hashdog.rdm.ui.sampler.theme.SamplerTheme;
 import xyz.hashdog.rdm.ui.sampler.theme.ThemeManager;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -30,7 +26,6 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
  * @author th
  */
 public class PubSubController extends BaseClientController<ServerTabController> implements Initializable {
-    private static final Logger log = LoggerFactory.getLogger(PubSubController.class);
 
     public WebView webView;
 
@@ -46,6 +41,7 @@ public class PubSubController extends BaseClientController<ServerTabController> 
     private static final int MAX_MESSAGES = 200;
 
     private RedisSubscriber subscriber;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initButton();
@@ -53,11 +49,7 @@ public class PubSubController extends BaseClientController<ServerTabController> 
         initCustomContextMenu();
         initWebView();
         applyTheme();
-        addTmEventSubscriber(ThemeEvent.class, e -> {
-            applyTheme();
-        });
-
-
+        addTmEventSubscriber(ThemeEvent.class, e -> applyTheme());
     }
 
     @Override
@@ -84,18 +76,13 @@ public class PubSubController extends BaseClientController<ServerTabController> 
 
         // 全选
         MenuItem selectAllItem = new MenuItem(language("main.edit.selectall"));
-        selectAllItem.setOnAction(e -> GuiUtil.selectWebViewAllText(webView,"table-body"));
+        selectAllItem.setOnAction(e -> GuiUtil.selectWebViewAllText(webView, "table-body"));
 
         // 保存日志
         MenuItem saveItem = new MenuItem(language("server.pubsub.save"));
         saveItem.setOnAction(e -> saveLogs());
-        GuiUtil.setWebViewContextMenu(clearItem,copyItem,selectAllItem,saveItem,webView);
+        GuiUtil.setWebViewContextMenu(clearItem, copyItem, selectAllItem, saveItem, webView);
     }
-
-
-
-
-
 
 
     /**
@@ -108,41 +95,33 @@ public class PubSubController extends BaseClientController<ServerTabController> 
     }
 
 
-
-
-
-
-
     /**
      * 应用暗色主题
      */
-    public void applyTheme()  {
-        SamplerTheme theme = ThemeManager.getInstance().getTheme();
+    public void applyTheme() {
         int fontSize = ThemeManager.getInstance().getFontSize();
         String fontFamily = ThemeManager.getInstance().getFontFamily();
-        Map<String, String> colors = null;
-        try {
-            colors = theme.parseColors();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        String c1 = colors.get("-color-bg-subtle");
-        String c2 = colors.get("-color-fg-default");
-        String c3 = colors.get("-color-success-fg");
-        String c4 = colors.get("-color-accent-fg");
-//        String c5 = colors.get("-color-border-default");
-//        String c6 = colors.get("-color-bg-inset").replace(")",",0.5)"); todo没有找到合适的hover颜色
-        String c6 = "rgba(255,255,255,0.05)";
-        String c5 = colors.get("-color-base-9");
+        Map<String, String> colors = GuiUtil.themeNeedColors();
+        // hover文字色
+        String hover = "rgba(255,255,255,0.05)";
+        // body文字色
+        String text = colors.get(Constant.THEME_COLOR_FG_DEFAULT);
+        // 时间戳颜色
+        String time = colors.get(Constant.THEME_COLOR_SUCCESS_FG);
+        // 类型颜色
+        String type = colors.get(Constant.THEME_COLOR_ACCENT_FG);
+        //边框色
+        String border = colors.get(Constant.THEME_COLOR_BORDER_DEFAULT);
+
         updateAllStyles(
-                c5,
+                border,
                 fontFamily,
-                c1,    // body背景色
-                c6,           // hover文字色
-                c3,           // 时间戳颜色
-                c4,           // 类型颜色
-                c2,           // 命令颜色
-                fontSize+"px"               // 字体大小
+                colors.get(Constant.THEME_COLOR_BG_SUBTLE),
+                hover,
+                time,
+                type,
+                text,
+                fontSize + "px"
         );
     }
 
@@ -150,27 +129,27 @@ public class PubSubController extends BaseClientController<ServerTabController> 
     private void initWebView() {
         // 初始化HTML内容，包含表格结构
         String htmlContent = """
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <style>
-            </style>
-        </head>
-        <body>
-            <table id="message-table">
-                <thead>
-                    <tr>
-                        <th class="timestamp">%s</th>
-                        <th class="channel">%s</th>
-                        <th class="message">%s</th>
-                    </tr>
-                </thead>
-                <tbody id="table-body">
-                </tbody>
-            </table>
-        </body>
-        </html>
-        """;
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <style>
+                    </style>
+                </head>
+                <body>
+                    <table id="message-table">
+                        <thead>
+                            <tr>
+                                <th class="timestamp">%s</th>
+                                <th class="channel">%s</th>
+                                <th class="message">%s</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                        </tbody>
+                    </table>
+                </body>
+                </html>
+                """;
 
         webView.getEngine().loadContent(String.format(htmlContent, language("server.pubsub.time"), language("server.pubsub.channel"), language("server.pubsub.message")));
     }
@@ -178,110 +157,114 @@ public class PubSubController extends BaseClientController<ServerTabController> 
 
     /**
      * 动态更新整个样式表
-     * @param bodyBgColor body背景颜色
-     * @param hoverColor
+     *
+     * @param bodyBgColor    body背景颜色
+     * @param hoverColor     hover颜色
      * @param timestampColor 时间戳颜色
-     * @param commandColor 命令颜色
-     * @param fontSize 字体大小
+     * @param commandColor   命令颜色
+     * @param fontSize       字体大小
      */
-    public void updateAllStyles(String borderColor,String fontFamily,String bodyBgColor, String hoverColor, String timestampColor,
-                                 String typeColor,String commandColor, String fontSize) {
+    public void updateAllStyles(String borderColor, String fontFamily, String bodyBgColor, String hoverColor, String timestampColor,
+                                String typeColor, String commandColor, String fontSize) {
         Platform.runLater(() -> {
             String cssContent = """
-                 body { 
-                    font-family: ${fontFamily};
-                    background-color: ${bodyBgColor}; 
-                    color: #fff; 
-                    margin: 0; 
-                    padding: 10px;
-                    font-size: ${fontSize};
-                }
-                table {
-                    width: 100%;
-                    border-collapse: collapse;
-                    margin-top: 10px;
-                    table-layout: fixed; 
-                }
-                thead {
-                    position: sticky;
-                    top: 0;
-                    background-color: rgb(60,60,62);
-                }
-                th {
-                    background-color: ${bodyBgColor};
-                    color: #fff;
-                    text-align: left;
-                    padding: 8px 12px;
-                    border-bottom: 2px solid #555;
-                    font-weight: 600;
-                    white-space: nowrap;
-                }
-                td {
-                    padding: 6px 12px;
-                    border-bottom: 0px solid ${borderColor};
-                    text-align: left;
-                    vertical-align: top;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                }
-                tr:hover {
-                    background-color: ${hoverColor};
-                }
-                .timestamp { 
-                    color: ${timestampColor}; 
-                    width: 25%;
-                }
-                .channel { 
-                    color: ${typeColor}; 
-                    width: 25%;
-                }
-                .message { 
-                    color: ${commandColor}; 
-                    width: 50%;
-                    word-break: break-all;
-                }
-                #message-table {
-                    width: 100%;
-                }
-                """;
-            cssContent=cssContent.replace("${fontFamily}",fontFamily).replace("${bodyBgColor}",bodyBgColor)
-                    .replace("${fontSize}",fontSize).replace("${bodyBgColor}",bodyBgColor).replace("${timestampColor}",timestampColor)
-                    .replace("${typeColor}",typeColor).replace("${commandColor}",commandColor).replace("${typeColor}",typeColor)
-                    .replace("${hoverColor}",hoverColor).replace("${borderColor}",borderColor);
+                     body {
+                        font-family: ${fontFamily};
+                        background-color: ${bodyBgColor};
+                        color: #fff;
+                        margin: 0;
+                        padding: 10px;
+                        font-size: ${fontSize};
+                    }
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin-top: 10px;
+                        table-layout: fixed;
+                    }
+                    thead {
+                        position: sticky;
+                        top: 0;
+                        background-color: rgb(60,60,62);
+                    }
+                    th {
+                        background-color: ${bodyBgColor};
+                        color: #fff;
+                        text-align: left;
+                        padding: 8px 12px;
+                        border-bottom: 2px solid #555;
+                        font-weight: 600;
+                        white-space: nowrap;
+                    }
+                    td {
+                        padding: 6px 12px;
+                        border-bottom: 0px solid ${borderColor};
+                        text-align: left;
+                        vertical-align: top;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                    tr:hover {
+                        background-color: ${hoverColor};
+                    }
+                    .timestamp {
+                        color: ${timestampColor};
+                        width: 25%;
+                    }
+                    .channel {
+                        color: ${typeColor};
+                        width: 25%;
+                    }
+                    .message {
+                        color: ${commandColor};
+                        width: 50%;
+                        word-break: break-all;
+                    }
+                    #message-table {
+                        width: 100%;
+                    }
+                    """;
+            cssContent = cssContent.replace("${fontFamily}", fontFamily).replace("${bodyBgColor}", bodyBgColor)
+                    .replace("${fontSize}", fontSize).replace("${bodyBgColor}", bodyBgColor).replace("${timestampColor}", timestampColor)
+                    .replace("${typeColor}", typeColor).replace("${commandColor}", commandColor).replace("${typeColor}", typeColor)
+                    .replace("${hoverColor}", hoverColor).replace("${borderColor}", borderColor);
 
             updateStyleSheet(cssContent);
         });
-        webViewContainer.setStyle(String.format("-fx-border-color: %s; -fx-border-width: 1px; -fx-border-style: solid;",borderColor));
+        webViewContainer.setStyle(String.format("-fx-border-color: %s; -fx-border-width: 1px; -fx-border-style: solid;", borderColor));
     }
 
 
     /**
      * 更新样式表
+     *
      * @param cssContent 新的CSS内容
      */
     private void updateStyleSheet(String cssContent) {
         String script = String.format("""
-            (function() {
-                var newStyle = document.createElement('style');
-                newStyle.type = 'text/css';
-                newStyle.innerHTML = `%s`;
-                var head = document.getElementsByTagName('head')[0];
-                var oldStyle = document.getElementById('dynamic-style');
-                if (oldStyle) {
-                    head.removeChild(oldStyle);
-                }
-                newStyle.id = 'dynamic-style';
-                head.appendChild(newStyle);
-            })();
-            """, cssContent.replace("`", "\\`"));
+                (function() {
+                    var newStyle = document.createElement('style');
+                    newStyle.type = 'text/css';
+                    newStyle.innerHTML = `%s`;
+                    var head = document.getElementsByTagName('head')[0];
+                    var oldStyle = document.getElementById('dynamic-style');
+                    if (oldStyle) {
+                        head.removeChild(oldStyle);
+                    }
+                    newStyle.id = 'dynamic-style';
+                    head.appendChild(newStyle);
+                })();
+                """, cssContent.replace("`", "\\`"));
 
         webView.getEngine().executeScript(script);
     }
+
     /**
      * 添加订阅消息到表格
+     *
      * @param timestamp 时间戳
-     * @param channel 频道
-     * @param message 消息内容
+     * @param channel   频道
+     * @param message   消息内容
      */
     public void addSubscriptionMessage(String timestamp, String channel, String message) {
         Platform.runLater(() -> {
@@ -303,7 +286,6 @@ public class PubSubController extends BaseClientController<ServerTabController> 
 
             // 限制最大消息数
             if (messageCounter > MAX_MESSAGES) {
-                // 简单处理：清空并重新添加（实际应用中可能需要更精确的处理）
                 String currentContent = tableContent.toString();
                 int firstRowEnd = currentContent.indexOf("</tr>") + 5;
                 if (firstRowEnd > 0 && firstRowEnd < currentContent.length()) {
@@ -326,11 +308,14 @@ public class PubSubController extends BaseClientController<ServerTabController> 
 
     /**
      * HTML转义，防止XSS攻击并保持格式
+     *
      * @param text 原始文本
      * @return 转义后的文本
      */
     private String escapeHtml(String text) {
-        if (text == null) return "";
+        if (text == null) {
+            return "";
+        }
         return text.replace("&", "&amp;")
                 .replace("<", "&lt;")
                 .replace(">", "&gt;")
@@ -351,11 +336,7 @@ public class PubSubController extends BaseClientController<ServerTabController> 
         });
     }
 
-    @Override
-    public void close() {
-        super.close();
-        unsubscribe();
-    }
+
 
 
     /**
@@ -365,19 +346,17 @@ public class PubSubController extends BaseClientController<ServerTabController> 
         this.subscriber.unsubscribe();
     }
 
+    /**
+     * 订阅/取消订阅
+     */
     @FXML
     public void subscribe(ActionEvent actionEvent) {
         if (subscribe.isSelected()) {
             subscribe.setText(language("server.pubsub.unsubscribe"));
-            this.subscriber.redisPubSub(new RedisPubSub() {
-                @Override
-                public void onMessage(String channel, String msg) {
-                    addSubscriptionMessage(LocalDateTime.now().toString(),channel,msg);
-                }
-            }).text(subChannel.getText());
+            this.subscriber.redisPubSub((channel, msg) -> addSubscriptionMessage(LocalDateTime.now().toString(), channel, msg)).text(subChannel.getText());
             this.subscriber.subscribe();
             subChannel.setEditable(false);
-        }else {
+        } else {
             this.unsubscribe();
             subscribe.setText(language("server.pubsub.subscribe"));
             subChannel.setEditable(true);
@@ -387,10 +366,20 @@ public class PubSubController extends BaseClientController<ServerTabController> 
 
 
 
+    /**
+     * 发布消息
+     *
+     * @param actionEvent 事件对象
+     */
+    @FXML
     public void publish(ActionEvent actionEvent) {
-        async(() -> {
-            this.redisClient.publish(pubChannel.getText(),pubMessage.getText());
-        });
+        async(() -> this.redisClient.publish(pubChannel.getText(), pubMessage.getText()));
+    }
+
+    @Override
+    public void close() {
+        super.close();
+        unsubscribe();
     }
 }
 
