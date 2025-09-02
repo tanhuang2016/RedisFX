@@ -668,6 +668,12 @@ public class ReportController extends BaseClientController<ServerTabController> 
         });
     }
 
+    /**
+     * 根据类型获取长度
+     * @param key  key
+     * @param type key类型
+     * @return 长度
+     */
     private long lengthByType(String key, String type) {
         RedisDataTypeEnum byType = RedisDataTypeEnum.getByType(type);
         return switch (byType) {
@@ -702,6 +708,10 @@ public class ReportController extends BaseClientController<ServerTabController> 
     }
 
 
+    /**
+     * 扫描更多
+     */
+    @FXML
     public void scannedMore(ActionEvent actionEvent) {
         async(() -> {
             synchronized (lock){
