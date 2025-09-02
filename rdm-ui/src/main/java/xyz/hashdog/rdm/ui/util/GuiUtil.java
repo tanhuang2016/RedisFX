@@ -24,8 +24,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
+import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -38,10 +39,11 @@ import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.TUtil;
 import xyz.hashdog.rdm.ui.Main;
-import xyz.hashdog.rdm.ui.common.*;
-import xyz.hashdog.rdm.ui.controller.base.BaseController;
+import xyz.hashdog.rdm.ui.common.Applications;
+import xyz.hashdog.rdm.ui.common.ConfigSettingsEnum;
+import xyz.hashdog.rdm.ui.common.Constant;
+import xyz.hashdog.rdm.ui.common.RedisDataTypeEnum;
 import xyz.hashdog.rdm.ui.controller.base.BaseClientController;
-import xyz.hashdog.rdm.ui.controller.ByteArrayController;
 import xyz.hashdog.rdm.ui.entity.ITable;
 import xyz.hashdog.rdm.ui.entity.PassParameter;
 import xyz.hashdog.rdm.ui.entity.config.KeyTagSetting;
@@ -749,6 +751,46 @@ public class GuiUtil {
         HintTooltip tooltip = new HintTooltip(text,hint);
         setShowDelay(tooltip);
         return tooltip;
+    }
+
+    /**
+     * 设置webView右键菜单
+     * @param clearItem 清空
+     * @param copyItem 复制
+     * @param selectAllItem 全选
+     * @param saveItem 保存
+     * @param webView webView
+     */
+    public static void setWebViewContextMenu(MenuItem clearItem, MenuItem copyItem, MenuItem selectAllItem, MenuItem saveItem, WebView webView) {
+        ContextMenu contextMenu = new ContextMenu();
+        // 添加菜单项
+        contextMenu.getItems().addAll(
+                clearItem,
+                new SeparatorMenuItem(),
+                copyItem,
+                selectAllItem,
+                new SeparatorMenuItem(),
+                saveItem
+        );
+        // 设置右键菜单事件
+        webView.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
+                // 检查是否有选中文本，来决定是否启用复制选项
+                String selectedText = (String) webView.getEngine().executeScript("window.getSelection().toString();");
+                copyItem.setDisable(selectedText == null || selectedText.isEmpty());
+
+                contextMenu.show(webView, event.getScreenX(), event.getScreenY());
+            } else {
+                contextMenu.hide();
+            }
+        });
+
+        // 点击其他地方隐藏菜单
+        webView.setOnMousePressed(event -> {
+            if (contextMenu.isShowing() && event.getButton() != MouseButton.SECONDARY) {
+                contextMenu.hide();
+            }
+        });
     }
 
 

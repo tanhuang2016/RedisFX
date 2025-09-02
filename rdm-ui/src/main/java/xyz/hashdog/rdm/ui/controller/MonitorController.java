@@ -2,12 +2,9 @@ package xyz.hashdog.rdm.ui.controller;
 
 import javafx.application.Platform;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
 import xyz.hashdog.rdm.redis.client.RedisMonitor;
@@ -15,6 +12,7 @@ import xyz.hashdog.rdm.ui.controller.base.BaseClientController;
 import xyz.hashdog.rdm.ui.sampler.event.ThemeEvent;
 import xyz.hashdog.rdm.ui.sampler.theme.SamplerTheme;
 import xyz.hashdog.rdm.ui.sampler.theme.ThemeManager;
+import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 import java.io.IOException;
 import java.net.URL;
@@ -68,8 +66,6 @@ public class MonitorController extends BaseClientController<ServerTabController>
      * 初始化自定义上下文菜单
      */
     private void initCustomContextMenu() {
-        ContextMenu contextMenu = new ContextMenu();
-
         // 清空日志
         MenuItem clearItem = new MenuItem(language("server.monitor.clear"));
         clearItem.setOnAction(e -> clearLogs());
@@ -85,36 +81,9 @@ public class MonitorController extends BaseClientController<ServerTabController>
         // 保存日志
         MenuItem saveItem = new MenuItem(language("server.monitor.save"));
         saveItem.setOnAction(e -> saveLogs());
+        GuiUtil.setWebViewContextMenu(clearItem,copyItem,selectAllItem,saveItem,webView);
 
-        // 添加菜单项
-        contextMenu.getItems().addAll(
-                clearItem,
-                new SeparatorMenuItem(),
-                copyItem,
-                selectAllItem,
-                new SeparatorMenuItem(),
-                saveItem
-        );
 
-        // 设置右键菜单事件
-        webView.setOnMouseClicked(event -> {
-            if (event.getButton() == MouseButton.SECONDARY) {
-                // 检查是否有选中文本，来决定是否启用复制选项
-                String selectedText = (String) webView.getEngine().executeScript("window.getSelection().toString();");
-                copyItem.setDisable(selectedText == null || selectedText.isEmpty());
-
-                contextMenu.show(webView, event.getScreenX(), event.getScreenY());
-            } else {
-                contextMenu.hide();
-            }
-        });
-
-        // 点击其他地方隐藏菜单
-        webView.setOnMousePressed(event -> {
-            if (contextMenu.isShowing() && event.getButton() != MouseButton.SECONDARY) {
-                contextMenu.hide();
-            }
-        });
     }
 
     /**
