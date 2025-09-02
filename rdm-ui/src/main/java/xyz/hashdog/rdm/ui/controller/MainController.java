@@ -450,7 +450,7 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
      * @param actionEvent  事件
      */
     @FXML
-    public void newConnection(ActionEvent actionEvent) throws IOException {
+    public void newConnection(ActionEvent actionEvent) {
         openServerLinkWindow(actionEvent);
         serverConnectionsController.newConnection(actionEvent);
     }
@@ -458,10 +458,9 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
     /**
      * 快速新建分组
      * @param actionEvent  事件
-     * @throws IOException 抛出
      */
     @FXML
-    public void newGroup(ActionEvent actionEvent) throws IOException {
+    public void newGroup(ActionEvent actionEvent) {
         openServerLinkWindow(actionEvent);
         serverConnectionsController.newGroup(actionEvent);
     }
@@ -470,7 +469,7 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
      * 快速连接
      * @param actionEvent  事件
      */
-    public void quickConnection(ActionEvent actionEvent) throws IOException {
+    public void quickConnection(ActionEvent actionEvent) {
         openServerLinkWindow(actionEvent);
         serverConnectionsController.quickConnection();
     }
