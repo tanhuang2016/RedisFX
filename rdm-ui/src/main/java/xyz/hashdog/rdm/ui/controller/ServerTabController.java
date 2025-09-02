@@ -184,8 +184,8 @@ public class ServerTabController extends BaseClientController<MainController> {
     }
 
     private void initTabPane() {
-        KeyTabPaneSetting ksetting =Applications.getConfigSettings(ConfigSettingsEnum.KEY_TAB_PANE.name);
-        this.dbTabPane.setSide(Side.valueOf(ksetting.getSide()));
+        KeyTabPaneSetting setting =Applications.getConfigSettings(ConfigSettingsEnum.KEY_TAB_PANE.name);
+        this.dbTabPane.setSide(Side.valueOf(setting.getSide()));
     }
 
     /**
@@ -919,7 +919,7 @@ public class ServerTabController extends BaseClientController<MainController> {
               this.selectTabKey=controller.getParameter().getKey();
             }
         });
-        ContextMenu cm=GuiUtil.newTabContextMenu(tab);
+        GuiUtil.newTabContextMenu(tab);
         tab.setContent(borderPane);
         tab.setGraphic(GuiUtil.creatKeyIcon());
         this.dbTabPane.getTabs().add(tab);
@@ -1007,9 +1007,7 @@ public class ServerTabController extends BaseClientController<MainController> {
         treeView.getSelectionModel().select(this.lastSelectedNode);
         //列表直接定位到第一个，树节点需要滚动定位
         if(redisContext.getRedisConfig().isTreeShow()){
-            Platform.runLater(() -> {
-                treeView.scrollTo(treeView.getRow(this.lastSelectedNode));
-            });
+            Platform.runLater(() -> treeView.scrollTo(treeView.getRow(this.lastSelectedNode)));
         }
 
     }
@@ -1139,9 +1137,7 @@ public class ServerTabController extends BaseClientController<MainController> {
      */
     private void setTab(Tab tab, Tuple2<? extends Node, ? extends BaseClientController> tuple2) {
         // 监听Tab被关闭事件,但是remove是无法监听的
-        tab.setOnClosed(event2 -> {
-            async(()->tuple2.t2().close());
-        });
+        tab.setOnClosed(event2 -> async(()->tuple2.t2().close()));
         GuiUtil.newTabContextMenu(tab);
         tab.setContent(tuple2.t1());
         this.dbTabPane.getTabs().add(tab);
@@ -1149,7 +1145,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     }
 
     @FXML
-    public void monitor(ActionEvent actionEvent) throws IOException {
+    public void monitor(ActionEvent actionEvent) {
         Tuple2<AnchorPane,ConsoleController> tuple2 = loadClientFxml("/fxml/MonitorView.fxml",PassParameter.MONITOR);
         Tab tab = new Tab("Monitor");
         tab.setGraphic(GuiUtil.creatMonitorIcon());
@@ -1165,7 +1161,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     }
 
     @FXML
-    public void pubsub(ActionEvent actionEvent) throws IOException {
+    public void pubsub(ActionEvent actionEvent) {
         Tuple2<AnchorPane,ConsoleController> tuple2 = loadClientFxml("/fxml/PubSubView.fxml",PassParameter.PUBSUB);
         Tab tab = new Tab("Pub/Sub");
         tab.setGraphic(GuiUtil.creatPubSubIcon());
@@ -1196,9 +1192,7 @@ public class ServerTabController extends BaseClientController<MainController> {
         deleteTreeItems(delItems);
 
         //删除服务器的key
-        async(()->{
-            exeRedis(j -> j.del(delKeys.toArray(new String[0])));
-        });
+        async(()-> exeRedis(j -> j.del(delKeys.toArray(new String[0]))));
 
         //删除对应打开的tab
         removeTabByKeys(delKeys);
@@ -1258,9 +1252,7 @@ public class ServerTabController extends BaseClientController<MainController> {
         }
         async(()->{
             exeRedis(RedisClient::flushDB);
-            Platform.runLater(()->{
-                treeView.getRoot().getChildren().clear();
-            });
+            Platform.runLater(()-> treeView.getRoot().getChildren().clear());
         });
     }
 
@@ -1269,7 +1261,6 @@ public class ServerTabController extends BaseClientController<MainController> {
     /**
      * 删除单个treeView对应的key,由子层调用
      * @param p 删除参数
-     * @return
      */
     public boolean delKey(ObjectProperty<PassParameter> p) {
         //如果treeView是的db和删除key的db相同,则需要对应删除treeView中的节点
@@ -1291,7 +1282,7 @@ public class ServerTabController extends BaseClientController<MainController> {
      * @return 找到的节点
      */
     private TreeItem<KeyTreeNode> tryFindTreeItemByKey(TreeItem<KeyTreeNode> root, String key) {
-        TreeItem<KeyTreeNode> find=null;
+        TreeItem<KeyTreeNode> find;
         //先从以打开的列表中找，找不到在从根节点递归找
         find = findTreeItemByKeyInOpenTreeItems( key);
         if(find==null){
