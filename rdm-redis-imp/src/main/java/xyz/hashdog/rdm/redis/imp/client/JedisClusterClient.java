@@ -116,12 +116,12 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
     public Map<Integer, Integer> dbSize() {
         return execute(jedis->{
             Map<Integer,Integer> map = new LinkedHashMap<>();
-            int dbsize=0;
+            int dbSize=0;
             for (String master : masters) {
                 Connection connection = this.jedis.getClusterNodes().get(master).getResource();
-                dbsize += (int)connection.executeCommand(Protocol.Command.DBSIZE);
+                dbSize += (int)connection.executeCommand(Protocol.Command.DBSIZE);
             }
-            map.put(0,dbsize);
+            map.put(0,dbSize);
             return map;
         });
     }
@@ -313,10 +313,8 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
     }
 
     @Override
-    public String jsonSet(String key, String defualtJsonValue) {
-        return execute(jedis->{
-            return jedis.jsonSet(key, Path2.ROOT_PATH, defualtJsonValue);
-        });
+    public String jsonSet(String key, String defaultJsonValue) {
+        return execute(jedis-> jedis.jsonSet(key, Path2.ROOT_PATH, defaultJsonValue));
     }
 
     @Override
@@ -515,14 +513,12 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
                 Jedis jedis = new Jedis(addr[0], Integer.parseInt(addr[1]));
                 jedis.auth(redisConfig.getAuth());
                 redisMonitor.addJedis(jedis);
-                Thread thread = new Thread(() -> {
-                    jedis.monitor(new JedisMonitor() {
-                        @Override
-                        public void onCommand(String s) {
-                            redisMonitor.onCommand(s);
-                        }
-                    });
-                });
+                Thread thread = new Thread(() -> jedis.monitor(new JedisMonitor() {
+                    @Override
+                    public void onCommand(String s) {
+                        redisMonitor.onCommand(s);
+                    }
+                }));
                 thread.setDaemon(true);
                 thread.start();
             } catch (Exception e) {

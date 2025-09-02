@@ -139,7 +139,7 @@ public interface RedisClient extends Closeable {
     /**
      * json类型的增加
      */
-    String jsonSet(String key, String defualtJsonValue);
+    String jsonSet(String key, String defaultJsonValue);
 
 
     /**
