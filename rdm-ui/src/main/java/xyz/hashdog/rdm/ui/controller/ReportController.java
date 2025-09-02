@@ -55,6 +55,9 @@ import java.util.stream.Collectors;
 
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
+/**
+ * @author th
+ */
 public class ReportController extends BaseClientController<ServerTabController> implements RefreshPopover.IRefreshPopover,Initializable {
     public PieChart memory;
     public PieChart keys;
@@ -119,6 +122,8 @@ public class ReportController extends BaseClientController<ServerTabController> 
     private long previousTime;
     private final Object lock = new Object();
     private final static int SCAN_COUNT = 500;
+    private static final double THRESHOLD = 0.05;
+
     private RedisKeyScanner scanner;
     private int currentDbSize;
     private  List<TopKeyTable> topKeyTables ;
@@ -154,6 +159,9 @@ public class ReportController extends BaseClientController<ServerTabController> 
         scannedMore2.setTooltip(GuiUtil.textTooltip(language("server.toolBar.loadMore")));
     }
 
+    /**
+     * 初始化趋势图
+     */
     private void initLineAndAreaChart() {
         keySeries = new XYChart.Series<>();
         memorySeries = new XYChart.Series<>();
@@ -161,12 +169,20 @@ public class ReportController extends BaseClientController<ServerTabController> 
         initLineAndAreaChart(memorySeries,lineMemory,language("server.report.trend.memory"));
     }
 
+    /**
+     * 初始化趋势图
+     * @param lineKey 图
+     * @param name title
+     */
     private void initLineAndAreaChart(XYChart.Series<String, Number> keySeries, XYChart<String, Number> lineKey, String name) {
         lineKey.setTitle(name);
         lineKey.getData().add(keySeries);
         lineKey.setLegendVisible(false);
     }
 
+    /**
+     * 初始表
+     */
     private void initTable() {
         topTable.getStyleClass().addAll(Tweaks.EDGE_TO_EDGE,Styles.STRIPED);
         infoTable.getStyleClass().addAll(Tweaks.EDGE_TO_EDGE,Styles.STRIPED);
@@ -182,11 +198,17 @@ public class ReportController extends BaseClientController<ServerTabController> 
         });
     }
 
+    /**
+     * 初始化趋势图样式
+     */
     private void initLineChar() {
         initLineChar(lineKey,lineMemory);
-
     }
 
+    /**
+     * 趋势图样式
+     * @param lineKey 线
+     */
     @SafeVarargs
     private void initLineChar(XYChart<String, Number>... lineKey) {
         for (XYChart<String, Number> xyChart : lineKey) {
@@ -202,6 +224,9 @@ public class ReportController extends BaseClientController<ServerTabController> 
             xAxis.setEndMargin(-25);
         }
     }
+    /**
+     * 初始化label
+     */
     private void initLabel() {
         capsuleCpu.textProperty().bind(barCpu.textProperty());
         capsuleNet.textProperty().bind(barNet.textProperty());
@@ -209,6 +234,7 @@ public class ReportController extends BaseClientController<ServerTabController> 
         capsuleKey.textProperty().bind(barKey.textProperty());
         capsuleConnection.textProperty().bind(barConnection.textProperty());
     }
+
     private void initListener() {
         initScrollListener();
     }
@@ -240,6 +266,9 @@ public class ReportController extends BaseClientController<ServerTabController> 
         this.topKeyTables.clear();
     }
 
+    /**
+     * 滚动监听
+     */
     private void initScrollListener() {
         if (scrollPane != null) {
             // 监听垂直滚动属性变化
@@ -247,8 +276,10 @@ public class ReportController extends BaseClientController<ServerTabController> 
         }
     }
 
+    /**
+     * 滚动监听处理
+     */
     private void handleScrollPercentageEvent(double oldValue, double newValue) {
-        final double THRESHOLD = 0.05;
         // 向下滚动超过20%
         if (newValue > THRESHOLD ) {
             if(floatToggleSwitch.isSelected()){
@@ -262,6 +293,9 @@ public class ReportController extends BaseClientController<ServerTabController> 
     }
 
 
+    /**
+     * 初始化模态框
+     */
     public void initModel() {
         topDialog.setOpacity(1);
         modalPane.setAlignment(Pos.TOP_CENTER);
@@ -468,7 +502,7 @@ public class ReportController extends BaseClientController<ServerTabController> 
     @Override
     public void refresh() {
         async(()->{
-            String infoStr = null;
+            String infoStr;
             synchronized (lock){
                  infoStr = this.redisClient.info();
             }
@@ -660,11 +694,9 @@ public class ReportController extends BaseClientController<ServerTabController> 
 
         return 0;
     }
-    @SuppressWarnings("unchecked")
     public void keySize(ActionEvent actionEvent) {
        topTable.getItems().setAll((List<TopKeyTable>) keySize.getUserData());
     }
-    @SuppressWarnings("unchecked")
     public void keyLength(ActionEvent actionEvent) {
         topTable.getItems().setAll((List<TopKeyTable>) keyLength.getUserData());
     }
