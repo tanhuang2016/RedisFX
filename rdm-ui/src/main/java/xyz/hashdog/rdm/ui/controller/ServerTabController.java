@@ -30,6 +30,7 @@ import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.common.util.TUtil;
+import xyz.hashdog.rdm.redis.client.RedisClient;
 import xyz.hashdog.rdm.redis.client.RedisKeyScanner;
 import xyz.hashdog.rdm.ui.Main;
 import xyz.hashdog.rdm.ui.common.*;
@@ -1186,7 +1187,6 @@ public class ServerTabController extends BaseClientController<MainController> {
     /**
      * 删除key,包括多选的
      *
-     * @param actionEvent
      */
     @FXML
     public void delete(ActionEvent actionEvent) {
@@ -1209,7 +1209,7 @@ public class ServerTabController extends BaseClientController<MainController> {
 
         //删除服务器的key
         async(()->{
-            exeRedis(j -> j.del(delKeys.toArray(new String[delKeys.size()])));
+            exeRedis(j -> j.del(delKeys.toArray(new String[0])));
         });
 
         //删除对应打开的tab
@@ -1219,6 +1219,10 @@ public class ServerTabController extends BaseClientController<MainController> {
 
     }
 
+    /**
+     * 从tree列表中去掉需要删除的key
+     * @param delItems 需要删除的节点
+     */
     private void deleteTreeItems(List<TreeItem<KeyTreeNode>> delItems) {
         //如果是列表，那都是同一个父节点，直接删除
         if(!this.redisContext.getRedisConfig().isTreeShow()){
@@ -1240,7 +1244,7 @@ public class ServerTabController extends BaseClientController<MainController> {
 
     /**
      * 删除对应key的tab
-     * @param delKeys
+     * @param delKeys 删除的key
      */
     public void removeTabByKeys(List<String> delKeys) {
         List<Tab> delTabs = new ArrayList<>();
@@ -1257,7 +1261,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     /**
      * 清空
      *
-     * @param actionEvent
+     * @param actionEvent 触发事件
      */
     @FXML
     public void flush(ActionEvent actionEvent) {
@@ -1265,7 +1269,7 @@ public class ServerTabController extends BaseClientController<MainController> {
             return;
         }
         async(()->{
-            exeRedis(j -> j.flushDB());
+            exeRedis(RedisClient::flushDB);
             Platform.runLater(()->{
                 treeView.getRoot().getChildren().clear();
             });
@@ -1276,7 +1280,7 @@ public class ServerTabController extends BaseClientController<MainController> {
 
     /**
      * 删除单个treeView对应的key,由子层调用
-     * @param p
+     * @param p 删除参数
      * @return
      */
     public boolean delKey(ObjectProperty<PassParameter> p) {
@@ -1293,17 +1297,17 @@ public class ServerTabController extends BaseClientController<MainController> {
     }
 
     /**
-     * 尝试找key
+     * 尝试找key的节点
      * @param root 树根
      * @param key key
-     * @return
+     * @return 找到的节点
      */
     private TreeItem<KeyTreeNode> tryFindTreeItemByKey(TreeItem<KeyTreeNode> root, String key) {
         TreeItem<KeyTreeNode> find=null;
         //先从以打开的列表中找，找不到在从根节点递归找
         find = findTreeItemByKeyInOpenTreeItems( key);
         if(find==null){
-            find = findTreeItemByKey(treeView.getRoot(), key);
+            find = findTreeItemByKey(root, key);
         }
         return find;
     }
@@ -1311,7 +1315,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     /**
      * 从打开的key列表中查找
      * @param key key
-     * @return
+     * @return 找到的节点
      */
     private TreeItem<KeyTreeNode> findTreeItemByKeyInOpenTreeItems(String key) {
         for (WeakReference<TreeItem<KeyTreeNode>> openTreeItem : this.openTreeItems) {
@@ -1348,8 +1352,7 @@ public class ServerTabController extends BaseClientController<MainController> {
 
     /**
      * 新增key并选中
-     * @param p
-     * @return
+     * @param p 参数
      */
     public void addKeyAndSelect(ObjectProperty<PassParameter> p) {
         //如果treeView是的db和删除key的db相同,则需要对应删除treeView中的节点
@@ -1368,7 +1371,7 @@ public class ServerTabController extends BaseClientController<MainController> {
      * db单选框点击则刷新
      * 或则全部重新加进去,然后再选中上次的
      *  不能通过点击就去刷新db,改为refresh手动刷新了
-     * @param mouseEvent
+     * @param mouseEvent 触发事件
      */
     @Deprecated
     @FXML
@@ -1378,7 +1381,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     /**
      * 刷新db
      * 同时会触发db的选择事件,触发search
-     * @param actionEvent
+     * @param actionEvent 触发事件
      */
     @FXML
     public void refresh(ActionEvent actionEvent) {
@@ -1391,7 +1394,6 @@ public class ServerTabController extends BaseClientController<MainController> {
 
     /**
      * 清空搜索记录
-     * @param actionEvent
      */
     public void clearHistory(ActionEvent actionEvent) {
         this.recentHistory.clear();
@@ -1407,6 +1409,10 @@ public class ServerTabController extends BaseClientController<MainController> {
         showButton.setVisible(true);
     }
 
+    /**
+     * 显示工具栏
+     */
+    @FXML
     public void showToolbar(ActionEvent actionEvent) {
         toolBar.setVisible(true);
         toolBar.setManaged(true);
