@@ -282,7 +282,6 @@ public class PubSubController extends BaseClientController<ServerTabController> 
 
             tableContent.append(tableRow);
             messageCounter++;
-            messageSize.setText(String.valueOf(messageCounter));
 
             // 限制最大消息数
             if (messageCounter > MAX_MESSAGES) {
@@ -293,6 +292,8 @@ public class PubSubController extends BaseClientController<ServerTabController> 
                 }
                 messageCounter--;
             }
+
+            messageSize.setText(String.valueOf(messageCounter));
 
             // 更新表格内容
             String script = String.format(
