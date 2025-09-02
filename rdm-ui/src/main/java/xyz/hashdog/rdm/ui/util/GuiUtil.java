@@ -806,6 +806,21 @@ public class GuiUtil {
         }
     }
 
+    /**
+     * webview文本全选
+     * @param webView webView
+     * @param id 需要全选的body的id
+     */
+    public static void selectWebViewAllText(WebView webView,String id) {
+        webView.getEngine().executeScript(
+                "var selection = window.getSelection();" +
+                        "var range = document.createRange();" +
+                        "range.selectNodeContents(document.getElementById('"+id+"'));" +
+                        "selection.removeAllRanges();" +
+                        "selection.addRange(range);"
+        );
+    }
+
 
     /**
      * 用于tableView压缩为单行,就是避免出现换行的情况

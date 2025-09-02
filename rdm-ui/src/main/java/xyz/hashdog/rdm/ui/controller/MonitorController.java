@@ -74,7 +74,7 @@ public class MonitorController extends BaseClientController<ServerTabController>
 
         // 全选
         MenuItem selectAllItem = new MenuItem(language("main.edit.selectall"));
-        selectAllItem.setOnAction(e -> selectAllText());
+        selectAllItem.setOnAction(e -> GuiUtil.selectWebViewAllText(webView,"log-container"));
 
         // 保存日志
         MenuItem saveItem = new MenuItem(language("server.monitor.save"));
@@ -97,18 +97,6 @@ public class MonitorController extends BaseClientController<ServerTabController>
 
 
 
-    /**
-     * 全选文本
-     */
-    private void selectAllText() {
-        webView.getEngine().executeScript(
-                "var selection = window.getSelection();" +
-                        "var range = document.createRange();" +
-                        "range.selectNodeContents(document.getElementById('log-container'));" +
-                        "selection.removeAllRanges();" +
-                        "selection.addRange(range);"
-        );
-    }
 
     /**
      * 保存日志
