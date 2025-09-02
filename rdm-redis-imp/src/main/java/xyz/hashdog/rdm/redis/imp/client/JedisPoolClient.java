@@ -564,6 +564,7 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
 
     @Override
     public long memoryUsage(String key, int samples) {
+        Pipeline pipeline = jedis.pipelined();
         return execute(jedis->jedis.memoryUsage(key,samples));
     }
 

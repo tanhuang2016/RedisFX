@@ -715,7 +715,10 @@ public class ReportController extends BaseClientController<ServerTabController> 
     public void scannedMore(ActionEvent actionEvent) {
         async(() -> {
             synchronized (lock){
+                long startTime = System.nanoTime();
                 List<String> keys = this.scanner.scan();
+                long endTime1 = System.nanoTime();
+                System.out.println("endTime1执行时间: " + (endTime1-startTime) / 1_000_000 + " ms");
                 for (String key : keys) {
                     long memory=this.redisClient.memoryUsage(key,0);
                     String type = this.redisClient.type(key);
@@ -724,11 +727,40 @@ public class ReportController extends BaseClientController<ServerTabController> 
                     TopKeyTable topKeyTable = new TopKeyTable(key, type, ttl, memory, length);
                     topKeyTables.add(topKeyTable);
                 }
+                // 使用Pipeline优化Redis命令执行
+//                if (!keys.isEmpty()) {
+//                    List<Object> pipelineResults = this.redisClient.executePipelined(commands -> {
+//                        for (String key : keys) {
+//                            commands.memoryUsage(key, 0);
+//                            commands.type(key);
+//                            commands.ttl(key);
+//                        }
+//                        return null;
+//                    });
+//
+//                    // 处理Pipeline结果
+//                    int index = 0;
+//                    for (String key : keys) {
+//                        Long memory = (Long) pipelineResults.get(index++);
+//                        String type = (String) pipelineResults.get(index++);
+//                        Long ttl = (Long) pipelineResults.get(index++);
+//
+//                        long length = lengthByType(key, type);
+//                        TopKeyTable topKeyTable = new TopKeyTable(key, type, ttl, memory, length);
+//                        topKeyTables.add(topKeyTable);
+//                    }
+//                }
+                long endTime2 = System.nanoTime();
+                System.out.println("endTime2执行时间: " + (endTime2-endTime1) / 1_000_000 + " ms");
                 updateScannedKeys();
-
+                long endTime3 = System.nanoTime();
+                System.out.println("endTime3执行时间: " + (endTime3-endTime2) / 1_000_000 + " ms");
             }
+            long startTime = System.nanoTime();
             updatePiesData(topKeyTables);
             updateTopData(topKeyTables);
+            long endTime4 = System.nanoTime();
+            System.out.println("endTime4执行时间: " + (endTime4-startTime) / 1_000_000 + " ms");
         });
 
     }

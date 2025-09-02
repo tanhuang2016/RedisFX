@@ -461,4 +461,17 @@ public interface RedisClient extends Closeable {
     long jsonArrLen(String key);
 
 
+//    List<Object> executePipelined(Function<Pipeline, Void> pipelineExecutor);
+    /**
+     * 执行Pipeline命令
+     * @param pipelineExecutor Pipeline命令执行器
+     * @return 执行结果列表
+     */
+//    public List<Object> executePipelined(Function<Pipeline, Void> pipelineExecutor) {
+//        return execute(jedis -> {
+//            Pipeline pipeline = jedis.pipelined();
+//            pipelineExecutor.apply(pipeline);
+//            return pipeline.syncAndReturnAll();
+//        });
+//    }
 }
