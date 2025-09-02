@@ -121,5 +121,8 @@ public interface Constant {
 
     String INFO_KEYSPACE = "Keyspace";
     String KEY_SEPARATOR =":" ;
-
+    /**
+     * 应用主页
+     */
+    String APP_HOME_PAGE = "app.homepage";
 }

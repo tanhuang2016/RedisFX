@@ -10,6 +10,8 @@ import javafx.geometry.Side;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.control.*;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.layout.AnchorPane;
@@ -40,7 +42,10 @@ import xyz.hashdog.rdm.ui.sampler.layout.ApplicationWindow;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.RecentHistory;
 
+import java.awt.*;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -613,5 +618,20 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
     @FXML
     public void keyTabRight(ActionEvent actionEvent) {
         setKeyTabSide(Side.RIGHT);
+    }
+
+    /**
+     * 改进建议和问题反馈，直接条issues页面
+     */
+    @FXML
+    public void suggest(ActionEvent actionEvent) {
+        String issuesUrl = "";
+        try {
+            issuesUrl =System.getProperty(Constant.APP_HOME_PAGE)+ "/issues";
+            Desktop.getDesktop().browse(new URI(issuesUrl));
+        } catch (IOException | URISyntaxException e) {
+            log.error("unable to open the browser", e);
+            GuiUtil.alert(Alert.AlertType.ERROR, String.format(language("alert.message.help.suggest")+": %s", issuesUrl));
+        }
     }
 }

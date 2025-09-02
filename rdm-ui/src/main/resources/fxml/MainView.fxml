@@ -122,7 +122,7 @@
                         <Menu mnemonicParsing="false" text="%main.help">
                             <items>
                                 <MenuItem mnemonicParsing="false" text="%main.help.guide"  disable="true"/>
-                                <MenuItem mnemonicParsing="false" text="%main.help.suggest" disable="true"/>
+                                <MenuItem mnemonicParsing="false" text="%main.help.suggest" onAction="#suggest"/>
                                 <MenuItem mnemonicParsing="false" text="%main.help.update" disable="true"/>
                                 <MenuItem mnemonicParsing="false" text="%main.help.about" disable="true"/>
                             </items>

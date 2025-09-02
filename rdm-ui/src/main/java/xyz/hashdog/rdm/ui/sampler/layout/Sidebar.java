@@ -12,7 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -23,7 +22,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2MZ;
-import org.kordamp.ikonli.material2.Material2OutlinedAL;
+import xyz.hashdog.rdm.ui.common.Constant;
 import xyz.hashdog.rdm.ui.sampler.event.BrowseEvent;
 import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
 import xyz.hashdog.rdm.ui.sampler.event.HotkeyEvent;
@@ -100,7 +99,7 @@ public final class Sidebar extends VBox {
         );
         versionLbl.setCursor(Cursor.HAND);
         versionLbl.setOnMouseClicked(e -> {
-            var homepage = System.getProperty("app.homepage");
+            var homepage = System.getProperty(Constant.APP_HOME_PAGE);
             if (homepage != null) {
                 DefaultEventBus.getInstance().publish(new BrowseEvent(URI.create(homepage)));
             }
