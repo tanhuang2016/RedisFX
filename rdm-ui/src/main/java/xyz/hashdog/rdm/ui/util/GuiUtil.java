@@ -35,6 +35,8 @@ import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.TUtil;
@@ -48,16 +50,15 @@ import xyz.hashdog.rdm.ui.entity.ITable;
 import xyz.hashdog.rdm.ui.entity.PassParameter;
 import xyz.hashdog.rdm.ui.entity.config.KeyTagSetting;
 import xyz.hashdog.rdm.ui.sampler.custom.HintTooltip;
+import xyz.hashdog.rdm.ui.sampler.theme.ThemeManager;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
@@ -68,6 +69,7 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
  * @since 2023/7/20 13:10
  */
 public class GuiUtil {
+    private static final Logger log = LoggerFactory.getLogger(GuiUtil.class);
 
 //    public static final Image ICON_REDIS =  new Image(Main.class.getResourceAsStream("/icon/redis256.png"));
     public static final Image ICON_REDIS =  GuiUtil.svgImage("/svg/redis_red.svg",256);
@@ -819,6 +821,27 @@ public class GuiUtil {
                         "selection.removeAllRanges();" +
                         "selection.addRange(range);"
         );
+    }
+
+    /**
+     * 获取需要的主题颜色
+     * @return 主题颜色
+     */
+    public static Map<String, String> themeNeedColors() {
+        try {
+            Map<String, String> map = ThemeManager.getInstance().getTheme().parseColors();
+            Map<String, String> newMap = new HashMap<>();
+            Constant.NEED_COLORS
+                    .forEach(colorKey -> {
+                        if (map.containsKey(colorKey)) {
+                            newMap.put(colorKey, map.get(colorKey));
+                        }
+                    });
+            return newMap;
+        } catch (IOException e) {
+            log.error("themeNeedColors exception", e);
+            throw new RuntimeException(e);
+        }
     }
 
 

@@ -12,6 +12,36 @@ public interface Constant {
      * 明亮主题标识
      */
     String THEME_LIGHT="Light";
+    /**
+     * 内容背景色
+     */
+    String THEME_COLOR_BG_SUBTLE="-color-bg-subtle";
+    /**
+     * 内容文字色
+     */
+    String THEME_COLOR_FG_DEFAULT="-color-fg-default";
+    /**
+     * 成功色
+     */
+    String THEME_COLOR_SUCCESS_FG="-color-success-fg";
+    /**
+     * 强调色
+     */
+    String THEME_COLOR_ACCENT_FG="-color-accent-fg";
+    /**
+     * 边框色
+     */
+    String THEME_COLOR_BORDER_DEFAULT="-color-border-default";
+    /**
+     * 需要的样式颜色
+     */
+    List<String> NEED_COLORS=List.of(
+            THEME_COLOR_BG_SUBTLE,
+            THEME_COLOR_FG_DEFAULT,
+            THEME_COLOR_SUCCESS_FG,
+            THEME_COLOR_ACCENT_FG,
+            THEME_COLOR_BORDER_DEFAULT
+    );
 
     /*国际化配置*/
     String CLOSE = "common.tab.close";
