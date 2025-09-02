@@ -22,7 +22,7 @@ import java.util.function.Predicate;
  *
  * 需要分页的窗口用这个基类
  * @author th
- * @version 2.3.1
+ * @version 2.3.2
  * @since 2023/7/22 10:43
  */
 public abstract class BaseKeyPageController<P extends ITable> extends BaseKeyController {
