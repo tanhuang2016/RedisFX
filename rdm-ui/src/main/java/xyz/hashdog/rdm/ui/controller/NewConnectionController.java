@@ -335,6 +335,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         String portStr = port.getEditor().getText();
         String authStr = auth.getText();
         boolean clusterSelected = cluster.isSelected();
+        redisConfig.setName(name.getText());
         redisConfig.setHost(hostStr);
         redisConfig.setPort(Integer.parseInt(portStr));
         redisConfig.setAuth(authStr);
