@@ -504,7 +504,9 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
 
     @Override
     public void monitor(RedisMonitor redisMonitor) {
-        jedis.monitor(new JedisMonitor() {
+        Jedis newJedis = jedisPool.getResource();
+        redisMonitor.addJedis(newJedis);
+        newJedis.monitor(new JedisMonitor() {
             @Override
             public void onCommand(String s) {
                 redisMonitor.onCommand(s);
