@@ -18,6 +18,7 @@ import xyz.hashdog.rdm.redis.imp.Util;
 import xyz.hashdog.rdm.redis.imp.console.RedisConsole;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -579,11 +580,11 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
     }
 
     @Override
-    public List<Object> executePipelined(Function<PipelineAdapter, Void> pipelineExecutor) {
+    public List<Object> executePipelined(Consumer<PipelineAdapter> pipelineExecutor) {
         return execute(jedis -> {
             Pipeline pipeline = jedis.pipelined();
             PipeLineAdapterImpl pipeLineAdapter = new PipeLineAdapterImpl(pipeline);
-            pipelineExecutor.apply(pipeLineAdapter);
+            pipelineExecutor.accept(pipeLineAdapter);
             return pipeLineAdapter.syncAndReturnAll();
         });
     }

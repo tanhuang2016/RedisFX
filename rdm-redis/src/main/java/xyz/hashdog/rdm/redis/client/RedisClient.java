@@ -7,7 +7,7 @@ import java.io.Closeable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
+import java.util.function.Consumer;
 
 /**
  * redis客户端操作
@@ -467,6 +467,6 @@ public interface RedisClient extends Closeable {
      * @param pipelineExecutor Pipeline命令执行器
      * @return 执行结果列表
      */
-    List<Object> executePipelined(Function<PipelineAdapter, Void> pipelineExecutor);
+    List<Object> executePipelined(Consumer<PipelineAdapter> pipelineExecutor);
 
 }

@@ -737,10 +737,7 @@ public class ReportController extends BaseClientController<ServerTabController> 
                             commands.type(key);
                             commands.ttl(key);
                         }
-                        return null;
                     });
-
-
                     List<TopKeyTable> topKeyTableList = new ArrayList<>();
                     List<Object> pipelineLengthResults = this.redisClient.executePipelined(commands -> {
                         // 处理Pipeline结果
@@ -754,7 +751,6 @@ public class ReportController extends BaseClientController<ServerTabController> 
                             TopKeyTable topKeyTable = new TopKeyTable(key, type, ttl, memory);
                             topKeyTableList.add(topKeyTable);
                         }
-                        return null;
                     });
 
                     for (int i = 0; i < topKeyTableList.size(); i++) {

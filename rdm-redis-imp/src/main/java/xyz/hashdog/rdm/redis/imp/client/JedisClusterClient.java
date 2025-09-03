@@ -17,6 +17,7 @@ import xyz.hashdog.rdm.redis.exceptions.RedisException;
 import xyz.hashdog.rdm.redis.imp.console.RedisConsole;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -578,11 +579,11 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
 
 
     @Override
-    public List<Object> executePipelined(Function<PipelineAdapter, Void> pipelineExecutor) {
+    public List<Object> executePipelined(Consumer<PipelineAdapter> pipelineExecutor) {
         return execute(jedis -> {
             ClusterPipeline pipelined = jedis.pipelined();
             PipeLineAdapterImpl pipeLineAdapter = new PipeLineAdapterImpl(pipelined);
-            pipelineExecutor.apply(pipeLineAdapter);
+            pipelineExecutor.accept(pipeLineAdapter);
             return pipeLineAdapter.syncAndReturnAll();
         });
     }
