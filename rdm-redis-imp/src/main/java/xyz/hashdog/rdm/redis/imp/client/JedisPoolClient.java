@@ -578,6 +578,20 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
         return execute(jedis->super.zrangeWithScores(jedis,key,start,stop));
     }
 
+    @Override
+    public List<Object> executePipelined(Function<PipelineAdapter, Void> pipelineExecutor) {
+        return execute(jedis -> {
+            Pipeline pipeline = jedis.pipelined();
+            PipeLineAdapterImpl pipeLineAdapter = new PipeLineAdapterImpl(pipeline);
+            pipelineExecutor.apply(pipeLineAdapter);
+            return pipeLineAdapter.syncAndReturnAll();
+        });
+    }
+
+
+
+
+
     /**
      * 传了一个SocketAcquirer匿名内部类实现
      * SocketAcquirer 每次都是从pool获取最新的socket

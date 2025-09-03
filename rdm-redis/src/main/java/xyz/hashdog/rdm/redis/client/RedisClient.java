@@ -7,6 +7,7 @@ import java.io.Closeable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 
 /**
  * redis客户端操作
@@ -461,17 +462,11 @@ public interface RedisClient extends Closeable {
     long jsonArrLen(String key);
 
 
-//    List<Object> executePipelined(Function<Pipeline, Void> pipelineExecutor);
     /**
      * 执行Pipeline命令
      * @param pipelineExecutor Pipeline命令执行器
      * @return 执行结果列表
      */
-//    public List<Object> executePipelined(Function<Pipeline, Void> pipelineExecutor) {
-//        return execute(jedis -> {
-//            Pipeline pipeline = jedis.pipelined();
-//            pipelineExecutor.apply(pipeline);
-//            return pipeline.syncAndReturnAll();
-//        });
-//    }
+    List<Object> executePipelined(Function<PipelineAdapter, Void> pipelineExecutor);
+
 }

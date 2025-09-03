@@ -719,37 +719,37 @@ public class ReportController extends BaseClientController<ServerTabController> 
                 List<String> keys = this.scanner.scan();
                 long endTime1 = System.nanoTime();
                 System.out.println("endTime1执行时间: " + (endTime1-startTime) / 1_000_000 + " ms");
-                for (String key : keys) {
-                    long memory=this.redisClient.memoryUsage(key,0);
-                    String type = this.redisClient.type(key);
-                    long ttl = this.redisClient.ttl(key);
-                    long length=lengthByType(key,type);
-                    TopKeyTable topKeyTable = new TopKeyTable(key, type, ttl, memory, length);
-                    topKeyTables.add(topKeyTable);
-                }
-                // 使用Pipeline优化Redis命令执行
-//                if (!keys.isEmpty()) {
-//                    List<Object> pipelineResults = this.redisClient.executePipelined(commands -> {
-//                        for (String key : keys) {
-//                            commands.memoryUsage(key, 0);
-//                            commands.type(key);
-//                            commands.ttl(key);
-//                        }
-//                        return null;
-//                    });
-//
-//                    // 处理Pipeline结果
-//                    int index = 0;
-//                    for (String key : keys) {
-//                        Long memory = (Long) pipelineResults.get(index++);
-//                        String type = (String) pipelineResults.get(index++);
-//                        Long ttl = (Long) pipelineResults.get(index++);
-//
-//                        long length = lengthByType(key, type);
-//                        TopKeyTable topKeyTable = new TopKeyTable(key, type, ttl, memory, length);
-//                        topKeyTables.add(topKeyTable);
-//                    }
+//                for (String key : keys) {
+//                    long memory=this.redisClient.memoryUsage(key,0);
+//                    String type = this.redisClient.type(key);
+//                    long ttl = this.redisClient.ttl(key);
+//                    long length=lengthByType(key,type);
+//                    TopKeyTable topKeyTable = new TopKeyTable(key, type, ttl, memory, length);
+//                    topKeyTables.add(topKeyTable);
 //                }
+                // 使用Pipeline优化Redis命令执行
+                if (!keys.isEmpty()) {
+                    List<Object> pipelineResults = this.redisClient.executePipelined(commands -> {
+                        for (String key : keys) {
+                            commands.memoryUsage(key, 0);
+                            commands.type(key);
+                            commands.ttl(key);
+                        }
+                        return null;
+                    });
+
+                    // 处理Pipeline结果
+                    int index = 0;
+                    for (String key : keys) {
+                        Long memory = (Long) pipelineResults.get(index++);
+                        String type = (String) pipelineResults.get(index++);
+                        Long ttl = (Long) pipelineResults.get(index++);
+
+                        long length = lengthByType(key, type);
+                        TopKeyTable topKeyTable = new TopKeyTable(key, type, ttl, memory, length);
+                        topKeyTables.add(topKeyTable);
+                    }
+                }
                 long endTime2 = System.nanoTime();
                 System.out.println("endTime2执行时间: " + (endTime2-endTime1) / 1_000_000 + " ms");
                 updateScannedKeys();
