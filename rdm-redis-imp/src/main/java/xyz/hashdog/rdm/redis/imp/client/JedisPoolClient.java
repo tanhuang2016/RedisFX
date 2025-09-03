@@ -508,22 +508,10 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
         //连接关掉，并且回收到资源池
         redisMonitor.addJedis(newJedis.getConnection());
         redisMonitor.addJedis(newJedis);
-        try {
-            newJedis.monitor(new JedisMonitor() {
-                @Override
-                public void onCommand(String s) {
-                    redisMonitor.onCommand(s);
-                }
-            });
-        }catch (JedisConnectionException e){
-            if(redisMonitor.isClosed()){
-                log.info("redisMonitor closed");
-            }else {
-                log.error("redisMonitor error",e);
-            }
-        }
-
+        doMonitor(newJedis,redisMonitor);
     }
+
+
 
     @Override
     public void psubscribe(RedisPubSub redisPubSub, String text) {

@@ -34,10 +34,11 @@ public abstract class RedisMonitor implements AutoCloseable {
           if(jedisList==null){
                return;
           }
+          closed=true;
           for (AutoCloseable autoCloseable : jedisList) {
                Util.close(autoCloseable);
           }
-          closed=true;
+
      }
 
      /**

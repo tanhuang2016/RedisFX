@@ -1,9 +1,14 @@
 package xyz.hashdog.rdm.redis.imp.client;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisMonitor;
 import redis.clients.jedis.StreamEntryID;
 import redis.clients.jedis.commands.SortedSetBinaryCommands;
 import redis.clients.jedis.commands.SortedSetCommands;
 import redis.clients.jedis.commands.StreamCommands;
+import redis.clients.jedis.exceptions.JedisConnectionException;
 import redis.clients.jedis.params.ScanParams;
 import redis.clients.jedis.resps.ScanResult;
 import redis.clients.jedis.resps.StreamEntry;
@@ -11,6 +16,7 @@ import redis.clients.jedis.resps.Tuple;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.redis.client.RedisClient;
+import xyz.hashdog.rdm.redis.client.RedisMonitor;
 import xyz.hashdog.rdm.redis.imp.Util;
 
 import java.util.ArrayList;
@@ -27,6 +33,7 @@ import java.util.function.Function;
  * @since 2025/8/17 17:05
  */
 public abstract class AbstractRedisClient implements RedisClient {
+    private static final Logger log = LoggerFactory.getLogger(AbstractRedisClient.class);
 
     /**
      * 封装hscanAll获取hash所有键值对
@@ -228,6 +235,28 @@ public abstract class AbstractRedisClient implements RedisClient {
         Map<Double,byte[]> map = new LinkedHashMap<>();
         tuples.forEach(e->map.put(e.getScore(),e.getBinaryElement()));
         return map;
+    }
+
+    /**
+     * 封装监控执行
+     * @param newJedis  jedis
+     * @param redisMonitor 监控回调
+     */
+    protected void doMonitor(Jedis newJedis, RedisMonitor redisMonitor) {
+        try {
+            newJedis.monitor(new JedisMonitor() {
+                @Override
+                public void onCommand(String s) {
+                    redisMonitor.onCommand(s);
+                }
+            });
+        }catch (JedisConnectionException e){
+            if(redisMonitor.isClosed()){
+                log.info("redisMonitor closed");
+            }else {
+                log.error("redisMonitor error",e);
+            }
+        }
     }
 
 }

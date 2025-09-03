@@ -515,12 +515,9 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
                 jedis.auth(redisConfig.getAuth());
                 //单机jedis没用连接池，close会直接关闭连接
                 redisMonitor.addJedis(jedis);
-                Thread thread = new Thread(() -> jedis.monitor(new JedisMonitor() {
-                    @Override
-                    public void onCommand(String s) {
-                        redisMonitor.onCommand(s);
-                    }
-                }));
+                Thread thread = new Thread(() -> {
+                    doMonitor(jedis,redisMonitor);
+                });
                 thread.setDaemon(true);
                 thread.start();
             } catch (Exception e) {
