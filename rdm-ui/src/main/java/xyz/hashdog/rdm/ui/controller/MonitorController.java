@@ -60,8 +60,9 @@ public class MonitorController extends BaseClientController<ServerTabController>
 
     @Override
     protected void paramInitEnd() {
+        //默认命令监控是启动的
+        start.setSelected(true);
         startCheck();
-        startMonitor();
     }
 
 
@@ -94,13 +95,7 @@ public class MonitorController extends BaseClientController<ServerTabController>
         }
     }
 
-    /**
-     * 开关设置
-     */
-    private void startCheck() {
-        start.setSelected(!start.isSelected());
-        start(null);
-    }
+
 
     /**
      * 初始化自定义上下文菜单
@@ -374,14 +369,21 @@ public class MonitorController extends BaseClientController<ServerTabController>
     @FXML
     public void start(ActionEvent actionEvent) {
         if(start.isSelected()){
-            GuiUtil.setIcon(start,new FontIcon(Material2MZ.PAUSE));
-            start.setText(language("server.monitor.stop"));
-            startMonitor();
+            startCheck();
         }else {
             GuiUtil.setIcon(start,new FontIcon(Material2MZ.PLAY_ARROW));
             start.setText(language("server.monitor.start"));
             stopMonitor();
         }
+    }
+
+    /**
+     * 选择启动监控
+     */
+    private void startCheck() {
+        GuiUtil.setIcon(start,new FontIcon(Material2MZ.PAUSE));
+        start.setText(language("server.monitor.stop"));
+        startMonitor();
     }
 }
 

@@ -20,6 +20,7 @@ public abstract class RedisMonitor implements AutoCloseable {
       * 存在这里，用于监控关闭的时候释放连接
       */
      private  List<AutoCloseable> jedisList;
+     private boolean closed;
 
      public RedisMonitor() {
 
@@ -36,6 +37,7 @@ public abstract class RedisMonitor implements AutoCloseable {
           for (AutoCloseable autoCloseable : jedisList) {
                Util.close(autoCloseable);
           }
+          closed=true;
      }
 
      /**
@@ -55,4 +57,8 @@ public abstract class RedisMonitor implements AutoCloseable {
       * @param msg 命令消息
       */
      public abstract void onCommand(String msg);
+
+     public boolean isClosed() {
+          return closed;
+     }
 }

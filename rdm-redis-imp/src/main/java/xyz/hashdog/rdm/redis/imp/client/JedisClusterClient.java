@@ -513,6 +513,7 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
                 String[] addr = nodeStr.split(":");
                 Jedis jedis = new Jedis(addr[0], Integer.parseInt(addr[1]));
                 jedis.auth(redisConfig.getAuth());
+                //单机jedis没用连接池，close会直接关闭连接
                 redisMonitor.addJedis(jedis);
                 Thread thread = new Thread(() -> jedis.monitor(new JedisMonitor() {
                     @Override
