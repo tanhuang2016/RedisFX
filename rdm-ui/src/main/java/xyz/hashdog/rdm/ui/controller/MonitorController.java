@@ -43,7 +43,6 @@ public class MonitorController extends BaseClientController<ServerTabController>
     public ToggleButton start;
     private int logCounter = 0;
     private static final int MAX_LOG_LINES = 1000;
-    private Thread monitorThread;
     private RedisMonitor redisMonitor;
     private final Queue<List<String>> logQueue = new ConcurrentLinkedQueue<>();
     private static final ReentrantLock LOCK = new ReentrantLock();
@@ -70,7 +69,7 @@ public class MonitorController extends BaseClientController<ServerTabController>
      * 启动监控
      */
     private void startMonitor() {
-        monitorThread = new Thread(() -> this.redisClient.monitor(redisMonitor = new RedisMonitor() {
+        Thread monitorThread = new Thread(() -> this.redisClient.monitor(redisMonitor = new RedisMonitor() {
             @Override
             public void onCommand(String msg) {
                 logQueue.offer(parseLogToList(msg));
@@ -85,11 +84,6 @@ public class MonitorController extends BaseClientController<ServerTabController>
      * 停止监控
      */
     private void stopMonitor() {
-        if (monitorThread != null && monitorThread.isAlive()) {
-            // 中断监控线程
-            monitorThread.interrupt();
-            monitorThread = null;
-        }
         if (redisMonitor != null) {
             redisMonitor.close();
         }
