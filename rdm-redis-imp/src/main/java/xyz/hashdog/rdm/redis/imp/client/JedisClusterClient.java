@@ -540,22 +540,12 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
 
     @Override
     public RedisSubscriber subscriber(){
-        return new RedisSubscriber(){
-            @Override
-            public void doSubscribe() {
-                //订阅模式有命令限制，得单独拿一个连接来操作
-                jedis.psubscribe(new JedisPubSub() {
-                    @Override
-                    public void onPMessage(String pattern, String channel, String message) {
-                        if(isSub.get()){
-                            redisPubSub.onMessage(channel,message);
-                        }else {
-                            Thread.currentThread().interrupt();
-                        }
-                    }
-                },text);
-            }
-        };
+        String[] split = masters.getFirst().split(":");
+        Jedis subJedis = new Jedis(split[0], Integer.parseInt(split[1]));
+        subJedis.auth(redisConfig.getAuth());
+
+        return subscriber(subJedis,text->jedis.sendCommand(Protocol.Command.PUNSUBSCRIBE, text));
+
     }
 
     @Override

@@ -1,5 +1,9 @@
 package xyz.hashdog.rdm.redis.client;
 
+import xyz.hashdog.rdm.common.util.Util;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -18,13 +22,14 @@ public abstract class RedisSubscriber {
     protected RedisPubSub redisPubSub;
 
     /**
-     * 订阅的线程
+     * 缓存需要关闭的资源
      */
-    protected volatile Thread subscribeThread;
+    private List<AutoCloseable> jedisList;
+
     /**
      * 是否订阅中
      */
-    protected final AtomicBoolean isSub = new AtomicBoolean(false);
+    protected final AtomicBoolean closed = new AtomicBoolean(false);
 
     public RedisSubscriber() {
 
@@ -45,8 +50,8 @@ public abstract class RedisSubscriber {
      * 订阅
      */
     public void subscribe() {
-        this.subscribeThread = new Thread(() -> {
-            isSub.set(true);
+       Thread subscribeThread = new Thread(() -> {
+           closed.set(false);
             doSubscribe();
         });
         subscribeThread.setDaemon(true);
@@ -58,13 +63,26 @@ public abstract class RedisSubscriber {
      */
     public abstract void doSubscribe();
 
+
     /**
      * 取消订阅
      */
     public void unsubscribe() {
-        isSub.set(false);
-        if (subscribeThread != null) {
-            subscribeThread.interrupt();
+        closed.set(true);
+        if(jedisList!=null){
+            for (AutoCloseable autoCloseable : jedisList) {
+                Util.close(autoCloseable);
+            }
         }
+    }
+    /**
+     * 添加jedis
+     * @param jedis jedis
+     */
+    public void addJedis(AutoCloseable jedis) {
+        if(jedisList==null){
+            this.jedisList = new ArrayList<>(2);
+        }
+        jedisList.add(jedis);
     }
 }

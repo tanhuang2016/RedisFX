@@ -2,9 +2,7 @@ package xyz.hashdog.rdm.redis.imp.client;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisMonitor;
-import redis.clients.jedis.StreamEntryID;
+import redis.clients.jedis.*;
 import redis.clients.jedis.commands.SortedSetBinaryCommands;
 import redis.clients.jedis.commands.SortedSetCommands;
 import redis.clients.jedis.commands.StreamCommands;
@@ -17,6 +15,7 @@ import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.redis.client.RedisClient;
 import xyz.hashdog.rdm.redis.client.RedisMonitor;
+import xyz.hashdog.rdm.redis.client.RedisSubscriber;
 import xyz.hashdog.rdm.redis.imp.Util;
 
 import java.util.ArrayList;
@@ -24,6 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -257,6 +257,47 @@ public abstract class AbstractRedisClient implements RedisClient {
                 log.error("redisMonitor error",e);
             }
         }
+    }
+
+
+    /**
+     * 封装订阅执行
+     * @param subJedis  jedis
+     * @param consumer 取消订阅回调
+     * @return 订阅者
+     */
+    protected  RedisSubscriber subscriber(Jedis subJedis, Consumer<String> consumer){
+        RedisSubscriber redisSubscriber = new RedisSubscriber() {
+            @Override
+            public void doSubscribe() {
+                try{
+                    //订阅模式有命令限制，得单独拿一个连接来操作
+                    subJedis.psubscribe(new JedisPubSub() {
+                        @Override
+                        public void onPMessage(String pattern, String channel, String message) {
+                            redisPubSub.onMessage(channel, message);
+                        }
+                    }, text);
+                }catch (JedisConnectionException e){
+                    if(closed.get()){
+                        log.info("subscriber closed");
+                    }else {
+                        log.error("subscriber error",e);
+                    }
+                }
+
+            }
+
+
+            @Override
+            public void unsubscribe() {
+                consumer.accept(text);
+                super.unsubscribe();
+            }
+        };
+        redisSubscriber.addJedis(subJedis.getConnection());
+        redisSubscriber.addJedis(subJedis);
+        return redisSubscriber;
     }
 
 }

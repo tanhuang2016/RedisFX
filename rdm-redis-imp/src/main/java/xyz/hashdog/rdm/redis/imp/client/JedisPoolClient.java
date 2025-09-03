@@ -526,35 +526,8 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
 
     @Override
     public RedisSubscriber subscriber(){
-        return new RedisSubscriber(){
-            private volatile Jedis subJedis;
-            @Override
-            public void doSubscribe() {
-                this.subJedis=jedisPool.getResource();
-                //订阅模式有命令限制，得单独拿一个连接来操作
-                this.subJedis.psubscribe(new JedisPubSub() {
-                    @Override
-                    public void onPMessage(String pattern, String channel, String message) {
-                        if(isSub.get()){
-                            redisPubSub.onMessage(channel,message);
-                        }else {
-                            Thread.currentThread().interrupt();
-                        }
-                    }
-                },text);
-            }
-
-
-            @Override
-            public void unsubscribe() {
-                super.unsubscribe();
-                if(subJedis!=null){
-                    jedis.sendCommand(Protocol.Command.PUNSUBSCRIBE, text);
-                    Util.close(subJedis);
-                    subJedis=null;
-                }
-            }
-        };
+        Jedis subJedis = jedisPool.getResource();
+        return subscriber(subJedis,text->jedis.sendCommand(Protocol.Command.PUNSUBSCRIBE, text));
     }
 
 
