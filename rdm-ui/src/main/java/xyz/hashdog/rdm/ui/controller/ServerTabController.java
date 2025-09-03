@@ -579,7 +579,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     private void resetDbSelects(){
         DBNode selectedItem = choiceBox.getSelectionModel().getSelectedItem();
         ObservableList<DBNode> items= FXCollections.observableArrayList();
-        ThreadPool.getInstance().execute(() -> {
+        async(() -> {
             Map<Integer, Integer> map = this.redisClient.dbSize();
             Platform.runLater(() -> {
                 for (Map.Entry<Integer, Integer> en : map.entrySet()) {
