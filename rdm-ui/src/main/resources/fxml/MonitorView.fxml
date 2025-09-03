@@ -19,7 +19,7 @@
                         <Label fx:id="commandsSize" text="0" />
                         <HBox alignment="CENTER_RIGHT" spacing="5.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <TextField fx:id="filter" text="" />
+                              <TextField fx:id="filter" text="" visible="false"/>
                               <ToggleButton fx:id="start" mnemonicParsing="false" onAction="#start"  />
                            </children>
                         </HBox>
