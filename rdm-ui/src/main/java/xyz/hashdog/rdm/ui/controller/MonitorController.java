@@ -121,6 +121,7 @@ public class MonitorController extends BaseClientController<ServerTabController>
     private void clearLogs() {
         Platform.runLater(() -> {
             logContent.clear();
+            commandsSize.setText(String.valueOf(0));
             logCounter = 0;
             webView.getEngine().executeScript("document.getElementById('log-container').innerHTML = '';");
         });
@@ -310,6 +311,7 @@ public class MonitorController extends BaseClientController<ServerTabController>
                                     "window.scrollTo(0, document.body.scrollHeight);",
                             String.join("\n", logContent).replace("`", "\\`")
                     );
+                    commandsSize.setText(String.valueOf(logContent.size()));
                     webView.getEngine().executeScript(script);
                 });
             }finally {
@@ -368,6 +370,7 @@ public class MonitorController extends BaseClientController<ServerTabController>
             GuiUtil.setIcon(start,new FontIcon(Material2MZ.PLAY_ARROW));
             start.setText(language("server.monitor.start"));
             stopMonitor();
+            clearLogs();
         }
     }
 
