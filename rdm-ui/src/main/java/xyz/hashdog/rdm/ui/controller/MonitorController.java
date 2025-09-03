@@ -35,6 +35,8 @@ public class MonitorController extends BaseClientController<ServerTabController>
     private static final int MAX_LOG_LINES = 1000;
     private Thread monitorThread;
     private RedisMonitor redisMonitor;
+    private final Queue<List<String>> logQueue = new ConcurrentLinkedQueue<>();
+    private static final ReentrantLock LOCK = new ReentrantLock();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -46,8 +48,7 @@ public class MonitorController extends BaseClientController<ServerTabController>
 
     }
 
-    private final Queue<List<String>> logQueue = new ConcurrentLinkedQueue<>();
-    private static final ReentrantLock LOCK = new ReentrantLock();
+
     @Override
     protected void paramInitEnd() {
         monitorThread = new Thread(() -> this.redisClient.monitor(redisMonitor = new RedisMonitor() {
