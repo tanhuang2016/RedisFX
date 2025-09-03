@@ -75,7 +75,9 @@ public abstract class BaseController<T> implements AutoCloseable {
      * @param <T2> 控制器
      * @return 容器和控制器
      */
+    @SuppressWarnings("unchecked")
     protected final  <T1,T2>Tuple2<T1,T2> loadFxml(String fxml) {
+        //noinspection rawtypes
         Tuple2<T1, BaseController> tuple2 = GuiUtil.doLoadFxml(fxml);
         tuple2.t2().setParentController(this);
         this.addChild(tuple2.t2());

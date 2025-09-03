@@ -366,7 +366,7 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
 
         if(passParameter.getTabType()== PassParameter.REDIS){
             // 监听Tab被关闭事件,但是remove是无法监听的
-            tab.setOnClosed(event2 -> ThreadPool.getInstance().execute(()->controller.getRedisContext().close()));
+            tab.setOnClosed(event2 -> async(controller::close));
         }
         GuiUtil.newTabContextMenu(tab);
         //写入最近连接记录
