@@ -521,6 +521,7 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
                 thread.setDaemon(true);
                 thread.start();
             } catch (Exception e) {
+                log.error("cluster monitor error",e);
                 throw new RuntimeException(e);
             }
 
