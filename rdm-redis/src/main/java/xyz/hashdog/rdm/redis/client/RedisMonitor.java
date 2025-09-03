@@ -30,6 +30,9 @@ public abstract class RedisMonitor implements AutoCloseable {
       */
      @Override
      public void close() {
+          if(jedisList==null){
+               return;
+          }
           for (AutoCloseable autoCloseable : jedisList) {
                Util.close(autoCloseable);
           }
