@@ -68,7 +68,7 @@ public enum RedisDataTypeEnum {
                 return i;
             }
         }
-        return -1;
+        throw new GeneralException("redis data type index not fond");
     }
 
     /**
