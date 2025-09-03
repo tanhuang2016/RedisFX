@@ -5,6 +5,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import xyz.hashdog.rdm.redis.client.RedisMonitor;
 import xyz.hashdog.rdm.ui.common.Constant;
 import xyz.hashdog.rdm.ui.controller.base.BaseClientController;
@@ -13,9 +15,9 @@ import xyz.hashdog.rdm.ui.sampler.theme.ThemeManager;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 import java.net.URL;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.locks.ReentrantLock;
 
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
@@ -23,14 +25,14 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
  * @author th
  */
 public class MonitorController extends BaseClientController<ServerTabController> implements Initializable {
-
+    private static final Logger log = LoggerFactory.getLogger(MonitorController.class);
 
     public WebView webView;
 
-    private final StringBuilder logContent = new StringBuilder();
+    private final List<String> logContent = new ArrayList<>();
     public StackPane webViewContainer;
     private int logCounter = 0;
-    private static final int MAX_LOG_LINES = 200;
+    private static final int MAX_LOG_LINES = 1000;
     private Thread monitorThread;
     private RedisMonitor redisMonitor;
 
@@ -44,12 +46,15 @@ public class MonitorController extends BaseClientController<ServerTabController>
 
     }
 
+    private final Queue<List<String>> logQueue = new ConcurrentLinkedQueue<>();
+    private static final ReentrantLock LOCK = new ReentrantLock();
     @Override
     protected void paramInitEnd() {
         monitorThread = new Thread(() -> this.redisClient.monitor(redisMonitor = new RedisMonitor() {
             @Override
             public void onCommand(String msg) {
-                addLogLine(parseLogToList(msg));
+                logQueue.offer(parseLogToList(msg));
+                tryAddLogLine();
             }
         }));
         monitorThread.setDaemon(true);
@@ -85,7 +90,7 @@ public class MonitorController extends BaseClientController<ServerTabController>
      */
     private void clearLogs() {
         Platform.runLater(() -> {
-            logContent.setLength(0);
+            logContent.clear();
             logCounter = 0;
             webView.getEngine().executeScript("document.getElementById('log-container').innerHTML = '';");
         });
@@ -257,11 +262,40 @@ public class MonitorController extends BaseClientController<ServerTabController>
 
     /**
      * 添加日志行
-     *
-     * @param logs 日志内容，例如: 10:58:13.606 [0 172.18.0.1:36200] "TYPE" "foo"
+     * 日志内容，例如: 10:58:13.606 [0 172.18.0.1:36200] "TYPE" "foo"
      */
-    public void addLogLine(List<String> logs) {
-        Platform.runLater(() -> {
+    public void tryAddLogLine() {
+        //已经在处理中，则不处理
+        if(LOCK.isLocked()){
+            return;
+        }
+        async(() -> {
+            try {
+                LOCK.lock();
+                processBatchLogs();
+                Platform.runLater(() -> {
+                    // 更新WebView
+                    String script = String.format(
+                            "document.getElementById('log-container').innerHTML = `%s`;" +
+                                    "window.scrollTo(0, document.body.scrollHeight);",
+                            logContent.toString().replace("`", "\\`")
+                    );
+                    webView.getEngine().executeScript(script);
+                });
+            }finally {
+                LOCK.unlock();
+            }
+        });
+
+    }
+
+    /**
+     * 处理批量日志
+     */
+    private void processBatchLogs() {
+        List<String> subContent = new ArrayList<>();
+        while (!logQueue.isEmpty()) {
+            List<String> logs = logQueue.poll();
             StringBuilder sb = new StringBuilder();
             sb.append("<div class='log-line'>");
             String span = "<span class='%s'>%s </span>";
@@ -270,26 +304,20 @@ public class MonitorController extends BaseClientController<ServerTabController>
                 sb.append(String.format(span, CLASS.get(i), logs.get(i)));
             }
             sb.append("</div>").append("\n");
-            logContent.append(sb);
-            logCounter++;
-
-            // 限制最大行数
-            if (logCounter > MAX_LOG_LINES) {
-                int index = logContent.indexOf("\n");
-                if (index != -1) {
-                    logContent.delete(0, index + 1);
-                }
-                logCounter--;
-            }
-            // 更新WebView
-            String script = String.format(
-                    "document.getElementById('log-container').innerHTML = `%s`;" +
-                            "window.scrollTo(0, document.body.scrollHeight);",
-                    logContent.toString().replace("`", "\\`")
-            );
-
-            webView.getEngine().executeScript(script);
-        });
+            subContent.add(sb.toString());
+        }
+        //如果本次处理的日志数就已经超过阈值，那么清空内容
+        if(subContent.size()>MAX_LOG_LINES){
+            logContent.clear();
+        }
+        logContent.addAll(subContent);
+        logCounter+=subContent.size();
+        // 限制最大行数
+        if (logContent.size() > MAX_LOG_LINES) {
+            List<String> newList = logContent.subList(0, logContent.size()-MAX_LOG_LINES);
+            logContent.removeAll(newList);
+        }
+        log.info(" processed log：{},show log :{},log count:{}",subContent.size(),logContent.size(),logCounter);
     }
 
     @Override
