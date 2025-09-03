@@ -303,7 +303,6 @@ public class ReportController extends BaseClientController<ServerTabController> 
         modalPane.usePredefinedTransitionFactories(Side.TOP);
         // 或者设置遮罩层不阻塞鼠标事件
         modalPane.setMouseTransparent(true);
-//        modalPane.show(topDialog);
     }
 
     private void initTextField() {
