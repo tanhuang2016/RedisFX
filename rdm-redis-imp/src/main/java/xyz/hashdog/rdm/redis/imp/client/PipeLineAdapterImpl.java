@@ -1,7 +1,7 @@
 package xyz.hashdog.rdm.redis.imp.client;
 
-import redis.clients.jedis.PipelineBase;
-import redis.clients.jedis.Response;
+import redis.clients.jedis.*;
+import redis.clients.jedis.json.Path2;
 import xyz.hashdog.rdm.redis.client.PipelineAdapter;
 
 import java.util.ArrayList;
@@ -38,6 +38,59 @@ public class PipeLineAdapterImpl implements PipelineAdapter {
     @Override
     public void ttl(String key) {
         responseList.add(pipeline.ttl(key));
+    }
+
+    @Override
+    public void strlen(String key) {
+        responseList.add(pipeline.strlen(key));
+
+    }
+
+    @Override
+    public void llen(String key) {
+        responseList.add(pipeline.llen(key));
+
+    }
+
+    @Override
+    public void hlen(String key) {
+        responseList.add(pipeline.hlen(key));
+
+    }
+
+    @Override
+    public void scard(String key) {
+        responseList.add(pipeline.scard(key));
+
+    }
+
+    @Override
+    public void zcard(String key) {
+        responseList.add(pipeline.zcard(key));
+
+    }
+
+    @Override
+    public void xlen(String key) {
+        responseList.add(pipeline.xlen(key));
+
+    }
+
+    @Override
+    public void jsonObjLen(String key) {
+        CommandObjects commandObjects = new CommandObjects();
+        responseList.add(pipeline.executeCommand(commandObjects.jsonObjLen(key, Path2.ROOT_PATH)));
+    }
+
+    @Override
+    public void jsonStrLen(String key) {
+        responseList.add(pipeline.jsonStrLen(key));
+
+    }
+
+    @Override
+    public void jsonArrLen(String key) {
+        responseList.add(pipeline.jsonArrLen(key));
     }
 
     public List<Object> syncAndReturnAll() {

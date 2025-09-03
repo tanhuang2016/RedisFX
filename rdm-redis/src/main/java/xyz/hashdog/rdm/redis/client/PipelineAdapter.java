@@ -14,4 +14,23 @@ public interface PipelineAdapter {
     void type(String key);
 
     void ttl(String key);
+
+    void strlen(String key);
+
+    void llen(String key);
+
+    void hlen(String key);
+
+    void scard(String key);
+
+    void zcard(String key);
+
+    void xlen(String key);
+
+
+    void jsonObjLen(String key);
+
+    void jsonStrLen(String key);
+
+    void jsonArrLen(String key);
 }

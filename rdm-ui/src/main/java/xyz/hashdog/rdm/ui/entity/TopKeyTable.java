@@ -2,7 +2,6 @@ package xyz.hashdog.rdm.ui.entity;
 
 
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 /**
@@ -42,12 +41,11 @@ public class TopKeyTable implements ITable {
         };
     }
 
-    public TopKeyTable(String key, String type, Long ttl, Long size, Long length) {
+    public TopKeyTable(String key, String type, Long ttl, Long size) {
         this.key = key;
         this.type = type;
         this.ttl = ttl;
         this.size = size;
-        this.length = length;
     }
 
     public String getKey() {

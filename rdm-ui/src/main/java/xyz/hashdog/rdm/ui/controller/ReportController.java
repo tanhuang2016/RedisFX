@@ -30,6 +30,7 @@ import org.kordamp.ikonli.material2.Material2MZ;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
+import xyz.hashdog.rdm.redis.client.PipelineAdapter;
 import xyz.hashdog.rdm.redis.client.RedisKeyScanner;
 import xyz.hashdog.rdm.ui.common.Constant;
 import xyz.hashdog.rdm.ui.common.RedisDataTypeEnum;
@@ -670,35 +671,36 @@ public class ReportController extends BaseClientController<ServerTabController> 
 
     /**
      * 根据类型获取长度
-     * @param key  key
-     * @param type key类型
+     *
+     * @param key      key
+     * @param type     key类型
+     * @param commands
      * @return 长度
      */
-    private long lengthByType(String key, String type) {
+    private void lengthByType(String key, String type, PipelineAdapter commands) {
         RedisDataTypeEnum byType = RedisDataTypeEnum.getByType(type);
-        return switch (byType) {
-            case STRING -> this.redisClient.strlen(key);
-            case LIST -> this.redisClient.llen(key);
-            case HASH -> this.redisClient.hlen(key);
-            case SET -> this.redisClient.scard(key);
-            case ZSET -> this.redisClient.zcard(key);
-            case JSON -> jsonLength(key);
-            case STREAM -> this.redisClient.xlen(key);
+         switch (byType) {
+            case STRING -> commands.strlen(key);
+            case LIST -> commands.llen(key);
+            case HASH -> commands.hlen(key);
+            case SET -> commands.scard(key);
+            case ZSET -> commands.zcard(key);
+            case JSON -> jsonLength(key,commands);
+            case STREAM -> commands.xlen(key);
         };
 
     }
 
-    private long jsonLength(String key) {
+    private void jsonLength(String key, PipelineAdapter commands) {
         Class<?> type =this.redisClient.jsonType(key);
         if(type==Object.class){
-            return this.redisClient.jsonObjLen(key);
+             commands.jsonObjLen(key);
         } else if (type==String.class) {
-            return this.redisClient.jsonStrLen(key);
+             commands.jsonStrLen(key);
         }else if(type==List.class){
-            return this.redisClient.jsonArrLen(key);
+             commands.jsonArrLen(key);
         }
 
-        return 0;
     }
     public void keySize(ActionEvent actionEvent) {
        topTable.getItems().setAll((List<TopKeyTable>) keySize.getUserData());
@@ -738,17 +740,30 @@ public class ReportController extends BaseClientController<ServerTabController> 
                         return null;
                     });
 
-                    // 处理Pipeline结果
-                    int index = 0;
-                    for (String key : keys) {
-                        Long memory = (Long) pipelineResults.get(index++);
-                        String type = (String) pipelineResults.get(index++);
-                        Long ttl = (Long) pipelineResults.get(index++);
 
-                        long length = lengthByType(key, type);
-                        TopKeyTable topKeyTable = new TopKeyTable(key, type, ttl, memory, length);
-                        topKeyTables.add(topKeyTable);
+                    List<TopKeyTable> topKeyTableList = new ArrayList<>();
+                    List<Object> pipelineLengthResults = this.redisClient.executePipelined(commands -> {
+                        // 处理Pipeline结果
+                        int index = 0;
+                        for (String key : keys) {
+                            Long memory = (Long) pipelineResults.get(index++);
+                            String type = (String) pipelineResults.get(index++);
+                            Long ttl = (Long) pipelineResults.get(index++);
+                            //管道执行查length的命令
+                            lengthByType(key, type,commands);
+                            TopKeyTable topKeyTable = new TopKeyTable(key, type, ttl, memory);
+                            topKeyTableList.add(topKeyTable);
+                        }
+                        return null;
+                    });
+
+                    for (int i = 0; i < topKeyTableList.size(); i++) {
+                        Long length = (Long) pipelineLengthResults.get(i);
+                        topKeyTableList.get(i).setLength(length);
                     }
+                    topKeyTables.addAll(topKeyTableList);
+
+
                 }
                 long endTime2 = System.nanoTime();
                 System.out.println("endTime2执行时间: " + (endTime2-endTime1) / 1_000_000 + " ms");
