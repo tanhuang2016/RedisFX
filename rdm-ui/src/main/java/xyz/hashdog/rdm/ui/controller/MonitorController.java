@@ -278,7 +278,7 @@ public class MonitorController extends BaseClientController<ServerTabController>
                     String script = String.format(
                             "document.getElementById('log-container').innerHTML = `%s`;" +
                                     "window.scrollTo(0, document.body.scrollHeight);",
-                            logContent.toString().replace("`", "\\`")
+                            String.join("\n", logContent).replace("`", "\\`")
                     );
                     webView.getEngine().executeScript(script);
                 });
