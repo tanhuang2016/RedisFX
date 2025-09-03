@@ -1,10 +1,17 @@
 package xyz.hashdog.rdm.ui.controller;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
+import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.material2.Material2MZ;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.hashdog.rdm.redis.client.RedisMonitor;
@@ -31,6 +38,9 @@ public class MonitorController extends BaseClientController<ServerTabController>
 
     private final List<String> logContent = new ArrayList<>();
     public StackPane webViewContainer;
+    public Label commandsSize;
+    public TextField filter;
+    public ToggleButton start;
     private int logCounter = 0;
     private static final int MAX_LOG_LINES = 1000;
     private Thread monitorThread;
@@ -45,12 +55,20 @@ public class MonitorController extends BaseClientController<ServerTabController>
         initWebView();
         applyTheme();
         addTmEventSubscriber(ThemeEvent.class, e -> applyTheme());
-
     }
 
 
     @Override
     protected void paramInitEnd() {
+        startCheck();
+        startMonitor();
+    }
+
+
+    /**
+     * 启动监控
+     */
+    private void startMonitor() {
         monitorThread = new Thread(() -> this.redisClient.monitor(redisMonitor = new RedisMonitor() {
             @Override
             public void onCommand(String msg) {
@@ -60,6 +78,28 @@ public class MonitorController extends BaseClientController<ServerTabController>
         }));
         monitorThread.setDaemon(true);
         monitorThread.start();
+    }
+
+    /**
+     * 停止监控
+     */
+    private void stopMonitor() {
+        if (monitorThread != null && monitorThread.isAlive()) {
+            // 中断监控线程
+            monitorThread.interrupt();
+            monitorThread = null;
+        }
+        if (redisMonitor != null) {
+            redisMonitor.close();
+        }
+    }
+
+    /**
+     * 开关设置
+     */
+    private void startCheck() {
+        start.setSelected(!start.isSelected());
+        start(null);
     }
 
     /**
@@ -323,13 +363,24 @@ public class MonitorController extends BaseClientController<ServerTabController>
 
     @Override
     public void close() {
-        if (monitorThread != null && monitorThread.isAlive()) {
-            // 中断监控线程
-            monitorThread.interrupt();
-            monitorThread = null;
-        }
-        if (redisMonitor != null) {
-            redisMonitor.close();
+        stopMonitor();
+    }
+
+    /**
+     * 启停
+     *
+     * @param actionEvent 触发事件
+     */
+    @FXML
+    public void start(ActionEvent actionEvent) {
+        if(start.isSelected()){
+            GuiUtil.setIcon(start,new FontIcon(Material2MZ.PAUSE));
+            start.setText(language("server.monitor.stop"));
+            startMonitor();
+        }else {
+            GuiUtil.setIcon(start,new FontIcon(Material2MZ.PLAY_ARROW));
+            start.setText(language("server.monitor.start"));
+            stopMonitor();
         }
     }
 }
