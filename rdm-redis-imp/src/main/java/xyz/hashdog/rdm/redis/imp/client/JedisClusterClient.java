@@ -119,8 +119,9 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
             Map<Integer,Integer> map = new LinkedHashMap<>();
             long dbSize=0;
             for (String master : masters) {
-                Connection connection = this.jedis.getClusterNodes().get(master).getResource();
-                dbSize += (long)connection.executeCommand(Protocol.Command.DBSIZE);
+                try(Connection connection = this.jedis.getClusterNodes().get(master).getResource();) {
+                    dbSize += (long)connection.executeCommand(Protocol.Command.DBSIZE);
+                }
             }
             map.put(0, (int) dbSize);
             return map;
@@ -175,17 +176,19 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
                 continue;
             }
             String master = masters.get(i);
-            Connection connection = jedis.getClusterNodes().get(master).getResource();
-            int finalI = i;
-            Tuple2<String, List<String>> execute = execute(jedis -> super.scan(pattern, count, isLike, (scanParams) -> {
-                if (DataUtil.isBlank(type)) {
-                    return connection.executeCommand(commandObjects.scan(cursors.get(finalI), scanParams));
-                } else {
-                    return connection.executeCommand(commandObjects.scan(cursors.get(finalI), scanParams, type));
-                }
-            }));
-            all.addAll(execute.t2());
-            cursorList.add(execute.t1());
+            try(Connection connection = jedis.getClusterNodes().get(master).getResource();) {
+                int finalI = i;
+                Tuple2<String, List<String>> execute = execute(jedis -> super.scan(pattern, count, isLike, (scanParams) -> {
+                    if (DataUtil.isBlank(type)) {
+                        return connection.executeCommand(commandObjects.scan(cursors.get(finalI), scanParams));
+                    } else {
+                        return connection.executeCommand(commandObjects.scan(cursors.get(finalI), scanParams, type));
+                    }
+                }));
+                all.addAll(execute.t2());
+                cursorList.add(execute.t1());
+            }
+
         }
         return new Tuple2<>(cursorList,all);
     }
