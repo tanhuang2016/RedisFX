@@ -73,6 +73,7 @@ public abstract class RedisSubscriber {
             for (AutoCloseable autoCloseable : jedisList) {
                 Util.close(autoCloseable);
             }
+            jedisList.clear();
         }
     }
     /**

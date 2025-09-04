@@ -526,8 +526,7 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
 
     @Override
     public RedisSubscriber subscriber(){
-        Jedis subJedis = jedisPool.getResource();
-        return subscriber(subJedis,text->jedis.sendCommand(Protocol.Command.PUNSUBSCRIBE, text));
+        return subscriber(jedisPool::getResource, text->jedis.sendCommand(Protocol.Command.PUNSUBSCRIBE, text));
     }
 
 

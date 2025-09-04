@@ -2,7 +2,10 @@ package xyz.hashdog.rdm.redis.imp.client;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import redis.clients.jedis.*;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisMonitor;
+import redis.clients.jedis.JedisPubSub;
+import redis.clients.jedis.StreamEntryID;
 import redis.clients.jedis.commands.SortedSetBinaryCommands;
 import redis.clients.jedis.commands.SortedSetCommands;
 import redis.clients.jedis.commands.StreamCommands;
@@ -25,6 +28,7 @@ import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * 封装通用方法
@@ -266,11 +270,14 @@ public abstract class AbstractRedisClient implements RedisClient {
      * @param consumer 取消订阅回调
      * @return 订阅者
      */
-    protected  RedisSubscriber subscriber(Jedis subJedis, Consumer<String> consumer){
-        RedisSubscriber redisSubscriber = new RedisSubscriber() {
+    protected  RedisSubscriber subscriber(Supplier<Jedis> subJedis, Consumer<String> consumer){
+        return new RedisSubscriber() {
             @Override
             public void doSubscribe() {
                 try{
+                    Jedis subJedis=getJedis();
+                    this.addJedis(subJedis.getConnection());
+                    this.addJedis(subJedis);
                     //订阅模式有命令限制，得单独拿一个连接来操作
                     subJedis.psubscribe(new JedisPubSub() {
                         @Override
@@ -284,8 +291,14 @@ public abstract class AbstractRedisClient implements RedisClient {
                     }else {
                         log.error("subscriber error",e);
                     }
+                }finally {
+                    super.unsubscribe();
                 }
 
+            }
+
+            private Jedis getJedis() {
+                return subJedis.get();
             }
 
 
@@ -295,9 +308,6 @@ public abstract class AbstractRedisClient implements RedisClient {
                 super.unsubscribe();
             }
         };
-        redisSubscriber.addJedis(subJedis.getConnection());
-        redisSubscriber.addJedis(subJedis);
-        return redisSubscriber;
     }
 
 }

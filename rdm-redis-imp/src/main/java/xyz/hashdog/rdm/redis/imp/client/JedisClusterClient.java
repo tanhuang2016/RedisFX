@@ -540,11 +540,12 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
 
     @Override
     public RedisSubscriber subscriber(){
-        String[] split = masters.getFirst().split(":");
-        Jedis subJedis = new Jedis(split[0], Integer.parseInt(split[1]));
-        subJedis.auth(redisConfig.getAuth());
-
-        return subscriber(subJedis,text->jedis.sendCommand(Protocol.Command.PUNSUBSCRIBE, text));
+        return subscriber(()->{
+            String[] split = masters.getFirst().split(":");
+            Jedis subJedis = new Jedis(split[0], Integer.parseInt(split[1]));
+            subJedis.auth(redisConfig.getAuth());
+            return subJedis;
+        },text->jedis.sendCommand(Protocol.Command.PUNSUBSCRIBE, text));
 
     }
 
