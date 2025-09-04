@@ -1,5 +1,7 @@
 package xyz.hashdog.rdm.redis.imp.console;
 
+import xyz.hashdog.rdm.redis.imp.Util;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -20,14 +22,16 @@ public class RedisConsole implements xyz.hashdog.rdm.redis.client.RedisConsole {
      */
     private final SocketAcquirer socketAcquirer;
 
-    public RedisConsole(SocketAcquirer socketAcquirer) {
+    private final AutoCloseable connection;
+
+    public RedisConsole(AutoCloseable connection, SocketAcquirer socketAcquirer) {
+        this.connection = connection;
         this.socketAcquirer = socketAcquirer;
     }
 
     @Override
     public List<String> sendCommand(String cmd) {
-        try {
-            Socket socket = socketAcquirer.getSocket();
+        try (Socket socket = socketAcquirer.getSocket();) {
             InputStream inputStream = socket.getInputStream();
             OutputStream outputStream = socket.getOutputStream();
             // 获取输入输出流
@@ -38,6 +42,8 @@ public class RedisConsole implements xyz.hashdog.rdm.redis.client.RedisConsole {
             return parseResult(reader);
         } catch (Exception e) {
             throw new RuntimeException(e);
+        } finally {
+            Util.close(connection);
         }
     }
 
@@ -52,7 +58,7 @@ public class RedisConsole implements xyz.hashdog.rdm.redis.client.RedisConsole {
     private List<String> parseResult(BufferedReader reader) throws IOException {
         String line;
         if ((line = reader.readLine()) != null) {
-            return ReaderParseEnum.getByLine(line).readerParser.parse(line,reader);
+            return ReaderParseEnum.getByLine(line).readerParser.parse(line, reader);
         }
         return new ArrayList<>();
     }

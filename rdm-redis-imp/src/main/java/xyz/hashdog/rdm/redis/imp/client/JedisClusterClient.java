@@ -102,7 +102,11 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
     @Override
     public boolean isConnected() {
         return jedis.getClusterNodes().values().stream().findFirst()
-                .map(jedisPool -> jedisPool.getResource().isConnected())
+                .map(jedisPool -> {
+                    try(Connection connection=jedisPool.getResource();) {
+                        return connection.isConnected();
+                    }
+                })
                 .orElse(false);
     }
 
@@ -131,7 +135,11 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
     @Override
     public String select(int db) {
         String execute = jedis.getClusterNodes().values().stream().findFirst()
-                .map(jedisPool -> jedisPool.getResource().select(db))
+                .map(jedisPool -> {
+                    try(Connection connection=jedisPool.getResource();) {
+                        return connection.select(db);
+                    }
+                })
                 .orElse("");
         this.db=db;
         return execute;
@@ -595,7 +603,10 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
     @Override
     public RedisConsole getRedisConsole() {
         Optional<ConnectionPool> firstPool = jedis.getClusterNodes().values().stream().findFirst();
-        return firstPool.map(connectionPool -> new RedisConsole(() -> TUtil.getField(connectionPool.getResource(), "socket"))).orElse(null);
+        return firstPool.map(connectionPool -> {
+            Connection connection = connectionPool.getResource();
+            return new RedisConsole(connection,() -> TUtil.getField(connection, "socket"));
+        }).orElse(null);
     }
 
     @Override
