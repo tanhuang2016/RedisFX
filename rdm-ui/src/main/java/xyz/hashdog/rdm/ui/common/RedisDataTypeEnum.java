@@ -54,6 +54,7 @@ public enum RedisDataTypeEnum {
         checkTTL(redisClient,ttl,key);
         return new Message(true);
     }),KeyTypeTagEnum.STREAM),
+    UNKNOWN("UNKNOWN",null, PassParameter.NONE,null,KeyTypeTagEnum.UNKNOWN),
     ;
 
 
@@ -68,7 +69,7 @@ public enum RedisDataTypeEnum {
                 return i;
             }
         }
-        throw new GeneralException("redis data type index not fond");
+        return RedisDataTypeEnum.values().length-1;
     }
 
     /**

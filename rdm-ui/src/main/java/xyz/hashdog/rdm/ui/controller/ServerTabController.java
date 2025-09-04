@@ -282,6 +282,9 @@ public class ServerTabController extends BaseClientController<MainController> {
         ObservableList<MenuItem> items = newKey.getItems();
         items.clear();
         for (RedisDataTypeEnum value : RedisDataTypeEnum.values()) {
+            if(value==RedisDataTypeEnum.UNKNOWN){
+                continue;
+            }
             items.add(new MenuItem(value.type));
         }
     }

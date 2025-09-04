@@ -81,7 +81,7 @@ public interface Constant {
     String COLOR_JSON="#838fa4";
 //    String COLOR_JSON="#b8c5db";
 //    String COLOR_JSON="#3f4b5f";
-    String COLOR_UNKNOWN ="#000000";
+    String COLOR_UNKNOWN ="#ff7f0e ";
 
     /*redis info重要的key*/
     String REDIS_INFO_REDIS_VERSION = "redis_version";
