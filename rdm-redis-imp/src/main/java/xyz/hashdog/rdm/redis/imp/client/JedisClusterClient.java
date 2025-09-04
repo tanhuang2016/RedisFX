@@ -243,7 +243,11 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
     @Override
     public String ping() {
         return jedis.getClusterNodes().values().stream().findFirst()
-                .map(jedisPool -> jedisPool.getResource().ping())
+                .map(jedisPool -> {
+                    try (Connection connection=jedisPool.getResource()){
+                       return connection.ping();
+                    }
+                })
                 .orElse(false)?"PONG":"PONG FAIL";
     }
     @Override
