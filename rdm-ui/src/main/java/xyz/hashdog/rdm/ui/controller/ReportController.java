@@ -27,6 +27,8 @@ import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import org.kordamp.ikonli.material2.Material2MZ;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
@@ -38,6 +40,7 @@ import xyz.hashdog.rdm.ui.controller.base.BaseClientController;
 import xyz.hashdog.rdm.ui.controller.popover.RefreshPopover;
 import xyz.hashdog.rdm.ui.entity.InfoTable;
 import xyz.hashdog.rdm.ui.entity.TopKeyTable;
+import xyz.hashdog.rdm.ui.exceptions.GeneralException;
 import xyz.hashdog.rdm.ui.sampler.event.ThemeEvent;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.Util;
@@ -60,6 +63,7 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
  * @author th
  */
 public class ReportController extends BaseClientController<ServerTabController> implements RefreshPopover.IRefreshPopover,Initializable {
+    private static final Logger log = LoggerFactory.getLogger(ReportController.class);
     public PieChart memory;
     public PieChart keys;
     public HBox pies;
@@ -731,19 +735,31 @@ public class ReportController extends BaseClientController<ServerTabController> 
                         // 处理Pipeline结果
                         int index = 0;
                         for (String key : keys) {
-                            Long memory = (Long) pipelineResults.get(index++);
-                            String type = (String) pipelineResults.get(index++);
-                            Long ttl = (Long) pipelineResults.get(index++);
-                            //管道执行查length的命令
-                            lengthByType(key, type,commands);
-                            TopKeyTable topKeyTable = new TopKeyTable(key, type, ttl, memory);
-                            topKeyTableList.add(topKeyTable);
+                            try {
+                                int curIndex=index;
+                                Long memory = (Long) pipelineResults.get(curIndex++);
+                                String type = (String) pipelineResults.get(curIndex++);
+                                Long ttl = (Long) pipelineResults.get(curIndex++);
+                                //管道执行查length的命令
+                                lengthByType(key, type,commands);
+                                TopKeyTable topKeyTable = new TopKeyTable(key, type, ttl, memory);
+                                topKeyTableList.add(topKeyTable);
+                            }catch (ClassCastException | GeneralException e){
+                                log.warn("pie scannedMore key expired{}",key);
+                            }finally {
+                                index+=3;
+                            }
+
                         }
                     });
                     //在次处理获取length的结果
                     for (int i = 0; i < topKeyTableList.size(); i++) {
-                        Long length = (Long) pipelineLengthResults.get(i);
-                        topKeyTableList.get(i).setLength(length);
+                        Object o = pipelineLengthResults.get(i);
+                        if(o instanceof Long v){
+                            topKeyTableList.get(i).setLength(v);
+                        }else {
+                            topKeyTableList.get(i).setLength(-1L);
+                        }
                     }
                     topKeyTables.addAll(topKeyTableList);
 
