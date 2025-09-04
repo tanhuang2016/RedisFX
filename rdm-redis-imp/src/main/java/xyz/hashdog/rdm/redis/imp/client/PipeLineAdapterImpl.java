@@ -18,7 +18,7 @@ public class PipeLineAdapterImpl implements PipelineAdapter {
 
     private final PipelineBase pipeline;
 
-    private List<Response> responseList;
+    private List<Object> responseList;
 
     public PipeLineAdapterImpl(PipelineBase pipeline) {
         this.pipeline = pipeline;
@@ -93,11 +93,20 @@ public class PipeLineAdapterImpl implements PipelineAdapter {
         responseList.add(pipeline.jsonArrLen(key));
     }
 
+    @Override
+    public void defaultValue(Object v) {
+        responseList.add(v);
+    }
+
     public List<Object> syncAndReturnAll() {
         pipeline.sync();
         List<Object> result = new ArrayList<>();
-        for (Response response : responseList) {
-            result.add(response.get());
+        for (Object object : responseList) {
+            if(object instanceof Response<?> response){
+                result.add(response.get());
+            }else {
+                result.add(object);
+            }
         }
         return result;
     }

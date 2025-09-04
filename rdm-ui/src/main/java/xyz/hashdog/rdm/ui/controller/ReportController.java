@@ -685,6 +685,7 @@ public class ReportController extends BaseClientController<ServerTabController> 
             case ZSET -> commands.zcard(key);
             case JSON -> jsonLength(key,commands);
             case STREAM -> commands.xlen(key);
+             case UNKNOWN -> commands.defaultValue(1L);
         }
 
     }
@@ -715,7 +716,6 @@ public class ReportController extends BaseClientController<ServerTabController> 
     public void scannedMore(ActionEvent actionEvent) {
         async(() -> {
             synchronized (lock){
-                long startTime = System.nanoTime();
                 List<String> keys = this.scanner.scan();
                 // 使用Pipeline优化Redis命令执行
                 if (!keys.isEmpty()) {

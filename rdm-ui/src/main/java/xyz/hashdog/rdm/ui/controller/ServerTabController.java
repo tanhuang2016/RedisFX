@@ -39,6 +39,7 @@ import xyz.hashdog.rdm.ui.entity.DBNode;
 import xyz.hashdog.rdm.ui.entity.KeyTreeNode;
 import xyz.hashdog.rdm.ui.entity.PassParameter;
 import xyz.hashdog.rdm.ui.entity.config.KeyTabPaneSetting;
+import xyz.hashdog.rdm.ui.exceptions.GeneralException;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.RecentHistory;
 import xyz.hashdog.rdm.ui.util.SvgManager;
@@ -891,7 +892,11 @@ public class ServerTabController extends BaseClientController<MainController> {
             return;
         }
         String key = this.lastSelectedNode.getValue().getKey();
-        String type = RedisDataTypeEnum.getByType(exeRedis(j -> j.type(key))).type;
+        String keyType = exeRedis(j -> j.type(key));
+        String type = RedisDataTypeEnum.getByType(keyType).type;
+        if (Objects.equals(type, RedisDataTypeEnum.UNKNOWN.type)) {
+            throw new GeneralException("This type is not supported " + keyType);
+        }
         Tuple2<AnchorPane, BaseClientController> tuple2 = loadFxml("/fxml/KeyTabView.fxml");
         AnchorPane borderPane = tuple2.t1();
         BaseClientController controller = tuple2.t2();

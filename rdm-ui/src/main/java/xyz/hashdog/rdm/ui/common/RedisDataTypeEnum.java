@@ -125,6 +125,6 @@ public enum RedisDataTypeEnum {
                 return value;
             }
         }
-        throw new GeneralException("This type is not supported "+type);
+        return UNKNOWN;
     }
 }
