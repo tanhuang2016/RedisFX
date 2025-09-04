@@ -63,6 +63,7 @@ public interface Constant {
     String ALERT_MESSAGE_RESTART_SUCCESS = "alert.message.restart.success";
     String ALERT_MESSAGE_SET_TTL = "alert.message.set.ttl";
     String ALERT_MESSAGE_DEL_CONNECTION = "alert.message.delConnection";
+    String ALERT_MESSAGE_DEL_FLUSH = "alert.message.delFlush";
     String ALERT_MESSAGE_DEL_GROUP ="alert.message.delGroup" ;
     String ALERT_MESSAGE_DEL_ALL = "alert.message.delAll";
     String TITLE_NEW_KEY ="title.newKey";
