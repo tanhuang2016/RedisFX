@@ -634,4 +634,12 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
             GuiUtil.alert(Alert.AlertType.ERROR, String.format(language("alert.message.help.suggest")+": %s", issuesUrl));
         }
     }
+
+    /**
+     * 打开欢迎页
+     * @param actionEvent 事件
+     */
+    @FXML
+    public void welcome(ActionEvent actionEvent) {
+    }
 }
