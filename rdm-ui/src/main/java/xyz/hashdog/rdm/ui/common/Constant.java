@@ -126,4 +126,8 @@ public interface Constant {
      * 应用主页
      */
     String APP_HOME_PAGE = "app.homepage";
+    String CONSOLE_TAB_NAME = "Console" ;
+    String MONITOR_TAB_NAME = "Monitor";
+    String PUBSUB_TAB_NAME = "Pub/Sub";
+    String REPORT_TAB_NAME = "Report";
 }

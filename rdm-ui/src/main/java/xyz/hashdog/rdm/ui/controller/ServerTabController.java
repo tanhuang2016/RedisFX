@@ -1158,9 +1158,18 @@ public class ServerTabController extends BaseClientController<MainController> {
     @FXML
     public void console(ActionEvent actionEvent) throws IOException {
         Tuple2<AnchorPane,ConsoleController> tuple2 = loadClientFxml("/fxml/ConsoleView.fxml",PassParameter.CONSOLE);
-        Tab tab = new Tab("Console");
+        Tab tab = new Tab(Constant.CONSOLE_TAB_NAME);
         tab.setGraphic(GuiUtil.creatConsoleIcon());
         setTab(tab,tuple2);
+    }
+
+    /**
+     * 根据名字找tab
+     * @param tabName tab名字
+     * @return tab
+     */
+    private Tab findTabByName(String tabName) {
+        return this.dbTabPane.getTabs().stream().filter(tab -> tab.getText().equals(tabName)).findFirst().orElse(null);
     }
 
     /**
@@ -1179,24 +1188,39 @@ public class ServerTabController extends BaseClientController<MainController> {
 
     @FXML
     public void monitor(ActionEvent actionEvent) {
+        Tab tab=findTabByName(Constant.MONITOR_TAB_NAME);
+        if(tab!=null){
+            this.dbTabPane.getSelectionModel().select(tab);
+            return;
+        }
         Tuple2<AnchorPane,ConsoleController> tuple2 = loadClientFxml("/fxml/MonitorView.fxml",PassParameter.MONITOR);
-        Tab tab = new Tab("Monitor");
+        tab = new Tab(Constant.MONITOR_TAB_NAME);
         tab.setGraphic(GuiUtil.creatMonitorIcon());
         setTab(tab,tuple2);
     }
 
     @FXML
     public void report(ActionEvent actionEvent) throws IOException {
+        Tab tab=findTabByName(Constant.REPORT_TAB_NAME);
+        if(tab!=null){
+            this.dbTabPane.getSelectionModel().select(tab);
+            return;
+        }
         Tuple2<ScrollPane,ConsoleController> tuple2 = loadClientFxml("/fxml/ReportView.fxml",PassParameter.REPORT);
-        Tab tab = new Tab("Report");
+        tab = new Tab(Constant.REPORT_TAB_NAME);
         tab.setGraphic(GuiUtil.creatInfoIcon());
         setTab(tab,tuple2);
     }
 
     @FXML
     public void pubsub(ActionEvent actionEvent) {
+        Tab tab=findTabByName(Constant.PUBSUB_TAB_NAME);
+        if(tab!=null){
+            this.dbTabPane.getSelectionModel().select(tab);
+            return;
+        }
         Tuple2<AnchorPane,ConsoleController> tuple2 = loadClientFxml("/fxml/PubSubView.fxml",PassParameter.PUBSUB);
-        Tab tab = new Tab("Pub/Sub");
+        tab = new Tab(Constant.PUBSUB_TAB_NAME);
         tab.setGraphic(GuiUtil.creatPubSubIcon());
         setTab(tab,tuple2);
     }

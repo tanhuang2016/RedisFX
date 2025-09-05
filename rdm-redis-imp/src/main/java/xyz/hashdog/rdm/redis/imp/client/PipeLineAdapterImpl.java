@@ -103,7 +103,12 @@ public class PipeLineAdapterImpl implements PipelineAdapter {
         List<Object> result = new ArrayList<>();
         for (Object object : responseList) {
             if(object instanceof Response<?> response){
-                result.add(response.get());
+                Object o = response.get();
+                if(o instanceof List<?> list){
+                    result.add(list.getFirst());
+                }else {
+                    result.add(response.get());
+                }
             }else {
                 result.add(object);
             }
