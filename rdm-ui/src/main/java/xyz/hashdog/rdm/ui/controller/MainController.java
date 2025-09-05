@@ -331,7 +331,7 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
             this.serverConnectionsWindowStage=new Stage();
             serverConnectionsWindowStage.initModality(Modality.WINDOW_MODAL);
             this.serverConnectionsWindowStage.setTitle(Main.RESOURCE_BUNDLE.getString(Constant.MAIN_FILE_CONNECT));
-            Tuple2<AnchorPane,ServerConnectionsController> tuple2 = loadFxml("/fxml/ServerConnectionsView.fxml");
+            Tuple2<AnchorPane,ServerConnectionsController> tuple2 = loadFxml("/fxml/ServerConnectionsView.fxml",BaseWindowController.NONE);
             AnchorPane borderPane =tuple2.t1();
             serverConnectionsController = tuple2.t2();
             Scene scene = new Scene(borderPane);
@@ -342,6 +342,8 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
         }
 
     }
+
+
 
     /**
      * 创建新的tab页
@@ -358,17 +360,9 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
         passParameter.setRedisClient(redisContext.useRedisClient());
         controller.setParameter(passParameter);
         Tab tab = new Tab(name);
-        tab.setContent(borderPane);
         tab.setUserData(controller);
-        this.serverTabPane.getTabs().add(tab);
-        this.serverTabPane.getSelectionModel().select(tab);
         tab.setGraphic(GuiUtil.creatConnectionIcon());
-
-        if(passParameter.getTabType()== PassParameter.REDIS){
-            // 监听Tab被关闭事件,但是remove是无法监听的
-            tab.setOnClosed(event2 -> async(controller::close));
-        }
-        GuiUtil.newTabContextMenu(tab);
+        GuiUtil.setTab(tab,this.serverTabPane,tuple2);
         //写入最近连接记录
         recentHistory.add(redisContext.getRedisConfig());
     }
@@ -641,5 +635,13 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
      */
     @FXML
     public void welcome(ActionEvent actionEvent) {
+        Tuple2<AnchorPane,WelcomeController> tuple2 = loadFxml("/fxml/WelcomeView.fxml",BaseWindowController.NONE);
+        AnchorPane borderPane = tuple2.t1();
+        WelcomeController controller = tuple2.t2();
+        Tab tab = new Tab(Constant.WELCOME_TAB_NAME);
+        tab.setUserData(controller);
+        tab.setGraphic(GuiUtil.creatConnectionIcon());
+        tab.setContent(borderPane);
+        GuiUtil.setTab(tab,this.serverTabPane,tuple2);
     }
 }

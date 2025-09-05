@@ -76,6 +76,21 @@ public abstract class BaseWindowController<T> extends BaseController<T> {
     }
 
     /**
+     * 加载子窗口,重载的父类方法，多了model设置
+     * @param fxml   fxml路径
+     * @param model 模式
+     * @param <T1>   泛型
+     * @param <T2>   泛型
+     * @return  返回子窗口
+     */
+    @SuppressWarnings("unchecked")
+    protected <T1,T2>Tuple2<T1, T2> loadFxml(String fxml, int model) {
+        Tuple2<T1, BaseWindowController<?>> tuple2 = super.loadFxml(fxml);
+        tuple2.t2().model = model;
+        return  (Tuple2<T1, T2>)tuple2;
+    }
+
+    /**
      * 设置当前Stage
      * @param currentStage 当前Stage
      */

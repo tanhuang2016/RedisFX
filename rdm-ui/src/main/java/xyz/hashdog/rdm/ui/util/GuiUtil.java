@@ -46,6 +46,7 @@ import xyz.hashdog.rdm.ui.common.ConfigSettingsEnum;
 import xyz.hashdog.rdm.ui.common.Constant;
 import xyz.hashdog.rdm.ui.common.RedisDataTypeEnum;
 import xyz.hashdog.rdm.ui.controller.base.BaseClientController;
+import xyz.hashdog.rdm.ui.controller.base.BaseController;
 import xyz.hashdog.rdm.ui.entity.ITable;
 import xyz.hashdog.rdm.ui.entity.PassParameter;
 import xyz.hashdog.rdm.ui.entity.config.KeyTagSetting;
@@ -857,6 +858,21 @@ public class GuiUtil {
             log.error("themeNeedColors exception", e);
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * 设置tab
+     * @param tab  tab
+     * @param dbTabPane dbTabPane
+     * @param tuple2 tuple2
+     */
+    public static void setTab(Tab tab, TabPane dbTabPane, Tuple2<? extends Node,? extends BaseController> tuple2) {
+        // 监听Tab被关闭事件,但是remove是无法监听的
+        tab.setOnClosed(event2 -> ThreadPool.getInstance().execute(()->tuple2.t2().close()));
+        GuiUtil.newTabContextMenu(tab);
+        tab.setContent(tuple2.t1());
+        dbTabPane.getTabs().add(tab);
+        dbTabPane.getSelectionModel().select(tab);
     }
 
 

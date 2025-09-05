@@ -130,4 +130,5 @@ public interface Constant {
     String MONITOR_TAB_NAME = "Monitor";
     String PUBSUB_TAB_NAME = "Pub/Sub";
     String REPORT_TAB_NAME = "Report";
+    String WELCOME_TAB_NAME = "Welcome";
 }

@@ -946,17 +946,13 @@ public class ServerTabController extends BaseClientController<MainController> {
         });
         controller.setParameter(passParameter);
         Tab tab = new Tab(String.format("%s|%s|%s", this.currentDb,type, key));
-        tab.setOnClosed(event2 -> async(controller::close));
         tab.setOnSelectionChanged(event -> {
             if (tab.isSelected()) {
               this.selectTabKey=controller.getParameter().getKey();
             }
         });
-        GuiUtil.newTabContextMenu(tab);
-        tab.setContent(borderPane);
         tab.setGraphic(GuiUtil.creatKeyIcon());
-        this.dbTabPane.getTabs().add(tab);
-        this.dbTabPane.getSelectionModel().select(tab);
+        setTab(tab,tuple2);
         addOpenTreeItems();
     }
 
@@ -1178,12 +1174,7 @@ public class ServerTabController extends BaseClientController<MainController> {
      * @param tuple2 tuple2
      */
     private void setTab(Tab tab, Tuple2<? extends Node, ? extends BaseClientController> tuple2) {
-        // 监听Tab被关闭事件,但是remove是无法监听的
-        tab.setOnClosed(event2 -> async(()->tuple2.t2().close()));
-        GuiUtil.newTabContextMenu(tab);
-        tab.setContent(tuple2.t1());
-        this.dbTabPane.getTabs().add(tab);
-        this.dbTabPane.getSelectionModel().select(tab);
+        GuiUtil.setTab(tab,this.dbTabPane,tuple2);
     }
 
     @FXML
