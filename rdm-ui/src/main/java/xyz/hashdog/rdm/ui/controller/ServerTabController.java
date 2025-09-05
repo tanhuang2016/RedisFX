@@ -52,6 +52,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 /**
@@ -415,21 +416,45 @@ public class ServerTabController extends BaseClientController<MainController> {
     private void triggerBatchLoad() {
         async(() -> {
             try {
-                // 批量处理队列中的所有节点
-                TreeItem<KeyTreeNode> treeItem;
-                int n=0;
-                // 取出队列中所有待加载的节点
-                while ((treeItem = iconLoadQueue.poll()) != null) {
-                    KeyTreeNode item = treeItem.getValue();
-                    String type = item.getType()==null?exeRedis(j -> j.type(item.getKey())):item.getType();
-                    Label keyTypeLabel = GuiUtil.getKeyTypeLabel(type);
-                    treeItem.setGraphic(keyTypeLabel);
-                    // 标记节点已初始化
-                    treeItem.getValue().setInitialized(true);
-                    n++;
+                AtomicInteger n= new AtomicInteger();
+                if(iconLoadQueue.isEmpty()){
+                    return;
                 }
+                List<TreeItem<KeyTreeNode>> treeItems = new ArrayList<>();
+                List<Object> pipelineResults =exeRedis(j -> {
+                    return j.executePipelined(commands -> {
+                        // 批量处理队列中的所有节点
+                        TreeItem<KeyTreeNode> treeItem;
+                        // 取出队列中所有待加载的节点
+                        while ((treeItem = iconLoadQueue.poll()) != null) {
+                            KeyTreeNode item = treeItem.getValue();
+                            if(item.getType()==null){
+                                commands.type(item.getKey());
+                                treeItems.add(treeItem);
+                            }else {
+                                Label keyTypeLabel = GuiUtil.getKeyTypeLabel(item.getType());
+                                treeItem.setGraphic(keyTypeLabel);
+                                // 标记节点已初始化
+                                treeItem.getValue().setInitialized(true);
+                            }
+                            n.getAndIncrement();
+                        }
+                    });
+                });
+                //管道查询的结果，需要更新到树里面
+               if(!treeItems.isEmpty()){
+                   for (int i = 0; i < treeItems.size(); i++) {
+                       TreeItem<KeyTreeNode> keyTreeNodeTreeItem = treeItems.get(i);
+                       KeyTreeNode value = keyTreeNodeTreeItem.getValue();
+                       value.setType(pipelineResults.get(i).toString());
+                       value.setInitialized(true);
+                       Label keyTypeLabel = GuiUtil.getKeyTypeLabel(value.getType());
+                       keyTreeNodeTreeItem.setGraphic(keyTypeLabel);
+                   }
+               }
+
                 // 只在需要时刷新
-                if (n>0) {
+                if (n.get() >0) {
                     // 在UI线程中更新所有图标
                     Platform.runLater(() -> treeView.refresh());
                 }
