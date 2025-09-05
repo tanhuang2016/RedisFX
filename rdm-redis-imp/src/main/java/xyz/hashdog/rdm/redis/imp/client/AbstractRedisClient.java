@@ -304,7 +304,9 @@ public abstract class AbstractRedisClient implements RedisClient {
 
             @Override
             public void unsubscribe() {
-                consumer.accept(text);
+                if(text!=null){
+                    consumer.accept(text);
+                }
                 super.unsubscribe();
             }
         };
