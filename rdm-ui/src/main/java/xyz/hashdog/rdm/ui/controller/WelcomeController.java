@@ -6,7 +6,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -19,6 +19,8 @@ import java.util.ResourceBundle;
 public class WelcomeController extends BaseWindowController<MainController> implements Initializable {
 
 
+    public StackPane stackPaneNose;
+    public StackPane stackPaneFlame;
     public StackPane stackPane;
     public StackPane stackPane0;
     private ParallelTransition parallelTransition;
@@ -29,21 +31,50 @@ public class WelcomeController extends BaseWindowController<MainController> impl
 //        pane.setMinSize(Pane.USE_PREF_SIZE, Pane.USE_PREF_SIZE);
 //        pane.setMaxSize(Pane.USE_PREF_SIZE, Pane.USE_PREF_SIZE);
 
-        Rectangle rect0= new Rectangle(-25, -25, 80, 50);
+        // 火箭头部（朝左，圆润的形状）
+
+        Path rocketHead = new Path();
+        rocketHead.getElements().addAll(
+                new MoveTo(-25, -20),                                     // 起始点
+                new CubicCurveTo(-40, -13, -50, -10, -58, -5),           // 上部曲线的第一段
+                new CubicCurveTo(-62, -2, -62, 2, -58, 5),               // 头部最尖端的曲线
+                new CubicCurveTo(-50, 10, -40, 13, -25, 20),             // 下部曲线
+                new ClosePath()
+        );
+        // 机舱窗口（透明椭圆）
+        Ellipse cockpit = new  Ellipse(-30, 0, 7, 5);
+        cockpit.setFill(Color.DODGERBLUE);
+        cockpit.setStroke(null);
+        rocketHead.setStroke(null);  // 去掉边框
+        rocketHead.setFill(Color.CRIMSON);
+        stackPaneNose.getChildren().addAll(rocketHead,cockpit);
+
+        Rectangle rect0= new Rectangle(-25, -25, 66, 50);
         rect0.setFill(Color.CRIMSON);
+        rect0.setArcHeight(15);
+        rect0.setArcWidth(15);
         Text text0 = new Text("Redis");
         text0.setFont(Font.font("Arial", FontWeight.BOLD, 24));
         stackPane0.getChildren().addAll(rect0, text0);
 
-        Rectangle rect1= new Rectangle(-25, -25, 50, 50);
+        Rectangle rect1= new Rectangle(-25, -25, 32, 50);
         rect1.setOnMouseEntered(event -> {
              parallelTransition.play();
         });
-        rect1.setArcHeight(0);
-        rect1.setArcWidth(0);
+        rect1.setArcHeight(15);
+        rect1.setArcWidth(15);
         rect1.setFill(Color.CRIMSON);
         Text text = new Text("FX");
         text.setFont(Font.font("Arial", FontWeight.BOLD, 24));
+
+        // 火焰（在火箭尾部，向右喷射）
+        Polygon flame = new Polygon(
+                -25, -10,   // 火箭左侧顶部
+                -35, 0,     // 火箭左侧中间（向外喷射）
+                -25, 10     // 火箭左侧底部
+        );
+        stackPaneFlame.getChildren().addAll(flame);
+
         stackPane.getChildren().addAll(rect1, text);
 //        stackPane.setTranslateX(50);
 //        stackPane.setTranslateY(75);
@@ -84,21 +115,25 @@ public class WelcomeController extends BaseWindowController<MainController> impl
         scaleTran.setAutoReverse(true);
         Timeline arcAnimation = new Timeline(
                 new KeyFrame(Duration.ZERO,
+                        new KeyValue(rect1.widthProperty(), 32),
                         new KeyValue(rect1.arcWidthProperty(), 0),
                         new KeyValue(rect1.arcHeightProperty(), 0)),
                 new KeyFrame(Duration.seconds(3),
+                        new KeyValue(rect1.widthProperty(), 50),
                         new KeyValue(rect1.arcWidthProperty(), 15),
                         new KeyValue(rect1.arcHeightProperty(), 15)),
                 new KeyFrame(Duration.seconds(5),
+                        new KeyValue(rect1.widthProperty(), 50),
                         new KeyValue(rect1.arcWidthProperty(), 15),
                         new KeyValue(rect1.arcHeightProperty(), 15)),
                 new KeyFrame(Duration.seconds(8),
+                        new KeyValue(rect1.widthProperty(), 32),
                         new KeyValue(rect1.arcWidthProperty(), 0),
                         new KeyValue(rect1.arcHeightProperty(), 0))
         );
         arcAnimation.setAutoReverse(true);
         parallelTransition = new ParallelTransition(stackPane, fadeTrans,
-                translateTran,fadeTrans2, rotateTran, scaleTran,arcAnimation);
+                translateTran,fadeTrans2, rotateTran, scaleTran);
         parallelTransition.setCycleCount(1);
         parallelTransition.setAutoReverse(false);
 
