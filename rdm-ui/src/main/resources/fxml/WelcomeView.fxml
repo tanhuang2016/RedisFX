@@ -15,6 +15,7 @@
                   <StackPane fx:id="stackPaneNose" />
                   <StackPane fx:id="stackPane0" />
                   <StackPane fx:id="stackPane" />
+                  <StackPane fx:id="stackPaneTail" />
                   <StackPane fx:id="stackPaneFlame" />
                   <Label text="RedisFX" />
                   <Label text="v2.3.2" />

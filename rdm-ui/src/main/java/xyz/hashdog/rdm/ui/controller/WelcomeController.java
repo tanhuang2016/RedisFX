@@ -21,6 +21,7 @@ public class WelcomeController extends BaseWindowController<MainController> impl
 
     public StackPane stackPaneNose;
     public StackPane stackPaneFlame;
+    public StackPane stackPaneTail;
     public StackPane stackPane;
     public StackPane stackPane0;
     private ParallelTransition parallelTransition;
@@ -73,7 +74,67 @@ public class WelcomeController extends BaseWindowController<MainController> impl
                 -35, 0,     // 火箭左侧中间（向外喷射）
                 -25, 10     // 火箭左侧底部
         );
-        stackPaneFlame.getChildren().addAll(flame);
+        // 火箭尾部（向右的梯形设计）
+        Path rocketTail = new Path();
+        rocketTail.getElements().addAll(
+                new MoveTo(25, -20),        // 右侧上部
+                new LineTo(35, -15),        // 向右延伸的上部
+                new LineTo(35, 15),         // 右侧下部
+                new LineTo(25, 20),         // 回到火箭主体
+                new ClosePath()
+        );
+        rocketTail.setFill(Color.DARKGRAY);
+        rocketTail.setStroke(null);
+        stackPaneTail.getChildren().addAll(rocketTail);
+
+// 主火焰（向右喷射的主火焰）
+        Path mainFlame = new Path();
+        mainFlame.getElements().addAll(
+                new MoveTo(35, -12),                    // 火焰起点（尾部右侧上部）
+                new QuadCurveTo(50, -8, 65, 0),         // 上部火焰曲线（向右喷射）
+                new QuadCurveTo(50, 8, 35, 12),         // 下部火焰曲线
+                new ClosePath()                         // 闭合路径
+        );
+        mainFlame.setFill(Color.ORANGE);
+        mainFlame.setStroke(null);
+
+// 内部火焰（更亮的黄色核心）
+        Path innerFlame = new Path();
+        innerFlame.getElements().addAll(
+                new MoveTo(35, -8),                     // 内部火焰起点
+                new QuadCurveTo(45, -5, 55, 0),         // 上部内部火焰
+                new QuadCurveTo(45, 5, 35, 8),          // 下部内部火焰
+                new ClosePath()                         // 闭合路径
+        );
+        innerFlame.setFill(Color.YELLOW);
+        innerFlame.setStroke(null);
+
+// 火焰动画（闪烁效果）
+        Timeline flameAnimation = new Timeline(
+                new KeyFrame(Duration.ZERO,
+                        new KeyValue(mainFlame.scaleXProperty(), 1),
+                        new KeyValue(mainFlame.scaleYProperty(), 1),
+                        new KeyValue(innerFlame.scaleXProperty(), 1),
+                        new KeyValue(innerFlame.scaleYProperty(), 1)
+                ),
+                new KeyFrame(Duration.millis(100),
+                        new KeyValue(mainFlame.scaleXProperty(), 1.1),
+                        new KeyValue(mainFlame.scaleYProperty(), 1.05),
+                        new KeyValue(innerFlame.scaleXProperty(), 1.1),
+                        new KeyValue(innerFlame.scaleYProperty(), 1.05)
+                ),
+                new KeyFrame(Duration.millis(200),
+                        new KeyValue(mainFlame.scaleXProperty(), 1),
+                        new KeyValue(mainFlame.scaleYProperty(), 1),
+                        new KeyValue(innerFlame.scaleXProperty(), 1),
+                        new KeyValue(innerFlame.scaleYProperty(), 1)
+                )
+        );
+        flameAnimation.setCycleCount(Animation.INDEFINITE);
+        stackPaneFlame.getChildren().addAll( mainFlame, innerFlame);
+        flameAnimation.play();
+
+//        stackPaneFlame.getChildren().addAll(flame);
 
         stackPane.getChildren().addAll(rect1, text);
 //        stackPane.setTranslateX(50);
