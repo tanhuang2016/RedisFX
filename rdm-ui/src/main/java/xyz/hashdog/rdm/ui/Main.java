@@ -89,8 +89,9 @@ public class Main extends Application {
             stage.setWidth(Math.min(root.getPrefWidth(), bounds.getWidth()));
             stage.setHeight(Math.min(root.getPrefHeight(), bounds.getHeight()));
             initTm(scene);
-            stage.show();
             //先默认打开
+            controller.welcome(null);
+            stage.show();
             controller.openServerLinkWindow(null);
         }catch (Exception e){
            log.error("start Exception", e);
