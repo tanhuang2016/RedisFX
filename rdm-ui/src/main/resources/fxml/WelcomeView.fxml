@@ -29,7 +29,7 @@
                   <StackPane fx:id="stackPaneFlame" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" GridPane.rowIndex="1">
+            <HBox fx:id="toGithub" alignment="CENTER" GridPane.rowIndex="1" onMouseClicked="#toGithub">
                <children>
                    <Label text="谢谢你的star→" />
                   <Label fx:id="gitHub" alignment="CENTER" contentDisplay="CENTER"  HBox.hgrow="ALWAYS" />

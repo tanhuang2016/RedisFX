@@ -1,28 +1,43 @@
 package xyz.hashdog.rdm.ui.controller;
 
 import javafx.animation.*;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
+import javafx.scene.Cursor;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import xyz.hashdog.rdm.ui.common.Constant;
 import xyz.hashdog.rdm.ui.controller.base.BaseWindowController;
+import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.SvgManager;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class WelcomeController extends BaseWindowController<MainController> implements Initializable {
+import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
+/**
+ * @author th
+ * @version 2.3.3
+ * @since 2025/9/7 9:41
+ */
+public class WelcomeController extends BaseWindowController<MainController> implements Initializable {
+    private static final Logger log = LoggerFactory.getLogger(WelcomeController.class);
 
     public StackPane stackPaneNose;
     public StackPane stackPaneFlame;
@@ -31,12 +46,14 @@ public class WelcomeController extends BaseWindowController<MainController> impl
     public StackPane stackPane1;
     public GridPane gridPane;
     public Label gitHub;
+    public HBox toGithub;
     private ParallelTransition parallelTransition;
     private Timeline flameAnimation;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         SvgManager.load(this, gitHub, "/svg/github-mark/github-mark.svg");
+        toGithub.setCursor(Cursor.HAND);
         initRocket();
 
 
@@ -226,6 +243,15 @@ public class WelcomeController extends BaseWindowController<MainController> impl
         if (flameAnimation != null) {
             flameAnimation.stop();
             flameAnimation = null;
+        }
+    }
+    @FXML
+    public void toGithub(MouseEvent mouseEvent) {
+        try {
+            Desktop.getDesktop().browse(new URI(System.getProperty(Constant.APP_HOME_PAGE)));
+        } catch (IOException | URISyntaxException e) {
+            log.error("unable to open the browser", e);
+            GuiUtil.alert(Alert.AlertType.ERROR, String.format(language("alert.message.help.suggest")+": %s", Constant.APP_HOME_PAGE));
         }
     }
 }
