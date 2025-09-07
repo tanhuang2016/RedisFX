@@ -32,6 +32,7 @@ public class WelcomeController extends BaseWindowController<MainController> impl
     public GridPane gridPane;
     public Label gitHub;
     private ParallelTransition parallelTransition;
+    private Timeline flameAnimation;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -139,7 +140,7 @@ public class WelcomeController extends BaseWindowController<MainController> impl
         innerFlame.setStroke(null);
 
 // 火焰动画（闪烁效果）
-        Timeline flameAnimation = new Timeline(
+        this.flameAnimation = new Timeline(
                 new KeyFrame(Duration.ZERO,
                         new KeyValue(mainFlame.scaleXProperty(), 1),
                         new KeyValue(mainFlame.scaleYProperty(), 1),
@@ -218,9 +219,13 @@ public class WelcomeController extends BaseWindowController<MainController> impl
     @Override
     public void close() {
         super.close();
-        if(parallelTransition != null){
+        if (parallelTransition != null) {
             parallelTransition.stop();
-            parallelTransition=null;
+            parallelTransition = null;
+        }
+        if (flameAnimation != null) {
+            flameAnimation.stop();
+            flameAnimation = null;
         }
     }
 }
