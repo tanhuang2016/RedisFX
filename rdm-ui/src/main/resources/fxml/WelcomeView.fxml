@@ -24,7 +24,7 @@
                <children>
                   <StackPane fx:id="stackPaneNose" />
                   <StackPane fx:id="stackPane0" />
-                  <StackPane fx:id="stackPane" />
+                  <StackPane fx:id="stackPane1" />
                   <StackPane fx:id="stackPaneTail" />
                   <StackPane fx:id="stackPaneFlame" />
                </children>
