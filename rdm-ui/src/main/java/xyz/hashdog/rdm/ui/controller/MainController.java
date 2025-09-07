@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.control.*;
@@ -635,8 +636,8 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
      */
     @FXML
     public void welcome(ActionEvent actionEvent) {
-        Tuple2<AnchorPane,WelcomeController> tuple2 = loadFxml("/fxml/WelcomeView.fxml",BaseWindowController.NONE);
-        AnchorPane borderPane = tuple2.t1();
+        Tuple2<Node,WelcomeController> tuple2 = loadFxml("/fxml/WelcomeView.fxml",BaseWindowController.NONE);
+        Node borderPane = tuple2.t1();
         WelcomeController controller = tuple2.t2();
         Tab tab = new Tab(Constant.WELCOME_TAB_NAME);
         tab.setUserData(controller);

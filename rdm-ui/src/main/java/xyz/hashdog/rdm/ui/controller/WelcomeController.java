@@ -3,6 +3,8 @@ package xyz.hashdog.rdm.ui.controller;
 import javafx.animation.*;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -24,10 +26,13 @@ public class WelcomeController extends BaseWindowController<MainController> impl
     public StackPane stackPaneTail;
     public StackPane stackPane;
     public StackPane stackPane0;
+    public GridPane gridPane;
     private ParallelTransition parallelTransition;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // 或者使用
+
 //        pane.setPrefSize(400, 200);
 //        pane.setMinSize(Pane.USE_PREF_SIZE, Pane.USE_PREF_SIZE);
 //        pane.setMaxSize(Pane.USE_PREF_SIZE, Pane.USE_PREF_SIZE);
@@ -83,9 +88,36 @@ public class WelcomeController extends BaseWindowController<MainController> impl
                 new LineTo(25, 20),         // 回到火箭主体
                 new ClosePath()
         );
+        rocketTail.setTranslateX(-5);
+        // 上尾翼 - 梯形设计
+        Path upperFin = new Path();
+        upperFin.getElements().addAll(
+                new MoveTo(35, -15),    // 与火箭尾部连接
+                new LineTo(55, -30),    // 尾翼外边缘上点
+                new LineTo(50, -15),    // 尾翼外边缘下点
+                new LineTo(35, -15),    // 回到连接点
+                new ClosePath()
+        );
+        upperFin.setStroke(null);
+        upperFin.setFill(Color.DARKGRAY);
+        upperFin.setTranslateY(-30);
+
+
+// 下尾翼 - 梯形设计（对称）
+        Path lowerFin = new Path();
+        lowerFin.getElements().addAll(
+                new MoveTo(35, 15),     // 与火箭尾部连接
+                new LineTo(55, 30),     // 尾翼外边缘下点
+                new LineTo(50, 15),     // 尾翼外边缘上点
+                new LineTo(35, 15),     // 回到连接点
+                new ClosePath()
+        );
+        lowerFin.setStroke(null);
+        lowerFin.setFill(Color.DARKGRAY);
+        lowerFin.setTranslateY(30);
         rocketTail.setFill(Color.DARKGRAY);
         rocketTail.setStroke(null);
-        stackPaneTail.getChildren().addAll(rocketTail);
+        stackPaneTail.getChildren().addAll(rocketTail, upperFin,lowerFin);
 
 // 主火焰（向右喷射的主火焰）
         Path mainFlame = new Path();
@@ -177,8 +209,8 @@ public class WelcomeController extends BaseWindowController<MainController> impl
         Timeline arcAnimation = new Timeline(
                 new KeyFrame(Duration.ZERO,
                         new KeyValue(rect1.widthProperty(), 32),
-                        new KeyValue(rect1.arcWidthProperty(), 0),
-                        new KeyValue(rect1.arcHeightProperty(), 0)),
+                        new KeyValue(rect1.arcWidthProperty(), 15),
+                        new KeyValue(rect1.arcHeightProperty(), 15)),
                 new KeyFrame(Duration.seconds(3),
                         new KeyValue(rect1.widthProperty(), 50),
                         new KeyValue(rect1.arcWidthProperty(), 15),
@@ -189,12 +221,12 @@ public class WelcomeController extends BaseWindowController<MainController> impl
                         new KeyValue(rect1.arcHeightProperty(), 15)),
                 new KeyFrame(Duration.seconds(8),
                         new KeyValue(rect1.widthProperty(), 32),
-                        new KeyValue(rect1.arcWidthProperty(), 0),
-                        new KeyValue(rect1.arcHeightProperty(), 0))
+                        new KeyValue(rect1.arcWidthProperty(), 15),
+                        new KeyValue(rect1.arcHeightProperty(), 15))
         );
         arcAnimation.setAutoReverse(true);
         parallelTransition = new ParallelTransition(stackPane, fadeTrans,
-                translateTran,fadeTrans2, rotateTran, scaleTran);
+                translateTran,fadeTrans2, rotateTran, scaleTran,arcAnimation);
         parallelTransition.setCycleCount(1);
         parallelTransition.setAutoReverse(false);
 
