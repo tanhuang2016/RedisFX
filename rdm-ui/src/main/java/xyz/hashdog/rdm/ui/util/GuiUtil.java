@@ -471,7 +471,7 @@ public class GuiUtil {
      * @param button 按钮
      * @param fontIcon 图标
      */
-    public static void setIcon(ButtonBase button, Node fontIcon) {
+    public static void setIcon(Labeled button, Node fontIcon) {
         button.setGraphic(fontIcon);
     }
 

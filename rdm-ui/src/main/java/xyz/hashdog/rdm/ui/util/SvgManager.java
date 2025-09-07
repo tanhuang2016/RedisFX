@@ -1,6 +1,7 @@
 package xyz.hashdog.rdm.ui.util;
 
 import javafx.scene.control.ButtonBase;
+import javafx.scene.control.Labeled;
 import xyz.hashdog.rdm.ui.common.Constant;
 import xyz.hashdog.rdm.ui.controller.base.BaseController;
 import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
@@ -22,7 +23,7 @@ public class SvgManager {
      * 当窗口关闭，可以根据控制器删除图标
      */
     private static final Map<Object,List<SvgManager>> MAP = new ConcurrentHashMap<>();
-    private final ButtonBase base;
+    private final Labeled base;
     private final String svg;
     private final int w;
     private  static boolean light;
@@ -55,7 +56,7 @@ public class SvgManager {
         });
     }
 
-    private SvgManager(ButtonBase base, String svg) {
+    private SvgManager(Labeled base, String svg) {
         this.base = base;
         this.svg = svg;
         this.w = 20;
@@ -66,7 +67,7 @@ public class SvgManager {
      * @param base 按钮
      * @param svg 文件名
      */
-    public static void load(BaseController<?> controller,ButtonBase base, String svg) {
+    public static void load(BaseController<?> controller, Labeled base, String svg) {
         SvgManager svgManager = new SvgManager(base, svg);
         svgManager.setGraphic();
         List<SvgManager> list = MAP.computeIfAbsent(controller, k -> new ArrayList<>());

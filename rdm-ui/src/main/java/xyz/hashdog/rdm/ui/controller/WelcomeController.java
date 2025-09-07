@@ -2,6 +2,8 @@ package xyz.hashdog.rdm.ui.controller;
 
 import javafx.animation.*;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -14,6 +16,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import xyz.hashdog.rdm.ui.controller.base.BaseWindowController;
+import xyz.hashdog.rdm.ui.util.SvgManager;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -27,10 +30,14 @@ public class WelcomeController extends BaseWindowController<MainController> impl
     public StackPane stackPane;
     public StackPane stackPane0;
     public GridPane gridPane;
+    public Label gitHub;
     private ParallelTransition parallelTransition;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        SvgManager.load(this,gitHub,"/svg/github-mark/github-mark.svg");
+
+
         // 或者使用
 
 //        pane.setPrefSize(400, 200);
