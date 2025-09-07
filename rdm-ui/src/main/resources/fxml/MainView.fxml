@@ -100,7 +100,7 @@
                         </Menu>
                         <Menu mnemonicParsing="false" text="%main.window">
                             <items>
-                                <MenuItem  mnemonicParsing="false" text="Welcome Page" onAction="#welcome"/>
+                                <MenuItem  mnemonicParsing="false" text="%main.window.welcome" onAction="#welcome"/>
                                 <Menu  fx:id="serverTabPaneMenu" mnemonicParsing="false" text="%main.window.server" >
                                         <items>
                                             <RadioMenuItem fx:id="serverTabTop" mnemonicParsing="false" text="%main.window.top" onAction="#serverTabTop" selected="true"/>
