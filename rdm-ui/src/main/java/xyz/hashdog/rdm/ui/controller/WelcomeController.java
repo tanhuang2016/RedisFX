@@ -215,5 +215,12 @@ public class WelcomeController extends BaseWindowController<MainController> impl
         parallelTransition.setAutoReverse(false);
     }
 
-
+    @Override
+    public void close() {
+        super.close();
+        if(parallelTransition != null){
+            parallelTransition.stop();
+            parallelTransition=null;
+        }
+    }
 }
