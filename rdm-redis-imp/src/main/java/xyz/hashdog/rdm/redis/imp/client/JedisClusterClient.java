@@ -584,10 +584,11 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
     @Override
     public List<Object> executePipelined(Consumer<PipelineAdapter> pipelineExecutor) {
         return execute(jedis -> {
-            ClusterPipeline pipelined = jedis.pipelined();
-            PipeLineAdapterImpl pipeLineAdapter = new PipeLineAdapterImpl(pipelined);
-            pipelineExecutor.accept(pipeLineAdapter);
-            return pipeLineAdapter.syncAndReturnAll();
+            try(ClusterPipeline pipelined = jedis.pipelined()){
+                PipeLineAdapterImpl pipeLineAdapter = new PipeLineAdapterImpl(pipelined);
+                pipelineExecutor.accept(pipeLineAdapter);
+                return pipeLineAdapter.syncAndReturnAll();
+            }
         });
     }
 
