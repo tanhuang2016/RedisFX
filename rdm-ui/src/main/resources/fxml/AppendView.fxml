@@ -13,8 +13,8 @@
          <bottom>
             <HBox alignment="CENTER_RIGHT" prefHeight="60.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="ok" mnemonicParsing="false"  text="%common.ok" />
-                  <Button mnemonicParsing="false" onAction="#cancel" text="%common.cancel" />
+                  <Button fx:id="ok" mnemonicParsing="false"  />
+                  <Button fx:id="cancel" mnemonicParsing="false" onAction="#cancel"  />
                </children>
             </HBox>
          </bottom>

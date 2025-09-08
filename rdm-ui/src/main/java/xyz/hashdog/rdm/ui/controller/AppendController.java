@@ -12,6 +12,8 @@ import xyz.hashdog.rdm.ui.controller.base.BaseWindowController;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
+
 /**
  * @author th
  * @version 1.0.0
@@ -22,11 +24,18 @@ public class AppendController extends BaseWindowController<BaseClientController>
     public BorderPane borderPane;
     @FXML
     public Button ok;
+    public Button cancel;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        initLanguage();
         ok.getStyleClass().add(Styles.ACCENT);
 
+    }
+
+    private void initLanguage() {
+        ok.setText(language("common.ok"));
+        cancel.setText(language("common.cancel"));
     }
 
 
