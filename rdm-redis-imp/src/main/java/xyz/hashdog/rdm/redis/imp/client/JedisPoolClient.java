@@ -538,7 +538,6 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
 
     @Override
     public long memoryUsage(String key, int samples) {
-        Pipeline pipeline = jedis.pipelined();
         return execute(jedis->jedis.memoryUsage(key,samples));
     }
 
@@ -555,7 +554,7 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
     @Override
     public List<Object> executePipelined(Consumer<PipelineAdapter> pipelineExecutor) {
         //管道执行用一个新连接，执行完回收到线程，connection不用关闭
-        try (Jedis subJedis = jedisPool.getResource();){
+        try (Jedis subJedis = jedisPool.getResource()){
             Pipeline pipeline = subJedis.pipelined();
             PipeLineAdapterImpl pipeLineAdapter = new PipeLineAdapterImpl(pipeline);
             pipelineExecutor.accept(pipeLineAdapter);

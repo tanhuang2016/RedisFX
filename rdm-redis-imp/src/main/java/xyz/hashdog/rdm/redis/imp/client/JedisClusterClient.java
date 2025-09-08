@@ -184,7 +184,7 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
                 continue;
             }
             String master = masters.get(i);
-            try(Connection connection = jedis.getClusterNodes().get(master).getResource();) {
+            try(Connection connection = jedis.getClusterNodes().get(master).getResource()) {
                 int finalI = i;
                 Tuple2<String, List<String>> execute = execute(jedis -> super.scan(pattern, count, isLike, (scanParams) -> {
                     if (DataUtil.isBlank(type)) {
@@ -530,9 +530,7 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
                 jedis.auth(redisConfig.getAuth());
                 //单机jedis没用连接池，close会直接关闭连接
                 redisMonitor.addJedis(jedis);
-                Thread thread = new Thread(() -> {
-                    doMonitor(jedis,redisMonitor);
-                });
+                Thread thread = new Thread(() -> doMonitor(jedis,redisMonitor));
                 thread.setDaemon(true);
                 thread.start();
             } catch (Exception e) {
