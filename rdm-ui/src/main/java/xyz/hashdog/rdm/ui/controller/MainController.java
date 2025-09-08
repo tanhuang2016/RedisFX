@@ -107,6 +107,11 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
     public MenuItem resetWindow;
     public Menu window;
     public MenuItem welcome;
+    public Menu help;
+    public MenuItem guide;
+    public MenuItem suggest;
+    public MenuItem update;
+    public MenuItem about;
     /**
      * 服务连接的Stage
      */
@@ -165,7 +170,7 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
         fullScreen.setText(language("main.view.full"));
         resetWindow.setText(language("main.view.reset"));
         maximized.setText(language("main.view.maximized"));
-        minimized.setText(language("main.minimized"));
+        minimized.setText(language("main.view.minimized"));
 
         window.setText(language("main.window"));
         welcome.setText(language("main.window.welcome"));
@@ -179,6 +184,12 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
         keyTabBottom.setText(language("main.window.bottom"));
         keyTabLeft.setText(language("main.window.left"));
         keyTabRight.setText(language("main.window.right"));
+
+        help.setText(language("main.help"));
+        guide.setText(language("main.help.guide"));
+        suggest.setText(language("main.help.suggest"));
+        update.setText(language("main.help.update"));
+        about.setText(language("main.help.about"));
 
     }
 

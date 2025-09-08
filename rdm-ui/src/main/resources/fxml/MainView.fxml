@@ -117,12 +117,12 @@
                                 </Menu>
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="%main.help">
+                        <Menu fx:id="help" mnemonicParsing="false" text="%main.help">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="%main.help.guide"  disable="true"/>
-                                <MenuItem mnemonicParsing="false" text="%main.help.suggest" onAction="#suggest"/>
-                                <MenuItem mnemonicParsing="false" text="%main.help.update" disable="true"/>
-                                <MenuItem mnemonicParsing="false" text="%main.help.about" disable="true"/>
+                                <MenuItem fx:id="guide" mnemonicParsing="false" text="%main.help.guide"  disable="true"/>
+                                <MenuItem fx:id="suggest" mnemonicParsing="false" text="%main.help.suggest" onAction="#suggest"/>
+                                <MenuItem fx:id="update" mnemonicParsing="false" text="%main.help.update" disable="true"/>
+                                <MenuItem fx:id="about" mnemonicParsing="false" text="%main.help.about" disable="true"/>
                             </items>
                         </Menu>
                     </menus>
