@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.control.ComboBox?>
 <AnchorPane fx:id="root" prefHeight="200.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.ByteArrayController">
    <children>
@@ -30,14 +29,11 @@
                      </items>
                   </ChoiceBox>
                   <Label fx:id="size" text="Size:0B" />
-                  <Button fx:id="copy" mnemonicParsing="false" onAction="#copy" text="%key.string.copy" >
-                     <tooltip>
-                        <Tooltip text="%key.string.copy" />
-                     </tooltip>
+                  <Button fx:id="copy" mnemonicParsing="false" onAction="#copy"  >
                   </Button>
-                  <Button fx:id="into" mnemonicParsing="false" onAction="#into" text="%key.string.import" />
-                  <Button fx:id="export" mnemonicParsing="false" onAction="#export" text="%key.string.export" />
-                  <Button fx:id="view" mnemonicParsing="false" onAction="#view" text="%key.string.view" />
+                  <Button fx:id="into" mnemonicParsing="false" onAction="#into"  />
+                  <Button fx:id="export" mnemonicParsing="false" onAction="#export"  />
+                  <Button fx:id="view" mnemonicParsing="false" onAction="#view"  />
                   <ComboBox fx:id="characterChoiceBox" prefWidth="100.0" HBox.hgrow="ALWAYS">
                      <items>
                         <FXCollections fx:factory="observableArrayList">

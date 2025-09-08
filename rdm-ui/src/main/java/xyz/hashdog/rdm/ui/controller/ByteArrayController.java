@@ -28,6 +28,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
+
 /**
  * @author th
  * @version 1.0.0
@@ -74,10 +76,19 @@ public class ByteArrayController extends BaseController<BaseController> implemen
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        initLanguage();
         initCharacterChoiceBox();
         initTypeChoiceBox();
         initListener();
         initButton();
+    }
+
+    private void initLanguage() {
+        copy.setText(language("key.string.copy"));
+        copy.setTooltip(GuiUtil.textTooltip("key.string.copy"));
+        into.setText(language("key.string.import"));
+        export.setText(language("key.string.export"));
+        view.setText(language("key.string.view"));
     }
 
     private void initButton() {
