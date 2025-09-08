@@ -3,6 +3,8 @@ package xyz.hashdog.rdm.ui.controller.base;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
@@ -23,6 +25,7 @@ import java.util.function.Consumer;
  * @since 2023/7/22 10:43
  */
 public abstract class BaseController<T> implements AutoCloseable {
+    private static final Logger log = LoggerFactory.getLogger(BaseController.class);
     /**
      * 父控制器
      */
@@ -112,7 +115,7 @@ public abstract class BaseController<T> implements AutoCloseable {
         //svn缓存清除
         SvgManager.clear(this);
         tmEventSubscribers.forEach(DefaultEventBus.getInstance()::unsubscribe);
-        System.out.println("clouse123");
+        log.info("close:{}",this);
     }
 
    private void addChild(BaseController<?> t) {

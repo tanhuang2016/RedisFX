@@ -268,4 +268,11 @@ public class HashTypeController extends BaseKeyPageController<HashTypeTable> imp
     public void reloadInfo() {
         initInfo();
     }
+
+    @Override
+    public String toString() {
+        return "Hash{" +
+                "key=" + parameter.get().getKey() +
+                '}';
+    }
 }
