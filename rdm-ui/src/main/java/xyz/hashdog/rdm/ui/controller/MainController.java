@@ -102,6 +102,11 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
     public MenuItem exit;
     public MenuItem find;
     public MenuItem replace;
+    public Menu edit;
+    public Menu view;
+    public MenuItem resetWindow;
+    public Menu window;
+    public MenuItem welcome;
     /**
      * 服务连接的Stage
      */
@@ -144,6 +149,7 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
         serversCloseAll.setText(language("main.file.close.all"));
         exit.setText(language("main.file.exit"));
 
+        edit.setText(language("main.edit"));
         undo.setText(language("main.edit.undo"));
         redo.setText(language("main.edit.redo"));
         cut.setText(language("main.edit.cut"));
@@ -154,7 +160,26 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
         deselect.setText(language("main.edit.deselect"));
         find.setText(language("main.edit.find"));
         replace.setText(language("main.edit.replace"));
-        fileConnect.setText(language("main.file.connect"));
+
+        view.setText(language("main.view"));
+        fullScreen.setText(language("main.view.full"));
+        resetWindow.setText(language("main.view.reset"));
+        maximized.setText(language("main.view.maximized"));
+        minimized.setText(language("main.minimized"));
+
+        window.setText(language("main.window"));
+        welcome.setText(language("main.window.welcome"));
+        serverTabPaneMenu.setText(language("main.window.server"));
+        serverTabTop.setText(language("main.window.top"));
+        serverTabBottom.setText(language("main.window.bottom"));
+        serverTabLeft.setText(language("main.window.left"));
+        serverTabRight.setText(language("main.window.right"));
+        keyTabPaneMenu.setText(language("main.window.key"));
+        keyTabTop.setText(language("main.window.top"));
+        keyTabBottom.setText(language("main.window.bottom"));
+        keyTabLeft.setText(language("main.window.left"));
+        keyTabRight.setText(language("main.window.right"));
+
     }
 
     /**

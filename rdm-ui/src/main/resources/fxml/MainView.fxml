@@ -73,7 +73,7 @@
 
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="%main.edit">
+                        <Menu fx:id="edit" mnemonicParsing="false" text="%main.edit">
                             <items>
                                 <MenuItem fx:id="undo" mnemonicParsing="false"  />
                                 <MenuItem fx:id="redo" mnemonicParsing="false"  />
@@ -87,31 +87,31 @@
                                 <MenuItem fx:id="replace" mnemonicParsing="false"  disable="true"/>
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="%main.view">
+                        <Menu fx:id="view" mnemonicParsing="false" text="%main.view">
                             <items>
-                                <MenuItem fx:id="fullScreen" mnemonicParsing="false" text="%main.view.full" onAction="#fullScreen"/>
-                                <MenuItem mnemonicParsing="false" text="%main.view.reset" onAction="#resetWindow"/>
-                                <MenuItem fx:id="maximized" mnemonicParsing="false" text="%main.view.maximized" onAction="#maximized"/>
-                                <MenuItem fx:id="minimized" mnemonicParsing="false" text="%main.view.minimized" onAction="#minimized"/>
+                                <MenuItem fx:id="fullScreen" mnemonicParsing="false"  onAction="#fullScreen"/>
+                                <MenuItem fx:id="resetWindow" mnemonicParsing="false"  onAction="#resetWindow"/>
+                                <MenuItem fx:id="maximized" mnemonicParsing="false"  onAction="#maximized"/>
+                                <MenuItem fx:id="minimized" mnemonicParsing="false"  onAction="#minimized"/>
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="%main.window">
+                        <Menu fx:id="window" mnemonicParsing="false" >
                             <items>
-                                <MenuItem  mnemonicParsing="false" text="%main.window.welcome" onAction="#welcome"/>
-                                <Menu  fx:id="serverTabPaneMenu" mnemonicParsing="false" text="%main.window.server" >
+                                <MenuItem fx:id="welcome"  mnemonicParsing="false"  onAction="#welcome"/>
+                                <Menu  fx:id="serverTabPaneMenu" mnemonicParsing="false"  >
                                         <items>
-                                            <RadioMenuItem fx:id="serverTabTop" mnemonicParsing="false" text="%main.window.top" onAction="#serverTabTop" selected="true"/>
-                                            <RadioMenuItem fx:id="serverTabBottom" mnemonicParsing="false" text="%main.window.bottom" onAction="#serverTabBottom"/>
-                                            <RadioMenuItem fx:id="serverTabLeft" mnemonicParsing="false" text="%main.window.left" onAction="#serverTabLeft"/>
-                                            <RadioMenuItem fx:id="serverTabRight" mnemonicParsing="false" text="%main.window.right" onAction="#serverTabRight"/>
+                                            <RadioMenuItem fx:id="serverTabTop" mnemonicParsing="false"  onAction="#serverTabTop" selected="true"/>
+                                            <RadioMenuItem fx:id="serverTabBottom" mnemonicParsing="false"  onAction="#serverTabBottom"/>
+                                            <RadioMenuItem fx:id="serverTabLeft" mnemonicParsing="false"  onAction="#serverTabLeft"/>
+                                            <RadioMenuItem fx:id="serverTabRight" mnemonicParsing="false"  onAction="#serverTabRight"/>
                                         </items>
                                 </Menu>
                                 <Menu fx:id="keyTabPaneMenu" mnemonicParsing="false" text="%main.window.key" >
                                     <items>
-                                        <RadioMenuItem fx:id="keyTabTop" mnemonicParsing="false" text="%main.window.top" onAction="#keyTabTop"/>
-                                        <RadioMenuItem fx:id="keyTabBottom" mnemonicParsing="false" text="%main.window.bottom" onAction="#keyTabBottom" selected="true"/>
-                                        <RadioMenuItem fx:id="keyTabLeft" mnemonicParsing="false" text="%main.window.left" onAction="#keyTabLeft"/>
-                                        <RadioMenuItem fx:id="keyTabRight" mnemonicParsing="false" text="%main.window.right" onAction="#keyTabRight"/>
+                                        <RadioMenuItem fx:id="keyTabTop" mnemonicParsing="false"  onAction="#keyTabTop"/>
+                                        <RadioMenuItem fx:id="keyTabBottom" mnemonicParsing="false"  onAction="#keyTabBottom" selected="true"/>
+                                        <RadioMenuItem fx:id="keyTabLeft" mnemonicParsing="false"  onAction="#keyTabLeft"/>
+                                        <RadioMenuItem fx:id="keyTabRight" mnemonicParsing="false"  onAction="#keyTabRight"/>
                                     </items>
 
                                 </Menu>
