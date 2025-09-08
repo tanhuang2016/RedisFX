@@ -91,6 +91,15 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
     public RadioMenuItem keyTabBottom;
     public RadioMenuItem keyTabLeft;
     public RadioMenuItem keyTabRight;
+    public MenuItem fileFastConnect;
+    public Menu file;
+    public Menu fileNew;
+    public MenuItem newGroup;
+    public MenuItem newConnect;
+    public MenuItem historyClear;
+    public MenuItem currentClose;
+    public MenuItem serversCloseAll;
+    public MenuItem exit;
     /**
      * 服务连接的Stage
      */
@@ -110,11 +119,35 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
 
     @FXML
     public void initialize() {
+        initLanguage();
         initListener();
         initMenuIconAndKey();
         initRecentHistory();
         initMenuGroup();
         initTabPane();
+    }
+
+    private void initLanguage() {
+        file.setText(language("main.file"));
+        fileConnect.setText(language("main.file.connect"));
+        fileFastConnect.setText(language("main.file.fast"));
+        fileNew.setText(language("main.file.new"));
+        newGroup.setText(language("main.file.new.group"));
+        newConnect.setText(language("main.file.new.connect"));
+        fileOpen.setText(language("main.file.open"));
+        history.setText(language("main.file.history"));
+        historyClear.setText(language("main.file.clear"));
+        currentClose.setText(language("main.file.close.current"));
+        servers.setText(language("main.file.close"));
+        serversCloseAll.setText(language("main.file.close.all"));
+        exit.setText(language("main.file.exit"));
+        fileConnect.setText(language("main.file.connect"));
+        fileConnect.setText(language("main.file.connect"));
+        fileConnect.setText(language("main.file.connect"));
+        fileConnect.setText(language("main.file.connect"));
+        fileConnect.setText(language("main.file.connect"));
+        fileConnect.setText(language("main.file.connect"));
+        fileConnect.setText(language("main.file.connect"));
     }
 
     /**

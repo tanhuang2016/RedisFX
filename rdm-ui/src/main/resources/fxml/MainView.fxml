@@ -42,37 +42,34 @@
             <top>
                 <MenuBar BorderPane.alignment="CENTER">
                     <menus>
-                        <Menu mnemonicParsing="false" text="%main.file">
-                            <MenuItem fx:id="fileConnect" mnemonicParsing="false" text="%main.file.connect"
-                                      onAction="#openServerLinkWindow"/>
-                            <MenuItem fx:id="fileFastConnect" mnemonicParsing="false" text="%main.file.fast" onAction="#quickConnection"/>
+                        <Menu fx:id="file" mnemonicParsing="false" >
+                            <MenuItem fx:id="fileConnect" mnemonicParsing="false" onAction="#openServerLinkWindow"/>
+                            <MenuItem fx:id="fileFastConnect" mnemonicParsing="false"  onAction="#quickConnection"/>
                             <items>
-                                <Menu mnemonicParsing="false" text="%main.file.new">
+                                <Menu fx:id="fileNew" mnemonicParsing="false" >
                                     <items>
-                                        <MenuItem mnemonicParsing="false" text="%main.file.new.group" onAction="#newGroup"/>
-                                        <MenuItem mnemonicParsing="false" text="%main.file.new.connect" onAction="#newConnection"/>
+                                        <MenuItem fx:id="newGroup" mnemonicParsing="false"  onAction="#newGroup"/>
+                                        <MenuItem fx:id="newConnect" mnemonicParsing="false"  onAction="#newConnection"/>
                                     </items>
                                 </Menu>
-                                <MenuItem fx:id="fileOpen" mnemonicParsing="false" text="%main.file.open" disable="true"/>
-                                <Menu fx:id="history" mnemonicParsing="false" text="%main.file.history">
+                                <MenuItem fx:id="fileOpen" mnemonicParsing="false"  disable="true"/>
+                                <Menu fx:id="history" mnemonicParsing="false" >
                                     <items>
-                                        <MenuItem mnemonicParsing="false" text="test1"/>
-                                        <MenuItem mnemonicParsing="false" text="test2"/>
                                         <SeparatorMenuItem />
-                                        <MenuItem mnemonicParsing="false" text="%main.file.clear" onAction="#clearHistory"/>
+                                        <MenuItem fx:id="historyClear" mnemonicParsing="false"  onAction="#clearHistory"/>
                                     </items>
                                 </Menu>
-                                <MenuItem mnemonicParsing="false" text="%main.file.close.current" onAction="#closeCurrentServer"/>
-                                <Menu fx:id="servers" mnemonicParsing="false" text="%main.file.close">
+                                <MenuItem fx:id="currentClose" mnemonicParsing="false"  onAction="#closeCurrentServer"/>
+                                <Menu fx:id="servers" mnemonicParsing="false" >
                                     <items>
 <!--                                        <MenuItem mnemonicParsing="false" text="test1"/>-->
 <!--                                        <MenuItem mnemonicParsing="false" text="test2"/>-->
                                         <SeparatorMenuItem />
-                                        <MenuItem mnemonicParsing="false" text="%main.file.close.all" onAction="#closeServerAll"/>
+                                        <MenuItem fx:id="serversCloseAll" mnemonicParsing="false"  onAction="#closeServerAll"/>
                                     </items>
                                 </Menu>
                                 <MenuItem fx:id="fileSettings" onAction="#openSettings" mnemonicParsing="false" text="%main.file.setting"/>
-                                <MenuItem  mnemonicParsing="true" text="%main.file.exit" onAction="#exit"/>
+                                <MenuItem fx:id="exit"  mnemonicParsing="true"  onAction="#exit"/>
 
                             </items>
                         </Menu>
