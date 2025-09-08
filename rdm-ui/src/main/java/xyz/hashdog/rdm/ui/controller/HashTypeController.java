@@ -51,10 +51,19 @@ public class HashTypeController extends BaseKeyPageController<HashTypeTable> imp
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        initLanguage();
         bindData();
         initListener();
         initButton();
 
+    }
+
+    @Override
+    protected void initLanguage() {
+        super.initLanguage();
+        findButton.setTooltip(GuiUtil.textTooltip(language("key.hash.find")));
+        add.setText(language("key.hash.add"));
+        delRow.setText(language("key.hash.delete"));
     }
 
     private void initButton() {

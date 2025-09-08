@@ -13,13 +13,15 @@ import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.ui.controller.ByteArrayController;
 import xyz.hashdog.rdm.ui.controller.KeyTabController;
 
+import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
+
 
 /**
  * key内容控制器
  * 打开key的窗口才用这个基类
  * @author th
  */
-public abstract class BaseKeyController extends BaseClientController<KeyTabController> {
+public abstract class BaseKeyController extends BaseClientController<KeyTabController>  {
 
     @FXML
     public Button save;
@@ -28,6 +30,10 @@ public abstract class BaseKeyController extends BaseClientController<KeyTabContr
      * 重新加载数据
      */
     abstract public void reloadInfo() ;
+
+    protected void initLanguage() {
+        save.setText(language("key.save"));
+    }
 
     @Override
     public void paramInitEnd() {
