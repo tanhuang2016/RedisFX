@@ -139,7 +139,7 @@ public final class Sidebar extends VBox {
 
         private HBox createLogo() {
             var image = new ImageView(
-                    GuiUtil.ICON_REDIS
+                    GuiUtil.ICON_REDIS_32
             );
             image.setFitWidth(32);
             image.setFitHeight(32);
