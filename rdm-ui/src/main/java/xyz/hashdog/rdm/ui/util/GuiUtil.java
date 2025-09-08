@@ -73,7 +73,7 @@ public class GuiUtil {
     private static final Logger log = LoggerFactory.getLogger(GuiUtil.class);
 
 //    public static final Image ICON_REDIS =  new Image(Main.class.getResourceAsStream("/icon/redis256.png"));
-    public static final Image ICON_REDIS =  GuiUtil.svgImage("/svg/redis_red.svg",256);
+    public static final Image ICON_REDIS =  GuiUtil.svgImage("/svg/fx_icon.svg",256);
 
     /**
      * 系统剪贴板

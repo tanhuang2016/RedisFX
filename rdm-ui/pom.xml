@@ -300,7 +300,7 @@
                                     <!--                            </additionalResources>-->
                                     <winConfig>
 <!--                                        <headerType>console</headerType>-->
-                                        <icoFile>src/main/resources/icon/redis256.ico</icoFile>
+                                        <icoFile>src/main/resources/icon/fx_icon_256.ico</icoFile>
                                         <generateSetup>true</generateSetup>
                                         <generateMsi>true</generateMsi>
                                         <generateMsm>true</generateMsm>
@@ -361,7 +361,7 @@
                                     <createZipball>true</createZipball>
                                     <winConfig>
 <!--                                        <headerType>console</headerType>-->
-                                        <icoFile>src/main/resources/icon/redis256.ico</icoFile>
+                                        <icoFile>src/main/resources/icon/fx_icon_256.ico</icoFile>
                                         <generateSetup>true</generateSetup>
                                         <generateMsi>true</generateMsi>
                                         <generateMsm>true</generateMsm>
@@ -410,7 +410,7 @@
                                     <createTarball>true</createTarball>
                                     <jdkPath>${env.JAVA_HOME}</jdkPath>
                                     <linuxConfig>
-                                        <pngFile>src/main/resources/icon/redis256.png</pngFile>
+                                        <pngFile>src/main/resources/icon/fx_icon_256.png</pngFile>
                                     </linuxConfig>
                                     <vmArgs>
                                         <arg>--module-path</arg>
@@ -455,7 +455,7 @@
                                     <createTarball>true</createTarball>
                                     <jdkPath>${env.JAVA_HOME}</jdkPath>
                                     <linuxConfig>
-                                        <pngFile>src/main/resources/icon/redis256.png</pngFile>
+                                        <pngFile>src/main/resources/icon/fx_icon_256.png</pngFile>
                                     </linuxConfig>
                                     <vmArgs>
                                         <arg>--module-path</arg>
@@ -501,7 +501,7 @@
                                     <generateInstaller>false</generateInstaller>
                                     <jdkPath>${env.JAVA_HOME}</jdkPath>
                                     <macConfig>
-                                        <icnsFile>src/main/resources/icon/redis256.icns</icnsFile>
+                                        <icnsFile>src/main/resources/icon/fx_icon_256.icns</icnsFile>
                                     </macConfig>
                                     <vmArgs>
                                         <arg>--module-path</arg>
@@ -590,7 +590,7 @@
                                     <generateInstaller>false</generateInstaller>
                                     <jdkPath>${env.JAVA_HOME}</jdkPath>
                                     <macConfig>
-                                        <icnsFile>src/main/resources/icon/redis256.icns</icnsFile>
+                                        <icnsFile>src/main/resources/icon/fx_icon_256.icns</icnsFile>
                                         <entitlements>src/main/resources/assets/entitlements.plist</entitlements>
                                     </macConfig>
                                     <vmArgs>

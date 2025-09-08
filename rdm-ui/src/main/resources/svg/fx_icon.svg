@@ -1,0 +1,77 @@
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="410.4pt" height="410.4pt" viewBox="0 0 410.4 410.4"
+     xmlns="http://www.w3.org/2000/svg" version="1.1">
+    <metadata>
+
+    </metadata>
+    <defs>
+        <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+    </defs>
+    <g id="figure_1">
+        <g id="patch_1">
+            <path d="M 0 410.4
+L 410.4 410.4 
+L 410.4 0 
+L 0 0 
+L 0 410.4 
+z
+" style="fill: none"/>
+        </g>
+        <g id="axes_1">
+            <g id="patch_2">
+                <path d="M 143.64 389.88
+L 266.76 389.88 
+Q 389.88 389.88 389.88 266.76 
+L 389.88 143.64 
+Q 389.88 20.52 266.76 20.52 
+L 143.64 20.52 
+Q 20.52 20.52 20.52 143.64 
+L 20.52 266.76 
+Q 20.52 389.88 143.64 389.88 
+z
+" clip-path="url(#pa2d7d167d9)" style="fill: #dc143c"/>
+            </g>
+            <g id="text_1">
+                <!-- FX -->
+                <g style="fill: #ffffff" transform="translate(58.251563 285.340312) scale(2.3 -2.3)">
+                    <defs>
+                        <path id="Arial-BoldMT-46" d="M 472 0
+L 472 4581 
+L 3613 4581 
+L 3613 3806 
+L 1397 3806 
+L 1397 2722 
+L 3309 2722 
+L 3309 1947 
+L 1397 1947 
+L 1397 0 
+L 472 0 
+z
+" transform="scale(0.015625)"/>
+                        <path id="Arial-BoldMT-58" d="M 0 0
+L 1566 2391 
+L 147 4581 
+L 1228 4581 
+L 2147 3109 
+L 3047 4581 
+L 4119 4581 
+L 2694 2356 
+L 4259 0 
+L 3144 0 
+L 2128 1584 
+L 1109 0 
+L 0 0 
+z
+" transform="scale(0.015625)"/>
+                    </defs>
+                    <use xlink:href="#Arial-BoldMT-46"/>
+                    <use xlink:href="#Arial-BoldMT-58" transform="translate(61.083984 0)"/>
+                </g>
+            </g>
+        </g>
+    </g>
+    <defs>
+        <clipPath id="pa2d7d167d9">
+            <rect x="0" y="0" width="410.4" height="410.4"/>
+        </clipPath>
+    </defs>
+</svg>
