@@ -112,7 +112,7 @@ public abstract class BaseController<T> implements AutoCloseable {
         //svn缓存清除
         SvgManager.clear(this);
         tmEventSubscribers.forEach(DefaultEventBus.getInstance()::unsubscribe);
-
+        System.out.println("clouse123");
     }
 
    private void addChild(BaseController<?> t) {

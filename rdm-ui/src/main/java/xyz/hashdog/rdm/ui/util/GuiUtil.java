@@ -8,6 +8,7 @@ import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Side;
 import javafx.scene.Node;
@@ -45,10 +46,8 @@ import xyz.hashdog.rdm.ui.common.Applications;
 import xyz.hashdog.rdm.ui.common.ConfigSettingsEnum;
 import xyz.hashdog.rdm.ui.common.Constant;
 import xyz.hashdog.rdm.ui.common.RedisDataTypeEnum;
-import xyz.hashdog.rdm.ui.controller.base.BaseClientController;
 import xyz.hashdog.rdm.ui.controller.base.BaseController;
 import xyz.hashdog.rdm.ui.entity.ITable;
-import xyz.hashdog.rdm.ui.entity.PassParameter;
 import xyz.hashdog.rdm.ui.entity.config.KeyTagSetting;
 import xyz.hashdog.rdm.ui.sampler.custom.HintTooltip;
 import xyz.hashdog.rdm.ui.sampler.theme.ThemeManager;
@@ -391,19 +390,12 @@ public class GuiUtil {
     }
 
     /**
-     * 关闭redis连接,移除tab
+     * 触发关闭事件，移除tab
      * @param tabPane tab页容器
      * @param selectedTab 当前选中的tab页
      */
     public static void closeTab(TabPane tabPane,Tab selectedTab) {
-        BaseClientController<?> userData = (BaseClientController<?>)selectedTab.getContent().getUserData();
-        //CONSOLE类型需要关闭redis连接
-        if(userData.getParameter().getTabType()== PassParameter.CONSOLE){
-            ThreadPool.getInstance().execute(()->userData.getRedisClient().close());
-        }
-        if(userData.getParameter().getTabType()== PassParameter.REDIS){
-            ThreadPool.getInstance().execute(()->userData.getRedisContext().close());
-        }
+        Event.fireEvent(selectedTab, new Event(Tab.CLOSED_EVENT));
         tabPane.getTabs().remove(selectedTab);
     }
 
