@@ -75,11 +75,19 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        initLanguage();
         initListener();
         initButton();
         initTextField();
         initLabel();
 
+    }
+
+    private void initLanguage() {
+        keyRename.setTooltip(GuiUtil.textTooltip(language("key.rename")));
+        keyEditTtl.setTooltip(GuiUtil.textTooltip(language("key.edit")));
+        keyDelete.setTooltip(GuiUtil.textTooltip(language("key.delete")));
+        keyRefresh.setTooltip(GuiUtil.textTooltip(language("key.refresh")));
     }
 
     private void initLabel() {

@@ -31,27 +31,14 @@
                         <Label fx:id="keyType" />
                         <CustomTextField fx:id="key" />
                         <Label fx:id="keyRename" onMouseClicked="#rename">
-                                <tooltip>
-                                    <Tooltip text="%key.rename" />
-                                </tooltip>
                          </Label>
                         <Label text="TTL:" />
                         <CustomTextField fx:id="ttl" />
                          <Label fx:id="keyEditTtl" onMouseClicked="#editTtl">
-                             <tooltip>
-                                 <Tooltip text="%key.edit" />
-                             </tooltip>
                          </Label>
                         <Button fx:id="keyDelete" mnemonicParsing="false" onAction="#delete" text="%key.delete">
-                                <tooltip>
-                                    <Tooltip text="%key.delete" />
-                                </tooltip>
                         </Button>
-
-                        <Button fx:id="keyRefresh" mnemonicParsing="false" onAction="#refresh" onMouseEntered="#openRefreshPopover"  text="%key.refresh">
-                            <tooltip>
-                                <Tooltip text="%key.refresh" />
-                            </tooltip>
+                        <Button fx:id="keyRefresh" mnemonicParsing="false" onAction="#refresh" onMouseEntered="#openRefreshPopover"  >
                         </Button>
                          <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="Infinity" prefHeight="40.0" prefWidth="0" spacing="10.0" HBox.hgrow="ALWAYS">
                              <children>
