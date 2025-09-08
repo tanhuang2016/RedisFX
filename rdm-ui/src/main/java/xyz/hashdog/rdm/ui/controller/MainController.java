@@ -100,6 +100,8 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
     public MenuItem currentClose;
     public MenuItem serversCloseAll;
     public MenuItem exit;
+    public MenuItem find;
+    public MenuItem replace;
     /**
      * 服务连接的Stage
      */
@@ -141,12 +143,17 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
         servers.setText(language("main.file.close"));
         serversCloseAll.setText(language("main.file.close.all"));
         exit.setText(language("main.file.exit"));
-        fileConnect.setText(language("main.file.connect"));
-        fileConnect.setText(language("main.file.connect"));
-        fileConnect.setText(language("main.file.connect"));
-        fileConnect.setText(language("main.file.connect"));
-        fileConnect.setText(language("main.file.connect"));
-        fileConnect.setText(language("main.file.connect"));
+
+        undo.setText(language("main.edit.undo"));
+        redo.setText(language("main.edit.redo"));
+        cut.setText(language("main.edit.cut"));
+        copy.setText(language("main.edit.copy"));
+        paste.setText(language("main.edit.paste"));
+        del.setText(language("main.edit.del"));
+        selectAll.setText(language("main.edit.selectall"));
+        deselect.setText(language("main.edit.deselect"));
+        find.setText(language("main.edit.find"));
+        replace.setText(language("main.edit.replace"));
         fileConnect.setText(language("main.file.connect"));
     }
 

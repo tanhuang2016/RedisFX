@@ -75,16 +75,16 @@
                         </Menu>
                         <Menu mnemonicParsing="false" text="%main.edit">
                             <items>
-                                <MenuItem fx:id="undo" mnemonicParsing="false" text="%main.edit.undo" />
-                                <MenuItem fx:id="redo" mnemonicParsing="false" text="%main.edit.redo" />
-                                <MenuItem fx:id="cut" mnemonicParsing="false" text="%main.edit.cut" />
-                                <MenuItem fx:id="copy" mnemonicParsing="false" text="%main.edit.copy" />
-                                <MenuItem fx:id="paste" mnemonicParsing="false" text="%main.edit.paste" />
-                                <MenuItem fx:id="del" mnemonicParsing="false" text="%main.edit.del" />
-                                <MenuItem fx:id="selectAll" mnemonicParsing="false" text="%main.edit.selectall" />
-                                <MenuItem fx:id="deselect" mnemonicParsing="false" text="%main.edit.deselect" />
-                                <MenuItem mnemonicParsing="false" text="%main.edit.find" disable="true"/>
-                                <MenuItem mnemonicParsing="false" text="%main.edit.replace" disable="true"/>
+                                <MenuItem fx:id="undo" mnemonicParsing="false"  />
+                                <MenuItem fx:id="redo" mnemonicParsing="false"  />
+                                <MenuItem fx:id="cut" mnemonicParsing="false"  />
+                                <MenuItem fx:id="copy" mnemonicParsing="false"  />
+                                <MenuItem fx:id="paste" mnemonicParsing="false"  />
+                                <MenuItem fx:id="del" mnemonicParsing="false"  />
+                                <MenuItem fx:id="selectAll" mnemonicParsing="false"  />
+                                <MenuItem fx:id="deselect" mnemonicParsing="false"  />
+                                <MenuItem fx:id="find" mnemonicParsing="false"  disable="true"/>
+                                <MenuItem fx:id="replace" mnemonicParsing="false"  disable="true"/>
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="%main.view">
