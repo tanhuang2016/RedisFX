@@ -13,7 +13,7 @@
          <bottom>
             <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="save" mnemonicParsing="false" onAction="#save" text="%key.save" />
+                  <Button fx:id="save" mnemonicParsing="false" onAction="#save"  />
                </children>
             </HBox>
          </bottom>
