@@ -33,7 +33,7 @@
                                 <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" prefHeight="50.0" prefWidth="200.0"
                                       spacing="10.0" BorderPane.alignment="CENTER">
                                     <children>
-                                        <Button fx:id="save" mnemonicParsing="false" onAction="#save" text="%key.save"/>
+                                        <Button fx:id="save" mnemonicParsing="false" onAction="#save" />
                                                         <!--      考虑要不要加上关闭按钮，先隐藏todo                                  -->
                                         <Button mnemonicParsing="false" onAction="#close" text="%common.tab.close" visible="false"  managed="false"/>
                                     </children>
@@ -56,24 +56,18 @@
                                         <Label fx:id="total" text="Total:10"/>
                                         <Label fx:id="size" text="Size:1024B"/>
                                         <CustomTextField fx:id="findTextField"/>
-                                        <Button fx:id="findButton" mnemonicParsing="false" onAction="#find"
-                                                text="%key.list.find"/>
-                                        <SplitMenuButton fx:id="add" mnemonicParsing="false" onAction="#addHead"
-                                                         text="%key.list.addHead">
+                                        <Button fx:id="findButton" mnemonicParsing="false" onAction="#find"/>
+                                        <SplitMenuButton fx:id="add" mnemonicParsing="false" onAction="#addHead">
                                             <items>
-                                                <MenuItem fx:id="addHead" onAction="#addHead" text="%key.list.addHead"/>
-                                                <MenuItem fx:id="addTail" onAction="#addTail" text="%key.list.addTail"/>
+                                                <MenuItem fx:id="addHead" onAction="#addHead" />
+                                                <MenuItem fx:id="addTail" onAction="#addTail" />
                                             </items>
                                         </SplitMenuButton>
-                                        <SplitMenuButton fx:id="del" mnemonicParsing="false" onAction="#delRow"
-                                                         text="%key.list.delRow">
+                                        <SplitMenuButton fx:id="del" mnemonicParsing="false" onAction="#delRow">
                                             <items>
-                                                <MenuItem fx:id="delRow" mnemonicParsing="false" onAction="#delRow"
-                                                          text="%key.list.delRow"/>
-                                                <MenuItem fx:id="delHead" mnemonicParsing="false" onAction="#delHead"
-                                                          text="%key.list.delHead"/>
-                                                <MenuItem fx:id="delTail" mnemonicParsing="false" onAction="#delTail"
-                                                          text="%key.list.delTail"/>
+                                                <MenuItem fx:id="delRow" mnemonicParsing="false" onAction="#delRow"/>
+                                                <MenuItem fx:id="delHead" mnemonicParsing="false" onAction="#delHead"/>
+                                                <MenuItem fx:id="delTail" mnemonicParsing="false" onAction="#delTail"/>
                                             </items>
                                         </SplitMenuButton>
 

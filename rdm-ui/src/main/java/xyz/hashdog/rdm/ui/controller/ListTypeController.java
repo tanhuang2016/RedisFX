@@ -52,10 +52,23 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        initLanguage();
         bindData();
         initListener();
         initButton();
 
+    }
+    @Override
+    protected void initLanguage() {
+        super.initLanguage();
+        findButton.setTooltip(GuiUtil.textTooltip(language("key.list.find")));
+        add.setText(language("key.list.addHead"));
+        addHead.setText(language("key.list.addHead"));
+        addTail.setText(language("key.list.addTail"));
+        del.setText(language("key.list.delRow"));
+        delRow.setText(language("key.list.delRow"));
+        delHead.setText(language("key.list.delHead"));
+        delTail.setText(language("key.list.delTail"));
     }
 
 
