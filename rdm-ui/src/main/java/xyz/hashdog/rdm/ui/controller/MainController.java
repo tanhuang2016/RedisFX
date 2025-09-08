@@ -22,7 +22,6 @@ import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.redis.Message;
 import xyz.hashdog.rdm.redis.RedisConfig;
@@ -641,7 +640,7 @@ public class MainController extends BaseWindowController<ApplicationWindow> {
         WelcomeController controller = tuple2.t2();
         Tab tab = new Tab(Constant.WELCOME_TAB_NAME);
         tab.setUserData(controller);
-        tab.setGraphic(GuiUtil.creatConnectionIcon());
+        tab.setGraphic(new FontIcon(Feather.HOME));
         tab.setContent(borderPane);
         GuiUtil.setTab(tab,this.serverTabPane,tuple2);
     }
