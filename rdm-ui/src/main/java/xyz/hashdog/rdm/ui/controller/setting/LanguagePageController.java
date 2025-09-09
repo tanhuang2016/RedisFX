@@ -93,7 +93,7 @@ public class LanguagePageController {
         Applications.putConfigSettings(configSettings.getName(), configSettings);
         if (GuiUtil.alert(Alert.AlertType.CONFIRMATION, language(ALERT_MESSAGE_RESTART_SUCCESS))) {
             Main.RESOURCE_BUNDLE= ResourceBundle.getBundle(LanguageManager.BASE_NAME,Locale.of(configSettings.getLocalLanguage(),configSettings.getLocalCountry()));
-            Main.restart();
+            Main.main.restart();
         }
 
 

@@ -30,11 +30,11 @@ public abstract class BaseController<T> implements AutoCloseable {
     /**
      * 父控制器
      */
-    public T parentController;
+    protected T parentController;
     /**
      * 子控制器
      */
-    public List<BaseController<?>> children = new CopyOnWriteArrayList<>();
+    protected List<BaseController<?>> children = new CopyOnWriteArrayList<>();
 
     /**
      * 临时事件订阅者
@@ -92,11 +92,13 @@ public abstract class BaseController<T> implements AutoCloseable {
      * 设置父控制器
      * @param parentController 父控制器
      */
-   private void setParentController(T parentController) {
+   public void setParentController(T parentController) {
         this.parentController = parentController;
     }
 
-
+    public T getParentController() {
+        return parentController;
+    }
 
     /**
      * 添加配置变更事件订阅者

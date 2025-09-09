@@ -103,8 +103,8 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
             while (change.next()) {
                 //删除到最后一个元素时,key也被删了,需要关闭tab
                 if (change.wasRemoved() && this.list.isEmpty()) {
-                    super.parentController.parentController.removeTabByKeys(Collections.singletonList(parameter.get().getKey()));
-                    super.parentController.parentController.delKey(parameter);
+                    super.parentController.getParentController().removeTabByKeys(Collections.singletonList(parameter.get().getKey()));
+                    super.parentController.getParentController().delKey(parameter);
                 }
             }
         });
@@ -320,7 +320,7 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
 
     @FXML
     public void close(ActionEvent actionEvent) {
-        super.parentController.parentController.removeTabByKeys(Collections.singletonList(parameter.get().getKey()));
+        super.parentController.getParentController().removeTabByKeys(Collections.singletonList(parameter.get().getKey()));
 
     }
 
