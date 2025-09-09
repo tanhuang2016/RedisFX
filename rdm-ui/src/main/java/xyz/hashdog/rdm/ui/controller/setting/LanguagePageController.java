@@ -4,7 +4,6 @@ import atlantafx.base.theme.Styles;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
@@ -13,15 +12,11 @@ import xyz.hashdog.rdm.ui.Main;
 import xyz.hashdog.rdm.ui.common.Applications;
 import xyz.hashdog.rdm.ui.common.ConfigSettingsEnum;
 import xyz.hashdog.rdm.ui.entity.config.LanguageSetting;
-import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.LanguageManager;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
-import static xyz.hashdog.rdm.ui.common.Constant.ALERT_MESSAGE_RESTART_SUCCESS;
-import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
 public class LanguagePageController {
     public Button ok;
@@ -87,10 +82,10 @@ public class LanguagePageController {
         configSettings.setLocalCountry(langComboBox.getValue().getCountry());
         configSettings.setLocalLanguage(langComboBox.getValue().getLanguage());
         Applications.putConfigSettings(configSettings.getName(), configSettings);
-        if (GuiUtil.alert(Alert.AlertType.CONFIRMATION, language(ALERT_MESSAGE_RESTART_SUCCESS))) {
-            Main.RESOURCE_BUNDLE= ResourceBundle.getBundle(LanguageManager.BASE_NAME,Locale.of(configSettings.getLocalLanguage(),configSettings.getLocalCountry()));
-            Main.instance.restart();
-        }
+        Main.RESOURCE_BUNDLE= ResourceBundle.getBundle(LanguageManager.BASE_NAME,Locale.of(configSettings.getLocalLanguage(),configSettings.getLocalCountry()));
+        Main.instance.resetLanguage();
+//        if (GuiUtil.alert(Alert.AlertType.CONFIRMATION, language(ALERT_MESSAGE_RESTART_SUCCESS))) {
+//        }
 
 
     }
