@@ -7,7 +7,6 @@
 <?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -44,12 +43,12 @@
                <contextMenu>
                   <ContextMenu fx:id="contextMenu" opacity="0.8">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#connect" styleClass="isLeafNode" text="%main.file.connect.connect" />
-                        <MenuItem mnemonicParsing="false" onAction="#newGroup" styleClass="isNotLeafNode" text="%main.file.connect.newGroup" />
-                        <MenuItem mnemonicParsing="false" onAction="#newConnection" styleClass="isNotLeafNode" text="%main.file.connect.newConnect" />
-                        <MenuItem mnemonicParsing="false" onAction="#edit" styleClass="isNotRoot" text="%main.file.connect.edit" />
-                        <MenuItem mnemonicParsing="false" onAction="#rename" styleClass="isNotRoot" text="%main.file.connect.rename" />
-                        <MenuItem mnemonicParsing="false" onAction="#delete" styleClass="isNotRoot" text="%main.file.connect.delete" />
+                        <MenuItem fx:id="menuConnect" mnemonicParsing="false" onAction="#connect" styleClass="isLeafNode"  />
+                        <MenuItem fx:id="menuNewGroup" mnemonicParsing="false" onAction="#newGroup" styleClass="isNotLeafNode"  />
+                        <MenuItem fx:id="menuNewConnect" mnemonicParsing="false" onAction="#newConnection" styleClass="isNotLeafNode"  />
+                        <MenuItem fx:id="menuEdit" mnemonicParsing="false" onAction="#edit" styleClass="isNotRoot"  />
+                        <MenuItem fx:id="menuRename" mnemonicParsing="false" onAction="#rename" styleClass="isNotRoot"  />
+                        <MenuItem fx:id="menuDelete" mnemonicParsing="false" onAction="#delete" styleClass="isNotRoot"  />
                     </items>
                   </ContextMenu>
                </contextMenu>
@@ -62,7 +61,7 @@
                   <ButtonBar prefHeight="40.0" prefWidth="200.0">
                     <buttons>
                       <Button fx:id="bottomConnectButton" disable="true" mnemonicParsing="false" onAction="#connect" styleClass="isLeafNode"  />
-                        <Button fx:id="cancel" mnemonicParsing="false" onAction="#cancel" text="%common.close" />
+                        <Button fx:id="cancel" mnemonicParsing="false" onAction="#cancel"  />
                     </buttons>
                   </ButtonBar>
                </children>

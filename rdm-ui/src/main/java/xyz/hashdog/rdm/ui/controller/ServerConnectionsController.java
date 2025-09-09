@@ -62,6 +62,12 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
     public Button rename;
     public Button delete;
     public Button cancel;
+    public MenuItem menuConnect;
+    public MenuItem menuNewGroup;
+    public MenuItem menuNewConnect;
+    public MenuItem menuEdit;
+    public MenuItem menuRename;
+    public MenuItem menuDelete;
 
 
     /**
@@ -85,6 +91,12 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
         edit.setTooltip(GuiUtil.textTooltip(language("main.file.connect.edit")));
         rename.setTooltip(GuiUtil.textTooltip(language("main.file.connect.rename")));
         delete.setTooltip(GuiUtil.textTooltip(language("main.file.connect.delete")));
+        menuConnect.setText(language("main.file.connect.connect"));
+        menuNewGroup.setText(language("main.file.connect.newGroup"));
+        menuNewConnect.setText(language("main.file.connect.newConnect"));
+        menuEdit.setText(language("main.file.connect.edit"));
+        menuRename.setText(language("main.file.connect.rename"));
+        menuDelete.setText(language("main.file.connect.delete"));
         bottomConnectButton.setText(language("main.file.connect.connect"));
         cancel.setText(language("common.close"));
     }
