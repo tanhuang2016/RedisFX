@@ -17,7 +17,6 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
@@ -108,7 +107,7 @@
                                           </VBox>
                                        </content>
                                     </TitledPane>
-                                    <TitledPane fx:id="memoryInfo" animated="false" styleClass="rounded-corner" text="%server.report.memory" HBox.hgrow="ALWAYS">
+                                    <TitledPane fx:id="memoryInfo" animated="false" styleClass="rounded-corner"  HBox.hgrow="ALWAYS">
                                         <content>
                                             <VBox prefHeight="180.0" prefWidth="200.0" spacing="5.0">
                                                 <children>
@@ -134,7 +133,7 @@
                                             </VBox>
                                         </content>
                                     </TitledPane>
-                                    <TitledPane fx:id="statusInfo" animated="false" styleClass="rounded-corner" text="%server.report.status" HBox.hgrow="ALWAYS">
+                                    <TitledPane fx:id="statusInfo" animated="false" styleClass="rounded-corner"  HBox.hgrow="ALWAYS">
                                         <content>
                                             <VBox prefHeight="180.0" prefWidth="200.0" spacing="5.0">
                                                 <children>
@@ -195,10 +194,10 @@
                                  <children>
                                     <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <Label fx:id="top" style="-fx-font-size: 1.25em" text="%server.report.top" HBox.hgrow="ALWAYS" />
+                                          <Label fx:id="top" style="-fx-font-size: 1.25em"  HBox.hgrow="ALWAYS" />
                                            <Label fx:id="scanned2"    style="-fx-text-fill: #c79e4c" VBox.vgrow="ALWAYS" />
-                                          <FloatToggleButton fx:id="keySize" onAction="#keySize" mnemonicParsing="false" text="%server.report.top.memory" HBox.hgrow="ALWAYS" selected="true"/>
-                                          <FloatToggleButton fx:id="keyLength" onAction="#keyLength" mnemonicParsing="false" text="%server.report.top.length" HBox.hgrow="ALWAYS" />
+                                          <FloatToggleButton fx:id="keySize" onAction="#keySize" mnemonicParsing="false"  HBox.hgrow="ALWAYS" selected="true"/>
+                                          <FloatToggleButton fx:id="keyLength" onAction="#keyLength" mnemonicParsing="false"  HBox.hgrow="ALWAYS" />
                                            <Button fx:id="scannedMore2" onAction="#scannedMore" HBox.hgrow="ALWAYS" />
                                            <Button fx:id="topRefresh" onAction="#topRefresh" HBox.hgrow="ALWAYS" />
                                        </children>
@@ -226,7 +225,7 @@
                                  <children>
                                     <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <Label fx:id="trend" style="-fx-font-size: 1.25em" text="%server.report.trend" />
+                                          <Label fx:id="trend" style="-fx-font-size: 1.25em"  />
                                        </children>
                                     </HBox>
                                     <HBox fx:id="trendHBox" prefHeight="300.0" VBox.vgrow="ALWAYS">
@@ -262,9 +261,9 @@
                                  <children>
                                     <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <Label fx:id="info" style="-fx-font-size: 1.25em" text="%server.report.info" HBox.hgrow="ALWAYS" />
+                                          <Label fx:id="info" style="-fx-font-size: 1.25em"  HBox.hgrow="ALWAYS" />
                                            <CustomTextField fx:id="findTextField" promptText="key find" />
-                                           <Button fx:id="findButton" mnemonicParsing="false" onAction="#find" text="%key.hash.find" />
+                                           <Button fx:id="findButton" mnemonicParsing="false" onAction="#find"  />
                                        </children>
                                     </HBox>
                                     <TableView fx:id="infoTable" styleClass="no-vertical-lines">

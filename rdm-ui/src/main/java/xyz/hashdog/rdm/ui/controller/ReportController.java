@@ -178,15 +178,23 @@ public class ReportController extends BaseClientController<ServerTabController> 
         serverVersion.setText(language("server.report.server.version"));
         serverOs.setText(language("server.report.server.os"));
         serverProcess.setText(language("server.report.server.process"));
+        memoryInfo.setText(language("server.report.memory"));
         memoryUse.setText(language("server.report.memory.use"));
         memoryPeek.setText(language("server.report.memory.peek"));
         memoryLua.setText(language("server.report.memory.lua"));
+        statusInfo.setText(language("server.report.status"));
         statusConnected.setText(language("server.report.status.connected"));
         statusConnects.setText(language("server.report.status.connects"));
         statusCommands.setText(language("server.report.status.commands"));
         pie.setText(language("server.report.type"));
         keys.setTitle(language("server.report.type.key"));
         memory.setTitle(language("server.report.type.memory"));
+        top.setText(language("server.report.top"));
+        keySize.setText(language("server.report.top.memory"));
+        keyLength.setText(language("server.report.top.length"));
+        trend.setText(language("server.report.trend"));
+        info.setText(language("server.report.info"));
+        findButton.setTooltip(GuiUtil.textTooltip(language("key.hash.find")));
     }
 
     /**
@@ -572,6 +580,7 @@ public class ReportController extends BaseClientController<ServerTabController> 
                 //card数据更新
                 redisVersion.setText(map.get(Constant.REDIS_INFO_REDIS_VERSION));
                 os.setText(map.get(Constant.REDIS_INFO_OS));
+                os.setTooltip(GuiUtil.textTooltip(map.get(Constant.REDIS_INFO_OS)));
                 processId.setText(map.get(Constant.REDIS_INFO_PROCESS_ID));
                 usedMemory.setText(String.format("%s%s",Util.format(barMemoryTu.t1(),2),barMemoryTu.t2()));
                 Tuple2<Double, String> usedMemoryPeakTu = Util.convertMemorySize(map.get(Constant.REDIS_INFO_USED_MEMORY_PEAK));
