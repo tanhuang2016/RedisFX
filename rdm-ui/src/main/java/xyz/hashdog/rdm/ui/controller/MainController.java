@@ -112,6 +112,7 @@ public class MainController extends BaseWindowController<Main> {
     public MenuItem suggest;
     public MenuItem update;
     public MenuItem about;
+    public MenuItem restartWindow;
     /**
      * 服务连接的Stage
      */
@@ -174,6 +175,7 @@ public class MainController extends BaseWindowController<Main> {
 
         window.setText(language("main.window"));
         welcome.setText(language("main.window.welcome"));
+        restartWindow.setText(language("main.window.restart"));
         serverTabPaneMenu.setText(language("main.window.server"));
         serverTabTop.setText(language("main.window.top"));
         serverTabBottom.setText(language("main.window.bottom"));
@@ -719,5 +721,14 @@ public class MainController extends BaseWindowController<Main> {
         tab.setGraphic(new FontIcon(Feather.HOME));
         tab.setContent(borderPane);
         GuiUtil.setTab(tab,this.serverTabPane,tuple2);
+    }
+
+    /**
+     * 重启窗口
+     * @param actionEvent 事件
+     */
+    @FXML
+    public void restartWindow(ActionEvent actionEvent) {
+        Main.instance.restart();
     }
 }

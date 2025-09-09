@@ -98,6 +98,7 @@
                         <Menu fx:id="window" mnemonicParsing="false" >
                             <items>
                                 <MenuItem fx:id="welcome"  mnemonicParsing="false"  onAction="#welcome"/>
+                                <MenuItem fx:id="restartWindow"  mnemonicParsing="false"  onAction="#restartWindow"/>
                                 <Menu  fx:id="serverTabPaneMenu" mnemonicParsing="false"  >
                                         <items>
                                             <RadioMenuItem fx:id="serverTabTop" mnemonicParsing="false"  onAction="#serverTabTop" selected="true"/>
