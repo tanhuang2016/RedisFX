@@ -35,7 +35,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class Main extends Application {
     private static final Logger log = LoggerFactory.getLogger(Main.class);
     public static ResourceBundle RESOURCE_BUNDLE=ResourceBundle.getBundle(LanguageManager.BASE_NAME, LanguageManager.DEFAULT_LOCALE);
-    public static Main main;
+    public static Main instance;
+    private MainController controller;
 
     public static void main(String[] args) {
         Application.launch(args);
@@ -49,6 +50,7 @@ public class Main extends Application {
             // 关闭所有窗口
             ObservableList<Window> windows = Window.getWindows();
             windows.getFirst().hide();
+            controller.close();
             // 重新启动主应用
             Stage primaryStage = new Stage();
             new Main().start(primaryStage);
@@ -62,6 +64,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage)  {
         try {
+            instance=this;
             Save.init();
             // 设置默认的未捕获异常处理器
             Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
@@ -78,7 +81,7 @@ public class Main extends Application {
             stage.setTitle(Applications.TITLE);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/MainView.fxml"),RESOURCE_BUNDLE);
             AnchorPane root = fxmlLoader.load();
-            MainController controller = fxmlLoader.getController();
+            controller = fxmlLoader.getController();
             controller.setParentController(this);
             Scene scene = new Scene(root);
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/global.css")).toExternalForm());
