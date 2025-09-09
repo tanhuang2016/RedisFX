@@ -12,7 +12,7 @@ import java.io.IOException;
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
 public final class KeyTagPage extends AbstractPage {
-    public static final String NAME = language("main.setting.global.key");
+    public static final String NAME = "main.setting.global.key";
 
     @Override
     public String getName() {

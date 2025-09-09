@@ -3,13 +3,11 @@
 package xyz.hashdog.rdm.ui.sampler.page.general;
 
 import atlantafx.base.theme.Styles;
-import atlantafx.base.util.BBCodeParser;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -38,7 +36,7 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 @SuppressWarnings("UnnecessaryLambda")
 public final class ThemePage extends OutlinePage {
 
-    public static final String NAME = language("main.setting.general.theme");
+    public static final String NAME = "main.setting.general.theme";
 
     private static final ThemeManager TM = ThemeManager.getInstance();
     private static final String DEFAULT_FONT_ID = "Default";

@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
+
 record Nav(String title,
            @Nullable Node graphic,
            @Nullable Class<? extends Page> pageClass,
@@ -50,7 +52,7 @@ record Nav(String title,
 
     public boolean matches(String filter) {
         Objects.requireNonNull(filter);
-        return contains(title, filter)
+        return contains(language(title), filter)
             || (searchKeywords != null && searchKeywords.stream().anyMatch(keyword -> contains(keyword, filter)));
     }
 

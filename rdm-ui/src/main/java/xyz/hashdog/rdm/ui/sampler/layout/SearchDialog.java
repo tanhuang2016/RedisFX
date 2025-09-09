@@ -22,6 +22,8 @@ import org.kordamp.ikonli.material2.Material2MZ;
 
 import java.util.function.Consumer;
 
+import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
+
 final class SearchDialog extends ModalDialog {
 
     private final MainModel model;
@@ -137,8 +139,8 @@ final class SearchDialog extends ModalDialog {
             if (item == null || empty) {
                 setGraphic(null);
             } else {
-                parentLabel.setText(item.getParent().getValue().title());
-                targetLabel.setText(item.getValue().title());
+                parentLabel.setText(language(item.getParent().getValue().title()));
+                targetLabel.setText(language(item.getValue().title()));
                 setGraphic(root);
             }
         }

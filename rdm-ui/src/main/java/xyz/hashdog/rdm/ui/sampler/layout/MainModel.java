@@ -15,7 +15,6 @@ import xyz.hashdog.rdm.ui.sampler.page.custom.AdvancedPage;
 import xyz.hashdog.rdm.ui.sampler.page.custom.KeyTagPage;
 import xyz.hashdog.rdm.ui.sampler.page.custom.LanguagePage;
 import xyz.hashdog.rdm.ui.sampler.page.general.ThemePage;
-import xyz.hashdog.rdm.ui.util.LanguageManager;
 
 import java.util.HashMap;
 import java.util.List;
@@ -73,7 +72,7 @@ public class MainModel {
     }
 
     private NavTree.Item createTree() {
-        var general = NavTree.Item.group(LanguageManager.language("main.setting.general"), new FontIcon(Material2OutlinedMZ.SPEED));
+        var general = NavTree.Item.group("main.setting.general", new FontIcon(Material2OutlinedMZ.SPEED));
         general.getChildren().setAll(
             NAV_TREE.get(ThemePage.class),
             NAV_TREE.get(LanguagePage.class)
@@ -83,7 +82,7 @@ public class MainModel {
         );
         general.setExpanded(true);
 
-        var global = NavTree.Item.group(LanguageManager.language("main.setting.global"), new FontIcon(Material2OutlinedMZ.TABLE_CHART));
+        var global = NavTree.Item.group("main.setting.global", new FontIcon(Material2OutlinedMZ.TABLE_CHART));
         global.getChildren().setAll(
             NAV_TREE.get(AdvancedPage.class),
             NAV_TREE.get(KeyTagPage.class)
@@ -101,7 +100,7 @@ public class MainModel {
 //            NAV_TREE.get(ToolBarPage.class)
         );
 
-        var windows = NavTree.Item.group(LanguageManager.language("main.setting.window"), new FontIcon(Material2OutlinedAL.LAPTOP_WINDOWS));
+        var windows = NavTree.Item.group("main.setting.window", new FontIcon(Material2OutlinedAL.LAPTOP_WINDOWS));
         windows.getChildren().setAll(
                 NAV_TREE.get(TabPanePage.class)
 //            NAV_TREE.get(ChartPage.class),

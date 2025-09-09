@@ -3,27 +3,19 @@
 package xyz.hashdog.rdm.ui.sampler.page;
 
 import atlantafx.base.theme.Styles;
-import atlantafx.base.theme.Tweaks;
 import atlantafx.base.util.BBCodeParser;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.layout.HBox;
 import net.datafaker.Faker;
 import org.jetbrains.annotations.Nullable;
 import org.kordamp.ikonli.feather.Feather;
-import org.kordamp.ikonli.javafx.FontIcon;
-import org.kordamp.ikonli.material2.Material2AL;
 import xyz.hashdog.rdm.ui.sampler.event.BrowseEvent;
 import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
 import xyz.hashdog.rdm.ui.sampler.event.NavEvent;
-import xyz.hashdog.rdm.ui.sampler.event.PageEvent;
 import xyz.hashdog.rdm.ui.sampler.layout.ApplicationWindow;
 
 import java.net.URI;
@@ -33,7 +25,7 @@ import java.util.Random;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import static javafx.scene.input.KeyCombination.ALT_DOWN;
+import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
 public interface Page {
 
@@ -117,7 +109,7 @@ public interface Page {
 
             Objects.requireNonNull(page, "page");
 
-            var titleLbl = new Label(page.getName());
+            var titleLbl = new Label(language(page.getName()));
             titleLbl.getStyleClass().add(Styles.TITLE_2);
 
             /*var sourceCodeItem = new MenuItem("Source Code", new FontIcon(Feather.CODE));

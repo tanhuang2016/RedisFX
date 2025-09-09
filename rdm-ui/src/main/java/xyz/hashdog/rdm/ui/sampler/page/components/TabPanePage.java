@@ -11,7 +11,6 @@ import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import org.kordamp.ikonli.feather.Feather;
@@ -20,17 +19,12 @@ import xyz.hashdog.rdm.ui.common.Applications;
 import xyz.hashdog.rdm.ui.common.ConfigSettingsEnum;
 import xyz.hashdog.rdm.ui.common.RedisDataTypeEnum;
 import xyz.hashdog.rdm.ui.common.TabPaneStyleEnum;
-import xyz.hashdog.rdm.ui.entity.config.ConfigSettings;
 import xyz.hashdog.rdm.ui.entity.config.KeyTabPaneSetting;
-import xyz.hashdog.rdm.ui.entity.config.KeyTagSetting;
 import xyz.hashdog.rdm.ui.entity.config.ServerTabPaneSetting;
 import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
 import xyz.hashdog.rdm.ui.sampler.event.EventBus;
 import xyz.hashdog.rdm.ui.sampler.event.TabPaneEvent;
-import xyz.hashdog.rdm.ui.sampler.event.ThemeEvent;
-import xyz.hashdog.rdm.ui.sampler.page.ExampleBox;
 import xyz.hashdog.rdm.ui.sampler.page.OutlinePage;
-import xyz.hashdog.rdm.ui.sampler.page.Snippet;
 
 import java.util.List;
 import java.util.UUID;
@@ -40,7 +34,7 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
 public final class TabPanePage extends OutlinePage {
 
-    public static final String NAME = language("main.setting.window.tab");
+    public static final String NAME = "main.setting.window.tab";
     public static Sub server;
     public static Sub key;
     private static final EventBus EVENT_BUS = DefaultEventBus.getInstance();

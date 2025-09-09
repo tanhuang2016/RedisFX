@@ -12,7 +12,7 @@ import java.io.IOException;
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
 public final class AdvancedPage extends AbstractPage {
-    public static final String NAME = language("main.setting.global.advanced");
+    public static final String NAME = "main.setting.global.advanced";
 
     @Override
     public String getName() {

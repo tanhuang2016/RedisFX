@@ -23,6 +23,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
+
 public final class NavTree extends TreeView<Nav> {
 
     public NavTree(MainModel model) {
@@ -100,8 +102,7 @@ public final class NavTree extends TreeView<Nav> {
                 titleLabel.setGraphic(null);
             } else {
                 setGraphic(root);
-
-                titleLabel.setText(nav.title());
+                titleLabel.setText(language(nav.title()));
                 titleLabel.setGraphic(nav.graphic());
 
                 pseudoClassStateChanged(GROUP, nav.isGroup());
