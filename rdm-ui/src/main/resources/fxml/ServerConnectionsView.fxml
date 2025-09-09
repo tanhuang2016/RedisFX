@@ -21,34 +21,16 @@
                <children>
                   <ToolBar fx:id="buttonsHbox" prefHeight="23.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                         <Button fx:id="connect" mnemonicParsing="false" onAction="#connect" styleClass="isLeafNode" disable="true">
-                            <tooltip>
-                                <Tooltip text="%main.file.connect.connect" />
-                            </tooltip>
                         </Button>
                         <Button fx:id="newGroup" mnemonicParsing="false" onAction="#newGroup" styleClass="isNotLeafNode">
-                                <tooltip>
-                                    <Tooltip text="%main.file.connect.newGroup" />
-                                </tooltip>
                         </Button>
                         <Button fx:id="newConnection" mnemonicParsing="false" onAction="#newConnection" styleClass="isNotLeafNode">
-                                <tooltip>
-                                    <Tooltip text="%main.file.connect.newConnect" />
-                                </tooltip>
                         </Button>
                         <Button fx:id="edit" mnemonicParsing="false" onAction="#edit" styleClass="isNotRoot" disable="true">
-                                <tooltip>
-                                    <Tooltip text="%main.file.connect.edit" />
-                                </tooltip>
                         </Button>
                         <Button fx:id="rename" mnemonicParsing="false" onAction="#rename" styleClass="isNotRoot" disable="true">
-                                <tooltip>
-                                    <Tooltip text="%main.file.connect.rename" />
-                                </tooltip>
                         </Button>
                         <Button fx:id="delete" mnemonicParsing="false" onAction="#delete" styleClass="isNotRoot">
-                                <tooltip>
-                                    <Tooltip text="%main.file.connect.delete" />
-                                </tooltip>
                         </Button>
                      <padding>
                         <Insets bottom="2.0" left="2.0" />
@@ -79,8 +61,8 @@
 <!--                  <CheckBox mnemonicParsing="false" text="启动时显示" />-->
                   <ButtonBar prefHeight="40.0" prefWidth="200.0">
                     <buttons>
-                      <Button fx:id="bottomConnectButton" disable="true" mnemonicParsing="false" onAction="#connect" styleClass="isLeafNode" text="%main.file.connect.connect" />
-                        <Button mnemonicParsing="false" onAction="#cancel" text="%common.close" />
+                      <Button fx:id="bottomConnectButton" disable="true" mnemonicParsing="false" onAction="#connect" styleClass="isLeafNode"  />
+                        <Button fx:id="cancel" mnemonicParsing="false" onAction="#cancel" text="%common.close" />
                     </buttons>
                   </ButtonBar>
                </children>

@@ -24,6 +24,8 @@ import xyz.hashdog.rdm.ui.util.SvgManager;
 
 import java.io.IOException;
 
+import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
+
 /**
  * 服务连接控制层
  *
@@ -59,6 +61,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
     @FXML
     public Button rename;
     public Button delete;
+    public Button cancel;
 
 
     /**
@@ -69,9 +72,21 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
 
     @FXML
     public void initialize() {
+        initLanguage();
         initButton();
         initListener();
         initTreeView();
+    }
+
+    private void initLanguage() {
+        connect.setTooltip(GuiUtil.textTooltip(language("main.file.connect.connect")));
+        newGroup.setTooltip(GuiUtil.textTooltip(language("main.file.connect.newGroup")));
+        newConnection.setTooltip(GuiUtil.textTooltip(language("main.file.connect.newConnect")));
+        edit.setTooltip(GuiUtil.textTooltip(language("main.file.connect.edit")));
+        rename.setTooltip(GuiUtil.textTooltip(language("main.file.connect.rename")));
+        delete.setTooltip(GuiUtil.textTooltip(language("main.file.connect.delete")));
+        bottomConnectButton.setText(language("main.file.connect.connect"));
+        cancel.setText(language("common.close"));
     }
 
     private void initButton() {
