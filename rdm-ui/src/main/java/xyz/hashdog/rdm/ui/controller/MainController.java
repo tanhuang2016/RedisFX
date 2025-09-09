@@ -140,6 +140,7 @@ public class MainController extends BaseWindowController<Main> {
         initTabPane();
     }
 
+    @Override
     protected void initLanguage() {
         file.setText(language("main.file"));
         fileConnect.setText(language("main.file.connect"));

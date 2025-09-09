@@ -61,6 +61,7 @@ public class WelcomeController extends BaseWindowController<MainController> impl
 
     }
 
+    @Override
     protected void initLanguage() {
         toStar.setText(language("welcome.star"));
     }

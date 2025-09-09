@@ -165,6 +165,7 @@ public class ReportController extends BaseClientController<ServerTabController> 
         memory.setLegendVisible(false);
     }
 
+    @Override
     protected void initLanguage() {
         barRefresh.setTooltip(GuiUtil.textTooltip(language("server.refresh.auto")));
         pieRefresh.setTooltip(GuiUtil.textTooltip(language("server.refresh")));
@@ -771,7 +772,7 @@ public class ReportController extends BaseClientController<ServerTabController> 
                                 int curIndex=index;
                                 Long memory = (Long) pipelineResults.get(curIndex++);
                                 String type = (String) pipelineResults.get(curIndex++);
-                                Long ttl = (Long) pipelineResults.get(curIndex++);
+                                Long ttl = (Long) pipelineResults.get(curIndex);
                                 //管道执行查length的命令
                                 lengthByType(key, type,commands);
                                 TopKeyTable topKeyTable = new TopKeyTable(key, type, ttl, memory);

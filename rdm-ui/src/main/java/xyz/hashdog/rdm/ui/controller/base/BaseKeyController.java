@@ -31,6 +31,7 @@ public abstract class BaseKeyController extends BaseClientController<KeyTabContr
      */
     abstract public void reloadInfo() ;
 
+    @Override
     protected void initLanguage() {
         save.setText(language("key.save"));
     }
