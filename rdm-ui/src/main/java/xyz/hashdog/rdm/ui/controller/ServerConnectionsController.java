@@ -84,7 +84,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
         initTreeView();
     }
 
-    private void initLanguage() {
+    protected void initLanguage() {
         connect.setTooltip(GuiUtil.textTooltip(language("main.file.connect.connect")));
         newGroup.setTooltip(GuiUtil.textTooltip(language("main.file.connect.newGroup")));
         newConnection.setTooltip(GuiUtil.textTooltip(language("main.file.connect.newConnect")));

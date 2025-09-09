@@ -43,6 +43,13 @@ public class Main extends Application {
     }
 
     /**
+     * 重置语言
+     */
+    public void resetLanguage(){
+        controller.resetLanguage();
+    }
+
+    /**
      * 重启窗口
      */
     public  void restart() {

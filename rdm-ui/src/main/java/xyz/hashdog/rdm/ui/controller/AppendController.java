@@ -33,7 +33,7 @@ public class AppendController extends BaseWindowController<BaseClientController>
 
     }
 
-    private void initLanguage() {
+    protected void initLanguage() {
         ok.setText(language("common.ok"));
         cancel.setText(language("common.cancel"));
     }

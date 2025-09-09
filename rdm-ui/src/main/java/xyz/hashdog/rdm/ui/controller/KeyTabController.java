@@ -83,7 +83,7 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
 
     }
 
-    private void initLanguage() {
+    protected void initLanguage() {
         keyRename.setTooltip(GuiUtil.textTooltip(language("key.rename")));
         keyEditTtl.setTooltip(GuiUtil.textTooltip(language("key.edit")));
         keyDelete.setTooltip(GuiUtil.textTooltip(language("key.delete")));

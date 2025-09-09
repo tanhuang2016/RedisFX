@@ -83,7 +83,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
         initButton();
     }
 
-    private void initLanguage() {
+    protected void initLanguage() {
         copy.setText(language("key.string.copy"));
         copy.setTooltip(GuiUtil.textTooltip(language("key.string.copy")));
         into.setText(language("key.string.import"));

@@ -53,7 +53,7 @@ public class PubSubController extends BaseClientController<ServerTabController> 
         addTmEventSubscriber(ThemeEvent.class, e -> applyTheme());
     }
 
-    private void initLanguage() {
+    protected void initLanguage() {
         if (subscribe.isSelected()) {
             subscribe.setText(language("server.pubsub.unsubscribe"));
         } else {

@@ -165,7 +165,7 @@ public class ReportController extends BaseClientController<ServerTabController> 
         memory.setLegendVisible(false);
     }
 
-    private void initLanguage() {
+    protected void initLanguage() {
         barRefresh.setTooltip(GuiUtil.textTooltip(language("server.refresh.auto")));
         pieRefresh.setTooltip(GuiUtil.textTooltip(language("server.refresh")));
         topRefresh.setTooltip(GuiUtil.textTooltip(language("server.refresh")));

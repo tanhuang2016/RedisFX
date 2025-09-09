@@ -111,6 +111,18 @@ public abstract class BaseController<T> implements AutoCloseable {
         DefaultEventBus.getInstance().subscribe(eventType, subscriber);
     }
 
+    /**
+     * 重置语言
+     */
+    public void resetLanguage(){
+        this.children.forEach(BaseController::initLanguage);
+        initLanguage();
+        log.info("resetLanguage:{}",this);
+    }
+    protected void initLanguage(){
+       //方法存根
+    }
+
     @Override
     public void close()  {
         //子窗口挨个关闭

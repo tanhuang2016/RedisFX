@@ -170,7 +170,7 @@ public class ServerTabController extends BaseClientController<MainController> {
                 searchText.localToScreen(0, 0).getY() + searchText.getHeight());
     }
 
-    private void initLanguage() {
+    protected void initLanguage() {
         search.setTooltip(GuiUtil.hintTooltip(language("server.search"),language("server.search.hint")));
         reset.setTooltip(GuiUtil.textTooltip(language("server.reset")));
         isLike.setTooltip(GuiUtil.textTooltip(language("server.like")));
