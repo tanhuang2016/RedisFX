@@ -28,6 +28,10 @@ public class JsonTypeController extends BaseKeyController {
      * 当前value的二进制
      */
     private byte[] currentValue;
+    @FXML
+    public void initialize() {
+        initLanguage();
+    }
 
     @Override
     protected void initInfo() {

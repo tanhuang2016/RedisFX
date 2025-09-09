@@ -30,7 +30,10 @@ public class StringTypeController extends BaseKeyController {
      */
     private byte[] currentValue;
 
-
+    @FXML
+    public void initialize() {
+        initLanguage();
+    }
     @Override
     protected void initInfo() {
         async(() -> {
