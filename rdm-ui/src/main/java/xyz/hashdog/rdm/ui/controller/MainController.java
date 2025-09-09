@@ -193,6 +193,14 @@ public class MainController extends BaseWindowController<Main> {
         suggest.setText(language("main.help.suggest"));
         update.setText(language("main.help.update"));
         about.setText(language("main.help.about"));
+        if(this.settingsStage!=null){
+            this.settingsStage.setTitle(language("main.file.setting"));
+
+        }
+        if(this.serverConnectionsWindowStage!=null){
+            this.serverConnectionsWindowStage.setTitle(Main.RESOURCE_BUNDLE.getString(Constant.MAIN_FILE_CONNECT));
+        }
+
 
     }
 
