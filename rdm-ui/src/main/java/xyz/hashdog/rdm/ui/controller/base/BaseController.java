@@ -14,6 +14,7 @@ import xyz.hashdog.rdm.ui.util.SvgManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
 
 /**
@@ -33,7 +34,7 @@ public abstract class BaseController<T> implements AutoCloseable {
     /**
      * 子控制器
      */
-    public List<BaseController<?>> children = new ArrayList<>();
+    public List<BaseController<?>> children = new CopyOnWriteArrayList<>();
 
     /**
      * 临时事件订阅者
@@ -115,10 +116,17 @@ public abstract class BaseController<T> implements AutoCloseable {
         //svn缓存清除
         SvgManager.clear(this);
         tmEventSubscribers.forEach(DefaultEventBus.getInstance()::unsubscribe);
+        //父窗口需要清除已经关闭的子窗口的引用
+        if(parentController instanceof BaseController<?> parent){
+            parent.removeChild(this);
+        }
         log.info("close:{}",this);
     }
 
    private void addChild(BaseController<?> t) {
         this.children.add(t);
+    }
+    private void removeChild(BaseController<?> t) {
+        this.children.remove(t);
     }
 }
