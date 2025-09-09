@@ -50,9 +50,17 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        initLanguage();
         bindData();
         initListener();
         initButton();
+    }
+    @Override
+    protected void initLanguage() {
+        super.initLanguage();
+        findButton.setTooltip(GuiUtil.textTooltip(language("key.zset.find")));
+        add.setText(language("key.zset.add"));
+        delRow.setText(language("key.zset.delete"));
     }
 
     private void initButton() {

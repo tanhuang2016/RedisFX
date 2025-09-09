@@ -47,16 +47,22 @@ public class WelcomeController extends BaseWindowController<MainController> impl
     public GridPane gridPane;
     public Label gitHub;
     public HBox toGithub;
+    public Label toStar;
     private ParallelTransition parallelTransition;
     private Timeline flameAnimation;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        initLanguage();
         SvgManager.load(this, gitHub, "/svg/github-mark/github-mark.svg");
         toGithub.setCursor(Cursor.HAND);
         initRocket();
 
 
+    }
+
+    private void initLanguage() {
+        toStar.setText(language("welcome.star"));
     }
 
     private void initRocket() {

@@ -1,58 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.collections.FXCollections?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
 
 <AnchorPane fx:id="root" prefHeight="500.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.StringTypeController">
    <children>
       <BorderPane fx:id="borderPane" prefHeight="500.0" prefWidth="950.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
-<!--            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">-->
-<!--               <children>-->
-<!--                  <VBox prefHeight="450.0" prefWidth="950.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">-->
-<!--                     <children>-->
-<!--                        <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">-->
-<!--                           <children>-->
-<!--                              <ChoiceBox fx:id="typeChoiceBox" prefWidth="150.0">-->
-<!--                                 <items>-->
-<!--                                    <FXCollections fx:factory="observableArrayList">-->
-<!--                                       <String fx:value="Text" />-->
-<!--                                       <String fx:value="Json" />-->
-<!--                                       <String fx:value="Hex" />-->
-<!--                                    </FXCollections>-->
-<!--                                 </items>-->
-<!--                              </ChoiceBox>-->
-<!--                              <Label fx:id="size" />-->
-<!--                              <Button mnemonicParsing="false" onAction="#copy" text="复制" />-->
-<!--                           </children>-->
-<!--                           <VBox.margin>-->
-<!--                              <Insets />-->
-<!--                           </VBox.margin>-->
-<!--                        </HBox>-->
-<!--                        <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">-->
-<!--                           <children>-->
-<!--                              <TextArea fx:id="value" layoutX="200.0" layoutY="59.0" prefHeight="312.0" prefWidth="955.0" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />-->
-<!--                           </children>-->
-<!--                        </AnchorPane>-->
-<!--                     </children>-->
-<!--                  </VBox>-->
-<!--               </children>-->
-<!--            </AnchorPane>-->
-<!--            <fx:include source="ByteArrayView.fxml"/>-->
          </center>
          <bottom>
             <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="save" mnemonicParsing="false" onAction="#save" text="%key.save" />
+                  <Button fx:id="save" mnemonicParsing="false" onAction="#save"  />
                </children>
             </HBox>
          </bottom>

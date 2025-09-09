@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
-<?import javafx.scene.control.Button?>
 <FlowPane alignment="CENTER" columnHalignment="CENTER" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.WelcomeController">
    <children>
       <GridPane fx:id="gridPane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0">
@@ -31,7 +30,7 @@
             </HBox>
             <HBox fx:id="toGithub" alignment="CENTER" GridPane.rowIndex="1" onMouseClicked="#toGithub">
                <children>
-                   <Label text="%welcome.star" />
+                   <Label fx:id="toStar"  />
                    <Label text="→" />
                   <Label fx:id="gitHub" alignment="CENTER" contentDisplay="CENTER"  HBox.hgrow="ALWAYS" />
                </children>
