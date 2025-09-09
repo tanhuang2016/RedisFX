@@ -30,7 +30,7 @@
                                     <HBox alignment="CENTER_RIGHT" spacing="5.0" HBox.hgrow="ALWAYS">
                                        <children>
                                           <TextField fx:id="subChannel" text="*" />
-                                          <ToggleButton fx:id="subscribe" mnemonicParsing="false" onAction="#subscribe" text="%server.pubsub.subscribe" />
+                                          <ToggleButton fx:id="subscribe" mnemonicParsing="false" onAction="#subscribe"  />
                                        </children>
                                     </HBox>
                                  </children>
@@ -56,7 +56,7 @@
                         <TextField fx:id="pubMessage" promptText="Entry Message" HBox.hgrow="ALWAYS" />
                         <HBox alignment="CENTER">
                            <children>
-                              <Button fx:id="publish" mnemonicParsing="false" onAction="#publish" text="%server.pubsub.publish" />
+                              <Button fx:id="publish" mnemonicParsing="false" onAction="#publish"  />
                            </children>
                         </HBox>
                      </children>

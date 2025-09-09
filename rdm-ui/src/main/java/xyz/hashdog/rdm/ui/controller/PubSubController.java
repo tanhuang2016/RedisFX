@@ -44,12 +44,22 @@ public class PubSubController extends BaseClientController<ServerTabController> 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        initLanguage();
         initButton();
         webView.setContextMenuEnabled(false);
         initCustomContextMenu();
         initWebView();
         applyTheme();
         addTmEventSubscriber(ThemeEvent.class, e -> applyTheme());
+    }
+
+    private void initLanguage() {
+        if (subscribe.isSelected()) {
+            subscribe.setText(language("server.pubsub.unsubscribe"));
+        } else {
+            subscribe.setText(language("server.pubsub.subscribe"));
+        }
+        publish.setText(language("server.pubsub.publish"));
     }
 
     @Override
