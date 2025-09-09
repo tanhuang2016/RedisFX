@@ -46,10 +46,18 @@ public class SetTypeController extends BaseKeyPageController<SetTypeTable> imple
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        initLanguage();
         bindData();
         initListener();
         initButton();
 
+    }
+    @Override
+    protected void initLanguage() {
+        super.initLanguage();
+        findButton.setTooltip(GuiUtil.textTooltip(language("key.set.find")));
+        add.setText(language("key.set.add"));
+        delRow.setText(language("key.set.delete"));
     }
     private void initButton() {
         initButtonStyles();
