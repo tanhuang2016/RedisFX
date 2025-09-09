@@ -35,6 +35,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class Main extends Application {
     private static final Logger log = LoggerFactory.getLogger(Main.class);
     public static ResourceBundle RESOURCE_BUNDLE=ResourceBundle.getBundle(LanguageManager.BASE_NAME, LanguageManager.DEFAULT_LOCALE);
+    private MainController controller;
 
     public static void main(String[] args) {
         Application.launch(args);
@@ -77,7 +78,7 @@ public class Main extends Application {
             stage.setTitle(Applications.TITLE);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/MainView.fxml"),RESOURCE_BUNDLE);
             AnchorPane root = fxmlLoader.load();
-            MainController controller = fxmlLoader.getController();
+            controller = fxmlLoader.getController();
             Scene scene = new Scene(root);
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/global.css")).toExternalForm());
             stage.setScene(scene);
