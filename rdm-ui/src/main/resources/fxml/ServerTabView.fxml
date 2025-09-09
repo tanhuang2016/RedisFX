@@ -45,11 +45,7 @@
                                                       <!--                                       </FXCollections>-->
                                                       <!--                                   </items>-->
                                                   </ChoiceBox>
-                                                  <MenuButton fx:id="newKey" mnemonicParsing="false" text="%server.new" HBox.hgrow="ALWAYS">
-                                                      <items>
-                                                          <MenuItem mnemonicParsing="false" text="Action 1" />
-                                                          <MenuItem mnemonicParsing="false" text="Action 2" />
-                                                      </items>
+                                                  <MenuButton fx:id="newKey" mnemonicParsing="false"  HBox.hgrow="ALWAYS">
                                                       <graphic>
                                                           <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                                               <image>
@@ -66,7 +62,7 @@
                                                   <Button fx:id="search" mnemonicParsing="false" onAction="#search" HBox.hgrow="ALWAYS">
                                                   </Button>
                                                   <HBox fx:id="searchHbox" alignment="CENTER_RIGHT" spacing="-2.0" VBox.vgrow="ALWAYS">
-                                                      <Button fx:id="reset" managed="false" mnemonicParsing="false" onAction="#reset" opacity="0.3" text="%server.reset" visible="false" HBox.hgrow="ALWAYS">
+                                                      <Button fx:id="reset" managed="false" mnemonicParsing="false" onAction="#reset" opacity="0.3"  visible="false" HBox.hgrow="ALWAYS">
                                                       </Button>
                                                       <ToggleButton fx:id="isLike" mnemonicParsing="false" onAction="#isLikeChange" opacity="0.8" selected="true" HBox.hgrow="ALWAYS">
                                                           <HBox.margin>
@@ -85,16 +81,16 @@
                                                           <contextMenu>
                                                               <ContextMenu fx:id="contextMenu" opacity="0.8">
                                                                   <items>
-                                                                      <MenuItem fx:id="open" mnemonicParsing="false" onAction="#open" text="%server.open">
+                                                                      <MenuItem fx:id="open" mnemonicParsing="false" onAction="#open" >
                                                           </MenuItem>
-                                                                      <MenuItem mnemonicParsing="false" onAction="#refresh" text="%server.refresh" />
-                                                                      <MenuItem fx:id="delete" mnemonicParsing="false" onAction="#delete" text="%server.delete" />
-                                                                      <MenuItem mnemonicParsing="false" onAction="#flush" text="%server.flush" />
+                                                                      <MenuItem fx:id="refresh" mnemonicParsing="false" onAction="#refresh"  />
+                                                                      <MenuItem fx:id="delete" mnemonicParsing="false" onAction="#delete"  />
+                                                                      <MenuItem fx:id="flush" mnemonicParsing="false" onAction="#flush"  />
                                                                       <SeparatorMenuItem />
-                                                                      <MenuItem mnemonicParsing="false" onAction="#console" text="%server.console" />
-                                                                      <MenuItem mnemonicParsing="false" onAction="#monitor" text="%server.monitor" />
-                                                                      <MenuItem mnemonicParsing="false" onAction="#pubsub" text="%server.pubsub" />
-                                                                      <MenuItem mnemonicParsing="false" onAction="#report" text="%server.report" />
+                                                                      <MenuItem fx:id="console" mnemonicParsing="false" onAction="#console"  />
+                                                                      <MenuItem fx:id="monitor" mnemonicParsing="false" onAction="#monitor"  />
+                                                                      <MenuItem fx:id="pubsub" mnemonicParsing="false" onAction="#pubsub"  />
+                                                                      <MenuItem fx:id="report" mnemonicParsing="false" onAction="#report"  />
                                                                   </items>
                                                               </ContextMenu>
                                                           </contextMenu>
@@ -110,12 +106,12 @@
                                                 <children>
                                                    <ProgressBar fx:id="progressBar" maxWidth="1.7976931348623157E308" prefWidth="30.0" progress="0" HBox.hgrow="ALWAYS" />
                                                    <Label fx:id="progressText" styleClass="text-small" text="\%0" />
-                                                   <Button fx:id="loadMore" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadMore" text="%server.toolBar.loadMore" HBox.hgrow="ALWAYS">
+                                                   <Button fx:id="loadMore" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadMore"  HBox.hgrow="ALWAYS">
                                                       <HBox.margin>
                                                          <Insets left="5.0" />
                                                       </HBox.margin>
                                                    </Button>
-                                                   <Button fx:id="loadAll" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadAll" text="%server.toolBar.loadAll" HBox.hgrow="ALWAYS">
+                                                   <Button fx:id="loadAll" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadAll"  HBox.hgrow="ALWAYS">
                                                       <HBox.margin>
                                                          <Insets left="5.0" />
                                                       </HBox.margin>
@@ -146,16 +142,6 @@
                                       <center>
                                           <TabPane fx:id="dbTabPane" prefHeight="200.0" prefWidth="200.0" side="BOTTOM" tabClosingPolicy="ALL_TABS" BorderPane.alignment="CENTER">
                                               <tabs>
-                                                  <!--    <Tab text="控制台">
-                                                        <content>
-                                                            <fx:include source="ConsoleView.fxml" />
-                                                        </content>
-                                                      </Tab>
-                                                      <Tab text="a:10">
-                                                        <content>
-                                                            <fx:include source="StringTabView.fxml" />
-                                                        </content>
-                                                      </Tab>-->
                                               </tabs>
                                           </TabPane>
                                       </center>

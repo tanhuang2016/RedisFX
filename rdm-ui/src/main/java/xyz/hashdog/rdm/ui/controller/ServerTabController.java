@@ -100,6 +100,12 @@ public class ServerTabController extends BaseClientController<MainController> {
     public Button showButton;
     public Button loadAll;
     public HBox toolBarRight;
+    public MenuItem refresh;
+    public MenuItem flush;
+    public MenuItem console;
+    public MenuItem monitor;
+    public MenuItem pubsub;
+    public MenuItem report;
     @FXML
     private TreeView<KeyTreeNode> treeView;
     @FXML
@@ -175,6 +181,17 @@ public class ServerTabController extends BaseClientController<MainController> {
         collapseButton.setTooltip(GuiUtil.textTooltip(language("server.toolBar.collapse")));
         hideButton.setTooltip(GuiUtil.textTooltip(language("server.toolBar.hide")));
         showButton.setTooltip(GuiUtil.textTooltip(language("server.toolBar.show")));
+        open.setText(language("server.open"));
+        refresh.setText(language("server.refresh"));
+        delete.setText(language("server.delete"));
+        flush.setText(language("server.flush"));
+        console.setText(language("server.console"));
+        monitor.setText(language("server.monitor"));
+        pubsub.setText(language("server.pubsub"));
+        report.setText(language("server.report"));
+        loadMore.setText(language("server.toolBar.loadMore"));
+        loadAll.setText(language("server.toolBar.loadAll"));
+        newKey.setText(language("server.new"));
     }
 
     private void progressBarLanguage() {
