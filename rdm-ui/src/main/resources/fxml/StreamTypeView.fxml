@@ -24,7 +24,7 @@
                             <bottom>
                                 <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
                                     <children>
-                                        <Button  mnemonicParsing="false"  text="%key.save" visible="false"/>
+                                        <Button  mnemonicParsing="false"   visible="false"/>
                                     </children>
                                 </HBox>
                             </bottom>
@@ -56,9 +56,9 @@
                                         <Label fx:id="total" text="Total:10" />
                                         <Label fx:id="size" text="Size:1024B" />
                                         <CustomTextField fx:id="findTextField" promptText="value find"/>
-                                        <Button fx:id="findButton" mnemonicParsing="false" onAction="#find" text="%key.zset.find" />
-                                        <Button fx:id="add" mnemonicParsing="false" onAction="#add" text="%key.zset.add" VBox.vgrow="ALWAYS" />
-                                        <Button fx:id="delRow" mnemonicParsing="false" onAction="#delRow" text="%key.zset.delete" />
+                                        <Button fx:id="findButton" mnemonicParsing="false" onAction="#find"  />
+                                        <Button fx:id="add" mnemonicParsing="false" onAction="#add"  VBox.vgrow="ALWAYS" />
+                                        <Button fx:id="delRow" mnemonicParsing="false" onAction="#delRow"  />
                                     </children>
                                 </HBox>
                                 <HBox prefHeight="446.0" prefWidth="463.0" VBox.vgrow="ALWAYS">

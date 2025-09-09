@@ -26,6 +26,8 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
+import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
+
 /**
  * @author th
  * @version 2.0.0
@@ -48,9 +50,17 @@ public class StreamTypeController extends BaseKeyPageController<StreamTypeTable>
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        initLanguage();
         bindData();
         initListener();
         initButton();
+    }
+    @Override
+    protected void initLanguage() {
+        super.initLanguage();
+        findButton.setTooltip(GuiUtil.textTooltip(language("key.zset.find")));
+        add.setText(language("key.zset.add"));
+        delRow.setText(language("key.zset.delete"));
     }
 
     private void initButton() {
