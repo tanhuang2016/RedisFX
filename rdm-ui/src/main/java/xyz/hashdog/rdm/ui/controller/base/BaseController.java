@@ -115,7 +115,7 @@ public abstract class BaseController<T> implements AutoCloseable {
      * 重置语言
      */
     public void resetLanguage(){
-        this.children.forEach(BaseController::initLanguage);
+        this.children.forEach(BaseController::resetLanguage);
         initLanguage();
         log.info("resetLanguage:{}",this);
     }
