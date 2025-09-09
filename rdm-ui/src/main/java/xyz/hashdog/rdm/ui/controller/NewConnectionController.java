@@ -169,11 +169,17 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        initTooltip();
         initSpinner();
         initButton();
         initListener();
         initToggleButton();
         initDefaultData();
+    }
+
+    private void initTooltip() {
+        treeShow.setTooltip(GuiUtil.textTooltip(language("connect.info.style.tree")));
+        listShow.setTooltip(GuiUtil.textTooltip(language("connect.info.style.list")));
     }
 
     /**

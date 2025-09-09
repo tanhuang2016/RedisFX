@@ -14,7 +14,6 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -440,39 +439,12 @@
                                                          </TextField>
                                                          <HBox alignment="CENTER_RIGHT" spacing="0.0" GridPane.columnIndex="1" HBox.hgrow="ALWAYS">
                                                              <ToggleButton fx:id="treeShow" maxWidth="Infinity" prefWidth="0" selected="true" text="%connect.info.style.tree" HBox.hgrow="ALWAYS">
-                                                                 <tooltip>
-                                                                     <Tooltip text="%connect.info.style.tree" />
-                                                                 </tooltip>
                                                              </ToggleButton>
                                                              <ToggleButton fx:id="listShow" maxWidth="Infinity" prefWidth="0" text="%connect.info.style.list" HBox.hgrow="ALWAYS">
-                                                                 <tooltip>
-                                                                     <Tooltip text="%connect.info.style.list" />
-                                                                 </tooltip>
                                                              </ToggleButton>
                                                          </HBox>
                                                      </children>
                                                  </GridPane>
-<!--                                                <HBox alignment="CENTER" spacing="6.0">-->
-<!--                                                   <children>-->
-<!--                                                              <TextField fx:id="keySeparator" promptText="Key Separator" text=":" HBox.hgrow="ALWAYS"  maxWidth="Infinity">-->
-<!--                                                         <HBox.margin>-->
-<!--                                                            <Insets right="2.0" />-->
-<!--                                                         </HBox.margin>-->
-<!--                                                      </TextField>-->
-<!--                                                       <HBox alignment="CENTER_RIGHT" spacing="0.0"  HBox.hgrow="ALWAYS"  maxWidth="Infinity">-->
-<!--                                                           <ToggleButton fx:id="treeShow"  HBox.hgrow="ALWAYS"  maxWidth="Infinity">-->
-<!--                                                               <tooltip>-->
-<!--                                                                   <Tooltip text="树形显示" />-->
-<!--                                                               </tooltip>-->
-<!--                                                           </ToggleButton>-->
-<!--                                                           <ToggleButton fx:id="listShow"  HBox.hgrow="ALWAYS"  maxWidth="Infinity">-->
-<!--                                                               <tooltip>-->
-<!--                                                                   <Tooltip text="列表显示" />-->
-<!--                                                               </tooltip>-->
-<!--                                                           </ToggleButton>-->
-<!--                                                       </HBox>-->
-<!--                                                   </children>-->
-<!--                                                </HBox>-->
                                              </children>
                                           </VBox>
                                               </children>
