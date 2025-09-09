@@ -75,32 +75,32 @@
                                <Separator orientation="VERTICAL" />
                                <Button fx:id="barRefresh" onAction="#openRefreshPopover" text="5s" />
                                <Separator orientation="VERTICAL" />
-                               <ToggleSwitch fx:id="floatToggleSwitch" selected="true" text="%server.report.bar.flot" />
+                               <ToggleSwitch fx:id="floatToggleSwitch" selected="true"  />
                            </children>
                         </HBox>
                         <VBox>
                            <children>
                               <HBox spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <TitledPane fx:id="serverInfo" animated="false" styleClass="rounded-corner" text="%server.report.server" HBox.hgrow="ALWAYS">
+                                    <TitledPane fx:id="serverInfo" animated="false" styleClass="rounded-corner"  HBox.hgrow="ALWAYS">
                                        <content>
                                           <VBox prefHeight="180.0" prefWidth="200.0" spacing="5.0">
                                              <children>
                                                 <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                    <children>
-                                                      <Label text="%server.report.server.version" />
+                                                      <Label fx:id="serverVersion"  />
                                                       <Label fx:id="redisVersion" styleClass="success"  />
                                                    </children>
                                                 </HBox>
                                                 <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                    <children>
-                                                      <Label text="%server.report.server.os" HBox.hgrow="NEVER"  minWidth="-Infinity"/>
+                                                      <Label fx:id="serverOs"  HBox.hgrow="NEVER"  minWidth="-Infinity"/>
                                                       <Label fx:id="os" styleClass="success"  HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
                                                    </children>
                                                 </HBox>
                                                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                      <children>
-                                                         <Label  text="%server.report.server.process"  />
+                                                         <Label fx:id="serverProcess"    />
                                                          <Label fx:id="processId" styleClass="success"  HBox.hgrow="ALWAYS" />
                                                      </children>
                                                  </HBox>
@@ -114,19 +114,19 @@
                                                 <children>
                                                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                         <children>
-                                                            <Label text="%server.report.memory.use" />
+                                                            <Label fx:id="memoryUse"  />
                                                             <Label fx:id="usedMemory" styleClass="success"  />
                                                         </children>
                                                     </HBox>
                                                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                         <children>
-                                                            <Label  text="%server.report.memory.peek" />
+                                                            <Label fx:id="memoryPeek"   />
                                                             <Label fx:id="usedMemoryPeak" styleClass="success"  />
                                                         </children>
                                                     </HBox>
                                                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                         <children>
-                                                            <Label text="%server.report.memory.lua" HBox.hgrow="ALWAYS" />
+                                                            <Label fx:id="memoryLua"  HBox.hgrow="ALWAYS" />
                                                             <Label fx:id="usedMemoryLua" styleClass="success"  HBox.hgrow="ALWAYS" />
                                                         </children>
                                                     </HBox>
@@ -140,19 +140,19 @@
                                                 <children>
                                                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                         <children>
-                                                            <Label text="%server.report.status.connected" />
+                                                            <Label fx:id="statusConnected"  />
                                                             <Label fx:id="connectedClients" styleClass="success"  />
                                                         </children>
                                                     </HBox>
                                                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                         <children>
-                                                            <Label text="%server.report.status.connects" />
+                                                            <Label fx:id="statusConnects"  />
                                                             <Label fx:id="totalConnectionsReceived" styleClass="success"  />
                                                         </children>
                                                     </HBox>
                                                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                         <children>
-                                                            <Label text="%server.report.status.commands" HBox.hgrow="ALWAYS" />
+                                                            <Label fx:id="statusCommands"  HBox.hgrow="ALWAYS" />
                                                             <Label fx:id="totalCommandsProcessed" styleClass="success"  HBox.hgrow="ALWAYS" />
                                                         </children>
                                                     </HBox>
@@ -170,7 +170,7 @@
                                  <children>
                                      <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
                                          <children>
-                                             <Label fx:id="pie" style="-fx-font-size: 1.25em" text="%server.report.type" VBox.vgrow="ALWAYS" />
+                                             <Label fx:id="pie" style="-fx-font-size: 1.25em"  VBox.vgrow="ALWAYS" />
                                              <Label fx:id="scanned"  style="-fx-text-fill: #c79e4c" VBox.vgrow="ALWAYS" />
                                              <Button fx:id="scannedMore" onAction="#scannedMore" HBox.hgrow="ALWAYS" />
                                              <Button fx:id="pieRefresh" onAction="#pieRefresh" HBox.hgrow="ALWAYS" />
@@ -178,8 +178,8 @@
                                      </HBox>
                                     <HBox VBox.vgrow="ALWAYS">
                                        <children>
-                                           <PieChart fx:id="keys" title="%server.report.type.key" HBox.hgrow="ALWAYS" />
-                                            <PieChart fx:id="memory" title="%server.report.type.memory" HBox.hgrow="ALWAYS" />
+                                           <PieChart fx:id="keys"  HBox.hgrow="ALWAYS" />
+                                            <PieChart fx:id="memory"  HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                  </children>

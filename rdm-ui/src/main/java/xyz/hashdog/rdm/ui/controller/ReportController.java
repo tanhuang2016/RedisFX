@@ -119,6 +119,15 @@ public class ReportController extends BaseClientController<ServerTabController> 
     public Label scanned2;
     public Button scannedMore2;
     public Button scannedMore;
+    public Label serverVersion;
+    public Label serverOs;
+    public Label serverProcess;
+    public Label memoryUse;
+    public Label memoryPeek;
+    public Label memoryLua;
+    public Label statusConnected;
+    public Label statusConnects;
+    public Label statusCommands;
     private Popover refreshPopover;
     private XYChart.Series<String, Number> memorySeries;
     private XYChart.Series<String, Number> keySeries;
@@ -140,7 +149,7 @@ public class ReportController extends BaseClientController<ServerTabController> 
         initStyle();
         initFontIcon();
         initTextField();
-        initButton();
+        initLanguage();
         initLabel();
         initLineChar();
         initModel();
@@ -156,12 +165,28 @@ public class ReportController extends BaseClientController<ServerTabController> 
         memory.setLegendVisible(false);
     }
 
-    private void initButton() {
+    private void initLanguage() {
         barRefresh.setTooltip(GuiUtil.textTooltip(language("server.refresh.auto")));
         pieRefresh.setTooltip(GuiUtil.textTooltip(language("server.refresh")));
         topRefresh.setTooltip(GuiUtil.textTooltip(language("server.refresh")));
         scannedMore.setTooltip(GuiUtil.textTooltip(language("server.toolBar.loadMore")));
         scannedMore2.setTooltip(GuiUtil.textTooltip(language("server.toolBar.loadMore")));
+        lineKey.setTitle(language("server.report.trend.key"));
+        lineMemory.setTitle(language("server.report.trend.memory"));
+        floatToggleSwitch.setText(language("server.report.bar.flot"));
+        serverInfo.setText(language("server.report.server"));
+        serverVersion.setText(language("server.report.server.version"));
+        serverOs.setText(language("server.report.server.os"));
+        serverProcess.setText(language("server.report.server.process"));
+        memoryUse.setText(language("server.report.memory.use"));
+        memoryPeek.setText(language("server.report.memory.peek"));
+        memoryLua.setText(language("server.report.memory.lua"));
+        statusConnected.setText(language("server.report.status.connected"));
+        statusConnects.setText(language("server.report.status.connects"));
+        statusCommands.setText(language("server.report.status.commands"));
+        pie.setText(language("server.report.type"));
+        keys.setTitle(language("server.report.type.key"));
+        memory.setTitle(language("server.report.type.memory"));
     }
 
     /**
@@ -170,17 +195,15 @@ public class ReportController extends BaseClientController<ServerTabController> 
     private void initLineAndAreaChart() {
         keySeries = new XYChart.Series<>();
         memorySeries = new XYChart.Series<>();
-        initLineAndAreaChart(keySeries,lineKey,language("server.report.trend.key"));
-        initLineAndAreaChart(memorySeries,lineMemory,language("server.report.trend.memory"));
+        initLineAndAreaChart(keySeries,lineKey);
+        initLineAndAreaChart(memorySeries,lineMemory);
     }
 
     /**
      * 初始化趋势图
      * @param lineKey 图
-     * @param name title
      */
-    private void initLineAndAreaChart(XYChart.Series<String, Number> keySeries, XYChart<String, Number> lineKey, String name) {
-        lineKey.setTitle(name);
+    private void initLineAndAreaChart(XYChart.Series<String, Number> keySeries, XYChart<String, Number> lineKey) {
         lineKey.getData().add(keySeries);
         lineKey.setLegendVisible(false);
     }
