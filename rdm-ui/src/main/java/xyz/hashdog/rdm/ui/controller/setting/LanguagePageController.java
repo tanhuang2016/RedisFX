@@ -60,8 +60,7 @@ public class LanguagePageController {
 
     private void initLangComboBox() {
         // 获取支持的语言列表
-        List<Locale> supportedLocales = LanguageManager.getSupportedLocales();
-
+        List<Locale> supportedLocales = LanguageManager.directSupportedLocales();
         // 设置ComboBox显示
         langComboBox.setItems(FXCollections.observableArrayList(supportedLocales));
         langComboBox.setConverter(new StringConverter<Locale>() {
