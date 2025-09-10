@@ -19,6 +19,9 @@ import xyz.hashdog.rdm.ui.controller.MainController;
 import xyz.hashdog.rdm.ui.entity.config.LanguageSetting;
 import xyz.hashdog.rdm.ui.entity.config.ThemeSetting;
 import xyz.hashdog.rdm.ui.exceptions.GeneralException;
+import xyz.hashdog.rdm.ui.sampler.event.BrowseEvent;
+import xyz.hashdog.rdm.ui.sampler.event.DefaultEventBus;
+import xyz.hashdog.rdm.ui.sampler.event.Listener;
 import xyz.hashdog.rdm.ui.sampler.event.Save;
 import xyz.hashdog.rdm.ui.sampler.layout.ApplicationWindow;
 import xyz.hashdog.rdm.ui.sampler.theme.SamplerTheme;
@@ -103,6 +106,7 @@ public class Main extends Application {
             stage.setWidth(Math.min(root.getPrefWidth(), bounds.getWidth()));
             stage.setHeight(Math.min(root.getPrefHeight(), bounds.getHeight()));
             initTm(scene);
+            DefaultEventBus.getInstance().subscribe(BrowseEvent .class, this::onBrowseEvent);
             //先默认打开
             controller.welcome(null);
             stage.show();
@@ -199,6 +203,12 @@ public class Main extends Application {
                 list.set(index, String.valueOf(value));
             }
         });
+    }
+
+
+    @Listener
+    private void onBrowseEvent(BrowseEvent event) {
+        getHostServices().showDocument(event.getUri().toString());
     }
 
 }
