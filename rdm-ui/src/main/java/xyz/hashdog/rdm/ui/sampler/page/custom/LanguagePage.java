@@ -29,5 +29,8 @@ public final class LanguagePage extends AbstractPage {
     }
 
 
-
+    public void resetLanguage() {
+        PageHeader pageHeader = new PageHeader(this);
+        this.userContent.getChildren().set(0, pageHeader);
+    }
 }

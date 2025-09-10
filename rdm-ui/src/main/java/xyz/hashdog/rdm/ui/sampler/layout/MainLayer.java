@@ -5,6 +5,7 @@ package xyz.hashdog.rdm.ui.sampler.layout;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
@@ -21,6 +22,7 @@ import xyz.hashdog.rdm.ui.sampler.event.HotkeyEvent;
 import xyz.hashdog.rdm.ui.sampler.event.PageEvent;
 import xyz.hashdog.rdm.ui.sampler.event.ThemeEvent;
 import xyz.hashdog.rdm.ui.sampler.page.Page;
+import xyz.hashdog.rdm.ui.sampler.page.custom.LanguagePage;
 import xyz.hashdog.rdm.ui.sampler.theme.ThemeManager;
 
 import javax.imageio.ImageIO;
@@ -147,7 +149,6 @@ public class MainLayer extends BorderPane {
                 .findFirst()
                 .orElse(null);
             final Page nextPage = pageClass.getDeclaredConstructor().newInstance();
-
             // startup, no prev page, no animation
             if (getScene() == null) {
                 subLayerPane.getChildren().add(nextPage.getView());
@@ -198,6 +199,8 @@ public class MainLayer extends BorderPane {
     }
 
     public void resetLanguage() {
+        LanguagePage last = (LanguagePage) subLayerPane.getChildren().getLast();
+        last.resetLanguage();
         sidebar.resetLanguage();
     }
 }
