@@ -33,7 +33,7 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
 /**
  * @author th
- * @version 2.3.3
+ * @version 2.3.4
  * @since 2025/9/7 9:41
  */
 public class WelcomeController extends BaseWindowController<MainController> implements Initializable {
