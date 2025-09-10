@@ -173,18 +173,21 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
             //是否为根
             isRoot = newValue.getValue().isRoot();
             // 使用选择器获取一组按钮,原子叶子节点才能连接,否则是目录才能新建分组和新建连接
-//            buttonsHbox.lookupAll(".isLeafNode").forEach(node -> {
-//                Button button = (Button) node;
+            buttonsHbox.lookupAll(".isLeafNode").forEach(node -> {
+                Button button = (Button) node;
+                updateButtonState(button, !isLeafNode);
 //                button.setDisable(!isLeafNode);
-//            });
-//            buttonsHbox.lookupAll(".isNotLeafNode").forEach(node -> {
-//                Button button = (Button) node;
+            });
+            buttonsHbox.lookupAll(".isNotLeafNode").forEach(node -> {
+                Button button = (Button) node;
 //                button.setDisable(isLeafNode);
-//            });
-//            buttonsHbox.lookupAll(".isNotRoot").forEach(node -> {
-//                Button button = (Button) node;
+                updateButtonState(button, isLeafNode);
+            });
+            buttonsHbox.lookupAll(".isNotRoot").forEach(node -> {
+                Button button = (Button) node;
+                updateButtonState(button, isRoot);
 //                button.setDisable(isRoot);
-//            });
+            });
             // 右键菜单显示/隐藏
             ObservableList<MenuItem> items = contextMenu.getItems();
             items.forEach(menuItem -> {
@@ -206,6 +209,22 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
             this.selectedNode = newValue.getValue();
 
         });
+    }
+
+    /**
+     * 更新按钮状态
+     * 用透明度，模拟禁用，让鼠标事件仍然有效
+     * @param button 按钮
+     * @param shouldDisable 是否禁用
+     */
+    private void updateButtonState(Button button, boolean shouldDisable) {
+        if (shouldDisable) {
+            // 视觉上表示禁用，但不真正禁用
+            button.setStyle("-fx-opacity: 0.6;-fx-cursor: default;");
+        } else {
+            // 恢复正常状态
+            button.setStyle("-fx-opacity: 1;-fx-cursor: default;");
+        }
     }
 
     /**
