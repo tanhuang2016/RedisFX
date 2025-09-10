@@ -196,4 +196,8 @@ public class MainLayer extends BorderPane {
         codeViewerWrapper.toBack();
         codeViewer.setVisible(false);
     }
+
+    public void resetLanguage() {
+        sidebar.resetLanguage();
+    }
 }

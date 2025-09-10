@@ -14,6 +14,7 @@ public final class ApplicationWindow  extends AnchorPane {
     public static final int MIN_WIDTH = 1200;
     public static final int SIDEBAR_WIDTH = 250;
     public static final String MAIN_MODAL_ID = "modal-pane";
+    private static MainLayer mainLayer;
 
 
     public ApplicationWindow() {
@@ -24,10 +25,14 @@ public final class ApplicationWindow  extends AnchorPane {
 
         var modalPane = new ModalPane();
         modalPane.setId(MAIN_MODAL_ID);
-
+        mainLayer = new MainLayer();
         body.getChildren().setAll(modalPane, new MainLayer());
         NodeUtils.setAnchors(body, Insets.EMPTY);
 
         getChildren().setAll(body);
+    }
+
+    public static void resetLanguage() {
+        mainLayer.resetLanguage();
     }
 }

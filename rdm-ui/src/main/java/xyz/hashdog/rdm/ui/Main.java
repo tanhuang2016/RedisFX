@@ -20,6 +20,7 @@ import xyz.hashdog.rdm.ui.entity.config.LanguageSetting;
 import xyz.hashdog.rdm.ui.entity.config.ThemeSetting;
 import xyz.hashdog.rdm.ui.exceptions.GeneralException;
 import xyz.hashdog.rdm.ui.sampler.event.Save;
+import xyz.hashdog.rdm.ui.sampler.layout.ApplicationWindow;
 import xyz.hashdog.rdm.ui.sampler.theme.SamplerTheme;
 import xyz.hashdog.rdm.ui.sampler.theme.ThemeManager;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
@@ -46,6 +47,7 @@ public class Main extends Application {
      * 重置语言
      */
     public void resetLanguage(){
+        ApplicationWindow.resetLanguage();
         controller.resetLanguage();
     }
 

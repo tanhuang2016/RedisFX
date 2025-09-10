@@ -8,10 +8,7 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -44,7 +41,6 @@ public final class Sidebar extends VBox {
         super();
 
         this.navTree = new NavTree(model);
-
         createView();
 
         searchDialog = new Lazy<>(() -> {
@@ -122,6 +118,25 @@ public final class Sidebar extends VBox {
         var dialog = themeDialog.get();
         dialog.show(getScene());
         Platform.runLater(dialog::requestFocus);
+    }
+
+    public void resetLanguage() {
+//        navTree.refresh();
+        TreeItem<Nav> root = navTree.getRoot();
+        if (root != null) {
+            // 强制更新每个节点的显示文本
+            updateTreeItems(root);
+        }
+        navTree.refresh();
+    }
+    private void updateTreeItems(TreeItem<Nav> item) {
+        Nav value = item.getValue();
+        //要重新new一个实例，改变引用地址才能触发更新
+        Nav nav = new Nav(value.title(), value.graphic(), value.pageClass(), value.searchKeywords());
+        item.setValue(nav);
+        for (TreeItem<Nav> child : item.getChildren()) {
+            updateTreeItems(child);
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////
