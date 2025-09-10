@@ -2,7 +2,9 @@
 
 package xyz.hashdog.rdm.ui.sampler.page.custom;
 
+import atlantafx.base.util.BBCodeParser;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.TextFlow;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.ui.controller.setting.LanguagePageController;
 import xyz.hashdog.rdm.ui.sampler.page.AbstractPage;
@@ -35,6 +37,8 @@ public final class LanguagePage extends AbstractPage {
     public void resetLanguage() {
         PageHeader pageHeader = new PageHeader(this);
         this.userContent.getChildren().set(0, pageHeader);
+        TextFlow formattedText = BBCodeParser.createFormattedText(language("main.setting.general.language.describe"));
+        this.userContent.getChildren().set(1, formattedText);
         controller.resetLanguage();
     }
 }
