@@ -302,6 +302,10 @@
 <!--                                        <headerType>console</headerType>-->
                                         <icoFile>src/main/resources/icon/fx_icon_256.ico</icoFile>
                                         <generateSetup>true</generateSetup>
+                                        <setupLanguages>
+                                            <english>compiler:Default.isl</english>
+                                        </setupLanguages>
+                                        <wrapJar>true</wrapJar>
                                         <generateMsi>true</generateMsi>
                                         <generateMsm>true</generateMsm>
                                         <disableDirPage>false</disableDirPage>
