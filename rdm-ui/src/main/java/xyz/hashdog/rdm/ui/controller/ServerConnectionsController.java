@@ -157,6 +157,8 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
         });
     }
 
+    private boolean isLeafNode;
+    private boolean isRoot;
     /**
      * 监听treeView选中事件,判断需要显示和隐藏的按钮/菜单
      * 将选中的节点,缓存到类
@@ -167,22 +169,22 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
                 newValue = treeView.getRoot();
             }
             //叶子节点是连接,这位原子叶子节点
-            boolean isLeafNode = newValue.getValue().isConnection();
+            isLeafNode = newValue.getValue().isConnection();
             //是否为根
-            boolean isRoot = newValue.getValue().isRoot();
+            isRoot = newValue.getValue().isRoot();
             // 使用选择器获取一组按钮,原子叶子节点才能连接,否则是目录才能新建分组和新建连接
-            buttonsHbox.lookupAll(".isLeafNode").forEach(node -> {
-                Button button = (Button) node;
-                button.setDisable(!isLeafNode);
-            });
-            buttonsHbox.lookupAll(".isNotLeafNode").forEach(node -> {
-                Button button = (Button) node;
-                button.setDisable(isLeafNode);
-            });
-            buttonsHbox.lookupAll(".isNotRoot").forEach(node -> {
-                Button button = (Button) node;
-                button.setDisable(isRoot);
-            });
+//            buttonsHbox.lookupAll(".isLeafNode").forEach(node -> {
+//                Button button = (Button) node;
+//                button.setDisable(!isLeafNode);
+//            });
+//            buttonsHbox.lookupAll(".isNotLeafNode").forEach(node -> {
+//                Button button = (Button) node;
+//                button.setDisable(isLeafNode);
+//            });
+//            buttonsHbox.lookupAll(".isNotRoot").forEach(node -> {
+//                Button button = (Button) node;
+//                button.setDisable(isRoot);
+//            });
             // 右键菜单显示/隐藏
             ObservableList<MenuItem> items = contextMenu.getItems();
             items.forEach(menuItem -> {
@@ -239,6 +241,10 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
      */
     @FXML
     public void newConnection(ActionEvent actionEvent)  {
+        if(isLeafNode){
+            log.warn("select is not group node,can not creat connection:{}",this.selectedNode.getName());
+            return;
+        }
         super.loadSubWindow(newConnection.getText(), "/fxml/NewConnectionView.fxml", root.getScene().getWindow(), ADD);
     }
     /**
@@ -273,6 +279,10 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
 
     @FXML
     public void newGroup(ActionEvent actionEvent)  {
+        if(isLeafNode){
+            log.warn("select is not group node,can not creat group:{}",this.selectedNode.getName());
+            return;
+        }
         super.loadSubWindow(newGroup.getText(), "/fxml/NewGroupView.fxml", root.getScene().getWindow(), ADD);
     }
 
@@ -293,6 +303,10 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
      */
     @FXML
     public void edit(ActionEvent actionEvent) throws IOException {
+        if(isRoot){
+            log.warn("can not edit root node:{}",this.selectedNode.getName());
+            return;
+        }
         if (this.selectedNode.isConnection()) {
             NewConnectionController controller = super.loadSubWindow(edit.getText(), "/fxml/NewConnectionView.fxml", root.getScene().getWindow(), UPDATE);
             controller.editInfo(this.selectedNode);
@@ -313,6 +327,10 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
      */
     @FXML
     public void rename(ActionEvent actionEvent) throws IOException {
+        if(isRoot){
+            log.warn("can not rename root node:{}",this.selectedNode.getName());
+            return;
+        }
         NewGroupController controller = super.loadSubWindow(rename.getText(), "/fxml/NewGroupView.fxml", root.getScene().getWindow(), BaseWindowController.RENAME);
         controller.editInfo(this.selectedNode);
     }
@@ -324,6 +342,10 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
      */
     @FXML
     public void delete(ActionEvent actionEvent) {
+        if(isRoot){
+            log.warn("can not delete root node:{}",this.selectedNode.getName());
+            return;
+        }
         String message ;
         if (this.selectedNode.isConnection()) {
             message = Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL_CONNECTION);
@@ -389,6 +411,10 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
      */
     @FXML
     public void connect(ActionEvent actionEvent) {
+        if(!isLeafNode){
+            log.warn("select is not connection node,can not connect:{}",this.selectedNode.getName());
+            return;
+        }
         try {
             RedisConfig redisConfig = new RedisConfig();
             redisConfig.setHost(this.selectedNode.getHost());

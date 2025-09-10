@@ -19,15 +19,15 @@
             <VBox prefHeight="25.0" prefWidth="470.0" BorderPane.alignment="CENTER">
                <children>
                   <ToolBar fx:id="buttonsHbox" prefHeight="23.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                        <Button fx:id="connect" mnemonicParsing="false" onAction="#connect" styleClass="isLeafNode" disable="true">
+                        <Button fx:id="connect" mnemonicParsing="false" onAction="#connect" styleClass="isLeafNode" >
                         </Button>
                         <Button fx:id="newGroup" mnemonicParsing="false" onAction="#newGroup" styleClass="isNotLeafNode">
                         </Button>
                         <Button fx:id="newConnection" mnemonicParsing="false" onAction="#newConnection" styleClass="isNotLeafNode">
                         </Button>
-                        <Button fx:id="edit" mnemonicParsing="false" onAction="#edit" styleClass="isNotRoot" disable="true">
+                        <Button fx:id="edit" mnemonicParsing="false" onAction="#edit" styleClass="isNotRoot" >
                         </Button>
-                        <Button fx:id="rename" mnemonicParsing="false" onAction="#rename" styleClass="isNotRoot" disable="true">
+                        <Button fx:id="rename" mnemonicParsing="false" onAction="#rename" styleClass="isNotRoot" >
                         </Button>
                         <Button fx:id="delete" mnemonicParsing="false" onAction="#delete" styleClass="isNotRoot">
                         </Button>
