@@ -813,7 +813,7 @@ public class MainController extends BaseWindowController<Main> {
         AnchorPane.setRightAnchor(msg,30d);
         AnchorPane.setTopAnchor(msg,30d);
 
-        var btn = new Button("Show");
+        var btn = new Button("立即下载");
         btn.setOnAction(e -> {
             FontIcon fontIcon = new FontIcon(Material2OutlinedAL.CHECK_CIRCLE_OUTLINE);
             msg.setGraphic(fontIcon);
