@@ -1,11 +1,18 @@
 package xyz.hashdog.rdm.ui.controller;
 
+import atlantafx.base.controls.Notification;
+import atlantafx.base.theme.Styles;
+import atlantafx.base.util.Animations;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -19,11 +26,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.material2.Material2OutlinedAL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
@@ -47,14 +58,19 @@ import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.RecentHistory;
 
 import java.awt.*;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
 import static javafx.scene.input.KeyCombination.*;
+import static xyz.hashdog.rdm.ui.sampler.page.Page.FAKER;
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
 /**
@@ -118,6 +134,7 @@ public class MainController extends BaseWindowController<Main> {
     public MenuItem update;
     public MenuItem about;
     public MenuItem restartWindow;
+    public AnchorPane center;
     /**
      * 服务连接的Stage
      */
@@ -774,4 +791,91 @@ public class MainController extends BaseWindowController<Main> {
 
     }
 
+    /**
+     * 检查更新
+     * @param actionEvent 事件
+     */
+    @FXML
+    public void update(ActionEvent actionEvent) {
+        final var msg = new Notification(
+                "检查更新中",
+                new ProgressIndicator()
+        );
+
+        ProgressIndicator progressIndicator = (ProgressIndicator) msg.getGraphic();
+        progressIndicator.setPrefSize(22, 22);
+        progressIndicator.setMaxSize(22, 22);
+        msg.getStyleClass().addAll(
+                Styles.ELEVATED_1
+        );
+//        msg.setPrefHeight(Region.USE_PREF_SIZE);
+//        msg.setMaxHeight(Region.USE_PREF_SIZE);
+        AnchorPane.setRightAnchor(msg,30d);
+        AnchorPane.setTopAnchor(msg,30d);
+
+        var btn = new Button("Show");
+        btn.setOnAction(e -> {
+            FontIcon fontIcon = new FontIcon(Material2OutlinedAL.CHECK_CIRCLE_OUTLINE);
+            msg.setGraphic(fontIcon);
+            msg.getStyleClass().add(Styles.SUCCESS);
+        });
+        msg.setPrimaryActions(btn);
+        msg.setOnClose(e -> {
+            var out = Animations.slideOutRight(msg, Duration.millis(250));
+            out.setOnFinished(f -> center.getChildren().remove(msg));
+            out.playFromStart();
+        });
+        var in = Animations.slideInRight(msg, Duration.millis(250));
+        if (!center.getChildren().contains(msg)) {
+            center.getChildren().add(msg);
+        }
+        in.playFromStart();
+    }
+
+    public static void main(String[] args) {
+        checkForUpdatesAsync(null);
+    }
+
+    private  static void checkForUpdatesAsync(Notification notification) {
+        Thread updateThread = new Thread(() -> {
+            try {
+                // GitHub API URL (替换为你的实际仓库信息)
+                String apiUrl = "https://raw.githubusercontent.com/tanhuang2016/RedisFX/main/rdm-ui/src/main/resources/application.properties";
+                 apiUrl = "https://gitee.com/tanhuang2016/RedisFX/raw/main/rdm-ui/src/main/resources/application.properties";
+
+                // 发送HTTP请求
+                URL url = new URL(apiUrl);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+
+                int responseCode = connection.getResponseCode();
+                if (responseCode == 200) {
+                    // 读取响应
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+                    reader.close();
+
+                    // 解析JSON响应
+                    JsonObject releaseInfo = JsonParser.parseString(response.toString()).getAsJsonObject();
+                    String latestVersion = releaseInfo.get("tag_name").getAsString();
+                    String currentVersion = System.getProperty("app.version");
+
+                    // 在JavaFX线程中更新UI
+//                    Platform.runLater(() -> updateNotificationUI(notification, currentVersion, latestVersion, releaseInfo));
+                } else {
+//                    Platform.runLater(() -> showUpdateError(notification, "HTTP " + responseCode));
+                }
+            } catch (Exception e) {
+                log.error("检查更新失败", e);
+//                Platform.runLater(() -> showUpdateError(notification, e.getMessage()));
+            }
+        });
+
+//        updateThread.setDaemon(true);
+        updateThread.start();
+    }
 }

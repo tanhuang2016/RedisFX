@@ -17,7 +17,7 @@
         <BorderPane layoutX="214.0" layoutY="112.0" prefHeight="675.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0"
                     AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <center>
-                <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                <AnchorPane fx:id="center" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                     <children>
                         <TabPane fx:id="serverTabPane" layoutX="160.0" layoutY="73.0" prefHeight="650.0"
                                  prefWidth="1200.0" tabClosingPolicy="ALL_TABS" AnchorPane.bottomAnchor="0.0"
@@ -122,7 +122,7 @@
                             <items>
                                 <MenuItem fx:id="guide" mnemonicParsing="false" text="%main.help.guide"  disable="true"/>
                                 <MenuItem fx:id="suggest" mnemonicParsing="false" text="%main.help.suggest" onAction="#suggest"/>
-                                <MenuItem fx:id="update" mnemonicParsing="false" text="%main.help.update" disable="true"/>
+                                <MenuItem fx:id="update" mnemonicParsing="false" text="%main.help.update"  onAction="#update"/>
                                 <MenuItem fx:id="about" mnemonicParsing="false" text="%main.help.about" onAction="#about" />
                             </items>
                         </Menu>
