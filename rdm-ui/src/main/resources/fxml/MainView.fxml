@@ -123,7 +123,7 @@
                                 <MenuItem fx:id="guide" mnemonicParsing="false" text="%main.help.guide"  disable="true"/>
                                 <MenuItem fx:id="suggest" mnemonicParsing="false" text="%main.help.suggest" onAction="#suggest"/>
                                 <MenuItem fx:id="update" mnemonicParsing="false" text="%main.help.update" disable="true"/>
-                                <MenuItem fx:id="about" mnemonicParsing="false" text="%main.help.about" disable="true"/>
+                                <MenuItem fx:id="about" mnemonicParsing="false" text="%main.help.about" onAction="#about" />
                             </items>
                         </Menu>
                     </menus>

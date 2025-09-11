@@ -11,11 +11,15 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.feather.Feather;
@@ -46,6 +50,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -740,4 +745,33 @@ public class MainController extends BaseWindowController<Main> {
     public void restartWindow(ActionEvent actionEvent) {
         Main.instance.restart();
     }
+    /**
+     * 关于
+     * @param actionEvent 事件
+     */
+    @FXML
+    public void about(ActionEvent actionEvent) {
+        var alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(language("main.help.about"));
+        alert.setHeaderText(null);
+        alert.setGraphic(new ImageView(GuiUtil.svgImage("/svg/fx_icon.svg",64)));
+        alert.setContentText(("%s\n\n%s\n\n"+language("main.help.about.copyright")).formatted(Applications.NODE_APP_NAME,"v" + System.getProperty("app.version"), Year.now().getValue()));
+        alert.initOwner(this.currentStage);
+        // 应用尺寸调整
+        // 获取内容标签并计算实际所需宽度
+        DialogPane dialogPane = alert.getDialogPane();
+        Label contentLabel = (Label) dialogPane.lookup(".content.label");
+        if (contentLabel != null) {
+            contentLabel.setWrapText(true);
+            // 计算文本所需宽度
+            double textWidth = GuiUtil.computeTextWidth(contentLabel.getFont(), alert.getContentText(), 300);
+            // 设置合适的宽度 (图标64px + 间距 + 文本宽度 + 边距)
+            double desiredWidth = Math.max(250, Math.min(400, 64 + 5 + textWidth + 5));
+            dialogPane.setPrefWidth(desiredWidth);
+        }
+        alert.getDialogPane().getScene().getWindow().sizeToScene();
+        alert.show();
+
+    }
+
 }
