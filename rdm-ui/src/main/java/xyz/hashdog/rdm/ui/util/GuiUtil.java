@@ -230,6 +230,7 @@ public class GuiUtil {
      */
     private static Alert createAlert(Alert.AlertType alertType, String message) {
         Alert a = new Alert(alertType);
+        a.initOwner(Window.getWindows().getLast());
         Stage stage = (Stage) a.getDialogPane().getScene().getWindow();
         stage.getIcons().add(ICON_REDIS);
         a.setHeaderText(Main.RESOURCE_BUNDLE.getString("alert."+alertType.name().toLowerCase()));
