@@ -81,6 +81,14 @@ public class ByteArrayController extends BaseController<BaseController> implemen
         initTypeChoiceBox();
         initListener();
         initButton();
+        characterChoiceBox.setVisible(false);
+        characterChoiceBox.setManaged(false);
+        into.setVisible(false);
+        into.setManaged(false);
+        export.setVisible(false);
+        export.setManaged(false);
+        view.setVisible(false);
+        view.setManaged(false);
     }
 
     @Override
