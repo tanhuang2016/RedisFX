@@ -9,10 +9,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import xyz.hashdog.rdm.common.Constant;
+import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.EncodeUtil;
 import xyz.hashdog.rdm.common.util.FileUtil;
 import xyz.hashdog.rdm.ui.common.ValueTypeEnum;
@@ -264,11 +267,16 @@ public class ByteArrayController extends BaseController<BaseController> implemen
         Parent view = this.type.handler.view(this.currentValue, Charset.forName(characterChoiceBox.getValue()));
         Scene scene = new Scene(view);
         Stage stage=new Stage();
+        stage.initStyle(StageStyle.DECORATED);
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.setMaximized(false);
         stage.getIcons().add(GuiUtil.ICON_REDIS);
         stage.initOwner(root.getScene().getWindow());
         stage.setScene(scene);
         stage.setTitle(String.format("View Of %s",this.type.name ));
         stage.show();
+
+
     }
 
     /**
