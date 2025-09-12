@@ -126,6 +126,9 @@ public interface Constant {
      * 应用主页
      */
     String APP_HOME_PAGE = "app.homepage";
+      /**
+     * 应用版本
+     */
     String APP_VERSION = "app.version";
     String APP_PROPERTIES = "app.properties";
     String APP_PROPERTIES2 = "app.properties2";
