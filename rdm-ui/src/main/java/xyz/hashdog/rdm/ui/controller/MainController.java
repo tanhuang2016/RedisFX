@@ -792,7 +792,7 @@ public class MainController extends BaseWindowController<Main> {
     @FXML
     public void update(ActionEvent actionEvent) {
         final var msg = new Notification(
-                "检查更新中",
+                language("main.help.update.loading"),
                 new ProgressIndicator()
         );
         ProgressIndicator progressIndicator = (ProgressIndicator) msg.getGraphic();
@@ -842,7 +842,7 @@ public class MainController extends BaseWindowController<Main> {
      */
     private void checkToMsg(Notification msg, Properties properties) {
         if (properties == null) {
-            msg.setMessage("无法检查更新，请检查网络连接。");
+            msg.setMessage(language("main.help.update.fail"));
             msg.getStyleClass().addAll(
                     Styles.DANGER
             );
@@ -857,13 +857,13 @@ public class MainController extends BaseWindowController<Main> {
         String currentVersion = System.getProperty(Constant.APP_VERSION);
         //已经是最新了
         if(currentVersion.equals(releaseVersion)){
-            msg.setMessage("当前版本已经是最新");
+            msg.setMessage(language("main.help.update.new"));
             CompletableFuture.delayedExecutor(3, TimeUnit.SECONDS).execute(() -> {
                 Platform.runLater(() -> msg.getOnClose().handle(null));
             });
             return;
         }
-        msg.setMessage("最新版本为v"+releaseVersion);
+        msg.setMessage(language("main.help.update.latest")+"v"+releaseVersion);
         var btn = getDownloadButton(msg);
         msg.setPrimaryActions(btn);
     }
@@ -874,7 +874,7 @@ public class MainController extends BaseWindowController<Main> {
      * @return 按钮
      */
     private static @NotNull Button getDownloadButton(Notification msg) {
-        var btn = new Button("立即下载");
+        var btn = new Button(language("main.help.update.download"));
         btn.setOnAction(e -> {
            String downloadUrl =System.getProperty(Constant.APP_HOME_PAGE)+ "/releases/latest";
             try {
