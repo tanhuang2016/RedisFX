@@ -3,16 +3,12 @@ package xyz.hashdog.rdm.ui.controller;
 import atlantafx.base.controls.Notification;
 import atlantafx.base.theme.Styles;
 import atlantafx.base.util.Animations;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -26,12 +22,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.jetbrains.annotations.NotNull;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2OutlinedAL;
@@ -61,16 +55,16 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.io.StringReader;
+import java.net.*;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 import static javafx.scene.input.KeyCombination.*;
-import static xyz.hashdog.rdm.ui.sampler.page.Page.FAKER;
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
 /**
@@ -772,7 +766,7 @@ public class MainController extends BaseWindowController<Main> {
         alert.setTitle(language("main.help.about"));
         alert.setHeaderText(null);
         alert.setGraphic(new ImageView(GuiUtil.svgImage("/svg/fx_icon.svg",64)));
-        alert.setContentText(("%s\n\n%s\n\n"+language("main.help.about.copyright")).formatted(Applications.NODE_APP_NAME,"v" + System.getProperty("app.version"), Year.now().getValue()));
+        alert.setContentText(("%s\n\n%s\n\n"+language("main.help.about.copyright")).formatted(Applications.NODE_APP_NAME,"v" + System.getProperty(Constant.APP_VERSION), Year.now().getValue()));
         alert.initOwner(this.currentStage);
         // 应用尺寸调整
         // 获取内容标签并计算实际所需宽度
@@ -801,25 +795,14 @@ public class MainController extends BaseWindowController<Main> {
                 "检查更新中",
                 new ProgressIndicator()
         );
-
         ProgressIndicator progressIndicator = (ProgressIndicator) msg.getGraphic();
         progressIndicator.setPrefSize(22, 22);
         progressIndicator.setMaxSize(22, 22);
         msg.getStyleClass().addAll(
                 Styles.ELEVATED_1
         );
-//        msg.setPrefHeight(Region.USE_PREF_SIZE);
-//        msg.setMaxHeight(Region.USE_PREF_SIZE);
         AnchorPane.setRightAnchor(msg,30d);
         AnchorPane.setTopAnchor(msg,30d);
-
-        var btn = new Button("立即下载");
-        btn.setOnAction(e -> {
-            FontIcon fontIcon = new FontIcon(Material2OutlinedAL.CHECK_CIRCLE_OUTLINE);
-            msg.setGraphic(fontIcon);
-            msg.getStyleClass().add(Styles.SUCCESS);
-        });
-        msg.setPrimaryActions(btn);
         msg.setOnClose(e -> {
             var out = Animations.slideOutRight(msg, Duration.millis(250));
             out.setOnFinished(f -> center.getChildren().remove(msg));
@@ -830,52 +813,112 @@ public class MainController extends BaseWindowController<Main> {
             center.getChildren().add(msg);
         }
         in.playFromStart();
+        checkForUpdatesAsync(msg);
     }
 
-    public static void main(String[] args) {
-        checkForUpdatesAsync(null);
-    }
 
-    private  static void checkForUpdatesAsync(Notification notification) {
-        Thread updateThread = new Thread(() -> {
-            try {
-                // GitHub API URL (替换为你的实际仓库信息)
-                String apiUrl = "https://raw.githubusercontent.com/tanhuang2016/RedisFX/main/rdm-ui/src/main/resources/application.properties";
-                 apiUrl = "https://gitee.com/tanhuang2016/RedisFX/raw/main/rdm-ui/src/main/resources/application.properties";
-
-                // 发送HTTP请求
-                URL url = new URL(apiUrl);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
-
-                int responseCode = connection.getResponseCode();
-                if (responseCode == 200) {
-                    // 读取响应
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    StringBuilder response = new StringBuilder();
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        response.append(line);
-                    }
-                    reader.close();
-
-                    // 解析JSON响应
-                    JsonObject releaseInfo = JsonParser.parseString(response.toString()).getAsJsonObject();
-                    String latestVersion = releaseInfo.get("tag_name").getAsString();
-                    String currentVersion = System.getProperty("app.version");
-
-                    // 在JavaFX线程中更新UI
-//                    Platform.runLater(() -> updateNotificationUI(notification, currentVersion, latestVersion, releaseInfo));
-                } else {
-//                    Platform.runLater(() -> showUpdateError(notification, "HTTP " + responseCode));
-                }
-            } catch (Exception e) {
-                log.error("检查更新失败", e);
-//                Platform.runLater(() -> showUpdateError(notification, e.getMessage()));
+    /**
+     * 异步调接口检查更新
+     */
+    private  void checkForUpdatesAsync(Notification msg) {
+        async(()->{
+            String apiUrl = System.getProperty(Constant.APP_PROPERTIES);
+            Properties properties =getReleaseProperties(apiUrl);
+            if (properties == null) {
+                apiUrl = System.getProperty(Constant.APP_PROPERTIES2);
+                properties =getReleaseProperties(apiUrl);
             }
+            Properties finalProperties = properties;
+            Platform.runLater(()->{
+                checkToMsg(msg, finalProperties);
+            });
         });
 
-//        updateThread.setDaemon(true);
-        updateThread.start();
+    }
+
+    /**
+     * 检查更新结果
+     * @param properties 配置
+     */
+    private void checkToMsg(Notification msg, Properties properties) {
+        if (properties == null) {
+            msg.setMessage("无法检查更新，请检查网络连接。");
+            msg.getStyleClass().addAll(
+                    Styles.DANGER
+            );
+            msg.setGraphic(new FontIcon(Material2OutlinedAL.ERROR_OUTLINE));
+            return;
+        }
+        msg.getStyleClass().addAll(
+                Styles.SUCCESS
+        );
+        msg.setGraphic(new FontIcon(Material2OutlinedAL.CHECK_CIRCLE_OUTLINE));
+        String releaseVersion = properties.getProperty(Constant.APP_VERSION);
+        String currentVersion = System.getProperty(Constant.APP_VERSION);
+        //已经是最新了
+        if(currentVersion.equals(releaseVersion)){
+            msg.setMessage("当前版本已经是最新");
+            CompletableFuture.delayedExecutor(3, TimeUnit.SECONDS).execute(() -> {
+                Platform.runLater(() -> msg.getOnClose().handle(null));
+            });
+            return;
+        }
+        msg.setMessage("最新版本为v"+releaseVersion);
+        var btn = getDownloadButton(msg);
+        msg.setPrimaryActions(btn);
+    }
+
+    /**
+     * 获取下载按钮
+     * @param msg 消息
+     * @return 按钮
+     */
+    private static @NotNull Button getDownloadButton(Notification msg) {
+        var btn = new Button("立即下载");
+        btn.setOnAction(e -> {
+           String downloadUrl =System.getProperty(Constant.APP_HOME_PAGE)+ "/releases/latest";
+            try {
+                Desktop.getDesktop().browse(new URI(downloadUrl));
+            } catch (IOException | URISyntaxException ex) {
+                log.error("unable to open the browser:{}",downloadUrl, ex);
+                GuiUtil.alert(Alert.AlertType.ERROR, String.format(language("alert.message.help.suggest")+": %s", downloadUrl));
+            }finally {
+                msg.getOnClose().handle(null);
+            }
+
+        });
+        return btn;
+    }
+
+    /**
+     * 从接口获取发布信息
+     * @param apiUrl 接口地址
+     * @return 发布信息
+     */
+    private Properties getReleaseProperties(String apiUrl) {
+        try {
+            // 发送HTTP请求
+            URL url = URI.create(apiUrl).toURL();
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            // 设置连接超时时间为3秒
+            connection.setConnectTimeout(3000);
+            // 设置读取超时时间
+            connection.setReadTimeout(5000);
+            log.info("getReleaseProperties url:{}",apiUrl);
+            int responseCode = connection.getResponseCode();
+            if (responseCode == 200) {
+                // 读取响应
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                Properties properties = new Properties();
+                properties.load(reader);
+                reader.close();
+                return properties;
+            }
+        } catch (IOException e) {
+           log.error("getReleaseProperties exception:{} ",apiUrl , e);
+        }
+        return null;
+
     }
 }
