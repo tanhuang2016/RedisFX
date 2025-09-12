@@ -863,7 +863,7 @@ public class MainController extends BaseWindowController<Main> {
             });
             return;
         }
-        msg.setMessage(language("main.help.update.latest")+"v"+releaseVersion);
+        msg.setMessage(language("main.help.update.latest")+" v"+releaseVersion);
         var btn = getDownloadButton(msg);
         msg.setPrimaryActions(btn);
     }
