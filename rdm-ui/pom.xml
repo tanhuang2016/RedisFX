@@ -171,6 +171,11 @@
             <artifactId>jsvg</artifactId>
             <version>2.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.fxmisc.richtext</groupId>
+            <artifactId>richtextfx</artifactId>
+            <version>0.11.6</version>
+        </dependency>
     </dependencies>
 
 
