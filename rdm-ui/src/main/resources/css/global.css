@@ -133,3 +133,21 @@
     -fx-padding: 5.7142857143px 8.5714285714px 5.7142857143px 8.5714285714px;
     -fx-font-size: 0.8em;
 }
+
+
+/*********menuButton和combo让箭头尽量不占空间，缩小边距又不失美观 *********/
+/*文字边距*/
+.menu-button.mini-space-arrow > .label {
+    -fx-padding: 8px 2px 8px 12px;
+
+}
+/*箭头的边距*/
+.menu-button.mini-space-arrow > .arrow-button{
+    -fx-padding: 0px 6px 0px 0px;
+}
+.combo-box-base.mini-space-arrow > .arrow-button {
+    -fx-padding: 0px 8px 0px 0px;
+}
+.combo-box-base.mini-space-arrow > .text-field {
+    -fx-padding: 8px 2px 8px 12px;
+}

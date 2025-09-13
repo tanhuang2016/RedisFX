@@ -1,10 +1,13 @@
 package xyz.hashdog.rdm.ui.controller;
 
+import atlantafx.base.controls.CustomTextField;
 import atlantafx.base.theme.Styles;
+import atlantafx.base.theme.Tweaks;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -14,10 +17,12 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.material2.Material2AL;
 import xyz.hashdog.rdm.common.Constant;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.EncodeUtil;
 import xyz.hashdog.rdm.common.util.FileUtil;
+import xyz.hashdog.rdm.ui.common.UiStyles;
 import xyz.hashdog.rdm.ui.common.ValueTypeEnum;
 import xyz.hashdog.rdm.ui.controller.base.BaseController;
 import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
@@ -61,6 +66,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
     @FXML
     public Button view;
     public Button copy;
+    public MenuButton typeMenuButton;
     /**
      * 当前value的二进制
      */
@@ -86,12 +92,17 @@ public class ByteArrayController extends BaseController<BaseController> implemen
         initButton();
         characterChoiceBox.setVisible(false);
         characterChoiceBox.setManaged(false);
+        characterChoiceBox.getStyleClass().add(UiStyles.MINI_SPACE_ARROW);
+        Tooltip tooltip = GuiUtil.textTooltip(characterChoiceBox.getValue());
+        tooltip.textProperty().bind(characterChoiceBox.valueProperty());
+        characterChoiceBox.setTooltip(tooltip);
         into.setVisible(false);
         into.setManaged(false);
         export.setVisible(false);
         export.setManaged(false);
         view.setVisible(false);
         view.setManaged(false);
+        typeMenuButton.getStyleClass().addAll(Styles.BUTTON_OUTLINED,UiStyles.MINI_SPACE_ARROW);
     }
 
     @Override
