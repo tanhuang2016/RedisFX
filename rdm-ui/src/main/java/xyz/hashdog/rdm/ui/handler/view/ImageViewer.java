@@ -55,4 +55,9 @@ public class ImageViewer implements ValueViewer{
         //不会有任何数据默认用2进制展示，一般是用户手动选择
         return false;
     }
+
+    @Override
+    public String name() {
+        return "Image";
+    }
 }

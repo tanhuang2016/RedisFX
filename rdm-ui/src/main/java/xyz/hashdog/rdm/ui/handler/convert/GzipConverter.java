@@ -12,7 +12,7 @@ import java.util.zip.GZIPOutputStream;
  * @version 2.3.5
  * @since 2025/9/13 22:48
  */
-public class GzipConverter implements DataConverter{
+public class GzipConverter implements ValueConverter{
     @Override
     public byte[] encode(byte[] data) {
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -49,5 +49,10 @@ public class GzipConverter implements DataConverter{
         // GZIP文件头魔数: 0x1F 0x8B
         // 只需要检查前两个字节
         return (data[0] == (byte) 0x1F) && (data[1] == (byte) 0x8B);
+    }
+
+    @Override
+    public String name() {
+        return "Gzip";
     }
 }

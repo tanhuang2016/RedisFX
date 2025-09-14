@@ -38,4 +38,9 @@ public class TextViewer extends AbstractTextViewer implements CharacterEncoding{
     public boolean accept(byte[] data) {
         return true;
     }
+
+    @Override
+    public String name() {
+        return "Text";
+    }
 }

@@ -56,4 +56,9 @@ public class JsonViewer extends AbstractTextViewer implements CharacterEncoding{
         }
         return false;
     }
+
+    @Override
+    public String name() {
+        return "JSON";
+    }
 }

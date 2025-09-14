@@ -7,7 +7,7 @@ import java.util.Base64;
  * @version 2.3.5
  * @since 2025/9/13 22:48
  */
-public class Base64Converter implements DataConverter{
+public class Base64Converter implements ValueConverter{
     @Override
     public byte[] encode(byte[] data) {
         return Base64.getEncoder().encode(data);
@@ -46,5 +46,10 @@ public class Base64Converter implements DataConverter{
 
         // 检查有效字符长度是否符合Base64规则
         return trimmedLength % 4 == 0 || (checkLength < data.length);
+    }
+
+    @Override
+    public String name() {
+        return "Base64";
     }
 }
