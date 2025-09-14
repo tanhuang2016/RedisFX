@@ -1,13 +1,11 @@
 package xyz.hashdog.rdm.ui.controller;
 
-import atlantafx.base.controls.CustomTextField;
 import atlantafx.base.theme.Styles;
 import atlantafx.base.theme.Tweaks;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -20,13 +18,13 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import org.kordamp.ikonli.material2.Material2MZ;
 import xyz.hashdog.rdm.common.Constant;
-import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.EncodeUtil;
 import xyz.hashdog.rdm.common.util.FileUtil;
 import xyz.hashdog.rdm.ui.common.UiStyles;
 import xyz.hashdog.rdm.ui.common.ValueTypeEnum;
 import xyz.hashdog.rdm.ui.controller.base.BaseController;
 import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
+import xyz.hashdog.rdm.ui.handler.convert.ValueConverter;
 import xyz.hashdog.rdm.ui.handler.convert.ValueConverters;
 import xyz.hashdog.rdm.ui.handler.view.ValueViewers;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
@@ -39,7 +37,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
@@ -165,16 +162,13 @@ public class ByteArrayController extends BaseController<BaseController> implemen
                 .map(RadioMenuItem::new)
                 .peek(item -> item.setToggleGroup(converterGroup))
                 .toList();
-        RadioMenuItem none = new RadioMenuItem("None");
-        none.setToggleGroup(converterGroup);
-        converter.getItems().addFirst(none);
         converter.getItems().addAll(converterItems);
 
         // 监听选中事件，绑定typeMenuButton文本
         bindTypeMenuButtonText(viewerGroup, converterGroup);
         // 设置默认选中项（可选）
         viewerItems.getFirst().setSelected(true);
-        none.setSelected(true);
+        converterItems.getFirst().setSelected(true);
     }
 
 
@@ -333,6 +327,9 @@ public class ByteArrayController extends BaseController<BaseController> implemen
         }
         this.size.setText(String.format(SIZE, Util.convertMemorySizeStr(currentSize,2)));
         this.typeChoiceBox.setValue(type.name);
+
+        ValueConverter converter = ValueConverters.converterByValue(currentValue);
+        System.out.println();
     }
 
     /**

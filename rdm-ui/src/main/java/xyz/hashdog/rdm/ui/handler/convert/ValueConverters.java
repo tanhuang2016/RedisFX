@@ -1,9 +1,6 @@
 package xyz.hashdog.rdm.ui.handler.convert;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -17,7 +14,7 @@ public class ValueConverters {
      * 私有构造函数，防止外部实例化
      */
     private ValueConverters() {
-        map = Stream.of(new Base64Converter(), new GzipConverter())
+        map = Stream.of(new NoneConverter(),new Base64Converter(), new GzipConverter())
                 .collect(Collectors.toMap(
                         ValueConverter::name,
                         valueConverter -> valueConverter,
@@ -33,6 +30,19 @@ public class ValueConverters {
     public static ValueConverters getInstance() {
         return ValueConvertersHolder.INSTANCE;
     }
+
+    public static ValueConverter converterByValue(byte[] value) {
+        List<ValueConverter> list = getInstance().map.values().stream()
+                .sorted(Comparator.comparing(ValueConverter::order))
+                .toList();
+        for (ValueConverter valueConverter : list) {
+            if(valueConverter.accept(value)){
+                return valueConverter;
+            }
+        }
+        return list.getLast();
+    }
+
     /**
      * 内部类单例模式实现
      */
