@@ -1,12 +1,14 @@
 package xyz.hashdog.rdm.ui.handler.convert;
 
+import xyz.hashdog.rdm.ui.handler.CanHandle;
+
 /**
  * 编解码转换工具
  * @author th
  * @version 2.3.5
  * @since 2025/9/13 22:48
  */
-public interface DataConverter {
+public interface DataConverter  extends CanHandle {
 
     /**
      * 编码

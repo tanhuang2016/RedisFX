@@ -53,7 +53,7 @@
                   <Insets />
                </VBox.margin>
             </HBox>
-            <AnchorPane prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+            <AnchorPane fx:id="valuePane" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                <children>
                   <TextArea fx:id="value" layoutX="200.0" layoutY="59.0" prefWidth="955.0" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>

@@ -67,6 +67,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
     public Button view;
     public Button copy;
     public MenuButton typeMenuButton;
+    public AnchorPane valuePane;
     /**
      * 当前value的二进制
      */

@@ -40,4 +40,14 @@ public class GzipConverter implements DataConverter{
             throw new RuntimeException("Failed to decompress data using GZIP", e);
         }
     }
+
+    @Override
+    public boolean accept(byte[] data) {
+        if (data == null || data.length < 2) {
+            return false;
+        }
+        // GZIP文件头魔数: 0x1F 0x8B
+        // 只需要检查前两个字节
+        return (data[0] == (byte) 0x1F) && (data[1] == (byte) 0x8B);
+    }
 }
