@@ -20,4 +20,9 @@ public class NoneConverter implements ValueConverter{
     public boolean accept(byte[] data) {
         return true;
     }
+
+    @Override
+    public int order() {
+        return Integer.MAX_VALUE;
+    }
 }

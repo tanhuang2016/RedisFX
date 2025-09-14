@@ -8,6 +8,7 @@ package xyz.hashdog.rdm.ui.handler;
  * @since 2025/9/13 22:48
  */
 public interface CanHandle {
+    int DEFAULT_ORDER =Integer.MAX_VALUE/2;
     /**
      * 判断数据是否可以处理
      *
@@ -22,6 +23,6 @@ public interface CanHandle {
      * @return 顺序
      */
     default int order() {
-        return Integer.MAX_VALUE;
+        return DEFAULT_ORDER;
     }
 }
