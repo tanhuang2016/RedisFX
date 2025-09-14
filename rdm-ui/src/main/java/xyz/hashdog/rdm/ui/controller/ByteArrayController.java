@@ -169,11 +169,12 @@ public class ByteArrayController extends BaseController<BaseController> implemen
         none.setToggleGroup(converterGroup);
         converter.getItems().addFirst(none);
         converter.getItems().addAll(converterItems);
+
+        // 监听选中事件，绑定typeMenuButton文本
+        bindTypeMenuButtonText(viewerGroup, converterGroup);
         // 设置默认选中项（可选）
         viewerItems.getFirst().setSelected(true);
         none.setSelected(true);
-        // 绑定typeMenuButton文本
-        bindTypeMenuButtonText(viewerGroup, converterGroup);
     }
 
 
@@ -183,8 +184,6 @@ public class ByteArrayController extends BaseController<BaseController> implemen
      * @param converterGroup 编解码器组
      */
     private void bindTypeMenuButtonText(ToggleGroup viewerGroup, ToggleGroup converterGroup) {
-        // 初始化文本
-        updateTypeMenuButtonText(viewerGroup, converterGroup);
 
         // 监听查看器组变化
         viewerGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
