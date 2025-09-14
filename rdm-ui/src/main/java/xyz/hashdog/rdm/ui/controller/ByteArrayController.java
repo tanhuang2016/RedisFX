@@ -122,9 +122,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
     }
     private void initButtonStyles() {
         copy.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.SUCCESS,Styles.FLAT);
-        into.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT);
-        export.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT);
-        importMenu.getStyleClass().addAll(Styles.BUTTON_ICON,Tweaks.NO_ARROW,Styles.FLAT);
+        importMenu.getStyleClass().addAll(Styles.BUTTON_ICON,Tweaks.NO_ARROW,Styles.FLAT,Styles.SUCCESS);
 
     }
 
