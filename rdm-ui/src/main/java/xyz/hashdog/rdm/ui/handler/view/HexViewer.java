@@ -34,6 +34,7 @@ public class HexViewer extends AbstractTextViewer{
 
     @Override
     public boolean accept(byte[] data) {
-        return true;
+        //不会有任何数据默认用16进制展示，一般是用户手动选择
+        return false;
     }
 }
