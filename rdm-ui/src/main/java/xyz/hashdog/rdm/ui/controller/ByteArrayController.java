@@ -18,6 +18,7 @@ import javafx.stage.StageStyle;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
+import org.kordamp.ikonli.material2.Material2MZ;
 import xyz.hashdog.rdm.common.Constant;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.EncodeUtil;
@@ -58,9 +59,9 @@ public class ByteArrayController extends BaseController<BaseController> implemen
     @FXML
     public ComboBox<String> characterChoiceBox;
     @FXML
-    public Button into;
+    public MenuItem into;
     @FXML
-    public Button export;
+    public MenuItem export;
     @FXML
     public AnchorPane root;
     @FXML
@@ -68,6 +69,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
     public Button copy;
     public MenuButton typeMenuButton;
     public AnchorPane valuePane;
+    public MenuButton importMenu;
     /**
      * 当前value的二进制
      */
@@ -104,19 +106,25 @@ public class ByteArrayController extends BaseController<BaseController> implemen
 
     @Override
     protected void initLanguage() {
-        copy.setText(language("key.string.copy"));
         copy.setTooltip(GuiUtil.textTooltip(language("key.string.copy")));
-        into.setText(language("key.string.import"));
-        export.setText(language("key.string.export"));
+        into.setText((language("key.string.import")));
+        export.setText((language("key.string.export")));
+        importMenu.setTooltip(GuiUtil.textTooltip(into.getText()+"/"+export.getText()));
         view.setText(language("key.string.view"));
     }
 
     private void initButton() {
         initButtonStyles();
         GuiUtil.setIcon(copy,new FontIcon(Feather.COPY));
+        GuiUtil.setIcon(importMenu,new FontIcon(Material2AL.IMPORT_EXPORT));
+        into.setGraphic(new FontIcon(Material2MZ.PUBLISH));
+        export.setGraphic(new FontIcon(Material2AL.GET_APP));
     }
     private void initButtonStyles() {
         copy.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.SUCCESS,Styles.FLAT);
+        into.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT);
+        export.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT);
+        importMenu.getStyleClass().addAll(Styles.BUTTON_ICON,Tweaks.NO_ARROW,Styles.FLAT);
 
     }
 
