@@ -24,8 +24,8 @@
             <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
                <children>
                   <Label fx:id="name" text="Value" />
-                  <MenuButton fx:id="typeMenuButton" prefWidth="80.0"  mnemonicParsing="false"  text="bianma123456"/>
-                  <ChoiceBox fx:id="typeChoiceBox" prefWidth="80.0" HBox.hgrow="ALWAYS" visible="false" managed="false">
+                  <MenuButton fx:id="typeMenuButton" prefWidth="80.0"  mnemonicParsing="false"  text="bianma123456" visible="false" managed="false"/>
+                  <ChoiceBox fx:id="typeChoiceBox" prefWidth="80.0" HBox.hgrow="ALWAYS" >
                      <items>
                         <FXCollections fx:factory="observableArrayList">
                            <String fx:value="Text" />

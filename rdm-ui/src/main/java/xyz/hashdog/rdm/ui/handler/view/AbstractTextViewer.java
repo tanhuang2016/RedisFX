@@ -9,7 +9,7 @@ import javafx.scene.layout.Pane;
  * @version 2.3.5
  * @since 2025/9/13 22:48
  */
-public abstract class AbstractTextViewer implements ValueViewer ,CharacterEncoding{
+public abstract class AbstractTextViewer implements ValueViewer {
     @Override
     public ViewerTypeEnum getType() {
         return ViewerTypeEnum.TEXT;
