@@ -97,10 +97,6 @@ public class ByteArrayController extends BaseController<BaseController> implemen
         Tooltip tooltip = GuiUtil.textTooltip(characterChoiceBox.getValue());
         tooltip.textProperty().bind(characterChoiceBox.valueProperty());
         characterChoiceBox.setTooltip(tooltip);
-        into.setVisible(false);
-        into.setManaged(false);
-        export.setVisible(false);
-        export.setManaged(false);
         view.setVisible(false);
         view.setManaged(false);
         typeMenuButton.getStyleClass().addAll(Styles.BUTTON_OUTLINED,UiStyles.MINI_SPACE_ARROW);
@@ -180,11 +176,6 @@ public class ByteArrayController extends BaseController<BaseController> implemen
                 characterChoiceBox.setValue(StandardCharsets.US_ASCII.displayName());
             }
             boolean isBinary = newValue.equals(ValueTypeEnum.BINARY.name);
-            into.setVisible(isBinary);
-            into.setManaged(isBinary);
-            export.setVisible(isBinary);
-            //设置node不可见时不占用空间
-            export.setManaged(isBinary);
             boolean isView = newValue.startsWith(ValueTypeEnum.IMAGE.name);
             view.setVisible(isView);
             view.setManaged(isView);
