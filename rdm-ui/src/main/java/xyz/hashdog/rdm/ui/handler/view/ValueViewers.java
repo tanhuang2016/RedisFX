@@ -1,10 +1,9 @@
 package xyz.hashdog.rdm.ui.handler.view;
 
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import xyz.hashdog.rdm.ui.handler.convert.ValueConverter;
+
+import java.util.*;
 
 public class ValueViewers {
 
@@ -27,6 +26,12 @@ public class ValueViewers {
     public static ValueViewers getInstance() {
         return ValueViewers.ValueViewersHolder.INSTANCE;
     }
+
+    public static ValueViewer viewerByValue(byte[] value) {
+        //todo 需要给viewer专门做一个辅助工具，这样避免对象浪费，这个辅助工具可以直接创建viewer和判断是否这个类型，可以长期缓存
+      return null;
+    }
+
     /**
      * 内部类单例模式实现
      */

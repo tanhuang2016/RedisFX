@@ -26,6 +26,7 @@ import xyz.hashdog.rdm.ui.controller.base.BaseController;
 import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
 import xyz.hashdog.rdm.ui.handler.convert.ValueConverter;
 import xyz.hashdog.rdm.ui.handler.convert.ValueConverters;
+import xyz.hashdog.rdm.ui.handler.view.ValueViewer;
 import xyz.hashdog.rdm.ui.handler.view.ValueViewers;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.Util;
@@ -329,6 +330,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
         this.typeChoiceBox.setValue(type.name);
 
         ValueConverter converter = ValueConverters.converterByValue(currentValue);
+        ValueViewer viewer = ValueViewers.viewerByValue(currentValue);
         System.out.println();
     }
 
