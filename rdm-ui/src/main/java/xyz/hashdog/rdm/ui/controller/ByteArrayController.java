@@ -28,6 +28,7 @@ import xyz.hashdog.rdm.ui.common.ValueTypeEnum;
 import xyz.hashdog.rdm.ui.controller.base.BaseController;
 import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
 import xyz.hashdog.rdm.ui.handler.convert.ValueConverters;
+import xyz.hashdog.rdm.ui.handler.view.ValueViewers;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.Util;
 
@@ -38,6 +39,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
@@ -149,8 +151,80 @@ public class ByteArrayController extends BaseController<BaseController> implemen
      * 查看器、编解码器
      */
     private void initTypeMenuButton() {
-        List<MenuItem> list = ValueConverters.getInstance().names().stream().map(MenuItem::new).toList();
-        converter.getItems().addAll(list);
+        // 创建查看器组
+        ToggleGroup viewerGroup = new ToggleGroup();
+        ToggleGroup converterGroup = new ToggleGroup();
+        // 添加查看器菜单项
+        List<RadioMenuItem> viewerItems = ValueViewers.getInstance().names().stream()
+                .map(RadioMenuItem::new)
+                .peek(item -> item.setToggleGroup(viewerGroup))
+                .toList();
+        viewer.getItems().addAll(viewerItems);
+        // 添加编解码器菜单项
+        List<RadioMenuItem> converterItems = ValueConverters.getInstance().names().stream()
+                .map(RadioMenuItem::new)
+                .peek(item -> item.setToggleGroup(converterGroup))
+                .toList();
+        RadioMenuItem none = new RadioMenuItem("None");
+        none.setToggleGroup(converterGroup);
+        converter.getItems().addFirst(none);
+        converter.getItems().addAll(converterItems);
+        // 设置默认选中项（可选）
+        viewerItems.getFirst().setSelected(true);
+        none.setSelected(true);
+        // 绑定typeMenuButton文本
+        bindTypeMenuButtonText(viewerGroup, converterGroup);
+    }
+
+
+    /**
+     * 绑定typeMenuButton文本与选中项
+     * @param viewerGroup 查看器组
+     * @param converterGroup 编解码器组
+     */
+    private void bindTypeMenuButtonText(ToggleGroup viewerGroup, ToggleGroup converterGroup) {
+        // 初始化文本
+        updateTypeMenuButtonText(viewerGroup, converterGroup);
+
+        // 监听查看器组变化
+        viewerGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            updateTypeMenuButtonText(viewerGroup, converterGroup);
+        });
+
+        // 监听编解码器组变化
+        converterGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            updateTypeMenuButtonText(viewerGroup, converterGroup);
+        });
+    }
+    /**
+     * 更新typeMenuButton的文本
+     * @param viewerGroup 查看器组
+     * @param converterGroup 编解码器组
+     */
+    private void updateTypeMenuButtonText(ToggleGroup viewerGroup, ToggleGroup converterGroup) {
+        StringBuilder text = new StringBuilder();
+
+        // 获取选中的查看器
+        if (viewerGroup.getSelectedToggle() != null) {
+            RadioMenuItem selectedItem = (RadioMenuItem) viewerGroup.getSelectedToggle();
+            text.append(selectedItem.getText());
+        }
+
+        // 获取选中的编解码器
+        if (converterGroup.getSelectedToggle() != null) {
+            RadioMenuItem selectedItem = (RadioMenuItem) converterGroup.getSelectedToggle();
+            String converterText = selectedItem.getText();
+            // 如果不是"None"，则添加到文本中
+            if (!"None".equals(converterText)) {
+                if (!text.isEmpty()) {
+                    text.append("-");
+                }
+                text.append(converterText);
+            }
+        }
+        // 设置typeMenuButton的文本
+        typeMenuButton.setText(text.toString());
+        typeMenuButton.setTooltip(GuiUtil.textTooltip(typeMenuButton.getText()));
     }
 
     /**

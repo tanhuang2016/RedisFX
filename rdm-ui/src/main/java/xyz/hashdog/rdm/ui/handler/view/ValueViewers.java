@@ -2,6 +2,7 @@ package xyz.hashdog.rdm.ui.handler.view;
 
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,13 +12,12 @@ public class ValueViewers {
 
 
     private ValueViewers() {
-        map = Map.of(
-                TextViewer.NAME, TextViewer.class,
-                JsonViewer.NAME, JsonViewer.class,
-                HexViewer.NAME, HexViewer.class,
-                BinaryViewer.NAME, BinaryViewer.class,
-                ImageViewer.NAME, ImageViewer.class
-        );
+        map = new LinkedHashMap<>();
+        map.put(TextViewer.NAME, TextViewer.class);
+        map.put(JsonViewer.NAME, JsonViewer.class);
+        map.put(HexViewer.NAME, HexViewer.class);
+        map.put(BinaryViewer.NAME, BinaryViewer.class);
+        map.put(ImageViewer.NAME, ImageViewer.class);
     }
 
     /**
