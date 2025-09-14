@@ -6,7 +6,7 @@ package xyz.hashdog.rdm.ui.handler.convert;
  * @version 2.3.5
  * @since 2025/9/13 22:48
  */
-public interface ConvertHandler {
+public interface DataConverter {
 
     /**
      * 编码
