@@ -9,7 +9,6 @@ import java.nio.charset.Charset;
 public class HexViewer extends AbstractTextViewer{
 
     private final TextArea textArea;
-    private Charset charset;
 
     public HexViewer() {
         this.textArea = defaultPane();
