@@ -1,5 +1,8 @@
 package xyz.hashdog.rdm.ui.handler.view;
 
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.Pane;
+
 /**
  * 查看器文本类型抽象
  * @author th
@@ -10,5 +13,9 @@ public abstract class AbstractTextViewer implements ValueViewer ,CharacterEncodi
     @Override
     public ViewerTypeEnum getType() {
         return ViewerTypeEnum.TEXT;
+    }
+
+    TextArea defaultPane(){
+       return new TextArea();
     }
 }

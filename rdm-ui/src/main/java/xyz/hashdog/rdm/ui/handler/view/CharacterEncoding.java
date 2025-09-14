@@ -13,7 +13,7 @@ public interface CharacterEncoding {
      * 改变字符编码
      * @param charset 编码
      */
-   void change(String charset);
+   void change(Charset charset);
 
 
 }

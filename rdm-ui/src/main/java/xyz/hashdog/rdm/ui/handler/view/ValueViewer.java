@@ -1,5 +1,6 @@
 package xyz.hashdog.rdm.ui.handler.view;
 
+import javafx.scene.Node;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.Pane;
 
@@ -28,7 +29,7 @@ public interface ValueViewer {
     /**
      * 获取查看器
      */
-    Pane view();
+    Node view();
     /**
      * 获取选项菜单
      */
