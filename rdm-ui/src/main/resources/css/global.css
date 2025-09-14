@@ -151,3 +151,8 @@
 .combo-box-base.mini-space-arrow > .text-field {
     -fx-padding: 8px 2px 8px 12px;
 }
+
+/*********让menu-button只显示图标的时候，和button样式风格统一 *********/
+.menu-button.button-icon > .label {
+    -fx-padding: 8px 8px 8px 8px;
+}
