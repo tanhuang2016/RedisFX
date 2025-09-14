@@ -15,11 +15,7 @@ public interface CanHandle {
      * @return true为可以 处理
      */
     boolean accept(byte[] data);
-    /**
-     * 名称
-     * @return 名称
-     */
-    String name();
+
 
     /**
      * 顺序,越小优先级越高

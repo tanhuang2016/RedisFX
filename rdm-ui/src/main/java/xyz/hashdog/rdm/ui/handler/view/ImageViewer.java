@@ -11,7 +11,7 @@ import xyz.hashdog.rdm.common.util.FileUtil;
 import java.io.ByteArrayInputStream;
 
 public class ImageViewer implements ValueViewer{
-
+    public static final String NAME="Image";
     private final StackPane stackPane;
     private final ImageView imageView;
     private byte[] value;
@@ -56,8 +56,5 @@ public class ImageViewer implements ValueViewer{
         return false;
     }
 
-    @Override
-    public String name() {
-        return "Image";
-    }
+
 }

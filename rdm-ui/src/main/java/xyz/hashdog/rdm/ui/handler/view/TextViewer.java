@@ -7,6 +7,7 @@ import java.nio.charset.Charset;
 
 public class TextViewer extends AbstractTextViewer implements CharacterEncoding{
 
+    public static final String NAME="Text";
     private final TextArea textArea;
     private Charset charset;
 
@@ -39,8 +40,5 @@ public class TextViewer extends AbstractTextViewer implements CharacterEncoding{
         return true;
     }
 
-    @Override
-    public String name() {
-        return "Text";
-    }
+
 }

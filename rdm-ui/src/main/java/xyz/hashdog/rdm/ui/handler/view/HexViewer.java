@@ -7,7 +7,7 @@ import xyz.hashdog.rdm.common.util.FileUtil;
 import java.nio.charset.Charset;
 
 public class HexViewer extends AbstractTextViewer{
-
+    public static final String NAME="Hex";
     private final TextArea textArea;
 
     public HexViewer() {
@@ -37,8 +37,5 @@ public class HexViewer extends AbstractTextViewer{
         return false;
     }
 
-    @Override
-    public String name() {
-        return "Hex";
-    }
+
 }

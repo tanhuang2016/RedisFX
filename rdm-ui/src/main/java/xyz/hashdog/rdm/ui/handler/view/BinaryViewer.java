@@ -7,7 +7,7 @@ import xyz.hashdog.rdm.common.util.FileUtil;
 import java.nio.charset.Charset;
 
 public class BinaryViewer extends AbstractTextViewer{
-
+    public static final String NAME="Binary";
     private final TextArea textArea;
     private byte[] value;
     public BinaryViewer() {
@@ -45,8 +45,5 @@ public class BinaryViewer extends AbstractTextViewer{
         return false;
     }
 
-    @Override
-    public String name() {
-        return "Binary";
-    }
+
 }

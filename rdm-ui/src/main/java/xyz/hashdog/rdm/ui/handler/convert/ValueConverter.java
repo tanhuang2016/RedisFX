@@ -22,4 +22,10 @@ public interface ValueConverter  extends CanHandle {
      * @return 解码后的数据
      */
     byte[] decode(byte[] data);
+
+    /**
+     * 名称
+     * @return 名称
+     */
+    String name();
 }

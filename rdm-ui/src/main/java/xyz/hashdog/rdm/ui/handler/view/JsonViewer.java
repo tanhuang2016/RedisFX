@@ -7,7 +7,7 @@ import xyz.hashdog.rdm.common.util.DataUtil;
 import java.nio.charset.Charset;
 
 public class JsonViewer extends AbstractTextViewer implements CharacterEncoding{
-
+    public static final String NAME="JSON";
     private final TextArea textArea;
     private Charset charset;
 
@@ -57,8 +57,5 @@ public class JsonViewer extends AbstractTextViewer implements CharacterEncoding{
         return false;
     }
 
-    @Override
-    public String name() {
-        return "JSON";
-    }
+
 }
