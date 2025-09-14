@@ -33,4 +33,9 @@ public class TextViewer extends AbstractTextViewer{
     public Node view() {
         return textArea;
     }
+
+    @Override
+    public boolean accept(byte[] data) {
+        return true;
+    }
 }
