@@ -27,6 +27,7 @@ import xyz.hashdog.rdm.ui.common.UiStyles;
 import xyz.hashdog.rdm.ui.common.ValueTypeEnum;
 import xyz.hashdog.rdm.ui.controller.base.BaseController;
 import xyz.hashdog.rdm.ui.controller.base.BaseKeyController;
+import xyz.hashdog.rdm.ui.handler.convert.ValueConverters;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.Util;
 
@@ -34,6 +35,7 @@ import java.io.File;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -93,6 +95,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
         initLanguage();
         initCharacterChoiceBox();
         initTypeChoiceBox();
+        initTypeMenuButton();
         initListener();
         initButton();
         characterChoiceBox.setVisible(false);
@@ -106,6 +109,8 @@ public class ByteArrayController extends BaseController<BaseController> implemen
         typeMenuButton.getStyleClass().addAll(Styles.BUTTON_OUTLINED,UiStyles.MINI_SPACE_ARROW);
     }
 
+
+
     @Override
     protected void initLanguage() {
         copy.setTooltip(GuiUtil.textTooltip(language("key.string.copy")));
@@ -113,6 +118,8 @@ public class ByteArrayController extends BaseController<BaseController> implemen
         export.setText((language("key.string.export")));
         importMenu.setTooltip(GuiUtil.textTooltip(into.getText()+"/"+export.getText()));
         view.setText(language("key.string.view"));
+        viewer.setText("查看方式");
+        converter.setText("编解码方式");
     }
 
     private void initButton() {
@@ -136,6 +143,14 @@ public class ByteArrayController extends BaseController<BaseController> implemen
         items.clear();
         items.addAll(Constant.CHARSETS);
         characterChoiceBox.setValue(StandardCharsets.UTF_8.displayName());
+    }
+    /**
+     * 初始化类型菜单
+     * 查看器、编解码器
+     */
+    private void initTypeMenuButton() {
+        List<MenuItem> list = ValueConverters.getInstance().names().stream().map(MenuItem::new).toList();
+        converter.getItems().addAll(list);
     }
 
     /**
