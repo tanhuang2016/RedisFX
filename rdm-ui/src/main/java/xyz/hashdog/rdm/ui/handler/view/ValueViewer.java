@@ -21,4 +21,10 @@ public interface ValueViewer extends CanHandle {
 
     ViewerNode newViewerNode();
 
+    /**
+     * 名称
+     * @return 名称
+     */
+    String name();
+
 }

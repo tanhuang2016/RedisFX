@@ -20,6 +20,11 @@ public class BinaryViewer extends AbstractTextViewer{
         return new BinaryViewerNode();
     }
 
+    @Override
+    public String name() {
+        return NAME;
+    }
+
 
     @Override
     public boolean accept(byte[] data) {

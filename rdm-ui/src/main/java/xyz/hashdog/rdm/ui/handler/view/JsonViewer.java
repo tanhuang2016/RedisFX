@@ -11,7 +11,10 @@ public class JsonViewer extends AbstractTextViewer {
 
 
 
-
+    @Override
+    public String name() {
+        return NAME;
+    }
     @Override
     public boolean accept(byte[] data) {
         if (data == null || data.length == 0) {

@@ -18,7 +18,10 @@ public class ImageViewer implements ValueViewer{
     public ViewerTypeEnum getType() {
         return ViewerTypeEnum.Binary;
     }
-
+    @Override
+    public String name() {
+        return NAME;
+    }
     @Override
     public ViewerNode newViewerNode() {
         return new ImageViewerNode();

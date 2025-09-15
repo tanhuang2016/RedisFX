@@ -10,7 +10,10 @@ public class TextViewer extends AbstractTextViewer {
     public static final String NAME="Text";
 
 
-
+    @Override
+    public String name() {
+        return NAME;
+    }
 
     @Override
     public boolean accept(byte[] data) {
