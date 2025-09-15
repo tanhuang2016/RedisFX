@@ -7,13 +7,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
@@ -21,7 +16,6 @@ import org.kordamp.ikonli.material2.Material2MZ;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.hashdog.rdm.common.Constant;
-import xyz.hashdog.rdm.common.util.EncodeUtil;
 import xyz.hashdog.rdm.common.util.FileUtil;
 import xyz.hashdog.rdm.ui.common.UiStyles;
 import xyz.hashdog.rdm.ui.common.ValueTypeEnum;
@@ -35,13 +29,11 @@ import xyz.hashdog.rdm.ui.handler.view.ValueViewers;
 import xyz.hashdog.rdm.ui.handler.view.ViewerNode;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.Util;
-
 import java.io.File;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
@@ -51,7 +43,7 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
  * @version 1.0.0
  * @since 2023/8/1 14:46
  */
-public class ByteArrayController extends BaseController<BaseController> implements Initializable {
+public class ByteArrayController extends BaseController<BaseController<?>> implements Initializable {
     private static final Logger log = LoggerFactory.getLogger(ByteArrayController.class);
 
     private ViewerNode viewerNode;
@@ -78,16 +70,13 @@ public class ByteArrayController extends BaseController<BaseController> implemen
     public MenuButton importMenu;
     public Menu viewerMenu;
     public Menu converterMenu;
+    private ToggleGroup viewerGroup ;
+    private ToggleGroup converterGroup ;
     /**
      * 当前value的二进制
      */
     private byte[] currentValue;
 
-    private long currentSize;
-    /**
-     * 当前type
-     */
-    private ValueTypeEnum type;
     /**
      * 选中的最后的文件的父级目录
      */
@@ -145,8 +134,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
         characterChoiceBox.getItems().addAll(Constant.CHARSETS);
         characterChoiceBox.setValue(StandardCharsets.UTF_8.displayName());
     }
-   private ToggleGroup viewerGroup ;
-    private ToggleGroup converterGroup ;
+
     /**
      * 初始化类型菜单
      * 查看器、编解码器
@@ -195,7 +183,10 @@ public class ByteArrayController extends BaseController<BaseController> implemen
             converterChange(((RadioMenuItem)newValue).getText());
         });
     }
-
+    /**
+     * 编解码器变化
+     * @param newValue 新值
+     */
     private void converterChange(String newValue) {
         this.converter = ValueConverters.getInstance().getByName(newValue);
         try {
@@ -206,6 +197,10 @@ public class ByteArrayController extends BaseController<BaseController> implemen
         }
     }
 
+    /**
+     * 查看器变化
+     * @param newValue 新值
+     */
     private void viewerChange(String newValue) {
         ViewerNode node = ValueViewers.getInstance().getViewerNodeByName(newValue);
         setViewerNode(node,converter.decode(currentValue));
@@ -302,12 +297,12 @@ public class ByteArrayController extends BaseController<BaseController> implemen
      */
     public void setByteArray(byte[] currentValue,ValueTypeEnum type) {
         this.currentValue = currentValue;
-        this.currentSize = currentValue.length;
+        long currentSize = currentValue.length;
         //根据key的类型切换对应视图
         this.size.setText(String.format(SIZE, Util.convertMemorySizeStr(currentSize,2)));
         this.converter = ValueConverters.converterByValue(currentValue);
         byte[] decode = converter.decode(currentValue);
-        ValueViewer viewer = null;
+        ValueViewer viewer;
         if(type==null){
             viewer = ValueViewers.viewerByValue(decode);
         }else {
@@ -321,6 +316,11 @@ public class ByteArrayController extends BaseController<BaseController> implemen
         bindTypeMenuButtonText(viewerGroup, converterGroup);
     }
 
+    /**
+     * 选择菜单项
+     * @param items 所有菜单项
+     * @param name 名字
+     */
     private void selectMenuItemByName(ObservableList<MenuItem> items, String name) {
         for (MenuItem item : items) {
             if (item.getText().equals(name) && item instanceof RadioMenuItem rmi) {
@@ -330,6 +330,11 @@ public class ByteArrayController extends BaseController<BaseController> implemen
         }
     }
 
+    /**
+     * 设置查看器节点
+     * @param viewerNode 节点
+     * @param decode 解码数据
+     */
     private void setViewerNode(ViewerNode viewerNode, byte[] decode) {
         this.viewerNode = viewerNode;
         if(viewerNode instanceof CharacterEncoding node){
@@ -368,17 +373,17 @@ public class ByteArrayController extends BaseController<BaseController> implemen
      */
     @FXML
     public void view(ActionEvent actionEvent) {
-        Parent view = this.type.handler.view(this.currentValue, Charset.forName(characterChoiceBox.getValue()));
-        Scene scene = new Scene(view);
-        Stage stage=new Stage();
-        stage.initStyle(StageStyle.DECORATED);
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.setMaximized(false);
-        stage.getIcons().add(GuiUtil.ICON_REDIS);
-        stage.initOwner(root.getScene().getWindow());
-        stage.setScene(scene);
-        stage.setTitle(String.format("View Of %s",this.type.name ));
-        stage.show();
+//        Parent view = this.type.handler.view(this.currentValue, Charset.forName(characterChoiceBox.getValue()));
+//        Scene scene = new Scene(view);
+//        Stage stage=new Stage();
+//        stage.initStyle(StageStyle.DECORATED);
+//        stage.initModality(Modality.WINDOW_MODAL);
+//        stage.setMaximized(false);
+//        stage.getIcons().add(GuiUtil.ICON_REDIS);
+//        stage.initOwner(root.getScene().getWindow());
+//        stage.setScene(scene);
+//        stage.setTitle(String.format("View Of %s",this.type.name ));
+//        stage.show();
 
 
     }
