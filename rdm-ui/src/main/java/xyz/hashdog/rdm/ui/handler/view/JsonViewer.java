@@ -6,34 +6,11 @@ import xyz.hashdog.rdm.common.util.DataUtil;
 
 import java.nio.charset.Charset;
 
-public class JsonViewer extends AbstractTextViewer implements CharacterEncoding{
+public class JsonViewer extends AbstractTextViewer {
     public static final String NAME="JSON";
-    private final TextArea textArea;
-    private Charset charset;
 
-    public JsonViewer() {
-        this.textArea = defaultPane();
-    }
 
-    @Override
-    public void change(Charset charset) {
-        this.charset = charset;
-    }
 
-    @Override
-    public byte[] get() {
-        return DataUtil.json2Byte(textArea.getText(),charset,false);
-    }
-
-    @Override
-    public void set(byte[] value) {
-        textArea.setText(DataUtil.formatJson(value,charset,true));
-    }
-
-    @Override
-    public Node view() {
-        return textArea;
-    }
 
     @Override
     public boolean accept(byte[] data) {
@@ -55,6 +32,40 @@ public class JsonViewer extends AbstractTextViewer implements CharacterEncoding{
             return jsonStr.startsWith("[") && jsonStr.endsWith("]");
         }
         return false;
+    }
+
+    @Override
+    public ViewerNode newViewerNode() {
+        return new JsonViewerNode();
+    }
+
+    class JsonViewerNode implements ViewerNode, CharacterEncoding {
+
+        private final TextArea textArea;
+        private Charset charset;
+
+        public JsonViewerNode() {
+            this.textArea = defaultPane();
+        }
+
+        @Override
+        public void change(Charset charset) {
+            this.charset = charset;
+        }
+        @Override
+        public byte[] get() {
+            return DataUtil.json2Byte(textArea.getText(),charset,false);
+        }
+
+        @Override
+        public void set(byte[] value) {
+            textArea.setText(DataUtil.formatJson(value,charset,true));
+        }
+
+        @Override
+        public Node view() {
+            return textArea;
+        }
     }
 
 

@@ -19,23 +19,6 @@ public interface ValueViewer extends CanHandle {
      */
     ViewerTypeEnum getType();
 
-    /**
-     * 获取值
-     */
-    byte[] get();
-    /**
-     * 设置值
-     */
-    void set(byte[] value);
-    /**
-     * 获取查看器
-     */
-    Node view();
-    /**
-     * 获取选项菜单
-     */
-    default List<MenuItem> options(){
-        return null;
-    }
+    ViewerNode newViewerNode();
 
 }
