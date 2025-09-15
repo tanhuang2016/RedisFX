@@ -30,8 +30,20 @@ public class ImageViewer implements ValueViewer{
 
     @Override
     public boolean accept(byte[] data) {
-        //不会有任何数据默认用2进制展示，一般是用户手动选择
-        return false;
+        //判断是否是图片数据
+        if (data == null || data.length < 4) {
+            return false;
+        }
+        // PNG
+        if (data[0] == (byte) 0x89 && data[1] == 0x50 && data[2] == 0x4E && data[3] == 0x47) {
+            return true;
+        }
+        // JPG/JPEG
+        if (data[0] == (byte) 0xFF && data[1] == (byte) 0xD8) {
+            return true;
+        }
+        // GIF
+        return data[0] == 0x47 && data[1] == 0x49 && data[2] == 0x46 && data[3] == 0x38;
     }
     class ImageViewerNode implements ViewerNode{
         private final StackPane stackPane;
@@ -44,6 +56,10 @@ public class ImageViewer implements ValueViewer{
             stackPane.setPrefHeight(500);
             stackPane.setPrefWidth(500);
             imageView = new ImageView();
+            // 设置自动缩放属性
+            imageView.setPreserveRatio(true);  // 保持图片原始比例
+            imageView.setFitWidth(stackPane.getPrefWidth() - 20);  // 减去padding
+            imageView.setFitHeight(stackPane.getPrefHeight() - 20);
             stackPane.getChildren().add(imageView);
             // 设置ImageView居中对齐
             StackPane.setAlignment(imageView, javafx.geometry.Pos.CENTER);;
