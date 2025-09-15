@@ -24,6 +24,10 @@ public class TextViewer extends AbstractTextViewer {
     public ViewerNode newViewerNode() {
         return new TextViewerNode();
     }
+    @Override
+    public int order() {
+        return Integer.MAX_VALUE;
+    }
 
     class TextViewerNode implements ViewerNode,CharacterEncoding{
         private final TextArea textArea;

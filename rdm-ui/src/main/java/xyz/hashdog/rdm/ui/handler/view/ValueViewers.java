@@ -1,22 +1,28 @@
 package xyz.hashdog.rdm.ui.handler.view;
 
 
+import xyz.hashdog.rdm.ui.handler.convert.Base64Converter;
+import xyz.hashdog.rdm.ui.handler.convert.GzipConverter;
+import xyz.hashdog.rdm.ui.handler.convert.NoneConverter;
 import xyz.hashdog.rdm.ui.handler.convert.ValueConverter;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ValueViewers {
 
-    private final Map<String, Class<?extends ValueViewer>> map;
+    private final Map<String,ValueViewer> map;
 
 
     private ValueViewers() {
-        map = new LinkedHashMap<>();
-        map.put(TextViewer.NAME, TextViewer.class);
-        map.put(JsonViewer.NAME, JsonViewer.class);
-        map.put(HexViewer.NAME, HexViewer.class);
-        map.put(BinaryViewer.NAME, BinaryViewer.class);
-        map.put(ImageViewer.NAME, ImageViewer.class);
+        map = Stream.of(new TextViewer(), new JsonViewer(), new HexViewer(), new BinaryViewer(), new ImageViewer())
+                .collect(Collectors.toMap(
+                        ValueViewer::name,
+                        viewer -> viewer,
+                        (existing, replacement) -> existing,
+                        LinkedHashMap::new
+                ));
     }
 
     /**
@@ -28,8 +34,15 @@ public class ValueViewers {
     }
 
     public static ValueViewer viewerByValue(byte[] value) {
-        //todo 需要给viewer专门做一个辅助工具，这样避免对象浪费，这个辅助工具可以直接创建viewer和判断是否这个类型，可以长期缓存
-      return null;
+        List<ValueViewer> list = getInstance().map.values().stream()
+                .sorted(Comparator.comparing(ValueViewer::order))
+                .toList();
+        for (ValueViewer viewer : list) {
+            if(viewer.accept(value)){
+                return viewer;
+            }
+        }
+        return list.getLast();
     }
 
     /**
