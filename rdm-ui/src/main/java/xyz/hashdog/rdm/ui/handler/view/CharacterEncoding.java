@@ -14,6 +14,15 @@ public interface CharacterEncoding {
      * @param charset 编码
      */
    void change(Charset charset);
+   /**
+     * 初始化字符编码
+     * @param charset 编码
+     */
+   void init(Charset charset);
 
-
+    /**
+     * 获取文本
+     * @return 文本
+     */
+    String text();
 }

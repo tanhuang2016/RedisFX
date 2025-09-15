@@ -32,6 +32,7 @@ public class TextViewer extends AbstractTextViewer {
     class TextViewerNode implements ViewerNode,CharacterEncoding{
         private final TextArea textArea;
         private Charset charset;
+        private byte[] value;
 
         public TextViewerNode() {
             this.textArea = defaultPane();
@@ -39,6 +40,12 @@ public class TextViewer extends AbstractTextViewer {
 
         @Override
         public void change(Charset charset) {
+            init(charset);
+            set(value);
+        }
+
+        @Override
+        public void init(Charset charset) {
             this.charset = charset;
         }
         @Override
@@ -48,7 +55,13 @@ public class TextViewer extends AbstractTextViewer {
 
         @Override
         public void set(byte[] value) {
+            this.value=value;
             textArea.setText(new String(value,charset));
+        }
+
+        @Override
+        public String text() {
+            return textArea.getText();
         }
 
         @Override

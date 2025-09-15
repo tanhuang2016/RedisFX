@@ -26,21 +26,21 @@
             <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
                <children>
                   <Label fx:id="name" text="Value" />
-                  <MenuButton fx:id="typeMenuButton" prefWidth="80.0"  mnemonicParsing="false"  text="bianma123456" visible="false" managed="false">
+                  <MenuButton fx:id="typeMenuButton" prefWidth="120.0"  mnemonicParsing="false" >
                      <items>
-                        <Menu fx:id="viewer" mnemonicParsing="false"  />
-                        <Menu fx:id="converter" mnemonicParsing="false"  />
+                        <Menu fx:id="viewerMenu" mnemonicParsing="false"  />
+                        <Menu fx:id="converterMenu" mnemonicParsing="false"  />
                      </items>
                   </MenuButton>
-                  <ChoiceBox fx:id="typeChoiceBox" prefWidth="80.0" HBox.hgrow="ALWAYS" >
-                     <items>
-                        <FXCollections fx:factory="observableArrayList">
-                           <String fx:value="Text" />
-                           <String fx:value="Json" />
-                           <String fx:value="Hex" />
-                        </FXCollections>
-                     </items>
-                  </ChoiceBox>
+<!--                  <ChoiceBox fx:id="typeChoiceBox" prefWidth="80.0" HBox.hgrow="ALWAYS" >-->
+<!--                     <items>-->
+<!--                        <FXCollections fx:factory="observableArrayList">-->
+<!--                           <String fx:value="Text" />-->
+<!--                           <String fx:value="Json" />-->
+<!--                           <String fx:value="Hex" />-->
+<!--                        </FXCollections>-->
+<!--                     </items>-->
+<!--                  </ChoiceBox>-->
                   <Label fx:id="size" text="Size:0B" />
                   <HBox alignment="CENTER_LEFT">
                      <children>
@@ -73,7 +73,7 @@
             </HBox>
             <AnchorPane fx:id="valuePane" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                <children>
-                  <TextArea fx:id="value" layoutX="200.0" layoutY="59.0" prefWidth="955.0" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+<!--                  <TextArea fx:id="value" layoutX="200.0" layoutY="59.0" prefWidth="955.0" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />-->
                </children>
             </AnchorPane>
          </children>

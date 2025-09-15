@@ -43,6 +43,10 @@ public class ValueConverters {
         return list.getLast();
     }
 
+    public ValueConverter getByName(String newValue) {
+        return map.get(newValue);
+    }
+
     /**
      * 内部类单例模式实现
      */

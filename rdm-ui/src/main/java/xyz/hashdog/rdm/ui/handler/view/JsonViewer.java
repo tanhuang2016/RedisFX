@@ -46,6 +46,7 @@ public class JsonViewer extends AbstractTextViewer {
 
         private final TextArea textArea;
         private Charset charset;
+        private byte[] value;
 
         public JsonViewerNode() {
             this.textArea = defaultPane();
@@ -53,8 +54,15 @@ public class JsonViewer extends AbstractTextViewer {
 
         @Override
         public void change(Charset charset) {
+            init(charset);
+            set(value);
+        }
+
+        @Override
+        public void init(Charset charset) {
             this.charset = charset;
         }
+
         @Override
         public byte[] get() {
             return DataUtil.json2Byte(textArea.getText(),charset,false);
@@ -62,9 +70,13 @@ public class JsonViewer extends AbstractTextViewer {
 
         @Override
         public void set(byte[] value) {
+            this.value=value;
             textArea.setText(DataUtil.formatJson(value,charset,true));
         }
-
+        @Override
+        public String text() {
+            return textArea.getText();
+        }
         @Override
         public Node view() {
             return textArea;

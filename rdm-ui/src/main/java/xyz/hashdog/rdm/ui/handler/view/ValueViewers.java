@@ -45,6 +45,10 @@ public class ValueViewers {
         return list.getLast();
     }
 
+    public ViewerNode getViewerNodeByName(String newValue) {
+        return map.get(newValue).newViewerNode();
+    }
+
     /**
      * 内部类单例模式实现
      */
