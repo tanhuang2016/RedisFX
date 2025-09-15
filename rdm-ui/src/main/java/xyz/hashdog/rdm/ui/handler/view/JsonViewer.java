@@ -81,7 +81,6 @@ public class JsonViewer extends AbstractTextViewer {
             stackPane.getChildren().add(codeArea);
             // 直接添加样式表
             stackPane.getStylesheets().add(Objects.requireNonNull(TextJsonConvertHandler.class.getResource("/css/text.css")).toExternalForm());
-//            this.textArea = defaultPane();
         }
 
         @Override
