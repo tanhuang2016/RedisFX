@@ -2,6 +2,8 @@ package xyz.hashdog.rdm.ui.handler.view;
 
 import com.google.gson.JsonSyntaxException;
 import javafx.scene.Node;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.StackPane;
 import org.fxmisc.richtext.CodeArea;
@@ -14,6 +16,7 @@ import xyz.hashdog.rdm.ui.handler.TextJsonConvertHandler;
 import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -118,6 +121,15 @@ public class JsonViewer extends AbstractTextViewer {
             return stackPane;
         }
 
+        @Override
+        public List<MenuItem> options() {
+            RadioMenuItem showLineNumber = new RadioMenuItem("显示行号");
+            showLineNumber.setOnAction(event -> {
+                System.out.println("1221");
+            });
+            return List.of(showLineNumber);
+        }
+
         /**
          * 计算并返回文本的语法高亮样式
          * @param text 需要高亮的文本
@@ -179,6 +191,7 @@ public class JsonViewer extends AbstractTextViewer {
             return "other";
         }
     }
+
 
 
 }

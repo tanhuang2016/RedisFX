@@ -68,6 +68,7 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
     public MenuButton typeMenuButton;
     public AnchorPane valuePane;
     public MenuButton importMenu;
+    public MenuButton optionMenu;
     public Menu viewerMenu;
     public Menu converterMenu;
     private ToggleGroup viewerGroup ;
@@ -92,6 +93,8 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
         initButton();
         characterChoiceBox.setVisible(false);
         characterChoiceBox.setManaged(false);
+        optionMenu.setVisible(false);
+        optionMenu.setManaged(false);
         characterChoiceBox.getStyleClass().add(UiStyles.MINI_SPACE_ARROW);
         Tooltip tooltip = GuiUtil.textTooltip(characterChoiceBox.getValue());
         tooltip.textProperty().bind(characterChoiceBox.valueProperty());
@@ -109,21 +112,24 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
         into.setText((language("key.string.import")));
         export.setText((language("key.string.export")));
         importMenu.setTooltip(GuiUtil.textTooltip(into.getText()+"/"+export.getText()));
+        optionMenu.setTooltip(GuiUtil.textTooltip(language("server.search.option")));
         view.setText(language("key.string.view"));
-        viewerMenu.setText("查看方式");
-        converterMenu.setText("编解码方式");
+        viewerMenu.setText(language("key.string.viewer"));
+        converterMenu.setText(language("key.string.converter"));
     }
 
     private void initButton() {
         initButtonStyles();
         GuiUtil.setIcon(copy,new FontIcon(Feather.COPY));
         GuiUtil.setIcon(importMenu,new FontIcon(Material2AL.IMPORT_EXPORT));
+        GuiUtil.setIcon(optionMenu,new FontIcon(Material2MZ.MORE_VERT));
         into.setGraphic(new FontIcon(Material2MZ.PUBLISH));
         export.setGraphic(new FontIcon(Material2AL.GET_APP));
     }
     private void initButtonStyles() {
         copy.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.SUCCESS,Styles.FLAT);
         importMenu.getStyleClass().addAll(Styles.BUTTON_ICON,Tweaks.NO_ARROW,Styles.FLAT,Styles.SUCCESS);
+        optionMenu.getStyleClass().addAll(Styles.BUTTON_ICON,Tweaks.NO_ARROW,Styles.FLAT,Styles.SUCCESS);
 
     }
 
@@ -349,6 +355,15 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
         }else {
             characterChoiceBox.setVisible(false);
             characterChoiceBox.setManaged(false);
+        }
+        if(viewerNode.options().isEmpty()){
+            optionMenu.setVisible(false);
+            optionMenu.setManaged(false);
+        }else {
+            optionMenu.setVisible(true);
+            optionMenu.setManaged(true);
+            optionMenu.getItems().clear();
+            optionMenu.getItems().addAll(viewerNode.options());
         }
         viewerNode.set(decode);
         Node content = viewerNode.view();

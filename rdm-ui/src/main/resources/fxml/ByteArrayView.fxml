@@ -43,6 +43,7 @@
                               <MenuItem fx:id="export" mnemonicParsing="false" onAction="#export" />
                            </items>
                         </MenuButton>
+                         <MenuButton fx:id="optionMenu"/>
                         <Button fx:id="view" mnemonicParsing="false" onAction="#view"  />
                      </children>
                   </HBox>
