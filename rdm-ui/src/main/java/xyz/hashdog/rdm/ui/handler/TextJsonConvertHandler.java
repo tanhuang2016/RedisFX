@@ -52,7 +52,7 @@ public class TextJsonConvertHandler implements ValueConvertHandler{
         StackPane root = new StackPane();
         root.getChildren().add(codeArea);
         // 直接添加样式表
-        root.getStylesheets().add(TextJsonConvertHandler.class.getResource("/css/json-highlighting.css").toExternalForm());
+        root.getStylesheets().add(TextJsonConvertHandler.class.getResource("/css/text.css").toExternalForm());
 
         return root;
     }

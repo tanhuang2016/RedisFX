@@ -1,0 +1,28 @@
+.key {
+    -fx-fill: -color-fg-default;
+}
+.boolean {
+    -fx-fill: -color-accent-fg;
+}
+.null {
+    -fx-fill: -color-warning-fg;
+}
+.number {
+    -fx-fill: -color-danger-fg;
+}
+.bracket {
+    -fx-fill: -color-fg-default;
+}
+.colon {
+    -fx-fill:-color-fg-default;
+}
+.comma {
+    -fx-fill: -color-fg-default;
+}
+.value {
+    -fx-fill: -color-success-fg;
+}
+.comment {
+    -fx-fill: -color-fg-default;
+}
+
