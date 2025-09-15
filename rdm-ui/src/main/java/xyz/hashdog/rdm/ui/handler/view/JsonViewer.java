@@ -1,5 +1,6 @@
 package xyz.hashdog.rdm.ui.handler.view;
 
+import com.google.gson.JsonSyntaxException;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import xyz.hashdog.rdm.common.util.DataUtil;
@@ -71,7 +72,12 @@ public class JsonViewer extends AbstractTextViewer {
         @Override
         public void set(byte[] value) {
             this.value=value;
-            textArea.setText(DataUtil.formatJson(value,charset,true));
+            try {
+                textArea.setText(DataUtil.formatJson(value,charset,true));
+            }catch (JsonSyntaxException e){
+                textArea.setText(new String(value,charset));
+            }
+
         }
         @Override
         public String text() {

@@ -203,7 +203,12 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
      */
     private void viewerChange(String newValue) {
         ViewerNode node = ValueViewers.getInstance().getViewerNodeByName(newValue);
-        setViewerNode(node,converter.decode(currentValue));
+        try {
+            setViewerNode(node,converter.decode(currentValue));
+        }catch (Exception e){
+            log.error("converterChange exception", e);
+        }
+
     }
 
     /**
