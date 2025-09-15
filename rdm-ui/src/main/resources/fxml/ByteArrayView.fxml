@@ -61,8 +61,8 @@
                   <ComboBox fx:id="characterChoiceBox" prefWidth="100.0" HBox.hgrow="ALWAYS">
                      <items>
                         <FXCollections fx:factory="observableArrayList">
-                           <String fx:value="UTF-8" />
-                           <String fx:value="GBK" />
+<!--                           <String fx:value="UTF-8" />-->
+<!--                           <String fx:value="GBK" />-->
                         </FXCollections>
                      </items>
                   </ComboBox>

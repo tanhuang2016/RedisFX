@@ -147,9 +147,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
      * 初始化字符集选项
      */
     private void initCharacterChoiceBox() {
-        ObservableList items = characterChoiceBox.getItems();
-        items.clear();
-        items.addAll(Constant.CHARSETS);
+        characterChoiceBox.getItems().addAll(Constant.CHARSETS);
         characterChoiceBox.setValue(StandardCharsets.UTF_8.displayName());
     }
    private ToggleGroup viewerGroup ;
