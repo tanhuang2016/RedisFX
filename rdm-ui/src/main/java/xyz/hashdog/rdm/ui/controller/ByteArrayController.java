@@ -330,7 +330,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
         this.typeChoiceBox.setValue(type.name);
 
         ValueConverter converter = ValueConverters.converterByValue(currentValue);
-        ValueViewer viewer = ValueViewers.viewerByValue(currentValue);
+        ValueViewer viewer = ValueViewers.viewerByValue(converter.encode(currentValue));
         System.out.println();
     }
 
