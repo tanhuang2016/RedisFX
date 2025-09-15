@@ -7,6 +7,7 @@ import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.StackPane;
 import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
 import xyz.hashdog.rdm.common.util.DataUtil;
@@ -125,7 +126,11 @@ public class JsonViewer extends AbstractTextViewer {
         public List<MenuItem> options() {
             RadioMenuItem showLineNumber = new RadioMenuItem("显示行号");
             showLineNumber.setOnAction(event -> {
-                System.out.println("1221");
+                if(showLineNumber.isSelected()){
+                    codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
+                }else {
+                    codeArea.setParagraphGraphicFactory(null);
+                }
             });
             return List.of(showLineNumber);
         }
