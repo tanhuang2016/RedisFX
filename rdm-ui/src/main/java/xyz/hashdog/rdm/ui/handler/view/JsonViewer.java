@@ -24,7 +24,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class JsonViewer extends AbstractTextViewer {
-    public static final String NAME="JSON";
+    public static final String NAME="Json";
 
 
 
