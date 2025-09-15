@@ -2,6 +2,12 @@
 .caret {
     -fx-stroke: -color-fg-default;
 }
+/*行号颜色*/
+.lineno{
+    -fx-fill: -color-fg-default;
+    -fx-background-color: -color-bg-default;
+}
+/**********json文本样式***********/
 .key {
     -fx-fill: -color-fg-default;
 }
@@ -35,6 +41,6 @@
 .other {
     -fx-fill: -color-fg-default;
 }
-
+/**********json文本样式***********/
 
 
