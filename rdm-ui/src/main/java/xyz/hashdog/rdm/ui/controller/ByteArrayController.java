@@ -391,7 +391,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
         File file = GuiUtil.fileChoose(this.root.getScene().getWindow(), lastFile);
         lastFile=file.getParentFile();
         byte[] bytes = FileUtil.file2byte(file);
-        setByteArray(bytes);
+        this.viewerNode.set(bytes);
     }
 
     /**
