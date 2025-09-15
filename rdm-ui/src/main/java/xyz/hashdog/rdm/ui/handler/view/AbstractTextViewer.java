@@ -11,7 +11,7 @@ import javafx.scene.layout.Pane;
  */
 public abstract class AbstractTextViewer implements ValueViewer {
     @Override
-    public ViewerTypeEnum getType() {
+    public ViewerTypeEnum type() {
         return ViewerTypeEnum.TEXT;
     }
 

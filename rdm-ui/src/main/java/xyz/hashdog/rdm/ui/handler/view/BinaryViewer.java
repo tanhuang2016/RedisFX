@@ -11,7 +11,7 @@ public class BinaryViewer extends AbstractTextViewer{
 
 
     @Override
-    public ViewerTypeEnum getType() {
+    public ViewerTypeEnum type() {
         return ViewerTypeEnum.Binary;
     }
 

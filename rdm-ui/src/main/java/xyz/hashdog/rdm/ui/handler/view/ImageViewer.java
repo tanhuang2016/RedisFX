@@ -15,7 +15,7 @@ public class ImageViewer implements ValueViewer{
 
 
     @Override
-    public ViewerTypeEnum getType() {
+    public ViewerTypeEnum type() {
         return ViewerTypeEnum.Binary;
     }
     @Override
