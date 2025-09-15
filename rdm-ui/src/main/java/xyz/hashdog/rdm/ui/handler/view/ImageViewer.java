@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import xyz.hashdog.rdm.common.util.FileUtil;
+import xyz.hashdog.rdm.ui.common.Constant;
 
 import java.io.ByteArrayInputStream;
 
@@ -52,6 +53,13 @@ public class ImageViewer implements ValueViewer{
 
         public ImageViewerNode() {
             stackPane = new StackPane();
+            // 设置背景色和边框
+            stackPane.setStyle("""
+                    -fx-border-color:%s;
+                    -fx-border-width: 1px;
+                    -fx-border-style: solid;
+                    """.formatted(Constant.THEME_COLOR_BORDER_DEFAULT)
+            );
             stackPane.setPadding(new Insets(10));
             stackPane.setPrefHeight(500);
             stackPane.setPrefWidth(500);
