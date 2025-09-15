@@ -33,7 +33,9 @@ public abstract class BaseKeyController extends BaseClientController<KeyTabContr
 
     @Override
     protected void initLanguage() {
-        save.setText(language("key.save"));
+        if(save!=null){
+            save.setText(language("key.save"));
+        }
     }
 
     @Override

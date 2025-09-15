@@ -293,13 +293,26 @@ public class ByteArrayController extends BaseController<BaseController> implemen
      * @param currentValue  数据
      */
     public void setByteArray(byte[] currentValue) {
+       setByteArray(currentValue,null);
+    }
+    /**
+     * 设置数据，并使用默认类型
+     * @param currentValue  数据
+     * @param type  类型
+     */
+    public void setByteArray(byte[] currentValue,ValueTypeEnum type) {
         this.currentValue = currentValue;
         this.currentSize = currentValue.length;
         //根据key的类型切换对应视图
         this.size.setText(String.format(SIZE, Util.convertMemorySizeStr(currentSize,2)));
         this.converter = ValueConverters.converterByValue(currentValue);
         byte[] decode = converter.decode(currentValue);
-        ValueViewer viewer = ValueViewers.viewerByValue(decode);
+        ValueViewer viewer = null;
+        if(type==null){
+            viewer = ValueViewers.viewerByValue(decode);
+        }else {
+            viewer = ValueViewers.getInstance().getByName(type.name);
+        }
         setViewerNode(viewer.newViewerNode(),decode);
         selectMenuItemByName(viewerMenu.getItems(),viewer.name());
         selectMenuItemByName(converterMenu.getItems(),converter.name());
@@ -337,17 +350,7 @@ public class ByteArrayController extends BaseController<BaseController> implemen
         AnchorPane.setLeftAnchor(content, 0.0);
     }
 
-    /**
-     * 设置数据，并使用默认类型
-     * @param currentValue  数据
-     * @param type  类型
-     */
-    public void setByteArray(byte[] currentValue,ValueTypeEnum type) {
-        this.currentValue = currentValue;
-        this.currentSize = currentValue.length;
-        this.size.setText(String.format(SIZE, Util.convertMemorySizeStr(currentSize,2)));
-//        this.typeChoiceBox.setValue(type.name);
-    }
+
 
     /**
      * 设置名称

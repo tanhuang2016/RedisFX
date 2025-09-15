@@ -49,6 +49,10 @@ public class ValueViewers {
         return map.get(newValue).newViewerNode();
     }
 
+    public ValueViewer getByName(String name) {
+        return map.get(name);
+    }
+
     /**
      * 内部类单例模式实现
      */
