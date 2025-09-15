@@ -54,10 +54,6 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 public class ByteArrayController extends BaseController<BaseController> implements Initializable {
     private static final Logger log = LoggerFactory.getLogger(ByteArrayController.class);
 
-//    @FXML
-//    public ChoiceBox<String> typeChoiceBox;
-//    @FXML
-//    public TextArea value2;
     private ViewerNode viewerNode;
     private ValueConverter converter;
     protected static final String SIZE = "Size:%s";
@@ -102,7 +98,6 @@ public class ByteArrayController extends BaseController<BaseController> implemen
     public void initialize(URL location, ResourceBundle resources) {
         initLanguage();
         initCharacterChoiceBox();
-//        initTypeChoiceBox();
         initTypeMenuButton();
         initListener();
         initButton();
@@ -251,22 +246,11 @@ public class ByteArrayController extends BaseController<BaseController> implemen
      * 初始化监听
      */
     private void initListener() {
-//        typeChoiceBoxListener();
         characterChoiceBoxListener();
     }
 
 
 
-    /**
-     * 初始化单选框
-     */
-//    private void initTypeChoiceBox() {
-//        ObservableList items = typeChoiceBox.getItems();
-//        items.clear();
-//        for (ValueTypeEnum valueTypeEnum : ValueTypeEnum.values()) {
-//            items.add(valueTypeEnum.name);
-//        }
-//    }
 
     /**
      * 字符集选中监听
@@ -279,38 +263,6 @@ public class ByteArrayController extends BaseController<BaseController> implemen
         });
     }
 
-    /**
-     * 类型选择触发事件
-     * text系列才会显示编码字符集
-     * 二进制数据,才会显示导入导出
-     */
-//    private void typeChoiceBoxListener() {
-//        typeChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-//            if(newValue==null){
-//                return;
-//            }
-//            boolean isText = newValue.startsWith(ValueTypeEnum.TEXT.name);
-//            characterChoiceBox.setVisible(isText);
-//            characterChoiceBox.setManaged(isText);
-//            //如果选择text显示,且不是utf8编码,则用US-ASCII字符集
-//            if(isText && !EncodeUtil.isUTF8(this.currentValue)){
-//                characterChoiceBox.setValue(StandardCharsets.US_ASCII.displayName());
-//            }
-//            boolean isBinary = newValue.equals(ValueTypeEnum.BINARY.name);
-//            boolean isView = newValue.startsWith(ValueTypeEnum.IMAGE.name);
-//            view.setVisible(isView);
-//            view.setManaged(isView);
-//
-//
-//            this.type=ValueTypeEnum.getByName(newValue);
-////            this.value.setText(Objects.requireNonNull(type).handler.byte2Text(this.currentValue,Charset.forName(characterChoiceBox.getValue())));
-//            this.viewerNode.set(converter.decode(this.currentValue));
-//            if(this.type.handler.isView()){
-//                view(null);
-//            }
-//
-//        });
-//    }
 
     /**
      * 复制值
@@ -331,8 +283,6 @@ public class ByteArrayController extends BaseController<BaseController> implemen
      * @return 最新的数据
      */
     public byte[] getByteArray() {
-        //这里需要通过Text即时计算byte数组,根据类型进行转换为byte数组
-//        return type.handler.text2Byte(value.getText(),Charset.forName(characterChoiceBox.getValue()));
         return converter.encode(viewerNode.get());
     }
 
@@ -345,24 +295,8 @@ public class ByteArrayController extends BaseController<BaseController> implemen
     public void setByteArray(byte[] currentValue) {
         this.currentValue = currentValue;
         this.currentSize = currentValue.length;
-//        //根据key的类型切换对应视图
-//        String fileTypeByStream = FileUtil.getFileTypeByStream(currentValue);
-//        //不是可识别的文件类型,都默认采用16进制展示
-//        if (fileTypeByStream == null) {
-//            boolean isUtf8 = EncodeUtil.isUTF8(currentValue);
-//            //是utf8编码或则非特殊字符,直接转utf8字符串
-//            if (isUtf8 || !EncodeUtil.containsSpecialCharacters(currentValue)) {
-//                type = ValueTypeEnum.TEXT;
-//            }
-//        }
-//        if (type == null) {
-//            type = ValueTypeEnum.HEX;
-//        } else {
-//            type = ValueTypeEnum.TEXT;
-//        }
+        //根据key的类型切换对应视图
         this.size.setText(String.format(SIZE, Util.convertMemorySizeStr(currentSize,2)));
-//        this.typeChoiceBox.setValue(type.name);
-
         this.converter = ValueConverters.converterByValue(currentValue);
         byte[] decode = converter.decode(currentValue);
         ValueViewer viewer = ValueViewers.viewerByValue(decode);
