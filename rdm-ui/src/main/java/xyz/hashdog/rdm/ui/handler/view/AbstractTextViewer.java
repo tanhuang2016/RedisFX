@@ -16,6 +16,8 @@ public abstract class AbstractTextViewer implements ValueViewer {
     }
 
     TextArea defaultPane(){
-       return new TextArea();
+        TextArea textArea = new TextArea();
+        textArea.setWrapText(true);
+        return textArea;
     }
 }
