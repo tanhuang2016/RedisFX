@@ -20,6 +20,7 @@ import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.ui.controller.base.BaseKeyPageController;
 import xyz.hashdog.rdm.ui.entity.ZsetTypeTable;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
+import xyz.hashdog.rdm.ui.util.Util;
 
 import java.net.URL;
 import java.util.*;
@@ -103,7 +104,7 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
 
     private void bindData() {
         total.textProperty().bind(Bindings.createStringBinding(() -> String.format(TOTAL, this.list.size()), this.list));
-        size.textProperty().bind(Bindings.createStringBinding(() -> String.format(SIZE, this.list.stream().mapToLong(e -> e.getBytes().length).sum()), this.list));
+        size.textProperty().bind(Bindings.createStringBinding(() -> String.format(SIZE, Util.convertMemorySizeStr(this.list.stream().mapToLong(e -> e.getBytes().length ).sum(),2)), this.list));
     }
 
     /**

@@ -20,6 +20,7 @@ import xyz.hashdog.rdm.ui.controller.base.BaseKeyPageController;
 import xyz.hashdog.rdm.ui.entity.HashTypeTable;
 import xyz.hashdog.rdm.ui.entity.ITable;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
+import xyz.hashdog.rdm.ui.util.Util;
 
 import java.net.URL;
 import java.util.*;
@@ -108,7 +109,7 @@ public class HashTypeController extends BaseKeyPageController<HashTypeTable> imp
 
     private void bindData() {
         total.textProperty().bind(Bindings.createStringBinding(() -> String.format(TOTAL, this.list.size()), this.list));
-        size.textProperty().bind(Bindings.createStringBinding(() -> String.format(SIZE, this.list.stream().mapToLong(e -> e.getBytes().length + e.getKeyBytes().length).sum()), this.list));
+        size.textProperty().bind(Bindings.createStringBinding(() -> String.format(SIZE, Util.convertMemorySizeStr(this.list.stream().mapToLong(e -> e.getBytes().length + e.getKeyBytes().length).sum(),2)), this.list));
     }
 
     /**
