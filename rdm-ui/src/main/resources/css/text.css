@@ -1,3 +1,7 @@
+/* 光标颜色 */
+.caret {
+    -fx-stroke: -color-fg-default;
+}
 .key {
     -fx-fill: -color-fg-default;
 }
@@ -5,6 +9,9 @@
     -fx-fill: -color-accent-fg;
 }
 .null {
+    -fx-fill: -color-warning-fg;
+}
+.warn {
     -fx-fill: -color-warning-fg;
 }
 .number {
@@ -25,4 +32,9 @@
 .comment {
     -fx-fill: -color-fg-default;
 }
+.other {
+    -fx-fill: -color-fg-default;
+}
+
+
 
