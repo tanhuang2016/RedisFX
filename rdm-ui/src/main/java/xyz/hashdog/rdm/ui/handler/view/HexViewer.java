@@ -31,7 +31,7 @@ public class HexViewer extends AbstractTextViewer {
         return new HexViewerNode();
     }
 
-    class HexViewerNode implements ViewerNode {
+    private class HexViewerNode implements ViewerNode {
         private final TextArea textArea;
 
         public HexViewerNode() {

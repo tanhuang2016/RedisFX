@@ -49,7 +49,7 @@ public class ImageViewer implements ValueViewer{
         // GIF
         return data[0] == 0x47 && data[1] == 0x49 && data[2] == 0x46 && data[3] == 0x38;
     }
-    class ImageViewerNode implements ViewerNode{
+    private class ImageViewerNode implements ViewerNode{
         private final StackPane stackPane;
         private final ImageView imageView;
         private byte[] value;

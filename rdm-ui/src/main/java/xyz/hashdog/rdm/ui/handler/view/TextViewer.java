@@ -34,7 +34,7 @@ public class TextViewer extends AbstractTextViewer {
         return Integer.MAX_VALUE;
     }
 
-    class TextViewerNode implements ViewerNode,CharacterEncoding{
+    private class TextViewerNode implements ViewerNode,CharacterEncoding{
         private final TextArea textArea;
         private Charset charset;
         private byte[] value;

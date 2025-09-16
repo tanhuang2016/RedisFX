@@ -35,7 +35,7 @@ public class BinaryViewer extends AbstractTextViewer{
         return false;
     }
 
-    class BinaryViewerNode implements ViewerNode{
+    private class BinaryViewerNode implements ViewerNode{
 
         private final TextArea textArea;
         private byte[] value;

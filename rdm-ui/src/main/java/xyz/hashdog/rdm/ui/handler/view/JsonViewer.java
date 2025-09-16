@@ -62,7 +62,7 @@ public class JsonViewer extends AbstractTextViewer {
         return new JsonViewerNode();
     }
 
-    class JsonViewerNode implements ViewerNode, CharacterEncoding {
+    private class JsonViewerNode implements ViewerNode, CharacterEncoding {
         private final StackPane stackPane;
         private final CodeArea codeArea;
 //        private final TextArea textArea;
