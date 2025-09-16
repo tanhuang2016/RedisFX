@@ -18,14 +18,28 @@ import java.nio.file.Paths;
  */
 public class CustomInvokeConverter implements ValueConverter {
     private static final Logger log = LoggerFactory.getLogger(CustomInvokeConverter.class);
+    /**
+     * 名称
+     */
     private final String name;
+    /**
+     * 是否启用
+     */
+    private final boolean enabled;
+    /**
+     * 编码
+     */
     private final Invoker encode;
+    /**
+     * 解码
+     */
     private final Invoker decode;
 
-    public CustomInvokeConverter(String name, Invoker encode, Invoker decode) {
+    public CustomInvokeConverter(String name, Invoker encode, Invoker decode,boolean enabled) {
         this.name = name;
         this.encode = encode;
         this.decode = decode;
+        this.enabled = enabled;
     }
 
     @Override
