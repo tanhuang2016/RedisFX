@@ -13,6 +13,7 @@ import java.nio.charset.Charset;
  * @version 1.0.0
  * @since 2023/8/8 21:48
  */
+@Deprecated
 public interface ValueConvertHandler {
 
     /**

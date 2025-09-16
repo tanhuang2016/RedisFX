@@ -4,6 +4,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * 编解码工具
+ * @author th
+ * @version 2.3.5
+ * @since 2025/9/13 22:48
+ */
 public class ValueConverters {
 
     private final Map<String,ValueConverter> map;
