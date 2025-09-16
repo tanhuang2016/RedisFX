@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import xyz.hashdog.rdm.common.util.FileUtil;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Paths;
