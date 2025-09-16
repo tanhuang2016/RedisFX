@@ -8,6 +8,7 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -26,14 +27,14 @@
          <bottom>
             <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button  mnemonicParsing="false"  text="%connect.info.testConnect" HBox.hgrow="ALWAYS" />
-                   <TextField  maxWidth="-Infinity" prefWidth="-Infinity" visible="false" />
+                  <Button mnemonicParsing="false" text="%connect.info.testConnect" HBox.hgrow="ALWAYS" />
+                   <TextField maxWidth="-Infinity" prefWidth="-Infinity" visible="false" />
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                      <children>
                         <ButtonBar prefHeight="59.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <buttons>
-                              <Button mnemonicParsing="false"  styleClass="accent" text="%common.ok" />
-                              <Button mnemonicParsing="false"  text="%common.cancel" />
+                              <Button mnemonicParsing="false" styleClass="accent" text="%common.ok" />
+                              <Button mnemonicParsing="false" text="%common.cancel" />
                           </buttons>
                         </ButtonBar>
                      </children>
@@ -47,7 +48,7 @@
          <center>
             <TabPane prefHeight="314.6666666666667" prefWidth="500.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab text="Untitled Tab 1">
+                <Tab text="解码器">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -72,12 +73,12 @@
                                                 </GridPane>
                                                 <HBox alignment="CENTER" spacing="6.0">
                                                    <children>
-                                                              <TextField  maxWidth="Infinity" prefWidth="0.0" promptText="Remote Host" HBox.hgrow="ALWAYS">
+                                                              <TextField maxWidth="Infinity" prefWidth="0.0" promptText="Remote Host" HBox.hgrow="ALWAYS">
                                                          <HBox.margin>
                                                             <Insets right="2.0" />
                                                          </HBox.margin>
                                                       </TextField>
-                                                                  <Spinner  editable="true" maxWidth="Infinity"  prefWidth="0.0" promptText="Remote Port" HBox.hgrow="ALWAYS">
+                                                                  <Spinner editable="true" maxWidth="Infinity" prefWidth="0.0" promptText="Remote Port" HBox.hgrow="ALWAYS">
                                                          <HBox.margin>
                                                             <Insets right="2.0" />
                                                          </HBox.margin>
@@ -107,12 +108,12 @@
                                                 </GridPane>
                                                 <HBox alignment="CENTER" spacing="6.0">
                                                    <children>
-                                                              <TextField  promptText="User Name" HBox.hgrow="ALWAYS">
+                                                              <TextField promptText="User Name" HBox.hgrow="ALWAYS">
                                                          <HBox.margin>
                                                             <Insets right="2.0" />
                                                          </HBox.margin>
                                                       </TextField>
-                                                              <PasswordField  promptText="Password" HBox.hgrow="ALWAYS">
+                                                              <PasswordField promptText="Password" HBox.hgrow="ALWAYS">
                                                          <HBox.margin>
                                                             <Insets right="2.0" />
                                                          </HBox.margin>
@@ -147,11 +148,11 @@
                                                             <Insets right="2.0" />
                                                          </HBox.margin>
                                                          <children>
-                                                                    <TextField  prefWidth="10000.0" promptText="Private Key" />
-                                                                    <Button  mnemonicParsing="false"  text="..." />
+                                                                    <TextField prefWidth="10000.0" promptText="Private Key" />
+                                                                    <Button mnemonicParsing="false" text="..." />
                                                          </children>
                                                       </InputGroup>
-                                                              <PasswordField  prefWidth="10025.0" promptText="Private Key Passphrase">
+                                                              <PasswordField prefWidth="10025.0" promptText="Private Key Passphrase">
                                                          <HBox.margin>
                                                             <Insets right="2.0" />
                                                          </HBox.margin>
@@ -168,7 +169,7 @@
                         </AnchorPane>
                   </content>
                 </Tab>
-                <Tab text="Untitled Tab 2">
+                <Tab text="编码器">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -187,22 +188,16 @@
                                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                    </rowConstraints>
                                                    <children>
-                                                      <Label text="%connect.info.sshhost" />
-                                                      <Label text="%connect.info.sshport" GridPane.columnIndex="1" />
+                                                      <Label text="命令" />
                                                    </children>
                                                 </GridPane>
                                                 <HBox alignment="CENTER" spacing="6.0">
                                                    <children>
-                                                      <TextField  maxWidth="Infinity" prefWidth="0.0" promptText="Remote Host" HBox.hgrow="ALWAYS">
+                                                      <TextField maxWidth="Infinity" prefWidth="0.0" promptText="Remote Host" HBox.hgrow="ALWAYS">
                                                          <HBox.margin>
                                                             <Insets right="2.0" />
                                                          </HBox.margin>
                                                       </TextField>
-                                                      <Spinner  editable="true" maxWidth="Infinity"  prefWidth="0.0" promptText="Remote Port" HBox.hgrow="ALWAYS">
-                                                         <HBox.margin>
-                                                            <Insets right="2.0" />
-                                                         </HBox.margin>
-                                                      </Spinner>
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -222,22 +217,16 @@
                                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                    </rowConstraints>
                                                    <children>
-                                                      <Label text="%connect.info.sshusername" />
-                                                      <Label text="%connect.info.sshpassword" GridPane.columnIndex="1" />
+                                                      <Label text="输入输出目录" />
                                                    </children>
                                                 </GridPane>
                                                 <HBox alignment="CENTER" spacing="6.0">
                                                    <children>
-                                                      <TextField  promptText="User Name" HBox.hgrow="ALWAYS">
+                                                      <TextField promptText="User Name" HBox.hgrow="ALWAYS">
                                                          <HBox.margin>
                                                             <Insets right="2.0" />
                                                          </HBox.margin>
                                                       </TextField>
-                                                      <PasswordField  promptText="Password" HBox.hgrow="ALWAYS">
-                                                         <HBox.margin>
-                                                            <Insets right="2.0" />
-                                                         </HBox.margin>
-                                                      </PasswordField>
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -257,28 +246,10 @@
                                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                    </rowConstraints>
                                                    <children>
-                                                      <Label text="%connect.info.sshprivatekey" />
-                                                      <Label text="%connect.info.sshpassphrase" GridPane.columnIndex="1" />
+                                                      <RadioButton mnemonicParsing="false" text="stdio交互" />
+                                                      <RadioButton mnemonicParsing="false" text="文件交互" GridPane.columnIndex="1" />
                                                    </children>
                                                 </GridPane>
-                                                <HBox alignment="CENTER" spacing="6.0">
-                                                   <children>
-                                                      <InputGroup HBox.hgrow="ALWAYS">
-                                                         <HBox.margin>
-                                                            <Insets right="2.0" />
-                                                         </HBox.margin>
-                                                         <children>
-                                                            <TextField  prefWidth="10000.0" promptText="Private Key" />
-                                                            <Button  mnemonicParsing="false"  text="..." />
-                                                         </children>
-                                                      </InputGroup>
-                                                      <PasswordField prefWidth="10025.0" promptText="Private Key Passphrase">
-                                                         <HBox.margin>
-                                                            <Insets right="2.0" />
-                                                         </HBox.margin>
-                                                      </PasswordField>
-                                                   </children>
-                                                </HBox>
                                              </children>
                                           </VBox>
                                        </children>
@@ -295,8 +266,13 @@
          <top>
                   <HBox alignment="CENTER_LEFT" spacing="6.0" BorderPane.alignment="CENTER">
                       <children>
+                  <Label text="名称:" />
+                  <TextField HBox.hgrow="ALWAYS" />
                           <ToggleSwitch graphicTextGap="0.0" text="启用" HBox.hgrow="ALWAYS" />
                       </children>
+               <padding>
+                  <Insets bottom="10.0" top="10.0" />
+               </padding>
                   </HBox>
          </top>
       </BorderPane>
