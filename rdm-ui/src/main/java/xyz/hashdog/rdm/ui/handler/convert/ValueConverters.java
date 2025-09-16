@@ -37,6 +37,11 @@ public class ValueConverters {
         return ValueConvertersHolder.INSTANCE;
     }
 
+    /**
+     * 根据值获取对应的转换器
+     * @param value 值
+     * @return 对应的转换器
+     */
     public static ValueConverter converterByValue(byte[] value) {
         List<ValueConverter> list = getInstance().map.values().stream()
                 .sorted(Comparator.comparing(ValueConverter::order))
@@ -49,6 +54,11 @@ public class ValueConverters {
         return list.getLast();
     }
 
+    /**
+     * 根据名称获取对应的转换器
+     * @param newValue 名称
+     * @return 对应的转换器
+     */
     public ValueConverter getByName(String newValue) {
         return map.get(newValue);
     }
