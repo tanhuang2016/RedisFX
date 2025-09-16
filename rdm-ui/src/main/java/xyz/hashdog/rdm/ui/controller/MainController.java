@@ -921,4 +921,8 @@ public class MainController extends BaseWindowController<Main> {
         return null;
 
     }
+
+    public void test(ActionEvent actionEvent) {
+        super.loadSubWindow("自定义编解码器", "/fxml/setting/NewCustomConverterView.fxml", root.getScene().getWindow(), ADD);
+    }
 }
