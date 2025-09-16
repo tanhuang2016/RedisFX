@@ -11,8 +11,8 @@ import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
 import xyz.hashdog.rdm.common.util.DataUtil;
+import xyz.hashdog.rdm.ui.Main;
 import xyz.hashdog.rdm.ui.common.Constant;
-import xyz.hashdog.rdm.ui.handler.TextJsonConvertHandler;
 
 import java.nio.charset.Charset;
 import java.util.Collection;
@@ -85,7 +85,7 @@ public class JsonViewer extends AbstractTextViewer {
             stackPane= new StackPane();
             stackPane.getChildren().add(codeArea);
             // 直接添加样式表
-            stackPane.getStylesheets().add(Objects.requireNonNull(TextJsonConvertHandler.class.getResource("/css/text.css")).toExternalForm());
+            stackPane.getStylesheets().add(Objects.requireNonNull(Main.class.getResource("/css/text.css")).toExternalForm());
         }
 
         @Override
