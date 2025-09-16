@@ -79,7 +79,8 @@ public class CustomInvokeConverter implements ValueConverter {
         public byte[] invoke(byte[] data)  {
             try {
                 if(useCmd){
-                    ProcessBuilder pb = new ProcessBuilder(cmd);
+                    String[] parts = cmd.split("\\s+");
+                    ProcessBuilder pb = new ProcessBuilder(parts);
                     Process process = pb.start();
                     // 发送二进制数据到标准输入
                     try (OutputStream os = process.getOutputStream()) {
@@ -96,9 +97,21 @@ public class CustomInvokeConverter implements ValueConverter {
                             outputStream.write(buffer, 0, bytesRead);
                         }
                     }
+                    // 重要：读取错误输出以便调试
+                    StringBuilder errorOutput = new StringBuilder();
+                    try (InputStream es = process.getErrorStream()) {
+                        byte[] errorBuffer = new byte[1024];
+                        int errorBytesRead;
+                        while ((errorBytesRead = es.read(errorBuffer)) != -1) {
+                            errorOutput.append(new String(errorBuffer, 0, errorBytesRead));
+                        }
+                    }
                     int exitCode = process.waitFor();
                     if (exitCode != 0) {
-                        throw new RuntimeException("Script execution failed");
+                        log.error("Script execution failed with exit code: {}, error output: {}",
+                                exitCode, errorOutput);
+                        throw new RuntimeException("Script execution failed with exit code: " +
+                                exitCode + ", error: " + errorOutput);
                     }
                     return outputStream.toByteArray();
                 }
