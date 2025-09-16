@@ -6,6 +6,12 @@ import javafx.scene.control.MenuItem;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * 查看器节点
+ * @author th
+ * @version 2.3.5
+ * @since 2025/9/13 22:48
+ */
 public interface ViewerNode {
 
     /**

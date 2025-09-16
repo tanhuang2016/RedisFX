@@ -4,13 +4,16 @@ import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import xyz.hashdog.rdm.common.util.FileUtil;
 
-import java.nio.charset.Charset;
 
-public class HexViewer extends AbstractTextViewer{
-    public static final String NAME="Hex";
-
-
-
+/**
+ * 16进制查看器
+ *
+ * @author th
+ * @version 2.3.5
+ * @since 2025/9/13 22:48
+ */
+public class HexViewer extends AbstractTextViewer {
+    public static final String NAME = "Hex";
 
     @Override
     public String name() {
@@ -28,12 +31,13 @@ public class HexViewer extends AbstractTextViewer{
         return new HexViewerNode();
     }
 
-    class HexViewerNode implements ViewerNode{
+    class HexViewerNode implements ViewerNode {
         private final TextArea textArea;
 
         public HexViewerNode() {
             this.textArea = defaultPane();
         }
+
         @Override
         public byte[] get() {
             return FileUtil.hexStringToByteArray(textArea.getText());
