@@ -1,5 +1,8 @@
 package xyz.hashdog.rdm.ui.controller;
 
+import atlantafx.base.controls.Notification;
+import atlantafx.base.theme.Styles;
+import atlantafx.base.util.Animations;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
@@ -11,15 +14,21 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import org.jetbrains.annotations.NotNull;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.material2.Material2OutlinedAL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
@@ -43,11 +52,17 @@ import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.RecentHistory;
 
 import java.awt.*;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.net.*;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 import static javafx.scene.input.KeyCombination.*;
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
@@ -113,6 +128,7 @@ public class MainController extends BaseWindowController<Main> {
     public MenuItem update;
     public MenuItem about;
     public MenuItem restartWindow;
+    public AnchorPane center;
     /**
      * 服务连接的Stage
      */
@@ -739,5 +755,170 @@ public class MainController extends BaseWindowController<Main> {
     @FXML
     public void restartWindow(ActionEvent actionEvent) {
         Main.instance.restart();
+    }
+    /**
+     * 关于
+     * @param actionEvent 事件
+     */
+    @FXML
+    public void about(ActionEvent actionEvent) {
+        var alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(language("main.help.about"));
+        alert.setHeaderText(null);
+        alert.setGraphic(new ImageView(GuiUtil.svgImage("/svg/fx_icon.svg",64)));
+        alert.setContentText(("%s\n\n%s\n\n"+language("main.help.about.copyright")).formatted(Applications.NODE_APP_NAME,"v" + System.getProperty(Constant.APP_VERSION), Year.now().getValue()));
+        alert.initOwner(this.currentStage);
+        // 应用尺寸调整
+        // 获取内容标签并计算实际所需宽度
+        DialogPane dialogPane = alert.getDialogPane();
+        Label contentLabel = (Label) dialogPane.lookup(".content.label");
+        if (contentLabel != null) {
+            contentLabel.setWrapText(true);
+            // 计算文本所需宽度
+            double textWidth = GuiUtil.computeTextWidth(contentLabel.getFont(), alert.getContentText(), 300);
+            // 设置合适的宽度 (图标64px + 间距 + 文本宽度 + 边距)
+            double desiredWidth = Math.max(250, Math.min(400, 64 + 5 + textWidth + 5));
+            dialogPane.setPrefWidth(desiredWidth);
+        }
+        alert.getDialogPane().getScene().getWindow().sizeToScene();
+        alert.show();
+
+    }
+
+    /**
+     * 检查更新
+     * @param actionEvent 事件
+     */
+    @FXML
+    public void update(ActionEvent actionEvent) {
+        final var msg = new Notification(
+                language("main.help.update.loading"),
+                new ProgressIndicator()
+        );
+        ProgressIndicator progressIndicator = (ProgressIndicator) msg.getGraphic();
+        progressIndicator.setPrefSize(22, 22);
+        progressIndicator.setMaxSize(22, 22);
+        msg.getStyleClass().addAll(
+                Styles.ELEVATED_1
+        );
+        AnchorPane.setRightAnchor(msg,30d);
+        AnchorPane.setTopAnchor(msg,30d);
+        msg.setOnClose(e -> {
+            var out = Animations.slideOutRight(msg, Duration.millis(250));
+            out.setOnFinished(f -> center.getChildren().remove(msg));
+            out.playFromStart();
+        });
+        var in = Animations.slideInRight(msg, Duration.millis(250));
+        if (!center.getChildren().contains(msg)) {
+            center.getChildren().add(msg);
+        }
+        in.playFromStart();
+        checkForUpdatesAsync(msg);
+    }
+
+
+    /**
+     * 异步调接口检查更新
+     */
+    private  void checkForUpdatesAsync(Notification msg) {
+        async(()->{
+            String apiUrl = System.getProperty(Constant.APP_PROPERTIES);
+            Properties properties =getReleaseProperties(apiUrl);
+            if (properties == null) {
+                apiUrl = System.getProperty(Constant.APP_PROPERTIES2);
+                properties =getReleaseProperties(apiUrl);
+            }
+            Properties finalProperties = properties;
+            Platform.runLater(()->{
+                checkToMsg(msg, finalProperties);
+            });
+        });
+
+    }
+
+    /**
+     * 检查更新结果
+     * @param properties 配置
+     */
+    private void checkToMsg(Notification msg, Properties properties) {
+        if (properties == null) {
+            msg.setMessage(language("main.help.update.fail"));
+            msg.getStyleClass().addAll(
+                    Styles.DANGER
+            );
+            msg.setGraphic(new FontIcon(Material2OutlinedAL.ERROR_OUTLINE));
+            return;
+        }
+        msg.getStyleClass().addAll(
+                Styles.SUCCESS
+        );
+        msg.setGraphic(new FontIcon(Material2OutlinedAL.CHECK_CIRCLE_OUTLINE));
+        String releaseVersion = properties.getProperty(Constant.APP_VERSION);
+        String currentVersion = System.getProperty(Constant.APP_VERSION);
+        //已经是最新了
+        if(currentVersion.equals(releaseVersion)){
+            msg.setMessage(language("main.help.update.new"));
+            CompletableFuture.delayedExecutor(3, TimeUnit.SECONDS).execute(() -> {
+                Platform.runLater(() -> msg.getOnClose().handle(null));
+            });
+            return;
+        }
+        msg.setMessage(language("main.help.update.latest")+" v"+releaseVersion);
+        var btn = getDownloadButton(msg);
+        msg.setPrimaryActions(btn);
+    }
+
+    /**
+     * 获取下载按钮
+     * @param msg 消息
+     * @return 按钮
+     */
+    private static @NotNull Button getDownloadButton(Notification msg) {
+        var btn = new Button(language("main.help.update.download"));
+        btn.setOnAction(e -> {
+           String downloadUrl =System.getProperty(Constant.APP_HOME_PAGE)+ "/releases/latest";
+            try {
+                Desktop.getDesktop().browse(new URI(downloadUrl));
+            } catch (IOException | URISyntaxException ex) {
+                log.error("unable to open the browser:{}",downloadUrl, ex);
+                GuiUtil.alert(Alert.AlertType.ERROR, String.format(language("alert.message.help.suggest")+": %s", downloadUrl));
+            }finally {
+                msg.getOnClose().handle(null);
+            }
+
+        });
+        return btn;
+    }
+
+    /**
+     * 从接口获取发布信息
+     * @param apiUrl 接口地址
+     * @return 发布信息
+     */
+    private Properties getReleaseProperties(String apiUrl) {
+        try {
+            // 发送HTTP请求
+            URL url = URI.create(apiUrl).toURL();
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            // 设置连接超时时间为3秒
+            connection.setConnectTimeout(3000);
+            // 设置读取超时时间
+            connection.setReadTimeout(5000);
+            log.info("getReleaseProperties url:{}",apiUrl);
+            int responseCode = connection.getResponseCode();
+            if (responseCode == 200) {
+                // 读取响应
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                Properties properties = new Properties();
+                properties.load(reader);
+                reader.close();
+                return properties;
+            }
+        } catch (IOException e) {
+           log.error("getReleaseProperties exception:{} ",apiUrl , e);
+        }
+        return null;
+
     }
 }

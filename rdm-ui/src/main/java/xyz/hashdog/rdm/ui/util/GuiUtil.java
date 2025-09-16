@@ -27,6 +27,7 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -229,6 +230,7 @@ public class GuiUtil {
      */
     private static Alert createAlert(Alert.AlertType alertType, String message) {
         Alert a = new Alert(alertType);
+        a.initOwner(Window.getWindows().getLast());
         Stage stage = (Stage) a.getDialogPane().getScene().getWindow();
         stage.getIcons().add(ICON_REDIS);
         a.setHeaderText(Main.RESOURCE_BUNDLE.getString("alert."+alertType.name().toLowerCase()));
@@ -866,6 +868,20 @@ public class GuiUtil {
         tab.setContent(tuple2.t1());
         dbTabPane.getTabs().add(tab);
         dbTabPane.getSelectionModel().select(tab);
+    }
+
+    /**
+     * 计算文本宽度
+     * @param font 字体
+     * @param text 文本
+     * @param maxWidth 最大宽度
+     * @return 宽度
+     */
+    public static double computeTextWidth(Font font, String text, int maxWidth) {
+        javafx.scene.text.Text textNode = new javafx.scene.text.Text(text);
+        textNode.setFont(font);
+        textNode.setWrappingWidth(maxWidth);
+        return textNode.getLayoutBounds().getWidth();
     }
 
 

@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.MenuButton?>
+<?import java.net.URL?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Menu?>
 <AnchorPane fx:id="root" prefHeight="200.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.ByteArrayController">
    <children>
       <VBox prefHeight="200.0" prefWidth="955.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -19,26 +20,33 @@
             <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
                <children>
                   <Label fx:id="name" text="Value" />
-                  <ChoiceBox fx:id="typeChoiceBox" prefWidth="80.0" HBox.hgrow="ALWAYS">
+                  <MenuButton fx:id="typeMenuButton" prefWidth="120.0"  mnemonicParsing="false" >
                      <items>
-                        <FXCollections fx:factory="observableArrayList">
-                           <String fx:value="Text" />
-                           <String fx:value="Json" />
-                           <String fx:value="Hex" />
-                        </FXCollections>
+                        <Menu fx:id="viewerMenu" mnemonicParsing="false"  />
+                        <Menu fx:id="converterMenu" mnemonicParsing="false"  />
                      </items>
-                  </ChoiceBox>
+                  </MenuButton>
                   <Label fx:id="size" text="Size:0B" />
-                  <Button fx:id="copy" mnemonicParsing="false" onAction="#copy"  >
-                  </Button>
-                  <Button fx:id="into" mnemonicParsing="false" onAction="#into"  />
-                  <Button fx:id="export" mnemonicParsing="false" onAction="#export"  />
-                  <Button fx:id="view" mnemonicParsing="false" onAction="#view"  />
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <Button fx:id="copy" mnemonicParsing="false" onAction="#copy"  >
+                        </Button>
+                        <MenuButton fx:id="importMenu">
+                           <items>
+                              <MenuItem fx:id="into" mnemonicParsing="false" onAction="#into" />
+                              <MenuItem fx:id="export" mnemonicParsing="false" onAction="#export" />
+                           </items>
+                        </MenuButton>
+                         <MenuButton fx:id="optionMenu"/>
+                        <Button fx:id="view" mnemonicParsing="false" onAction="#view"  />
+                     </children>
+                  </HBox>
+
                   <ComboBox fx:id="characterChoiceBox" prefWidth="100.0" HBox.hgrow="ALWAYS">
                      <items>
                         <FXCollections fx:factory="observableArrayList">
-                           <String fx:value="UTF-8" />
-                           <String fx:value="GBK" />
+<!--                           <String fx:value="UTF-8" />-->
+<!--                           <String fx:value="GBK" />-->
                         </FXCollections>
                      </items>
                   </ComboBox>
@@ -47,12 +55,12 @@
                   <Insets />
                </VBox.margin>
             </HBox>
-            <AnchorPane prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-               <children>
-                  <TextArea fx:id="value" layoutX="200.0" layoutY="59.0" prefWidth="955.0" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-               </children>
+            <AnchorPane fx:id="valuePane" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
             </AnchorPane>
          </children>
       </VBox>
    </children>
+   <stylesheets>
+      <URL value="@../css/global.css" />
+   </stylesheets>
 </AnchorPane>

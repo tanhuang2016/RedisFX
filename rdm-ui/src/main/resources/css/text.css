@@ -1,0 +1,46 @@
+/* 光标颜色 */
+.caret {
+    -fx-stroke: -color-fg-default;
+}
+/*行号颜色*/
+.lineno{
+    -fx-fill: -color-fg-default;
+    -fx-background-color: -color-bg-default;
+}
+/**********json文本样式***********/
+.key {
+    -fx-fill: -color-fg-default;
+}
+.boolean {
+    -fx-fill: -color-accent-fg;
+}
+.null {
+    -fx-fill: -color-warning-fg;
+}
+.warn {
+    -fx-fill: -color-warning-fg;
+}
+.number {
+    -fx-fill: -color-danger-fg;
+}
+.bracket {
+    -fx-fill: -color-fg-default;
+}
+.colon {
+    -fx-fill:-color-fg-default;
+}
+.comma {
+    -fx-fill: -color-fg-default;
+}
+.value {
+    -fx-fill: -color-success-fg;
+}
+.comment {
+    -fx-fill: -color-fg-default;
+}
+.other {
+    -fx-fill: -color-fg-default;
+}
+/**********json文本样式***********/
+
+

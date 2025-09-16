@@ -89,7 +89,7 @@ public final class Sidebar extends VBox {
     }
 
     private HBox createFooter() {
-        var versionLbl = new Label("v" + System.getProperty("app.version"));
+        var versionLbl = new Label("v" + System.getProperty(Constant.APP_VERSION));
         versionLbl.getStyleClass().addAll(
             "version", TEXT_SMALL, TEXT_BOLD, TEXT_SUBTLE
         );

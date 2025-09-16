@@ -27,7 +27,7 @@ import java.util.function.Predicate;
  */
 public abstract class BaseKeyPageController<P extends ITable> extends BaseKeyController {
 
-    protected static final String SIZE = "Size:%dB";
+    protected static final String SIZE = "Size:%s";
     protected static final String TOTAL = "Total:%d";
     protected static final int ROWS_PER_PAGE = 32;
 
