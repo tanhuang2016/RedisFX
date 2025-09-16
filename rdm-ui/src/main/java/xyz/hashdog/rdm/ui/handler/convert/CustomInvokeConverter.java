@@ -104,6 +104,7 @@ public class CustomInvokeConverter implements ValueConverter {
                 }
                 //step2. 创建进程执行命令
                 String[] parts = cmd.split("\\s+");
+                log.info("cmd:{}", cmd);
                 ProcessBuilder pb = new ProcessBuilder(parts);
                 Process process = pb.start();
                 //step3. stdio方式，就需要传数据
