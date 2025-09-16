@@ -8,22 +8,18 @@ import xyz.hashdog.rdm.ui.handler.*;
  * @since 2023/7/26 21:22
  */
 public enum ValueTypeEnum {
-    TEXT("Text",new TextConvertHandler()),
-    JSON("Json",new TextJsonConvertHandler()),
-    ZIP("Text(Gzip)",new TextGzipConvertHandler()),
-    HEX("Hex",new HexConvertHandler()),
-    BINARY("Binary",new BinaryConvertHandler()),
-    IMAGE("Image",new ImageConvertHandler()),
-    IMAGE_BASE64("Image(Base64)",new ImageBase64ConvertHandler()),
+    TEXT("Text"),
+    JSON("Json"),
+    HEX("Hex"),
+    BINARY("Binary"),
+    IMAGE("Image"),
     ;
 
 
     public final String name;
-    public final ValueConvertHandler handler;
 
-    ValueTypeEnum(String name,ValueConvertHandler handler) {
+    ValueTypeEnum(String name) {
         this.name = name;
-        this.handler=handler;
     }
 
     public static ValueTypeEnum getByName(String newValue) {
