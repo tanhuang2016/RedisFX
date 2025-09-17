@@ -150,4 +150,9 @@ public final class CustomConverterPage extends AbstractPage {
     }
 
 
+    public void addConverter(CustomInvokeConverter converter) {
+    }
+
+    public void updateConverter(CustomInvokeConverter converter) {
+    }
 }

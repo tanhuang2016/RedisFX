@@ -13,6 +13,7 @@ import org.kordamp.ikonli.material2.Material2MZ;
 import xyz.hashdog.rdm.ui.controller.MainController;
 import xyz.hashdog.rdm.ui.controller.ServerConnectionsController;
 import xyz.hashdog.rdm.ui.controller.base.BaseWindowController;
+import xyz.hashdog.rdm.ui.handler.convert.CustomInvokeConverter;
 import xyz.hashdog.rdm.ui.sampler.page.custom.CustomConverterPage;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
@@ -102,8 +103,14 @@ public class NewCustomConverterController extends BaseWindowController<CustomCon
         if(checkForm()){
             return;
         }
-
-
+        CustomInvokeConverter.Invoker decodeInvoker = new CustomInvokeConverter.Invoker(decodeCmd.getText(), decodeDir.getText(), decodeStdio.isSelected());
+        CustomInvokeConverter.Invoker encodeInvoker = new CustomInvokeConverter.Invoker(encodeCmd.getText(), encodeDir.getText(), encodeStdio.isSelected());
+        CustomInvokeConverter converter = new CustomInvokeConverter(name.getText(), encodeInvoker, decodeInvoker, enabled.isSelected());
+        if(model==ServerConnectionsController.ADD){
+            parentController.addConverter(converter);
+        }else {
+            parentController.updateConverter(converter);
+        }
 
     }
 
