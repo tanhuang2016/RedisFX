@@ -18,6 +18,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
+<?import atlantafx.base.layout.InputGroup?>
 <AnchorPane fx:id="root" prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.setting.NewCustomConverterController">
    <children>
       <BorderPane layoutX="104.0" layoutY="39.0" prefHeight="425.0" prefWidth="580.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -103,11 +104,17 @@
                                                       </GridPane>
                                                       <HBox alignment="CENTER" spacing="6.0">
                                                          <children>
-                                                            <TextField fx:id="decodeDir" promptText="input/output  in this directory" HBox.hgrow="ALWAYS">
+                                                            <InputGroup HBox.hgrow="ALWAYS">
+                                                               <children>
+                                                                  <TextField fx:id="decodeDir" promptText="input/output  in this directory" HBox.hgrow="ALWAYS">
+                                                                  </TextField>
+                                                                  <Button fx:id="decodeDirButton" mnemonicParsing="false"  text="..." />
+                                                               </children>
                                                                <HBox.margin>
                                                                   <Insets right="2.0" />
                                                                </HBox.margin>
-                                                            </TextField>
+                                                            </InputGroup>
+
                                                          </children>
                                                       </HBox>
                                                    </children>
@@ -194,11 +201,16 @@
                                                       </GridPane>
                                                       <HBox alignment="CENTER" spacing="6.0">
                                                          <children>
-                                                            <TextField fx:id="encodeDir" promptText="input/output  in this directory" HBox.hgrow="ALWAYS">
+                                                            <InputGroup HBox.hgrow="ALWAYS">
+                                                               <children>
+                                                                  <TextField fx:id="encodeDir" promptText="input/output  in this directory" HBox.hgrow="ALWAYS">
+                                                                  </TextField>
+                                                                  <Button fx:id="encodeDirButton" mnemonicParsing="false"  text="..." />
+                                                               </children>
                                                                <HBox.margin>
                                                                   <Insets right="2.0" />
                                                                </HBox.margin>
-                                                            </TextField>
+                                                            </InputGroup>
                                                          </children>
                                                       </HBox>
                                                    </children>

@@ -1,6 +1,7 @@
 package xyz.hashdog.rdm.ui.controller.setting;
 
 import atlantafx.base.controls.ToggleSwitch;
+import atlantafx.base.theme.Styles;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
@@ -27,13 +28,25 @@ public class NewCustomConverterController extends BaseWindowController<MainContr
     public RadioButton decodeStdio;
     public RadioButton decodeFile;
     public Label help;
+    public Button decodeDirButton;
+    public Button encodeDirButton;
 
 
     @FXML
     public void initialize() {
         initIcon();
+        initRadioButton();
         initLanguage();
         initStyles();
+    }
+
+    private void initRadioButton() {
+        ToggleGroup  encodeGroup = new ToggleGroup();
+        encodeStdio.setToggleGroup(encodeGroup);
+        encodeFile.setToggleGroup(encodeGroup);
+        ToggleGroup  decodeGroup = new ToggleGroup();
+        decodeStdio.setToggleGroup(decodeGroup);
+        decodeFile.setToggleGroup(decodeGroup);
     }
 
     @Override
@@ -48,6 +61,8 @@ public class NewCustomConverterController extends BaseWindowController<MainContr
 
     private void initStyles() {
         help.setCursor(Cursor.HAND);
+        decodeDirButton.getStyleClass().addAll( Styles.BUTTON_ICON);
+        encodeDirButton.getStyleClass().addAll( Styles.BUTTON_ICON);
     }
 
     private void initIcon() {
@@ -62,6 +77,8 @@ public class NewCustomConverterController extends BaseWindowController<MainContr
         decodeFile.setContentDisplay(ContentDisplay.RIGHT);
         encodeFile.setGraphic(new FontIcon(Material2AL.HELP_OUTLINE));
         encodeFile.setContentDisplay(ContentDisplay.RIGHT);
+        GuiUtil.setIcon(decodeDirButton,new FontIcon(Material2MZ.MORE_HORIZ));
+        GuiUtil.setIcon(encodeDirButton,new FontIcon(Material2MZ.MORE_HORIZ));
     }
 
 
