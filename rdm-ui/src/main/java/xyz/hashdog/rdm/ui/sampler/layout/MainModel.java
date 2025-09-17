@@ -76,9 +76,6 @@ public class MainModel {
         general.getChildren().setAll(
             NAV_TREE.get(ThemePage.class),
             NAV_TREE.get(LanguagePage.class)
-//            NAV_TREE.get(BBCodePage.class),
-//            NAV_TREE.get(AnimationsPage.class),
-//            NAV_TREE.get(IconsPage.class)
         );
         general.setExpanded(true);
 
@@ -86,28 +83,11 @@ public class MainModel {
         global.getChildren().setAll(
             NAV_TREE.get(AdvancedPage.class),
             NAV_TREE.get(KeyTagPage.class)
-//            NAV_TREE.get(CardPage.class),
-//            NAV_TREE.get(ContextMenuPage.class),
-//            NAV_TREE.get(DeckPanePage.class),
-//            NAV_TREE.get(InputGroupPage.class),
-//            NAV_TREE.get(ModalPanePage.class),
-//            NAV_TREE.get(ScrollPanePage.class),
-//            NAV_TREE.get(SeparatorPage.class),
-//            NAV_TREE.get(SplitPanePage.class),
-//            NAV_TREE.get(PopoverPage.class),
-//            NAV_TREE.get(TilePage.class),
-//            NAV_TREE.get(TitledPanePage.class),
-//            NAV_TREE.get(ToolBarPage.class)
         );
 
         var windows = NavTree.Item.group("main.setting.window", new FontIcon(Material2OutlinedAL.LAPTOP_WINDOWS));
         windows.getChildren().setAll(
                 NAV_TREE.get(TabPanePage.class)
-//            NAV_TREE.get(ChartPage.class),
-//            NAV_TREE.get(ListViewPage.class),
-//            NAV_TREE.get(TableViewPage.class),
-//            NAV_TREE.get(TreeTableViewPage.class),
-//            NAV_TREE.get(TreeViewPage.class)
         );
 
 //        var feedback = NavTree.Item.group("Feedback", new FontIcon(Material2OutlinedAL.CHAT_BUBBLE_OUTLINE));
