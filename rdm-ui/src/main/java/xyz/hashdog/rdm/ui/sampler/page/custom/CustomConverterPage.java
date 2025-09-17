@@ -6,6 +6,7 @@ import atlantafx.base.controls.ToggleSwitch;
 import atlantafx.base.theme.Styles;
 import atlantafx.base.util.BBCodeParser;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
@@ -122,6 +123,7 @@ public final class CustomConverterPage extends AbstractPage {
                         // 在这里添加删除逻辑
                     });
                     HBox hbox = new HBox(5, editButton, deleteButton);
+                    hbox.setAlignment(Pos.CENTER_LEFT);
                     setGraphic(hbox);
                 }
             }
