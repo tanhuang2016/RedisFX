@@ -2,7 +2,9 @@ package xyz.hashdog.rdm.ui.entity;
 
 
 import atlantafx.base.controls.ToggleSwitch;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 /**
@@ -31,26 +33,9 @@ public class CustomConverterTable  implements ITable {
 
     @Override
     public  String[] getProperties() {
-        return new String[]{"#row", "name","enabled","#action"};
+        return new String[]{"#row", "name","enabled",""};
     }
 
-    @Override
-    public <S, T extends ITable> GuiUtil.OneLineTableCell<T, S> getCellFactory(int i) {
-        if(i==2){
-            return new GuiUtil.OneLineTableCell<>(){
-                @Override
-                protected void updateItem(S s, boolean b) {
-                    if(s instanceof Boolean isEnabled){
-                        ToggleSwitch toggleSwitch = new ToggleSwitch("启用");
-                        toggleSwitch.setSelected(isEnabled);
-                        setGraphic(toggleSwitch);
-                    }
-                }
-            };
-        }
-
-        return null;
-    }
 
     public String getName() {
         return name;
