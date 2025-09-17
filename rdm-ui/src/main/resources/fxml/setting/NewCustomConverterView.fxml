@@ -218,7 +218,7 @@
                                                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                          </rowConstraints>
                                                          <children>
-                                                            <RadioButton fx:id="stdioInteractionButton" mnemonicParsing="false" text="stdio交互" />
+                                                            <RadioButton fx:id="stdioInteractionButton" mnemonicParsing="false" text="stdio交互"  selected="true"/>
                                                             <RadioButton fx:id="fileInteractionButton" mnemonicParsing="false" text="文件交互" GridPane.columnIndex="1" />
                                                          </children>
                                                       </GridPane>
