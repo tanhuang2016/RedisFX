@@ -15,6 +15,7 @@ public enum ConfigSettingsEnum {
     SERVER_TAB_PANE("serverTabPane", ServerTabPaneSetting.class ),
     KEY_TAB_PANE("keyTabPane", KeyTabPaneSetting.class ),
     LANGUAGE("Language", LanguageSetting.class ),
+    CONVERTER("Converter", CustomConverterSetting.class ),
     ;
 
     public final String name;

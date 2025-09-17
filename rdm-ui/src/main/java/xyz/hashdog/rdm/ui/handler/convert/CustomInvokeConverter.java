@@ -21,19 +21,19 @@ public class CustomInvokeConverter implements ValueConverter {
     /**
      * 名称
      */
-    private final String name;
+    private  String name;
     /**
      * 是否启用
      */
-    private final boolean enabled;
+    private  boolean enabled;
     /**
      * 编码
      */
-    private final Invoker encode;
+    private  Invoker encode;
     /**
      * 解码
      */
-    private final Invoker decode;
+    private  Invoker decode;
 
     public CustomInvokeConverter(String name, Invoker encode, Invoker decode,boolean enabled) {
         this.name = name;
@@ -62,6 +62,38 @@ public class CustomInvokeConverter implements ValueConverter {
         return false;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Invoker getEncode() {
+        return encode;
+    }
+
+    public void setEncode(Invoker encode) {
+        this.encode = encode;
+    }
+
+    public Invoker getDecode() {
+        return decode;
+    }
+
+    public void setDecode(Invoker decode) {
+        this.decode = decode;
+    }
+
     public static class Invoker {
 
         /**
@@ -71,18 +103,18 @@ public class CustomInvokeConverter implements ValueConverter {
         /**
          * 命令
          */
-        private final String cmd;
+        private  String cmd;
         /**
          * io文件所在目录
          * 输入数据默认文件是redis-fx.input
          * 输出为redis-fx.output
          */
-        private final String ioDir;
+        private  String ioDir;
         /**
          * 默认用stdio的方式io数据
          * false就用filePath的方式传数据
          */
-        private final boolean useCmd;
+        private  boolean useCmd;
 
         public Invoker(String cmd, String ioDir, boolean useCmd) {
             this.cmd = cmd;
@@ -154,6 +186,30 @@ public class CustomInvokeConverter implements ValueConverter {
                 throw new RuntimeException(e);
             }
 
+        }
+
+        public String getCmd() {
+            return cmd;
+        }
+
+        public void setCmd(String cmd) {
+            this.cmd = cmd;
+        }
+
+        public String getIoDir() {
+            return ioDir;
+        }
+
+        public void setIoDir(String ioDir) {
+            this.ioDir = ioDir;
+        }
+
+        public boolean isUseCmd() {
+            return useCmd;
+        }
+
+        public void setUseCmd(boolean useCmd) {
+            this.useCmd = useCmd;
         }
     }
 }
