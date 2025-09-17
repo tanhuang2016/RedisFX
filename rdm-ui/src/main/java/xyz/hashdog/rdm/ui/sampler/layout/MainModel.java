@@ -12,6 +12,7 @@ import xyz.hashdog.rdm.ui.sampler.event.NavEvent;
 import xyz.hashdog.rdm.ui.sampler.page.Page;
 import xyz.hashdog.rdm.ui.sampler.page.components.TabPanePage;
 import xyz.hashdog.rdm.ui.sampler.page.custom.AdvancedPage;
+import xyz.hashdog.rdm.ui.sampler.page.custom.CustomConverterPage;
 import xyz.hashdog.rdm.ui.sampler.page.custom.KeyTagPage;
 import xyz.hashdog.rdm.ui.sampler.page.custom.LanguagePage;
 import xyz.hashdog.rdm.ui.sampler.page.general.ThemePage;
@@ -90,15 +91,10 @@ public class MainModel {
                 NAV_TREE.get(TabPanePage.class)
         );
 
-//        var feedback = NavTree.Item.group("Feedback", new FontIcon(Material2OutlinedAL.CHAT_BUBBLE_OUTLINE));
-//        feedback.getChildren().setAll(
-//                NAV_TREE.get(ThemePage.class)
-//            NAV_TREE.get(DialogPage.class),
-//            NAV_TREE.get(MessagePage.class),
-//            NAV_TREE.get(NotificationPage.class),
-//            NAV_TREE.get(ProgressIndicatorPage.class),
-//            NAV_TREE.get(TooltipPage.class)
-//        );
+        var extension = NavTree.Item.group("main.setting.window", new FontIcon(Material2OutlinedAL.EXTENSION));
+        extension.getChildren().setAll(
+                NAV_TREE.get(CustomConverterPage.class)
+        );
 
 //        var inputs = NavTree.Item.group("Inputs & Controls", new FontIcon(Material2OutlinedAL.EDIT));
 //        inputs.getChildren().setAll(
@@ -144,8 +140,8 @@ public class MainModel {
         root.getChildren().setAll(
             general,
             global,
-                windows
-//            feedback,
+                windows,
+                extension
 //            inputs,
 //            navigation,
 //            showcases
@@ -204,6 +200,7 @@ public class MainModel {
         map.put(KeyTagPage.class, NavTree.Item.page(KeyTagPage.NAME, KeyTagPage.class));
         map.put(TabPanePage.class, NavTree.Item.page(TabPanePage.NAME, TabPanePage.class));
         map.put(LanguagePage.class, NavTree.Item.page(LanguagePage.NAME, LanguagePage.class));
+        map.put(CustomConverterPage.class, NavTree.Item.page(CustomConverterPage.NAME, CustomConverterPage.class));
 //        map.put(MenuButtonPage.class, NavTree.Item.page(
 //            MenuButtonPage.NAME,
 //            MenuButtonPage.class, "SplitMenuButton")
