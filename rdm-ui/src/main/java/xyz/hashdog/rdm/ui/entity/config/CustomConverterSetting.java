@@ -12,7 +12,7 @@ public class CustomConverterSetting implements ConfigSettings{
     /**
      * 连接超时
      */
-    private List<CustomInvokeConverter> list;
+    private List<CustomInvokeConverter> converters;
 
 
     @Override
@@ -22,15 +22,24 @@ public class CustomConverterSetting implements ConfigSettings{
 
     @Override
     public CustomConverterSetting init() {
-        this.list = new ArrayList<>();
+        this.converters = new ArrayList<>();
         return this;
     }
 
-    public List<CustomInvokeConverter> getList() {
-        return list;
+    public List<CustomInvokeConverter> getConverters() {
+        return converters;
     }
 
-    public void setList(List<CustomInvokeConverter> list) {
-        this.list = list;
+    public void setConverters(List<CustomInvokeConverter> converters) {
+        this.converters = converters;
+    }
+
+    public CustomInvokeConverter getByName(String name) {
+        for (CustomInvokeConverter converter : converters) {
+            if(converter.getName().equals(name)){
+                return converter;
+            }
+        }
+        return null;
     }
 }

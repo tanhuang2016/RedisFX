@@ -19,6 +19,7 @@ import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
+import xyz.hashdog.rdm.common.util.TUtil;
 import xyz.hashdog.rdm.ui.common.Applications;
 import xyz.hashdog.rdm.ui.common.ConfigSettingsEnum;
 import xyz.hashdog.rdm.ui.controller.base.BaseWindowController;
@@ -62,7 +63,7 @@ public final class CustomConverterPage extends AbstractPage {
         tableView.getColumns().add(enabled);
         tableView.getColumns().add(action);
         CustomConverterSetting configSettings = Applications.getConfigSettings(ConfigSettingsEnum.CONVERTER.name);
-        List<CustomConverterTable> list = configSettings.getList().stream().map(e -> new CustomConverterTable(e.getName(), e.isEnabled())).toList();
+        List<CustomConverterTable> list = configSettings.getConverters().stream().map(e -> new CustomConverterTable(e.getName(), e.isEnabled())).toList();
         tableView.getItems().addAll(list);
         GuiUtil.initSimpleTableView(tableView,new CustomConverterTable());
         enabled.setCellFactory(param ->  getEnabledTableCell());
@@ -102,15 +103,16 @@ public final class CustomConverterPage extends AbstractPage {
             @Override
             protected void updateItem(Boolean s, boolean b) {
                 super.updateItem(s, b);
-                if (!b) {
+                if (b) {
+                    setGraphic(null);
+                } else {
                     ToggleSwitch toggleSwitch = new ToggleSwitch();
                     toggleSwitch.setSelected(s);
-                    setGraphic(toggleSwitch);
-                    CustomConverterTable currentRowData =  getTableView().getItems().get(getIndex());
+                    CustomConverterTable currentRowData = getTableView().getItems().get(getIndex());
                     toggleSwitch.selectedProperty().addListener((observable, oldValue, newValue) -> {
                         currentRowData.setEnabled(newValue);
-                        System.out.println("切换: " + currentRowData.getName()+": "+newValue);
                     });
+                    setGraphic(toggleSwitch);
                 }
 
             }
@@ -145,13 +147,49 @@ public final class CustomConverterPage extends AbstractPage {
     }
 
     private void delete(CustomConverterTable currentRowData) {
+        CustomConverterSetting old = Applications.getConfigSettings(ConfigSettingsEnum.CONVERTER.name);
+        CustomInvokeConverter byName = old.getByName(currentRowData.getName());
+        old.getConverters().remove(byName);
+        CustomConverterSetting configSettings = new CustomConverterSetting();
+        configSettings.setConverters(old.getConverters());
+        Applications.putConfigSettings(configSettings.getName(), configSettings);
+        tableView.getItems().remove(currentRowData);
     }
 
 
     public void addConverter(CustomInvokeConverter converter) {
+        CustomConverterTable customConverterTable = new CustomConverterTable(converter.getName(), converter.isEnabled());
+        CustomConverterSetting old = Applications.getConfigSettings(ConfigSettingsEnum.CONVERTER.name);
+        CustomConverterSetting configSettings = new CustomConverterSetting();
+        configSettings.setConverters(old.getConverters());
+        configSettings.getConverters().add(converter);
+        Applications.putConfigSettings(configSettings.getName(), configSettings);
+        tableView.getItems().add(customConverterTable);
+        tableView.getSelectionModel().select(customConverterTable);
     }
 
     public void updateConverter(CustomInvokeConverter converter) {
+        CustomConverterSetting old = Applications.getConfigSettings(ConfigSettingsEnum.CONVERTER.name);
+        CustomInvokeConverter byName = old.getByName(converter.getName());
+        old.getConverters().set(old.getConverters().indexOf(byName),converter);
+        CustomConverterSetting configSettings = new CustomConverterSetting();
+        configSettings.setConverters(old.getConverters());
+        Applications.putConfigSettings(configSettings.getName(), configSettings);
+        CustomConverterTable item =findByName(converter.getName());
+        CustomConverterTable newItem = new CustomConverterTable(converter.getName(), converter.isEnabled());
+        int i = tableView.getItems().indexOf(item);
+        //先删后插，是因为直接set会有图形异常
+        tableView.getItems().remove(item);
+        tableView.getItems().add(i,newItem);
+        tableView.getSelectionModel().select(newItem);
+    }
 
+    private CustomConverterTable findByName(String name) {
+        for (CustomConverterTable item : tableView.getItems()) {
+            if(item.getName().equals(name)){
+                return item;
+            }
+        }
+        return null;
     }
 }

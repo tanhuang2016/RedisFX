@@ -103,16 +103,14 @@ public class NewCustomConverterController extends BaseWindowController<CustomCon
         this.name.setText(name);
         this.name.setEditable(false);
         CustomConverterSetting configSettings = Applications.getConfigSettings(ConfigSettingsEnum.CONVERTER.name);
-        for (CustomInvokeConverter converter : configSettings.getList()) {
-            if(converter.getName().equals(name)){
-                decodeCmd.setText(converter.getDecode().getCmd());
-                decodeDir.setText(converter.getDecode().getIoDir());
-                decodeStdio.setSelected(converter.getDecode().isUseCmd());
-                encodeCmd.setText(converter.getEncode().getCmd());
-                encodeDir.setText(converter.getEncode().getIoDir());
-                encodeStdio.setSelected(converter.getEncode().isUseCmd());
-            }
-        }
+        CustomInvokeConverter converter=configSettings.getByName(name);
+        this.enabled.setSelected(converter.isEnabled());
+        decodeCmd.setText(converter.getDecode().getCmd());
+        decodeDir.setText(converter.getDecode().getIoDir());
+        decodeStdio.setSelected(converter.getDecode().isUseCmd());
+        encodeCmd.setText(converter.getEncode().getCmd());
+        encodeDir.setText(converter.getEncode().getIoDir());
+        encodeStdio.setSelected(converter.getEncode().isUseCmd());
     }
 
     public void ok(ActionEvent actionEvent) {
@@ -127,6 +125,7 @@ public class NewCustomConverterController extends BaseWindowController<CustomCon
         }else {
             parentController.updateConverter(converter);
         }
+        this.currentStage.close();
 
     }
 
