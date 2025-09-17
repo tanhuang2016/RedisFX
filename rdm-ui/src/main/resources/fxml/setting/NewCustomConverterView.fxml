@@ -127,8 +127,8 @@
                                                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                          </rowConstraints>
                                                          <children>
-                                                            <RadioButton mnemonicParsing="false" selected="true" text="stdio交互" />
-                                                            <RadioButton mnemonicParsing="false" text="文件交互" GridPane.columnIndex="1" />
+                                                            <RadioButton fx:id="decodeStdio" mnemonicParsing="false" selected="true" text="stdio交互" />
+                                                            <RadioButton fx:id="decodeFile"  mnemonicParsing="false" text="文件交互" GridPane.columnIndex="1" />
                                                          </children>
                                                       </GridPane>
                                                    </children>
@@ -218,8 +218,8 @@
                                                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                          </rowConstraints>
                                                          <children>
-                                                            <RadioButton fx:id="stdioInteractionButton" mnemonicParsing="false" text="stdio交互"  selected="true"/>
-                                                            <RadioButton fx:id="fileInteractionButton" mnemonicParsing="false" text="文件交互" GridPane.columnIndex="1" />
+                                                            <RadioButton fx:id="encodeStdio" mnemonicParsing="false" text="stdio交互"  selected="true"/>
+                                                            <RadioButton fx:id="encodeFile"  mnemonicParsing="false" text="文件交互" GridPane.columnIndex="1" />
                                                          </children>
                                                       </GridPane>
                                                    </children>
