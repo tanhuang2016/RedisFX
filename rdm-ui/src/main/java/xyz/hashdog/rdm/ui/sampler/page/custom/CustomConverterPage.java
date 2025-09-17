@@ -5,6 +5,7 @@ package xyz.hashdog.rdm.ui.sampler.page.custom;
 import atlantafx.base.controls.ToggleSwitch;
 import atlantafx.base.theme.Styles;
 import atlantafx.base.util.BBCodeParser;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
@@ -70,8 +71,9 @@ public final class CustomConverterPage extends AbstractPage {
         table.setColumnResizePolicy(
                 TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
         );
-        VBox vBox = new VBox(table);
-        return vBox;
+        Button add = new Button("新增",new FontIcon(Feather.PLUS));
+        add.getStyleClass().addAll(Styles.FLAT);
+        return new VBox(5,add,table);
     }
 
     private TableCell<CustomConverterTable, Boolean> getEnabledTableCell() {
