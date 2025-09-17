@@ -82,5 +82,16 @@ public class NewCustomConverterController extends BaseWindowController<CustomCon
         GuiUtil.setIcon(encodeDirButton,new FontIcon(Material2MZ.MORE_HORIZ));
     }
 
+    public int getModel() {
+        return model;
+    }
 
+    public void setModel(int model) {
+        this.model = model;
+    }
+    /**
+     * 编解码器名称
+     */
+    public void setName(String name) {
+    }
 }

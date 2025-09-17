@@ -19,12 +19,19 @@ import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
+import xyz.hashdog.rdm.ui.common.Applications;
+import xyz.hashdog.rdm.ui.common.ConfigSettingsEnum;
+import xyz.hashdog.rdm.ui.controller.base.BaseWindowController;
 import xyz.hashdog.rdm.ui.controller.setting.NewCustomConverterController;
 import xyz.hashdog.rdm.ui.entity.CustomConverterTable;
+import xyz.hashdog.rdm.ui.entity.config.CustomConverterSetting;
+import xyz.hashdog.rdm.ui.entity.config.LanguageSetting;
+import xyz.hashdog.rdm.ui.handler.convert.CustomInvokeConverter;
 import xyz.hashdog.rdm.ui.sampler.page.AbstractPage;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 import java.io.IOException;
+import java.util.List;
 
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
@@ -52,17 +59,9 @@ public final class CustomConverterPage extends AbstractPage {
         table.getColumns().add(new TableColumn<>("name"));
         table.getColumns().add(enabled);
         table.getColumns().add(action);
-
-        table.getItems().addAll(
-                new CustomConverterTable("UTF-8",true),
-                new CustomConverterTable("UTF-16",true),
-                new CustomConverterTable("UTF-32",true),
-                new CustomConverterTable("GBK",true),
-                new CustomConverterTable("GB2312",true),
-                new CustomConverterTable("GB18030",true),
-                new CustomConverterTable("Big5",true),
-                new CustomConverterTable("Big5-HKSCS",true)
-        );
+        CustomConverterSetting configSettings = Applications.getConfigSettings(ConfigSettingsEnum.CONVERTER.name);
+        List<CustomConverterTable> list = configSettings.getList().stream().map(e -> new CustomConverterTable(e.getName(), e.isEnabled())).toList();
+        table.getItems().addAll(list);
         GuiUtil.initSimpleTableView(table,new CustomConverterTable());
         enabled.setCellFactory(param ->  getEnabledTableCell());
         action.setCellFactory(param ->  getActionTableCell());
@@ -85,6 +84,12 @@ public final class CustomConverterPage extends AbstractPage {
         NewCustomConverterController controller = tuple2.t2();
         controller.setCurrentStage(subStage);
         controller.setParentController(this);
+        if(currentRowData==null){
+            controller.setModel(BaseWindowController.ADD);
+        }else {
+            controller.setModel(BaseWindowController.UPDATE);
+            controller.setName(currentRowData.getName());
+        }
         subStage.show();
         subStage.setOnCloseRequest(event ->  controller.close());
 
