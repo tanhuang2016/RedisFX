@@ -41,12 +41,8 @@ public final class CustomConverterPage extends AbstractPage {
         super();
         addPageHeader();
         addFormattedText(language("main.setting.general.language.describe"));
-        try {
-            addNode(converterTable());
+        addNode(converterTable());
 
-        }catch (Exception e){
-            e.printStackTrace();
-        }
     }
 
     private Node converterTable() {
