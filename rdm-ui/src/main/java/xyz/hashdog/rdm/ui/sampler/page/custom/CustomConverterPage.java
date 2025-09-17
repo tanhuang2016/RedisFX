@@ -4,8 +4,7 @@ package xyz.hashdog.rdm.ui.sampler.page.custom;
 
 import atlantafx.base.controls.ToggleSwitch;
 import atlantafx.base.theme.Styles;
-import atlantafx.base.util.BBCodeParser;
-import javafx.geometry.Insets;
+import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -15,15 +14,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.TextFlow;
+import javafx.stage.Stage;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
-import xyz.hashdog.rdm.ui.controller.setting.LanguagePageController;
+import xyz.hashdog.rdm.ui.controller.setting.NewCustomConverterController;
 import xyz.hashdog.rdm.ui.entity.CustomConverterTable;
-import xyz.hashdog.rdm.ui.entity.InfoTable;
-import xyz.hashdog.rdm.ui.entity.TopKeyTable;
 import xyz.hashdog.rdm.ui.sampler.page.AbstractPage;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
@@ -73,8 +70,24 @@ public final class CustomConverterPage extends AbstractPage {
                 TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
         );
         Button add = new Button("新增",new FontIcon(Feather.PLUS));
+        add.setOnAction(this::add);
         add.getStyleClass().addAll(Styles.FLAT);
         return new VBox(5,add,table);
+    }
+
+    private void add(ActionEvent actionEvent) {
+        openAddOrUpdate(null);
+    }
+
+    private void openAddOrUpdate(CustomConverterTable currentRowData) {
+        Tuple2<AnchorPane, NewCustomConverterController> tuple2 = GuiUtil.doLoadFxml("/fxml/setting/NewCustomConverterView.fxml");
+        Stage subStage = GuiUtil.createSubStage(null, tuple2.t1(), this.getScene().getWindow());
+        NewCustomConverterController controller = tuple2.t2();
+        controller.setCurrentStage(subStage);
+        controller.setParentController(this);
+        subStage.show();
+        subStage.setOnCloseRequest(event ->  controller.close());
+
     }
 
     private TableCell<CustomConverterTable, Boolean> getEnabledTableCell() {
@@ -114,6 +127,7 @@ public final class CustomConverterPage extends AbstractPage {
                     deleteButton.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT);
                     // 为按钮添加事件处理器
                     editButton.setOnAction(event -> {
+                        openAddOrUpdate(currentRowData);
                         System.out.println("编辑1: " + currentRowData.getName());
                         // 在这里添加编辑逻辑
                     });

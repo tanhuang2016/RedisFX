@@ -12,9 +12,10 @@ import org.kordamp.ikonli.material2.Material2MZ;
 import xyz.hashdog.rdm.ui.controller.MainController;
 import xyz.hashdog.rdm.ui.controller.ServerConnectionsController;
 import xyz.hashdog.rdm.ui.controller.base.BaseWindowController;
+import xyz.hashdog.rdm.ui.sampler.page.custom.CustomConverterPage;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
-public class NewCustomConverterController extends BaseWindowController<MainController>  {
+public class NewCustomConverterController extends BaseWindowController<CustomConverterPage>  {
     @FXML
     public ToggleSwitch enabled;
     public Tab decodeTab;
