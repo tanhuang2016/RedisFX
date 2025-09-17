@@ -24,7 +24,7 @@
          <bottom>
             <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" text="%connect.info.testConnect" HBox.hgrow="ALWAYS" />
+<!--                  <Button mnemonicParsing="false" text="%connect.info.testConnect" HBox.hgrow="ALWAYS" />-->
                    <TextField maxWidth="-Infinity" prefWidth="-Infinity" visible="false" />
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                      <children>

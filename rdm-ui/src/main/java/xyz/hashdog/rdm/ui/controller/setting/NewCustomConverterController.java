@@ -11,6 +11,7 @@ import org.kordamp.ikonli.material2.Material2MZ;
 import xyz.hashdog.rdm.ui.controller.MainController;
 import xyz.hashdog.rdm.ui.controller.ServerConnectionsController;
 import xyz.hashdog.rdm.ui.controller.base.BaseWindowController;
+import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 public class NewCustomConverterController extends BaseWindowController<MainController>  {
     @FXML
@@ -30,9 +31,19 @@ public class NewCustomConverterController extends BaseWindowController<MainContr
 
     @FXML
     public void initialize() {
-//        initLanguage();
         initIcon();
+        initLanguage();
         initStyles();
+    }
+
+    @Override
+    protected void initLanguage() {
+        super.initLanguage();
+        help.setTooltip(GuiUtil.textTooltip("点击查看"));
+        Tooltip.install(encodeStdio.getGraphic(), GuiUtil.textTooltip("stdio"));
+        Tooltip.install(decodeStdio.getGraphic(), GuiUtil.textTooltip("stdio"));
+        Tooltip.install(encodeFile.getGraphic(), GuiUtil.textTooltip("file"));
+        Tooltip.install(decodeFile.getGraphic(), GuiUtil.textTooltip("file"));
     }
 
     private void initStyles() {
