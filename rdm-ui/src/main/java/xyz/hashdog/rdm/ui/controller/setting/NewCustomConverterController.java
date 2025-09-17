@@ -2,6 +2,7 @@ package xyz.hashdog.rdm.ui.controller.setting;
 
 import atlantafx.base.controls.ToggleSwitch;
 import atlantafx.base.theme.Styles;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
@@ -31,6 +32,8 @@ public class NewCustomConverterController extends BaseWindowController<CustomCon
     public Label help;
     public Button decodeDirButton;
     public Button encodeDirButton;
+    public TextField name;
+    public TabPane tabPane;
 
 
     @FXML
@@ -93,5 +96,39 @@ public class NewCustomConverterController extends BaseWindowController<CustomCon
      * 编解码器名称
      */
     public void setName(String name) {
+    }
+
+    public void ok(ActionEvent actionEvent) {
+        if(checkForm()){
+            return;
+        }
+
+
+
+    }
+
+    private boolean checkForm() {
+        if(GuiUtil.requiredTextField(name)){
+            return true;
+        }
+        boolean checkDecode =checkForm(decodeCmd, decodeDir,decodeFile);
+        if(checkDecode){
+            tabPane.getSelectionModel().select(decodeTab);
+            return true;
+        }
+        boolean checkEncode =checkForm(encodeCmd, encodeDir,encodeFile);
+        if(checkEncode){
+            tabPane.getSelectionModel().select(encodeTab);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkForm(TextField cmd, TextField dir, RadioButton file) {
+       boolean flg = GuiUtil.requiredTextField(cmd);
+       if(!flg&&file.isSelected()){
+           flg = GuiUtil.requiredTextField(dir);
+       }
+       return flg;
     }
 }

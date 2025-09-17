@@ -31,8 +31,8 @@
                      <children>
                         <ButtonBar prefHeight="59.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <buttons>
-                              <Button mnemonicParsing="false" styleClass="accent" text="%common.ok" />
-                              <Button mnemonicParsing="false" text="%common.cancel" />
+                              <Button mnemonicParsing="false" onAction="#ok"  styleClass="accent" text="%common.ok" />
+                              <Button mnemonicParsing="false" onAction="#cancel" text="%common.cancel" />
                           </buttons>
                         </ButtonBar>
                      </children>
@@ -49,7 +49,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </BorderPane.margin>
                <children>
-                  <TabPane prefHeight="315.0" prefWidth="500.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TabPane fx:id="tabPane" prefHeight="315.0" prefWidth="500.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <tabs>
                       <Tab fx:id="decodeTab" text="解码器">
                         <content>
@@ -254,7 +254,7 @@
                   <HBox alignment="CENTER_LEFT" spacing="6.0" BorderPane.alignment="CENTER">
                       <children>
                   <Label text="编解码器名称:" />
-                  <TextField HBox.hgrow="ALWAYS" />
+                  <TextField fx:id="name" HBox.hgrow="ALWAYS" />
                           <ToggleSwitch fx:id="enabled" graphicTextGap="0.0" selected="true" text="启用" HBox.hgrow="ALWAYS" />
                       </children>
                <BorderPane.margin>
