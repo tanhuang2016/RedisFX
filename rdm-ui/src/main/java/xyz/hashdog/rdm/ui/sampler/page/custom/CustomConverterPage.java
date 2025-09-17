@@ -38,6 +38,8 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 public final class CustomConverterPage extends AbstractPage {
     public static final String NAME = "main.setting.general.language";
 
+    private TableView<CustomConverterTable> tableView;
+
     @Override
     public String getName() {
         return NAME;
@@ -52,26 +54,26 @@ public final class CustomConverterPage extends AbstractPage {
     }
 
     private Node converterTable() {
-        TableView<CustomConverterTable> table = new TableView<>();
+        tableView = new TableView<>();
         TableColumn<CustomConverterTable, Boolean> enabled = new TableColumn<>("enabled");
         TableColumn<CustomConverterTable, Object> action = new TableColumn<>("action");
-        table.getColumns().add(new TableColumn<>("#"));
-        table.getColumns().add(new TableColumn<>("name"));
-        table.getColumns().add(enabled);
-        table.getColumns().add(action);
+        tableView.getColumns().add(new TableColumn<>("#"));
+        tableView.getColumns().add(new TableColumn<>("name"));
+        tableView.getColumns().add(enabled);
+        tableView.getColumns().add(action);
         CustomConverterSetting configSettings = Applications.getConfigSettings(ConfigSettingsEnum.CONVERTER.name);
         List<CustomConverterTable> list = configSettings.getList().stream().map(e -> new CustomConverterTable(e.getName(), e.isEnabled())).toList();
-        table.getItems().addAll(list);
-        GuiUtil.initSimpleTableView(table,new CustomConverterTable());
+        tableView.getItems().addAll(list);
+        GuiUtil.initSimpleTableView(tableView,new CustomConverterTable());
         enabled.setCellFactory(param ->  getEnabledTableCell());
         action.setCellFactory(param ->  getActionTableCell());
-        table.setColumnResizePolicy(
+        tableView.setColumnResizePolicy(
                 TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
         );
         Button add = new Button("新增",new FontIcon(Feather.PLUS));
         add.setOnAction(this::add);
         add.getStyleClass().addAll(Styles.FLAT);
-        return new VBox(5,add,table);
+        return new VBox(5,add,tableView);
     }
 
     private void add(ActionEvent actionEvent) {
@@ -131,16 +133,9 @@ public final class CustomConverterPage extends AbstractPage {
                     editButton.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT);
                     deleteButton.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT);
                     // 为按钮添加事件处理器
-                    editButton.setOnAction(event -> {
-                        openAddOrUpdate(currentRowData);
-                        System.out.println("编辑1: " + currentRowData.getName());
-                        // 在这里添加编辑逻辑
-                    });
+                    editButton.setOnAction(event -> openAddOrUpdate(currentRowData));
 
-                    deleteButton.setOnAction(event -> {
-                        System.out.println("删除1: " + currentRowData.getName());
-                        // 在这里添加删除逻辑
-                    });
+                    deleteButton.setOnAction(event -> delete(currentRowData));
                     HBox hbox = new HBox(5, editButton, deleteButton);
                     hbox.setAlignment(Pos.CENTER_LEFT);
                     setGraphic(hbox);
@@ -149,10 +144,14 @@ public final class CustomConverterPage extends AbstractPage {
         };
     }
 
+    private void delete(CustomConverterTable currentRowData) {
+    }
+
 
     public void addConverter(CustomInvokeConverter converter) {
     }
 
     public void updateConverter(CustomInvokeConverter converter) {
+
     }
 }

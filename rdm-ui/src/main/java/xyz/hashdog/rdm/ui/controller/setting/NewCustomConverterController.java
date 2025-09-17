@@ -10,9 +10,12 @@ import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import org.kordamp.ikonli.material2.Material2MZ;
+import xyz.hashdog.rdm.ui.common.Applications;
+import xyz.hashdog.rdm.ui.common.ConfigSettingsEnum;
 import xyz.hashdog.rdm.ui.controller.MainController;
 import xyz.hashdog.rdm.ui.controller.ServerConnectionsController;
 import xyz.hashdog.rdm.ui.controller.base.BaseWindowController;
+import xyz.hashdog.rdm.ui.entity.config.CustomConverterSetting;
 import xyz.hashdog.rdm.ui.handler.convert.CustomInvokeConverter;
 import xyz.hashdog.rdm.ui.sampler.page.custom.CustomConverterPage;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
@@ -97,6 +100,19 @@ public class NewCustomConverterController extends BaseWindowController<CustomCon
      * 编解码器名称
      */
     public void setName(String name) {
+        this.name.setText(name);
+        this.name.setEditable(false);
+        CustomConverterSetting configSettings = Applications.getConfigSettings(ConfigSettingsEnum.CONVERTER.name);
+        for (CustomInvokeConverter converter : configSettings.getList()) {
+            if(converter.getName().equals(name)){
+                decodeCmd.setText(converter.getDecode().getCmd());
+                decodeDir.setText(converter.getDecode().getIoDir());
+                decodeStdio.setSelected(converter.getDecode().isUseCmd());
+                encodeCmd.setText(converter.getEncode().getCmd());
+                encodeDir.setText(converter.getEncode().getIoDir());
+                encodeStdio.setSelected(converter.getEncode().isUseCmd());
+            }
+        }
     }
 
     public void ok(ActionEvent actionEvent) {
