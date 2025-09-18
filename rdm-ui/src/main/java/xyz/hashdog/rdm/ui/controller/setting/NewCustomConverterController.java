@@ -20,6 +20,8 @@ import xyz.hashdog.rdm.ui.handler.convert.CustomInvokeConverter;
 import xyz.hashdog.rdm.ui.sampler.page.custom.CustomConverterPage;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
+import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
+
 public class NewCustomConverterController extends BaseWindowController<CustomConverterPage>  {
     @FXML
     public ToggleSwitch enabled;
@@ -60,11 +62,15 @@ public class NewCustomConverterController extends BaseWindowController<CustomCon
     @Override
     protected void initLanguage() {
         super.initLanguage();
-        help.setTooltip(GuiUtil.textTooltip("点击查看"));
-        Tooltip.install(encodeStdio.getGraphic(), GuiUtil.textTooltip("stdio"));
-        Tooltip.install(decodeStdio.getGraphic(), GuiUtil.textTooltip("stdio"));
-        Tooltip.install(encodeFile.getGraphic(), GuiUtil.textTooltip("file"));
-        Tooltip.install(decodeFile.getGraphic(), GuiUtil.textTooltip("file"));
+        help.setTooltip(GuiUtil.textTooltip(language("main.setting.extension.converter.view")));
+        encodeStdio.setText(language("main.setting.extension.converter.stdio"));
+        decodeStdio.setText(language("main.setting.extension.converter.stdio"));
+        encodeFile.setText(language("main.setting.extension.converter.file"));
+        decodeFile.setText(language("main.setting.extension.converter.file"));
+        Tooltip.install(encodeStdio.getGraphic(), GuiUtil.textTooltip(language("main.setting.extension.converter.stdio.help")));
+        Tooltip.install(decodeStdio.getGraphic(), GuiUtil.textTooltip(language("main.setting.extension.converter.stdio.help")));
+        Tooltip.install(encodeFile.getGraphic(), GuiUtil.textTooltip(language("main.setting.extension.converter.file.help")));
+        Tooltip.install(decodeFile.getGraphic(), GuiUtil.textTooltip(language("main.setting.extension.converter.file.help")));
     }
 
     private void initStyles() {
