@@ -31,7 +31,16 @@ public class ValueConverters {
 
     public void reLoad() {
         map.clear();
-        LinkedHashMap<String, ValueConverter> collect = Stream.of(new NoneConverter(), new Base64Converter(), new GzipConverter())
+        LinkedHashMap<String, ValueConverter> collect = Stream.of(
+                        new NoneConverter(),
+                        new Base64Converter(),
+                        new GzipConverter(),
+                        new DeflateConverter(),
+                        new MsgpackConverter(),
+                        new BrotliConverter(),
+                        new ZstdConverter(),
+                        new LZ4Converter()
+                )
                 .collect(Collectors.toMap(
                         ValueConverter::name,
                         valueConverter -> valueConverter,
