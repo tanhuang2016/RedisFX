@@ -12,14 +12,14 @@ import java.io.IOException;
  * @version 2.3.6
  * @since 2025/9/17 22:48
  */
-public class BrotliConverter implements ValueConverter{
+public class BrotliConverter extends AbstractTryDecodeConverter implements ValueConverter{
     @Override
     public byte[] encode(byte[] data) {
         return data;
     }
 
     @Override
-    public byte[] decode(byte[] data) {
+    protected byte[] doDecode(byte[] data) {
         try {
             ByteArrayInputStream inputStream = new ByteArrayInputStream(data);
             // 使用 BrotliInputStream 进行解压
@@ -39,10 +39,6 @@ public class BrotliConverter implements ValueConverter{
         }
     }
 
-    @Override
-    public boolean accept(byte[] data) {
-        return false;
-    }
 
     @Override
     public String name() {
