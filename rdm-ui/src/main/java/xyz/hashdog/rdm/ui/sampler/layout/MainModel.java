@@ -91,7 +91,7 @@ public class MainModel {
                 NAV_TREE.get(TabPanePage.class)
         );
 
-        var extension = NavTree.Item.group("main.setting.window", new FontIcon(Material2OutlinedAL.EXTENSION));
+        var extension = NavTree.Item.group("main.setting.extension", new FontIcon(Material2OutlinedAL.EXTENSION));
         extension.getChildren().setAll(
                 NAV_TREE.get(CustomConverterPage.class)
         );

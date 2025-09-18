@@ -38,7 +38,7 @@ import java.util.List;
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
 public final class CustomConverterPage extends AbstractPage {
-    public static final String NAME = "main.setting.general.language";
+    public static final String NAME = "main.setting.extension.converter";
 
     private TableView<CustomConverterTable> tableView;
 
@@ -50,7 +50,7 @@ public final class CustomConverterPage extends AbstractPage {
     public CustomConverterPage() throws IOException {
         super();
         addPageHeader();
-        addFormattedText(language("main.setting.general.language.describe"));
+        addFormattedText(language("main.setting.extension.converter.describe"));
         addNode(converterTable());
 
     }
