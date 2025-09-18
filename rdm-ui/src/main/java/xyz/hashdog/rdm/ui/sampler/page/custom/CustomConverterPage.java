@@ -72,7 +72,7 @@ public final class CustomConverterPage extends AbstractPage {
         tableView.setColumnResizePolicy(
                 TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
         );
-        Button add = new Button("新增",new FontIcon(Feather.PLUS));
+        Button add = new Button(language("main.setting.extension.converter.add"),new FontIcon(Feather.PLUS));
         add.setOnAction(this::add);
         add.getStyleClass().addAll(Styles.FLAT);
         return new VBox(5,add,tableView);
@@ -134,8 +134,10 @@ public final class CustomConverterPage extends AbstractPage {
                     setGraphic(null);
                     CustomConverterTable currentRowData =  getTableView().getItems().get(getIndex());
                     // 创建按钮等控件
-                    Button editButton = new Button("编辑",new FontIcon(Feather.EDIT));
-                    Button deleteButton = new Button("删除",new FontIcon(Material2AL.DELETE_OUTLINE));
+                    Button editButton = new Button(language("main.edit"),new FontIcon(Feather.EDIT));
+                    editButton.setTooltip(GuiUtil.textTooltip(language("main.edit")));
+                    Button deleteButton = new Button(language("server.delete"),new FontIcon(Material2AL.DELETE_OUTLINE));
+                    deleteButton.setTooltip(GuiUtil.textTooltip(language("server.delete")));
                     editButton.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT);
                     deleteButton.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT);
                     // 为按钮添加事件处理器
