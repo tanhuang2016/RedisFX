@@ -108,7 +108,7 @@
                                                                <children>
                                                                   <TextField fx:id="decodeDir" promptText="input/output  in this directory" HBox.hgrow="ALWAYS">
                                                                   </TextField>
-                                                                  <Button fx:id="decodeDirButton" mnemonicParsing="false" onAction="#decodeDir"   />
+                                                                  <Button fx:id="decodeDirButton" mnemonicParsing="false" onAction="#decodeDir"  text=" " />
                                                                </children>
                                                                <HBox.margin>
                                                                   <Insets right="2.0" />
@@ -205,7 +205,7 @@
                                                                <children>
                                                                   <TextField fx:id="encodeDir" promptText="input/output  in this directory" HBox.hgrow="ALWAYS">
                                                                   </TextField>
-                                                                  <Button fx:id="encodeDirButton" mnemonicParsing="false"  onAction="#encodeDir" />
+                                                                  <Button fx:id="encodeDirButton" mnemonicParsing="false"  onAction="#encodeDir" text=" "/>
                                                                </children>
                                                                <HBox.margin>
                                                                   <Insets right="2.0" />
