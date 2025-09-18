@@ -183,7 +183,7 @@
             <version>0.9.5</version>
         </dependency>
 
-        <!-- Brotli  -->
+        <!-- Brotli  jvmbrotli需要本地库，用不了，目前没找到压缩的三方库-->
 <!--        <dependency>-->
 <!--            <groupId>com.nixxcode.jvmbrotli</groupId>-->
 <!--            <artifactId>jvmbrotli</artifactId>-->
