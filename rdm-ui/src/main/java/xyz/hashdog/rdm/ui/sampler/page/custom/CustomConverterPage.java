@@ -7,10 +7,7 @@ import atlantafx.base.theme.Styles;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -20,8 +17,10 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.TUtil;
+import xyz.hashdog.rdm.ui.Main;
 import xyz.hashdog.rdm.ui.common.Applications;
 import xyz.hashdog.rdm.ui.common.ConfigSettingsEnum;
+import xyz.hashdog.rdm.ui.common.Constant;
 import xyz.hashdog.rdm.ui.controller.base.BaseWindowController;
 import xyz.hashdog.rdm.ui.controller.setting.NewCustomConverterController;
 import xyz.hashdog.rdm.ui.entity.CustomConverterTable;
@@ -153,6 +152,9 @@ public final class CustomConverterPage extends AbstractPage {
     }
 
     private void delete(CustomConverterTable currentRowData) {
+        if (!GuiUtil.alert(Alert.AlertType.CONFIRMATION, Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL))) {
+            return;
+        }
         CustomConverterSetting old = Applications.getConfigSettings(ConfigSettingsEnum.CONVERTER.name);
         CustomInvokeConverter byName = old.getByName(currentRowData.getName());
         old.getConverters().remove(byName);
