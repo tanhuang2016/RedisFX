@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
@@ -19,6 +20,8 @@ import xyz.hashdog.rdm.ui.entity.config.CustomConverterSetting;
 import xyz.hashdog.rdm.ui.handler.convert.CustomInvokeConverter;
 import xyz.hashdog.rdm.ui.sampler.page.custom.CustomConverterPage;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
+
+import java.io.File;
 
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
@@ -40,6 +43,7 @@ public class NewCustomConverterController extends BaseWindowController<CustomCon
     public Button encodeDirButton;
     public TextField name;
     public TabPane tabPane;
+    public AnchorPane root;
 
 
     @FXML
@@ -119,6 +123,7 @@ public class NewCustomConverterController extends BaseWindowController<CustomCon
         encodeStdio.setSelected(converter.getEncode().isUseCmd());
     }
 
+    @FXML
     public void ok(ActionEvent actionEvent) {
         if(checkForm()){
             return;
@@ -135,6 +140,10 @@ public class NewCustomConverterController extends BaseWindowController<CustomCon
 
     }
 
+    /**
+     * 检查表单
+     * @return true证明有未填
+     */
     private boolean checkForm() {
         if(GuiUtil.requiredTextField(name)){
             return true;
@@ -152,11 +161,42 @@ public class NewCustomConverterController extends BaseWindowController<CustomCon
         return false;
     }
 
+    /**
+     * 检查表单
+     * @param cmd 命令框
+     * @param dir 目录框
+     * @param file 文件选项
+     * @return true证明有未填
+     */
     private boolean checkForm(TextField cmd, TextField dir, RadioButton file) {
        boolean flg = GuiUtil.requiredTextField(cmd);
        if(!flg&&file.isSelected()){
            flg = GuiUtil.requiredTextField(dir);
        }
        return flg;
+    }
+
+    /**
+     * 选中的最后的文件的父级目录
+     */
+    private File lastFile;
+    @FXML
+    public void decodeDir(ActionEvent actionEvent) {
+        File file = GuiUtil.directoryChoose(this.root.getScene().getWindow(), lastFile);
+        if(file==null){
+            return;
+        }
+        lastFile=file;
+        this.decodeDir.setText(file.getPath());
+    }
+
+    @FXML
+    public void encodeDir(ActionEvent actionEvent) {
+        File file = GuiUtil.directoryChoose(this.root.getScene().getWindow(), lastFile);
+        if(file==null){
+            return;
+        }
+        lastFile=file;
+        this.encodeDir.setText(file.getPath());
     }
 }
