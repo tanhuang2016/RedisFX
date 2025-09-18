@@ -6,7 +6,7 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 /**
- * Gzip编解码转换工具
+ * Deflate编解码转换工具
  * @author th
  * @version 2.3.6
  * @since 2025/9/17 22:48
