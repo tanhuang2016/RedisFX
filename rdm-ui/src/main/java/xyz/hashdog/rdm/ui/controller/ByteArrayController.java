@@ -213,12 +213,14 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
      */
     private void converterChange(String newValue) {
         this.converter = ValueConverters.getInstance().getByName(newValue);
+        byte[] decode;
         try {
-            byte[] decode = converter.decode(currentValue);
-            this.viewerNode.set(decode);
+            decode = converter.decode(currentValue);
         }catch (Exception e){
             log.error("converterChange exception", e);
+            decode=currentValue;
         }
+        this.viewerNode.set(decode);
     }
 
     /**
