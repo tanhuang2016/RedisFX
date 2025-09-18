@@ -183,12 +183,18 @@
             <version>0.9.5</version>
         </dependency>
 
-        <!-- Brotli -->
+        <!-- Brotli  -->
+        <dependency>
+            <groupId>com.nixxcode.jvmbrotli</groupId>
+            <artifactId>jvmbrotli</artifactId>
+            <version>0.2.0</version>
+        </dependency>
         <dependency>
             <groupId>org.brotli</groupId>
             <artifactId>dec</artifactId>
             <version>0.1.2</version>
         </dependency>
+
 
         <!-- LZ4 -->
         <dependency>
