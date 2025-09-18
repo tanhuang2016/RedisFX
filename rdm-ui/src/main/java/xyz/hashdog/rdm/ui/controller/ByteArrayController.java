@@ -174,6 +174,7 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
      * 重新加载编解码器选项到菜单中
      */
     private RadioMenuItem reLoadConverters() {
+        //todo这里clear会导致无法打钩，需要改为增量
         converterMenu.getItems().clear();
         List<RadioMenuItem> converterItems = ValueConverters.getInstance().names().stream()
                 .map(RadioMenuItem::new)
