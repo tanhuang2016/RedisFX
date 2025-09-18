@@ -55,15 +55,7 @@ public class MsgpackConverter implements ValueConverter{
 
     @Override
     public boolean accept(byte[] data) {
-        try {
-            // 尝试解码以验证数据是否为有效的msgpack格式
-            MessageUnpacker unpacker = MessagePack.newDefaultUnpacker(data);
-            boolean result = unpacker.hasNext();
-            unpacker.close();
-            return result;
-        } catch (Exception e) {
-            return false;
-        }
+        return false;
     }
 
     @Override

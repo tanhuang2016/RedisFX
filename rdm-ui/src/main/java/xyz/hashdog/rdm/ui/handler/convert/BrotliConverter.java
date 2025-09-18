@@ -41,23 +41,7 @@ public class BrotliConverter implements ValueConverter{
 
     @Override
     public boolean accept(byte[] data) {
-        if (data == null || data.length == 0) {
-            return false;
-        }
-        // 对于Brotli，我们可以进行有限的格式检查而不完全解压
-        try (ByteArrayInputStream inputStream = new ByteArrayInputStream(data)) {
-            // 只读取少量字节来验证格式，而不是解压整个流
-            // 这里我们使用带有限制的检查方式
-            BrotliInputStream brotliInputStream = new BrotliInputStream(inputStream);
-
-            // 调用available()方法进行快速检查
-            // 这种方式比实际读取数据要轻量一些
-            boolean result = brotliInputStream.available() >= 0;
-            brotliInputStream.close();
-            return result;
-        } catch (Exception e) {
-            return false;
-        }
+        return false;
     }
 
     @Override
