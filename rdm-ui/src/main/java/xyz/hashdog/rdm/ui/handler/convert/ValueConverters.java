@@ -1,5 +1,10 @@
 package xyz.hashdog.rdm.ui.handler.convert;
 
+import xyz.hashdog.rdm.ui.common.Applications;
+import xyz.hashdog.rdm.ui.common.ConfigSettingsEnum;
+import xyz.hashdog.rdm.ui.entity.config.ConfigSettings;
+import xyz.hashdog.rdm.ui.entity.config.CustomConverterSetting;
+
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -27,6 +32,8 @@ public class ValueConverters {
                         (existing, replacement) -> existing,
                         LinkedHashMap::new
                 ));
+        CustomConverterSetting configSettings = Applications.getConfigSettings(ConfigSettingsEnum.CONVERTER.name);
+        configSettings.getConverters().forEach(converter -> map.put(converter.getName(),converter));
     }
 
     /**
