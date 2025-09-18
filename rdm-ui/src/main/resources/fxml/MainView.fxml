@@ -124,7 +124,7 @@
                                 <MenuItem fx:id="suggest" mnemonicParsing="false" text="%main.help.suggest" onAction="#suggest"/>
                                 <MenuItem fx:id="update" mnemonicParsing="false" text="%main.help.update"  onAction="#update"/>
                                 <MenuItem fx:id="about" mnemonicParsing="false" text="%main.help.about" onAction="#about" />
-                                <MenuItem  mnemonicParsing="false" text="test" onAction="#test" />
+                                <MenuItem  mnemonicParsing="false" text="test" onAction="#test" visible="false"/>
                             </items>
                         </Menu>
                     </menus>
