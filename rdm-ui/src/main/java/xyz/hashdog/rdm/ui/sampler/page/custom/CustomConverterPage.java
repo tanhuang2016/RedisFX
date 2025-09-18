@@ -54,10 +54,10 @@ public final class CustomConverterPage extends AbstractPage {
 
     private Node converterTable() {
         tableView = new TableView<>();
-        TableColumn<CustomConverterTable, Boolean> enabled = new TableColumn<>("enabled");
-        TableColumn<CustomConverterTable, Object> action = new TableColumn<>("action");
+        TableColumn<CustomConverterTable, Boolean> enabled = new TableColumn<>("Enabled");
+        TableColumn<CustomConverterTable, Object> action = new TableColumn<>("Action");
         tableView.getColumns().add(new TableColumn<>("#"));
-        tableView.getColumns().add(new TableColumn<>("name"));
+        tableView.getColumns().add(new TableColumn<>("Name"));
         tableView.getColumns().add(enabled);
         tableView.getColumns().add(action);
         CustomConverterSetting configSettings = Applications.getConfigSettings(ConfigSettingsEnum.CONVERTER.name);
