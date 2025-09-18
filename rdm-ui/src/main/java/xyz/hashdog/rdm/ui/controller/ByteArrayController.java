@@ -444,6 +444,9 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
      */
     public void into(ActionEvent actionEvent) {
         File file = GuiUtil.fileChoose(this.root.getScene().getWindow(), lastFile);
+        if(file==null){
+            return;
+        }
         lastFile=file.getParentFile();
         byte[] bytes = FileUtil.file2byte(file);
         this.viewerNode.set(bytes);
@@ -456,6 +459,9 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
     public void export(ActionEvent actionEvent) {
         BaseKeyController parentController = (BaseKeyController) this.parentController;
         File file = GuiUtil.saveFileChoose(this.root.getScene().getWindow(), lastFile, parentController.getParameter().getKey());
+        if(file==null){
+            return;
+        }
         FileUtil.byteWrite2file(this.currentValue,file.getAbsolutePath());
     }
 }
