@@ -28,6 +28,7 @@ import xyz.hashdog.rdm.ui.entity.CustomConverterTable;
 import xyz.hashdog.rdm.ui.entity.config.CustomConverterSetting;
 import xyz.hashdog.rdm.ui.entity.config.LanguageSetting;
 import xyz.hashdog.rdm.ui.handler.convert.CustomInvokeConverter;
+import xyz.hashdog.rdm.ui.handler.convert.ValueConverters;
 import xyz.hashdog.rdm.ui.sampler.page.AbstractPage;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
@@ -154,6 +155,7 @@ public final class CustomConverterPage extends AbstractPage {
         configSettings.setConverters(old.getConverters());
         Applications.putConfigSettings(configSettings.getName(), configSettings);
         tableView.getItems().remove(currentRowData);
+        ValueConverters.getInstance().reLoad();
     }
 
 
@@ -166,6 +168,7 @@ public final class CustomConverterPage extends AbstractPage {
         Applications.putConfigSettings(configSettings.getName(), configSettings);
         tableView.getItems().add(customConverterTable);
         tableView.getSelectionModel().select(customConverterTable);
+        ValueConverters.getInstance().reLoad();
     }
 
     public void updateConverter(CustomInvokeConverter converter) {
@@ -182,6 +185,7 @@ public final class CustomConverterPage extends AbstractPage {
         tableView.getItems().remove(item);
         tableView.getItems().add(i,newItem);
         tableView.getSelectionModel().select(newItem);
+        ValueConverters.getInstance().reLoad();
     }
 
     private CustomConverterTable findByName(String name) {

@@ -28,4 +28,8 @@ public interface ValueConverter  extends CanHandle {
      * @return 名称
      */
     String name();
+
+   default boolean isEnabled(){
+       return true;
+   }
 }

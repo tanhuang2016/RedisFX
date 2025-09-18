@@ -4,6 +4,7 @@ import atlantafx.base.theme.Styles;
 import atlantafx.base.theme.Tweaks;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -162,6 +163,18 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
                 .toList();
         viewerMenu.getItems().addAll(viewerItems);
         // 添加编解码器菜单项
+        RadioMenuItem defaultConverter = reLoadConverters();
+        // 设置默认选中项（可选）
+        viewerItems.getFirst().setSelected(true);
+        defaultConverter.setSelected(true);
+        updateTypeMenuButtonText(viewerGroup, converterGroup);
+    }
+
+    /**
+     * 重新加载编解码器选项到菜单中
+     */
+    private RadioMenuItem reLoadConverters() {
+        converterMenu.getItems().clear();
         List<RadioMenuItem> converterItems = ValueConverters.getInstance().names().stream()
                 .map(RadioMenuItem::new)
                 .peek(item -> item.setToggleGroup(converterGroup))
@@ -173,12 +186,7 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
             Main.instance.getController().openSettings(event,CustomConverterPage.class);
         });
         converterMenu.getItems().add(customConverterMenuItem);
-
-
-        // 设置默认选中项（可选）
-        viewerItems.getFirst().setSelected(true);
-        converterItems.getFirst().setSelected(true);
-        updateTypeMenuButtonText(viewerGroup, converterGroup);
+        return converterItems.getFirst();
     }
 
 
@@ -265,6 +273,16 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
      */
     private void initListener() {
         characterChoiceBoxListener();
+        typeMenuButton.setOnShowing(this::typeMenuOnShowing);
+    }
+
+    /**
+     * typeMenuButton点击监听
+     * @param event 事件
+     */
+    private void typeMenuOnShowing(Event event) {
+        //重新加载编解码器选项
+        reLoadConverters();
     }
 
 
