@@ -1,6 +1,8 @@
 package xyz.hashdog.rdm.ui.handler.convert;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
 import org.msgpack.core.MessagePack;
 import org.msgpack.core.MessagePacker;
 import org.msgpack.core.MessageUnpacker;

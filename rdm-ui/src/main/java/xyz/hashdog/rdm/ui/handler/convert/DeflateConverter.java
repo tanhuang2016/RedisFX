@@ -2,8 +2,10 @@ package xyz.hashdog.rdm.ui.handler.convert;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.zip.Deflater;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
+import java.util.zip.Inflater;
 
 /**
  * Deflate编解码转换工具
