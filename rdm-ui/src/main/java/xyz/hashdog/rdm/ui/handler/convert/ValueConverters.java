@@ -37,9 +37,9 @@ public class ValueConverters {
                         new GzipConverter(),
                         new DeflateConverter(),
                         new MsgpackConverter(),
-                        new BrotliConverter(),
                         new ZstdConverter(),
-                        new LZ4Converter()
+                        new LZ4Converter(),
+                        new BrotliConverter()
                 )
                 .collect(Collectors.toMap(
                         ValueConverter::name,

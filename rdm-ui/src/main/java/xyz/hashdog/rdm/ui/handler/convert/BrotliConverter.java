@@ -46,6 +46,6 @@ public class BrotliConverter implements ValueConverter{
 
     @Override
     public String name() {
-        return "Brotli";
+        return "Brotli(only decode)";
     }
 }
