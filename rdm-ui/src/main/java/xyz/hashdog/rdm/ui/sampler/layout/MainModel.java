@@ -24,7 +24,7 @@ import java.util.Objects;
 
 public class MainModel {
 
-    public static final Class<? extends Page> DEFAULT_PAGE = ThemePage.class;
+    public static  Class<? extends Page> DEFAULT_PAGE = ThemePage.class;
 
     private static final Map<Class<? extends Page>, NavTree.Item> NAV_TREE = createNavItems();
 
@@ -78,7 +78,7 @@ public class MainModel {
             NAV_TREE.get(ThemePage.class),
             NAV_TREE.get(LanguagePage.class)
         );
-        general.setExpanded(true);
+//        general.setExpanded(true);
 
         var global = NavTree.Item.group("main.setting.global", new FontIcon(Material2OutlinedMZ.TABLE_CHART));
         global.getChildren().setAll(

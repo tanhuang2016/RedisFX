@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.hashdog.rdm.common.Constant;
 import xyz.hashdog.rdm.common.util.FileUtil;
+import xyz.hashdog.rdm.ui.Main;
 import xyz.hashdog.rdm.ui.common.UiStyles;
 import xyz.hashdog.rdm.ui.common.ValueTypeEnum;
 import xyz.hashdog.rdm.ui.controller.base.BaseController;
@@ -27,6 +28,7 @@ import xyz.hashdog.rdm.ui.handler.view.CharacterEncoding;
 import xyz.hashdog.rdm.ui.handler.view.ValueViewer;
 import xyz.hashdog.rdm.ui.handler.view.ValueViewers;
 import xyz.hashdog.rdm.ui.handler.view.ViewerNode;
+import xyz.hashdog.rdm.ui.sampler.page.custom.CustomConverterPage;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.Util;
 import java.io.File;
@@ -82,6 +84,7 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
      * 选中的最后的文件的父级目录
      */
     private  File lastFile;
+    private MenuItem customConverterMenuItem;
 
 
     @Override
@@ -116,6 +119,9 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
         view.setText(language("key.string.view"));
         viewerMenu.setText(language("key.string.viewer"));
         converterMenu.setText(language("key.string.converter"));
+        if(customConverterMenuItem!=null){
+
+        }
     }
 
     private void initButton() {
@@ -161,6 +167,12 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
                 .peek(item -> item.setToggleGroup(converterGroup))
                 .toList();
         converterMenu.getItems().addAll(converterItems);
+        converterMenu.getItems().add(new SeparatorMenuItem());
+        this.customConverterMenuItem = new MenuItem("自定义扩展");
+        this.customConverterMenuItem.setOnAction(event -> {
+            Main.instance.getController().openSettings(event,CustomConverterPage.class);
+        });
+        converterMenu.getItems().add(customConverterMenuItem);
 
 
         // 设置默认选中项（可选）
