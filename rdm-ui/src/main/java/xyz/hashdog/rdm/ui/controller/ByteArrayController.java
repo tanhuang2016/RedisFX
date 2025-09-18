@@ -182,9 +182,7 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
         converterMenu.getItems().addAll(converterItems);
         converterMenu.getItems().add(new SeparatorMenuItem());
         this.customConverterMenuItem = new MenuItem("自定义扩展");
-        this.customConverterMenuItem.setOnAction(event -> {
-            Main.instance.getController().openSettings(event,CustomConverterPage.class);
-        });
+        this.customConverterMenuItem.setOnAction(event -> Main.instance.getController().openSettings(event,CustomConverterPage.class));
         converterMenu.getItems().add(customConverterMenuItem);
         return converterItems.getFirst();
     }

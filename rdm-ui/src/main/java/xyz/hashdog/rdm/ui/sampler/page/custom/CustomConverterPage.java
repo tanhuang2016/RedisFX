@@ -111,7 +111,10 @@ public final class CustomConverterPage extends AbstractPage {
                     toggleSwitch.setSelected(s);
                     CustomConverterTable currentRowData = getTableView().getItems().get(getIndex());
                     toggleSwitch.selectedProperty().addListener((observable, oldValue, newValue) -> {
-                        currentRowData.setEnabled(newValue);
+                        CustomConverterSetting old = Applications.getConfigSettings(ConfigSettingsEnum.CONVERTER.name);
+                        CustomInvokeConverter byName = old.getByName(currentRowData.getName());
+                        byName.setEnabled(newValue);
+                        updateConverter(byName);
                     });
                     setGraphic(toggleSwitch);
                 }
