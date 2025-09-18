@@ -1,15 +1,14 @@
 package xyz.hashdog.rdm.ui.handler.view;
 
-
-import xyz.hashdog.rdm.ui.handler.convert.Base64Converter;
-import xyz.hashdog.rdm.ui.handler.convert.GzipConverter;
-import xyz.hashdog.rdm.ui.handler.convert.NoneConverter;
-import xyz.hashdog.rdm.ui.handler.convert.ValueConverter;
-
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
+/**
+ * 查看器工具
+ * @author th
+ * @version 2.3.5
+ * @since 2025/9/13 22:48
+ */
 public class ValueViewers {
 
     private final Map<String,ValueViewer> map;
@@ -33,6 +32,11 @@ public class ValueViewers {
         return ValueViewers.ValueViewersHolder.INSTANCE;
     }
 
+    /**
+     * 根据值获取对应的查看器
+     * @param value 值
+     * @return 对应的查看器
+     */
     public static ValueViewer viewerByValue(byte[] value) {
         List<ValueViewer> list = getInstance().map.values().stream()
                 .sorted(Comparator.comparing(ValueViewer::order))
@@ -45,10 +49,20 @@ public class ValueViewers {
         return list.getLast();
     }
 
+    /**
+     * 根据名称获取对应的查看器节点
+     * @param newValue 名称
+     * @return 对应的查看器节点
+     */
     public ViewerNode getViewerNodeByName(String newValue) {
         return map.get(newValue).newViewerNode();
     }
 
+    /**
+     * 根据名称获取对应的查看器
+     * @param name 名称
+     * @return 对应的查看器
+     */
     public ValueViewer getByName(String name) {
         return map.get(name);
     }

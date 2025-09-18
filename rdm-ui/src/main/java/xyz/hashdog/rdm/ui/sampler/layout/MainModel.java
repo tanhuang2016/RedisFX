@@ -12,6 +12,7 @@ import xyz.hashdog.rdm.ui.sampler.event.NavEvent;
 import xyz.hashdog.rdm.ui.sampler.page.Page;
 import xyz.hashdog.rdm.ui.sampler.page.components.TabPanePage;
 import xyz.hashdog.rdm.ui.sampler.page.custom.AdvancedPage;
+import xyz.hashdog.rdm.ui.sampler.page.custom.CustomConverterPage;
 import xyz.hashdog.rdm.ui.sampler.page.custom.KeyTagPage;
 import xyz.hashdog.rdm.ui.sampler.page.custom.LanguagePage;
 import xyz.hashdog.rdm.ui.sampler.page.general.ThemePage;
@@ -23,7 +24,7 @@ import java.util.Objects;
 
 public class MainModel {
 
-    public static final Class<? extends Page> DEFAULT_PAGE = ThemePage.class;
+    public static  Class<? extends Page> DEFAULT_PAGE = ThemePage.class;
 
     private static final Map<Class<? extends Page>, NavTree.Item> NAV_TREE = createNavItems();
 
@@ -76,49 +77,24 @@ public class MainModel {
         general.getChildren().setAll(
             NAV_TREE.get(ThemePage.class),
             NAV_TREE.get(LanguagePage.class)
-//            NAV_TREE.get(BBCodePage.class),
-//            NAV_TREE.get(AnimationsPage.class),
-//            NAV_TREE.get(IconsPage.class)
         );
-        general.setExpanded(true);
+//        general.setExpanded(true);
 
         var global = NavTree.Item.group("main.setting.global", new FontIcon(Material2OutlinedMZ.TABLE_CHART));
         global.getChildren().setAll(
             NAV_TREE.get(AdvancedPage.class),
             NAV_TREE.get(KeyTagPage.class)
-//            NAV_TREE.get(CardPage.class),
-//            NAV_TREE.get(ContextMenuPage.class),
-//            NAV_TREE.get(DeckPanePage.class),
-//            NAV_TREE.get(InputGroupPage.class),
-//            NAV_TREE.get(ModalPanePage.class),
-//            NAV_TREE.get(ScrollPanePage.class),
-//            NAV_TREE.get(SeparatorPage.class),
-//            NAV_TREE.get(SplitPanePage.class),
-//            NAV_TREE.get(PopoverPage.class),
-//            NAV_TREE.get(TilePage.class),
-//            NAV_TREE.get(TitledPanePage.class),
-//            NAV_TREE.get(ToolBarPage.class)
         );
 
         var windows = NavTree.Item.group("main.setting.window", new FontIcon(Material2OutlinedAL.LAPTOP_WINDOWS));
         windows.getChildren().setAll(
                 NAV_TREE.get(TabPanePage.class)
-//            NAV_TREE.get(ChartPage.class),
-//            NAV_TREE.get(ListViewPage.class),
-//            NAV_TREE.get(TableViewPage.class),
-//            NAV_TREE.get(TreeTableViewPage.class),
-//            NAV_TREE.get(TreeViewPage.class)
         );
 
-//        var feedback = NavTree.Item.group("Feedback", new FontIcon(Material2OutlinedAL.CHAT_BUBBLE_OUTLINE));
-//        feedback.getChildren().setAll(
-//                NAV_TREE.get(ThemePage.class)
-//            NAV_TREE.get(DialogPage.class),
-//            NAV_TREE.get(MessagePage.class),
-//            NAV_TREE.get(NotificationPage.class),
-//            NAV_TREE.get(ProgressIndicatorPage.class),
-//            NAV_TREE.get(TooltipPage.class)
-//        );
+        var extension = NavTree.Item.group("main.setting.extension", new FontIcon(Material2OutlinedAL.EXTENSION));
+        extension.getChildren().setAll(
+                NAV_TREE.get(CustomConverterPage.class)
+        );
 
 //        var inputs = NavTree.Item.group("Inputs & Controls", new FontIcon(Material2OutlinedAL.EDIT));
 //        inputs.getChildren().setAll(
@@ -164,8 +140,8 @@ public class MainModel {
         root.getChildren().setAll(
             general,
             global,
-                windows
-//            feedback,
+                windows,
+                extension
 //            inputs,
 //            navigation,
 //            showcases
@@ -224,6 +200,7 @@ public class MainModel {
         map.put(KeyTagPage.class, NavTree.Item.page(KeyTagPage.NAME, KeyTagPage.class));
         map.put(TabPanePage.class, NavTree.Item.page(TabPanePage.NAME, TabPanePage.class));
         map.put(LanguagePage.class, NavTree.Item.page(LanguagePage.NAME, LanguagePage.class));
+        map.put(CustomConverterPage.class, NavTree.Item.page(CustomConverterPage.NAME, CustomConverterPage.class));
 //        map.put(MenuButtonPage.class, NavTree.Item.page(
 //            MenuButtonPage.NAME,
 //            MenuButtonPage.class, "SplitMenuButton")

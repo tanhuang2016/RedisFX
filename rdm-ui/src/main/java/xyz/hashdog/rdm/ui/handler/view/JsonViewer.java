@@ -4,25 +4,28 @@ import com.google.gson.JsonSyntaxException;
 import javafx.scene.Node;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioMenuItem;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.StackPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
 import xyz.hashdog.rdm.common.util.DataUtil;
+import xyz.hashdog.rdm.ui.Main;
 import xyz.hashdog.rdm.ui.common.Constant;
-import xyz.hashdog.rdm.ui.handler.TextJsonConvertHandler;
 
 import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.IntFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+/**
+ * json查看器
+ * @author th
+ * @version 2.3.5
+ * @since 2025/9/13 22:48
+ */
 public class JsonViewer extends AbstractTextViewer {
     public static final String NAME="Json";
 
@@ -59,7 +62,7 @@ public class JsonViewer extends AbstractTextViewer {
         return new JsonViewerNode();
     }
 
-    class JsonViewerNode implements ViewerNode, CharacterEncoding {
+    private class JsonViewerNode implements ViewerNode, CharacterEncoding {
         private final StackPane stackPane;
         private final CodeArea codeArea;
 //        private final TextArea textArea;
@@ -79,13 +82,11 @@ public class JsonViewer extends AbstractTextViewer {
                     """.formatted(Constant.THEME_COLOR_BG_DEFAULT, Constant.THEME_COLOR_BORDER_DEFAULT));
 
             // 设置文本变化监听器，用于语法高亮
-            codeArea.textProperty().addListener((obs, oldText, newText) -> {
-                codeArea.setStyleSpans(0, computeHighlighting(newText));
-            });
+            codeArea.textProperty().addListener((obs, oldText, newText) -> codeArea.setStyleSpans(0, computeHighlighting(newText)));
             stackPane= new StackPane();
             stackPane.getChildren().add(codeArea);
             // 直接添加样式表
-            stackPane.getStylesheets().add(Objects.requireNonNull(TextJsonConvertHandler.class.getResource("/css/text.css")).toExternalForm());
+            stackPane.getStylesheets().add(Objects.requireNonNull(Main.class.getResource("/css/text.css")).toExternalForm());
         }
 
         @Override
@@ -181,17 +182,17 @@ public class JsonViewer extends AbstractTextViewer {
                     }
                 }
                 return "value";
-            } else if (group.equals("true") || group.equals("false")) {
+            } else if ("true".equals(group) || "false".equals(group)) {
                 return "boolean";
-            } else if (group.equals("null")) {
+            } else if ("null".equals(group)) {
                 return "null";
             } else if (group.matches("-?\\d+(?:\\.\\d+)?(?:[eE][+-]?\\d+)?")) {
                 return "number";
-            } else if (group.equals("{") || group.equals("}") || group.equals("[") || group.equals("]")) {
+            } else if ("{".equals(group) || "}".equals(group) || "[".equals(group) || "]".equals(group)) {
                 return "bracket";
-            } else if (group.equals(":")) {
+            } else if (":".equals(group)) {
                 return "colon";
-            } else if (group.equals(",")) {
+            } else if (",".equals(group)) {
                 return "comma";
             }
             return "other";

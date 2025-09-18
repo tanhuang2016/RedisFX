@@ -9,6 +9,7 @@ import java.nio.charset.Charset;
  * @version 1.0.0
  * @since 2023/8/8 22:48
  */
+@Deprecated
 public class HexConvertHandler implements ValueConvertHandler{
 
     @Override

@@ -2,15 +2,18 @@ package xyz.hashdog.rdm.ui.handler.view;
 
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import xyz.hashdog.rdm.common.util.FileUtil;
 import xyz.hashdog.rdm.ui.common.Constant;
 
 import java.io.ByteArrayInputStream;
-
+/**
+ * 图片查看器
+ * @author th
+ * @version 2.3.5
+ * @since 2025/9/13 22:48
+ */
 public class ImageViewer implements ValueViewer{
     public static final String NAME="Image";
 
@@ -46,7 +49,7 @@ public class ImageViewer implements ValueViewer{
         // GIF
         return data[0] == 0x47 && data[1] == 0x49 && data[2] == 0x46 && data[3] == 0x38;
     }
-    class ImageViewerNode implements ViewerNode{
+    private class ImageViewerNode implements ViewerNode{
         private final StackPane stackPane;
         private final ImageView imageView;
         private byte[] value;
@@ -70,7 +73,7 @@ public class ImageViewer implements ValueViewer{
             imageView.setFitHeight(stackPane.getPrefHeight() - 20);
             stackPane.getChildren().add(imageView);
             // 设置ImageView居中对齐
-            StackPane.setAlignment(imageView, javafx.geometry.Pos.CENTER);;
+            StackPane.setAlignment(imageView, javafx.geometry.Pos.CENTER);
 
         }
         @Override

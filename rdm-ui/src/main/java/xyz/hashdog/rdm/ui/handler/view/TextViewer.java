@@ -4,7 +4,12 @@ import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 
 import java.nio.charset.Charset;
-
+/**
+ * 普通文本查看器
+ * @author th
+ * @version 2.3.5
+ * @since 2025/9/13 22:48
+ */
 public class TextViewer extends AbstractTextViewer {
 
     public static final String NAME="Text";
@@ -29,7 +34,7 @@ public class TextViewer extends AbstractTextViewer {
         return Integer.MAX_VALUE;
     }
 
-    class TextViewerNode implements ViewerNode,CharacterEncoding{
+    private class TextViewerNode implements ViewerNode,CharacterEncoding{
         private final TextArea textArea;
         private Charset charset;
         private byte[] value;

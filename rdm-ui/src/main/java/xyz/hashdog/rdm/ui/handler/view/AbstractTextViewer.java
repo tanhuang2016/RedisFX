@@ -1,7 +1,6 @@
 package xyz.hashdog.rdm.ui.handler.view;
 
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.Pane;
 
 /**
  * 查看器文本类型抽象

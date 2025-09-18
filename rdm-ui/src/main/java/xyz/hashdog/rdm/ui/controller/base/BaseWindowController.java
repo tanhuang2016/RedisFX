@@ -25,11 +25,11 @@ public abstract class BaseWindowController<T> extends BaseController<T> {
      * 模式,默认是NONE
      */
     protected int model;
-    protected static final int NONE = 1;
-    protected static final int ADD = 2;
-    protected static final int UPDATE = 3;
-    protected static final int RENAME = 4;
-    protected static final int QUICK = 5;
+    public static final int NONE = 1;
+    public static final int ADD = 2;
+    public static final int UPDATE = 3;
+    public static final int RENAME = 4;
+    public static final int QUICK = 5;
     /**
      * 当前Stage
      */

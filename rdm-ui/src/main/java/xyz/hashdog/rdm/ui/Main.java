@@ -211,4 +211,7 @@ public class Main extends Application {
         getHostServices().showDocument(event.getUri().toString());
     }
 
+    public MainController getController() {
+        return controller;
+    }
 }

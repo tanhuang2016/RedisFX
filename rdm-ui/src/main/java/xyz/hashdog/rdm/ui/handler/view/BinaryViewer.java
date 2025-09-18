@@ -3,9 +3,12 @@ package xyz.hashdog.rdm.ui.handler.view;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import xyz.hashdog.rdm.common.util.FileUtil;
-
-import java.nio.charset.Charset;
-
+/**
+ * 二进制值查看
+ * @author th
+ * @version 2.3.5
+ * @since 2025/9/13 22:48
+ */
 public class BinaryViewer extends AbstractTextViewer{
     public static final String NAME="Binary";
 
@@ -32,7 +35,7 @@ public class BinaryViewer extends AbstractTextViewer{
         return false;
     }
 
-    class BinaryViewerNode implements ViewerNode{
+    private class BinaryViewerNode implements ViewerNode{
 
         private final TextArea textArea;
         private byte[] value;

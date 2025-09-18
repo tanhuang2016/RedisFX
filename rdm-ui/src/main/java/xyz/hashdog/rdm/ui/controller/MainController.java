@@ -48,6 +48,9 @@ import xyz.hashdog.rdm.ui.entity.config.ServerTabPaneSetting;
 import xyz.hashdog.rdm.ui.entity.config.TabPaneSetting;
 import xyz.hashdog.rdm.ui.sampler.event.TabPaneEvent;
 import xyz.hashdog.rdm.ui.sampler.layout.ApplicationWindow;
+import xyz.hashdog.rdm.ui.sampler.layout.MainModel;
+import xyz.hashdog.rdm.ui.sampler.page.Page;
+import xyz.hashdog.rdm.ui.sampler.page.custom.CustomConverterPage;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.RecentHistory;
 
@@ -491,6 +494,15 @@ public class MainController extends BaseWindowController<Main> {
 
     /**
      * 打开设置窗口
+     * @param actionEvent 事件
+     * @param clazz 页面类
+     */
+    public void openSettings(ActionEvent actionEvent,Class<? extends Page> clazz) {
+        MainModel.DEFAULT_PAGE = clazz;
+        openSettings(actionEvent);
+    }
+    /**
+     * 打开设置窗口
      * @param actionEvent  事件
      */
     @FXML
@@ -921,4 +933,10 @@ public class MainController extends BaseWindowController<Main> {
         return null;
 
     }
+
+    public void test(ActionEvent actionEvent) {
+        super.loadSubWindow("自定义编解码器", "/fxml/setting/NewCustomConverterView.fxml", root.getScene().getWindow(), ADD);
+    }
+
+
 }

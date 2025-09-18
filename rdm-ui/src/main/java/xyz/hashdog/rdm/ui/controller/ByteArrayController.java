@@ -4,6 +4,7 @@ import atlantafx.base.theme.Styles;
 import atlantafx.base.theme.Tweaks;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -17,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.hashdog.rdm.common.Constant;
 import xyz.hashdog.rdm.common.util.FileUtil;
+import xyz.hashdog.rdm.ui.Main;
 import xyz.hashdog.rdm.ui.common.UiStyles;
 import xyz.hashdog.rdm.ui.common.ValueTypeEnum;
 import xyz.hashdog.rdm.ui.controller.base.BaseController;
@@ -27,6 +29,7 @@ import xyz.hashdog.rdm.ui.handler.view.CharacterEncoding;
 import xyz.hashdog.rdm.ui.handler.view.ValueViewer;
 import xyz.hashdog.rdm.ui.handler.view.ValueViewers;
 import xyz.hashdog.rdm.ui.handler.view.ViewerNode;
+import xyz.hashdog.rdm.ui.sampler.page.custom.CustomConverterPage;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.Util;
 import java.io.File;
@@ -82,6 +85,7 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
      * 选中的最后的文件的父级目录
      */
     private  File lastFile;
+    private MenuItem customConverterMenuItem;
 
 
     @Override
@@ -116,6 +120,9 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
         view.setText(language("key.string.view"));
         viewerMenu.setText(language("key.string.viewer"));
         converterMenu.setText(language("key.string.converter"));
+        if(customConverterMenuItem!=null){
+
+        }
     }
 
     private void initButton() {
@@ -156,17 +163,28 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
                 .toList();
         viewerMenu.getItems().addAll(viewerItems);
         // 添加编解码器菜单项
+        RadioMenuItem defaultConverter = reLoadConverters();
+        // 设置默认选中项（可选）
+        viewerItems.getFirst().setSelected(true);
+        defaultConverter.setSelected(true);
+        updateTypeMenuButtonText(viewerGroup, converterGroup);
+    }
+
+    /**
+     * 重新加载编解码器选项到菜单中
+     */
+    private RadioMenuItem reLoadConverters() {
+        converterMenu.getItems().clear();
         List<RadioMenuItem> converterItems = ValueConverters.getInstance().names().stream()
                 .map(RadioMenuItem::new)
                 .peek(item -> item.setToggleGroup(converterGroup))
                 .toList();
         converterMenu.getItems().addAll(converterItems);
-
-
-        // 设置默认选中项（可选）
-        viewerItems.getFirst().setSelected(true);
-        converterItems.getFirst().setSelected(true);
-        updateTypeMenuButtonText(viewerGroup, converterGroup);
+        converterMenu.getItems().add(new SeparatorMenuItem());
+        this.customConverterMenuItem = new MenuItem("自定义扩展");
+        this.customConverterMenuItem.setOnAction(event -> Main.instance.getController().openSettings(event,CustomConverterPage.class));
+        converterMenu.getItems().add(customConverterMenuItem);
+        return converterItems.getFirst();
     }
 
 
@@ -195,12 +213,14 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
      */
     private void converterChange(String newValue) {
         this.converter = ValueConverters.getInstance().getByName(newValue);
+        byte[] decode;
         try {
-            byte[] decode = converter.decode(currentValue);
-            this.viewerNode.set(decode);
+            decode = converter.decode(currentValue);
         }catch (Exception e){
             log.error("converterChange exception", e);
+            decode=currentValue;
         }
+        this.viewerNode.set(decode);
     }
 
     /**
@@ -253,6 +273,16 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
      */
     private void initListener() {
         characterChoiceBoxListener();
+        typeMenuButton.setOnShowing(this::typeMenuOnShowing);
+    }
+
+    /**
+     * typeMenuButton点击监听
+     * @param event 事件
+     */
+    private void typeMenuOnShowing(Event event) {
+        //重新加载编解码器选项
+        reLoadConverters();
     }
 
 

@@ -29,9 +29,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.web.WebView;
-import javafx.stage.FileChooser;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+import javafx.stage.*;
 import javafx.stage.Window;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
@@ -906,6 +904,23 @@ public class GuiUtil {
         }
     }
 
+    /**
+     * 目录选择
+     *
+     * @param ownerWindow 父窗口
+     * @param last 最后选择的一个目录，用于位置参考
+     * @return 选择的目录
+     */
+    public static File directoryChoose(Window ownerWindow, File last) {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle(language("file.choose"));
+
+        if (last != null && last.exists() && last.isDirectory()) {
+            directoryChooser.setInitialDirectory(last);
+        }
+
+        return directoryChooser.showDialog(ownerWindow);
+    }
 
     /**
      * 文件选择
