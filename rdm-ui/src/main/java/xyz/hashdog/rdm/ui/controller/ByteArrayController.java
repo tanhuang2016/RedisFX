@@ -176,6 +176,7 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
      * 重新加载编解码器选项到菜单中
      */
     private void reLoadConverters() {
+        //这里只是刷新了增加的菜单，如果是删除的菜单并没有移除，移除可能造成显示问题
         Set<String> set = converterMenu.getItems().stream().map(MenuItem::getText).collect(Collectors.toSet());
         List<RadioMenuItem> converterItems = ValueConverters.getInstance().names().stream()
                 .filter(set::add)
