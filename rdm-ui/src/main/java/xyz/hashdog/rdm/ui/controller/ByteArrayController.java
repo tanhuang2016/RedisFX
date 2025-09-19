@@ -123,7 +123,7 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
         viewerMenu.setText(language("key.string.viewer"));
         converterMenu.setText(language("key.string.converter"));
         if(customConverterMenuItem!=null){
-
+            customConverterMenuItem.setText(language("key.string.converter.custom"));
         }
     }
 
@@ -195,7 +195,7 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
                 .toList();
         converterMenu.getItems().addAll(converterItems);
         converterMenu.getItems().add(new SeparatorMenuItem());
-        this.customConverterMenuItem = new MenuItem("自定义扩展");
+        this.customConverterMenuItem = new MenuItem(language("key.string.converter.custom"));
         this.customConverterMenuItem.setOnAction(event -> Main.instance.getController().openSettings(event,CustomConverterPage.class));
         converterMenu.getItems().add(customConverterMenuItem);
         return converterItems.getFirst();
