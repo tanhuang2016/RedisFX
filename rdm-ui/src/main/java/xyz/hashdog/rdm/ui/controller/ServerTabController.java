@@ -175,11 +175,15 @@ public class ServerTabController extends BaseClientController<MainController> {
             if(value==RedisDataTypeEnum.UNKNOWN){
                 continue;
             }
-            Label tag = GuiUtil.getKeyColorFontIcon(value.tagEnum.tag);
+            Label tag = GuiUtil.getKeyColorFontIcon(value.type);
             RadioMenuItem radioMenuItem = new RadioMenuItem(value.type,tag);
             radioMenuItem.setToggleGroup(searchTypeMenuGroup);
             items.add(radioMenuItem);
         }
+        RadioMenuItem allType = new RadioMenuItem("All Type", GuiUtil.getKeyColorFontIcon(null));
+        allType.setToggleGroup(searchTypeMenuGroup);
+        items.addFirst(allType);
+        allType.setSelected(true);
     }
 
     /**

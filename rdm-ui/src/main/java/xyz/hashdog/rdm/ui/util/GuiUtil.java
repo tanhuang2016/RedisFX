@@ -1,5 +1,6 @@
 package xyz.hashdog.rdm.ui.util;
 
+import atlantafx.base.theme.Styles;
 import com.github.weisj.jsvg.SVGDocument;
 import com.github.weisj.jsvg.parser.SVGLoader;
 import com.github.weisj.jsvg.view.ViewBox;
@@ -478,16 +479,22 @@ public class GuiUtil {
        Tuple2<String,String> tag= getKeyTypeTag(type);
         return createTypeLabel(tag);
     }
+
     public static Label getKeyColorFontIcon(String type) {
-        Tuple2<String,String> tag= getKeyTypeTag(type);
         Label label = new Label();
         FontIcon fontIcon = new FontIcon(Material2AL.FIBER_MANUAL_RECORD);
         label.setGraphic(fontIcon);
-//        fontIcon.setIconColor(Color.RED);
-        fontIcon.setStyle("""
-  -fx-fill: -color-success-emphasis;
-  -fx-icon-color: -color-success-emphasis;
-                """);
+        if(type==null){
+            return label;
+        }
+        Tuple2<String, String> tag = getKeyTypeTag(type);
+        fontIcon.getStyleClass().add("tag-icon");
+        var dataClass1 = """
+                .tag-icon {
+                    -fx-icon-color: %s;
+                }
+                """.formatted(tag.t2());
+        label.getStylesheets().add(Styles.toDataURI(dataClass1));
         return label;
     }
     /**
