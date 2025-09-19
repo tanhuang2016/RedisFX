@@ -180,7 +180,7 @@ public class ServerTabController extends BaseClientController<MainController> {
             radioMenuItem.setToggleGroup(searchTypeMenuGroup);
             items.add(radioMenuItem);
         }
-        RadioMenuItem allType = new RadioMenuItem("All Type", GuiUtil.getKeyColorFontIcon(null));
+        RadioMenuItem allType = new RadioMenuItem("AllTypes", GuiUtil.getKeyColorFontIcon(null));
         allType.setToggleGroup(searchTypeMenuGroup);
         items.addFirst(allType);
         allType.setSelected(true);
