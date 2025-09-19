@@ -184,6 +184,18 @@ public class ServerTabController extends BaseClientController<MainController> {
         allType.setToggleGroup(searchTypeMenuGroup);
         items.addFirst(allType);
         allType.setSelected(true);
+        searchTypeMenuGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue==null){
+                return;
+            }
+            RadioMenuItem radioMenuItem = (RadioMenuItem) newValue;
+            String tag = radioMenuItem.getText();
+            if(tag.equals("AllTypes")){
+                searchText.setPromptText("Search All Types");
+            }else {
+                searchText.setPromptText("Search %s Type".formatted(tag));
+            }
+        });
     }
 
     /**
