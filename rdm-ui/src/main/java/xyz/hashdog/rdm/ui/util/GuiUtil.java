@@ -35,6 +35,7 @@ import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.material2.Material2AL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
@@ -477,6 +478,18 @@ public class GuiUtil {
        Tuple2<String,String> tag= getKeyTypeTag(type);
         return createTypeLabel(tag);
     }
+    public static Label getKeyColorFontIcon(String type) {
+        Tuple2<String,String> tag= getKeyTypeTag(type);
+        Label label = new Label();
+        FontIcon fontIcon = new FontIcon(Material2AL.FIBER_MANUAL_RECORD);
+        label.setGraphic(fontIcon);
+//        fontIcon.setIconColor(Color.RED);
+        fontIcon.setStyle("""
+  -fx-fill: -color-success-emphasis;
+  -fx-icon-color: -color-success-emphasis;
+                """);
+        return label;
+    }
     /**
      * 获取key name的label表示
      * @param type key类型
@@ -498,6 +511,7 @@ public class GuiUtil {
         tagLabel.setStyle("-fx-background-color:"+tag.t2());
         return tagLabel;
     }
+
 
     /**
      * 获取key的标签 大的

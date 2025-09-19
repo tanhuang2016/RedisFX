@@ -175,7 +175,8 @@ public class ServerTabController extends BaseClientController<MainController> {
             if(value==RedisDataTypeEnum.UNKNOWN){
                 continue;
             }
-            RadioMenuItem radioMenuItem = new RadioMenuItem(value.type);
+            Label tag = GuiUtil.getKeyColorFontIcon(value.tagEnum.tag);
+            RadioMenuItem radioMenuItem = new RadioMenuItem(value.type,tag);
             radioMenuItem.setToggleGroup(searchTypeMenuGroup);
             items.add(radioMenuItem);
         }
