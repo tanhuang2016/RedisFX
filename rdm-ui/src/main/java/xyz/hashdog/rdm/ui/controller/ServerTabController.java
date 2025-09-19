@@ -80,7 +80,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     @FXML
     public Button search;
     public HBox searchHbox;
-    public Button searchOptionsButton;
+    public MenuButton searchOptionsButton;
     public Button reset;
     public ToggleButton isLike;
 
@@ -263,7 +263,7 @@ public class ServerTabController extends BaseClientController<MainController> {
         search.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,Styles.BUTTON_CIRCLE);
         isLike.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,UiStyles.MINI,UiStyles.SEMI_CIRCLE);
         reset.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,UiStyles.MINI,Styles.ROUNDED);
-        searchOptionsButton.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,UiStyles.MINI,UiStyles.SEMI_CIRCLE);
+        searchOptionsButton.getStyleClass().addAll(Styles.BUTTON_ICON,Tweaks.NO_ARROW,Styles.FLAT,UiStyles.MINI,UiStyles.SEMI_CIRCLE);
         search.setCursor(Cursor.HAND);
         reset.setCursor(Cursor.HAND);
         isLike.setCursor(Cursor.HAND);

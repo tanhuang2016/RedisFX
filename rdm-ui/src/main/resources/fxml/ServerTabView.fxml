@@ -58,7 +58,7 @@
                                           </HBox>
                                           <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" prefHeight="23.0" prefWidth="200.0" spacing="3.0" VBox.vgrow="ALWAYS">
                                               <children>
-                                                  <CustomTextField fx:id="searchText" minWidth="-Infinity" prefWidth="150.0" HBox.hgrow="ALWAYS" />
+                                                  <CustomTextField fx:id="searchText" promptText="search all" minWidth="-Infinity" prefWidth="150.0" HBox.hgrow="ALWAYS" />
                                                   <Button fx:id="search" mnemonicParsing="false" onAction="#search" HBox.hgrow="ALWAYS">
                                                   </Button>
                                                   <HBox fx:id="searchHbox" alignment="CENTER_RIGHT" spacing="-2.0" VBox.vgrow="ALWAYS">
@@ -69,7 +69,7 @@
                                                               <Insets left="5.0" right="5.0" />
                                                           </HBox.margin>
                                                       </ToggleButton>
-                                                      <Button fx:id="searchOptionsButton" mnemonicParsing="false" opacity="0.8" />
+                                                      <MenuButton fx:id="searchOptionsButton" mnemonicParsing="false" opacity="0.8" />
                                                   </HBox>
                                               </children>
                                           </HBox>
