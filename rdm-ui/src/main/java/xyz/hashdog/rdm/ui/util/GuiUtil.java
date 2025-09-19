@@ -480,6 +480,16 @@ public class GuiUtil {
         return createTypeLabel(tag);
     }
 
+    private final static String TAG_ICON_CSS = """
+                .tag-icon {
+                    -fx-icon-color: %s;
+                }
+                """;
+    /**
+     * key颜色表情获取
+     * @param type 类型
+     * @return 圆圈tag
+     */
     public static Label getKeyColorFontIcon(String type) {
         Label label = new Label();
         FontIcon fontIcon = new FontIcon(Material2AL.FIBER_MANUAL_RECORD);
@@ -489,13 +499,13 @@ public class GuiUtil {
         }
         Tuple2<String, String> tag = getKeyTypeTag(type);
         fontIcon.getStyleClass().add("tag-icon");
-        var dataClass1 = """
-                .tag-icon {
-                    -fx-icon-color: %s;
-                }
-                """.formatted(tag.t2());
-        label.getStylesheets().add(Styles.toDataURI(dataClass1));
+        label.getStylesheets().add(Styles.toDataURI(TAG_ICON_CSS.formatted(tag.t2())));
         return label;
+    }
+    public static void getSetFontIconColorByKeyType(String type, Button search) {
+        Tuple2<String, String> tag = getKeyTypeTag(type);
+        search.getStylesheets().clear();
+        search.getStylesheets().addLast(Styles.toDataURI(TAG_ICON_CSS.formatted(tag.t2())));
     }
     /**
      * 获取key name的label表示
@@ -902,6 +912,8 @@ public class GuiUtil {
         textNode.setWrappingWidth(maxWidth);
         return textNode.getLayoutBounds().getWidth();
     }
+
+
 
 
     /**

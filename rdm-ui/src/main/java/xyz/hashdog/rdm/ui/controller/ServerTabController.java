@@ -180,7 +180,7 @@ public class ServerTabController extends BaseClientController<MainController> {
             radioMenuItem.setToggleGroup(searchTypeMenuGroup);
             items.add(radioMenuItem);
         }
-        RadioMenuItem allType = new RadioMenuItem("AllTypes", GuiUtil.getKeyColorFontIcon(null));
+        RadioMenuItem allType = new RadioMenuItem("All Types", GuiUtil.getKeyColorFontIcon(null));
         allType.setToggleGroup(searchTypeMenuGroup);
         items.addFirst(allType);
         allType.setSelected(true);
@@ -190,10 +190,15 @@ public class ServerTabController extends BaseClientController<MainController> {
             }
             RadioMenuItem radioMenuItem = (RadioMenuItem) newValue;
             String tag = radioMenuItem.getText();
-            if(tag.equals("AllTypes")){
+            if(tag.equals("All Types")){
                 searchText.setPromptText("Search All Types");
+                search.getGraphic().getStyleClass().remove("tag-icon");
             }else {
                 searchText.setPromptText("Search %s Type".formatted(tag));
+                if(!search.getGraphic().getStyleClass().contains("tag-icon")){
+                    search.getGraphic().getStyleClass().add("tag-icon");
+                }
+                GuiUtil.getSetFontIconColorByKeyType(tag,search);
             }
         });
     }
