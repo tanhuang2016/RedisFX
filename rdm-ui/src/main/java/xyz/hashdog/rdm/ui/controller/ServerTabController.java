@@ -106,6 +106,8 @@ public class ServerTabController extends BaseClientController<MainController> {
     public MenuItem monitor;
     public MenuItem pubsub;
     public MenuItem report;
+    public CheckMenuItem autoSearch;
+    public Menu searchTypeMenu;
     @FXML
     private TreeView<KeyTreeNode> treeView;
     @FXML
