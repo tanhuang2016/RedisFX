@@ -38,6 +38,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
@@ -163,7 +165,7 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
                 .toList();
         viewerMenu.getItems().addAll(viewerItems);
         // 添加编解码器菜单项
-        RadioMenuItem defaultConverter = reLoadConverters();
+        RadioMenuItem defaultConverter = loadConverters();
         // 设置默认选中项（可选）
         viewerItems.getFirst().setSelected(true);
         defaultConverter.setSelected(true);
@@ -173,9 +175,19 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
     /**
      * 重新加载编解码器选项到菜单中
      */
-    private RadioMenuItem reLoadConverters() {
-        //todo这里clear会导致无法打钩，需要改为增量
-        converterMenu.getItems().clear();
+    private void reLoadConverters() {
+        Set<String> set = converterMenu.getItems().stream().map(MenuItem::getText).collect(Collectors.toSet());
+        List<RadioMenuItem> converterItems = ValueConverters.getInstance().names().stream()
+                .filter(set::add)
+                .map(RadioMenuItem::new)
+                .peek(item -> item.setToggleGroup(converterGroup))
+                .toList();
+        converterMenu.getItems().addAll(converterMenu.getItems().size()-2,converterItems);
+    }
+    /**
+     * 加载编解码器选项到菜单中
+     */
+    private RadioMenuItem loadConverters() {
         List<RadioMenuItem> converterItems = ValueConverters.getInstance().names().stream()
                 .map(RadioMenuItem::new)
                 .peek(item -> item.setToggleGroup(converterGroup))
