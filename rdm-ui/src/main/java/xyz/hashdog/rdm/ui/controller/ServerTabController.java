@@ -128,6 +128,7 @@ public class ServerTabController extends BaseClientController<MainController> {
 
     private final static int SCAN_COUNT = 500;
     private RedisKeyScanner scanner;
+    private ToggleGroup searchTypeMenuGroup;
 
 
     /**
@@ -154,6 +155,7 @@ public class ServerTabController extends BaseClientController<MainController> {
         initTreeViewRoot();
         initListener();
         initButton();
+        initSearchTypeMenu();
         initTextField();
         initTabPane();
         progressBar.getStyleClass().add(Styles.SMALL);
@@ -161,6 +163,22 @@ public class ServerTabController extends BaseClientController<MainController> {
 
 
 
+    }
+
+    /**
+     * 初始化搜索类型菜单
+     */
+    private void initSearchTypeMenu() {
+        this.searchTypeMenuGroup = new ToggleGroup();
+        ObservableList<MenuItem> items = searchTypeMenu.getItems();
+        for (RedisDataTypeEnum value : RedisDataTypeEnum.values()) {
+            if(value==RedisDataTypeEnum.UNKNOWN){
+                continue;
+            }
+            RadioMenuItem radioMenuItem = new RadioMenuItem(value.type);
+            radioMenuItem.setToggleGroup(searchTypeMenuGroup);
+            items.add(radioMenuItem);
+        }
     }
 
     /**
