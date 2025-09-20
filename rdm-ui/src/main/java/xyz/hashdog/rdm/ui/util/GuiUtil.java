@@ -1,5 +1,6 @@
 package xyz.hashdog.rdm.ui.util;
 
+import atlantafx.base.theme.Styles;
 import com.github.weisj.jsvg.SVGDocument;
 import com.github.weisj.jsvg.parser.SVGLoader;
 import com.github.weisj.jsvg.view.ViewBox;
@@ -35,6 +36,7 @@ import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.material2.Material2AL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
@@ -477,6 +479,34 @@ public class GuiUtil {
        Tuple2<String,String> tag= getKeyTypeTag(type);
         return createTypeLabel(tag);
     }
+
+    private final static String TAG_ICON_CSS = """
+                .tag-icon {
+                    -fx-icon-color: %s;
+                }
+                """;
+    /**
+     * key颜色表情获取
+     * @param type 类型
+     * @return 圆圈tag
+     */
+    public static Label getKeyColorFontIcon(String type) {
+        Label label = new Label();
+        FontIcon fontIcon = new FontIcon(Material2AL.FIBER_MANUAL_RECORD);
+        label.setGraphic(fontIcon);
+        if(type==null){
+            return label;
+        }
+        Tuple2<String, String> tag = getKeyTypeTag(type);
+        fontIcon.getStyleClass().add("tag-icon");
+        label.getStylesheets().add(Styles.toDataURI(TAG_ICON_CSS.formatted(tag.t2())));
+        return label;
+    }
+    public static void getSetFontIconColorByKeyType(String type, Button search) {
+        Tuple2<String, String> tag = getKeyTypeTag(type);
+        search.getStylesheets().clear();
+        search.getStylesheets().addLast(Styles.toDataURI(TAG_ICON_CSS.formatted(tag.t2())));
+    }
     /**
      * 获取key name的label表示
      * @param type key类型
@@ -498,6 +528,7 @@ public class GuiUtil {
         tagLabel.setStyle("-fx-background-color:"+tag.t2());
         return tagLabel;
     }
+
 
     /**
      * 获取key的标签 大的
@@ -881,6 +912,8 @@ public class GuiUtil {
         textNode.setWrappingWidth(maxWidth);
         return textNode.getLayoutBounds().getWidth();
     }
+
+
 
 
     /**

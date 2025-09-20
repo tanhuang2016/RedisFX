@@ -38,6 +38,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
@@ -121,7 +123,7 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
         viewerMenu.setText(language("key.string.viewer"));
         converterMenu.setText(language("key.string.converter"));
         if(customConverterMenuItem!=null){
-
+            customConverterMenuItem.setText(language("key.string.converter.custom"));
         }
     }
 
@@ -163,7 +165,7 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
                 .toList();
         viewerMenu.getItems().addAll(viewerItems);
         // 添加编解码器菜单项
-        RadioMenuItem defaultConverter = reLoadConverters();
+        RadioMenuItem defaultConverter = loadConverters();
         // 设置默认选中项（可选）
         viewerItems.getFirst().setSelected(true);
         defaultConverter.setSelected(true);
@@ -173,15 +175,27 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
     /**
      * 重新加载编解码器选项到菜单中
      */
-    private RadioMenuItem reLoadConverters() {
-        converterMenu.getItems().clear();
+    private void reLoadConverters() {
+        //这里只是刷新了增加的菜单，如果是删除的菜单并没有移除，移除可能造成显示问题
+        Set<String> set = converterMenu.getItems().stream().map(MenuItem::getText).collect(Collectors.toSet());
+        List<RadioMenuItem> converterItems = ValueConverters.getInstance().names().stream()
+                .filter(set::add)
+                .map(RadioMenuItem::new)
+                .peek(item -> item.setToggleGroup(converterGroup))
+                .toList();
+        converterMenu.getItems().addAll(converterMenu.getItems().size()-2,converterItems);
+    }
+    /**
+     * 加载编解码器选项到菜单中
+     */
+    private RadioMenuItem loadConverters() {
         List<RadioMenuItem> converterItems = ValueConverters.getInstance().names().stream()
                 .map(RadioMenuItem::new)
                 .peek(item -> item.setToggleGroup(converterGroup))
                 .toList();
         converterMenu.getItems().addAll(converterItems);
         converterMenu.getItems().add(new SeparatorMenuItem());
-        this.customConverterMenuItem = new MenuItem("自定义扩展");
+        this.customConverterMenuItem = new MenuItem(language("key.string.converter.custom"));
         this.customConverterMenuItem.setOnAction(event -> Main.instance.getController().openSettings(event,CustomConverterPage.class));
         converterMenu.getItems().add(customConverterMenuItem);
         return converterItems.getFirst();
@@ -444,6 +458,9 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
      */
     public void into(ActionEvent actionEvent) {
         File file = GuiUtil.fileChoose(this.root.getScene().getWindow(), lastFile);
+        if(file==null){
+            return;
+        }
         lastFile=file.getParentFile();
         byte[] bytes = FileUtil.file2byte(file);
         this.viewerNode.set(bytes);
@@ -456,6 +473,9 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
     public void export(ActionEvent actionEvent) {
         BaseKeyController parentController = (BaseKeyController) this.parentController;
         File file = GuiUtil.saveFileChoose(this.root.getScene().getWindow(), lastFile, parentController.getParameter().getKey());
+        if(file==null){
+            return;
+        }
         FileUtil.byteWrite2file(this.currentValue,file.getAbsolutePath());
     }
 }

@@ -3,6 +3,9 @@ package xyz.hashdog.rdm.ui.controller;
 import atlantafx.base.controls.CustomTextField;
 import atlantafx.base.theme.Styles;
 import atlantafx.base.theme.Tweaks;
+import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
@@ -20,6 +23,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
@@ -80,7 +84,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     @FXML
     public Button search;
     public HBox searchHbox;
-    public Button searchOptionsButton;
+    public MenuButton searchOptionsButton;
     public Button reset;
     public ToggleButton isLike;
 
@@ -106,6 +110,8 @@ public class ServerTabController extends BaseClientController<MainController> {
     public MenuItem monitor;
     public MenuItem pubsub;
     public MenuItem report;
+    public CheckMenuItem autoSearch;
+    public Menu searchTypeMenu;
     @FXML
     private TreeView<KeyTreeNode> treeView;
     @FXML
@@ -126,6 +132,13 @@ public class ServerTabController extends BaseClientController<MainController> {
 
     private final static int SCAN_COUNT = 500;
     private RedisKeyScanner scanner;
+    private ToggleGroup searchTypeMenuGroup;
+
+    private static final int DEBOUNCE_DELAY_MILLIS = 500;
+    /**
+     * 防抖用的 Timeline
+     */
+    private final Timeline debounceTimeline = new Timeline();
 
 
     /**
@@ -144,21 +157,63 @@ public class ServerTabController extends BaseClientController<MainController> {
      */
     private String selectTabKey;
 
+    private static final String ALL_TYPES = "All Types";
+
+
     @FXML
     public void initialize() {
         initRecentHistory();
         initNewKey();
         initAutoWah();
         initTreeViewRoot();
-        initListener();
         initButton();
+        initSearchTypeMenu();
         initTextField();
+        initListener();
         initTabPane();
         progressBar.getStyleClass().add(Styles.SMALL);
         initLanguage();
 
 
 
+    }
+
+    /**
+     * 初始化搜索类型菜单
+     */
+    private void initSearchTypeMenu() {
+        this.searchTypeMenuGroup = new ToggleGroup();
+        ObservableList<MenuItem> items = searchTypeMenu.getItems();
+        for (RedisDataTypeEnum value : RedisDataTypeEnum.values()) {
+            if(value==RedisDataTypeEnum.UNKNOWN){
+                continue;
+            }
+            Label tag = GuiUtil.getKeyColorFontIcon(value.type);
+            RadioMenuItem radioMenuItem = new RadioMenuItem(value.type,tag);
+            radioMenuItem.setToggleGroup(searchTypeMenuGroup);
+            items.add(radioMenuItem);
+        }
+        RadioMenuItem allType = new RadioMenuItem("All Types", GuiUtil.getKeyColorFontIcon(null));
+        allType.setToggleGroup(searchTypeMenuGroup);
+        items.addFirst(allType);
+        allType.setSelected(true);
+        searchTypeMenuGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue==null){
+                return;
+            }
+            RadioMenuItem radioMenuItem = (RadioMenuItem) newValue;
+            String tag = radioMenuItem.getText();
+            if(ALL_TYPES.equals(tag)){
+                searchText.setPromptText("Search "+ALL_TYPES);
+                search.getGraphic().getStyleClass().remove("tag-icon");
+            }else {
+                searchText.setPromptText("Search %s Type".formatted(tag));
+                if(!search.getGraphic().getStyleClass().contains("tag-icon")){
+                    search.getGraphic().getStyleClass().add("tag-icon");
+                }
+                GuiUtil.getSetFontIconColorByKeyType(tag,search);
+            }
+        });
     }
 
     /**
@@ -263,7 +318,7 @@ public class ServerTabController extends BaseClientController<MainController> {
         search.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,Styles.BUTTON_CIRCLE);
         isLike.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,UiStyles.MINI,UiStyles.SEMI_CIRCLE);
         reset.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,UiStyles.MINI,Styles.ROUNDED);
-        searchOptionsButton.getStyleClass().addAll(Styles.BUTTON_ICON,Styles.FLAT,UiStyles.MINI,UiStyles.SEMI_CIRCLE);
+        searchOptionsButton.getStyleClass().addAll(Styles.BUTTON_ICON,Tweaks.NO_ARROW,Styles.FLAT,UiStyles.MINI,UiStyles.SEMI_CIRCLE);
         search.setCursor(Cursor.HAND);
         reset.setCursor(Cursor.HAND);
         isLike.setCursor(Cursor.HAND);
@@ -305,7 +360,8 @@ public class ServerTabController extends BaseClientController<MainController> {
             if(value==RedisDataTypeEnum.UNKNOWN){
                 continue;
             }
-            items.add(new MenuItem(value.type));
+            Label tag = GuiUtil.getKeyColorFontIcon(value.type);
+            items.add(new MenuItem(value.type,tag));
         }
     }
 
@@ -318,6 +374,15 @@ public class ServerTabController extends BaseClientController<MainController> {
         treeViewListener();
         newKeyListener();
         searchTextListener();
+        searchTypeMenuGroupListener();
+    }
+
+    private void searchTypeMenuGroupListener() {
+        searchTypeMenuGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue!=null && !newValue.equals(oldValue)){
+                search(null);
+            }
+        });
     }
 
 
@@ -330,6 +395,21 @@ public class ServerTabController extends BaseClientController<MainController> {
             } else {
                 reset.setVisible(true);
                 reset.setManaged(true);
+                //触发自动搜索
+                if(!newValue.equals(oldValue)&&autoSearch.isSelected()){
+                    // 每次文本变化时，先停止之前的定时任务
+                    debounceTimeline.stop();
+                    // 设置新的任务，在延迟时间后执行搜索
+                    debounceTimeline.getKeyFrames().clear(); // 清除之前的 KeyFrame
+                    debounceTimeline.getKeyFrames().add(
+                            new KeyFrame(Duration.millis(DEBOUNCE_DELAY_MILLIS), event -> {
+                                // 在延迟结束后执行搜索
+                                search(null);
+                            })
+                    );
+                    // 启动新的定时任务
+                    debounceTimeline.playFromStart();
+                }
             }
         });
         // 添加键盘事件监听,alt+down 显示历史搜索记录
@@ -337,6 +417,13 @@ public class ServerTabController extends BaseClientController<MainController> {
             if (event.isAltDown() && event.getCode() == KeyCode.DOWN) {
                 showHistoryPopup();
                 // 阻止事件继续传播
+                event.consume();
+            }
+            if (event.getCode() == KeyCode.ENTER) {
+                // 停止任何待处理的自动搜索
+                debounceTimeline.stop();
+                // 立即执行搜索
+                search(null);
                 event.consume();
             }
         });
@@ -875,7 +962,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     }
 
 
-
+    private boolean showReport;
 
     /**
      * 模糊搜索
@@ -895,7 +982,19 @@ public class ServerTabController extends BaseClientController<MainController> {
             if(DataUtil.isNotEmpty(searchText.getText())){
                 recentHistory.add(searchText.getText());
             }
+            if(!showReport){
+                showReport=true;
+                PauseTransition delay = new PauseTransition(Duration.millis(100));
+                delay.setOnFinished(event -> {
+                    Platform.runLater(() -> {
+                        report(null);
+                    });
+                });
+                delay.play();
+
+            }
         });
+
     }
 
     /**
@@ -916,7 +1015,14 @@ public class ServerTabController extends BaseClientController<MainController> {
      * 重置查询器
      */
     private void resetScanner() {
-        scanner.init(searchText.getText(),SCAN_COUNT,null,this.isLike.isSelected());
+        String type=null;
+        if(this.searchTypeMenuGroup.getSelectedToggle()!=null){
+            type = ((RadioMenuItem) this.searchTypeMenuGroup.getSelectedToggle()).getText();
+            if(ALL_TYPES.equals(type)){
+                type=null;
+            }
+        }
+        scanner.init(searchText.getText(),SCAN_COUNT,type,this.isLike.isSelected());
         Platform.runLater(() -> {
             progressBar.setProgress(0);
             progressText.setText(String.format("%.1f%%", 0d));
@@ -940,9 +1046,9 @@ public class ServerTabController extends BaseClientController<MainController> {
         if (Objects.equals(type, RedisDataTypeEnum.UNKNOWN.type)) {
             throw new GeneralException("This type is not supported " + keyType);
         }
-        Tuple2<AnchorPane, BaseClientController> tuple2 = loadFxml("/fxml/KeyTabView.fxml");
+        Tuple2<AnchorPane, BaseClientController<?>> tuple2 = loadFxml("/fxml/KeyTabView.fxml");
         AnchorPane borderPane = tuple2.t1();
-        BaseClientController controller = tuple2.t2();
+        BaseClientController<?> controller = tuple2.t2();
         PassParameter passParameter = new PassParameter(PassParameter.NONE);
         passParameter.setDb(this.currentDb);
         passParameter.setKey(key);
@@ -1209,13 +1315,13 @@ public class ServerTabController extends BaseClientController<MainController> {
     }
 
     @FXML
-    public void report(ActionEvent actionEvent) throws IOException {
+    public void report(ActionEvent actionEvent)  {
         Tab tab=findTabByName(Constant.REPORT_TAB_NAME);
         if(tab!=null){
             this.dbTabPane.getSelectionModel().select(tab);
             return;
         }
-        Tuple2<ScrollPane,ConsoleController> tuple2 = loadClientFxml("/fxml/ReportView.fxml",PassParameter.REPORT);
+        Tuple2<ScrollPane,ReportController> tuple2 = loadClientFxml("/fxml/ReportView.fxml",PassParameter.REPORT);
         tab = new Tab(Constant.REPORT_TAB_NAME);
         tab.setGraphic(GuiUtil.creatInfoIcon());
         setTab(tab,tuple2);
@@ -1228,7 +1334,7 @@ public class ServerTabController extends BaseClientController<MainController> {
             this.dbTabPane.getSelectionModel().select(tab);
             return;
         }
-        Tuple2<AnchorPane,ConsoleController> tuple2 = loadClientFxml("/fxml/PubSubView.fxml",PassParameter.PUBSUB);
+        Tuple2<AnchorPane,PubSubController> tuple2 = loadClientFxml("/fxml/PubSubView.fxml",PassParameter.PUBSUB);
         tab = new Tab(Constant.PUBSUB_TAB_NAME);
         tab.setGraphic(GuiUtil.creatPubSubIcon());
         setTab(tab,tuple2);

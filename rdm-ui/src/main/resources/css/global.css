@@ -120,6 +120,11 @@
     -fx-padding: 2px 2px 2px 2px;
     -fx-font-size: 0.8em;
 }
+
+.menu-button.button-icon.mini> .label {
+    -fx-padding: 2px 2px 2px 2px;
+    -fx-font-size: 0.8em;
+}
 .toggle-button.mini {
     -fx-padding: 2px 2px 2px 2px;
     -fx-font-size: 0.8em;

@@ -68,12 +68,12 @@
                                         <MenuItem fx:id="serversCloseAll" mnemonicParsing="false"  onAction="#closeServerAll"/>
                                     </items>
                                 </Menu>
-                                <MenuItem fx:id="fileSettings" onAction="#openSettings" mnemonicParsing="false" text="%main.file.setting"/>
+                                <MenuItem fx:id="fileSettings" onAction="#openSettings" mnemonicParsing="false" />
                                 <MenuItem fx:id="exit"  mnemonicParsing="true"  onAction="#exit"/>
 
                             </items>
                         </Menu>
-                        <Menu fx:id="edit" mnemonicParsing="false" text="%main.edit">
+                        <Menu fx:id="edit" mnemonicParsing="false" >
                             <items>
                                 <MenuItem fx:id="undo" mnemonicParsing="false"  />
                                 <MenuItem fx:id="redo" mnemonicParsing="false"  />
@@ -87,7 +87,7 @@
                                 <MenuItem fx:id="replace" mnemonicParsing="false"  disable="true"/>
                             </items>
                         </Menu>
-                        <Menu fx:id="view" mnemonicParsing="false" text="%main.view">
+                        <Menu fx:id="view" mnemonicParsing="false" >
                             <items>
                                 <MenuItem fx:id="fullScreen" mnemonicParsing="false"  onAction="#fullScreen"/>
                                 <MenuItem fx:id="resetWindow" mnemonicParsing="false"  onAction="#resetWindow"/>
@@ -107,7 +107,7 @@
                                             <RadioMenuItem fx:id="serverTabRight" mnemonicParsing="false"  onAction="#serverTabRight"/>
                                         </items>
                                 </Menu>
-                                <Menu fx:id="keyTabPaneMenu" mnemonicParsing="false" text="%main.window.key" >
+                                <Menu fx:id="keyTabPaneMenu" mnemonicParsing="false"  >
                                     <items>
                                         <RadioMenuItem fx:id="keyTabTop" mnemonicParsing="false"  onAction="#keyTabTop"/>
                                         <RadioMenuItem fx:id="keyTabBottom" mnemonicParsing="false"  onAction="#keyTabBottom" selected="true"/>
@@ -118,12 +118,12 @@
                                 </Menu>
                             </items>
                         </Menu>
-                        <Menu fx:id="help" mnemonicParsing="false" text="%main.help">
+                        <Menu fx:id="help" mnemonicParsing="false" >
                             <items>
-                                <MenuItem fx:id="guide" mnemonicParsing="false" text="%main.help.guide"  disable="true"/>
-                                <MenuItem fx:id="suggest" mnemonicParsing="false" text="%main.help.suggest" onAction="#suggest"/>
-                                <MenuItem fx:id="update" mnemonicParsing="false" text="%main.help.update"  onAction="#update"/>
-                                <MenuItem fx:id="about" mnemonicParsing="false" text="%main.help.about" onAction="#about" />
+                                <MenuItem fx:id="guide" mnemonicParsing="false"  disable="true"/>
+                                <MenuItem fx:id="suggest" mnemonicParsing="false"  onAction="#suggest"/>
+                                <MenuItem fx:id="update" mnemonicParsing="false"   onAction="#update"/>
+                                <MenuItem fx:id="about" mnemonicParsing="false"  onAction="#about" />
                                 <MenuItem  mnemonicParsing="false" text="test" onAction="#test" visible="false"/>
                             </items>
                         </Menu>

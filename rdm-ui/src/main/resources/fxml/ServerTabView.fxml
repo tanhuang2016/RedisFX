@@ -22,6 +22,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.Menu?>
 <AnchorPane fx:id="root" prefHeight="650.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.ServerTabController">
 
    <BorderPane prefHeight="650.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -58,7 +60,7 @@
                                           </HBox>
                                           <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" prefHeight="23.0" prefWidth="200.0" spacing="3.0" VBox.vgrow="ALWAYS">
                                               <children>
-                                                  <CustomTextField fx:id="searchText" minWidth="-Infinity" prefWidth="150.0" HBox.hgrow="ALWAYS" />
+                                                  <CustomTextField fx:id="searchText" promptText="Search All Types" minWidth="-Infinity" prefWidth="150.0" HBox.hgrow="ALWAYS" />
                                                   <Button fx:id="search" mnemonicParsing="false" onAction="#search" HBox.hgrow="ALWAYS">
                                                   </Button>
                                                   <HBox fx:id="searchHbox" alignment="CENTER_RIGHT" spacing="-2.0" VBox.vgrow="ALWAYS">
@@ -69,7 +71,12 @@
                                                               <Insets left="5.0" right="5.0" />
                                                           </HBox.margin>
                                                       </ToggleButton>
-                                                      <Button fx:id="searchOptionsButton" mnemonicParsing="false" opacity="0.8" />
+                                                      <MenuButton fx:id="searchOptionsButton" mnemonicParsing="false" opacity="0.8" >
+                                                          <items>
+                                                              <CheckMenuItem fx:id="autoSearch" text="自动搜索" />
+                                                              <Menu fx:id="searchTypeMenu" text="搜索类型"/>
+                                                          </items>
+                                                      </MenuButton>
                                                   </HBox>
                                               </children>
                                           </HBox>

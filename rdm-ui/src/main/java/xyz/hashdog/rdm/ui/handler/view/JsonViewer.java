@@ -20,6 +20,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
+
 /**
  * json查看器
  * @author th
@@ -126,7 +129,7 @@ public class JsonViewer extends AbstractTextViewer {
 
         @Override
         public List<MenuItem> options() {
-            RadioMenuItem showLineNumber = new RadioMenuItem("显示行号");
+            RadioMenuItem showLineNumber = new RadioMenuItem(language("key.string.viewer.options.showLine"));
             showLineNumber.setOnAction(event -> {
                 if(showLineNumber.isSelected()){
                     codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
