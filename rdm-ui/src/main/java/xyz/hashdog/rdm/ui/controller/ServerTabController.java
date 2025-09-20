@@ -360,7 +360,8 @@ public class ServerTabController extends BaseClientController<MainController> {
             if(value==RedisDataTypeEnum.UNKNOWN){
                 continue;
             }
-            items.add(new MenuItem(value.type));
+            Label tag = GuiUtil.getKeyColorFontIcon(value.type);
+            items.add(new MenuItem(value.type,tag));
         }
     }
 
