@@ -156,16 +156,19 @@ public class ServerTabController extends BaseClientController<MainController> {
      */
     private String selectTabKey;
 
+    private static final String ALL_TYPES = "All Types";
+
+
     @FXML
     public void initialize() {
         initRecentHistory();
         initNewKey();
         initAutoWah();
         initTreeViewRoot();
-        initListener();
         initButton();
         initSearchTypeMenu();
         initTextField();
+        initListener();
         initTabPane();
         progressBar.getStyleClass().add(Styles.SMALL);
         initLanguage();
@@ -199,8 +202,8 @@ public class ServerTabController extends BaseClientController<MainController> {
             }
             RadioMenuItem radioMenuItem = (RadioMenuItem) newValue;
             String tag = radioMenuItem.getText();
-            if("All Types".equals(tag)){
-                searchText.setPromptText("Search All Types");
+            if(ALL_TYPES.equals(tag)){
+                searchText.setPromptText("Search "+ALL_TYPES);
                 search.getGraphic().getStyleClass().remove("tag-icon");
             }else {
                 searchText.setPromptText("Search %s Type".formatted(tag));
@@ -369,9 +372,16 @@ public class ServerTabController extends BaseClientController<MainController> {
         treeViewListener();
         newKeyListener();
         searchTextListener();
+        searchTypeMenuGroupListener();
     }
 
-
+    private void searchTypeMenuGroupListener() {
+        searchTypeMenuGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue!=null && !newValue.equals(oldValue)){
+                search(null);
+            }
+        });
+    }
 
 
     private void searchTextListener() {
@@ -991,7 +1001,14 @@ public class ServerTabController extends BaseClientController<MainController> {
      * 重置查询器
      */
     private void resetScanner() {
-        scanner.init(searchText.getText(),SCAN_COUNT,null,this.isLike.isSelected());
+        String type=null;
+        if(this.searchTypeMenuGroup.getSelectedToggle()!=null){
+            type = ((RadioMenuItem) this.searchTypeMenuGroup.getSelectedToggle()).getText();
+            if(ALL_TYPES.equals(type)){
+                type=null;
+            }
+        }
+        scanner.init(searchText.getText(),SCAN_COUNT,type,this.isLike.isSelected());
         Platform.runLater(() -> {
             progressBar.setProgress(0);
             progressText.setText(String.format("%.1f%%", 0d));
