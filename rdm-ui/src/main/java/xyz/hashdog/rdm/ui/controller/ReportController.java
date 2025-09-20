@@ -575,9 +575,6 @@ public class ReportController extends BaseClientController<ServerTabController> 
                 barKey.setTooltip(GuiUtil.textTooltip(barKeyTooltip.toString()));
                 barConnection.setText(map.get(Constant.REDIS_INFO_CONNECTED_CLIENTS));
                 barConnection.setTooltip(GuiUtil.textTooltip(String.format(language("server.report.bar.connected")+" %s",map.get(Constant.REDIS_INFO_CONNECTED_CLIENTS))));
-                //信息集合表数据更新
-                infoTable.getItems().setAll(infos);
-                GuiUtil.adjustTableViewHeightPrecise(infoTable);
                 //card数据更新
                 redisVersion.setText(map.get(Constant.REDIS_INFO_REDIS_VERSION));
                 os.setText(map.get(Constant.REDIS_INFO_OS));
@@ -591,6 +588,9 @@ public class ReportController extends BaseClientController<ServerTabController> 
                 connectedClients.setText(map.get(Constant.REDIS_INFO_CONNECTED_CLIENTS));
                 totalConnectionsReceived.setText(map.get(Constant.REDIS_INFO_TOTAL_CONNECTIONS_RECEIVED));
                 totalCommandsProcessed.setText(map.get(Constant.REDIS_INFO_TOTAL_COMMANDS_PROCESSED));
+                //信息集合表数据更新
+                infoTable.getItems().setAll(infos);
+                GuiUtil.adjustTableViewHeightPrecise(infoTable);
                 //趋势图数据更新
                 updateLineCharData(Double.parseDouble(map.get(Constant.REDIS_INFO_USED_MEMORY)),keyTotalSize);
             });
