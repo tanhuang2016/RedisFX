@@ -173,6 +173,7 @@ public class MainController extends BaseWindowController<Main> {
         currentClose.setText(language("main.file.close.current"));
         servers.setText(language("main.file.close"));
         serversCloseAll.setText(language("main.file.close.all"));
+        fileSettings.setText(language("main.file.setting"));
         exit.setText(language("main.file.exit"));
 
         edit.setText(language("main.edit"));
