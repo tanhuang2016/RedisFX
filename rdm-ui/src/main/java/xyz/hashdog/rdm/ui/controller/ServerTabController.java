@@ -4,6 +4,7 @@ import atlantafx.base.controls.CustomTextField;
 import atlantafx.base.theme.Styles;
 import atlantafx.base.theme.Tweaks;
 import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
@@ -960,7 +961,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     }
 
 
-
+    private boolean showReport;
 
     /**
      * 模糊搜索
@@ -980,7 +981,19 @@ public class ServerTabController extends BaseClientController<MainController> {
             if(DataUtil.isNotEmpty(searchText.getText())){
                 recentHistory.add(searchText.getText());
             }
+            if(!showReport){
+                showReport=true;
+                PauseTransition delay = new PauseTransition(Duration.millis(100));
+                delay.setOnFinished(event -> {
+                    Platform.runLater(() -> {
+                        report(null);
+                    });
+                });
+                delay.play();
+
+            }
         });
+
     }
 
     /**
@@ -1301,13 +1314,13 @@ public class ServerTabController extends BaseClientController<MainController> {
     }
 
     @FXML
-    public void report(ActionEvent actionEvent) throws IOException {
+    public void report(ActionEvent actionEvent)  {
         Tab tab=findTabByName(Constant.REPORT_TAB_NAME);
         if(tab!=null){
             this.dbTabPane.getSelectionModel().select(tab);
             return;
         }
-        Tuple2<ScrollPane,ConsoleController> tuple2 = loadClientFxml("/fxml/ReportView.fxml",PassParameter.REPORT);
+        Tuple2<ScrollPane,ReportController> tuple2 = loadClientFxml("/fxml/ReportView.fxml",PassParameter.REPORT);
         tab = new Tab(Constant.REPORT_TAB_NAME);
         tab.setGraphic(GuiUtil.creatInfoIcon());
         setTab(tab,tuple2);
@@ -1320,7 +1333,7 @@ public class ServerTabController extends BaseClientController<MainController> {
             this.dbTabPane.getSelectionModel().select(tab);
             return;
         }
-        Tuple2<AnchorPane,ConsoleController> tuple2 = loadClientFxml("/fxml/PubSubView.fxml",PassParameter.PUBSUB);
+        Tuple2<AnchorPane,PubSubController> tuple2 = loadClientFxml("/fxml/PubSubView.fxml",PassParameter.PUBSUB);
         tab = new Tab(Constant.PUBSUB_TAB_NAME);
         tab.setGraphic(GuiUtil.creatPubSubIcon());
         setTab(tab,tuple2);
