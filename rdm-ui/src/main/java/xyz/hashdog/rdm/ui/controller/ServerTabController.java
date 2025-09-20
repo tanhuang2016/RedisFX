@@ -199,7 +199,7 @@ public class ServerTabController extends BaseClientController<MainController> {
             }
             RadioMenuItem radioMenuItem = (RadioMenuItem) newValue;
             String tag = radioMenuItem.getText();
-            if(tag.equals("All Types")){
+            if("All Types".equals(tag)){
                 searchText.setPromptText("Search All Types");
                 search.getGraphic().getStyleClass().remove("tag-icon");
             }else {
