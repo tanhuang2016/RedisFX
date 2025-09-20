@@ -372,6 +372,10 @@ public class ServerTabController extends BaseClientController<MainController> {
             } else {
                 reset.setVisible(true);
                 reset.setManaged(true);
+                //触发自动搜索
+                if(!newValue.equals(oldValue)&&autoSearch.isSelected()){
+                    search(null);
+                }
             }
         });
         // 添加键盘事件监听,alt+down 显示历史搜索记录
