@@ -3,6 +3,8 @@ package xyz.hashdog.rdm.ui.controller;
 import atlantafx.base.controls.CustomTextField;
 import atlantafx.base.theme.Styles;
 import atlantafx.base.theme.Tweaks;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
@@ -20,6 +22,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
@@ -129,6 +132,12 @@ public class ServerTabController extends BaseClientController<MainController> {
     private final static int SCAN_COUNT = 500;
     private RedisKeyScanner scanner;
     private ToggleGroup searchTypeMenuGroup;
+
+    private static final int DEBOUNCE_DELAY_MILLIS = 500;
+    /**
+     * 防抖用的 Timeline
+     */
+    private final Timeline debounceTimeline = new Timeline();
 
 
     /**
@@ -363,6 +372,8 @@ public class ServerTabController extends BaseClientController<MainController> {
     }
 
 
+
+
     private void searchTextListener() {
         searchText.textProperty().addListener((observable, oldValue, newValue) -> {
             // 判断 TextField 是否为空
@@ -374,7 +385,18 @@ public class ServerTabController extends BaseClientController<MainController> {
                 reset.setManaged(true);
                 //触发自动搜索
                 if(!newValue.equals(oldValue)&&autoSearch.isSelected()){
-                    search(null);
+                    // 每次文本变化时，先停止之前的定时任务
+                    debounceTimeline.stop();
+                    // 设置新的任务，在延迟时间后执行搜索
+                    debounceTimeline.getKeyFrames().clear(); // 清除之前的 KeyFrame
+                    debounceTimeline.getKeyFrames().add(
+                            new KeyFrame(Duration.millis(DEBOUNCE_DELAY_MILLIS), event -> {
+                                // 在延迟结束后执行搜索
+                                search(null);
+                            })
+                    );
+                    // 启动新的定时任务
+                    debounceTimeline.playFromStart();
                 }
             }
         });
@@ -383,6 +405,13 @@ public class ServerTabController extends BaseClientController<MainController> {
             if (event.isAltDown() && event.getCode() == KeyCode.DOWN) {
                 showHistoryPopup();
                 // 阻止事件继续传播
+                event.consume();
+            }
+            if (event.getCode() == KeyCode.ENTER) {
+                // 停止任何待处理的自动搜索
+                debounceTimeline.stop();
+                // 立即执行搜索
+                search(null);
                 event.consume();
             }
         });
