@@ -27,9 +27,11 @@ import xyz.hashdog.rdm.ui.sampler.theme.ThemeManager;
 import xyz.hashdog.rdm.ui.util.GuiUtil;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public  class KeyTagPageController implements Initializable {
     public HBox tagLabels;
@@ -152,6 +154,8 @@ public  class KeyTagPageController implements Initializable {
         KeyTagSetting setting=new KeyTagSetting();
         setting.setTags(getTagTexts());
         setting.setColors(getTagColors());
+        setting.getTags().add(KeyTypeTagEnum.UNKNOWN.tag);
+        setting.getColors().add(KeyTypeTagEnum.UNKNOWN.color);
         Applications.putConfigSettings(setting.getName(),setting);
     }
 
@@ -160,13 +164,13 @@ public  class KeyTagPageController implements Initializable {
                 .map(node -> ((ColorPicker) node))
                 .map(ColorPicker::getValue)
                 .map(GuiUtil::color2hex)
-                .toList();
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     private List<String> getTagTexts() {
         return Arrays.stream(tagTexts.getChildren().toArray())
                 .map(node -> ((TextField) node))
                 .map(TextField::getText)
-                .toList();
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 }
