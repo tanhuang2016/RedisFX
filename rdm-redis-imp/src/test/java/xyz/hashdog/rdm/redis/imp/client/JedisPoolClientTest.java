@@ -8,8 +8,6 @@ import xyz.hashdog.rdm.common.util.FileUtil;
 import xyz.hashdog.rdm.common.util.GzipUtil;
 import xyz.hashdog.rdm.redis.RedisConfig;
 import xyz.hashdog.rdm.redis.client.RedisClient;
-import xyz.hashdog.rdm.redis.imp.Constant;
-import xyz.hashdog.rdm.redis.imp.Util;
 
 import java.io.IOException;
 import java.nio.charset.Charset;

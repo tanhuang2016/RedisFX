@@ -14,7 +14,7 @@ import xyz.hashdog.rdm.common.util.TUtil;
 import xyz.hashdog.rdm.redis.Message;
 import xyz.hashdog.rdm.redis.client.*;
 import xyz.hashdog.rdm.redis.exceptions.RedisException;
-import xyz.hashdog.rdm.redis.imp.Util;
+import xyz.hashdog.rdm.redis.imp.util.Util;
 import xyz.hashdog.rdm.redis.imp.console.RedisConsole;
 
 import java.util.*;

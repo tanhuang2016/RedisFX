@@ -7,7 +7,6 @@ import xyz.hashdog.rdm.redis.client.RedisClient;
 import xyz.hashdog.rdm.redis.RedisConfig;
 import xyz.hashdog.rdm.redis.client.RedisConsole;
 import xyz.hashdog.rdm.redis.RedisContext;
-import xyz.hashdog.rdm.redis.imp.Util;
 
 import java.util.List;
 

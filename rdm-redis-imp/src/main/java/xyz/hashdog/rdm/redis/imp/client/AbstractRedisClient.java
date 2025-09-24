@@ -19,7 +19,7 @@ import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.redis.client.RedisClient;
 import xyz.hashdog.rdm.redis.client.RedisMonitor;
 import xyz.hashdog.rdm.redis.client.RedisSubscriber;
-import xyz.hashdog.rdm.redis.imp.Util;
+import xyz.hashdog.rdm.redis.imp.util.Util;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

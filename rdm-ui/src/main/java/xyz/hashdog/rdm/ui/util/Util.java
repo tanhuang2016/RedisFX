@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author th
  */
-public class Util extends xyz.hashdog.rdm.redis.imp.Util {
+public class Util extends xyz.hashdog.rdm.redis.imp.util.Util {
     /**
      * 解析Redis的INFO命令输出
      * @param infoOutput INFO命令的输出结果

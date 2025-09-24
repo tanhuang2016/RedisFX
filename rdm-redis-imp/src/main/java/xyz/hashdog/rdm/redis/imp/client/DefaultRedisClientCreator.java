@@ -10,7 +10,7 @@ import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.redis.RedisConfig;
 import xyz.hashdog.rdm.redis.client.RedisClient;
 import xyz.hashdog.rdm.redis.imp.Constant;
-import xyz.hashdog.rdm.redis.imp.Util;
+import xyz.hashdog.rdm.redis.imp.util.Util;
 
 import javax.net.ssl.SSLSocketFactory;
 import java.util.HashSet;
