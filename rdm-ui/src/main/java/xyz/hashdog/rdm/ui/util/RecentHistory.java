@@ -3,6 +3,7 @@ package xyz.hashdog.rdm.ui.util;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.SequencedCollection;
 
 /**
  * 最近记录保存，用于搜索记录，打开最近连接等功能
@@ -14,19 +15,24 @@ import java.util.List;
 public class RecentHistory<T> {
 
     private final int size;
+    private final boolean distinct;
     /**
      * 最近记录
      */
-    private final LinkedHashSet<T> historySet;
+    private final SequencedCollection<T> historys;
     /**
      * 最近记录通知者
      */
     private final Noticer<T> noticer;
 
     public RecentHistory(int size, Noticer<T> noticer) {
+        this(size, noticer,true);
+    }
+    public RecentHistory(int size, Noticer<T> noticer,boolean distinct) {
         this.size = size;
         this.noticer = noticer;
-        historySet = new LinkedHashSet<>(size);
+        historys =  new ArrayList<>(size);
+        this.distinct = distinct;
     }
 
     /**
@@ -35,11 +41,13 @@ public class RecentHistory<T> {
      * @param add 添加一条最近记录
      */
     public void add(T add) {
-        historySet.remove(add);
-        if (historySet.size() >= size) {
-            historySet.removeLast();
+        if (distinct) {
+            historys.remove(add);
         }
-        historySet.addFirst(add);
+        if (historys.size() >= size) {
+            historys.removeLast();
+        }
+        historys.addFirst(add);
         //添加之后通知
         notice();
     }
@@ -55,7 +63,7 @@ public class RecentHistory<T> {
      * 清空最近记录
      */
     public void clear() {
-        historySet.clear();
+        historys.clear();
         notice();
     }
 
@@ -66,7 +74,7 @@ public class RecentHistory<T> {
      * @return 最近记录
      */
     public List<T> get() {
-        List<T> list = new ArrayList<>(historySet);
+        List<T> list = new ArrayList<>(historys);
         if (list.size() > size) {
             return list.subList(0, size);
         }
