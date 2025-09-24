@@ -1,22 +1,26 @@
 package xyz.hashdog.rdm.redis.imp.util;
 
 import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.util.*;
 
 public class RedisCommandHelpParser {
 
     public static void main(String[] args) throws IOException {
         //https://github.com/redis/redis-doc/blob/master/commands.json 用这个json解析命令
-        String file="C:\\Users\\Administrator\\Downloads\\original.json";
-        String file2="C:\\Users\\Administrator\\Downloads\\commands.json";
-        List<RedisCommandHelp> commands = RedisCommandHelpParser.parseCommands(new FileInputStream(file));
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String json = gson.toJson(commands);
-        try (FileWriter writer = new FileWriter(file2)) {
-            writer.write(json);
-        }
+//        String file="C:\\Users\\Administrator\\Downloads\\original.json";
+//        String file2="C:\\Users\\Administrator\\Downloads\\commands.json";
+//        List<RedisCommandHelp> commands = RedisCommandHelpParser.parseCommands(new FileInputStream(file));
+//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//        String json = gson.toJson(commands);
+//        try (FileWriter writer = new FileWriter(file2)) {
+//            writer.write(json);
+//        }
+
+        List<RedisCommandHelp> list =  parseCommands();
     }
     
     /**
@@ -134,5 +138,18 @@ public class RedisCommandHelpParser {
             return arg.get("name").getAsString();
         }
         return "arg";
+    }
+
+    public static List<RedisCommandHelp> parseCommands() {
+        InputStream inputStream = RedisCommandHelpParser.class.getResourceAsStream("/commands.json");
+        if (inputStream == null) {
+            return new ArrayList<>();
+        }
+        Gson gson = new Gson();
+        Type listType = new TypeToken<List<RedisCommandHelp>>(){}.getType();
+        List<RedisCommandHelp> commands = gson.fromJson(new InputStreamReader(inputStream), listType);
+        // 排序
+        commands.sort(Comparator.comparing(RedisCommandHelp::getName));
+        return commands;
     }
 }
