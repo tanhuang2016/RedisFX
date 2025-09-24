@@ -1,0 +1,2592 @@
+[
+  {
+    "name": "ACL",
+    "signature": "ACL",
+    "group": "server",
+    "summary": "A container for Access List Control commands.",
+    "arity": -2
+  },
+  {
+    "name": "ACL CAT",
+    "signature": "ACL CAT [category]",
+    "group": "server",
+    "summary": "Lists the ACL categories, or the commands inside a category.",
+    "arity": -2
+  },
+  {
+    "name": "ACL DELUSER",
+    "signature": "ACL DELUSER [username [username ...]]",
+    "group": "server",
+    "summary": "Deletes ACL users, and terminates their connections.",
+    "arity": -3
+  },
+  {
+    "name": "ACL DRYRUN",
+    "signature": "ACL DRYRUN [username] [command] [arg [arg ...]]",
+    "group": "server",
+    "summary": "Simulates the execution of a command by a user, without executing the command.",
+    "arity": -4
+  },
+  {
+    "name": "ACL GENPASS",
+    "signature": "ACL GENPASS [bits]",
+    "group": "server",
+    "summary": "Generates a pseudorandom, secure password that can be used to identify ACL users.",
+    "arity": -2
+  },
+  {
+    "name": "ACL GETUSER",
+    "signature": "ACL GETUSER [username]",
+    "group": "server",
+    "summary": "Lists the ACL rules of a user.",
+    "arity": 3
+  },
+  {
+    "name": "ACL HELP",
+    "signature": "ACL HELP",
+    "group": "server",
+    "summary": "Returns helpful text about the different subcommands.",
+    "arity": 2
+  },
+  {
+    "name": "ACL LIST",
+    "signature": "ACL LIST",
+    "group": "server",
+    "summary": "Dumps the effective rules in ACL file format.",
+    "arity": 2
+  },
+  {
+    "name": "ACL LOAD",
+    "signature": "ACL LOAD",
+    "group": "server",
+    "summary": "Reloads the rules from the configured ACL file.",
+    "arity": 2
+  },
+  {
+    "name": "ACL LOG",
+    "signature": "ACL LOG [operation]",
+    "group": "server",
+    "summary": "Lists recent security events generated due to ACL rules.",
+    "arity": -2
+  },
+  {
+    "name": "ACL SAVE",
+    "signature": "ACL SAVE",
+    "group": "server",
+    "summary": "Saves the effective ACL rules in the configured ACL file.",
+    "arity": 2
+  },
+  {
+    "name": "ACL SETUSER",
+    "signature": "ACL SETUSER [username] [rule [rule ...]]",
+    "group": "server",
+    "summary": "Creates and modifies an ACL user and its rules.",
+    "arity": -3
+  },
+  {
+    "name": "ACL USERS",
+    "signature": "ACL USERS",
+    "group": "server",
+    "summary": "Lists all ACL users.",
+    "arity": 2
+  },
+  {
+    "name": "ACL WHOAMI",
+    "signature": "ACL WHOAMI",
+    "group": "server",
+    "summary": "Returns the authenticated username of the current connection.",
+    "arity": 2
+  },
+  {
+    "name": "APPEND",
+    "signature": "APPEND [key] [value]",
+    "group": "string",
+    "summary": "Appends a string to the value of a key. Creates the key if it doesn\u0027t exist.",
+    "arity": 3
+  },
+  {
+    "name": "ASKING",
+    "signature": "ASKING",
+    "group": "cluster",
+    "summary": "Signals that a cluster client is following an -ASK redirect.",
+    "arity": 1
+  },
+  {
+    "name": "AUTH",
+    "signature": "AUTH [username] [password]",
+    "group": "connection",
+    "summary": "Authenticates the connection.",
+    "arity": -2
+  },
+  {
+    "name": "BGREWRITEAOF",
+    "signature": "BGREWRITEAOF",
+    "group": "server",
+    "summary": "Asynchronously rewrites the append-only file to disk.",
+    "arity": 1
+  },
+  {
+    "name": "BGSAVE",
+    "signature": "BGSAVE [schedule]",
+    "group": "server",
+    "summary": "Asynchronously saves the database(s) to disk.",
+    "arity": -1
+  },
+  {
+    "name": "BITCOUNT",
+    "signature": "BITCOUNT [key] [range]",
+    "group": "bitmap",
+    "summary": "Counts the number of set bits (population counting) in a string.",
+    "arity": -2
+  },
+  {
+    "name": "BITFIELD",
+    "signature": "BITFIELD [key] [operation [operation ...]]",
+    "group": "bitmap",
+    "summary": "Performs arbitrary bitfield integer operations on strings.",
+    "arity": -2
+  },
+  {
+    "name": "BITFIELD_RO",
+    "signature": "BITFIELD_RO [key] [get-block [get-block ...]]",
+    "group": "bitmap",
+    "summary": "Performs arbitrary read-only bitfield integer operations on strings.",
+    "arity": -2
+  },
+  {
+    "name": "BITOP",
+    "signature": "BITOP [operation] [destkey] [key [key ...]]",
+    "group": "bitmap",
+    "summary": "Performs bitwise operations on multiple strings, and stores the result.",
+    "arity": -4
+  },
+  {
+    "name": "BITPOS",
+    "signature": "BITPOS [key] [bit] [range]",
+    "group": "bitmap",
+    "summary": "Finds the first set (1) or clear (0) bit in a string.",
+    "arity": -3
+  },
+  {
+    "name": "BLMOVE",
+    "signature": "BLMOVE [source] [destination] [wherefrom] [whereto] [timeout]",
+    "group": "list",
+    "summary": "Pops an element from a list, pushes it to another list and returns it. Blocks until an element is available otherwise. Deletes the list if the last element was moved.",
+    "arity": 6
+  },
+  {
+    "name": "BLMPOP",
+    "signature": "BLMPOP [timeout] [numkeys] [key [key ...]] [where] [count]",
+    "group": "list",
+    "summary": "Pops the first element from one of multiple lists. Blocks until an element is available otherwise. Deletes the list if the last element was popped.",
+    "arity": -5
+  },
+  {
+    "name": "BLPOP",
+    "signature": "BLPOP [key [key ...]] [timeout]",
+    "group": "list",
+    "summary": "Removes and returns the first element in a list. Blocks until an element is available otherwise. Deletes the list if the last element was popped.",
+    "arity": -3
+  },
+  {
+    "name": "BRPOP",
+    "signature": "BRPOP [key [key ...]] [timeout]",
+    "group": "list",
+    "summary": "Removes and returns the last element in a list. Blocks until an element is available otherwise. Deletes the list if the last element was popped.",
+    "arity": -3
+  },
+  {
+    "name": "BRPOPLPUSH",
+    "signature": "BRPOPLPUSH [source] [destination] [timeout]",
+    "group": "list",
+    "summary": "Pops an element from a list, pushes it to another list and returns it. Block until an element is available otherwise. Deletes the list if the last element was popped.",
+    "arity": 4
+  },
+  {
+    "name": "BZMPOP",
+    "signature": "BZMPOP [timeout] [numkeys] [key [key ...]] [where] [count]",
+    "group": "sorted-set",
+    "summary": "Removes and returns a member by score from one or more sorted sets. Blocks until a member is available otherwise. Deletes the sorted set if the last element was popped.",
+    "arity": -5
+  },
+  {
+    "name": "BZPOPMAX",
+    "signature": "BZPOPMAX [key [key ...]] [timeout]",
+    "group": "sorted-set",
+    "summary": "Removes and returns the member with the highest score from one or more sorted sets. Blocks until a member available otherwise.  Deletes the sorted set if the last element was popped.",
+    "arity": -3
+  },
+  {
+    "name": "BZPOPMIN",
+    "signature": "BZPOPMIN [key [key ...]] [timeout]",
+    "group": "sorted-set",
+    "summary": "Removes and returns the member with the lowest score from one or more sorted sets. Blocks until a member is available otherwise. Deletes the sorted set if the last element was popped.",
+    "arity": -3
+  },
+  {
+    "name": "CLIENT",
+    "signature": "CLIENT",
+    "group": "connection",
+    "summary": "A container for client connection commands.",
+    "arity": -2
+  },
+  {
+    "name": "CLIENT CACHING",
+    "signature": "CLIENT CACHING [mode]",
+    "group": "connection",
+    "summary": "Instructs the server whether to track the keys in the next request.",
+    "arity": 3
+  },
+  {
+    "name": "CLIENT GETNAME",
+    "signature": "CLIENT GETNAME",
+    "group": "connection",
+    "summary": "Returns the name of the connection.",
+    "arity": 2
+  },
+  {
+    "name": "CLIENT GETREDIR",
+    "signature": "CLIENT GETREDIR",
+    "group": "connection",
+    "summary": "Returns the client ID to which the connection\u0027s tracking notifications are redirected.",
+    "arity": 2
+  },
+  {
+    "name": "CLIENT HELP",
+    "signature": "CLIENT HELP",
+    "group": "connection",
+    "summary": "Returns helpful text about the different subcommands.",
+    "arity": 2
+  },
+  {
+    "name": "CLIENT ID",
+    "signature": "CLIENT ID",
+    "group": "connection",
+    "summary": "Returns the unique client ID of the connection.",
+    "arity": 2
+  },
+  {
+    "name": "CLIENT INFO",
+    "signature": "CLIENT INFO",
+    "group": "connection",
+    "summary": "Returns information about the connection.",
+    "arity": 2
+  },
+  {
+    "name": "CLIENT KILL",
+    "signature": "CLIENT KILL [filter]",
+    "group": "connection",
+    "summary": "Terminates open connections.",
+    "arity": -3
+  },
+  {
+    "name": "CLIENT LIST",
+    "signature": "CLIENT LIST [client-type] [client-id [client-id ...]]",
+    "group": "connection",
+    "summary": "Lists open connections.",
+    "arity": -2
+  },
+  {
+    "name": "CLIENT NO-EVICT",
+    "signature": "CLIENT NO-EVICT [enabled]",
+    "group": "connection",
+    "summary": "Sets the client eviction mode of the connection.",
+    "arity": 3
+  },
+  {
+    "name": "CLIENT NO-TOUCH",
+    "signature": "CLIENT NO-TOUCH [enabled]",
+    "group": "connection",
+    "summary": "Controls whether commands sent by the client affect the LRU/LFU of accessed keys.",
+    "arity": 3
+  },
+  {
+    "name": "CLIENT PAUSE",
+    "signature": "CLIENT PAUSE [timeout] [mode]",
+    "group": "connection",
+    "summary": "Suspends commands processing.",
+    "arity": -3
+  },
+  {
+    "name": "CLIENT REPLY",
+    "signature": "CLIENT REPLY [action]",
+    "group": "connection",
+    "summary": "Instructs the server whether to reply to commands.",
+    "arity": 3
+  },
+  {
+    "name": "CLIENT SETINFO",
+    "signature": "CLIENT SETINFO [attr]",
+    "group": "connection",
+    "summary": "Sets information specific to the client or connection.",
+    "arity": 4
+  },
+  {
+    "name": "CLIENT SETNAME",
+    "signature": "CLIENT SETNAME [connection-name]",
+    "group": "connection",
+    "summary": "Sets the connection name.",
+    "arity": 3
+  },
+  {
+    "name": "CLIENT TRACKING",
+    "signature": "CLIENT TRACKING [status] [client-id] [prefix [prefix ...]] [bcast] [optin] [optout] [noloop]",
+    "group": "connection",
+    "summary": "Controls server-assisted client-side caching for the connection.",
+    "arity": -3
+  },
+  {
+    "name": "CLIENT TRACKINGINFO",
+    "signature": "CLIENT TRACKINGINFO",
+    "group": "connection",
+    "summary": "Returns information about server-assisted client-side caching for the connection.",
+    "arity": 2
+  },
+  {
+    "name": "CLIENT UNBLOCK",
+    "signature": "CLIENT UNBLOCK [client-id] [unblock-type]",
+    "group": "connection",
+    "summary": "Unblocks a client blocked by a blocking command from a different connection.",
+    "arity": -3
+  },
+  {
+    "name": "CLIENT UNPAUSE",
+    "signature": "CLIENT UNPAUSE",
+    "group": "connection",
+    "summary": "Resumes processing commands from paused clients.",
+    "arity": 2
+  },
+  {
+    "name": "CLUSTER",
+    "signature": "CLUSTER",
+    "group": "cluster",
+    "summary": "A container for Redis Cluster commands.",
+    "arity": -2
+  },
+  {
+    "name": "CLUSTER ADDSLOTS",
+    "signature": "CLUSTER ADDSLOTS [slot [slot ...]]",
+    "group": "cluster",
+    "summary": "Assigns new hash slots to a node.",
+    "arity": -3
+  },
+  {
+    "name": "CLUSTER ADDSLOTSRANGE",
+    "signature": "CLUSTER ADDSLOTSRANGE [range [range ...]]",
+    "group": "cluster",
+    "summary": "Assigns new hash slot ranges to a node.",
+    "arity": -4
+  },
+  {
+    "name": "CLUSTER BUMPEPOCH",
+    "signature": "CLUSTER BUMPEPOCH",
+    "group": "cluster",
+    "summary": "Advances the cluster config epoch.",
+    "arity": 2
+  },
+  {
+    "name": "CLUSTER COUNT-FAILURE-REPORTS",
+    "signature": "CLUSTER COUNT-FAILURE-REPORTS [node-id]",
+    "group": "cluster",
+    "summary": "Returns the number of active failure reports active for a node.",
+    "arity": 3
+  },
+  {
+    "name": "CLUSTER COUNTKEYSINSLOT",
+    "signature": "CLUSTER COUNTKEYSINSLOT [slot]",
+    "group": "cluster",
+    "summary": "Returns the number of keys in a hash slot.",
+    "arity": 3
+  },
+  {
+    "name": "CLUSTER DELSLOTS",
+    "signature": "CLUSTER DELSLOTS [slot [slot ...]]",
+    "group": "cluster",
+    "summary": "Sets hash slots as unbound for a node.",
+    "arity": -3
+  },
+  {
+    "name": "CLUSTER DELSLOTSRANGE",
+    "signature": "CLUSTER DELSLOTSRANGE [range [range ...]]",
+    "group": "cluster",
+    "summary": "Sets hash slot ranges as unbound for a node.",
+    "arity": -4
+  },
+  {
+    "name": "CLUSTER FAILOVER",
+    "signature": "CLUSTER FAILOVER [options]",
+    "group": "cluster",
+    "summary": "Forces a replica to perform a manual failover of its master.",
+    "arity": -2
+  },
+  {
+    "name": "CLUSTER FLUSHSLOTS",
+    "signature": "CLUSTER FLUSHSLOTS",
+    "group": "cluster",
+    "summary": "Deletes all slots information from a node.",
+    "arity": 2
+  },
+  {
+    "name": "CLUSTER FORGET",
+    "signature": "CLUSTER FORGET [node-id]",
+    "group": "cluster",
+    "summary": "Removes a node from the nodes table.",
+    "arity": 3
+  },
+  {
+    "name": "CLUSTER GETKEYSINSLOT",
+    "signature": "CLUSTER GETKEYSINSLOT [slot] [count]",
+    "group": "cluster",
+    "summary": "Returns the key names in a hash slot.",
+    "arity": 4
+  },
+  {
+    "name": "CLUSTER HELP",
+    "signature": "CLUSTER HELP",
+    "group": "cluster",
+    "summary": "Returns helpful text about the different subcommands.",
+    "arity": 2
+  },
+  {
+    "name": "CLUSTER INFO",
+    "signature": "CLUSTER INFO",
+    "group": "cluster",
+    "summary": "Returns information about the state of a node.",
+    "arity": 2
+  },
+  {
+    "name": "CLUSTER KEYSLOT",
+    "signature": "CLUSTER KEYSLOT [key]",
+    "group": "cluster",
+    "summary": "Returns the hash slot for a key.",
+    "arity": 3
+  },
+  {
+    "name": "CLUSTER LINKS",
+    "signature": "CLUSTER LINKS",
+    "group": "cluster",
+    "summary": "Returns a list of all TCP links to and from peer nodes.",
+    "arity": 2
+  },
+  {
+    "name": "CLUSTER MEET",
+    "signature": "CLUSTER MEET [ip] [port] [cluster-bus-port]",
+    "group": "cluster",
+    "summary": "Forces a node to handshake with another node.",
+    "arity": -4
+  },
+  {
+    "name": "CLUSTER MYID",
+    "signature": "CLUSTER MYID",
+    "group": "cluster",
+    "summary": "Returns the ID of a node.",
+    "arity": 2
+  },
+  {
+    "name": "CLUSTER MYSHARDID",
+    "signature": "CLUSTER MYSHARDID",
+    "group": "cluster",
+    "summary": "Returns the shard ID of a node.",
+    "arity": 2
+  },
+  {
+    "name": "CLUSTER NODES",
+    "signature": "CLUSTER NODES",
+    "group": "cluster",
+    "summary": "Returns the cluster configuration for a node.",
+    "arity": 2
+  },
+  {
+    "name": "CLUSTER REPLICAS",
+    "signature": "CLUSTER REPLICAS [node-id]",
+    "group": "cluster",
+    "summary": "Lists the replica nodes of a master node.",
+    "arity": 3
+  },
+  {
+    "name": "CLUSTER REPLICATE",
+    "signature": "CLUSTER REPLICATE [node-id]",
+    "group": "cluster",
+    "summary": "Configure a node as replica of a master node.",
+    "arity": 3
+  },
+  {
+    "name": "CLUSTER RESET",
+    "signature": "CLUSTER RESET [reset-type]",
+    "group": "cluster",
+    "summary": "Resets a node.",
+    "arity": -2
+  },
+  {
+    "name": "CLUSTER SAVECONFIG",
+    "signature": "CLUSTER SAVECONFIG",
+    "group": "cluster",
+    "summary": "Forces a node to save the cluster configuration to disk.",
+    "arity": 2
+  },
+  {
+    "name": "CLUSTER SET-CONFIG-EPOCH",
+    "signature": "CLUSTER SET-CONFIG-EPOCH [config-epoch]",
+    "group": "cluster",
+    "summary": "Sets the configuration epoch for a new node.",
+    "arity": 3
+  },
+  {
+    "name": "CLUSTER SETSLOT",
+    "signature": "CLUSTER SETSLOT [slot] [subcommand]",
+    "group": "cluster",
+    "summary": "Binds a hash slot to a node.",
+    "arity": -4
+  },
+  {
+    "name": "CLUSTER SHARDS",
+    "signature": "CLUSTER SHARDS",
+    "group": "cluster",
+    "summary": "Returns the mapping of cluster slots to shards.",
+    "arity": 2
+  },
+  {
+    "name": "CLUSTER SLAVES",
+    "signature": "CLUSTER SLAVES [node-id]",
+    "group": "cluster",
+    "summary": "Lists the replica nodes of a master node.",
+    "arity": 3
+  },
+  {
+    "name": "CLUSTER SLOTS",
+    "signature": "CLUSTER SLOTS",
+    "group": "cluster",
+    "summary": "Returns the mapping of cluster slots to nodes.",
+    "arity": 2
+  },
+  {
+    "name": "COMMAND",
+    "signature": "COMMAND",
+    "group": "server",
+    "summary": "Returns detailed information about all commands.",
+    "arity": -1
+  },
+  {
+    "name": "COMMAND COUNT",
+    "signature": "COMMAND COUNT",
+    "group": "server",
+    "summary": "Returns a count of commands.",
+    "arity": 2
+  },
+  {
+    "name": "COMMAND DOCS",
+    "signature": "COMMAND DOCS [command-name [command-name ...]]",
+    "group": "server",
+    "summary": "Returns documentary information about one, multiple or all commands.",
+    "arity": -2
+  },
+  {
+    "name": "COMMAND GETKEYS",
+    "signature": "COMMAND GETKEYS [command] [arg [arg ...]]",
+    "group": "server",
+    "summary": "Extracts the key names from an arbitrary command.",
+    "arity": -3
+  },
+  {
+    "name": "COMMAND GETKEYSANDFLAGS",
+    "signature": "COMMAND GETKEYSANDFLAGS [command] [arg [arg ...]]",
+    "group": "server",
+    "summary": "Extracts the key names and access flags for an arbitrary command.",
+    "arity": -3
+  },
+  {
+    "name": "COMMAND HELP",
+    "signature": "COMMAND HELP",
+    "group": "server",
+    "summary": "Returns helpful text about the different subcommands.",
+    "arity": 2
+  },
+  {
+    "name": "COMMAND INFO",
+    "signature": "COMMAND INFO [command-name [command-name ...]]",
+    "group": "server",
+    "summary": "Returns information about one, multiple or all commands.",
+    "arity": -2
+  },
+  {
+    "name": "COMMAND LIST",
+    "signature": "COMMAND LIST [filterby]",
+    "group": "server",
+    "summary": "Returns a list of command names.",
+    "arity": -2
+  },
+  {
+    "name": "CONFIG",
+    "signature": "CONFIG",
+    "group": "server",
+    "summary": "A container for server configuration commands.",
+    "arity": -2
+  },
+  {
+    "name": "CONFIG GET",
+    "signature": "CONFIG GET [parameter [parameter ...]]",
+    "group": "server",
+    "summary": "Returns the effective values of configuration parameters.",
+    "arity": -3
+  },
+  {
+    "name": "CONFIG HELP",
+    "signature": "CONFIG HELP",
+    "group": "server",
+    "summary": "Returns helpful text about the different subcommands.",
+    "arity": 2
+  },
+  {
+    "name": "CONFIG RESETSTAT",
+    "signature": "CONFIG RESETSTAT",
+    "group": "server",
+    "summary": "Resets the server\u0027s statistics.",
+    "arity": 2
+  },
+  {
+    "name": "CONFIG REWRITE",
+    "signature": "CONFIG REWRITE",
+    "group": "server",
+    "summary": "Persists the effective configuration to file.",
+    "arity": 2
+  },
+  {
+    "name": "CONFIG SET",
+    "signature": "CONFIG SET [data [data ...]]",
+    "group": "server",
+    "summary": "Sets configuration parameters in-flight.",
+    "arity": -4
+  },
+  {
+    "name": "COPY",
+    "signature": "COPY [source] [destination] [destination-db] [replace]",
+    "group": "generic",
+    "summary": "Copies the value of a key to a new key.",
+    "arity": -3
+  },
+  {
+    "name": "DBSIZE",
+    "signature": "DBSIZE",
+    "group": "server",
+    "summary": "Returns the number of keys in the database.",
+    "arity": 1
+  },
+  {
+    "name": "DEBUG",
+    "signature": "DEBUG",
+    "group": "server",
+    "summary": "A container for debugging commands.",
+    "arity": -2
+  },
+  {
+    "name": "DECR",
+    "signature": "DECR [key]",
+    "group": "string",
+    "summary": "Decrements the integer value of a key by one. Uses 0 as initial value if the key doesn\u0027t exist.",
+    "arity": 2
+  },
+  {
+    "name": "DECRBY",
+    "signature": "DECRBY [key] [decrement]",
+    "group": "string",
+    "summary": "Decrements a number from the integer value of a key. Uses 0 as initial value if the key doesn\u0027t exist.",
+    "arity": 3
+  },
+  {
+    "name": "DEL",
+    "signature": "DEL [key [key ...]]",
+    "group": "generic",
+    "summary": "Deletes one or more keys.",
+    "arity": -2
+  },
+  {
+    "name": "DISCARD",
+    "signature": "DISCARD",
+    "group": "transactions",
+    "summary": "Discards a transaction.",
+    "arity": 1
+  },
+  {
+    "name": "DUMP",
+    "signature": "DUMP [key]",
+    "group": "generic",
+    "summary": "Returns a serialized representation of the value stored at a key.",
+    "arity": 2
+  },
+  {
+    "name": "ECHO",
+    "signature": "ECHO [message]",
+    "group": "connection",
+    "summary": "Returns the given string.",
+    "arity": 2
+  },
+  {
+    "name": "EVAL",
+    "signature": "EVAL [script] [numkeys] [key [key ...]] [arg [arg ...]]",
+    "group": "scripting",
+    "summary": "Executes a server-side Lua script.",
+    "arity": -3
+  },
+  {
+    "name": "EVALSHA",
+    "signature": "EVALSHA [sha1] [numkeys] [key [key ...]] [arg [arg ...]]",
+    "group": "scripting",
+    "summary": "Executes a server-side Lua script by SHA1 digest.",
+    "arity": -3
+  },
+  {
+    "name": "EVALSHA_RO",
+    "signature": "EVALSHA_RO [sha1] [numkeys] [key [key ...]] [arg [arg ...]]",
+    "group": "scripting",
+    "summary": "Executes a read-only server-side Lua script by SHA1 digest.",
+    "arity": -3
+  },
+  {
+    "name": "EVAL_RO",
+    "signature": "EVAL_RO [script] [numkeys] [key [key ...]] [arg [arg ...]]",
+    "group": "scripting",
+    "summary": "Executes a read-only server-side Lua script.",
+    "arity": -3
+  },
+  {
+    "name": "EXEC",
+    "signature": "EXEC",
+    "group": "transactions",
+    "summary": "Executes all commands in a transaction.",
+    "arity": 1
+  },
+  {
+    "name": "EXISTS",
+    "signature": "EXISTS [key [key ...]]",
+    "group": "generic",
+    "summary": "Determines whether one or more keys exist.",
+    "arity": -2
+  },
+  {
+    "name": "EXPIRE",
+    "signature": "EXPIRE [key] [seconds] [condition]",
+    "group": "generic",
+    "summary": "Sets the expiration time of a key in seconds.",
+    "arity": -3
+  },
+  {
+    "name": "EXPIREAT",
+    "signature": "EXPIREAT [key] [unix-time-seconds] [condition]",
+    "group": "generic",
+    "summary": "Sets the expiration time of a key to a Unix timestamp.",
+    "arity": -3
+  },
+  {
+    "name": "EXPIRETIME",
+    "signature": "EXPIRETIME [key]",
+    "group": "generic",
+    "summary": "Returns the expiration time of a key as a Unix timestamp.",
+    "arity": 2
+  },
+  {
+    "name": "FAILOVER",
+    "signature": "FAILOVER [target] [abort] [milliseconds]",
+    "group": "server",
+    "summary": "Starts a coordinated failover from a server to one of its replicas.",
+    "arity": -1
+  },
+  {
+    "name": "FCALL",
+    "signature": "FCALL [function] [numkeys] [key [key ...]] [arg [arg ...]]",
+    "group": "scripting",
+    "summary": "Invokes a function.",
+    "arity": -3
+  },
+  {
+    "name": "FCALL_RO",
+    "signature": "FCALL_RO [function] [numkeys] [key [key ...]] [arg [arg ...]]",
+    "group": "scripting",
+    "summary": "Invokes a read-only function.",
+    "arity": -3
+  },
+  {
+    "name": "FLUSHALL",
+    "signature": "FLUSHALL [flush-type]",
+    "group": "server",
+    "summary": "Removes all keys from all databases.",
+    "arity": -1
+  },
+  {
+    "name": "FLUSHDB",
+    "signature": "FLUSHDB [flush-type]",
+    "group": "server",
+    "summary": "Remove all keys from the current database.",
+    "arity": -1
+  },
+  {
+    "name": "FUNCTION",
+    "signature": "FUNCTION",
+    "group": "scripting",
+    "summary": "A container for function commands.",
+    "arity": -2
+  },
+  {
+    "name": "FUNCTION DELETE",
+    "signature": "FUNCTION DELETE [library-name]",
+    "group": "scripting",
+    "summary": "Deletes a library and its functions.",
+    "arity": 3
+  },
+  {
+    "name": "FUNCTION DUMP",
+    "signature": "FUNCTION DUMP",
+    "group": "scripting",
+    "summary": "Dumps all libraries into a serialized binary payload.",
+    "arity": 2
+  },
+  {
+    "name": "FUNCTION FLUSH",
+    "signature": "FUNCTION FLUSH [flush-type]",
+    "group": "scripting",
+    "summary": "Deletes all libraries and functions.",
+    "arity": -2
+  },
+  {
+    "name": "FUNCTION HELP",
+    "signature": "FUNCTION HELP",
+    "group": "scripting",
+    "summary": "Returns helpful text about the different subcommands.",
+    "arity": 2
+  },
+  {
+    "name": "FUNCTION KILL",
+    "signature": "FUNCTION KILL",
+    "group": "scripting",
+    "summary": "Terminates a function during execution.",
+    "arity": 2
+  },
+  {
+    "name": "FUNCTION LIST",
+    "signature": "FUNCTION LIST [library-name-pattern] [withcode]",
+    "group": "scripting",
+    "summary": "Returns information about all libraries.",
+    "arity": -2
+  },
+  {
+    "name": "FUNCTION LOAD",
+    "signature": "FUNCTION LOAD [replace] [function-code]",
+    "group": "scripting",
+    "summary": "Creates a library.",
+    "arity": -3
+  },
+  {
+    "name": "FUNCTION RESTORE",
+    "signature": "FUNCTION RESTORE [serialized-value] [policy]",
+    "group": "scripting",
+    "summary": "Restores all libraries from a payload.",
+    "arity": -3
+  },
+  {
+    "name": "FUNCTION STATS",
+    "signature": "FUNCTION STATS",
+    "group": "scripting",
+    "summary": "Returns information about a function during execution.",
+    "arity": 2
+  },
+  {
+    "name": "GEOADD",
+    "signature": "GEOADD [key] [condition] [change] [data [data ...]]",
+    "group": "geo",
+    "summary": "Adds one or more members to a geospatial index. The key is created if it doesn\u0027t exist.",
+    "arity": -5
+  },
+  {
+    "name": "GEODIST",
+    "signature": "GEODIST [key] [member1] [member2] [unit]",
+    "group": "geo",
+    "summary": "Returns the distance between two members of a geospatial index.",
+    "arity": -4
+  },
+  {
+    "name": "GEOHASH",
+    "signature": "GEOHASH [key] [member [member ...]]",
+    "group": "geo",
+    "summary": "Returns members from a geospatial index as geohash strings.",
+    "arity": -2
+  },
+  {
+    "name": "GEOPOS",
+    "signature": "GEOPOS [key] [member [member ...]]",
+    "group": "geo",
+    "summary": "Returns the longitude and latitude of members from a geospatial index.",
+    "arity": -2
+  },
+  {
+    "name": "GEORADIUS",
+    "signature": "GEORADIUS [key] [longitude] [latitude] [radius] [unit] [withcoord] [withdist] [withhash] [count-block] [order] [store]",
+    "group": "geo",
+    "summary": "Queries a geospatial index for members within a distance from a coordinate, optionally stores the result.",
+    "arity": -6
+  },
+  {
+    "name": "GEORADIUSBYMEMBER",
+    "signature": "GEORADIUSBYMEMBER [key] [member] [radius] [unit] [withcoord] [withdist] [withhash] [count-block] [order] [store]",
+    "group": "geo",
+    "summary": "Queries a geospatial index for members within a distance from a member, optionally stores the result.",
+    "arity": -5
+  },
+  {
+    "name": "GEORADIUSBYMEMBER_RO",
+    "signature": "GEORADIUSBYMEMBER_RO [key] [member] [radius] [unit] [withcoord] [withdist] [withhash] [count-block] [order]",
+    "group": "geo",
+    "summary": "Returns members from a geospatial index that are within a distance from a member.",
+    "arity": -5
+  },
+  {
+    "name": "GEORADIUS_RO",
+    "signature": "GEORADIUS_RO [key] [longitude] [latitude] [radius] [unit] [withcoord] [withdist] [withhash] [count-block] [order]",
+    "group": "geo",
+    "summary": "Returns members from a geospatial index that are within a distance from a coordinate.",
+    "arity": -6
+  },
+  {
+    "name": "GEOSEARCH",
+    "signature": "GEOSEARCH [key] [from] [by] [order] [count-block] [withcoord] [withdist] [withhash]",
+    "group": "geo",
+    "summary": "Queries a geospatial index for members inside an area of a box or a circle.",
+    "arity": -7
+  },
+  {
+    "name": "GEOSEARCHSTORE",
+    "signature": "GEOSEARCHSTORE [destination] [source] [from] [by] [order] [count-block] [storedist]",
+    "group": "geo",
+    "summary": "Queries a geospatial index for members inside an area of a box or a circle, optionally stores the result.",
+    "arity": -8
+  },
+  {
+    "name": "GET",
+    "signature": "GET [key]",
+    "group": "string",
+    "summary": "Returns the string value of a key.",
+    "arity": 2
+  },
+  {
+    "name": "GETBIT",
+    "signature": "GETBIT [key] [offset]",
+    "group": "bitmap",
+    "summary": "Returns a bit value by offset.",
+    "arity": 3
+  },
+  {
+    "name": "GETDEL",
+    "signature": "GETDEL [key]",
+    "group": "string",
+    "summary": "Returns the string value of a key after deleting the key.",
+    "arity": 2
+  },
+  {
+    "name": "GETEX",
+    "signature": "GETEX [key] [expiration]",
+    "group": "string",
+    "summary": "Returns the string value of a key after setting its expiration time.",
+    "arity": -2
+  },
+  {
+    "name": "GETRANGE",
+    "signature": "GETRANGE [key] [start] [end]",
+    "group": "string",
+    "summary": "Returns a substring of the string stored at a key.",
+    "arity": 4
+  },
+  {
+    "name": "GETSET",
+    "signature": "GETSET [key] [value]",
+    "group": "string",
+    "summary": "Returns the previous string value of a key after setting it to a new value.",
+    "arity": 3
+  },
+  {
+    "name": "HDEL",
+    "signature": "HDEL [key] [field [field ...]]",
+    "group": "hash",
+    "summary": "Deletes one or more fields and their values from a hash. Deletes the hash if no fields remain.",
+    "arity": -3
+  },
+  {
+    "name": "HELLO",
+    "signature": "HELLO [arguments]",
+    "group": "connection",
+    "summary": "Handshakes with the Redis server.",
+    "arity": -1
+  },
+  {
+    "name": "HEXISTS",
+    "signature": "HEXISTS [key] [field]",
+    "group": "hash",
+    "summary": "Determines whether a field exists in a hash.",
+    "arity": 3
+  },
+  {
+    "name": "HGET",
+    "signature": "HGET [key] [field]",
+    "group": "hash",
+    "summary": "Returns the value of a field in a hash.",
+    "arity": 3
+  },
+  {
+    "name": "HGETALL",
+    "signature": "HGETALL [key]",
+    "group": "hash",
+    "summary": "Returns all fields and values in a hash.",
+    "arity": 2
+  },
+  {
+    "name": "HINCRBY",
+    "signature": "HINCRBY [key] [field] [increment]",
+    "group": "hash",
+    "summary": "Increments the integer value of a field in a hash by a number. Uses 0 as initial value if the field doesn\u0027t exist.",
+    "arity": 4
+  },
+  {
+    "name": "HINCRBYFLOAT",
+    "signature": "HINCRBYFLOAT [key] [field] [increment]",
+    "group": "hash",
+    "summary": "Increments the floating point value of a field by a number. Uses 0 as initial value if the field doesn\u0027t exist.",
+    "arity": 4
+  },
+  {
+    "name": "HKEYS",
+    "signature": "HKEYS [key]",
+    "group": "hash",
+    "summary": "Returns all fields in a hash.",
+    "arity": 2
+  },
+  {
+    "name": "HLEN",
+    "signature": "HLEN [key]",
+    "group": "hash",
+    "summary": "Returns the number of fields in a hash.",
+    "arity": 2
+  },
+  {
+    "name": "HMGET",
+    "signature": "HMGET [key] [field [field ...]]",
+    "group": "hash",
+    "summary": "Returns the values of all fields in a hash.",
+    "arity": -3
+  },
+  {
+    "name": "HMSET",
+    "signature": "HMSET [key] [data [data ...]]",
+    "group": "hash",
+    "summary": "Sets the values of multiple fields.",
+    "arity": -4
+  },
+  {
+    "name": "HRANDFIELD",
+    "signature": "HRANDFIELD [key] [options]",
+    "group": "hash",
+    "summary": "Returns one or more random fields from a hash.",
+    "arity": -2
+  },
+  {
+    "name": "HSCAN",
+    "signature": "HSCAN [key] [cursor] [pattern] [count]",
+    "group": "hash",
+    "summary": "Iterates over fields and values of a hash.",
+    "arity": -3
+  },
+  {
+    "name": "HSET",
+    "signature": "HSET [key] [data [data ...]]",
+    "group": "hash",
+    "summary": "Creates or modifies the value of a field in a hash.",
+    "arity": -4
+  },
+  {
+    "name": "HSETNX",
+    "signature": "HSETNX [key] [field] [value]",
+    "group": "hash",
+    "summary": "Sets the value of a field in a hash only when the field doesn\u0027t exist.",
+    "arity": 4
+  },
+  {
+    "name": "HSTRLEN",
+    "signature": "HSTRLEN [key] [field]",
+    "group": "hash",
+    "summary": "Returns the length of the value of a field.",
+    "arity": 3
+  },
+  {
+    "name": "HVALS",
+    "signature": "HVALS [key]",
+    "group": "hash",
+    "summary": "Returns all values in a hash.",
+    "arity": 2
+  },
+  {
+    "name": "INCR",
+    "signature": "INCR [key]",
+    "group": "string",
+    "summary": "Increments the integer value of a key by one. Uses 0 as initial value if the key doesn\u0027t exist.",
+    "arity": 2
+  },
+  {
+    "name": "INCRBY",
+    "signature": "INCRBY [key] [increment]",
+    "group": "string",
+    "summary": "Increments the integer value of a key by a number. Uses 0 as initial value if the key doesn\u0027t exist.",
+    "arity": 3
+  },
+  {
+    "name": "INCRBYFLOAT",
+    "signature": "INCRBYFLOAT [key] [increment]",
+    "group": "string",
+    "summary": "Increment the floating point value of a key by a number. Uses 0 as initial value if the key doesn\u0027t exist.",
+    "arity": 3
+  },
+  {
+    "name": "INFO",
+    "signature": "INFO [section [section ...]]",
+    "group": "server",
+    "summary": "Returns information and statistics about the server.",
+    "arity": -1
+  },
+  {
+    "name": "KEYS",
+    "signature": "KEYS [pattern]",
+    "group": "generic",
+    "summary": "Returns all key names that match a pattern.",
+    "arity": 2
+  },
+  {
+    "name": "LASTSAVE",
+    "signature": "LASTSAVE",
+    "group": "server",
+    "summary": "Returns the Unix timestamp of the last successful save to disk.",
+    "arity": 1
+  },
+  {
+    "name": "LATENCY",
+    "signature": "LATENCY",
+    "group": "server",
+    "summary": "A container for latency diagnostics commands.",
+    "arity": -2
+  },
+  {
+    "name": "LATENCY DOCTOR",
+    "signature": "LATENCY DOCTOR",
+    "group": "server",
+    "summary": "Returns a human-readable latency analysis report.",
+    "arity": 2
+  },
+  {
+    "name": "LATENCY GRAPH",
+    "signature": "LATENCY GRAPH [event]",
+    "group": "server",
+    "summary": "Returns a latency graph for an event.",
+    "arity": 3
+  },
+  {
+    "name": "LATENCY HELP",
+    "signature": "LATENCY HELP",
+    "group": "server",
+    "summary": "Returns helpful text about the different subcommands.",
+    "arity": 2
+  },
+  {
+    "name": "LATENCY HISTOGRAM",
+    "signature": "LATENCY HISTOGRAM [command [command ...]]",
+    "group": "server",
+    "summary": "Returns the cumulative distribution of latencies of a subset or all commands.",
+    "arity": -2
+  },
+  {
+    "name": "LATENCY HISTORY",
+    "signature": "LATENCY HISTORY [event]",
+    "group": "server",
+    "summary": "Returns timestamp-latency samples for an event.",
+    "arity": 3
+  },
+  {
+    "name": "LATENCY LATEST",
+    "signature": "LATENCY LATEST",
+    "group": "server",
+    "summary": "Returns the latest latency samples for all events.",
+    "arity": 2
+  },
+  {
+    "name": "LATENCY RESET",
+    "signature": "LATENCY RESET [event [event ...]]",
+    "group": "server",
+    "summary": "Resets the latency data for one or more events.",
+    "arity": -2
+  },
+  {
+    "name": "LCS",
+    "signature": "LCS [key1] [key2] [len] [idx] [min-match-len] [withmatchlen]",
+    "group": "string",
+    "summary": "Finds the longest common substring.",
+    "arity": -3
+  },
+  {
+    "name": "LINDEX",
+    "signature": "LINDEX [key] [index]",
+    "group": "list",
+    "summary": "Returns an element from a list by its index.",
+    "arity": 3
+  },
+  {
+    "name": "LINSERT",
+    "signature": "LINSERT [key] [where] [pivot] [element]",
+    "group": "list",
+    "summary": "Inserts an element before or after another element in a list.",
+    "arity": 5
+  },
+  {
+    "name": "LLEN",
+    "signature": "LLEN [key]",
+    "group": "list",
+    "summary": "Returns the length of a list.",
+    "arity": 2
+  },
+  {
+    "name": "LMOVE",
+    "signature": "LMOVE [source] [destination] [wherefrom] [whereto]",
+    "group": "list",
+    "summary": "Returns an element after popping it from one list and pushing it to another. Deletes the list if the last element was moved.",
+    "arity": 5
+  },
+  {
+    "name": "LMPOP",
+    "signature": "LMPOP [numkeys] [key [key ...]] [where] [count]",
+    "group": "list",
+    "summary": "Returns multiple elements from a list after removing them. Deletes the list if the last element was popped.",
+    "arity": -4
+  },
+  {
+    "name": "LOLWUT",
+    "signature": "LOLWUT [version]",
+    "group": "server",
+    "summary": "Displays computer art and the Redis version",
+    "arity": -1
+  },
+  {
+    "name": "LPOP",
+    "signature": "LPOP [key] [count]",
+    "group": "list",
+    "summary": "Returns the first elements in a list after removing it. Deletes the list if the last element was popped.",
+    "arity": -2
+  },
+  {
+    "name": "LPOS",
+    "signature": "LPOS [key] [element] [rank] [num-matches] [len]",
+    "group": "list",
+    "summary": "Returns the index of matching elements in a list.",
+    "arity": -3
+  },
+  {
+    "name": "LPUSH",
+    "signature": "LPUSH [key] [element [element ...]]",
+    "group": "list",
+    "summary": "Prepends one or more elements to a list. Creates the key if it doesn\u0027t exist.",
+    "arity": -3
+  },
+  {
+    "name": "LPUSHX",
+    "signature": "LPUSHX [key] [element [element ...]]",
+    "group": "list",
+    "summary": "Prepends one or more elements to a list only when the list exists.",
+    "arity": -3
+  },
+  {
+    "name": "LRANGE",
+    "signature": "LRANGE [key] [start] [stop]",
+    "group": "list",
+    "summary": "Returns a range of elements from a list.",
+    "arity": 4
+  },
+  {
+    "name": "LREM",
+    "signature": "LREM [key] [count] [element]",
+    "group": "list",
+    "summary": "Removes elements from a list. Deletes the list if the last element was removed.",
+    "arity": 4
+  },
+  {
+    "name": "LSET",
+    "signature": "LSET [key] [index] [element]",
+    "group": "list",
+    "summary": "Sets the value of an element in a list by its index.",
+    "arity": 4
+  },
+  {
+    "name": "LTRIM",
+    "signature": "LTRIM [key] [start] [stop]",
+    "group": "list",
+    "summary": "Removes elements from both ends a list. Deletes the list if all elements were trimmed.",
+    "arity": 4
+  },
+  {
+    "name": "MEMORY",
+    "signature": "MEMORY",
+    "group": "server",
+    "summary": "A container for memory diagnostics commands.",
+    "arity": -2
+  },
+  {
+    "name": "MEMORY DOCTOR",
+    "signature": "MEMORY DOCTOR",
+    "group": "server",
+    "summary": "Outputs a memory problems report.",
+    "arity": 2
+  },
+  {
+    "name": "MEMORY HELP",
+    "signature": "MEMORY HELP",
+    "group": "server",
+    "summary": "Returns helpful text about the different subcommands.",
+    "arity": 2
+  },
+  {
+    "name": "MEMORY MALLOC-STATS",
+    "signature": "MEMORY MALLOC-STATS",
+    "group": "server",
+    "summary": "Returns the allocator statistics.",
+    "arity": 2
+  },
+  {
+    "name": "MEMORY PURGE",
+    "signature": "MEMORY PURGE",
+    "group": "server",
+    "summary": "Asks the allocator to release memory.",
+    "arity": 2
+  },
+  {
+    "name": "MEMORY STATS",
+    "signature": "MEMORY STATS",
+    "group": "server",
+    "summary": "Returns details about memory usage.",
+    "arity": 2
+  },
+  {
+    "name": "MEMORY USAGE",
+    "signature": "MEMORY USAGE [key] [count]",
+    "group": "server",
+    "summary": "Estimates the memory usage of a key.",
+    "arity": -3
+  },
+  {
+    "name": "MGET",
+    "signature": "MGET [key [key ...]]",
+    "group": "string",
+    "summary": "Atomically returns the string values of one or more keys.",
+    "arity": -2
+  },
+  {
+    "name": "MIGRATE",
+    "signature": "MIGRATE [host] [port] [key-selector] [destination-db] [timeout] [copy] [replace] [authentication] [key [key ...]]",
+    "group": "generic",
+    "summary": "Atomically transfers a key from one Redis instance to another.",
+    "arity": -6
+  },
+  {
+    "name": "MODULE",
+    "signature": "MODULE",
+    "group": "server",
+    "summary": "A container for module commands.",
+    "arity": -2
+  },
+  {
+    "name": "MODULE HELP",
+    "signature": "MODULE HELP",
+    "group": "server",
+    "summary": "Returns helpful text about the different subcommands.",
+    "arity": 2
+  },
+  {
+    "name": "MODULE LIST",
+    "signature": "MODULE LIST",
+    "group": "server",
+    "summary": "Returns all loaded modules.",
+    "arity": 2
+  },
+  {
+    "name": "MODULE LOAD",
+    "signature": "MODULE LOAD [path] [arg [arg ...]]",
+    "group": "server",
+    "summary": "Loads a module.",
+    "arity": -3
+  },
+  {
+    "name": "MODULE LOADEX",
+    "signature": "MODULE LOADEX [path] [configs [configs ...]] [args [args ...]]",
+    "group": "server",
+    "summary": "Loads a module using extended parameters.",
+    "arity": -3
+  },
+  {
+    "name": "MODULE UNLOAD",
+    "signature": "MODULE UNLOAD [name]",
+    "group": "server",
+    "summary": "Unloads a module.",
+    "arity": 3
+  },
+  {
+    "name": "MONITOR",
+    "signature": "MONITOR",
+    "group": "server",
+    "summary": "Listens for all requests received by the server in real-time.",
+    "arity": 1
+  },
+  {
+    "name": "MOVE",
+    "signature": "MOVE [key] [db]",
+    "group": "generic",
+    "summary": "Moves a key to another database.",
+    "arity": 3
+  },
+  {
+    "name": "MSET",
+    "signature": "MSET [data [data ...]]",
+    "group": "string",
+    "summary": "Atomically creates or modifies the string values of one or more keys.",
+    "arity": -3
+  },
+  {
+    "name": "MSETNX",
+    "signature": "MSETNX [data [data ...]]",
+    "group": "string",
+    "summary": "Atomically modifies the string values of one or more keys only when all keys don\u0027t exist.",
+    "arity": -3
+  },
+  {
+    "name": "MULTI",
+    "signature": "MULTI",
+    "group": "transactions",
+    "summary": "Starts a transaction.",
+    "arity": 1
+  },
+  {
+    "name": "OBJECT",
+    "signature": "OBJECT",
+    "group": "generic",
+    "summary": "A container for object introspection commands.",
+    "arity": -2
+  },
+  {
+    "name": "OBJECT ENCODING",
+    "signature": "OBJECT ENCODING [key]",
+    "group": "generic",
+    "summary": "Returns the internal encoding of a Redis object.",
+    "arity": 3
+  },
+  {
+    "name": "OBJECT FREQ",
+    "signature": "OBJECT FREQ [key]",
+    "group": "generic",
+    "summary": "Returns the logarithmic access frequency counter of a Redis object.",
+    "arity": 3
+  },
+  {
+    "name": "OBJECT HELP",
+    "signature": "OBJECT HELP",
+    "group": "generic",
+    "summary": "Returns helpful text about the different subcommands.",
+    "arity": 2
+  },
+  {
+    "name": "OBJECT IDLETIME",
+    "signature": "OBJECT IDLETIME [key]",
+    "group": "generic",
+    "summary": "Returns the time since the last access to a Redis object.",
+    "arity": 3
+  },
+  {
+    "name": "OBJECT REFCOUNT",
+    "signature": "OBJECT REFCOUNT [key]",
+    "group": "generic",
+    "summary": "Returns the reference count of a value of a key.",
+    "arity": 3
+  },
+  {
+    "name": "PERSIST",
+    "signature": "PERSIST [key]",
+    "group": "generic",
+    "summary": "Removes the expiration time of a key.",
+    "arity": 2
+  },
+  {
+    "name": "PEXPIRE",
+    "signature": "PEXPIRE [key] [milliseconds] [condition]",
+    "group": "generic",
+    "summary": "Sets the expiration time of a key in milliseconds.",
+    "arity": -3
+  },
+  {
+    "name": "PEXPIREAT",
+    "signature": "PEXPIREAT [key] [unix-time-milliseconds] [condition]",
+    "group": "generic",
+    "summary": "Sets the expiration time of a key to a Unix milliseconds timestamp.",
+    "arity": -3
+  },
+  {
+    "name": "PEXPIRETIME",
+    "signature": "PEXPIRETIME [key]",
+    "group": "generic",
+    "summary": "Returns the expiration time of a key as a Unix milliseconds timestamp.",
+    "arity": 2
+  },
+  {
+    "name": "PFADD",
+    "signature": "PFADD [key] [element [element ...]]",
+    "group": "hyperloglog",
+    "summary": "Adds elements to a HyperLogLog key. Creates the key if it doesn\u0027t exist.",
+    "arity": -2
+  },
+  {
+    "name": "PFCOUNT",
+    "signature": "PFCOUNT [key [key ...]]",
+    "group": "hyperloglog",
+    "summary": "Returns the approximated cardinality of the set(s) observed by the HyperLogLog key(s).",
+    "arity": -2
+  },
+  {
+    "name": "PFDEBUG",
+    "signature": "PFDEBUG [subcommand] [key]",
+    "group": "hyperloglog",
+    "summary": "Internal commands for debugging HyperLogLog values.",
+    "arity": 3
+  },
+  {
+    "name": "PFMERGE",
+    "signature": "PFMERGE [destkey] [sourcekey [sourcekey ...]]",
+    "group": "hyperloglog",
+    "summary": "Merges one or more HyperLogLog values into a single key.",
+    "arity": -2
+  },
+  {
+    "name": "PFSELFTEST",
+    "signature": "PFSELFTEST",
+    "group": "hyperloglog",
+    "summary": "An internal command for testing HyperLogLog values.",
+    "arity": 1
+  },
+  {
+    "name": "PING",
+    "signature": "PING [message]",
+    "group": "connection",
+    "summary": "Returns the server\u0027s liveliness response.",
+    "arity": -1
+  },
+  {
+    "name": "PSETEX",
+    "signature": "PSETEX [key] [milliseconds] [value]",
+    "group": "string",
+    "summary": "Sets both string value and expiration time in milliseconds of a key. The key is created if it doesn\u0027t exist.",
+    "arity": 4
+  },
+  {
+    "name": "PSUBSCRIBE",
+    "signature": "PSUBSCRIBE [pattern [pattern ...]]",
+    "group": "pubsub",
+    "summary": "Listens for messages published to channels that match one or more patterns.",
+    "arity": -2
+  },
+  {
+    "name": "PSYNC",
+    "signature": "PSYNC [replicationid] [offset]",
+    "group": "server",
+    "summary": "An internal command used in replication.",
+    "arity": -3
+  },
+  {
+    "name": "PTTL",
+    "signature": "PTTL [key]",
+    "group": "generic",
+    "summary": "Returns the expiration time in milliseconds of a key.",
+    "arity": 2
+  },
+  {
+    "name": "PUBLISH",
+    "signature": "PUBLISH [channel] [message]",
+    "group": "pubsub",
+    "summary": "Posts a message to a channel.",
+    "arity": 3
+  },
+  {
+    "name": "PUBSUB",
+    "signature": "PUBSUB",
+    "group": "pubsub",
+    "summary": "A container for Pub/Sub commands.",
+    "arity": -2
+  },
+  {
+    "name": "PUBSUB CHANNELS",
+    "signature": "PUBSUB CHANNELS [pattern]",
+    "group": "pubsub",
+    "summary": "Returns the active channels.",
+    "arity": -2
+  },
+  {
+    "name": "PUBSUB HELP",
+    "signature": "PUBSUB HELP",
+    "group": "pubsub",
+    "summary": "Returns helpful text about the different subcommands.",
+    "arity": 2
+  },
+  {
+    "name": "PUBSUB NUMPAT",
+    "signature": "PUBSUB NUMPAT",
+    "group": "pubsub",
+    "summary": "Returns a count of unique pattern subscriptions.",
+    "arity": 2
+  },
+  {
+    "name": "PUBSUB NUMSUB",
+    "signature": "PUBSUB NUMSUB [channel [channel ...]]",
+    "group": "pubsub",
+    "summary": "Returns a count of subscribers to channels.",
+    "arity": -2
+  },
+  {
+    "name": "PUBSUB SHARDCHANNELS",
+    "signature": "PUBSUB SHARDCHANNELS [pattern]",
+    "group": "pubsub",
+    "summary": "Returns the active shard channels.",
+    "arity": -2
+  },
+  {
+    "name": "PUBSUB SHARDNUMSUB",
+    "signature": "PUBSUB SHARDNUMSUB [shardchannel [shardchannel ...]]",
+    "group": "pubsub",
+    "summary": "Returns the count of subscribers of shard channels.",
+    "arity": -2
+  },
+  {
+    "name": "PUNSUBSCRIBE",
+    "signature": "PUNSUBSCRIBE [pattern [pattern ...]]",
+    "group": "pubsub",
+    "summary": "Stops listening to messages published to channels that match one or more patterns.",
+    "arity": -1
+  },
+  {
+    "name": "QUIT",
+    "signature": "QUIT",
+    "group": "connection",
+    "summary": "Closes the connection.",
+    "arity": -1
+  },
+  {
+    "name": "RANDOMKEY",
+    "signature": "RANDOMKEY",
+    "group": "generic",
+    "summary": "Returns a random key name from the database.",
+    "arity": 1
+  },
+  {
+    "name": "READONLY",
+    "signature": "READONLY",
+    "group": "cluster",
+    "summary": "Enables read-only queries for a connection to a Redis Cluster replica node.",
+    "arity": 1
+  },
+  {
+    "name": "READWRITE",
+    "signature": "READWRITE",
+    "group": "cluster",
+    "summary": "Enables read-write queries for a connection to a Reids Cluster replica node.",
+    "arity": 1
+  },
+  {
+    "name": "RENAME",
+    "signature": "RENAME [key] [newkey]",
+    "group": "generic",
+    "summary": "Renames a key and overwrites the destination.",
+    "arity": 3
+  },
+  {
+    "name": "RENAMENX",
+    "signature": "RENAMENX [key] [newkey]",
+    "group": "generic",
+    "summary": "Renames a key only when the target key name doesn\u0027t exist.",
+    "arity": 3
+  },
+  {
+    "name": "REPLCONF",
+    "signature": "REPLCONF",
+    "group": "server",
+    "summary": "An internal command for configuring the replication stream.",
+    "arity": -1
+  },
+  {
+    "name": "REPLICAOF",
+    "signature": "REPLICAOF [args]",
+    "group": "server",
+    "summary": "Configures a server as replica of another, or promotes it to a master.",
+    "arity": 3
+  },
+  {
+    "name": "RESET",
+    "signature": "RESET",
+    "group": "connection",
+    "summary": "Resets the connection.",
+    "arity": 1
+  },
+  {
+    "name": "RESTORE",
+    "signature": "RESTORE [key] [ttl] [serialized-value] [replace] [absttl] [seconds] [frequency]",
+    "group": "generic",
+    "summary": "Creates a key from the serialized representation of a value.",
+    "arity": -4
+  },
+  {
+    "name": "RESTORE-ASKING",
+    "signature": "RESTORE-ASKING [key] [ttl] [serialized-value] [replace] [absttl] [seconds] [frequency]",
+    "group": "server",
+    "summary": "An internal command for migrating keys in a cluster.",
+    "arity": -4
+  },
+  {
+    "name": "ROLE",
+    "signature": "ROLE",
+    "group": "server",
+    "summary": "Returns the replication role.",
+    "arity": 1
+  },
+  {
+    "name": "RPOP",
+    "signature": "RPOP [key] [count]",
+    "group": "list",
+    "summary": "Returns and removes the last elements of a list. Deletes the list if the last element was popped.",
+    "arity": -2
+  },
+  {
+    "name": "RPOPLPUSH",
+    "signature": "RPOPLPUSH [source] [destination]",
+    "group": "list",
+    "summary": "Returns the last element of a list after removing and pushing it to another list. Deletes the list if the last element was popped.",
+    "arity": 3
+  },
+  {
+    "name": "RPUSH",
+    "signature": "RPUSH [key] [element [element ...]]",
+    "group": "list",
+    "summary": "Appends one or more elements to a list. Creates the key if it doesn\u0027t exist.",
+    "arity": -3
+  },
+  {
+    "name": "RPUSHX",
+    "signature": "RPUSHX [key] [element [element ...]]",
+    "group": "list",
+    "summary": "Appends an element to a list only when the list exists.",
+    "arity": -3
+  },
+  {
+    "name": "SADD",
+    "signature": "SADD [key] [member [member ...]]",
+    "group": "set",
+    "summary": "Adds one or more members to a set. Creates the key if it doesn\u0027t exist.",
+    "arity": -3
+  },
+  {
+    "name": "SAVE",
+    "signature": "SAVE",
+    "group": "server",
+    "summary": "Synchronously saves the database(s) to disk.",
+    "arity": 1
+  },
+  {
+    "name": "SCAN",
+    "signature": "SCAN [cursor] [pattern] [count] [type]",
+    "group": "generic",
+    "summary": "Iterates over the key names in the database.",
+    "arity": -2
+  },
+  {
+    "name": "SCARD",
+    "signature": "SCARD [key]",
+    "group": "set",
+    "summary": "Returns the number of members in a set.",
+    "arity": 2
+  },
+  {
+    "name": "SCRIPT",
+    "signature": "SCRIPT",
+    "group": "scripting",
+    "summary": "A container for Lua scripts management commands.",
+    "arity": -2
+  },
+  {
+    "name": "SCRIPT DEBUG",
+    "signature": "SCRIPT DEBUG [mode]",
+    "group": "scripting",
+    "summary": "Sets the debug mode of server-side Lua scripts.",
+    "arity": 3
+  },
+  {
+    "name": "SCRIPT EXISTS",
+    "signature": "SCRIPT EXISTS [sha1 [sha1 ...]]",
+    "group": "scripting",
+    "summary": "Determines whether server-side Lua scripts exist in the script cache.",
+    "arity": -3
+  },
+  {
+    "name": "SCRIPT FLUSH",
+    "signature": "SCRIPT FLUSH [flush-type]",
+    "group": "scripting",
+    "summary": "Removes all server-side Lua scripts from the script cache.",
+    "arity": -2
+  },
+  {
+    "name": "SCRIPT HELP",
+    "signature": "SCRIPT HELP",
+    "group": "scripting",
+    "summary": "Returns helpful text about the different subcommands.",
+    "arity": 2
+  },
+  {
+    "name": "SCRIPT KILL",
+    "signature": "SCRIPT KILL",
+    "group": "scripting",
+    "summary": "Terminates a server-side Lua script during execution.",
+    "arity": 2
+  },
+  {
+    "name": "SCRIPT LOAD",
+    "signature": "SCRIPT LOAD [script]",
+    "group": "scripting",
+    "summary": "Loads a server-side Lua script to the script cache.",
+    "arity": 3
+  },
+  {
+    "name": "SDIFF",
+    "signature": "SDIFF [key [key ...]]",
+    "group": "set",
+    "summary": "Returns the difference of multiple sets.",
+    "arity": -2
+  },
+  {
+    "name": "SDIFFSTORE",
+    "signature": "SDIFFSTORE [destination] [key [key ...]]",
+    "group": "set",
+    "summary": "Stores the difference of multiple sets in a key.",
+    "arity": -3
+  },
+  {
+    "name": "SELECT",
+    "signature": "SELECT [index]",
+    "group": "connection",
+    "summary": "Changes the selected database.",
+    "arity": 2
+  },
+  {
+    "name": "SET",
+    "signature": "SET [key] [value] [condition] [get] [expiration]",
+    "group": "string",
+    "summary": "Sets the string value of a key, ignoring its type. The key is created if it doesn\u0027t exist.",
+    "arity": -3
+  },
+  {
+    "name": "SETBIT",
+    "signature": "SETBIT [key] [offset] [value]",
+    "group": "bitmap",
+    "summary": "Sets or clears the bit at offset of the string value. Creates the key if it doesn\u0027t exist.",
+    "arity": 4
+  },
+  {
+    "name": "SETEX",
+    "signature": "SETEX [key] [seconds] [value]",
+    "group": "string",
+    "summary": "Sets the string value and expiration time of a key. Creates the key if it doesn\u0027t exist.",
+    "arity": 4
+  },
+  {
+    "name": "SETNX",
+    "signature": "SETNX [key] [value]",
+    "group": "string",
+    "summary": "Set the string value of a key only when the key doesn\u0027t exist.",
+    "arity": 3
+  },
+  {
+    "name": "SETRANGE",
+    "signature": "SETRANGE [key] [offset] [value]",
+    "group": "string",
+    "summary": "Overwrites a part of a string value with another by an offset. Creates the key if it doesn\u0027t exist.",
+    "arity": 4
+  },
+  {
+    "name": "SHUTDOWN",
+    "signature": "SHUTDOWN [save-selector] [now] [force] [abort]",
+    "group": "server",
+    "summary": "Synchronously saves the database(s) to disk and shuts down the Redis server.",
+    "arity": -1
+  },
+  {
+    "name": "SINTER",
+    "signature": "SINTER [key [key ...]]",
+    "group": "set",
+    "summary": "Returns the intersect of multiple sets.",
+    "arity": -2
+  },
+  {
+    "name": "SINTERCARD",
+    "signature": "SINTERCARD [numkeys] [key [key ...]] [limit]",
+    "group": "set",
+    "summary": "Returns the number of members of the intersect of multiple sets.",
+    "arity": -3
+  },
+  {
+    "name": "SINTERSTORE",
+    "signature": "SINTERSTORE [destination] [key [key ...]]",
+    "group": "set",
+    "summary": "Stores the intersect of multiple sets in a key.",
+    "arity": -3
+  },
+  {
+    "name": "SISMEMBER",
+    "signature": "SISMEMBER [key] [member]",
+    "group": "set",
+    "summary": "Determines whether a member belongs to a set.",
+    "arity": 3
+  },
+  {
+    "name": "SLAVEOF",
+    "signature": "SLAVEOF [args]",
+    "group": "server",
+    "summary": "Sets a Redis server as a replica of another, or promotes it to being a master.",
+    "arity": 3
+  },
+  {
+    "name": "SLOWLOG",
+    "signature": "SLOWLOG",
+    "group": "server",
+    "summary": "A container for slow log commands.",
+    "arity": -2
+  },
+  {
+    "name": "SLOWLOG GET",
+    "signature": "SLOWLOG GET [count]",
+    "group": "server",
+    "summary": "Returns the slow log\u0027s entries.",
+    "arity": -2
+  },
+  {
+    "name": "SLOWLOG HELP",
+    "signature": "SLOWLOG HELP",
+    "group": "server",
+    "summary": "Show helpful text about the different subcommands",
+    "arity": 2
+  },
+  {
+    "name": "SLOWLOG LEN",
+    "signature": "SLOWLOG LEN",
+    "group": "server",
+    "summary": "Returns the number of entries in the slow log.",
+    "arity": 2
+  },
+  {
+    "name": "SLOWLOG RESET",
+    "signature": "SLOWLOG RESET",
+    "group": "server",
+    "summary": "Clears all entries from the slow log.",
+    "arity": 2
+  },
+  {
+    "name": "SMEMBERS",
+    "signature": "SMEMBERS [key]",
+    "group": "set",
+    "summary": "Returns all members of a set.",
+    "arity": 2
+  },
+  {
+    "name": "SMISMEMBER",
+    "signature": "SMISMEMBER [key] [member [member ...]]",
+    "group": "set",
+    "summary": "Determines whether multiple members belong to a set.",
+    "arity": -3
+  },
+  {
+    "name": "SMOVE",
+    "signature": "SMOVE [source] [destination] [member]",
+    "group": "set",
+    "summary": "Moves a member from one set to another.",
+    "arity": 4
+  },
+  {
+    "name": "SORT",
+    "signature": "SORT [key] [pattern] [limit] [pattern [pattern ...]] [order] [sorting] [destination]",
+    "group": "generic",
+    "summary": "Sorts the elements in a list, a set, or a sorted set, optionally storing the result.",
+    "arity": -2
+  },
+  {
+    "name": "SORT_RO",
+    "signature": "SORT_RO [key] [pattern] [limit] [pattern [pattern ...]] [order] [sorting]",
+    "group": "generic",
+    "summary": "Returns the sorted elements of a list, a set, or a sorted set.",
+    "arity": -2
+  },
+  {
+    "name": "SPOP",
+    "signature": "SPOP [key] [count]",
+    "group": "set",
+    "summary": "Returns one or more random members from a set after removing them. Deletes the set if the last member was popped.",
+    "arity": -2
+  },
+  {
+    "name": "SPUBLISH",
+    "signature": "SPUBLISH [shardchannel] [message]",
+    "group": "pubsub",
+    "summary": "Post a message to a shard channel",
+    "arity": 3
+  },
+  {
+    "name": "SRANDMEMBER",
+    "signature": "SRANDMEMBER [key] [count]",
+    "group": "set",
+    "summary": "Get one or multiple random members from a set",
+    "arity": -2
+  },
+  {
+    "name": "SREM",
+    "signature": "SREM [key] [member [member ...]]",
+    "group": "set",
+    "summary": "Removes one or more members from a set. Deletes the set if the last member was removed.",
+    "arity": -3
+  },
+  {
+    "name": "SSCAN",
+    "signature": "SSCAN [key] [cursor] [pattern] [count]",
+    "group": "set",
+    "summary": "Iterates over members of a set.",
+    "arity": -3
+  },
+  {
+    "name": "SSUBSCRIBE",
+    "signature": "SSUBSCRIBE [shardchannel [shardchannel ...]]",
+    "group": "pubsub",
+    "summary": "Listens for messages published to shard channels.",
+    "arity": -2
+  },
+  {
+    "name": "STRLEN",
+    "signature": "STRLEN [key]",
+    "group": "string",
+    "summary": "Returns the length of a string value.",
+    "arity": 2
+  },
+  {
+    "name": "SUBSCRIBE",
+    "signature": "SUBSCRIBE [channel [channel ...]]",
+    "group": "pubsub",
+    "summary": "Listens for messages published to channels.",
+    "arity": -2
+  },
+  {
+    "name": "SUBSTR",
+    "signature": "SUBSTR [key] [start] [end]",
+    "group": "string",
+    "summary": "Returns a substring from a string value.",
+    "arity": 4
+  },
+  {
+    "name": "SUNION",
+    "signature": "SUNION [key [key ...]]",
+    "group": "set",
+    "summary": "Returns the union of multiple sets.",
+    "arity": -2
+  },
+  {
+    "name": "SUNIONSTORE",
+    "signature": "SUNIONSTORE [destination] [key [key ...]]",
+    "group": "set",
+    "summary": "Stores the union of multiple sets in a key.",
+    "arity": -3
+  },
+  {
+    "name": "SUNSUBSCRIBE",
+    "signature": "SUNSUBSCRIBE [shardchannel [shardchannel ...]]",
+    "group": "pubsub",
+    "summary": "Stops listening to messages posted to shard channels.",
+    "arity": -1
+  },
+  {
+    "name": "SWAPDB",
+    "signature": "SWAPDB [index1] [index2]",
+    "group": "server",
+    "summary": "Swaps two Redis databases.",
+    "arity": 3
+  },
+  {
+    "name": "SYNC",
+    "signature": "SYNC",
+    "group": "server",
+    "summary": "An internal command used in replication.",
+    "arity": 1
+  },
+  {
+    "name": "TIME",
+    "signature": "TIME",
+    "group": "server",
+    "summary": "Returns the server time.",
+    "arity": 1
+  },
+  {
+    "name": "TOUCH",
+    "signature": "TOUCH [key [key ...]]",
+    "group": "generic",
+    "summary": "Returns the number of existing keys out of those specified after updating the time they were last accessed.",
+    "arity": -2
+  },
+  {
+    "name": "TTL",
+    "signature": "TTL [key]",
+    "group": "generic",
+    "summary": "Returns the expiration time in seconds of a key.",
+    "arity": 2
+  },
+  {
+    "name": "TYPE",
+    "signature": "TYPE [key]",
+    "group": "generic",
+    "summary": "Determines the type of value stored at a key.",
+    "arity": 2
+  },
+  {
+    "name": "UNLINK",
+    "signature": "UNLINK [key [key ...]]",
+    "group": "generic",
+    "summary": "Asynchronously deletes one or more keys.",
+    "arity": -2
+  },
+  {
+    "name": "UNSUBSCRIBE",
+    "signature": "UNSUBSCRIBE [channel [channel ...]]",
+    "group": "pubsub",
+    "summary": "Stops listening to messages posted to channels.",
+    "arity": -1
+  },
+  {
+    "name": "UNWATCH",
+    "signature": "UNWATCH",
+    "group": "transactions",
+    "summary": "Forgets about watched keys of a transaction.",
+    "arity": 1
+  },
+  {
+    "name": "WAIT",
+    "signature": "WAIT [numreplicas] [timeout]",
+    "group": "generic",
+    "summary": "Blocks until the asynchronous replication of all preceding write commands sent by the connection is completed.",
+    "arity": 3
+  },
+  {
+    "name": "WAITAOF",
+    "signature": "WAITAOF [numlocal] [numreplicas] [timeout]",
+    "group": "generic",
+    "summary": "Blocks until all of the preceding write commands sent by the connection are written to the append-only file of the master and/or replicas.",
+    "arity": 4
+  },
+  {
+    "name": "WATCH",
+    "signature": "WATCH [key [key ...]]",
+    "group": "transactions",
+    "summary": "Monitors changes to keys to determine the execution of a transaction.",
+    "arity": -2
+  },
+  {
+    "name": "XACK",
+    "signature": "XACK [key] [group] [id [id ...]]",
+    "group": "stream",
+    "summary": "Returns the number of messages that were successfully acknowledged by the consumer group member of a stream.",
+    "arity": -4
+  },
+  {
+    "name": "XADD",
+    "signature": "XADD [key] [nomkstream] [trim] [id-selector] [data [data ...]]",
+    "group": "stream",
+    "summary": "Appends a new message to a stream. Creates the key if it doesn\u0027t exist.",
+    "arity": -5
+  },
+  {
+    "name": "XAUTOCLAIM",
+    "signature": "XAUTOCLAIM [key] [group] [consumer] [min-idle-time] [start] [count] [justid]",
+    "group": "stream",
+    "summary": "Changes, or acquires, ownership of messages in a consumer group, as if the messages were delivered to as consumer group member.",
+    "arity": -6
+  },
+  {
+    "name": "XCLAIM",
+    "signature": "XCLAIM [key] [group] [consumer] [min-idle-time] [id [id ...]] [ms] [unix-time-milliseconds] [count] [force] [justid] [lastid]",
+    "group": "stream",
+    "summary": "Changes, or acquires, ownership of a message in a consumer group, as if the message was delivered a consumer group member.",
+    "arity": -6
+  },
+  {
+    "name": "XDEL",
+    "signature": "XDEL [key] [id [id ...]]",
+    "group": "stream",
+    "summary": "Returns the number of messages after removing them from a stream.",
+    "arity": -3
+  },
+  {
+    "name": "XGROUP",
+    "signature": "XGROUP",
+    "group": "stream",
+    "summary": "A container for consumer groups commands.",
+    "arity": -2
+  },
+  {
+    "name": "XGROUP CREATE",
+    "signature": "XGROUP CREATE [key] [group] [id-selector] [mkstream] [entries-read]",
+    "group": "stream",
+    "summary": "Creates a consumer group.",
+    "arity": -5
+  },
+  {
+    "name": "XGROUP CREATECONSUMER",
+    "signature": "XGROUP CREATECONSUMER [key] [group] [consumer]",
+    "group": "stream",
+    "summary": "Creates a consumer in a consumer group.",
+    "arity": 5
+  },
+  {
+    "name": "XGROUP DELCONSUMER",
+    "signature": "XGROUP DELCONSUMER [key] [group] [consumer]",
+    "group": "stream",
+    "summary": "Deletes a consumer from a consumer group.",
+    "arity": 5
+  },
+  {
+    "name": "XGROUP DESTROY",
+    "signature": "XGROUP DESTROY [key] [group]",
+    "group": "stream",
+    "summary": "Destroys a consumer group.",
+    "arity": 4
+  },
+  {
+    "name": "XGROUP HELP",
+    "signature": "XGROUP HELP",
+    "group": "stream",
+    "summary": "Returns helpful text about the different subcommands.",
+    "arity": 2
+  },
+  {
+    "name": "XGROUP SETID",
+    "signature": "XGROUP SETID [key] [group] [id-selector] [entries-read]",
+    "group": "stream",
+    "summary": "Sets the last-delivered ID of a consumer group.",
+    "arity": -5
+  },
+  {
+    "name": "XINFO",
+    "signature": "XINFO",
+    "group": "stream",
+    "summary": "A container for stream introspection commands.",
+    "arity": -2
+  },
+  {
+    "name": "XINFO CONSUMERS",
+    "signature": "XINFO CONSUMERS [key] [group]",
+    "group": "stream",
+    "summary": "Returns a list of the consumers in a consumer group.",
+    "arity": 4
+  },
+  {
+    "name": "XINFO GROUPS",
+    "signature": "XINFO GROUPS [key]",
+    "group": "stream",
+    "summary": "Returns a list of the consumer groups of a stream.",
+    "arity": 3
+  },
+  {
+    "name": "XINFO HELP",
+    "signature": "XINFO HELP",
+    "group": "stream",
+    "summary": "Returns helpful text about the different subcommands.",
+    "arity": 2
+  },
+  {
+    "name": "XINFO STREAM",
+    "signature": "XINFO STREAM [key] [full-block]",
+    "group": "stream",
+    "summary": "Returns information about a stream.",
+    "arity": -3
+  },
+  {
+    "name": "XLEN",
+    "signature": "XLEN [key]",
+    "group": "stream",
+    "summary": "Return the number of messages in a stream.",
+    "arity": 2
+  },
+  {
+    "name": "XPENDING",
+    "signature": "XPENDING [key] [group] [filters]",
+    "group": "stream",
+    "summary": "Returns the information and entries from a stream consumer group\u0027s pending entries list.",
+    "arity": -3
+  },
+  {
+    "name": "XRANGE",
+    "signature": "XRANGE [key] [start] [end] [count]",
+    "group": "stream",
+    "summary": "Returns the messages from a stream within a range of IDs.",
+    "arity": -4
+  },
+  {
+    "name": "XREAD",
+    "signature": "XREAD [count] [milliseconds] [streams]",
+    "group": "stream",
+    "summary": "Returns messages from multiple streams with IDs greater than the ones requested. Blocks until a message is available otherwise.",
+    "arity": -4
+  },
+  {
+    "name": "XREADGROUP",
+    "signature": "XREADGROUP [group-block] [count] [milliseconds] [noack] [streams]",
+    "group": "stream",
+    "summary": "Returns new or historical messages from a stream for a consumer in a group. Blocks until a message is available otherwise.",
+    "arity": -7
+  },
+  {
+    "name": "XREVRANGE",
+    "signature": "XREVRANGE [key] [end] [start] [count]",
+    "group": "stream",
+    "summary": "Returns the messages from a stream within a range of IDs in reverse order.",
+    "arity": -4
+  },
+  {
+    "name": "XSETID",
+    "signature": "XSETID [key] [last-id] [entries-added] [max-deleted-id]",
+    "group": "stream",
+    "summary": "An internal command for replicating stream values.",
+    "arity": -3
+  },
+  {
+    "name": "XTRIM",
+    "signature": "XTRIM [key] [trim]",
+    "group": "stream",
+    "summary": "Deletes messages from the beginning of a stream.",
+    "arity": -4
+  },
+  {
+    "name": "ZADD",
+    "signature": "ZADD [key] [condition] [comparison] [change] [increment] [data [data ...]]",
+    "group": "sorted-set",
+    "summary": "Adds one or more members to a sorted set, or updates their scores. Creates the key if it doesn\u0027t exist.",
+    "arity": -4
+  },
+  {
+    "name": "ZCARD",
+    "signature": "ZCARD [key]",
+    "group": "sorted-set",
+    "summary": "Returns the number of members in a sorted set.",
+    "arity": 2
+  },
+  {
+    "name": "ZCOUNT",
+    "signature": "ZCOUNT [key] [min] [max]",
+    "group": "sorted-set",
+    "summary": "Returns the count of members in a sorted set that have scores within a range.",
+    "arity": 4
+  },
+  {
+    "name": "ZDIFF",
+    "signature": "ZDIFF [numkeys] [key [key ...]] [withscores]",
+    "group": "sorted-set",
+    "summary": "Returns the difference between multiple sorted sets.",
+    "arity": -3
+  },
+  {
+    "name": "ZDIFFSTORE",
+    "signature": "ZDIFFSTORE [destination] [numkeys] [key [key ...]]",
+    "group": "sorted-set",
+    "summary": "Stores the difference of multiple sorted sets in a key.",
+    "arity": -4
+  },
+  {
+    "name": "ZINCRBY",
+    "signature": "ZINCRBY [key] [increment] [member]",
+    "group": "sorted-set",
+    "summary": "Increments the score of a member in a sorted set.",
+    "arity": 4
+  },
+  {
+    "name": "ZINTER",
+    "signature": "ZINTER [numkeys] [key [key ...]] [weight [weight ...]] [aggregate] [withscores]",
+    "group": "sorted-set",
+    "summary": "Returns the intersect of multiple sorted sets.",
+    "arity": -3
+  },
+  {
+    "name": "ZINTERCARD",
+    "signature": "ZINTERCARD [numkeys] [key [key ...]] [limit]",
+    "group": "sorted-set",
+    "summary": "Returns the number of members of the intersect of multiple sorted sets.",
+    "arity": -3
+  },
+  {
+    "name": "ZINTERSTORE",
+    "signature": "ZINTERSTORE [destination] [numkeys] [key [key ...]] [weight [weight ...]] [aggregate]",
+    "group": "sorted-set",
+    "summary": "Stores the intersect of multiple sorted sets in a key.",
+    "arity": -4
+  },
+  {
+    "name": "ZLEXCOUNT",
+    "signature": "ZLEXCOUNT [key] [min] [max]",
+    "group": "sorted-set",
+    "summary": "Returns the number of members in a sorted set within a lexicographical range.",
+    "arity": 4
+  },
+  {
+    "name": "ZMPOP",
+    "signature": "ZMPOP [numkeys] [key [key ...]] [where] [count]",
+    "group": "sorted-set",
+    "summary": "Returns the highest- or lowest-scoring members from one or more sorted sets after removing them. Deletes the sorted set if the last member was popped.",
+    "arity": -4
+  },
+  {
+    "name": "ZMSCORE",
+    "signature": "ZMSCORE [key] [member [member ...]]",
+    "group": "sorted-set",
+    "summary": "Returns the score of one or more members in a sorted set.",
+    "arity": -3
+  },
+  {
+    "name": "ZPOPMAX",
+    "signature": "ZPOPMAX [key] [count]",
+    "group": "sorted-set",
+    "summary": "Returns the highest-scoring members from a sorted set after removing them. Deletes the sorted set if the last member was popped.",
+    "arity": -2
+  },
+  {
+    "name": "ZPOPMIN",
+    "signature": "ZPOPMIN [key] [count]",
+    "group": "sorted-set",
+    "summary": "Returns the lowest-scoring members from a sorted set after removing them. Deletes the sorted set if the last member was popped.",
+    "arity": -2
+  },
+  {
+    "name": "ZRANDMEMBER",
+    "signature": "ZRANDMEMBER [key] [options]",
+    "group": "sorted-set",
+    "summary": "Returns one or more random members from a sorted set.",
+    "arity": -2
+  },
+  {
+    "name": "ZRANGE",
+    "signature": "ZRANGE [key] [start] [stop] [sortby] [rev] [limit] [withscores]",
+    "group": "sorted-set",
+    "summary": "Returns members in a sorted set within a range of indexes.",
+    "arity": -4
+  },
+  {
+    "name": "ZRANGEBYLEX",
+    "signature": "ZRANGEBYLEX [key] [min] [max] [limit]",
+    "group": "sorted-set",
+    "summary": "Returns members in a sorted set within a lexicographical range.",
+    "arity": -4
+  },
+  {
+    "name": "ZRANGEBYSCORE",
+    "signature": "ZRANGEBYSCORE [key] [min] [max] [withscores] [limit]",
+    "group": "sorted-set",
+    "summary": "Returns members in a sorted set within a range of scores.",
+    "arity": -4
+  },
+  {
+    "name": "ZRANGESTORE",
+    "signature": "ZRANGESTORE [dst] [src] [min] [max] [sortby] [rev] [limit]",
+    "group": "sorted-set",
+    "summary": "Stores a range of members from sorted set in a key.",
+    "arity": -5
+  },
+  {
+    "name": "ZRANK",
+    "signature": "ZRANK [key] [member] [withscore]",
+    "group": "sorted-set",
+    "summary": "Returns the index of a member in a sorted set ordered by ascending scores.",
+    "arity": -3
+  },
+  {
+    "name": "ZREM",
+    "signature": "ZREM [key] [member [member ...]]",
+    "group": "sorted-set",
+    "summary": "Removes one or more members from a sorted set. Deletes the sorted set if all members were removed.",
+    "arity": -3
+  },
+  {
+    "name": "ZREMRANGEBYLEX",
+    "signature": "ZREMRANGEBYLEX [key] [min] [max]",
+    "group": "sorted-set",
+    "summary": "Removes members in a sorted set within a lexicographical range. Deletes the sorted set if all members were removed.",
+    "arity": 4
+  },
+  {
+    "name": "ZREMRANGEBYRANK",
+    "signature": "ZREMRANGEBYRANK [key] [start] [stop]",
+    "group": "sorted-set",
+    "summary": "Removes members in a sorted set within a range of indexes. Deletes the sorted set if all members were removed.",
+    "arity": 4
+  },
+  {
+    "name": "ZREMRANGEBYSCORE",
+    "signature": "ZREMRANGEBYSCORE [key] [min] [max]",
+    "group": "sorted-set",
+    "summary": "Removes members in a sorted set within a range of scores. Deletes the sorted set if all members were removed.",
+    "arity": 4
+  },
+  {
+    "name": "ZREVRANGE",
+    "signature": "ZREVRANGE [key] [start] [stop] [withscores]",
+    "group": "sorted-set",
+    "summary": "Returns members in a sorted set within a range of indexes in reverse order.",
+    "arity": -4
+  },
+  {
+    "name": "ZREVRANGEBYLEX",
+    "signature": "ZREVRANGEBYLEX [key] [max] [min] [limit]",
+    "group": "sorted-set",
+    "summary": "Returns members in a sorted set within a lexicographical range in reverse order.",
+    "arity": -4
+  },
+  {
+    "name": "ZREVRANGEBYSCORE",
+    "signature": "ZREVRANGEBYSCORE [key] [max] [min] [withscores] [limit]",
+    "group": "sorted-set",
+    "summary": "Returns members in a sorted set within a range of scores in reverse order.",
+    "arity": -4
+  },
+  {
+    "name": "ZREVRANK",
+    "signature": "ZREVRANK [key] [member] [withscore]",
+    "group": "sorted-set",
+    "summary": "Returns the index of a member in a sorted set ordered by descending scores.",
+    "arity": -3
+  },
+  {
+    "name": "ZSCAN",
+    "signature": "ZSCAN [key] [cursor] [pattern] [count]",
+    "group": "sorted-set",
+    "summary": "Iterates over members and scores of a sorted set.",
+    "arity": -3
+  },
+  {
+    "name": "ZSCORE",
+    "signature": "ZSCORE [key] [member]",
+    "group": "sorted-set",
+    "summary": "Returns the score of a member in a sorted set.",
+    "arity": 3
+  },
+  {
+    "name": "ZUNION",
+    "signature": "ZUNION [numkeys] [key [key ...]] [weight [weight ...]] [aggregate] [withscores]",
+    "group": "sorted-set",
+    "summary": "Returns the union of multiple sorted sets.",
+    "arity": -3
+  },
+  {
+    "name": "ZUNIONSTORE",
+    "signature": "ZUNIONSTORE [destination] [numkeys] [key [key ...]] [weight [weight ...]] [aggregate]",
+    "group": "sorted-set",
+    "summary": "Stores the union of multiple sorted sets in a key.",
+    "arity": -4
+  }
+]
