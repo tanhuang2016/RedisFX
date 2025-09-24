@@ -32,6 +32,7 @@ public class ConsoleController extends BaseClientController<ServerTabController>
     @FXML
     public Label label;
     private RecentHistory<String> recentHistory ;
+    private int historyIndex = -1;
 
 
     @FXML
@@ -62,7 +63,7 @@ public class ConsoleController extends BaseClientController<ServerTabController>
         });
         historyIndex = -1;
     }
-    private int historyIndex = -1;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         textArea.setPrefRowCount(10);
