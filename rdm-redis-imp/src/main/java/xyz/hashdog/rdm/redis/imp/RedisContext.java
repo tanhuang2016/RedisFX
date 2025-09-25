@@ -8,6 +8,7 @@ import xyz.hashdog.rdm.redis.client.RedisClient;
 import xyz.hashdog.rdm.redis.exceptions.RedisException;
 import xyz.hashdog.rdm.redis.imp.client.DefaultRedisClientCreator;
 import xyz.hashdog.rdm.redis.imp.client.RedisClientCreator;
+import xyz.hashdog.rdm.redis.imp.util.Util;
 
 /**
  * @author th

@@ -1,4 +1,4 @@
-package xyz.hashdog.rdm.redis.imp;
+package xyz.hashdog.rdm.redis.imp.util;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -235,5 +235,12 @@ public class Util extends xyz.hashdog.rdm.common.util.Util {
         BigDecimal bd = new BigDecimal(value).setScale(scale, RoundingMode.HALF_UP);
         return bd.stripTrailingZeros().toPlainString();
     }
+
+
+
+
+
+
+
 
 }

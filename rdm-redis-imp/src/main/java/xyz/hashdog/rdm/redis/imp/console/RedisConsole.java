@@ -1,6 +1,6 @@
 package xyz.hashdog.rdm.redis.imp.console;
 
-import xyz.hashdog.rdm.redis.imp.Util;
+import xyz.hashdog.rdm.redis.imp.util.Util;
 
 import java.io.*;
 import java.net.Socket;

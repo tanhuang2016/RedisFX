@@ -75,7 +75,7 @@
                                                       </GridPane>
                                                       <HBox alignment="CENTER" spacing="6.0">
                                                          <children>
-                                                            <TextField fx:id="decodeCmd" maxWidth="Infinity" prefWidth="0.0" promptText="sh/php/python/...  commands" HBox.hgrow="ALWAYS">
+                                                            <TextField fx:id="decodeCmd" maxWidth="Infinity" prefWidth="0.0" promptText="sh/php/python/...  Commands" HBox.hgrow="ALWAYS">
                                                                <HBox.margin>
                                                                   <Insets right="2.0" />
                                                                </HBox.margin>
@@ -106,7 +106,7 @@
                                                          <children>
                                                             <InputGroup HBox.hgrow="ALWAYS">
                                                                <children>
-                                                                  <TextField fx:id="decodeDir" promptText="input/output  in this directory" HBox.hgrow="ALWAYS">
+                                                                  <TextField fx:id="decodeDir" promptText="Input/Output  In This Directory" HBox.hgrow="ALWAYS">
                                                                   </TextField>
                                                                   <Button fx:id="decodeDirButton" mnemonicParsing="false" onAction="#decodeDir"  text=" " />
                                                                </children>
@@ -172,7 +172,7 @@
                                                       </GridPane>
                                                       <HBox alignment="CENTER" spacing="6.0">
                                                          <children>
-                                                            <TextField fx:id="encodeCmd" maxWidth="Infinity" prefWidth="0.0" promptText="sh/php/python/...  commands" HBox.hgrow="ALWAYS">
+                                                            <TextField fx:id="encodeCmd" maxWidth="Infinity" prefWidth="0.0" promptText="sh/php/python/...  Commands" HBox.hgrow="ALWAYS">
                                                                <HBox.margin>
                                                                   <Insets right="2.0" />
                                                                </HBox.margin>
@@ -203,7 +203,7 @@
                                                          <children>
                                                             <InputGroup HBox.hgrow="ALWAYS">
                                                                <children>
-                                                                  <TextField fx:id="encodeDir" promptText="input/output  in this directory" HBox.hgrow="ALWAYS">
+                                                                  <TextField fx:id="encodeDir" promptText="Input/Output  In This Directory" HBox.hgrow="ALWAYS">
                                                                   </TextField>
                                                                   <Button fx:id="encodeDirButton" mnemonicParsing="false"  onAction="#encodeDir" text=" "/>
                                                                </children>

@@ -55,7 +55,7 @@
                                     <children>
                                         <Label fx:id="total" text="Total:10" />
                                         <Label fx:id="size" text="Size:1024B" />
-                                        <CustomTextField fx:id="findTextField" promptText="value find"/>
+                                        <CustomTextField fx:id="findTextField" promptText="Find By Value"/>
                                         <Button fx:id="findButton" mnemonicParsing="false" onAction="#find"  />
                                         <Button fx:id="add" mnemonicParsing="false" onAction="#add"  VBox.vgrow="ALWAYS" />
                                         <Button fx:id="delRow" mnemonicParsing="false" onAction="#delRow"  />

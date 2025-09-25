@@ -230,7 +230,7 @@ public class GuiUtil {
      */
     private static Alert createAlert(Alert.AlertType alertType, String message) {
         Alert a = new Alert(alertType);
-        a.initOwner(Window.getWindows().getLast());
+        a.initOwner(Main.instance.getController().currentStage);
         Stage stage = (Stage) a.getDialogPane().getScene().getWindow();
         stage.getIcons().add(ICON_REDIS);
         a.setHeaderText(Main.RESOURCE_BUNDLE.getString("alert."+alertType.name().toLowerCase()));
@@ -746,6 +746,48 @@ public class GuiUtil {
         // 同时禁用滚动
         tableView.setFixedCellSize(rowHeight);
     }
+
+
+/**
+ * 动态调整ListView高度，根据内容保持最小高度，最高不超过指定值
+ * @param listView 列表视图
+ * @param maxHeight 最大高度
+ */
+public static void adjustListViewHeight(ListView<?> listView, double maxHeight) {
+    // 确保列表已经渲染
+    listView.applyCss();
+    listView.layout();
+
+    double rowHeight = 0;
+    // 获取行高（通过第一行计算）
+    if (!listView.getItems().isEmpty()) {
+        Node firstCell = listView.lookup(".list-cell");
+        if (firstCell != null) {
+            rowHeight = firstCell.getBoundsInLocal().getHeight();
+        } else {
+            // 默认行高
+            rowHeight = 24.0;
+        }
+    }
+
+    // 如果无法获取行高，则使用默认值
+    if (rowHeight <= 0) {
+        rowHeight = 24.0;
+    }
+
+    // 计算总高度（添加一些padding）
+    int rowCount = listView.getItems().size();
+    // 5px padding
+    double totalHeight = rowCount * rowHeight + 5;
+
+    // 限制最大高度
+    double finalHeight = Math.min(totalHeight, maxHeight);
+
+    // 设置高度
+    listView.setPrefHeight(finalHeight);
+    listView.setMinHeight(finalHeight);
+    listView.setMaxHeight(finalHeight);
+}
 
     /**
      * 文本提示

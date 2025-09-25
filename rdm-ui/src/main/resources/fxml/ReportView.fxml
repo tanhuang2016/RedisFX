@@ -262,7 +262,7 @@
                                     <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
                                        <children>
                                           <Label fx:id="info" style="-fx-font-size: 1.25em"  HBox.hgrow="ALWAYS" />
-                                           <CustomTextField fx:id="findTextField" promptText="key find" />
+                                           <CustomTextField fx:id="findTextField" promptText="Find By Key" />
                                            <Button fx:id="findButton" mnemonicParsing="false" onAction="#find"  />
                                        </children>
                                     </HBox>
