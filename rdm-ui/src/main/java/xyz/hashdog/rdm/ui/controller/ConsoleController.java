@@ -48,6 +48,17 @@ public class ConsoleController extends BaseClientController<ServerTabController>
 
     @FXML
     public void addToTextAreaAction(ActionEvent actionEvent) {
+        if(modalPane.isDisplay() && modalPane.getContent() instanceof ListView<?> lv){
+            int selectedIndex = lv.getSelectionModel().getSelectedIndex();
+            if (selectedIndex!=-1) {
+                isProgrammaticChange = true;
+                modalPane.hide();
+                String selectedCommand=(String) lv.getItems().get(selectedIndex);
+                textField.setText(selectedCommand.split("\\s+")[0]);
+                textField.positionCaret(textField.getText().length());
+                return;
+            }
+        }
         String inputText = textField.getText();
         if (inputText.isEmpty()) {
             return;
@@ -139,8 +150,11 @@ public class ConsoleController extends BaseClientController<ServerTabController>
                 }
             }
         });
-        modalPane.show(commandListView);
-        GuiUtil.adjustListViewHeight(commandListView, 300);
+        if(!commands.isEmpty()){
+            modalPane.show(commandListView);
+            GuiUtil.adjustListViewHeight(commandListView, 300);
+        }
+
     }
 
     // 添加历史命令浏览方法
@@ -153,7 +167,6 @@ public class ConsoleController extends BaseClientController<ServerTabController>
                 }
                 return;
             }
-
         }
         if(historyIndex== recentHistory.get().size()-1){
            return;
