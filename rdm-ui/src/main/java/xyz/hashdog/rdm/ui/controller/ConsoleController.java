@@ -145,6 +145,16 @@ public class ConsoleController extends BaseClientController<ServerTabController>
 
     // 添加历史命令浏览方法
     private void showPreviousCommand() {
+        if(modalPane.isDisplay() && modalPane.getContent() instanceof ListView<?> lv){
+            int selectedIndex = lv.getSelectionModel().getSelectedIndex();
+            if (selectedIndex!=-1) {
+                if(selectedIndex > 0){
+                    lv.getSelectionModel().select(selectedIndex -1);
+                }
+                return;
+            }
+
+        }
         if(historyIndex== recentHistory.get().size()-1){
            return;
         }
@@ -163,6 +173,13 @@ public class ConsoleController extends BaseClientController<ServerTabController>
     }
 
     private void showNextCommand() {
+        if(modalPane.isDisplay() && modalPane.getContent() instanceof ListView<?> lv){
+            int selectedIndex = lv.getSelectionModel().getSelectedIndex();
+            if (selectedIndex < lv.getItems().size() - 1) {
+                lv.getSelectionModel().select(selectedIndex + 1);
+            }
+            return;
+        }
         if(historyIndex>=0){
             historyIndex--;
         }
