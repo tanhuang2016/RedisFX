@@ -122,6 +122,23 @@ public class ConsoleController extends BaseClientController<ServerTabController>
                 .map(RedisCommandHelp::getSignature)
                 .toList();
         commandListView.getItems().addAll(commands);
+        // 添加单击事件监听器
+        commandListView.setOnMouseClicked(event -> {
+            // 单击
+            if (event.getClickCount() == 1) {
+                String selectedCommand = commandListView.getSelectionModel().getSelectedItem();
+                if (selectedCommand != null) {
+                    // 提取命令名称（去掉参数部分）
+                    String commandName = selectedCommand.split("\\s+")[0];
+                    isProgrammaticChange = true;
+                    textField.setText(commandName);
+                    // 隐藏命令列表
+                    modalPane.hide();
+                    // 将光标移到末尾
+                    textField.positionCaret(commandName.length());
+                }
+            }
+        });
         modalPane.show(commandListView);
         GuiUtil.adjustListViewHeight(commandListView, 300);
     }
