@@ -156,7 +156,7 @@ public class ConsoleController extends BaseClientController<ServerTabController>
         }
 
     }
-
+    int scrollLine=0;
     // 添加历史命令浏览方法
     private void showPreviousCommand() {
         if(modalPane.isDisplay() && modalPane.getContent() instanceof ListView<?> lv){
@@ -164,6 +164,12 @@ public class ConsoleController extends BaseClientController<ServerTabController>
             if (selectedIndex!=-1) {
                 if(selectedIndex > 0){
                     lv.getSelectionModel().select(selectedIndex -1);
+                    // 判断是否触顶：当选中的索引小于当前滚动行位置时，说明需要向上滚动
+                    if(selectedIndex - 1 < scrollLine) {
+                        // 向上滚动一行
+                        scrollLine = selectedIndex - 1;
+                        lv.scrollTo(scrollLine);
+                    }
                 }
                 return;
             }
@@ -185,11 +191,20 @@ public class ConsoleController extends BaseClientController<ServerTabController>
 
     }
 
+
     private void showNextCommand() {
         if(modalPane.isDisplay() && modalPane.getContent() instanceof ListView<?> lv){
             int selectedIndex = lv.getSelectionModel().getSelectedIndex();
             if (selectedIndex < lv.getItems().size() - 1) {
-                lv.getSelectionModel().select(selectedIndex + 1);
+                int newIndex = selectedIndex + 1;
+                lv.getSelectionModel().select(newIndex);
+                // 触底判断：当可视区域最后一行的索引小于新选中索引时需要向下滚动
+                // 最多显示7行(0-6)
+                int lastVisibleIndex = scrollLine + 6;
+                if(newIndex > lastVisibleIndex) {
+                    scrollLine = newIndex - 6;
+                    lv.scrollTo(scrollLine);
+                }
             }
             return;
         }
