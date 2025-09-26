@@ -45,37 +45,33 @@
 
 
 /**********xml文本样式***********/
-.tagmark {
+.xml-tagmark {
     -fx-fill: -color-accent-fg;
 }
-.anytag {
+.xml-anytag {
     /*-fx-fill: -color-warning-5;*/
     -fx-fill: -color-warning-fg;
 }
-.paren {
-    -fx-fill: red;
-    -fx-font-weight: bold;
-}
-.attribute {
+.xml-attribute {
     -fx-fill: -color-danger-fg;
 }
-.avalue {
+.xml-avalue {
     -fx-fill:  -color-success-fg;
 }
 
-.comment {
+.xml-comment {
     -fx-fill: -color-base-5;
 }
-.default {
+.xml-default {
     -fx-fill: -color-fg-default;
 }
-.other2 {
+.xml-other2 {
     -fx-fill: -color-danger-fg;
 }
-.other3 {
+.xml-other3 {
     -fx-fill: -color-warning-5;
 }
-.other4 {
+.xml-other4 {
     -fx-fill: yellow;
 }
 

@@ -116,15 +116,15 @@ public class XmlViewer extends AbstractTextViewer {
             StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
             while (matcher.find()) {
 
-                spansBuilder.add(Collections.singleton("default"), matcher.start() - lastKwEnd);
+                spansBuilder.add(Collections.singleton("xml-default"), matcher.start() - lastKwEnd);
                 if (matcher.group("COMMENT") != null) {
-                    spansBuilder.add(Collections.singleton("comment"), matcher.end() - matcher.start());
+                    spansBuilder.add(Collections.singleton("xml-comment"), matcher.end() - matcher.start());
                 } else {
                     if (matcher.group("ELEMENT") != null) {
                         String attributesText = matcher.group(GROUP_ATTRIBUTES_SECTION);
 
-                        spansBuilder.add(Collections.singleton("tagmark"), matcher.end(GROUP_OPEN_BRACKET) - matcher.start(GROUP_OPEN_BRACKET));
-                        spansBuilder.add(Collections.singleton("anytag"), matcher.end(GROUP_ELEMENT_NAME) - matcher.end(GROUP_OPEN_BRACKET));
+                        spansBuilder.add(Collections.singleton("xml-tagmark"), matcher.end(GROUP_OPEN_BRACKET) - matcher.start(GROUP_OPEN_BRACKET));
+                        spansBuilder.add(Collections.singleton("xml-anytag"), matcher.end(GROUP_ELEMENT_NAME) - matcher.end(GROUP_OPEN_BRACKET));
 
                         if (!attributesText.isEmpty()) {
 
@@ -132,24 +132,24 @@ public class XmlViewer extends AbstractTextViewer {
 
                             Matcher amatcher = ATTRIBUTES.matcher(attributesText);
                             while (amatcher.find()) {
-                                spansBuilder.add(Collections.singleton("other2"), amatcher.start() - lastKwEnd);
-                                spansBuilder.add(Collections.singleton("attribute"), amatcher.end(GROUP_ATTRIBUTE_NAME) - amatcher.start(GROUP_ATTRIBUTE_NAME));
-                                spansBuilder.add(Collections.singleton("tagmark"), amatcher.end(GROUP_EQUAL_SYMBOL) - amatcher.end(GROUP_ATTRIBUTE_NAME));
-                                spansBuilder.add(Collections.singleton("avalue"), amatcher.end(GROUP_ATTRIBUTE_VALUE) - amatcher.end(GROUP_EQUAL_SYMBOL));
+                                spansBuilder.add(Collections.singleton("xml-other2"), amatcher.start() - lastKwEnd);
+                                spansBuilder.add(Collections.singleton("xml-attribute"), amatcher.end(GROUP_ATTRIBUTE_NAME) - amatcher.start(GROUP_ATTRIBUTE_NAME));
+                                spansBuilder.add(Collections.singleton("xml-tagmark"), amatcher.end(GROUP_EQUAL_SYMBOL) - amatcher.end(GROUP_ATTRIBUTE_NAME));
+                                spansBuilder.add(Collections.singleton("xml-avalue"), amatcher.end(GROUP_ATTRIBUTE_VALUE) - amatcher.end(GROUP_EQUAL_SYMBOL));
                                 lastKwEnd = amatcher.end();
                             }
                             if (attributesText.length() > lastKwEnd)
-                                spansBuilder.add(Collections.singleton("other3"), attributesText.length() - lastKwEnd);
+                                spansBuilder.add(Collections.singleton("xml-other3"), attributesText.length() - lastKwEnd);
                         }
 
                         lastKwEnd = matcher.end(GROUP_ATTRIBUTES_SECTION);
 
-                        spansBuilder.add(Collections.singleton("tagmark"), matcher.end(GROUP_CLOSE_BRACKET) - lastKwEnd);
+                        spansBuilder.add(Collections.singleton("xml-tagmark"), matcher.end(GROUP_CLOSE_BRACKET) - lastKwEnd);
                     }
                 }
                 lastKwEnd = matcher.end();
             }
-            spansBuilder.add(Collections.singleton("other4"), text.length() - lastKwEnd);
+            spansBuilder.add(Collections.singleton("xml-other4"), text.length() - lastKwEnd);
             return spansBuilder.create();
         }
 
