@@ -80,3 +80,19 @@
 }
 
 /**********xml文本样式***********/
+
+/**********yml文本样式***********/
+
+.yml-default {
+    -fx-fill: red;
+}
+.yml-comment {
+    -fx-fill: -color-success-fg;
+}
+.yml-key {
+    -fx-fill: -color-warning-fg;
+}
+.yml-value {
+    -fx-fill: -color-fg-default;
+}
+/**********yml文本样式***********/
