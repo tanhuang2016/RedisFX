@@ -108,6 +108,7 @@ public class ConsoleController extends BaseClientController<ServerTabController>
                     // 获取输入框中的文本
                     String inputText = textField.getText();
                     handleCommandHelp(inputText);
+                    Platform.runLater(() -> textField.requestFocus());
                 }
             }
         });
@@ -119,6 +120,12 @@ public class ConsoleController extends BaseClientController<ServerTabController>
             }
             // 实时处理输入文本
             handleCommandHelp(newValue);
+        });
+        //监听光标丢失
+        textField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                modalPane.hide();
+            }
         });
     }
 
