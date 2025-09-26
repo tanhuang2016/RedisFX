@@ -84,10 +84,8 @@ public class XmlViewer extends AbstractTextViewer {
 
         public XmlViewerNode() {
             super();
+            codeArea.setWrapText(true);
         }
-
-
-
 
 
         @Override
