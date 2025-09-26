@@ -44,3 +44,38 @@
 /**********json文本样式***********/
 
 
+/**********xml文本样式***********/
+.tagmark {
+    -fx-fill: -color-accent-fg;
+}
+.anytag {
+    -fx-fill: -color-warning-5;
+}
+.paren {
+    -fx-fill: red;
+    -fx-font-weight: bold;
+}
+.attribute {
+    -fx-fill: -color-danger-fg;
+}
+.avalue {
+    -fx-fill:  -color-success-fg;
+}
+
+.comment {
+    -fx-fill: -color-base-5;
+}
+.default {
+    -fx-fill: -color-fg-default;
+}
+.other2 {
+    -fx-fill: green;
+}
+.other3 {
+    -fx-fill: -color-warning-5;
+}
+.other4 {
+    -fx-fill: yellow;
+}
+
+/**********xml文本样式***********/
