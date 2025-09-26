@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
  * YML查看器
  *
  * @author th
- * @version 2.3.5
- * @since 2025/9/13 22:48
+ * @version 2.3.9
+ * @since 2025/9/26 22:48
  */
 public class YmlViewer extends AbstractTextViewer {
     public static final String NAME = "Yml";
