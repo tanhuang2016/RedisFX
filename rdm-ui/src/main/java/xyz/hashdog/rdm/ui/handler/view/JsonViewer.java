@@ -1,27 +1,14 @@
 package xyz.hashdog.rdm.ui.handler.view;
 
 import com.google.gson.JsonSyntaxException;
-import javafx.scene.Node;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.RadioMenuItem;
-import javafx.scene.layout.StackPane;
-import org.fxmisc.richtext.CodeArea;
-import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
 import xyz.hashdog.rdm.common.util.DataUtil;
-import xyz.hashdog.rdm.ui.Main;
-import xyz.hashdog.rdm.ui.common.Constant;
-
-import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
 /**
  * json查看器
@@ -65,43 +52,16 @@ public class JsonViewer extends AbstractTextViewer {
         return new JsonViewerNode();
     }
 
-    private class JsonViewerNode implements ViewerNode, CharacterEncoding {
-        private final StackPane stackPane;
-        private final CodeArea codeArea;
-//        private final TextArea textArea;
-        private Charset charset;
-        private byte[] value;
+    private class JsonViewerNode extends AbstractAreaCodeNode {
         private static final String JSON_KEYWORD = "\"(?:[^\"\\\\]|\\\\.)*\"|\\b(?:true|false|null)\\b|[{}\\[\\]:,]|-?\\d+(?:\\.\\d+)?(?:[eE][+-]?\\d+)?";
 
         private static final Pattern JSON_PATTERN = Pattern.compile(JSON_KEYWORD);
 
         public JsonViewerNode() {
-            codeArea = new CodeArea();
-            codeArea.setStyle("""
-                    -fx-background-color: %s;
-                    -fx-border-color: %s;
-                    -fx-border-width: 1px;
-                    -fx-border-style: solid;
-                    """.formatted(Constant.THEME_COLOR_BG_DEFAULT, Constant.THEME_COLOR_BORDER_DEFAULT));
-
-            // 设置文本变化监听器，用于语法高亮
-            codeArea.textProperty().addListener((obs, oldText, newText) -> codeArea.setStyleSpans(0, computeHighlighting(newText)));
-            stackPane= new StackPane();
-            stackPane.getChildren().add(codeArea);
-            // 直接添加样式表
-            stackPane.getStylesheets().add(Objects.requireNonNull(Main.class.getResource("/css/text.css")).toExternalForm());
+            super();
         }
 
-        @Override
-        public void change(Charset charset) {
-            init(charset);
-            set(value);
-        }
 
-        @Override
-        public void init(Charset charset) {
-            this.charset = charset;
-        }
 
         @Override
         public byte[] get() {
@@ -118,34 +78,18 @@ public class JsonViewer extends AbstractTextViewer {
             }
 
         }
-        @Override
-        public String text() {
-            return codeArea.getText();
-        }
-        @Override
-        public Node view() {
-            return stackPane;
-        }
 
-        @Override
-        public List<MenuItem> options() {
-            RadioMenuItem showLineNumber = new RadioMenuItem(language("key.string.viewer.options.showLine"));
-            showLineNumber.setOnAction(event -> {
-                if(showLineNumber.isSelected()){
-                    codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
-                }else {
-                    codeArea.setParagraphGraphicFactory(null);
-                }
-            });
-            return List.of(showLineNumber);
-        }
+
+
+
 
         /**
          * 计算并返回文本的语法高亮样式
          * @param text 需要高亮的文本
          * @return 样式跨度集合
          */
-        private static StyleSpans<Collection<String>> computeHighlighting(String text) {
+        @Override
+        protected  StyleSpans<Collection<String>> computeHighlighting(String text) {
             Matcher matcher = JSON_PATTERN.matcher(text);
             int lastKwEnd = 0;
             StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();

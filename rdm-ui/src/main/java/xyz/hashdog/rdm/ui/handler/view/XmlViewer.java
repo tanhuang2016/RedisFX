@@ -26,19 +26,20 @@ import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
 
 /**
  * xml查看器
+ *
  * @author th
  * @version 2.3.9
  * @since 2025/9/15 22:48
  */
 public class XmlViewer extends AbstractTextViewer {
-    public static final String NAME="Xml";
-
+    public static final String NAME = "Xml";
 
 
     @Override
     public String name() {
         return NAME;
     }
+
     @Override
     public boolean accept(byte[] data) {
         if (data == null || data.length == 0) {
@@ -64,11 +65,10 @@ public class XmlViewer extends AbstractTextViewer {
         return new XmlViewerNode();
     }
 
-    private class XmlViewerNode implements ViewerNode, CharacterEncoding {
-        private final StackPane stackPane;
-        private final CodeArea codeArea;
-        private Charset charset;
-        private byte[] value;
+    private class XmlViewerNode extends AbstractAreaCodeNode {
+
+
+
         private static final Pattern XML_TAG = Pattern.compile("(?<ELEMENT>(</?\\h*)(\\w+)([^<>]*)(\\h*/?>))"
                 + "|(?<COMMENT><!--(.|\\v)+?-->)");
 
@@ -83,71 +83,26 @@ public class XmlViewer extends AbstractTextViewer {
         private static final int GROUP_ATTRIBUTE_VALUE = 3;
 
         public XmlViewerNode() {
-            codeArea = new CodeArea();
-            codeArea.setStyle("""
-                    -fx-background-color: %s;
-                    -fx-border-color: %s;
-                    -fx-border-width: 1px;
-                    -fx-border-style: solid;
-                    """.formatted(Constant.THEME_COLOR_BG_DEFAULT, Constant.THEME_COLOR_BORDER_DEFAULT));
-
-            // 设置文本变化监听器，用于语法高亮
-            codeArea.textProperty().addListener((obs, oldText, newText) -> codeArea.setStyleSpans(0, computeHighlighting(newText)));
-            stackPane = new StackPane();
-            stackPane.getChildren().add(new VirtualizedScrollPane<>(codeArea));
-            // 直接添加样式表
-            stackPane.getStylesheets().add(Objects.requireNonNull(Main.class.getResource("/css/text.css")).toExternalForm());
+            super();
         }
 
-        @Override
-        public void change(Charset charset) {
-            init(charset);
-            set(value);
-        }
 
-        @Override
-        public void init(Charset charset) {
-            this.charset = charset;
-        }
+
+
 
         @Override
         public byte[] get() {
-            return DataUtil.json2Byte(codeArea.getText(), charset, false);
+            return  codeArea.getText().getBytes(charset);
         }
 
         @Override
         public void set(byte[] value) {
             this.value = value;
-            try {
-                codeArea.replaceText(DataUtil.formatJson(value, charset, true));
-            } catch (JsonSyntaxException e) {
-                codeArea.replaceText(new String(value, charset));
-            }
-
+            codeArea.replaceText(new String(value, charset));
         }
 
-        @Override
-        public String text() {
-            return codeArea.getText();
-        }
 
-        @Override
-        public Node view() {
-            return stackPane;
-        }
 
-        @Override
-        public List<MenuItem> options() {
-            RadioMenuItem showLineNumber = new RadioMenuItem(language("key.string.viewer.options.showLine"));
-            showLineNumber.setOnAction(event -> {
-                if (showLineNumber.isSelected()) {
-                    codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
-                } else {
-                    codeArea.setParagraphGraphicFactory(null);
-                }
-            });
-            return List.of(showLineNumber);
-        }
 
         /**
          * 计算并返回文本的语法高亮样式
@@ -155,7 +110,8 @@ public class XmlViewer extends AbstractTextViewer {
          * @param text 需要高亮的文本
          * @return 样式跨度集合
          */
-        private static StyleSpans<Collection<String>> computeHighlighting(String text) {
+        @Override
+        protected StyleSpans<Collection<String>> computeHighlighting(String text) {
 
             Matcher matcher = XML_TAG.matcher(text);
             int lastKwEnd = 0;
