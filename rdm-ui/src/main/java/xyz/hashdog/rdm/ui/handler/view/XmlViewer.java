@@ -1,29 +1,11 @@
 package xyz.hashdog.rdm.ui.handler.view;
 
-import com.google.gson.JsonSyntaxException;
-import javafx.scene.Node;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.RadioMenuItem;
-import javafx.scene.layout.StackPane;
-import org.fxmisc.flowless.VirtualizedScrollPane;
-import org.fxmisc.richtext.CodeArea;
-import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
-import xyz.hashdog.rdm.common.util.DataUtil;
-import xyz.hashdog.rdm.ui.Main;
-import xyz.hashdog.rdm.ui.common.Constant;
-
-import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
-
 /**
  * xml查看器
  *
