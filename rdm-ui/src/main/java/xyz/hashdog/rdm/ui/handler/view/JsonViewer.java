@@ -151,14 +151,14 @@ public class JsonViewer extends AbstractTextViewer {
             StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
 
             while (matcher.find()) {
-                String styleClass = getStyleClass(matcher.group(),text,matcher.start());
-                spansBuilder.add(Collections.singletonList("warn"), matcher.start() - lastKwEnd);
+                String styleClass = "json-"+getStyleClass(matcher.group(),text,matcher.start());
+                spansBuilder.add(Collections.singletonList("json-warn"), matcher.start() - lastKwEnd);
                 spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
                 lastKwEnd = matcher.end();
             }
             // 处理最后未匹配的文本部分
             if (lastKwEnd < text.length()) {
-                spansBuilder.add(Collections.singletonList("warn"), text.length() - lastKwEnd);
+                spansBuilder.add(Collections.singletonList("json-warn"), text.length() - lastKwEnd);
             }
 //            spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
 

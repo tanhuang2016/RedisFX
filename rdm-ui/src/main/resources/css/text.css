@@ -8,37 +8,37 @@
     -fx-background-color: -color-bg-default;
 }
 /**********json文本样式***********/
-.key {
+.json-key {
     -fx-fill: -color-fg-default;
 }
-.boolean {
+.json-boolean {
     -fx-fill: -color-accent-fg;
 }
-.null {
+.json-null {
     -fx-fill: -color-warning-fg;
 }
-.warn {
+.json-warn {
     -fx-fill: -color-warning-fg;
 }
-.number {
+.json-number {
     -fx-fill: -color-danger-fg;
 }
-.bracket {
+.json-bracket {
     -fx-fill: -color-fg-default;
 }
-.colon {
+.json-colon {
     -fx-fill:-color-fg-default;
 }
-.comma {
+.json-comma {
     -fx-fill: -color-fg-default;
 }
-.value {
+.json-value {
     -fx-fill: -color-success-fg;
 }
-.comment {
+.json-comment {
     -fx-fill: -color-fg-default;
 }
-.other {
+.json-other {
     -fx-fill: -color-fg-default;
 }
 /**********json文本样式***********/
