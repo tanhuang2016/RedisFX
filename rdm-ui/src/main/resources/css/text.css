@@ -49,7 +49,8 @@
     -fx-fill: -color-accent-fg;
 }
 .anytag {
-    -fx-fill: -color-warning-5;
+    /*-fx-fill: -color-warning-5;*/
+    -fx-fill: -color-warning-fg;
 }
 .paren {
     -fx-fill: red;
@@ -69,7 +70,7 @@
     -fx-fill: -color-fg-default;
 }
 .other2 {
-    -fx-fill: green;
+    -fx-fill: -color-danger-fg;
 }
 .other3 {
     -fx-fill: -color-warning-5;
