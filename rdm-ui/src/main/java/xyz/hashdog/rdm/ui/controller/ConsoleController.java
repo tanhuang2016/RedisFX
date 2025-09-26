@@ -8,10 +8,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.util.DataUtil;
 import xyz.hashdog.rdm.redis.imp.util.RedisCommandHelp;
@@ -21,10 +17,8 @@ import xyz.hashdog.rdm.ui.util.GuiUtil;
 import xyz.hashdog.rdm.ui.util.RecentHistory;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 import static xyz.hashdog.rdm.ui.common.Constant.ALERT_MESSAGE_CONNECT_SUCCESS;
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
@@ -42,7 +36,19 @@ public class ConsoleController extends BaseClientController<ServerTabController>
     public Label label;
     public ModalPane modalPane;
     private RecentHistory<String> recentHistory ;
+    /**
+     * 为true时不弹出命令提示框
+     */
+    private boolean isProgrammaticChange = false;
+    /**
+     * 历史选中行
+     */
     private int historyIndex = -1;
+    /**
+     * 当前滚动条所在行
+     */
+    int scrollLine=0;
+
 
     private final List<RedisCommandHelp> redisCommandHelps = RedisCommandHelpParser.parseCommands();
 
@@ -116,7 +122,7 @@ public class ConsoleController extends BaseClientController<ServerTabController>
         });
     }
 
-    private boolean isProgrammaticChange = false;
+
     /**
      * 命令提示
      * @param inputText 输入文本
@@ -156,7 +162,6 @@ public class ConsoleController extends BaseClientController<ServerTabController>
         }
 
     }
-    int scrollLine=0;
     // 添加历史命令浏览方法
     private void showPreviousCommand() {
         if(modalPane.isDisplay() && modalPane.getContent() instanceof ListView<?> lv){
