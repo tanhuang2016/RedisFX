@@ -475,7 +475,6 @@ public class ServerTabController extends BaseClientController<MainController> {
 
 
 
-    private boolean isBox;
 
     /**
      * 根节点初始化一个空的
@@ -506,7 +505,7 @@ public class ServerTabController extends BaseClientController<MainController> {
                     // 如果图标已经加载过，直接显示
                     if (getTreeItem().getGraphic() != null) {
                         Node graphic = getTreeItem().getGraphic();
-                        if(!isBox){
+                        if(!checkBox.isSelected()){
                             setGraphic(graphic);
                             return;
                         }
@@ -1692,9 +1691,8 @@ public class ServerTabController extends BaseClientController<MainController> {
 
     @FXML
     public void checkBox(ActionEvent actionEvent) {
-        isBox=checkBox.isSelected();
-        boxToolBar.setVisible(isBox);
-        boxToolBar.setManaged(isBox);
+        boxToolBar.setVisible(checkBox.isSelected());
+        boxToolBar.setManaged(checkBox.isSelected());
         treeView.refresh();
     }
 
@@ -1704,5 +1702,7 @@ public class ServerTabController extends BaseClientController<MainController> {
 
     @FXML
     public void cancel(ActionEvent actionEvent) {
+        checkBox.setSelected(false);
+        checkBox(actionEvent);
     }
 }
