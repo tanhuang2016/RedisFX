@@ -139,7 +139,7 @@
                                                          </HBox>
                                                       </children>
                                                    </HBox>
-                                                   <HBox fx:id="boxToolBar" alignment="CENTER_LEFT">
+                                                   <HBox fx:id="boxToolBar" alignment="CENTER_LEFT" managed="false" visible="false">
                                                       <children>
                                                          <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                                                             <children>

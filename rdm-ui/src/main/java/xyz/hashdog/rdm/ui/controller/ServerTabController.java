@@ -120,6 +120,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     public Button boxDelete;
     public Button boxExport;
     public Button boxCancel;
+    public HBox boxToolBar;
     @FXML
     private TreeView<KeyTreeNode> treeView;
     @FXML
@@ -1692,6 +1693,8 @@ public class ServerTabController extends BaseClientController<MainController> {
     @FXML
     public void checkBox(ActionEvent actionEvent) {
         isBox=checkBox.isSelected();
+        boxToolBar.setVisible(isBox);
+        boxToolBar.setManaged(isBox);
         treeView.refresh();
     }
 
