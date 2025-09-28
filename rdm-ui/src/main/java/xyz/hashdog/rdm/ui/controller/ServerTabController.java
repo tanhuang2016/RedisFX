@@ -117,6 +117,9 @@ public class ServerTabController extends BaseClientController<MainController> {
     public CheckMenuItem autoSearch;
     public Menu searchTypeMenu;
     public CheckMenuItem checkBox;
+    public Button boxDelete;
+    public Button boxExport;
+    public Button boxCancel;
     @FXML
     private TreeView<KeyTreeNode> treeView;
     @FXML
@@ -253,6 +256,9 @@ public class ServerTabController extends BaseClientController<MainController> {
         report.setText(language("server.report"));
         loadMore.setText(language("server.toolBar.loadMore"));
         loadAll.setText(language("server.toolBar.loadAll"));
+        boxDelete.setText(language("key.delete"));
+        boxExport.setText(language("key.string.export"));
+        boxCancel.setText(language("common.cancel"));
         newKey.setText(language("server.new"));
     }
 
@@ -333,6 +339,9 @@ public class ServerTabController extends BaseClientController<MainController> {
         initToolBarButtonStyles(locationButton,expandedButton,collapseButton,optionsButton,hideButton,showButton);
         loadMore.getStyleClass().addAll(Styles.SMALL, UiStyles.MINI);
         loadAll.getStyleClass().addAll(Styles.SMALL,Styles.DANGER, UiStyles.MINI);
+        boxDelete.getStyleClass().addAll(Styles.SMALL,Styles.DANGER, UiStyles.MINI);
+        boxExport.getStyleClass().addAll(Styles.SMALL,Styles.ACCENT, UiStyles.MINI);
+        boxCancel.getStyleClass().addAll(Styles.SMALL,Styles.ACCENT, UiStyles.MINI,Styles.BUTTON_OUTLINED);
     }
 
     private void initToolBarButtonStyles(Button... buttons) {
@@ -1684,5 +1693,13 @@ public class ServerTabController extends BaseClientController<MainController> {
     public void checkBox(ActionEvent actionEvent) {
         isBox=checkBox.isSelected();
         treeView.refresh();
+    }
+
+    @FXML
+    public void export(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    public void cancel(ActionEvent actionEvent) {
     }
 }
