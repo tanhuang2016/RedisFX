@@ -785,7 +785,7 @@ public class ServerTabController extends BaseClientController<MainController> {
         ObservableList<TreeItem<KeyTreeNode>> children = treeView.getRoot().getChildren();
         List<TreeItem<KeyTreeNode>> list = new ArrayList<>();
         for (String key : keys) {
-            list.add(new TreeItem<>(KeyTreeNode.leaf(key)));
+            list.add(new CheckBoxTreeItem<>(KeyTreeNode.leaf(key)));
         }
         children.addAll( list);
     }
@@ -850,7 +850,7 @@ public class ServerTabController extends BaseClientController<MainController> {
                     hasRoot=root;
                 }
                 if (isLeaf) {
-                    childNode = new TreeItem<>(KeyTreeNode.leaf(key));
+                    childNode = new CheckBoxTreeItem<>(KeyTreeNode.leaf(key));
                     if(hasRoot.getValue()!=null){
                         childNode.getValue().setParent(hasRoot.getValue());
                         hasRoot.getValue().addChildKeyCount();
@@ -863,7 +863,7 @@ public class ServerTabController extends BaseClientController<MainController> {
                       continue;
                     }
                     //目录的话，直接设置图标
-                    childNode = new TreeItem<>(KeyTreeNode.dir(part),new FontIcon(Feather.FOLDER));
+                    childNode = new CheckBoxTreeItem<>(KeyTreeNode.dir(part),new FontIcon(Feather.FOLDER));
                     treeItemDirMap.put(thisPrefix,childNode);
                     if(hasRoot.getValue()!=null){
                         childNode.getValue().setParent(hasRoot.getValue());
@@ -1225,7 +1225,7 @@ public class ServerTabController extends BaseClientController<MainController> {
      */
     private TreeItem<KeyTreeNode> treeNodePutDir(TreeItem<KeyTreeNode> root, KeyTreeNode keyTreeNode) {
         if(!this.redisContext.getRedisConfig().isTreeShow()){
-            TreeItem<KeyTreeNode> keyTreeNodeTreeItem = new TreeItem<>(keyTreeNode);
+            TreeItem<KeyTreeNode> keyTreeNodeTreeItem = new CheckBoxTreeItem<>(keyTreeNode);
             root.getChildren().addFirst(keyTreeNodeTreeItem);
             return  keyTreeNodeTreeItem;
         }
@@ -1242,9 +1242,9 @@ public class ServerTabController extends BaseClientController<MainController> {
             TreeItem<KeyTreeNode> childNode = findChild(current, part);
             if (childNode == null || isLeaf) {
                 if (isLeaf) {
-                    childNode = new TreeItem<>(keyTreeNode);
+                    childNode = new CheckBoxTreeItem<>(keyTreeNode);
                 } else {
-                    childNode = new TreeItem<>(KeyTreeNode.dir(part), new FontIcon(Feather.FOLDER));
+                    childNode = new CheckBoxTreeItem<>(KeyTreeNode.dir(part), new FontIcon(Feather.FOLDER));
                 }
                 TreeItem<KeyTreeNode> finalChildNode = childNode;
 
