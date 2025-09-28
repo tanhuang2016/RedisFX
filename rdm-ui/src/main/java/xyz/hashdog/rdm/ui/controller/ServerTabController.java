@@ -121,6 +121,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     public Button boxExport;
     public Button boxCancel;
     public HBox boxToolBar;
+    public CheckBox boxSelectAll;
     @FXML
     private TreeView<KeyTreeNode> treeView;
     @FXML
@@ -1743,5 +1744,9 @@ public class ServerTabController extends BaseClientController<MainController> {
     public void cancel(ActionEvent actionEvent) {
         checkBox.setSelected(false);
         checkBox(actionEvent);
+    }
+
+    @FXML
+    public void selectAll(ActionEvent actionEvent) {
     }
 }

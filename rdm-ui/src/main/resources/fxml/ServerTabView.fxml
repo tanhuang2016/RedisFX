@@ -143,7 +143,7 @@
                                                       <children>
                                                          <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                                                             <children>
-                                                               <CheckBox mnemonicParsing="false" />
+                                                               <CheckBox fx:id="boxSelectAll" mnemonicParsing="false" onAction="#selectAll"/>
                                                                <Button fx:id="boxDelete" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#delete" HBox.hgrow="ALWAYS">
                                                                   <HBox.margin>
                                                                      <Insets left="5.0" />
