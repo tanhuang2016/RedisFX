@@ -161,3 +161,9 @@
 .menu-button.button-icon > .label {
     -fx-padding: 8px 8px 8px 8px;
 }
+
+/*********treeView的复选框样式*********/
+.check-box {
+    -fx-text-fill: -color-fg-default;
+    -fx-label-padding: 0 0px 0 5px;
+}

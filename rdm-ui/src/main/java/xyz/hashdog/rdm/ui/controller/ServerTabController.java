@@ -13,7 +13,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Orientation;
 import javafx.geometry.Side;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -512,6 +511,9 @@ public class ServerTabController extends BaseClientController<MainController> {
                         }
                         Node box = getGraphic();
                         if(box instanceof CheckBox cb){
+                            cb.setText(" ");
+//                            cb.setStyle("-fx-background-color: red");
+                            cb.setGraphicTextGap(0);
                             cb.setGraphic(graphic);
                         }
                         setGraphic(box);
