@@ -512,7 +512,6 @@ public class ServerTabController extends BaseClientController<MainController> {
                         Node box = getGraphic();
                         if(box instanceof CheckBox cb){
                             cb.setText(" ");
-//                            cb.setStyle("-fx-background-color: red");
                             cb.setGraphicTextGap(0);
                             cb.setGraphic(graphic);
                         }

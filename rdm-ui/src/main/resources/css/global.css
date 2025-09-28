@@ -166,4 +166,5 @@
 .check-box {
     -fx-text-fill: -color-fg-default;
     -fx-label-padding: 0 0px 0 5px;
+    -fx-padding: 0 0px 0 0px;
 }
