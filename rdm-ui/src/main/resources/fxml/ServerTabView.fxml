@@ -93,6 +93,7 @@
                                                                       <MenuItem fx:id="refresh" mnemonicParsing="false" onAction="#refresh"  />
                                                                       <MenuItem fx:id="delete" mnemonicParsing="false" onAction="#delete"  />
                                                                       <MenuItem fx:id="flush" mnemonicParsing="false" onAction="#flush"  />
+                                                                      <CheckMenuItem fx:id="checkBox"  mnemonicParsing="false" onAction="#checkBox"  />
                                                                       <SeparatorMenuItem />
                                                                       <MenuItem fx:id="console" mnemonicParsing="false" onAction="#console"  />
                                                                       <MenuItem fx:id="monitor" mnemonicParsing="false" onAction="#monitor"  />

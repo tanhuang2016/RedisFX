@@ -13,15 +13,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Orientation;
 import javafx.geometry.Side;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTreeCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.kordamp.ikonli.feather.Feather;
@@ -112,6 +116,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     public MenuItem report;
     public CheckMenuItem autoSearch;
     public Menu searchTypeMenu;
+    public CheckMenuItem checkBox;
     @FXML
     private TreeView<KeyTreeNode> treeView;
     @FXML
@@ -241,6 +246,7 @@ public class ServerTabController extends BaseClientController<MainController> {
         refresh.setText(language("server.refresh"));
         delete.setText(language("server.delete"));
         flush.setText(language("server.flush"));
+        checkBox.setText(language("server.box"));
         console.setText(language("server.console"));
         monitor.setText(language("server.monitor"));
         pubsub.setText(language("server.pubsub"));
@@ -459,6 +465,7 @@ public class ServerTabController extends BaseClientController<MainController> {
 
 
 
+    private boolean isBox;
 
     /**
      * 根节点初始化一个空的
@@ -469,10 +476,10 @@ public class ServerTabController extends BaseClientController<MainController> {
         treeView.setShowRoot(false);
         //默认根节点为选中节点
         treeView.getSelectionModel().select(treeView.getRoot());
-        treeView.setCellFactory(tv -> new TreeCell<>() {
+        treeView.setCellFactory(tv -> new CheckBoxTreeCell<>() {
 
             @Override
-            protected void updateItem(KeyTreeNode item, boolean empty) {
+            public void updateItem(KeyTreeNode item, boolean empty) {
                 super.updateItem(item, empty);
 
                 if (empty || item == null) {
@@ -488,7 +495,16 @@ public class ServerTabController extends BaseClientController<MainController> {
                     }
                     // 如果图标已经加载过，直接显示
                     if (getTreeItem().getGraphic() != null) {
-                        setGraphic(getTreeItem().getGraphic());
+                        Node graphic = getTreeItem().getGraphic();
+                        if(!isBox){
+                            setGraphic(graphic);
+                            return;
+                        }
+                        Node box = getGraphic();
+                        if(box instanceof CheckBox cb){
+                            cb.setGraphic(graphic);
+                        }
+                        setGraphic(box);
                     }
                 }
             }
@@ -1662,5 +1678,11 @@ public class ServerTabController extends BaseClientController<MainController> {
         super.close();
         //key的服务tab都关闭了，那所有连接都要关闭
         this.redisContext.close();
+    }
+
+    @FXML
+    public void checkBox(ActionEvent actionEvent) {
+        isBox=checkBox.isSelected();
+        treeView.refresh();
     }
 }
