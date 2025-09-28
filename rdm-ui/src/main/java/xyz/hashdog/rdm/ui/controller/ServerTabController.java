@@ -1698,7 +1698,46 @@ public class ServerTabController extends BaseClientController<MainController> {
 
     @FXML
     public void export(ActionEvent actionEvent) {
+        List<TreeItem<KeyTreeNode>> checkedLeafNodes = new ArrayList<>();
+        for (TreeItem<KeyTreeNode> child : treeView.getRoot().getChildren()) {
+            collectCheckedLeafNodes(child, checkedLeafNodes);
+        }
+        System.out.println("勾选的叶子节点数量: " + checkedLeafNodes.size());
     }
+    /**
+     * 递归收集所有被选中的叶子节点
+     * @param node 当前节点
+     * @param result 结果列表
+     */
+    private void collectCheckedLeafNodes(TreeItem<KeyTreeNode> node, List<TreeItem<KeyTreeNode>> result) {
+        if (node == null){
+            return;
+        }
+        if (node.isLeaf()) {
+            // 叶子节点：只有当节点被选中时才添加
+            if (isNodeChecked(node)) {
+                result.add(node);
+            }
+        } else {
+            // 父节点：如果被选中，则其下所有叶子节点都被视为选中 这也是不可靠的，如果子节点选中，父节点有可能未被选中，这就很坑，只能全部遍历子节点才可靠
+            for (TreeItem<KeyTreeNode> child : node.getChildren()) {
+                collectCheckedLeafNodes(child, result);
+            }
+        }
+    }
+
+    /**
+     * 检查节点是否被选中
+     * @param node 要检查的节点
+     * @return 是否选中
+     */
+    private boolean isNodeChecked(TreeItem<KeyTreeNode> node) {
+        if (node instanceof CheckBoxTreeItem<?> cbt) {
+            return cbt.isSelected();
+        }
+        return false;
+    }
+
 
     @FXML
     public void cancel(ActionEvent actionEvent) {
