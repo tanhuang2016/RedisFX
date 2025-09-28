@@ -1748,5 +1748,10 @@ public class ServerTabController extends BaseClientController<MainController> {
 
     @FXML
     public void selectAll(ActionEvent actionEvent) {
+        for (TreeItem<KeyTreeNode> child : treeView.getRoot().getChildren()) {
+            if (child instanceof CheckBoxTreeItem<?> cbt) {
+                cbt.setSelected(boxSelectAll.isSelected());
+            }
+        }
     }
 }
