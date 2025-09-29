@@ -163,8 +163,7 @@
 }
 
 /*********treeView的复选框样式*********/
-.check-box {
-    -fx-text-fill: -color-fg-default;
+.tree-view > .check-box {
     -fx-label-padding: 0 0px 0 5px;
     -fx-padding: 0 0px 0 0px;
 }
