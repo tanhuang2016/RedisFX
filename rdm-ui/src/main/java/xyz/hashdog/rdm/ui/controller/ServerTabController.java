@@ -13,22 +13,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Side;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTreeCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.kordamp.ikonli.feather.Feather;
@@ -1388,7 +1382,7 @@ public class ServerTabController extends BaseClientController<MainController> {
             delItems.forEach(item -> delKeys.add(item.getValue().getKey()));
             //选择多个key，要弹出列表确认
             if(delItems.size()>1){
-                if(!keyConfirm(delItems.stream().map(TreeItem::getValue).toList(),MultipleKeyController.DELETE)){
+                if(keyConfirm(delItems.stream().map(TreeItem::getValue).toList(), MultipleKeyController.DELETE)){
                     return;
                 }
             }else {
@@ -1400,7 +1394,7 @@ public class ServerTabController extends BaseClientController<MainController> {
             delItems.addAll(getCheckLeafNodes());
             List<KeyTreeNode> list = delItems.stream().map(TreeItem::getValue).toList();
             delKeys.addAll(list.stream().map(KeyTreeNode::getKey).toList());
-            if(!keyConfirm(list,MultipleKeyController.DELETE)){
+            if(keyConfirm(list, MultipleKeyController.DELETE)){
                 return;
             }
         }
@@ -1738,13 +1732,13 @@ public class ServerTabController extends BaseClientController<MainController> {
             list.addAll(getSelectionLeafNodes().stream().map(TreeItem::getValue).toList());
             //选择多个key，要弹出列表确认
             if(list.size()>1){
-                if(!keyConfirm(list,MultipleKeyController.EXPORT)){
+                if(keyConfirm(list, MultipleKeyController.EXPORT)){
                     return;
                 }
             }
         }else {
             list.addAll(getCheckLeafNodes().stream().map(TreeItem::getValue).toList());
-            if(!keyConfirm(list,MultipleKeyController.EXPORT)){
+            if(keyConfirm(list, MultipleKeyController.EXPORT)){
                 return;
             }
         }
@@ -1790,10 +1784,10 @@ public class ServerTabController extends BaseClientController<MainController> {
         stage.showAndWait();
         // 等待结果
         try {
-            return future.get();
+            return !future.get();
         } catch (InterruptedException | ExecutionException e) {
             log.error("key confirm exception",e);
-           return false;
+           return true;
         }
     }
 
