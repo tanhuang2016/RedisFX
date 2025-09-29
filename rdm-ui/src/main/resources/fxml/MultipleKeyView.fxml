@@ -17,7 +17,7 @@
          <center>
             <VBox prefHeight="619.0" prefWidth="955.0">
                <children>
-                  <TextArea fx:id="textArea" editable="false" prefWidth="200.0"  wrapText="true" VBox.vgrow="ALWAYS" />
+                  <TextArea fx:id="textArea" editable="false" prefWidth="200.0" wrapText="true" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
          </center>
@@ -26,8 +26,8 @@
                <children>
                   <ButtonBar prefHeight="40.0" prefWidth="200.0">
                     <buttons>
-                      <Button fx:id="cancel" mnemonicParsing="false"  onAction="#cancel"/>
-                        <Button fx:id="ok" mnemonicParsing="false"  onAction="#onConfirmAction" />
+                      <Button fx:id="cancel" mnemonicParsing="false" onAction="#cancel" />
+                        <Button fx:id="ok" mnemonicParsing="false" onAction="#onConfirmAction" />
                     </buttons>
                   </ButtonBar>
                </children>
@@ -36,9 +36,12 @@
          <top>
             <HBox alignment="CENTER_LEFT" spacing="5.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="prompt"  />
+                  <Label fx:id="prompt" />
                   <Label fx:id="total" />
                </children>
+               <BorderPane.margin>
+                  <Insets bottom="2.0" />
+               </BorderPane.margin>
             </HBox>
          </top>
       </BorderPane>
