@@ -1378,31 +1378,42 @@ public class ServerTabController extends BaseClientController<MainController> {
      */
     @FXML
     public void delete(ActionEvent actionEvent) {
-        if(!GuiUtil.alert(Alert.AlertType.CONFIRMATION, Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL))){
-            return;
-        }
         List<String> delKeys=new ArrayList<>();
         // 获取选中的节点
-        List<TreeItem<KeyTreeNode>> delItems =new ArrayList<>();
-        treeView.getSelectionModel().getSelectedItems().forEach(item -> {
-            if (item != treeView.getRoot()) {
-                //叶子节点是连接,需要删除redis上的key
-                if(item.isLeaf()){
-                    delKeys.add(item.getValue().getKey());
+        final List<TreeItem<KeyTreeNode>> delItems =new ArrayList<>();
+        if(!checkBox.isSelected()){
+            treeView.getSelectionModel().getSelectedItems().forEach(item -> {
+                if (item != treeView.getRoot()) {
+                    //叶子节点是连接,需要删除redis上的key
+                    if(item.isLeaf()){
+                        delKeys.add(item.getValue().getKey());
+                    }
+                    delItems.add(item);
                 }
-                delItems.add(item);
+            });
+            //选择多个key，要弹出列表确认
+            if(delItems.size()>1){
+                if(!keyConfirm(delItems.stream().map(TreeItem::getValue).toList(),MultipleKeyController.DELETE)){
+                    return;
+                }
             }
-        });
-        deleteTreeItems(delItems);
+            if(!GuiUtil.alert(Alert.AlertType.CONFIRMATION, Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL))){
+                return;
+            }
+        }else {
+            delItems.addAll(getCheckLeafNodes());
+            List<KeyTreeNode> list = delItems.stream().map(TreeItem::getValue).toList();
+            delKeys.addAll(list.stream().map(KeyTreeNode::getKey).toList());
+            if(!keyConfirm(list,MultipleKeyController.DELETE)){
+                return;
+            }
+        }
 
+        deleteTreeItems(delItems);
         //删除服务器的key
         async(()-> exeRedis(j -> j.del(delKeys.toArray(new String[0]))));
-
         //删除对应打开的tab
         removeTabByKeys(delKeys);
-
-
-
     }
 
     /**
@@ -1705,15 +1716,24 @@ public class ServerTabController extends BaseClientController<MainController> {
 
     @FXML
     public void export(ActionEvent actionEvent) throws IOException {
-        List<TreeItem<KeyTreeNode>> checkedLeafNodes = new ArrayList<>();
-        for (TreeItem<KeyTreeNode> child : treeView.getRoot().getChildren()) {
-            collectCheckedLeafNodes(child, checkedLeafNodes);
-        }
+        List<TreeItem<KeyTreeNode>> checkedLeafNodes = getCheckLeafNodes();
         List<KeyTreeNode> list = checkedLeafNodes.stream().map(TreeItem::getValue).toList();
         if(keyConfirm(list,MultipleKeyController.EXPORT)){
             System.out.println("勾选的叶子节点数量: " + checkedLeafNodes.size());
         }
 
+    }
+
+    /**
+     * 递归收集所有选中的叶子节点
+     *
+     */
+    private List<TreeItem<KeyTreeNode>> getCheckLeafNodes() {
+        List<TreeItem<KeyTreeNode>> checkedLeafNodes = new ArrayList<>();
+        for (TreeItem<KeyTreeNode> child : treeView.getRoot().getChildren()) {
+            collectCheckedLeafNodes(child, checkedLeafNodes);
+        }
+        return checkedLeafNodes;
     }
 
     /**
