@@ -1,11 +1,10 @@
 package xyz.hashdog.rdm.ui.controller;
 
+import atlantafx.base.theme.Styles;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import xyz.hashdog.rdm.ui.common.Constant;
@@ -18,11 +17,17 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 
+import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
+
 public class MultipleKeyController extends BaseController<ServerTabController> implements Initializable {
     public static final int DELETE=1;
     public static final int EXPORT=2;
     public AnchorPane root;
     public TextArea textArea;
+    public Label prompt;
+    public Label total;
+    public Button cancel;
+    public Button ok;
     private int model;
     private CompletableFuture<Boolean> resultFuture;
     private Stage currentStage;
@@ -30,6 +35,7 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
     public void initialize(URL url, ResourceBundle resourceBundle) {
         textArea.setStyle("-fx-background-color: transparent; -fx-border-color: %s; -fx-border-radius: 5px;"
                 .formatted(Constant.THEME_COLOR_BORDER_DEFAULT));
+        ok.getStyleClass().add(Styles.ACCENT);
     }
 
     public void setResultFuture(CompletableFuture<Boolean> future) {
@@ -37,6 +43,17 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
     }
     public void setModel(int model) {
         this.model = model;
+        switch (model) {
+            case DELETE:
+                prompt.setText("请确认要删除的key");
+                ok.setText("确认删除");
+                break;
+            case EXPORT:
+                prompt.setText("请确认要导出的key");
+                ok.setText("确认导出");
+                break;
+        }
+        cancel.setText(language("common.cancel"));
     }
 
     /**

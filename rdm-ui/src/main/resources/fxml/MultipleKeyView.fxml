@@ -26,8 +26,8 @@
                <children>
                   <ButtonBar prefHeight="40.0" prefWidth="200.0">
                     <buttons>
-                      <Button mnemonicParsing="false" text="取消" onAction="#cancel"/>
-                        <Button mnemonicParsing="false" text="确认删除" onAction="#onConfirmAction" />
+                      <Button fx:id="cancel" mnemonicParsing="false"  onAction="#cancel"/>
+                        <Button fx:id="ok" mnemonicParsing="false"  onAction="#onConfirmAction" />
                     </buttons>
                   </ButtonBar>
                </children>
@@ -36,8 +36,8 @@
          <top>
             <HBox alignment="CENTER_LEFT" spacing="5.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label text="请确认需要删除的Key" />
-                  <Label text="选中数量18" />
+                  <Label fx:id="prompt"  />
+                  <Label fx:id="total" />
                </children>
             </HBox>
          </top>
