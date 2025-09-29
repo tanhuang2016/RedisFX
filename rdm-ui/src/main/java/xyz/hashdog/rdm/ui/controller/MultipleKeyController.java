@@ -7,6 +7,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.kordamp.ikonli.feather.Feather;
+import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.material2.Material2AL;
+import org.kordamp.ikonli.material2.Material2MZ;
 import xyz.hashdog.rdm.ui.common.Constant;
 import xyz.hashdog.rdm.ui.controller.base.BaseController;
 import xyz.hashdog.rdm.ui.controller.base.BaseWindowController;
@@ -36,6 +40,8 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
         textArea.setStyle("-fx-background-color: transparent; -fx-border-color: %s; -fx-border-radius: 5px;"
                 .formatted(Constant.THEME_COLOR_BORDER_DEFAULT));
         ok.getStyleClass().add(Styles.ACCENT);
+        prompt.getStyleClass().addAll(Styles.TEXT_BOLD,Styles.DANGER);
+        total.getStyleClass().addAll(Styles.TEXT_SMALL,Styles.SUCCESS);
     }
 
     public void setResultFuture(CompletableFuture<Boolean> future) {
@@ -46,10 +52,12 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
         switch (model) {
             case DELETE:
                 prompt.setText("请确认要删除的key");
+                prompt.setGraphic(new FontIcon(Material2MZ.REPORT_PROBLEM));
                 ok.setText("确认删除");
                 break;
             case EXPORT:
                 prompt.setText("请确认要导出的key");
+                prompt.setGraphic(new FontIcon(Material2AL.GET_APP));
                 ok.setText("确认导出");
                 break;
         }
@@ -61,6 +69,7 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
      * @param list key列表
      */
     public void setKeys(List<KeyTreeNode> list) {
+        total.setText("选中数量 "+list.size());
         for (int i = 0; i < list.size(); i++) {
             textArea.appendText(i+1+": "+list.get(i).getKey()+"\n");
         }
