@@ -1391,9 +1391,10 @@ public class ServerTabController extends BaseClientController<MainController> {
                 if(!keyConfirm(delItems.stream().map(TreeItem::getValue).toList(),MultipleKeyController.DELETE)){
                     return;
                 }
-            }
-            if(!GuiUtil.alert(Alert.AlertType.CONFIRMATION, Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL))){
-                return;
+            }else {
+                if(!GuiUtil.alert(Alert.AlertType.CONFIRMATION, Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL))){
+                    return;
+                }
             }
         }else {
             delItems.addAll(getCheckLeafNodes());
