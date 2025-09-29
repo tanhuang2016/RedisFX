@@ -95,6 +95,7 @@
                                                           </MenuItem>
                                                                             <MenuItem fx:id="refresh" mnemonicParsing="false" onAction="#refresh" />
                                                                             <MenuItem fx:id="delete" mnemonicParsing="false" onAction="#delete" />
+                                                                            <MenuItem fx:id="export" mnemonicParsing="false" onAction="#export" />
                                                                             <MenuItem fx:id="flush" mnemonicParsing="false" onAction="#flush" />
                                                                             <CheckMenuItem fx:id="checkBox" mnemonicParsing="false" onAction="#checkBox" />
                                                                             <SeparatorMenuItem />

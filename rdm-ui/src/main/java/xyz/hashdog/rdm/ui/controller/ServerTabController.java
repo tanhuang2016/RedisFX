@@ -126,6 +126,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     public Button boxCancel;
     public HBox boxToolBar;
     public CheckBox boxSelectAll;
+    public MenuItem export;
     @FXML
     private TreeView<KeyTreeNode> treeView;
     @FXML
@@ -254,6 +255,7 @@ public class ServerTabController extends BaseClientController<MainController> {
         open.setText(language("server.open"));
         refresh.setText(language("server.refresh"));
         delete.setText(language("server.delete"));
+        export.setText(language("key.string.export"));
         flush.setText(language("server.flush"));
         checkBox.setText(language("server.box"));
         console.setText(language("server.console"));
