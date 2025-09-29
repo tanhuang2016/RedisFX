@@ -52,6 +52,7 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
             if (resultFuture != null) {
                 resultFuture.complete(false);
             }
+            this.close();
         });
     }
 
@@ -62,6 +63,7 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
             resultFuture.complete(true);
         }
         currentStage.close();
+        this.close();
     }
 
     @FXML
@@ -70,6 +72,7 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
             resultFuture.complete(false);
         }
         currentStage.close();
+        this.close();
     }
 
 
