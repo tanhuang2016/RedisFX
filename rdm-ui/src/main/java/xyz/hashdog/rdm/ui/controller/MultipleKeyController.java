@@ -8,6 +8,7 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import xyz.hashdog.rdm.ui.common.Constant;
 import xyz.hashdog.rdm.ui.controller.base.BaseController;
 import xyz.hashdog.rdm.ui.controller.base.BaseWindowController;
 import xyz.hashdog.rdm.ui.entity.KeyTreeNode;
@@ -27,7 +28,8 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
     private Stage currentStage;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        textArea.setStyle("-fx-background-color: transparent; -fx-border-color: %s; -fx-border-radius: 5px;"
+                .formatted(Constant.THEME_COLOR_BORDER_DEFAULT));
     }
 
     public void setResultFuture(CompletableFuture<Boolean> future) {
