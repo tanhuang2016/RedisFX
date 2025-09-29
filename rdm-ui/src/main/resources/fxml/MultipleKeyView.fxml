@@ -17,7 +17,7 @@
          <center>
             <VBox prefHeight="619.0" prefWidth="955.0">
                <children>
-                  <TextArea fx:id="textArea" editable="false" prefWidth="200.0" styleClass="no-border-text-area" wrapText="true" VBox.vgrow="ALWAYS" />
+                  <TextArea fx:id="textArea" editable="false" prefWidth="200.0"  wrapText="true" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
          </center>
@@ -26,8 +26,8 @@
                <children>
                   <ButtonBar prefHeight="40.0" prefWidth="200.0">
                     <buttons>
-                      <Button mnemonicParsing="false" text="取消" />
-                        <Button mnemonicParsing="false" text="确认删除" />
+                      <Button mnemonicParsing="false" text="取消" onAction="#cancel"/>
+                        <Button mnemonicParsing="false" text="确认删除" onAction="#onConfirmAction" />
                     </buttons>
                   </ButtonBar>
                </children>

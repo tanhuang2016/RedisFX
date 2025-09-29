@@ -437,11 +437,18 @@ public class GuiUtil {
      */
     public static Stage createSubStage(String title, Parent anchorPane, Window window) {
         Stage stage = new Stage();
+        //显示设置图标，避免有时候未继承父窗口图标
+        stage.getIcons().add(GuiUtil.ICON_REDIS);
         stage.setTitle(title);
         Scene scene = new Scene(anchorPane);
         stage.initOwner(window);
         stage.setScene(scene);
         stage.initModality(Modality.WINDOW_MODAL);
+        //去掉最小化和最大化
+        stage.initStyle(StageStyle.DECORATED);
+        stage.setResizable(false);
+        //禁用掉最大最小化
+        stage.setMaximized(false);
         return stage;
     }
 

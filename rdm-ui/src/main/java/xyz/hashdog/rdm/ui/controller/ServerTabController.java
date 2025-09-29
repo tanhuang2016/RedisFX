@@ -13,9 +13,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Side;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTreeCell;
 import javafx.scene.input.KeyCode;
@@ -25,6 +28,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.kordamp.ikonli.feather.Feather;
@@ -55,6 +59,7 @@ import xyz.hashdog.rdm.ui.util.Util;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -1699,13 +1704,47 @@ public class ServerTabController extends BaseClientController<MainController> {
     }
 
     @FXML
-    public void export(ActionEvent actionEvent) {
+    public void export(ActionEvent actionEvent) throws IOException {
         List<TreeItem<KeyTreeNode>> checkedLeafNodes = new ArrayList<>();
         for (TreeItem<KeyTreeNode> child : treeView.getRoot().getChildren()) {
             collectCheckedLeafNodes(child, checkedLeafNodes);
         }
-        System.out.println("勾选的叶子节点数量: " + checkedLeafNodes.size());
+        List<KeyTreeNode> list = checkedLeafNodes.stream().map(TreeItem::getValue).toList();
+        if(keyConfirm(list,MultipleKeyController.EXPORT)){
+            System.out.println("勾选的叶子节点数量: " + checkedLeafNodes.size());
+        }
+
     }
+
+    /**
+     * 多个key操作确认
+     * @param list 待操作的key列表
+     * @param model 操作类型
+     * @return 是否确认
+     */
+    private boolean keyConfirm(List<KeyTreeNode> list, int model) {
+        Tuple2<AnchorPane,MultipleKeyController> tuple2 = loadFxml("/fxml/MultipleKeyView.fxml");
+        AnchorPane borderPane = tuple2.t1();
+        MultipleKeyController controller = tuple2.t2();
+        Stage stage = GuiUtil.createSubStage("Multiple Key Operation", borderPane, root.getScene().getWindow());
+        controller.model=model;
+        // 创建 CompletableFuture 用于等待结果
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+        // 将 stage 和 future 传递给控制器
+        tuple2.t2().setCurrentStage(stage);
+        tuple2.t2().setResultFuture(future);
+        tuple2.t2().setModel(model);
+        // 显示 Stage
+        stage.showAndWait();
+        // 等待结果
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("key confirm exception",e);
+           return false;
+        }
+    }
+
     /**
      * 递归收集所有被选中的叶子节点
      * @param node 当前节点
