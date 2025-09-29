@@ -5,18 +5,24 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import xyz.hashdog.rdm.ui.controller.base.BaseController;
 import xyz.hashdog.rdm.ui.controller.base.BaseWindowController;
+import xyz.hashdog.rdm.ui.entity.KeyTreeNode;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 
 public class MultipleKeyController extends BaseController<ServerTabController> implements Initializable {
     public static final int DELETE=1;
     public static final int EXPORT=2;
-    public int model;
+    public AnchorPane root;
+    public TextArea textArea;
+    private int model;
     private CompletableFuture<Boolean> resultFuture;
     private Stage currentStage;
     @Override
@@ -29,6 +35,16 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
     }
     public void setModel(int model) {
         this.model = model;
+    }
+
+    /**
+     * 设置key列表，不进行属性设置
+     * @param list key列表
+     */
+    public void setKeys(List<KeyTreeNode> list) {
+        for (int i = 0; i < list.size(); i++) {
+            textArea.appendText(i+1+": "+list.get(i).getKey()+"\n");
+        }
     }
     public void setCurrentStage(Stage stage) {
         this.currentStage = stage;
