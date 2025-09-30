@@ -1,11 +1,13 @@
 package xyz.hashdog.rdm.ui.controller;
 
 import atlantafx.base.theme.Styles;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -66,6 +68,11 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
                 break;
         }
         cancel.setText(language("common.cancel"));
+        Platform.runLater(() -> {
+            ok.setMinWidth(Region.USE_PREF_SIZE);
+            ok.setPrefWidth(Region.USE_COMPUTED_SIZE);
+        });
+
     }
 
     /**
