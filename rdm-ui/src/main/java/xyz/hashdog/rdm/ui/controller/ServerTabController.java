@@ -1740,8 +1740,11 @@ public class ServerTabController extends BaseClientController<MainController> {
             return;
         }
 
+        List<Object> pipelineResults = exeRedis(j -> j.executePipelined(commands -> {
+//            commands.dump();
 
-        System.out.println("导出:"+list.size());
+        }));
+        System.out.println("导出:" + list.size());
 
     }
 

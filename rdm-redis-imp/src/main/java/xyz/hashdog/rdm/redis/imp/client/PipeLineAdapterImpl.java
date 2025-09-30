@@ -16,11 +16,11 @@ import java.util.List;
  */
 public class PipeLineAdapterImpl implements PipelineAdapter {
 
-    private final PipelineBase pipeline;
+    private final AbstractPipeline pipeline;
 
-    private List<Object> responseList;
+    private final List<Object> responseList;
 
-    public PipeLineAdapterImpl(PipelineBase pipeline) {
+    public PipeLineAdapterImpl(AbstractPipeline pipeline) {
         this.pipeline = pipeline;
         this.responseList=new ArrayList<>();
     }
