@@ -53,6 +53,7 @@ import xyz.hashdog.rdm.ui.util.Util;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -169,7 +170,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     private String selectTabKey;
 
     private static final String ALL_TYPES = "All Types";
-    private static  WeakReference<File> lastFile;
+    private static  SoftReference<File> lastFile;
 
 
     @FXML
@@ -1752,7 +1753,7 @@ public class ServerTabController extends BaseClientController<MainController> {
         if(file==null){
             return;
         }
-        lastFile=new WeakReference<>(file);
+        lastFile=new SoftReference<>(file);
         boolean finalPttlEnable = pttlEnable;
         List<Object> pipelineResults = exeRedis(j -> j.executePipelined(commands -> {
             for (KeyTreeNode keyTreeNode : list) {
