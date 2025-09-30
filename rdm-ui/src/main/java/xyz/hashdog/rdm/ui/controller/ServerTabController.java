@@ -1784,7 +1784,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     private boolean keyConfirm(List<KeyTreeNode> list, int model) {
         Tuple2<AnchorPane,MultipleKeyController> tuple2 = loadFxml("/fxml/MultipleKeyView.fxml");
         AnchorPane borderPane = tuple2.t1();
-        Stage stage = GuiUtil.createSubStage("Multiple Key Operation", borderPane, root.getScene().getWindow());
+        Stage stage = GuiUtil.createSubStage("", borderPane, root.getScene().getWindow());
         // 创建 CompletableFuture 用于等待结果
         CompletableFuture<Boolean> future = new CompletableFuture<>();
         // 将 stage 和 future 传递给控制器
