@@ -554,26 +554,24 @@ public class ServerTabController extends BaseClientController<MainController> {
                     return;
                 }
                 List<TreeItem<KeyTreeNode>> treeItems = new ArrayList<>();
-                List<Object> pipelineResults =exeRedis(j -> {
-                    return j.executePipelined(commands -> {
-                        // 批量处理队列中的所有节点
-                        TreeItem<KeyTreeNode> treeItem;
-                        // 取出队列中所有待加载的节点
-                        while ((treeItem = iconLoadQueue.poll()) != null) {
-                            KeyTreeNode item = treeItem.getValue();
-                            if(item.getType()==null){
-                                commands.type(item.getKey());
-                                treeItems.add(treeItem);
-                            }else {
-                                Label keyTypeLabel = GuiUtil.getKeyTypeLabel(item.getType());
-                                treeItem.setGraphic(keyTypeLabel);
-                                // 标记节点已初始化
-                                treeItem.getValue().setInitialized(true);
-                            }
-                            n.getAndIncrement();
+                List<Object> pipelineResults =exeRedis(j -> j.executePipelined(commands -> {
+                    // 批量处理队列中的所有节点
+                    TreeItem<KeyTreeNode> treeItem;
+                    // 取出队列中所有待加载的节点
+                    while ((treeItem = iconLoadQueue.poll()) != null) {
+                        KeyTreeNode item = treeItem.getValue();
+                        if(item.getType()==null){
+                            commands.type(item.getKey());
+                            treeItems.add(treeItem);
+                        }else {
+                            Label keyTypeLabel = GuiUtil.getKeyTypeLabel(item.getType());
+                            treeItem.setGraphic(keyTypeLabel);
+                            // 标记节点已初始化
+                            treeItem.getValue().setInitialized(true);
                         }
-                    });
-                });
+                        n.getAndIncrement();
+                    }
+                }));
                 //管道查询的结果，需要更新到树里面
                if(!treeItems.isEmpty()){
                    for (int i = 0; i < treeItems.size(); i++) {
@@ -1013,11 +1011,7 @@ public class ServerTabController extends BaseClientController<MainController> {
             if(!showReport){
                 showReport=true;
                 PauseTransition delay = new PauseTransition(Duration.millis(100));
-                delay.setOnFinished(event -> {
-                    Platform.runLater(() -> {
-                        report(null);
-                    });
-                });
+                delay.setOnFinished(event -> Platform.runLater(() -> report(null)));
                 delay.play();
 
             }
@@ -1325,7 +1319,7 @@ public class ServerTabController extends BaseClientController<MainController> {
      * @param tab tab
      * @param tuple2 tuple2
      */
-    private void setTab(Tab tab, Tuple2<? extends Node, ? extends BaseClientController> tuple2) {
+    private void setTab(Tab tab, Tuple2<? extends Node, ? extends BaseClientController<?>> tuple2) {
         GuiUtil.setTab(tab,this.dbTabPane,tuple2);
     }
 
@@ -1456,7 +1450,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     public void removeTabByKeys(List<String> delKeys) {
         List<Tab> delTabs = new ArrayList<>();
         for (Tab tab : dbTabPane.getTabs()) {
-            BaseClientController controller =(BaseClientController) tab.getContent().getUserData();
+            BaseClientController<?> controller =(BaseClientController<?>) tab.getContent().getUserData();
             String key = controller.getParameter().getKey();
             if(delKeys.contains(key)){
                 delTabs.add(tab);
@@ -1725,7 +1719,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     }
 
     @FXML
-    public void export(ActionEvent actionEvent) throws IOException {
+    public void export(ActionEvent actionEvent)   {
         List<KeyTreeNode> list = new ArrayList<>();
         // 获取选中的节点
         if(!checkBox.isSelected()){
