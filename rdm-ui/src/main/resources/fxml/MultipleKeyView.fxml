@@ -4,7 +4,9 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -34,10 +36,13 @@
             </HBox>
          </bottom>
          <top>
-            <HBox alignment="CENTER_LEFT" spacing="5.0" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER_LEFT" spacing="1.0" BorderPane.alignment="CENTER">
                <children>
                   <Label fx:id="prompt" />
+                  <Separator orientation="VERTICAL" />
                   <Label fx:id="total" />
+                  <Separator fx:id="pttlSeparator" orientation="VERTICAL" visible="false"/>
+                  <CheckBox fx:id="pttl" mnemonicParsing="false" visible="false" />
                </children>
                <BorderPane.margin>
                   <Insets bottom="2.0" />

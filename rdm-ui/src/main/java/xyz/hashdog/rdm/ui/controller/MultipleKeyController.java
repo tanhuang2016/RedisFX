@@ -32,7 +32,8 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
     public Label total;
     public Button cancel;
     public Button ok;
-    private int model;
+    public CheckBox pttl;
+    public Separator pttlSeparator;
     private CompletableFuture<Boolean> resultFuture;
     private Stage currentStage;
     @Override
@@ -41,14 +42,13 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
                 .formatted(Constant.THEME_COLOR_BORDER_DEFAULT));
         ok.getStyleClass().add(Styles.ACCENT);
         prompt.getStyleClass().addAll(Styles.TEXT_BOLD,Styles.DANGER);
-        total.getStyleClass().addAll(Styles.TEXT_SMALL,Styles.SUCCESS);
+        total.getStyleClass().addAll(Styles.SUCCESS);
     }
 
     public void setResultFuture(CompletableFuture<Boolean> future) {
         this.resultFuture = future;
     }
     public void setModel(int model) {
-        this.model = model;
         switch (model) {
             case DELETE:
                 prompt.setText("请确认要删除的key");
@@ -56,6 +56,9 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
                 ok.setText("确认删除");
                 break;
             case EXPORT:
+                pttlSeparator.setVisible(true);
+                pttl.setVisible(true);
+                pttl.setText("导出时效");
                 prompt.setText("请确认要导出的key");
                 prompt.setGraphic(new FontIcon(Material2AL.GET_APP));
                 ok.setText("确认导出");
@@ -69,7 +72,7 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
      * @param list key列表
      */
     public void setKeys(List<KeyTreeNode> list) {
-        total.setText("选中数量 "+list.size());
+        total.setText("数量 "+list.size());
         for (int i = 0; i < list.size(); i++) {
             textArea.appendText(i+1+": "+list.get(i).getKey()+"\n");
         }
