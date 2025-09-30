@@ -97,8 +97,8 @@
                                                                             <MenuItem fx:id="delete" mnemonicParsing="false" onAction="#delete" />
                                                                             <MenuItem fx:id="flush" mnemonicParsing="false" onAction="#flush" />
                                                                             <MenuItem fx:id="export" mnemonicParsing="false" onAction="#export" />
-                                                                            <CheckMenuItem fx:id="checkBox" mnemonicParsing="false" onAction="#checkBox" />
                                                                             <SeparatorMenuItem />
+                                                                            <CheckMenuItem fx:id="checkBox" mnemonicParsing="false" onAction="#checkBox" />
                                                                             <MenuItem fx:id="console" mnemonicParsing="false" onAction="#console" />
                                                                             <MenuItem fx:id="monitor" mnemonicParsing="false" onAction="#monitor" />
                                                                             <MenuItem fx:id="pubsub" mnemonicParsing="false" onAction="#pubsub" />
