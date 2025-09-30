@@ -1724,18 +1724,24 @@ public class ServerTabController extends BaseClientController<MainController> {
     @FXML
     public void export(ActionEvent actionEvent)   {
         List<KeyTreeNode> list = new ArrayList<>();
+        //默认是需要导出ttl
+        boolean pttlEnable = true;
         // 获取选中的节点
         if(!checkBox.isSelected()){
             list.addAll(getSelectionLeafNodes().stream().map(TreeItem::getValue).toList());
             //选择多个key，要弹出列表确认
             if(list.size()>1){
-                if(!keyConfirm(list, MultipleKeyController.EXPORT).t1()){
+                Tuple2<Boolean, Boolean> tuple2 = keyConfirm(list, MultipleKeyController.EXPORT);
+                pttlEnable=tuple2.t2();
+                if(!tuple2.t1()){
                     return;
                 }
             }
         }else {
             list.addAll(getCheckLeafNodes().stream().map(TreeItem::getValue).toList());
-            if(!keyConfirm(list, MultipleKeyController.EXPORT).t1()){
+            Tuple2<Boolean, Boolean> tuple2 = keyConfirm(list, MultipleKeyController.EXPORT);
+            pttlEnable=tuple2.t2();
+            if(!tuple2.t1()){
                 return;
             }
         }
@@ -1747,17 +1753,30 @@ public class ServerTabController extends BaseClientController<MainController> {
             return;
         }
         lastFile=new WeakReference<>(file);
+        boolean finalPttlEnable = pttlEnable;
         List<Object> pipelineResults = exeRedis(j -> j.executePipelined(commands -> {
             for (KeyTreeNode keyTreeNode : list) {
                 commands.dump(keyTreeNode.getKey());
+                if(finalPttlEnable){
+                    commands.pttl(keyTreeNode.getKey());
+                }
             }
         }));
         StringBuilder csvContent = new StringBuilder();
         for (int i = 0; i < list.size(); i++) {
             String key = FileUtil.byte2HexString(list.get(i).getKey().getBytes());
-            String value = FileUtil.byte2HexString((byte[]) pipelineResults.get(i));
-            csvContent.append(key).append(",")
-                    .append(value).append("\n");
+            csvContent.append(key).append(",");
+            int n=i;
+            if(finalPttlEnable){
+                n*=2;
+            }
+            String value = FileUtil.byte2HexString((byte[]) pipelineResults.get(n));
+            csvContent.append(value);
+            if(finalPttlEnable){
+                long ttl = (long) pipelineResults.get(n+1);
+                csvContent.append(",").append(ttl);
+            }
+            csvContent.append("\n");
         }
         FileUtil.byteWrite2file(csvContent.toString().getBytes(), file.getAbsolutePath());
 

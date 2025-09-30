@@ -37,4 +37,6 @@ public interface PipelineAdapter {
     void defaultValue(Object v);
 
     void dump(String key);
+
+    void pttl(String key);
 }
