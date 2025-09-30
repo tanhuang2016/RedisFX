@@ -42,7 +42,7 @@
                   <Separator orientation="VERTICAL" />
                   <Label fx:id="total" />
                   <Separator fx:id="pttlSeparator" orientation="VERTICAL" visible="false"/>
-                  <CheckBox fx:id="pttl" mnemonicParsing="false" visible="false" />
+                  <CheckBox fx:id="pttl" mnemonicParsing="false" visible="false" selected="true"/>
                </children>
                <BorderPane.margin>
                   <Insets bottom="2.0" />
