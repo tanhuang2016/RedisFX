@@ -52,17 +52,17 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
     public void setModel(int model) {
         switch (model) {
             case DELETE:
-                prompt.setText("请确认要删除的key");
+                prompt.setText(language("server.box.delete.prompt"));
                 prompt.setGraphic(new FontIcon(Material2MZ.REPORT_PROBLEM));
-                ok.setText("确认删除");
+                ok.setText(language("server.box.delete.confirm"));
                 break;
             case EXPORT:
                 pttlSeparator.setVisible(true);
                 pttl.setVisible(true);
-                pttl.setText("导出时效");
-                prompt.setText("请确认要导出的key");
+                pttl.setText(language("server.box.export.pttl"));
+                prompt.setText(language("server.box.export.prompt"));
                 prompt.setGraphic(new FontIcon(Material2AL.GET_APP));
-                ok.setText("确认导出");
+                ok.setText(language("server.box.export.confirm"));
                 break;
         }
         cancel.setText(language("common.cancel"));
@@ -73,7 +73,7 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
      * @param list key列表
      */
     public void setKeys(List<KeyTreeNode> list) {
-        total.setText("数量 "+list.size());
+        total.setText(language("server.box.total")+" "+list.size());
         for (int i = 0; i < list.size(); i++) {
             textArea.appendText(i+1+": "+list.get(i).getKey()+"\n");
         }
