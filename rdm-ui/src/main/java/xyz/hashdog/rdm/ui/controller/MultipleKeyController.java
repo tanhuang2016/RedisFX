@@ -25,7 +25,12 @@ import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 
 import static xyz.hashdog.rdm.ui.util.LanguageManager.language;
-
+/**
+ * 多个key操作提示框
+ * @author th
+ * @version 2.3.9
+ * @since 2025/9/29 22:46
+ */
 public class MultipleKeyController extends BaseController<ServerTabController> implements Initializable {
     public static final int DELETE=1;
     public static final int EXPORT=2;
