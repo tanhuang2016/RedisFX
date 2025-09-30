@@ -35,4 +35,6 @@ public interface PipelineAdapter {
     void jsonArrLen(String key);
 
     void defaultValue(Object v);
+
+    void dump(String key);
 }

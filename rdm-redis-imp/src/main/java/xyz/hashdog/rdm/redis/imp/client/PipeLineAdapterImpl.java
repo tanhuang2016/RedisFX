@@ -98,6 +98,11 @@ public class PipeLineAdapterImpl implements PipelineAdapter {
         responseList.add(v);
     }
 
+    @Override
+    public void dump(String key) {
+        responseList.add(pipeline.dump(key));
+    }
+
     public List<Object> syncAndReturnAll() {
         pipeline.sync();
         List<Object> result = new ArrayList<>();

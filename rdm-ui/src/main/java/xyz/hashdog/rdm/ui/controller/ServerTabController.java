@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
+import xyz.hashdog.rdm.common.util.FileUtil;
 import xyz.hashdog.rdm.common.util.TUtil;
 import xyz.hashdog.rdm.redis.client.RedisClient;
 import xyz.hashdog.rdm.redis.client.RedisKeyScanner;
@@ -50,6 +51,7 @@ import xyz.hashdog.rdm.ui.util.RecentHistory;
 import xyz.hashdog.rdm.ui.util.SvgManager;
 import xyz.hashdog.rdm.ui.util.Util;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.*;
@@ -167,6 +169,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     private String selectTabKey;
 
     private static final String ALL_TYPES = "All Types";
+    private static  WeakReference<File> lastFile;
 
 
     @FXML
@@ -1739,12 +1742,24 @@ public class ServerTabController extends BaseClientController<MainController> {
         if(list.isEmpty()){
             return;
         }
-
+        File file = GuiUtil.saveFileChoose(this.root.getScene().getWindow(), lastFile==null?null:lastFile.get(), "dump_%s.csv".formatted(System.currentTimeMillis()));
+        if(file==null){
+            return;
+        }
+        lastFile=new WeakReference<>(file);
         List<Object> pipelineResults = exeRedis(j -> j.executePipelined(commands -> {
-//            commands.dump();
-
+            for (KeyTreeNode keyTreeNode : list) {
+                commands.dump(keyTreeNode.getKey());
+            }
         }));
-        System.out.println("导出:" + list.size());
+        StringBuilder csvContent = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            String key = FileUtil.byte2HexString(list.get(i).getKey().getBytes());
+            String value = FileUtil.byte2HexString((byte[]) pipelineResults.get(i));
+            csvContent.append(key).append(",")
+                    .append(value).append("\n");
+        }
+        FileUtil.byteWrite2file(csvContent.toString().getBytes(), file.getAbsolutePath());
 
     }
 
