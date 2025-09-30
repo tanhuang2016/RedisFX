@@ -11,6 +11,7 @@ import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import org.kordamp.ikonli.material2.Material2MZ;
+import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.ui.common.Constant;
 import xyz.hashdog.rdm.ui.controller.base.BaseController;
 import xyz.hashdog.rdm.ui.controller.base.BaseWindowController;
@@ -34,7 +35,7 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
     public Button ok;
     public CheckBox pttl;
     public Separator pttlSeparator;
-    private CompletableFuture<Boolean> resultFuture;
+    private CompletableFuture<Tuple2<Boolean,Boolean>> resultFuture;
     private Stage currentStage;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -45,7 +46,7 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
         total.getStyleClass().addAll(Styles.SUCCESS);
     }
 
-    public void setResultFuture(CompletableFuture<Boolean> future) {
+    public void setResultFuture(CompletableFuture<Tuple2<Boolean,Boolean>> future) {
         this.resultFuture = future;
     }
     public void setModel(int model) {
@@ -81,7 +82,7 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
         this.currentStage = stage;
         stage.setOnCloseRequest(event -> {
             if (resultFuture != null) {
-                resultFuture.complete(false);
+                resultFuture.complete(new Tuple2<>(false,pttl.isSelected()));
             }
             this.close();
         });
@@ -91,7 +92,7 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
     public void onConfirmAction(ActionEvent event) {
         // 执行确认逻辑
         if (resultFuture != null) {
-            resultFuture.complete(true);
+            resultFuture.complete(new Tuple2<>(true,pttl.isSelected()));
         }
         currentStage.close();
         this.close();
@@ -100,7 +101,7 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
     @FXML
     public void cancel(ActionEvent actionEvent) {
         if (resultFuture != null) {
-            resultFuture.complete(false);
+            resultFuture.complete(new Tuple2<>(false,pttl.isSelected()));
         }
         currentStage.close();
         this.close();

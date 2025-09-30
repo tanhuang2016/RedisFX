@@ -1379,7 +1379,7 @@ public class ServerTabController extends BaseClientController<MainController> {
             delItems.forEach(item -> delKeys.add(item.getValue().getKey()));
             //选择多个key，要弹出列表确认
             if(delItems.size()>1){
-                if(keyConfirm(delItems.stream().map(TreeItem::getValue).toList(), MultipleKeyController.DELETE)){
+                if(!keyConfirm(delItems.stream().map(TreeItem::getValue).toList(), MultipleKeyController.DELETE).t1()){
                     return;
                 }
             }else {
@@ -1391,7 +1391,7 @@ public class ServerTabController extends BaseClientController<MainController> {
             delItems.addAll(getCheckLeafNodes());
             List<KeyTreeNode> list = delItems.stream().map(TreeItem::getValue).toList();
             delKeys.addAll(list.stream().map(KeyTreeNode::getKey).toList());
-            if(keyConfirm(list, MultipleKeyController.DELETE)){
+            if(!keyConfirm(list, MultipleKeyController.DELETE).t1()){
                 return;
             }
         }
@@ -1729,13 +1729,13 @@ public class ServerTabController extends BaseClientController<MainController> {
             list.addAll(getSelectionLeafNodes().stream().map(TreeItem::getValue).toList());
             //选择多个key，要弹出列表确认
             if(list.size()>1){
-                if(keyConfirm(list, MultipleKeyController.EXPORT)){
+                if(!keyConfirm(list, MultipleKeyController.EXPORT).t1()){
                     return;
                 }
             }
         }else {
             list.addAll(getCheckLeafNodes().stream().map(TreeItem::getValue).toList());
-            if(keyConfirm(list, MultipleKeyController.EXPORT)){
+            if(!keyConfirm(list, MultipleKeyController.EXPORT).t1()){
                 return;
             }
         }
@@ -1781,12 +1781,12 @@ public class ServerTabController extends BaseClientController<MainController> {
      * @param model 操作类型
      * @return 是否确认
      */
-    private boolean keyConfirm(List<KeyTreeNode> list, int model) {
+    private Tuple2<Boolean,Boolean> keyConfirm(List<KeyTreeNode> list, int model) {
         Tuple2<AnchorPane,MultipleKeyController> tuple2 = loadFxml("/fxml/MultipleKeyView.fxml");
         AnchorPane borderPane = tuple2.t1();
         Stage stage = GuiUtil.createSubStage("", borderPane, root.getScene().getWindow());
         // 创建 CompletableFuture 用于等待结果
-        CompletableFuture<Boolean> future = new CompletableFuture<>();
+        CompletableFuture<Tuple2<Boolean,Boolean>> future = new CompletableFuture<>();
         // 将 stage 和 future 传递给控制器
         tuple2.t2().setCurrentStage(stage);
         tuple2.t2().setResultFuture(future);
@@ -1796,10 +1796,10 @@ public class ServerTabController extends BaseClientController<MainController> {
         stage.showAndWait();
         // 等待结果
         try {
-            return !future.get();
+            return future.get();
         } catch (InterruptedException | ExecutionException e) {
             log.error("key confirm exception",e);
-           return true;
+           return new Tuple2<>(false,false);
         }
     }
 
