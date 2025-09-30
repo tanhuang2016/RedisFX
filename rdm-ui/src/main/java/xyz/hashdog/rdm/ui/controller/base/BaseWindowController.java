@@ -56,22 +56,13 @@ public abstract class BaseWindowController<T> extends BaseController<T> {
      * @param model 模式
      */
     protected final <T2 extends BaseWindowController>T2 loadSubWindow(String title, String fxml, Window parent, int model)  {
-        Stage newConnctionWindowStage = new Stage();
-        newConnctionWindowStage.initModality(Modality.WINDOW_MODAL);
-        //去掉最小化和最大化
-        newConnctionWindowStage.initStyle(StageStyle.DECORATED);
-        //禁用掉最大最小化
-        newConnctionWindowStage.setMaximized(false);
-        newConnctionWindowStage.setTitle(title);
         Tuple2<AnchorPane,T2> tuple2 = loadFxml(fxml);
         AnchorPane borderPane = tuple2.t1();
         T2 controller = tuple2.t2();
-        controller.setCurrentStage(newConnctionWindowStage);
-        Scene scene = new Scene(borderPane);
-        newConnctionWindowStage.initOwner(parent);
-        newConnctionWindowStage.setScene(scene);
-        newConnctionWindowStage.show();
+        Stage stage = GuiUtil.createSubStage(title, borderPane, parent);
+        controller.setCurrentStage(stage);
         controller.model=model;
+        stage.show();
         return controller;
     }
 

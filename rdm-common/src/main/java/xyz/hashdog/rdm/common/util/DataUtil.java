@@ -2,7 +2,17 @@ package xyz.hashdog.rdm.common.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.w3c.dom.Document;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.awt.*;
+import java.io.ByteArrayInputStream;
+import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Locale;
@@ -115,5 +125,78 @@ public class DataUtil {
     public static byte[] json2Byte(String value, Charset charset,boolean isFormat) {
        return formatJson(value.getBytes(charset),charset,isFormat).getBytes();
 
+    }
+
+
+    /**
+     * 将XML字符串格式化为易读格式
+     *
+     * @param xml 待格式化的XML字符串
+     * @return 格式化后的XML字符串
+     */
+    public static String formatXml(String xml) {
+        try {
+            DocumentBuilderFactory factory =
+                    DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(
+                    new ByteArrayInputStream(xml.getBytes()));
+
+            TransformerFactory transformerFactory =
+                    javax.xml.transform.TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+
+            // 设置格式化输出属性
+            transformer.setOutputProperty(javax.xml.transform.OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            transformer.setOutputProperty(javax.xml.transform.OutputKeys.OMIT_XML_DECLARATION, "no");
+            transformer.setOutputProperty(javax.xml.transform.OutputKeys.METHOD, "xml");
+
+            StringWriter writer = new StringWriter();
+            transformer.transform(
+                    new DOMSource(document),
+                    new StreamResult(writer));
+
+            return writer.toString();
+        } catch (Exception e) {
+            // 解析失败时返回原始字符串
+            return xml;
+        }
+    }
+
+    /**
+     * 将XML字符串压缩成单行
+     *
+     * @param xml 待压缩的XML字符串
+     * @return 压缩后的单行XML字符串
+     */
+    public static String compressXml(String xml) {
+        try {
+            DocumentBuilderFactory factory =
+                    DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(
+                    new java.io.ByteArrayInputStream(xml.getBytes()));
+            TransformerFactory transformerFactory =
+                    TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+
+            // 设置压缩输出属性
+            transformer.setOutputProperty(javax.xml.transform.OutputKeys.INDENT, "no");
+            transformer.setOutputProperty(javax.xml.transform.OutputKeys.OMIT_XML_DECLARATION, "yes");
+            transformer.setOutputProperty(javax.xml.transform.OutputKeys.METHOD, "xml");
+            transformer.setOutputProperty(javax.xml.transform.OutputKeys.STANDALONE, "yes");
+
+            StringWriter writer = new StringWriter();
+            transformer.transform(
+                    new DOMSource(document),
+                    new StreamResult(writer));
+
+            // 移除所有换行符和多余空格
+            return writer.toString().replace("\n", "").replace("\r", "").trim();
+        } catch (Exception e) {
+            // 简单的字符串压缩作为备选方案
+            return xml.replace("\n", "").replace("\r", "").trim();
+        }
     }
 }

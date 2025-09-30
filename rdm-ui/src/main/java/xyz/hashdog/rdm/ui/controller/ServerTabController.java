@@ -17,6 +17,7 @@ import javafx.geometry.Side;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTreeCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -33,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import xyz.hashdog.rdm.common.pool.ThreadPool;
 import xyz.hashdog.rdm.common.tuple.Tuple2;
 import xyz.hashdog.rdm.common.util.DataUtil;
+import xyz.hashdog.rdm.common.util.FileUtil;
 import xyz.hashdog.rdm.common.util.TUtil;
 import xyz.hashdog.rdm.redis.client.RedisClient;
 import xyz.hashdog.rdm.redis.client.RedisKeyScanner;
@@ -49,9 +51,12 @@ import xyz.hashdog.rdm.ui.util.RecentHistory;
 import xyz.hashdog.rdm.ui.util.SvgManager;
 import xyz.hashdog.rdm.ui.util.Util;
 
+import java.io.File;
 import java.io.IOException;
+import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -112,6 +117,13 @@ public class ServerTabController extends BaseClientController<MainController> {
     public MenuItem report;
     public CheckMenuItem autoSearch;
     public Menu searchTypeMenu;
+    public CheckMenuItem checkBox;
+    public Button boxDelete;
+    public Button boxExport;
+    public Button boxCancel;
+    public HBox boxToolBar;
+    public CheckBox boxSelectAll;
+    public MenuItem export;
     @FXML
     private TreeView<KeyTreeNode> treeView;
     @FXML
@@ -158,6 +170,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     private String selectTabKey;
 
     private static final String ALL_TYPES = "All Types";
+    private static  SoftReference<File> lastFile;
 
 
     @FXML
@@ -240,13 +253,18 @@ public class ServerTabController extends BaseClientController<MainController> {
         open.setText(language("server.open"));
         refresh.setText(language("server.refresh"));
         delete.setText(language("server.delete"));
+        export.setText(language("key.string.export"));
         flush.setText(language("server.flush"));
+        checkBox.setText(language("server.box"));
         console.setText(language("server.console"));
         monitor.setText(language("server.monitor"));
         pubsub.setText(language("server.pubsub"));
         report.setText(language("server.report"));
         loadMore.setText(language("server.toolBar.loadMore"));
         loadAll.setText(language("server.toolBar.loadAll"));
+        boxDelete.setText(language("key.delete"));
+        boxExport.setText(language("key.string.export"));
+        boxCancel.setText(language("common.cancel"));
         newKey.setText(language("server.new"));
     }
 
@@ -327,6 +345,9 @@ public class ServerTabController extends BaseClientController<MainController> {
         initToolBarButtonStyles(locationButton,expandedButton,collapseButton,optionsButton,hideButton,showButton);
         loadMore.getStyleClass().addAll(Styles.SMALL, UiStyles.MINI);
         loadAll.getStyleClass().addAll(Styles.SMALL,Styles.DANGER, UiStyles.MINI);
+        boxDelete.getStyleClass().addAll(Styles.SMALL,Styles.DANGER, UiStyles.MINI);
+        boxExport.getStyleClass().addAll(Styles.SMALL,Styles.ACCENT, UiStyles.MINI);
+        boxCancel.getStyleClass().addAll(Styles.SMALL,Styles.ACCENT, UiStyles.MINI,Styles.BUTTON_OUTLINED);
     }
 
     private void initToolBarButtonStyles(Button... buttons) {
@@ -469,10 +490,10 @@ public class ServerTabController extends BaseClientController<MainController> {
         treeView.setShowRoot(false);
         //默认根节点为选中节点
         treeView.getSelectionModel().select(treeView.getRoot());
-        treeView.setCellFactory(tv -> new TreeCell<>() {
+        treeView.setCellFactory(tv -> new CheckBoxTreeCell<>() {
 
             @Override
-            protected void updateItem(KeyTreeNode item, boolean empty) {
+            public void updateItem(KeyTreeNode item, boolean empty) {
                 super.updateItem(item, empty);
 
                 if (empty || item == null) {
@@ -488,7 +509,18 @@ public class ServerTabController extends BaseClientController<MainController> {
                     }
                     // 如果图标已经加载过，直接显示
                     if (getTreeItem().getGraphic() != null) {
-                        setGraphic(getTreeItem().getGraphic());
+                        Node graphic = getTreeItem().getGraphic();
+                        if(!checkBox.isSelected()){
+                            setGraphic(graphic);
+                            return;
+                        }
+                        Node box = getGraphic();
+                        if(box instanceof CheckBox cb){
+                            cb.setText(" ");
+                            cb.setGraphicTextGap(0);
+                            cb.setGraphic(graphic);
+                        }
+                        setGraphic(box);
                     }
                 }
             }
@@ -526,26 +558,24 @@ public class ServerTabController extends BaseClientController<MainController> {
                     return;
                 }
                 List<TreeItem<KeyTreeNode>> treeItems = new ArrayList<>();
-                List<Object> pipelineResults =exeRedis(j -> {
-                    return j.executePipelined(commands -> {
-                        // 批量处理队列中的所有节点
-                        TreeItem<KeyTreeNode> treeItem;
-                        // 取出队列中所有待加载的节点
-                        while ((treeItem = iconLoadQueue.poll()) != null) {
-                            KeyTreeNode item = treeItem.getValue();
-                            if(item.getType()==null){
-                                commands.type(item.getKey());
-                                treeItems.add(treeItem);
-                            }else {
-                                Label keyTypeLabel = GuiUtil.getKeyTypeLabel(item.getType());
-                                treeItem.setGraphic(keyTypeLabel);
-                                // 标记节点已初始化
-                                treeItem.getValue().setInitialized(true);
-                            }
-                            n.getAndIncrement();
+                List<Object> pipelineResults =exeRedis(j -> j.executePipelined(commands -> {
+                    // 批量处理队列中的所有节点
+                    TreeItem<KeyTreeNode> treeItem;
+                    // 取出队列中所有待加载的节点
+                    while ((treeItem = iconLoadQueue.poll()) != null) {
+                        KeyTreeNode item = treeItem.getValue();
+                        if(item.getType()==null){
+                            commands.type(item.getKey());
+                            treeItems.add(treeItem);
+                        }else {
+                            Label keyTypeLabel = GuiUtil.getKeyTypeLabel(item.getType());
+                            treeItem.setGraphic(keyTypeLabel);
+                            // 标记节点已初始化
+                            treeItem.getValue().setInitialized(true);
                         }
-                    });
-                });
+                        n.getAndIncrement();
+                    }
+                }));
                 //管道查询的结果，需要更新到树里面
                if(!treeItems.isEmpty()){
                    for (int i = 0; i < treeItems.size(); i++) {
@@ -785,7 +815,7 @@ public class ServerTabController extends BaseClientController<MainController> {
         ObservableList<TreeItem<KeyTreeNode>> children = treeView.getRoot().getChildren();
         List<TreeItem<KeyTreeNode>> list = new ArrayList<>();
         for (String key : keys) {
-            list.add(new TreeItem<>(KeyTreeNode.leaf(key)));
+            list.add(new CheckBoxTreeItem<>(KeyTreeNode.leaf(key)));
         }
         children.addAll( list);
     }
@@ -850,7 +880,7 @@ public class ServerTabController extends BaseClientController<MainController> {
                     hasRoot=root;
                 }
                 if (isLeaf) {
-                    childNode = new TreeItem<>(KeyTreeNode.leaf(key));
+                    childNode = new CheckBoxTreeItem<>(KeyTreeNode.leaf(key));
                     if(hasRoot.getValue()!=null){
                         childNode.getValue().setParent(hasRoot.getValue());
                         hasRoot.getValue().addChildKeyCount();
@@ -863,7 +893,7 @@ public class ServerTabController extends BaseClientController<MainController> {
                       continue;
                     }
                     //目录的话，直接设置图标
-                    childNode = new TreeItem<>(KeyTreeNode.dir(part),new FontIcon(Feather.FOLDER));
+                    childNode = new CheckBoxTreeItem<>(KeyTreeNode.dir(part),new FontIcon(Feather.FOLDER));
                     treeItemDirMap.put(thisPrefix,childNode);
                     if(hasRoot.getValue()!=null){
                         childNode.getValue().setParent(hasRoot.getValue());
@@ -985,11 +1015,7 @@ public class ServerTabController extends BaseClientController<MainController> {
             if(!showReport){
                 showReport=true;
                 PauseTransition delay = new PauseTransition(Duration.millis(100));
-                delay.setOnFinished(event -> {
-                    Platform.runLater(() -> {
-                        report(null);
-                    });
-                });
+                delay.setOnFinished(event -> Platform.runLater(() -> report(null)));
                 delay.play();
 
             }
@@ -1225,7 +1251,7 @@ public class ServerTabController extends BaseClientController<MainController> {
      */
     private TreeItem<KeyTreeNode> treeNodePutDir(TreeItem<KeyTreeNode> root, KeyTreeNode keyTreeNode) {
         if(!this.redisContext.getRedisConfig().isTreeShow()){
-            TreeItem<KeyTreeNode> keyTreeNodeTreeItem = new TreeItem<>(keyTreeNode);
+            TreeItem<KeyTreeNode> keyTreeNodeTreeItem = new CheckBoxTreeItem<>(keyTreeNode);
             root.getChildren().addFirst(keyTreeNodeTreeItem);
             return  keyTreeNodeTreeItem;
         }
@@ -1242,9 +1268,9 @@ public class ServerTabController extends BaseClientController<MainController> {
             TreeItem<KeyTreeNode> childNode = findChild(current, part);
             if (childNode == null || isLeaf) {
                 if (isLeaf) {
-                    childNode = new TreeItem<>(keyTreeNode);
+                    childNode = new CheckBoxTreeItem<>(keyTreeNode);
                 } else {
-                    childNode = new TreeItem<>(KeyTreeNode.dir(part), new FontIcon(Feather.FOLDER));
+                    childNode = new CheckBoxTreeItem<>(KeyTreeNode.dir(part), new FontIcon(Feather.FOLDER));
                 }
                 TreeItem<KeyTreeNode> finalChildNode = childNode;
 
@@ -1297,7 +1323,7 @@ public class ServerTabController extends BaseClientController<MainController> {
      * @param tab tab
      * @param tuple2 tuple2
      */
-    private void setTab(Tab tab, Tuple2<? extends Node, ? extends BaseClientController> tuple2) {
+    private void setTab(Tab tab, Tuple2<? extends Node, ? extends BaseClientController<?>> tuple2) {
         GuiUtil.setTab(tab,this.dbTabPane,tuple2);
     }
 
@@ -1346,31 +1372,56 @@ public class ServerTabController extends BaseClientController<MainController> {
      */
     @FXML
     public void delete(ActionEvent actionEvent) {
-        if(!GuiUtil.alert(Alert.AlertType.CONFIRMATION, Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL))){
+        final List<String> delKeys=new ArrayList<>();
+        // 获取选中的节点
+        final List<TreeItem<KeyTreeNode>> delItems =new ArrayList<>();
+        if(!checkBox.isSelected()){
+            delItems.addAll(getSelectionLeafNodes());
+            delItems.forEach(item -> delKeys.add(item.getValue().getKey()));
+            //选择多个key，要弹出列表确认
+            if(delItems.size()>1){
+                if(!keyConfirm(delItems.stream().map(TreeItem::getValue).toList(), MultipleKeyController.DELETE).t1()){
+                    return;
+                }
+            }else {
+                if(!GuiUtil.alert(Alert.AlertType.CONFIRMATION, Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL))){
+                    return;
+                }
+            }
+        }else {
+            delItems.addAll(getCheckLeafNodes());
+            List<KeyTreeNode> list = delItems.stream().map(TreeItem::getValue).toList();
+            delKeys.addAll(list.stream().map(KeyTreeNode::getKey).toList());
+            if(!keyConfirm(list, MultipleKeyController.DELETE).t1()){
+                return;
+            }
+        }
+        if(delKeys.isEmpty()){
             return;
         }
-        List<String> delKeys=new ArrayList<>();
-        // 获取选中的节点
+        deleteTreeItems(delItems);
+        //删除服务器的key
+        async(()-> exeRedis(j -> j.del(delKeys.toArray(new String[0]))));
+        //删除对应打开的tab
+        removeTabByKeys(delKeys);
+    }
+
+    /**
+     * 获取选中的叶子节点
+     * @return 选中的叶子节点
+     */
+    private List<TreeItem<KeyTreeNode>> getSelectionLeafNodes() {
         List<TreeItem<KeyTreeNode>> delItems =new ArrayList<>();
         treeView.getSelectionModel().getSelectedItems().forEach(item -> {
             if (item != treeView.getRoot()) {
                 //叶子节点是连接,需要删除redis上的key
                 if(item.isLeaf()){
-                    delKeys.add(item.getValue().getKey());
+                    delItems.add(item);
                 }
-                delItems.add(item);
+
             }
         });
-        deleteTreeItems(delItems);
-
-        //删除服务器的key
-        async(()-> exeRedis(j -> j.del(delKeys.toArray(new String[0]))));
-
-        //删除对应打开的tab
-        removeTabByKeys(delKeys);
-
-
-
+        return delItems;
     }
 
     /**
@@ -1403,7 +1454,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     public void removeTabByKeys(List<String> delKeys) {
         List<Tab> delTabs = new ArrayList<>();
         for (Tab tab : dbTabPane.getTabs()) {
-            BaseClientController controller =(BaseClientController) tab.getContent().getUserData();
+            BaseClientController<?> controller =(BaseClientController<?>) tab.getContent().getUserData();
             String key = controller.getParameter().getKey();
             if(delKeys.contains(key)){
                 delTabs.add(tab);
@@ -1662,5 +1713,163 @@ public class ServerTabController extends BaseClientController<MainController> {
         super.close();
         //key的服务tab都关闭了，那所有连接都要关闭
         this.redisContext.close();
+    }
+
+    @FXML
+    public void checkBox(ActionEvent actionEvent) {
+        boxToolBar.setVisible(checkBox.isSelected());
+        boxToolBar.setManaged(checkBox.isSelected());
+        treeView.refresh();
+    }
+
+    @FXML
+    public void export(ActionEvent actionEvent)   {
+        List<KeyTreeNode> list = new ArrayList<>();
+        //默认是需要导出ttl
+        boolean pttlEnable = true;
+        // 获取选中的节点
+        if(!checkBox.isSelected()){
+            list.addAll(getSelectionLeafNodes().stream().map(TreeItem::getValue).toList());
+            //选择多个key，要弹出列表确认
+            if(list.size()>1){
+                Tuple2<Boolean, Boolean> tuple2 = keyConfirm(list, MultipleKeyController.EXPORT);
+                pttlEnable=tuple2.t2();
+                if(!tuple2.t1()){
+                    return;
+                }
+            }
+        }else {
+            list.addAll(getCheckLeafNodes().stream().map(TreeItem::getValue).toList());
+            Tuple2<Boolean, Boolean> tuple2 = keyConfirm(list, MultipleKeyController.EXPORT);
+            pttlEnable=tuple2.t2();
+            if(!tuple2.t1()){
+                return;
+            }
+        }
+        if(list.isEmpty()){
+            return;
+        }
+        File file = GuiUtil.saveFileChoose(this.root.getScene().getWindow(), lastFile==null?null:lastFile.get(), "dump_%s.csv".formatted(System.currentTimeMillis()));
+        if(file==null){
+            return;
+        }
+        lastFile=new SoftReference<>(file);
+        boolean finalPttlEnable = pttlEnable;
+        List<Object> pipelineResults = exeRedis(j -> j.executePipelined(commands -> {
+            for (KeyTreeNode keyTreeNode : list) {
+                commands.dump(keyTreeNode.getKey());
+                if(finalPttlEnable){
+                    commands.pttl(keyTreeNode.getKey());
+                }
+            }
+        }));
+        StringBuilder csvContent = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            String key = FileUtil.byte2HexString(list.get(i).getKey().getBytes());
+            csvContent.append(key).append(",");
+            int n=i;
+            if(finalPttlEnable){
+                n*=2;
+            }
+            String value = FileUtil.byte2HexString((byte[]) pipelineResults.get(n));
+            csvContent.append(value);
+            if(finalPttlEnable){
+                long ttl = (long) pipelineResults.get(n+1);
+                csvContent.append(",").append(ttl);
+            }
+            csvContent.append("\n");
+        }
+        FileUtil.byteWrite2file(csvContent.toString().getBytes(), file.getAbsolutePath());
+
+    }
+
+    /**
+     * 递归收集所有选中的叶子节点
+     *
+     */
+    private List<TreeItem<KeyTreeNode>> getCheckLeafNodes() {
+        List<TreeItem<KeyTreeNode>> checkedLeafNodes = new ArrayList<>();
+        for (TreeItem<KeyTreeNode> child : treeView.getRoot().getChildren()) {
+            collectCheckedLeafNodes(child, checkedLeafNodes);
+        }
+        return checkedLeafNodes;
+    }
+
+    /**
+     * 多个key操作确认
+     * @param list 待操作的key列表
+     * @param model 操作类型
+     * @return 是否确认
+     */
+    private Tuple2<Boolean,Boolean> keyConfirm(List<KeyTreeNode> list, int model) {
+        Tuple2<AnchorPane,MultipleKeyController> tuple2 = loadFxml("/fxml/MultipleKeyView.fxml");
+        AnchorPane borderPane = tuple2.t1();
+        Stage stage = GuiUtil.createSubStage("", borderPane, root.getScene().getWindow());
+        // 创建 CompletableFuture 用于等待结果
+        CompletableFuture<Tuple2<Boolean,Boolean>> future = new CompletableFuture<>();
+        // 将 stage 和 future 传递给控制器
+        tuple2.t2().setCurrentStage(stage);
+        tuple2.t2().setResultFuture(future);
+        tuple2.t2().setModel(model);
+        tuple2.t2().setKeys(list);
+        // 显示 Stage
+        stage.showAndWait();
+        // 等待结果
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("key confirm exception",e);
+           return new Tuple2<>(false,false);
+        }
+    }
+
+    /**
+     * 递归收集所有被选中的叶子节点
+     * @param node 当前节点
+     * @param result 结果列表
+     */
+    private void collectCheckedLeafNodes(TreeItem<KeyTreeNode> node, List<TreeItem<KeyTreeNode>> result) {
+        if (node == null){
+            return;
+        }
+        if (node.isLeaf()) {
+            // 叶子节点：只有当节点被选中时才添加
+            if (isNodeChecked(node)) {
+                result.add(node);
+            }
+        } else {
+            // 父节点：如果被选中，则其下所有叶子节点都被视为选中 这也是不可靠的，如果子节点选中，父节点有可能未被选中，这就很坑，只能全部遍历子节点才可靠
+            for (TreeItem<KeyTreeNode> child : node.getChildren()) {
+                collectCheckedLeafNodes(child, result);
+            }
+        }
+    }
+
+    /**
+     * 检查节点是否被选中
+     * @param node 要检查的节点
+     * @return 是否选中
+     */
+    private boolean isNodeChecked(TreeItem<KeyTreeNode> node) {
+        if (node instanceof CheckBoxTreeItem<?> cbt) {
+            return cbt.isSelected();
+        }
+        return false;
+    }
+
+
+    @FXML
+    public void cancel(ActionEvent actionEvent) {
+        checkBox.setSelected(false);
+        checkBox(actionEvent);
+    }
+
+    @FXML
+    public void selectAll(ActionEvent actionEvent) {
+        for (TreeItem<KeyTreeNode> child : treeView.getRoot().getChildren()) {
+            if (child instanceof CheckBoxTreeItem<?> cbt) {
+                cbt.setSelected(boxSelectAll.isSelected());
+            }
+        }
     }
 }

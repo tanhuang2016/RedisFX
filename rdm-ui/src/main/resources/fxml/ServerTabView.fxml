@@ -4,9 +4,12 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.CheckMenuItem?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ProgressBar?>
@@ -22,8 +25,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.CheckMenuItem?>
-<?import javafx.scene.control.Menu?>
 <AnchorPane fx:id="root" prefHeight="650.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.ServerTabController">
 
    <BorderPane prefHeight="650.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -47,7 +48,7 @@
                                                       <!--                                       </FXCollections>-->
                                                       <!--                                   </items>-->
                                                   </ChoiceBox>
-                                                  <MenuButton fx:id="newKey" mnemonicParsing="false"  HBox.hgrow="ALWAYS">
+                                                  <MenuButton fx:id="newKey" mnemonicParsing="false" HBox.hgrow="ALWAYS">
                                                       <graphic>
                                                           <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                                               <image>
@@ -60,82 +61,119 @@
                                           </HBox>
                                           <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" prefHeight="23.0" prefWidth="200.0" spacing="3.0" VBox.vgrow="ALWAYS">
                                               <children>
-                                                  <CustomTextField fx:id="searchText" promptText="Search All Types" minWidth="-Infinity" prefWidth="150.0" HBox.hgrow="ALWAYS" />
+                                                  <CustomTextField fx:id="searchText" minWidth="-Infinity" prefWidth="150.0" promptText="Search All Types" HBox.hgrow="ALWAYS" />
                                                   <Button fx:id="search" mnemonicParsing="false" onAction="#search" HBox.hgrow="ALWAYS">
                                                   </Button>
                                                   <HBox fx:id="searchHbox" alignment="CENTER_RIGHT" spacing="-2.0" VBox.vgrow="ALWAYS">
-                                                      <Button fx:id="reset" managed="false" mnemonicParsing="false" onAction="#reset" opacity="0.3"  visible="false" HBox.hgrow="ALWAYS">
+                                                      <Button fx:id="reset" managed="false" mnemonicParsing="false" onAction="#reset" opacity="0.3" visible="false" HBox.hgrow="ALWAYS">
                                                       </Button>
                                                       <ToggleButton fx:id="isLike" mnemonicParsing="false" onAction="#isLikeChange" opacity="0.8" selected="true" HBox.hgrow="ALWAYS">
                                                           <HBox.margin>
                                                               <Insets left="5.0" right="5.0" />
                                                           </HBox.margin>
                                                       </ToggleButton>
-                                                      <MenuButton fx:id="searchOptionsButton" mnemonicParsing="false" opacity="0.8" >
+                                                      <MenuButton fx:id="searchOptionsButton" mnemonicParsing="false" opacity="0.8">
                                                           <items>
                                                               <CheckMenuItem fx:id="autoSearch" text="自动搜索" />
-                                                              <Menu fx:id="searchTypeMenu" text="搜索类型"/>
+                                                              <Menu fx:id="searchTypeMenu" text="搜索类型" />
                                                           </items>
                                                       </MenuButton>
                                                   </HBox>
                                               </children>
                                           </HBox>
-                                 <BorderPane onMouseEntered="#tooBarRightShow" onMouseExited="#tooBarRightHide" style="-fx-border-color: -color-border-default; -fx-border-width: 1; -fx-border-style: solid;" VBox.vgrow="ALWAYS">
-                                    <center>
-                                       <AnchorPane>
-                                          <children>
-                                                      <TreeView fx:id="treeView" prefHeight="590.0" prefWidth="290.0" style=" -fx-border-width: 0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                          <contextMenu>
-                                                              <ContextMenu fx:id="contextMenu" opacity="0.8">
-                                                                  <items>
-                                                                      <MenuItem fx:id="open" mnemonicParsing="false" onAction="#open" >
-                                                          </MenuItem>
-                                                                      <MenuItem fx:id="refresh" mnemonicParsing="false" onAction="#refresh"  />
-                                                                      <MenuItem fx:id="delete" mnemonicParsing="false" onAction="#delete"  />
-                                                                      <MenuItem fx:id="flush" mnemonicParsing="false" onAction="#flush"  />
-                                                                      <SeparatorMenuItem />
-                                                                      <MenuItem fx:id="console" mnemonicParsing="false" onAction="#console"  />
-                                                                      <MenuItem fx:id="monitor" mnemonicParsing="false" onAction="#monitor"  />
-                                                                      <MenuItem fx:id="pubsub" mnemonicParsing="false" onAction="#pubsub"  />
-                                                                      <MenuItem fx:id="report" mnemonicParsing="false" onAction="#report"  />
-                                                                  </items>
-                                                              </ContextMenu>
-                                                          </contextMenu>
-                                                      </TreeView>
-                                             <Button fx:id="showButton" mnemonicParsing="false" onAction="#showToolbar" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                          </children>
-                                       </AnchorPane>
-                                    </center>
-                                    <top>
-                                       <HBox fx:id="toolBar" alignment="CENTER_LEFT" managed="false" visible="false" BorderPane.alignment="CENTER_LEFT">
-                                          <children>
-                                             <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                                 <AnchorPane VBox.vgrow="ALWAYS">
+                                    <children>
+                                       <BorderPane onMouseEntered="#tooBarRightShow" onMouseExited="#tooBarRightHide" style="-fx-border-color: -color-border-default; -fx-border-width: 1; -fx-border-style: solid;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <center>
+                                             <AnchorPane>
                                                 <children>
-                                                   <ProgressBar fx:id="progressBar" maxWidth="1.7976931348623157E308" prefWidth="30.0" progress="0" HBox.hgrow="ALWAYS" />
-                                                   <Label fx:id="progressText" styleClass="text-small" text="\%0" />
-                                                   <Button fx:id="loadMore" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadMore"  HBox.hgrow="ALWAYS">
-                                                      <HBox.margin>
-                                                         <Insets left="5.0" />
-                                                      </HBox.margin>
-                                                   </Button>
-                                                   <Button fx:id="loadAll" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadAll"  HBox.hgrow="ALWAYS">
-                                                      <HBox.margin>
-                                                         <Insets left="5.0" />
-                                                      </HBox.margin>
-                                                   </Button>
+                                                            <TreeView fx:id="treeView" prefHeight="590.0" prefWidth="290.0" style=" -fx-border-width: 0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                <contextMenu>
+                                                                    <ContextMenu fx:id="contextMenu" opacity="0.8">
+                                                                        <items>
+                                                                            <MenuItem fx:id="open" mnemonicParsing="false" onAction="#open">
+                                                          </MenuItem>
+                                                                            <MenuItem fx:id="refresh" mnemonicParsing="false" onAction="#refresh" />
+                                                                            <MenuItem fx:id="delete" mnemonicParsing="false" onAction="#delete" />
+                                                                            <MenuItem fx:id="flush" mnemonicParsing="false" onAction="#flush" />
+                                                                            <MenuItem fx:id="export" mnemonicParsing="false" onAction="#export" />
+                                                                            <SeparatorMenuItem />
+                                                                            <CheckMenuItem fx:id="checkBox" mnemonicParsing="false" onAction="#checkBox" />
+                                                                            <MenuItem fx:id="console" mnemonicParsing="false" onAction="#console" />
+                                                                            <MenuItem fx:id="monitor" mnemonicParsing="false" onAction="#monitor" />
+                                                                            <MenuItem fx:id="pubsub" mnemonicParsing="false" onAction="#pubsub" />
+                                                                            <MenuItem fx:id="report" mnemonicParsing="false" onAction="#report" />
+                                                                        </items>
+                                                                    </ContextMenu>
+                                                                </contextMenu>
+                                                            </TreeView>
                                                 </children>
-                                             </HBox>
-                                             <HBox fx:id="toolBarRight" alignment="CENTER_RIGHT" visible="false" BorderPane.alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
-                                                   <Button fx:id="locationButton" mnemonicParsing="false" onAction="#location" />
-                                                   <Button fx:id="expandedButton" mnemonicParsing="false" onAction="#expanded" />
-                                                   <Button fx:id="collapseButton" mnemonicParsing="false" onAction="#collapse" />
-                                                   <Button fx:id="optionsButton" managed="false" mnemonicParsing="false" visible="false" />
-                                                   <Button fx:id="hideButton" mnemonicParsing="false" onAction="#hideToolbar" />
-                                             </HBox>
-                                          </children>
-                                       </HBox>
-                                    </top>
-                                 </BorderPane>
+                                             </AnchorPane>
+                                          </center>
+                                          <top>
+                                             <VBox BorderPane.alignment="CENTER_LEFT">
+                                                <children>
+                                                   <HBox fx:id="toolBar" alignment="CENTER_LEFT" managed="false" visible="false">
+                                                      <children>
+                                                         <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                                                            <children>
+                                                               <ProgressBar fx:id="progressBar" maxWidth="1.7976931348623157E308" prefWidth="30.0" progress="0" HBox.hgrow="ALWAYS" />
+                                                               <Label fx:id="progressText" styleClass="text-small" text="\%0" />
+                                                               <Button fx:id="loadMore" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadMore" HBox.hgrow="ALWAYS">
+                                                                  <HBox.margin>
+                                                                     <Insets left="5.0" />
+                                                                  </HBox.margin>
+                                                               </Button>
+                                                               <Button fx:id="loadAll" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadAll" HBox.hgrow="ALWAYS">
+                                                                  <HBox.margin>
+                                                                     <Insets left="5.0" />
+                                                                  </HBox.margin>
+                                                               </Button>
+                                                            </children>
+                                                         </HBox>
+                                                         <HBox fx:id="toolBarRight" alignment="CENTER_RIGHT" visible="false" BorderPane.alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                                                               <Button fx:id="locationButton" mnemonicParsing="false" onAction="#location" />
+                                                               <Button fx:id="expandedButton" mnemonicParsing="false" onAction="#expanded" />
+                                                               <Button fx:id="collapseButton" mnemonicParsing="false" onAction="#collapse" />
+                                                               <Button fx:id="optionsButton" managed="false" mnemonicParsing="false" visible="false" />
+                                                               <Button fx:id="hideButton" mnemonicParsing="false" onAction="#hideToolbar" />
+                                                         </HBox>
+                                                      </children>
+                                                   </HBox>
+                                                   <HBox fx:id="boxToolBar" alignment="CENTER_LEFT" managed="false" visible="false">
+                                                      <children>
+                                                         <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                                                            <children>
+                                                               <CheckBox fx:id="boxSelectAll" mnemonicParsing="false" onAction="#selectAll"/>
+                                                               <Button fx:id="boxDelete" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#delete" HBox.hgrow="ALWAYS">
+                                                                  <HBox.margin>
+                                                                     <Insets left="5.0" />
+                                                                  </HBox.margin>
+                                                               </Button>
+                                                               <Button fx:id="boxExport" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#export" HBox.hgrow="ALWAYS">
+                                                                  <HBox.margin>
+                                                                     <Insets left="5.0" />
+                                                                  </HBox.margin>
+                                                               </Button>
+                                                               <Button fx:id="boxCancel" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#cancel" HBox.hgrow="ALWAYS">
+                                                                  <HBox.margin>
+                                                                     <Insets left="5.0" />
+                                                                  </HBox.margin>
+                                                               </Button>
+                                                            </children>
+                                                         </HBox>
+                                                      </children>
+                                                      <VBox.margin>
+                                                         <Insets right="50.0" top="4.0" />
+                                                      </VBox.margin>
+                                                   </HBox>
+                                                </children>
+                                             </VBox>
+                                          </top>
+                                       </BorderPane>
+                                       <Button fx:id="showButton" mnemonicParsing="false" onAction="#showToolbar" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    </children>
+                                 </AnchorPane>
                                       </children>
                                   </VBox>
                               </children>

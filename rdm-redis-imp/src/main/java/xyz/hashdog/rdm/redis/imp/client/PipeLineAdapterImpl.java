@@ -16,11 +16,11 @@ import java.util.List;
  */
 public class PipeLineAdapterImpl implements PipelineAdapter {
 
-    private final PipelineBase pipeline;
+    private final AbstractPipeline pipeline;
 
-    private List<Object> responseList;
+    private final List<Object> responseList;
 
-    public PipeLineAdapterImpl(PipelineBase pipeline) {
+    public PipeLineAdapterImpl(AbstractPipeline pipeline) {
         this.pipeline = pipeline;
         this.responseList=new ArrayList<>();
     }
@@ -96,6 +96,16 @@ public class PipeLineAdapterImpl implements PipelineAdapter {
     @Override
     public void defaultValue(Object v) {
         responseList.add(v);
+    }
+
+    @Override
+    public void dump(String key) {
+        responseList.add(pipeline.dump(key));
+    }
+
+    @Override
+    public void pttl(String key) {
+        responseList.add(pipeline.pttl(key));
     }
 
     public List<Object> syncAndReturnAll() {

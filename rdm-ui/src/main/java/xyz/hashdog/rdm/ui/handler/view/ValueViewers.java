@@ -15,7 +15,7 @@ public class ValueViewers {
 
 
     private ValueViewers() {
-        map = Stream.of(new TextViewer(), new JsonViewer(), new HexViewer(), new BinaryViewer(), new ImageViewer())
+        map = Stream.of(new TextViewer(), new JsonViewer(), new XmlViewer(),new YmlViewer(),new HexViewer(), new BinaryViewer(), new ImageViewer())
                 .collect(Collectors.toMap(
                         ValueViewer::name,
                         viewer -> viewer,

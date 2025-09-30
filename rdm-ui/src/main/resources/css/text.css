@@ -8,39 +8,87 @@
     -fx-background-color: -color-bg-default;
 }
 /**********json文本样式***********/
-.key {
+.json-key {
     -fx-fill: -color-fg-default;
 }
-.boolean {
+.json-boolean {
     -fx-fill: -color-accent-fg;
 }
-.null {
+.json-null {
     -fx-fill: -color-warning-fg;
 }
-.warn {
+.json-warn {
     -fx-fill: -color-warning-fg;
 }
-.number {
+.json-number {
     -fx-fill: -color-danger-fg;
 }
-.bracket {
+.json-bracket {
     -fx-fill: -color-fg-default;
 }
-.colon {
+.json-colon {
     -fx-fill:-color-fg-default;
 }
-.comma {
+.json-comma {
     -fx-fill: -color-fg-default;
 }
-.value {
+.json-value {
     -fx-fill: -color-success-fg;
 }
-.comment {
+.json-comment {
     -fx-fill: -color-fg-default;
 }
-.other {
+.json-other {
     -fx-fill: -color-fg-default;
 }
 /**********json文本样式***********/
 
 
+/**********xml文本样式***********/
+.xml-tagmark {
+    -fx-fill: -color-accent-fg;
+}
+.xml-anytag {
+    /*-fx-fill: -color-warning-5;*/
+    -fx-fill: -color-warning-fg;
+}
+.xml-attribute {
+    -fx-fill: -color-danger-fg;
+}
+.xml-avalue {
+    -fx-fill:  -color-success-fg;
+}
+
+.xml-comment {
+    -fx-fill: -color-base-5;
+}
+.xml-default {
+    -fx-fill: -color-fg-default;
+}
+.xml-other2 {
+    -fx-fill: -color-danger-fg;
+}
+.xml-other3 {
+    -fx-fill: -color-warning-5;
+}
+.xml-other4 {
+    -fx-fill: yellow;
+}
+
+/**********xml文本样式***********/
+
+/**********yml文本样式***********/
+
+.yml-default {
+    -fx-fill: red;
+}
+.yml-comment {
+    -fx-fill: -color-success-fg;
+}
+.yml-key {
+    -fx-fill: -color-warning-fg;
+}
+.yml-value {
+    -fx-fill: -color-fg-default;
+}
+/**********yml文本样式***********/
