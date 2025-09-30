@@ -68,6 +68,7 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
                 break;
         }
         cancel.setText(language("common.cancel"));
+        //延迟设置ok按钮的宽度，布局完成后按钮里面的文本知道了，才能动态调整宽度，索引需要包裹让其延迟执行
         Platform.runLater(() -> {
             ok.setMinWidth(Region.USE_PREF_SIZE);
             ok.setPrefWidth(Region.USE_COMPUTED_SIZE);
