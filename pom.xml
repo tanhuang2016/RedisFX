@@ -12,6 +12,11 @@
     <description>${description}</description>
     <properties>
         <name>RedisFX</name>
+        <developer.name>tanhuang</developer.name>
+        <developer.email>th08170415@163.com</developer.email>
+        <license.name>The Apache Software License, Version 2.0</license.name>
+        <license.url>http://www.apache.org/licenses/LICENSE-2.0.txt</license.url>
+        <license.distribution>repo,manual</license.distribution>
         <description>RedisFX</description>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
          <rdm.version>2.3.10.2</rdm.version>
@@ -27,17 +32,17 @@
 
     <developers>
         <developer>
-            <name>tanhuang</name>
-            <email>1103617438@qq.com</email>
+            <name>${developer.name}</name>
+            <email>${developer.email}</email>
             <url>${projectUrl}</url>
         </developer>
     </developers>
     <url>${projectUrl}</url>
     <licenses>
         <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo,manual</distribution>
+            <name>${license.name}</name>
+            <url>${license.url}</url>
+            <distribution>${license.distribution}</distribution>
         </license>
     </licenses>
     <scm>
