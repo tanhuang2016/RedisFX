@@ -8,9 +8,11 @@
     <packaging>pom</packaging>
     <version>2.3.10</version>
 
-    <name>RedisFX</name>
-    <description>redisfx</description>
+    <name>${name}</name>
+    <description>${description}</description>
     <properties>
+        <name>RedisFX</name>
+        <description>RedisFX</description>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
          <rdm.version>2.3.10</rdm.version>
         <maven.compiler.source>21</maven.compiler.source>
