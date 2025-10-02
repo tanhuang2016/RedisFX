@@ -114,7 +114,7 @@ jobs:
           gpg-passphrase: GPG_PASSPHRASE
 
       - name: Publish to Apache Maven Central
-        run: mvn deploy
+        run: mvn deploy -DskipTests
         env:
           SERVER_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           SERVER_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
