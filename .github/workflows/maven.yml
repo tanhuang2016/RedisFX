@@ -113,13 +113,13 @@ jobs:
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
-      - name: Set up Java for publishing to GitHub Packages
-        uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          distribution: 'adopt'
-          cache: maven
-      - name: Publish to GitHub Packages
-        run: mvn --batch-mode deploy
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Set up Java for publishing to GitHub Packages
+#        uses: actions/setup-java@v4
+#        with:
+#          java-version: '21'
+#          distribution: 'adopt'
+#          cache: maven
+#      - name: Publish to GitHub Packages
+#        run: mvn --batch-mode deploy
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
