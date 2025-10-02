@@ -46,10 +46,15 @@
 
 
     <distributionManagement>
+<!--        <repository>-->
+<!--            <id>ossrh</id>-->
+<!--            <name>Central Repository OSSRH</name>-->
+<!--            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
+<!--        </repository>-->
         <repository>
-            <id>ossrh</id>
-            <name>Central Repository OSSRH</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/tanh/redisfx</url>
         </repository>
     </distributionManagement>
 </project>
