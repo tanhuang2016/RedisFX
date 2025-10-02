@@ -16,7 +16,7 @@
         <maven.compiler.target>21</maven.compiler.target>
 <!--        <slf4j.version>1.7.32</slf4j.version>-->
         <junit.version>4.12</junit.version>
-
+        <serverId>hashdog</serverId>
     </properties>
 
     <modules>
@@ -46,11 +46,15 @@
 
 
     <distributionManagement>
+        <snapshotRepository>
+            <id>${serverId}</id>
+            <name>OSS Snapshots Repository</name>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
         <repository>
-            <id>ossrh</id>
-            <name>Central Repository OSSRH</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>${serverId}</id>
+            <name>OSS Staging Repository</name>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2</url>
         </repository>
-
     </distributionManagement>
 </project>
