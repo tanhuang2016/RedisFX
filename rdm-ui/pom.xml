@@ -9,6 +9,7 @@
         <version>2.3.10</version>
     </parent>
 
+
     <artifactId>rdm-ui</artifactId>
     <version>${rdm.version}</version>
     <name>RedisFX</name>

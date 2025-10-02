@@ -9,6 +9,7 @@
         <version>2.3.10</version>
     </parent>
 
+    <name>RedisFX</name>
     <artifactId>rdm-redis-imp</artifactId>
     <version>2.3.10</version>
     <description>redisfx</description>
