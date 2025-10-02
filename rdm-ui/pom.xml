@@ -395,7 +395,7 @@
 
         <!-- Windows arm64 位 javafx21没有该架构的sdk，目前执行不了 -->
         <profile>
-            <id>windows-x86</id>
+            <id>windows-arm64</id>
             <activation>
                 <os>
                     <family>windows</family>
