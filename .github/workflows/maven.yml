@@ -10,19 +10,16 @@ name: Java CI with Maven
 
 on:
   push:
-#    branches: [ "release-2.x" ]
-    branches: [ "main" ]
+    branches: [ "release-2.x" ]
   pull_request:
-#    branches: [ "release-2.x" ]
-    branches: [ "main" ]
+    branches: [ "release-2.x" ]
 
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-#        os: [ ubuntu-latest,ubuntu-22.04-arm, windows-latest, macos-latest,macos-13 ]
-        os: [ windows-latest ]
+        os: [ ubuntu-latest,ubuntu-22.04-arm, windows-latest, macos-latest,macos-13 ]
 #        os: [ macos-latest ]
 #        os: [ubuntu-latest,ubuntu-22.04-arm, windows-latest, windows-11-arm,macos-latest,macos-13]
     name: build  ${{ matrix.os }}
@@ -72,15 +69,6 @@ jobs:
       run: mvn -B package -DskipTests --file pom.xml
 
 
-
-  upload:
-    needs: build  # 声明依赖关系
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ windows-latest ]
-
-    steps:
         # 新增构建产物收集步骤
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
