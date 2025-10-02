@@ -30,13 +30,7 @@
         <test.junit.version>5.8.1</test.junit.version>
     </properties>
 
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/tanh/redisfx</url>
-        </repository>
-    </distributionManagement>
+
 
     <dependencies>
         <dependency>
@@ -702,4 +696,14 @@
 
 
     </profiles>
+
+
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/tanh/redisfx</url>
+        </repository>
+    </distributionManagement>
 </project>
