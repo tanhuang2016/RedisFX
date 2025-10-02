@@ -6,7 +6,7 @@
     <parent>
          <groupId>io.github.tanhuang2016</groupId>
         <artifactId>redis-fx</artifactId>
-        <version>2.3.10</version>
+        <version>2.3.10.1</version>
     </parent>
 
 
@@ -232,78 +232,568 @@
     </dependencies>
 
 
-    <build>
 
+
+    <build>
         <plugins>
             <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <configuration>
+                    <executable>${java.home}/bin/java</executable>
+                    <mainClass>redisfx.tanh.rdm.ui.Main</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>run</id>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.2.1</version>
-                <inherited>false</inherited>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
                         <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.3.0</version>
-                <inherited>false</inherited>
-                <configuration>
-                    <nohelp>true</nohelp>
-                    <charset>${encoding}</charset>
-                    <encoding>${encoding}</encoding>
-                    <docencoding>${encoding}</docencoding>
-                    <failOnError>false</failOnError>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.6</version>
-                <inherited>false</inherited>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
+                            <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <gpgArguments>
-                                <arg>--pinentry-mode</arg>
-                                <arg>loopback</arg>
-                            </gpgArguments>
+                            <finalName>rdm-ui-${rdm.version}-jar-with-dependencies</finalName>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>redisfx.tanh.rdm.ui.App</mainClass>
+                                </transformer>
+                                <!-- 添加 ikonli 所需的资源转换器 -->
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/ikonli.properties</resource>
+                                </transformer>
+                            </transformers>
+                            <!-- 添加过滤器排除签名文件 -->
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.sonatype.central</groupId>
-                <artifactId>central-publishing-maven-plugin</artifactId>
-                <version>0.9.0</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <publishingServerId>central</publishingServerId>
-                    <autoPublish>true</autoPublish>
-                </configuration>
-            </plugin>
+            <!--            该打包方式存在缺陷，会导致字体图标不可用，虽然有解决方式，但是配置太麻烦，换用上面的shade插件-->
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-assembly-plugin</artifactId>-->
+            <!--                <version>2.2</version>-->
+            <!--                <configuration>-->
+            <!--                    <appendAssemblyId>false</appendAssemblyId>-->
+            <!--                    <finalName>rdm-ui-${rdm.version}-jar-with-dependencies</finalName>-->
+            <!--                    <archive>-->
+            <!--                        <manifest>-->
+            <!--                            <mainClass>redisfx.tanh.rdm.ui.App</mainClass>-->
+            <!--                        </manifest>-->
+            <!--                    </archive>-->
+            <!--                    <descriptorRefs>-->
+            <!--                        <descriptorRef>jar-with-dependencies</descriptorRef>-->
+            <!--                    </descriptorRefs>-->
+            <!--                </configuration>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <id>make-assembly</id>-->
+            <!--                        <phase>package</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>assembly</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
+
+
+
 
         </plugins>
     </build>
+
+
+
+    <profiles>
+        <!-- Windows 64 位 可以运行-->
+        <profile>
+            <id>windows-amd64</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                    <arch>amd64</arch>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.github.fvarrui</groupId>
+                        <artifactId>javapackager</artifactId>
+                        <!--这个版本可以打出msi和msm-->
+                        <version>1.7.6</version>
+                        <executions>
+                            <execution>
+                                <id>bundling-for-windows-amd64</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                                <configuration>
+                                    <mainClass>redisfx.tanh.rdm.ui.Main</mainClass>
+                                    <bundleJre>true</bundleJre>
+                                    <!--                                    <jdkPath>D:\soft\jdk\jdk-21_windows-x64_bin\jdk-21.0.7</jdkPath>-->
+                                    <jdkPath>${env.JAVA_HOME}</jdkPath>
+                                    <generateInstaller>true</generateInstaller>
+                                    <administratorRequired>false</administratorRequired>
+                                    <platform>windows</platform>
+                                    <createZipball>true</createZipball>
+                                    <!--                            <additionalResources>-->
+                                    <!--                                <additionalResource>${name}.l4j.ini</additionalResource>-->
+                                    <!--                            </additionalResources>-->
+                                    <winConfig>
+                                        <!--                                        <headerType>console</headerType>-->
+                                        <icoFile>src/main/resources/icon/fx_icon_256.ico</icoFile>
+                                        <generateSetup>true</generateSetup>
+                                        <setupLanguages>
+                                            <english>compiler:Default.isl</english>
+                                        </setupLanguages>
+                                        <wrapJar>true</wrapJar>
+                                        <generateMsi>true</generateMsi>
+                                        <generateMsm>true</generateMsm>
+                                        <disableDirPage>false</disableDirPage>
+                                        <disableProgramGroupPage>false</disableProgramGroupPage>
+                                        <disableFinishedPage>false</disableFinishedPage>
+                                        <disableRunAfterInstall>false</disableRunAfterInstall>
+                                        <disableWelcomePage>false</disableWelcomePage>
+                                    </winConfig>
+                                    <vmArgs>
+                                        <arg>--module-path</arg>
+                                        <arg>libs</arg>
+                                        <arg>--add-modules</arg>
+                                        <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web,javafx.base</arg>
+                                    </vmArgs>
+                                </configuration>
+                            </execution>
+
+
+
+                        </executions>
+                    </plugin>
+
+
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Windows arm64 位 javafx21没有该架构的sdk，目前执行不了 -->
+        <profile>
+            <id>windows-x86</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                    <arch>aarch64</arch>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.github.fvarrui</groupId>
+                        <artifactId>javapackager</artifactId>
+                        <executions>
+                            <execution>
+                                <id>bundling-for-windows-arm64</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                                <configuration>
+                                    <mainClass>redisfx.tanh.rdm.ui.Main</mainClass>
+                                    <bundleJre>true</bundleJre>
+                                    <!--                                    <jdkPath>D:\soft\jdk\jdk-21_windows-i586\jdk-21.0.7</jdkPath>-->
+                                    <jdkPath>${env.JAVA_HOME}</jdkPath>
+                                    <generateInstaller>true</generateInstaller>
+                                    <administratorRequired>false</administratorRequired>
+                                    <platform>windows</platform>
+                                    <createZipball>true</createZipball>
+                                    <winConfig>
+                                        <!--                                        <headerType>console</headerType>-->
+                                        <icoFile>src/main/resources/icon/fx_icon_256.ico</icoFile>
+                                        <generateSetup>true</generateSetup>
+                                        <generateMsi>true</generateMsi>
+                                        <generateMsm>true</generateMsm>
+
+                                    </winConfig>
+                                    <vmArgs>
+                                        <arg>--module-path</arg>
+                                        <arg>libs</arg>
+                                        <arg>--add-modules</arg>
+                                        <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web,javafx.base</arg>
+                                    </vmArgs>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Linux x86 64 位 可以运行-->
+
+        <profile>
+            <id>linux-amd64</id>
+            <activation>
+                <os>
+                    <family>Linux</family>
+                    <arch>amd64</arch>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.github.fvarrui</groupId>
+                        <artifactId>javapackager</artifactId>
+                        <executions>
+                            <execution>
+                                <id>bundling-for-linux-amd64</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                                <configuration>
+                                    <platform>linux</platform>
+                                    <mainClass>redisfx.tanh.rdm.ui.Main</mainClass>
+                                    <bundleJre>true</bundleJre>
+                                    <createTarball>true</createTarball>
+                                    <jdkPath>${env.JAVA_HOME}</jdkPath>
+                                    <linuxConfig>
+                                        <pngFile>src/main/resources/icon/fx_icon_256.png</pngFile>
+                                    </linuxConfig>
+                                    <vmArgs>
+                                        <arg>--module-path</arg>
+                                        <arg>libs</arg>
+                                        <arg>--add-modules</arg>
+                                        <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web,javafx.base</arg>
+                                    </vmArgs>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+
+        <!-- Linux ARM 64 位 可以运行 -->
+        <profile>
+            <id>linux-arm64</id>
+            <activation>
+                <os>
+                    <family>Linux</family>
+                    <arch>aarch64</arch>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.github.fvarrui</groupId>
+                        <artifactId>javapackager</artifactId>
+                        <executions>
+                            <execution>
+                                <id>bundling-for-linux-arm</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                                <configuration>
+                                    <platform>linux</platform>
+                                    <mainClass>redisfx.tanh.rdm.ui.Main</mainClass>
+                                    <bundleJre>true</bundleJre>
+                                    <createTarball>true</createTarball>
+                                    <jdkPath>${env.JAVA_HOME}</jdkPath>
+                                    <linuxConfig>
+                                        <pngFile>src/main/resources/icon/fx_icon_256.png</pngFile>
+                                    </linuxConfig>
+                                    <vmArgs>
+                                        <arg>--module-path</arg>
+                                        <arg>libs</arg>
+                                        <arg>--add-modules</arg>
+                                        <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web,javafx.base</arg>
+                                    </vmArgs>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+
+        <profile>
+            <id>macos-x86_64</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                    <arch>x86_64</arch>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.github.fvarrui</groupId>
+                        <artifactId>javapackager</artifactId>
+                        <version>1.7.6</version>
+                        <executions>
+                            <execution>
+                                <id>bundling-for-macos-x86_64</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                                <configuration>
+                                    <platform>mac</platform>
+                                    <mainClass>redisfx.tanh.rdm.ui.Main</mainClass>
+                                    <bundleJre>true</bundleJre>
+                                    <createTarball>false</createTarball>
+                                    <generateInstaller>false</generateInstaller>
+                                    <jdkPath>${env.JAVA_HOME}</jdkPath>
+                                    <macConfig>
+                                        <icnsFile>src/main/resources/icon/fx_icon_256.icns</icnsFile>
+                                    </macConfig>
+                                    <vmArgs>
+                                        <arg>--module-path</arg>
+                                        <arg>libs</arg>
+                                        <arg>--add-modules</arg>
+                                        <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web,javafx.base</arg>
+                                    </vmArgs>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>3.0.0</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals><goal>run</goal></goals>
+                                <configuration>
+                                    <target>
+                                        <delete dir="${project.build.directory}/custom-jre" failonerror="false"/>
+                                        <exec executable="jlink">
+                                            <arg value="--output" />
+                                            <arg value="${project.build.directory}/custom-jre" />
+                                            <arg value="--add-modules" />
+                                            <arg value="ALL-MODULE-PATH" />
+                                            <arg value="--compress=2" />
+                                            <arg value="--no-header-files" />
+                                            <arg value="--no-man-pages" />
+                                        </exec>
+                                        <exec executable="jpackage">
+                                            <arg value="--type" />
+                                            <arg value="dmg" />
+                                            <arg value="--input"/>
+                                            <arg value="${project.build.directory}"/>
+                                            <arg value="--main-jar" />
+                                            <arg value="rdm-ui-${rdm.version}-jar-with-dependencies.jar" />
+                                            <arg value="--runtime-image" />
+                                            <arg value="${project.build.directory}/custom-jre" />
+                                            <arg value="--main-class" />
+                                            <arg value="redisfx.tanh.rdm.ui.App" />
+                                            <arg value="--name" />
+                                            <arg value="RedisFX" />
+                                            <arg value="--dest" />
+                                            <arg value="${project.build.directory}" />
+                                        </exec>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+
+        <profile>
+            <id>macos-arm64</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                    <arch>aarch64</arch>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+
+
+                    <plugin>
+                        <groupId>io.github.fvarrui</groupId>
+                        <artifactId>javapackager</artifactId>
+                        <version>1.7.6</version>
+                        <executions>
+                            <execution>
+                                <id>bundling-for-macos-arm64</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                                <configuration>
+                                    <platform>mac</platform>
+                                    <mainClass>redisfx.tanh.rdm.ui.Main</mainClass>
+                                    <bundleJre>true</bundleJre>
+                                    <createTarball>false</createTarball>
+                                    <generateInstaller>false</generateInstaller>
+                                    <jdkPath>${env.JAVA_HOME}</jdkPath>
+                                    <macConfig>
+                                        <icnsFile>src/main/resources/icon/fx_icon_256.icns</icnsFile>
+                                        <entitlements>src/main/resources/assets/entitlements.plist</entitlements>
+                                    </macConfig>
+                                    <vmArgs>
+                                        <arg>--module-path</arg>
+                                        <arg>libs</arg>
+                                        <arg>--add-modules</arg>
+                                        <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web,javafx.base</arg>
+                                    </vmArgs>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>3.0.0</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals><goal>run</goal></goals>
+                                <configuration>
+                                    <target>
+                                        <delete dir="${project.build.directory}/custom-jre" failonerror="false"/>
+                                        <exec executable="jlink">
+                                            <arg value="--output" />
+                                            <arg value="${project.build.directory}/custom-jre" />
+                                            <arg value="--add-modules" />
+                                            <arg value="ALL-MODULE-PATH" />
+                                            <arg value="--compress=2" />
+                                            <arg value="--no-header-files" />
+                                            <arg value="--no-man-pages" />
+                                        </exec>
+                                        <exec executable="jpackage">
+                                            <arg value="--type" />
+                                            <arg value="dmg" />
+                                            <arg value="--input"/>
+                                            <arg value="${project.build.directory}"/>
+                                            <arg value="--main-jar" />
+                                            <arg value="rdm-ui-${rdm.version}-jar-with-dependencies.jar" />
+                                            <arg value="--runtime-image" />
+                                            <arg value="${project.build.directory}/custom-jre" />
+                                            <arg value="--main-class" />
+                                            <arg value="redisfx.tanh.rdm.ui.App" />
+                                            <arg value="--name" />
+                                            <arg value="RedisFX" />
+                                            <arg value="--dest" />
+                                            <arg value="${project.build.directory}" />
+                                        </exec>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>publish</id>
+            <build>
+
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.2.1</version>
+                        <inherited>false</inherited>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.3.0</version>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <nohelp>true</nohelp>
+                            <charset>${encoding}</charset>
+                            <encoding>${encoding}</encoding>
+                            <docencoding>${encoding}</docencoding>
+                            <failOnError>false</failOnError>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <inherited>false</inherited>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>0.9.0</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <publishingServerId>central</publishingServerId>
+                            <autoPublish>true</autoPublish>
+                        </configuration>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+
+
+    </profiles>
+
+
+
 
 
 </project>
