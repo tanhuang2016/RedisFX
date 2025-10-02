@@ -263,7 +263,7 @@
                             <finalName>rdm-ui-${rdm.version}-jar-with-dependencies</finalName>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>redisfx.tanh.rdm.ui.App</mainClass>
+                                    <mainClass>redisfx.tanh.rdm.ui.RedisFX</mainClass>
                                 </transformer>
                                 <!-- 添加 ikonli 所需的资源转换器 -->
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
@@ -296,7 +296,7 @@
             <!--                    <finalName>rdm-ui-${rdm.version}-jar-with-dependencies</finalName>-->
             <!--                    <archive>-->
             <!--                        <manifest>-->
-            <!--                            <mainClass>redisfx.tanh.rdm.ui.App</mainClass>-->
+            <!--                            <mainClass>redisfx.tanh.rdm.ui.RedisFX</mainClass>-->
             <!--                        </manifest>-->
             <!--                    </archive>-->
             <!--                    <descriptorRefs>-->
@@ -607,7 +607,7 @@
                                             <arg value="--runtime-image" />
                                             <arg value="${project.build.directory}/custom-jre" />
                                             <arg value="--main-class" />
-                                            <arg value="redisfx.tanh.rdm.ui.App" />
+                                            <arg value="redisfx.tanh.rdm.ui.RedisFX" />
                                             <arg value="--name" />
                                             <arg value="RedisFX" />
                                             <arg value="--dest" />
@@ -698,7 +698,7 @@
                                             <arg value="--runtime-image" />
                                             <arg value="${project.build.directory}/custom-jre" />
                                             <arg value="--main-class" />
-                                            <arg value="redisfx.tanh.rdm.ui.App" />
+                                            <arg value="redisfx.tanh.rdm.ui.RedisFX" />
                                             <arg value="--name" />
                                             <arg value="RedisFX" />
                                             <arg value="--dest" />
