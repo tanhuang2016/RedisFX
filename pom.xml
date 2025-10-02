@@ -9,7 +9,7 @@
     <version>2.3.10</version>
 
 
-
+    <description>redisfx</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
          <rdm.version>2.3.10</rdm.version>
