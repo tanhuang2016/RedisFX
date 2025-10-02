@@ -104,7 +104,7 @@ jobs:
         with:
           java-version: '21'
           distribution: 'adopt'
-          server-id: ossrh
+          server-id: hashdog
           server-username: MAVEN_USERNAME
           server-password: MAVEN_PASSWORD
       - name: Publish package
