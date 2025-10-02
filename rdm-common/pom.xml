@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>redisfx.tanh.rdm</groupId>
-        <artifactId>RedisFX</artifactId>
+         <groupId>io.github.tanhuang2016</groupId>
+        <artifactId>redis-fx</artifactId>
         <version>2.3.10</version>
 
     </parent>
 
-    <groupId>redisfx.tanh.rdm</groupId>
+     <groupId>io.github.tanhuang2016</groupId>
     <artifactId>rdm-common</artifactId>
     <version>2.3.10</version>
 
