@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>xyz.hashdog.rdm</groupId>
+        <groupId>redisfx.tanh.rdm</groupId>
         <artifactId>RedisFX</artifactId>
         <version>2.3.10</version>
 
     </parent>
 
-    <groupId>xyz.hashdog.rdm</groupId>
+    <groupId>redisfx.tanh.rdm</groupId>
     <artifactId>rdm-redis</artifactId>
     <version>2.3.10</version>
     <properties>
@@ -20,7 +20,7 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>xyz.hashdog.rdm</groupId>
+            <groupId>redisfx.tanh.rdm</groupId>
             <artifactId>rdm-common</artifactId>
             <version>${rdm.version}</version>
         </dependency>

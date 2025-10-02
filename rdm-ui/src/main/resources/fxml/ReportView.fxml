@@ -23,8 +23,8 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<?import xyz.hashdog.rdm.ui.sampler.custom.FloatToggleButton?>
-<StackPane fx:id="root" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.ReportController">
+<?import redisfx.tanh.rdm.ui.sampler.custom.FloatToggleButton?>
+<StackPane fx:id="root" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="redisfx.tanh.rdm.ui.controller.ReportController">
    <children>
       <ModalPane fx:id="modalPane">
          <StackPane.margin>
@@ -196,8 +196,8 @@
                                        <children>
                                           <Label fx:id="top" style="-fx-font-size: 1.25em"  HBox.hgrow="ALWAYS" />
                                            <Label fx:id="scanned2"    style="-fx-text-fill: #c79e4c" VBox.vgrow="ALWAYS" />
-                                          <FloatToggleButton fx:id="keySize" onAction="#keySize" mnemonicParsing="false"  HBox.hgrow="ALWAYS" selected="true"/>
-                                          <FloatToggleButton fx:id="keyLength" onAction="#keyLength" mnemonicParsing="false"  HBox.hgrow="ALWAYS" />
+                                          <FloatToggleButton fx:id="keySize" onAction="#keySize" mnemonicParsing="false" HBox.hgrow="ALWAYS" selected="true"/>
+                                          <FloatToggleButton fx:id="keyLength" onAction="#keyLength" mnemonicParsing="false" HBox.hgrow="ALWAYS" />
                                            <Button fx:id="scannedMore2" onAction="#scannedMore" HBox.hgrow="ALWAYS" />
                                            <Button fx:id="topRefresh" onAction="#topRefresh" HBox.hgrow="ALWAYS" />
                                        </children>

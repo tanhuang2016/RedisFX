@@ -11,7 +11,7 @@
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.RadioMenuItem?>
 <AnchorPane prefHeight="1000.0" prefWidth="1600.0" styleClass="root" xmlns="http://javafx.com/javafx/8.0.171"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.MainController"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="redisfx.tanh.rdm.ui.controller.MainController"
             fx:id="root">
     <children>
         <BorderPane layoutX="214.0" layoutY="112.0" prefHeight="675.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0"
