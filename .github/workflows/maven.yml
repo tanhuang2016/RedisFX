@@ -1,93 +1,29 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
-
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-name: Java CI with Maven
-
+name: Maven Central Repo Deployment
 on:
   push:
-    branches: [ "release-2.x" ]
-  pull_request:
-    branches: [ "release-2.x" ]
-
+    branches: [ "test-publish" ]
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ ubuntu-latest,ubuntu-22.04-arm, windows-latest, macos-latest,macos-13 ]
-    #        os: [ macos-latest ]
-    #        os: [ubuntu-latest,ubuntu-22.04-arm, windows-latest, windows-11-arm,macos-latest,macos-13]
-    name: build  ${{ matrix.os }}
-
-
+  publish-central:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up JDK 21
+
+      - name: Checkout Git Repo
+        uses: actions/checkout@v4
+
+      - name: Set up Apache Maven Central
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
-          distribution: 'temurin'
-          cache: maven
-      - name: Print JAVA_HOME
-        run: echo "JAVA_HOME=$JAVA_HOME"
+          distribution: 'zulu'
+          java-version: '21'      # 一般只需要修改这里，8 17 21 等等
+          server-id: central
+          server-username: SERVER_USERNAME
+          server-password: SERVER_PASSWORD
+          gpg-private-key: ${{ secrets.GPG_SECRET }}
+          gpg-passphrase: GPG_PASSPHRASE
 
-      - name: Install WiX Toolset via Chocolatey
-        if: startsWith(matrix.os, 'windows')
-        shell: cmd
-        run: choco install -y innosetup wixtoolset
-
-      - name: Check PATH and WiX/Inno Setup installation
-        if: startsWith(matrix.os, 'windows')
-        shell: powershell
-        run: |
-          Write-Host "Checking PATH..."
-          echo $env:PATH
-          
-          Write-Host "Testing candle (WiX)..."
-          try {
-            Get-Command candle -ErrorAction Stop
-            Write-Host "WiX Toolset is available."
-          } catch {
-            Write-Host "WiX Toolset NOT found in PATH!"
-          }
-          
-          Write-Host "Testing iscc (Inno Setup)..."
-          try {
-            Get-Command iscc -ErrorAction Stop
-            Write-Host "Inno Setup is available."
-          } catch {
-            Write-Host "Inno Setup NOT found in PATH!"
-          }
-
-
-      - name: Build with Maven
-        run: mvn -B package -DskipTests --file pom.xml
-
-
-        # 新增构建产物收集步骤
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts-${{ matrix.os }}-${{ github.run_number }}
-          path: |
-            **/target/*.zip
-            **/target/*.rpm
-            **/target/*.dep
-            **/target/*.gz
-            **/target/*.msi
-            **/target/*.exe
-            **/target/*dependencies.jar
-             **/target/*.dmg
-          #          **/target/*.msm
-          #          **/target/*.*
-          if-no-files-found: error
-
-
-    # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
-#    - name: Update dependency graph
-#      uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
+      - name: Publish to Apache Maven Central
+        run: mvn deploy
+        env:
+          SERVER_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          SERVER_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSWORD }}

@@ -27,9 +27,9 @@
          <rdm.version>2.3.10</rdm.version>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
-<!--        <slf4j.version>1.7.32</slf4j.version>-->
-        <junit.version>4.12</junit.version>
-        <serverId>hashdog</serverId>
+        <projectUrl>https://github.com/tanhuang2016/RedisFX.git</projectUrl>
+        <junit.version>4.13</junit.version>
+        <serverId>central</serverId>
     </properties>
 
     <modules>
