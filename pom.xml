@@ -8,7 +8,7 @@
     <packaging>pom</packaging>
     <version>2.3.10</version>
 
-
+    <name>RedisFX</name>
     <description>redisfx</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
