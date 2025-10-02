@@ -18,6 +18,9 @@
         <projectUrl>https://github.com/tanhuang2016/RedisFX.git</projectUrl>
         <junit.version>4.13</junit.version>
         <serverId>central</serverId>
+        <encoding>UTF-8</encoding>
+        <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
     </properties>
 
     <developers>
