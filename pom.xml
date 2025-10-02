@@ -48,11 +48,8 @@
     <distributionManagement>
         <repository>
             <id>hashdog</id>
-            <url>https://central.sonatype.com/artifactory/maven-releases</url>
+            <name>Central Repository OSSRH</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
-        <snapshotRepository>
-            <id>hashdog</id>
-            <url>https://central.sonatype.com/artifactory/maven-snapshots</url>
-        </snapshotRepository>
     </distributionManagement>
 </project>
