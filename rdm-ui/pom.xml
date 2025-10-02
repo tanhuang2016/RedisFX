@@ -12,7 +12,7 @@
      <groupId>io.github.tanhuang2016</groupId>
     <artifactId>rdm-ui</artifactId>
     <version>${rdm.version}</version>
-    <name>rdm-ui</name>
+    <name>RedisFX</name>
 
 
     <properties>
@@ -213,7 +213,7 @@
         </dependency>
     </dependencies>
 
-<!--
+
     <build>
         <plugins>
             <plugin>
@@ -245,13 +245,13 @@
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <mainClass>redisfx.tanh.rdm.ui.App</mainClass>
                                 </transformer>
-                                &lt;!&ndash; 添加 ikonli 所需的资源转换器 &ndash;&gt;
+                                <!-- 添加 ikonli 所需的资源转换器 -->
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                     <resource>META-INF/ikonli.properties</resource>
                                 </transformer>
                             </transformers>
-                            &lt;!&ndash; 添加过滤器排除签名文件 &ndash;&gt;
+                            <!-- 添加过滤器排除签名文件 -->
                             <filters>
                                 <filter>
                                     <artifact>*:*</artifact>
@@ -266,33 +266,33 @@
                     </execution>
                 </executions>
             </plugin>
-&lt;!&ndash;            该打包方式存在缺陷，会导致字体图标不可用，虽然有解决方式，但是配置太麻烦，换用上面的shade插件&ndash;&gt;
-&lt;!&ndash;            <plugin>&ndash;&gt;
-&lt;!&ndash;                <groupId>org.apache.maven.plugins</groupId>&ndash;&gt;
-&lt;!&ndash;                <artifactId>maven-assembly-plugin</artifactId>&ndash;&gt;
-&lt;!&ndash;                <version>2.2</version>&ndash;&gt;
-&lt;!&ndash;                <configuration>&ndash;&gt;
-&lt;!&ndash;                    <appendAssemblyId>false</appendAssemblyId>&ndash;&gt;
-&lt;!&ndash;                    <finalName>rdm-ui-${rdm.version}-jar-with-dependencies</finalName>&ndash;&gt;
-&lt;!&ndash;                    <archive>&ndash;&gt;
-&lt;!&ndash;                        <manifest>&ndash;&gt;
-&lt;!&ndash;                            <mainClass>redisfx.tanh.rdm.ui.App</mainClass>&ndash;&gt;
-&lt;!&ndash;                        </manifest>&ndash;&gt;
-&lt;!&ndash;                    </archive>&ndash;&gt;
-&lt;!&ndash;                    <descriptorRefs>&ndash;&gt;
-&lt;!&ndash;                        <descriptorRef>jar-with-dependencies</descriptorRef>&ndash;&gt;
-&lt;!&ndash;                    </descriptorRefs>&ndash;&gt;
-&lt;!&ndash;                </configuration>&ndash;&gt;
-&lt;!&ndash;                <executions>&ndash;&gt;
-&lt;!&ndash;                    <execution>&ndash;&gt;
-&lt;!&ndash;                        <id>make-assembly</id>&ndash;&gt;
-&lt;!&ndash;                        <phase>package</phase>&ndash;&gt;
-&lt;!&ndash;                        <goals>&ndash;&gt;
-&lt;!&ndash;                            <goal>assembly</goal>&ndash;&gt;
-&lt;!&ndash;                        </goals>&ndash;&gt;
-&lt;!&ndash;                    </execution>&ndash;&gt;
-&lt;!&ndash;                </executions>&ndash;&gt;
-&lt;!&ndash;            </plugin>&ndash;&gt;
+<!--            该打包方式存在缺陷，会导致字体图标不可用，虽然有解决方式，但是配置太麻烦，换用上面的shade插件-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-assembly-plugin</artifactId>-->
+<!--                <version>2.2</version>-->
+<!--                <configuration>-->
+<!--                    <appendAssemblyId>false</appendAssemblyId>-->
+<!--                    <finalName>rdm-ui-${rdm.version}-jar-with-dependencies</finalName>-->
+<!--                    <archive>-->
+<!--                        <manifest>-->
+<!--                            <mainClass>redisfx.tanh.rdm.ui.App</mainClass>-->
+<!--                        </manifest>-->
+<!--                    </archive>-->
+<!--                    <descriptorRefs>-->
+<!--                        <descriptorRef>jar-with-dependencies</descriptorRef>-->
+<!--                    </descriptorRefs>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>make-assembly</id>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>assembly</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
 
 
 
@@ -303,7 +303,7 @@
 
 
     <profiles>
-        &lt;!&ndash; Windows 64 位 可以运行&ndash;&gt;
+        <!-- Windows 64 位 可以运行-->
         <profile>
             <id>windows-amd64</id>
             <activation>
@@ -317,7 +317,7 @@
                     <plugin>
                         <groupId>io.github.fvarrui</groupId>
                         <artifactId>javapackager</artifactId>
-                        &lt;!&ndash;这个版本可以打出msi和msm&ndash;&gt;
+                        <!--这个版本可以打出msi和msm-->
                         <version>1.7.6</version>
                         <executions>
                             <execution>
@@ -329,17 +329,17 @@
                                 <configuration>
                                     <mainClass>redisfx.tanh.rdm.ui.Main</mainClass>
                                     <bundleJre>true</bundleJre>
-&lt;!&ndash;                                    <jdkPath>D:\soft\jdk\jdk-21_windows-x64_bin\jdk-21.0.7</jdkPath>&ndash;&gt;
+<!--                                    <jdkPath>D:\soft\jdk\jdk-21_windows-x64_bin\jdk-21.0.7</jdkPath>-->
                                     <jdkPath>${env.JAVA_HOME}</jdkPath>
                                     <generateInstaller>true</generateInstaller>
                                     <administratorRequired>false</administratorRequired>
                                     <platform>windows</platform>
                                     <createZipball>true</createZipball>
-                                    &lt;!&ndash;                            <additionalResources>&ndash;&gt;
-                                    &lt;!&ndash;                                <additionalResource>${name}.l4j.ini</additionalResource>&ndash;&gt;
-                                    &lt;!&ndash;                            </additionalResources>&ndash;&gt;
+                                    <!--                            <additionalResources>-->
+                                    <!--                                <additionalResource>${name}.l4j.ini</additionalResource>-->
+                                    <!--                            </additionalResources>-->
                                     <winConfig>
-&lt;!&ndash;                                        <headerType>console</headerType>&ndash;&gt;
+<!--                                        <headerType>console</headerType>-->
                                         <icoFile>src/main/resources/icon/fx_icon_256.ico</icoFile>
                                         <generateSetup>true</generateSetup>
                                         <setupLanguages>
@@ -355,9 +355,9 @@
                                         <disableWelcomePage>false</disableWelcomePage>
                                     </winConfig>
                                     <vmArgs>
-                                        <arg>&#45;&#45;module-path</arg>
+                                        <arg>--module-path</arg>
                                         <arg>libs</arg>
-                                        <arg>&#45;&#45;add-modules</arg>
+                                        <arg>--add-modules</arg>
                                         <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web,javafx.base</arg>
                                     </vmArgs>
                                 </configuration>
@@ -373,7 +373,7 @@
             </build>
         </profile>
 
-        &lt;!&ndash; Windows arm64 位 javafx21没有该架构的sdk，目前执行不了 &ndash;&gt;
+        <!-- Windows arm64 位 javafx21没有该架构的sdk，目前执行不了 -->
         <profile>
             <id>windows-x86</id>
             <activation>
@@ -397,14 +397,14 @@
                                 <configuration>
                                     <mainClass>redisfx.tanh.rdm.ui.Main</mainClass>
                                     <bundleJre>true</bundleJre>
-&lt;!&ndash;                                    <jdkPath>D:\soft\jdk\jdk-21_windows-i586\jdk-21.0.7</jdkPath>&ndash;&gt;
+<!--                                    <jdkPath>D:\soft\jdk\jdk-21_windows-i586\jdk-21.0.7</jdkPath>-->
                                     <jdkPath>${env.JAVA_HOME}</jdkPath>
                                     <generateInstaller>true</generateInstaller>
                                     <administratorRequired>false</administratorRequired>
                                     <platform>windows</platform>
                                     <createZipball>true</createZipball>
                                     <winConfig>
-&lt;!&ndash;                                        <headerType>console</headerType>&ndash;&gt;
+<!--                                        <headerType>console</headerType>-->
                                         <icoFile>src/main/resources/icon/fx_icon_256.ico</icoFile>
                                         <generateSetup>true</generateSetup>
                                         <generateMsi>true</generateMsi>
@@ -412,9 +412,9 @@
 
                                     </winConfig>
                                     <vmArgs>
-                                        <arg>&#45;&#45;module-path</arg>
+                                        <arg>--module-path</arg>
                                         <arg>libs</arg>
-                                        <arg>&#45;&#45;add-modules</arg>
+                                        <arg>--add-modules</arg>
                                         <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web,javafx.base</arg>
                                     </vmArgs>
                                 </configuration>
@@ -425,7 +425,7 @@
             </build>
         </profile>
 
-        &lt;!&ndash; Linux x86 64 位 可以运行&ndash;&gt;
+        <!-- Linux x86 64 位 可以运行-->
 
         <profile>
             <id>linux-amd64</id>
@@ -457,9 +457,9 @@
                                         <pngFile>src/main/resources/icon/fx_icon_256.png</pngFile>
                                     </linuxConfig>
                                     <vmArgs>
-                                        <arg>&#45;&#45;module-path</arg>
+                                        <arg>--module-path</arg>
                                         <arg>libs</arg>
-                                        <arg>&#45;&#45;add-modules</arg>
+                                        <arg>--add-modules</arg>
                                         <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web,javafx.base</arg>
                                     </vmArgs>
                                 </configuration>
@@ -471,7 +471,7 @@
         </profile>
 
 
-        &lt;!&ndash; Linux ARM 64 位 可以运行 &ndash;&gt;
+        <!-- Linux ARM 64 位 可以运行 -->
         <profile>
             <id>linux-arm64</id>
             <activation>
@@ -502,9 +502,9 @@
                                         <pngFile>src/main/resources/icon/fx_icon_256.png</pngFile>
                                     </linuxConfig>
                                     <vmArgs>
-                                        <arg>&#45;&#45;module-path</arg>
+                                        <arg>--module-path</arg>
                                         <arg>libs</arg>
-                                        <arg>&#45;&#45;add-modules</arg>
+                                        <arg>--add-modules</arg>
                                         <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web,javafx.base</arg>
                                     </vmArgs>
                                 </configuration>
@@ -548,9 +548,9 @@
                                         <icnsFile>src/main/resources/icon/fx_icon_256.icns</icnsFile>
                                     </macConfig>
                                     <vmArgs>
-                                        <arg>&#45;&#45;module-path</arg>
+                                        <arg>--module-path</arg>
                                         <arg>libs</arg>
-                                        <arg>&#45;&#45;add-modules</arg>
+                                        <arg>--add-modules</arg>
                                         <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web,javafx.base</arg>
                                     </vmArgs>
                                 </configuration>
@@ -569,28 +569,28 @@
                                     <target>
                                         <delete dir="${project.build.directory}/custom-jre" failonerror="false"/>
                                         <exec executable="jlink">
-                                            <arg value="&#45;&#45;output" />
+                                            <arg value="--output" />
                                             <arg value="${project.build.directory}/custom-jre" />
-                                            <arg value="&#45;&#45;add-modules" />
+                                            <arg value="--add-modules" />
                                             <arg value="ALL-MODULE-PATH" />
-                                            <arg value="&#45;&#45;compress=2" />
-                                            <arg value="&#45;&#45;no-header-files" />
-                                            <arg value="&#45;&#45;no-man-pages" />
+                                            <arg value="--compress=2" />
+                                            <arg value="--no-header-files" />
+                                            <arg value="--no-man-pages" />
                                         </exec>
                                         <exec executable="jpackage">
-                                            <arg value="&#45;&#45;type" />
+                                            <arg value="--type" />
                                             <arg value="dmg" />
-                                            <arg value="&#45;&#45;input"/>
+                                            <arg value="--input"/>
                                             <arg value="${project.build.directory}"/>
-                                            <arg value="&#45;&#45;main-jar" />
+                                            <arg value="--main-jar" />
                                             <arg value="rdm-ui-${rdm.version}-jar-with-dependencies.jar" />
-                                            <arg value="&#45;&#45;runtime-image" />
+                                            <arg value="--runtime-image" />
                                             <arg value="${project.build.directory}/custom-jre" />
-                                            <arg value="&#45;&#45;main-class" />
+                                            <arg value="--main-class" />
                                             <arg value="redisfx.tanh.rdm.ui.App" />
-                                            <arg value="&#45;&#45;name" />
+                                            <arg value="--name" />
                                             <arg value="RedisFX" />
-                                            <arg value="&#45;&#45;dest" />
+                                            <arg value="--dest" />
                                             <arg value="${project.build.directory}" />
                                         </exec>
                                     </target>
@@ -638,9 +638,9 @@
                                         <entitlements>src/main/resources/assets/entitlements.plist</entitlements>
                                     </macConfig>
                                     <vmArgs>
-                                        <arg>&#45;&#45;module-path</arg>
+                                        <arg>--module-path</arg>
                                         <arg>libs</arg>
-                                        <arg>&#45;&#45;add-modules</arg>
+                                        <arg>--add-modules</arg>
                                         <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web,javafx.base</arg>
                                     </vmArgs>
                                 </configuration>
@@ -660,28 +660,28 @@
                                     <target>
                                         <delete dir="${project.build.directory}/custom-jre" failonerror="false"/>
                                         <exec executable="jlink">
-                                            <arg value="&#45;&#45;output" />
+                                            <arg value="--output" />
                                             <arg value="${project.build.directory}/custom-jre" />
-                                            <arg value="&#45;&#45;add-modules" />
+                                            <arg value="--add-modules" />
                                             <arg value="ALL-MODULE-PATH" />
-                                            <arg value="&#45;&#45;compress=2" />
-                                            <arg value="&#45;&#45;no-header-files" />
-                                            <arg value="&#45;&#45;no-man-pages" />
+                                            <arg value="--compress=2" />
+                                            <arg value="--no-header-files" />
+                                            <arg value="--no-man-pages" />
                                         </exec>
                                         <exec executable="jpackage">
-                                            <arg value="&#45;&#45;type" />
+                                            <arg value="--type" />
                                             <arg value="dmg" />
-                                            <arg value="&#45;&#45;input"/>
+                                            <arg value="--input"/>
                                             <arg value="${project.build.directory}"/>
-                                            <arg value="&#45;&#45;main-jar" />
+                                            <arg value="--main-jar" />
                                             <arg value="rdm-ui-${rdm.version}-jar-with-dependencies.jar" />
-                                            <arg value="&#45;&#45;runtime-image" />
+                                            <arg value="--runtime-image" />
                                             <arg value="${project.build.directory}/custom-jre" />
-                                            <arg value="&#45;&#45;main-class" />
+                                            <arg value="--main-class" />
                                             <arg value="redisfx.tanh.rdm.ui.App" />
-                                            <arg value="&#45;&#45;name" />
+                                            <arg value="--name" />
                                             <arg value="RedisFX" />
-                                            <arg value="&#45;&#45;dest" />
+                                            <arg value="--dest" />
                                             <arg value="${project.build.directory}" />
                                         </exec>
                                     </target>
@@ -695,7 +695,7 @@
 
 
 
-    </profiles>-->
+    </profiles>
 
 
 
