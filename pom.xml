@@ -54,7 +54,7 @@
         <repository>
             <id>github</id>
             <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/tanh/redisfx</url>
+            <url>https://maven.pkg.github.com/tanhuang2016/RedisFX</url>
         </repository>
     </distributionManagement>
 </project>
