@@ -12,7 +12,7 @@
      <groupId>io.github.tanhuang2016</groupId>
     <artifactId>rdm-ui</artifactId>
     <version>${rdm.version}</version>
-    <name>RedisFX</name>
+    <name>rdm-ui</name>
 
 
     <properties>
