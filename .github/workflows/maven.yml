@@ -105,8 +105,10 @@ jobs:
           java-version: '21'
           distribution: 'adopt'
           server-id: hashdog
-          server-username: MAVEN_USERNAME
-          server-password: MAVEN_PASSWORD
+          MAVEN_USERNAME: gmDlA2
+          MAVEN_PASSWORD: 1F38jPEM3NMTPiMpIcbdorSXxJnRGDh6m
+#          server-username: MAVEN_USERNAME
+#          server-password: MAVEN_PASSWORD
       - name: Publish package
         run: mvn --batch-mode deploy
         env:
