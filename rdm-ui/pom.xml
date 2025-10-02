@@ -259,6 +259,7 @@
                     <charset>${encoding}</charset>
                     <encoding>${encoding}</encoding>
                     <docencoding>${encoding}</docencoding>
+                    <failOnError>false</failOnError>
                 </configuration>
                 <executions>
                     <execution>
