@@ -37,7 +37,7 @@ public class NewGroupController extends BaseWindowController<ServerConnectionsCo
     @FXML
     public TextField dataId;
     public Button ok;
-
+    private int type =ConnectionServerNode.GROUP;
     @FXML
     private void initialize() {
         ok.getStyleClass().add(Styles.ACCENT);
@@ -52,7 +52,7 @@ public class NewGroupController extends BaseWindowController<ServerConnectionsCo
         if(GuiUtil.requiredTextField(name)){
             return;
         }
-        ConnectionServerNode groupNode =new ConnectionServerNode(ConnectionServerNode.GROUP);
+        ConnectionServerNode groupNode =new ConnectionServerNode(type);
         groupNode.setName(name.getText());
         Message message=null;
         switch (this.model){
@@ -91,6 +91,7 @@ public class NewGroupController extends BaseWindowController<ServerConnectionsCo
     public void editInfo(ConnectionServerNode selectedNode) {
         name.setText(selectedNode.getName());
         dataId.setText(selectedNode.getDataId());
+        type=selectedNode.getType();
     }
 
 }

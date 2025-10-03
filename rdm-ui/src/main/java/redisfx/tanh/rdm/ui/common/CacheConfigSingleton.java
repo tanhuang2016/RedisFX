@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import redisfx.tanh.rdm.common.pool.ThreadPool;
 import redisfx.tanh.rdm.common.util.DataUtil;
 import redisfx.tanh.rdm.ui.entity.config.ConfigSettings;
@@ -22,7 +24,7 @@ import java.util.prefs.Preferences;
  * @since 2023/7/20 16:46
  */
 public class CacheConfigSingleton {
-
+    private static final Logger log = LoggerFactory.getLogger(CacheConfigSingleton.class);
 
     protected final static ConfigPreferences CONFIG;
     private final static Preferences PREFERENCES = Preferences.userRoot().node(Applications.NODE_APP_NAME);
@@ -122,6 +124,7 @@ public class CacheConfigSingleton {
         CONFIG.getConnectionNodeMap().addListener((MapChangeListener<String, ConnectionServerNode>) change -> {
             if (change.wasAdded() || change.wasRemoved()) {
                 ThreadPool.getInstance().execute(()->{
+                    log.info("Connection node update:{}", change.getKey());
                     Preferences node = PREFERENCES.node(Applications.NODE_APP_DATA);
                     node.put(Applications.KEY_CONNECTIONS,new Gson().toJson(CONFIG.getConnectionNodeMap().values()));
                 });
