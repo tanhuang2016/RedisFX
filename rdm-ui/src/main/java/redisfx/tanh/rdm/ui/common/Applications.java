@@ -96,9 +96,7 @@ public class Applications {
      */
     public static Message renameConnectionOrGroup(ConnectionServerNode groupNode) {
         ConnectionServerNode old = CacheConfigSingleton.CONFIG.getConnectionNodeMap().get(groupNode.getDataId());
-        TUtil.copyProperties(old, groupNode);
-        //map在put的时候需要引用地址变更才会触发监听,所以这里进行了域的复制
-        CacheConfigSingleton.CONFIG.getConnectionNodeMap().put(old.getDataId(), groupNode);
+        CacheConfigSingleton.CONFIG.getConnectionNodeMap().put(old.getDataId(), old);
         return new Message(true);
     }
 

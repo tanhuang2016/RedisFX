@@ -2,8 +2,10 @@ package redisfx.tanh.rdm.ui.common;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.sun.javafx.collections.ObservableMapWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
+import javafx.collections.ObservableMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redisfx.tanh.rdm.common.pool.ThreadPool;
@@ -11,7 +13,9 @@ import redisfx.tanh.rdm.common.util.DataUtil;
 import redisfx.tanh.rdm.ui.entity.config.ConfigSettings;
 import redisfx.tanh.rdm.ui.entity.config.ConnectionServerNode;
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.prefs.Preferences;
 
@@ -35,11 +39,13 @@ public class CacheConfigSingleton {
     static {
         CONFIG = new ConfigPreferences();
         //看源码实际上用的ObservableMapWrapper,进行保证,看起来应该对map的增删应该是线程安全的,无所谓客户端能有多大并发量
-        CONFIG.setConnectionNodeMap(FXCollections.observableMap(new ConcurrentHashMap<>()));
-        CONFIG.setConfigSettingsMap(FXCollections.observableMap(new ConcurrentHashMap<>()));
+        CONFIG.setConnectionNodeMap(CustomObservableMap.simpleMap());
+        CONFIG.setConfigSettingsMap(CustomObservableMap.simpleMap());
         CacheConfigSingleton.initData();
         CacheConfigSingleton.addListener();
     }
+
+
 
     /**
      * 初始化数据
@@ -109,6 +115,7 @@ public class CacheConfigSingleton {
         CONFIG.getConfigSettingsMap().addListener((MapChangeListener<String, ConfigSettings>) change -> {
             if (change.wasAdded() || change.wasRemoved()) {
                 ThreadPool.getInstance().execute(()->{
+                    log.info("Config setting listener:{}", change.getKey());
                     Preferences node = PREFERENCES.node(Applications.NODE_APP_CONE);
                     String key = change.getKey();
                     node.put(key,new Gson().toJson(CONFIG.getConfigSettingsMap().get(key)));
@@ -124,7 +131,7 @@ public class CacheConfigSingleton {
         CONFIG.getConnectionNodeMap().addListener((MapChangeListener<String, ConnectionServerNode>) change -> {
             if (change.wasAdded() || change.wasRemoved()) {
                 ThreadPool.getInstance().execute(()->{
-                    log.info("Connection node update:{}", change.getKey());
+                    log.info("Connection node listener:{}", change.getKey());
                     Preferences node = PREFERENCES.node(Applications.NODE_APP_DATA);
                     node.put(Applications.KEY_CONNECTIONS,new Gson().toJson(CONFIG.getConnectionNodeMap().values()));
                 });
