@@ -91,6 +91,7 @@ public class ConsoleController extends BaseClientController<ServerTabController>
                     textArea.setText(String.join("\n", list));
                     return;
                 }
+                textArea.appendText( "\n");
                 textArea.appendText( String.join("\n", strings) );
             });
         });
