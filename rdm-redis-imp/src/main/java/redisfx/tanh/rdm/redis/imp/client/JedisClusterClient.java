@@ -601,7 +601,7 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
      * @return 控制台对象
      */
     @Override
-    public RedisConsole getRedisConsole() {
+    public RedisConsole getRedisConsole(int db) {
         Optional<ConnectionPool> firstPool = jedis.getClusterNodes().values().stream().findFirst();
         return firstPool.map(connectionPool -> {
             Connection connection = connectionPool.getResource();

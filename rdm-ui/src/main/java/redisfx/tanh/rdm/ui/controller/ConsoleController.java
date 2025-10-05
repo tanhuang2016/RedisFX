@@ -78,7 +78,7 @@ public class ConsoleController extends BaseClientController<ServerTabController>
         textArea.appendText( "\n"+"> "+inputText );
         textField.clear();
         ThreadPool.getInstance().execute(()->{
-            List<String> strings = redisClient.getRedisConsole().sendCommand(inputText);
+            List<String> strings = redisClient.getRedisConsole(this.currentDb).sendCommand(inputText);
             Platform.runLater(()->{
                 if(inputText.trim().startsWith("select")&&!strings.isEmpty()&& "ok".equalsIgnoreCase(strings.getFirst())){
                     this.currentDb=Integer.parseInt(inputText.replace("select","").trim());

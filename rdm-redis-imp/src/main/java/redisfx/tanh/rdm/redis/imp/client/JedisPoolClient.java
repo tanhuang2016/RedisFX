@@ -578,9 +578,12 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
      * @return 控制台对象
      */
     @Override
-    public RedisConsole getRedisConsole() {
+    public RedisConsole getRedisConsole(int db) {
         Connection connection = jedis.getConnection();
          jedis.connect();
+         if(db!=0){
+             jedis.select(db);
+         }
         return new RedisConsole(connection,() -> TUtil.getField(connection, "socket"));
     }
 

@@ -75,7 +75,7 @@ public interface RedisClient extends Closeable {
      * 控制台交互器
      *
      */
-    RedisConsole getRedisConsole();
+    RedisConsole getRedisConsole(int db);
 
     /**
      * 设置key的时长
