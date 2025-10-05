@@ -48,6 +48,7 @@ public class ConsoleController extends BaseClientController<ServerTabController>
      * 当前滚动条所在行
      */
     int scrollLine=0;
+    private static final int MAXLINES = 1000;
 
 
     private final List<RedisCommandHelp> redisCommandHelps = RedisCommandHelpParser.parseCommands();
@@ -78,15 +79,19 @@ public class ConsoleController extends BaseClientController<ServerTabController>
         textArea.appendText( "\n"+"> "+inputText );
         textField.clear();
         ThreadPool.getInstance().execute(()->{
-            List<String> strings = redisClient.getRedisConsole(this.currentDb).sendCommand(inputText);
+            final List<String> strings = redisClient.getRedisConsole(this.currentDb).sendCommand(inputText);
             Platform.runLater(()->{
                 if(inputText.trim().startsWith("select")&&!strings.isEmpty()&& "ok".equalsIgnoreCase(strings.getFirst())){
                     this.currentDb=Integer.parseInt(inputText.replace("select","").trim());
                     label.setText(redisContext.getRedisConfig().getName()+":"+this.currentDb+">");
                 }
-                for (String string : strings) {
-                    textArea.appendText( "\n"+string );
+                if(strings.size()>MAXLINES){
+                    List<String> list = strings.subList(strings.size() - MAXLINES, strings.size());
+                    textArea.clear();
+                    textArea.setText(String.join("\n", list));
+                    return;
                 }
+                textArea.appendText( String.join("\n", strings) );
             });
         });
         historyIndex = -1;
