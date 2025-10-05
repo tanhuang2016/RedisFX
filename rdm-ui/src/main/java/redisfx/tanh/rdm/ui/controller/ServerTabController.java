@@ -576,7 +576,7 @@ public class ServerTabController extends BaseClientController<MainController> {
                         }
                         n.getAndIncrement();
                     }
-                }));
+                },this.currentDb));
                 //管道查询的结果，需要更新到树里面
                if(!treeItems.isEmpty()){
                    for (int i = 0; i < treeItems.size(); i++) {
@@ -1763,7 +1763,7 @@ public class ServerTabController extends BaseClientController<MainController> {
                     commands.pttl(keyTreeNode.getKey());
                 }
             }
-        }));
+        },this.currentDb));
         StringBuilder csvContent = new StringBuilder();
         for (int i = 0; i < list.size(); i++) {
             String key = FileUtil.byte2HexString(list.get(i).getKey().getBytes());

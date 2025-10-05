@@ -553,10 +553,13 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
     }
 
     @Override
-    public List<Object> executePipelined(Consumer<PipelineAdapter> pipelineExecutor) {
+    public List<Object> executePipelined(Consumer<PipelineAdapter> pipelineExecutor, int db) {
         //管道执行用一个新连接，执行完回收到线程，connection不用关闭
         try (Jedis subJedis = jedisPool.getResource();
              Pipeline pipeline = subJedis.pipelined()){
+            if(db!=0){
+                pipeline.select(1);
+            }
             PipeLineAdapterImpl pipeLineAdapter = new PipeLineAdapterImpl(pipeline);
             pipelineExecutor.accept(pipeLineAdapter);
             return pipeLineAdapter.syncAndReturnAll();

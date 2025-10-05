@@ -762,7 +762,7 @@ public class ReportController extends BaseClientController<ServerTabController> 
                             commands.type(key);
                             commands.ttl(key);
                         }
-                    });
+                    },this.currentDb);
                     List<TopKeyTable> topKeyTableList = new ArrayList<>();
                     List<Object> pipelineLengthResults = this.redisClient.executePipelined(commands -> {
                         // 处理Pipeline结果
@@ -784,7 +784,7 @@ public class ReportController extends BaseClientController<ServerTabController> 
                             }
 
                         }
-                    });
+                    },this.currentDb);
                     //在次处理获取length的结果
                     for (int i = 0; i < topKeyTableList.size(); i++) {
                         Object o = pipelineLengthResults.get(i);

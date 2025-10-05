@@ -467,6 +467,6 @@ public interface RedisClient extends Closeable {
      * @param pipelineExecutor Pipeline命令执行器
      * @return 执行结果列表
      */
-    List<Object> executePipelined(Consumer<PipelineAdapter> pipelineExecutor);
+    List<Object> executePipelined(Consumer<PipelineAdapter> pipelineExecutor,int db);
 
 }
