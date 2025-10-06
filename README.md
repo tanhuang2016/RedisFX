@@ -57,7 +57,7 @@ English |  [中文](README.zh-CN.md)
 You've scrolled to the end, thank you for giving us a Star! 🙏🙏🙏
 
 
-## Contributors
+## Contributors  ✨
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
