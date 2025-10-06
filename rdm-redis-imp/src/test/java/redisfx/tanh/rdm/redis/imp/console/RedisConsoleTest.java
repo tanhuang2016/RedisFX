@@ -26,7 +26,7 @@ public class RedisConsoleTest {
         redisConfig.setPort(6379);
         RedisContext redisContext = redisFactory.createRedisContext(redisConfig);
         RedisClient redisClient=redisContext.newRedisClient();
-        this.redisConsole=redisClient.getRedisConsole();
+        this.redisConsole=redisClient.getRedisConsole(0);
     }
 
     @Test
