@@ -6,7 +6,7 @@
   "files": [
     "README.md",
     "README.en-US.md",
-    "README.zh-CN.md",
+    "README.zh-CN.md"
   ],
   "imageSize": 100,
   "commit": true,
