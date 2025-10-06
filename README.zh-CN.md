@@ -70,6 +70,7 @@
   <tbody>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Tan000321"><img src="https://avatars.githubusercontent.com/u/115800442?v=4?s=100" width="100px;" alt="Tan000321"/><br /><sub><b>Tan000321</b></sub></a><br /><a href=" https://github.com/tanhuang2016/RedisFX/tanhuang2016/RedisFX/issues?q=author%3ATan000321" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/crazyweeds"><img src="https://avatars.githubusercontent.com/u/16688520?v=4?s=100" width="100px;" alt="crazyweeds"/><br /><sub><b>crazyweeds</b></sub></a><br /><a href=" https://github.com/tanhuang2016/RedisFX/tanhuang2016/RedisFX/issues?q=author%3Acrazyweeds" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>
   <tfoot>
