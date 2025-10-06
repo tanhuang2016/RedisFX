@@ -4,7 +4,9 @@
   "repoType": "github",
   "repoHost": " https://github.com/tanhuang2016/RedisFX",
   "files": [
-    "README.md"
+    "README.md",
+    "README.en-US.md",
+    "README.zh-CN.md",
   ],
   "imageSize": 100,
   "commit": true,
