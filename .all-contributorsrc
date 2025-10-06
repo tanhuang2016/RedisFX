@@ -9,7 +9,18 @@
   "imageSize": 100,
   "commit": true,
   "commitConvention": "angular",
-  "contributors": [],
+  "contributors": [
+    {
+      "login": "Tan000321",
+      "name": "Tan000321",
+      "avatar_url": "https://avatars.githubusercontent.com/u/115800442?v=4",
+      "profile": "https://github.com/Tan000321",
+      "contributions": [
+        "bug"
+      ]
+    }
+  ],
   "contributorsPerLine": 7,
-  "linkToUsage": true
+  "linkToUsage": true,
+  "commitType": "docs"
 }
