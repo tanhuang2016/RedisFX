@@ -62,5 +62,5 @@
     </root>
 
     <!-- 特定包的日志级别配置（可根据需要调整） -->
-    <logger name="xyz.hashdog.rdm" level="DEBUG" />
+    <logger name="redisfx.tanh.rdm" level="DEBUG" />
 </configuration>

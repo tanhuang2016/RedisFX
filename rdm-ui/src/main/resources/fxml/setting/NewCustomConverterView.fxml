@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import atlantafx.base.layout.InputGroup?>
-<AnchorPane fx:id="root" prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.setting.NewCustomConverterController">
+<AnchorPane fx:id="root" prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="redisfx.tanh.rdm.ui.controller.setting.NewCustomConverterController">
    <children>
       <BorderPane layoutX="104.0" layoutY="39.0" prefHeight="425.0" prefWidth="580.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <bottom>

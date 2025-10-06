@@ -13,7 +13,7 @@
 <?import java.net.URL?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Menu?>
-<AnchorPane fx:id="root" prefHeight="200.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.ByteArrayController">
+<AnchorPane fx:id="root" prefHeight="200.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="redisfx.tanh.rdm.ui.controller.ByteArrayController">
    <children>
       <VBox prefHeight="200.0" prefWidth="955.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>

@@ -4,14 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>xyz.hashdog.rdm</groupId>
-        <artifactId>RedisFX</artifactId>
-        <version>2.3.9</version>
+         <groupId>io.github.tanhuang2016</groupId>
+        <artifactId>redis-fx</artifactId>
+        <version>2.3.10</version>
     </parent>
 
-    <groupId>xyz.hashdog.rdm</groupId>
+    <name>${name}</name>
+    <description>${description}</description>
     <artifactId>rdm-redis-imp</artifactId>
-    <version>2.3.9</version>
+    <version>2.3.10</version>
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
@@ -20,6 +21,26 @@
         <jedis.version>6.0.0</jedis.version>
 
     </properties>
+    <developers>
+        <developer>
+            <name>${developer.name}</name>
+            <email>${developer.email}</email>
+            <url>${projectUrl}</url>
+        </developer>
+    </developers>
+    <url>${projectUrl}</url>
+    <licenses>
+        <license>
+            <name>${license.name}</name>
+            <url>${license.url}</url>
+            <distribution>${license.distribution}</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <connection>${projectUrl}</connection>
+        <developerConnection>${projectUrl}</developerConnection>
+        <url>${projectUrl}</url>
+    </scm>
     <dependencies>
         <!-- junit -->
         <dependency>
@@ -34,12 +55,12 @@
             <version>${jedis.version}</version>
         </dependency>
         <dependency>
-            <groupId>xyz.hashdog.rdm</groupId>
+             <groupId>io.github.tanhuang2016</groupId>
             <artifactId>rdm-redis</artifactId>
             <version>${rdm.version}</version>
         </dependency>
         <dependency>
-            <groupId>xyz.hashdog.rdm</groupId>
+             <groupId>io.github.tanhuang2016</groupId>
             <artifactId>rdm-common</artifactId>
             <version>${rdm.version}</version>
         </dependency>
@@ -56,4 +77,83 @@
         </dependency>
     </dependencies>
 
+
+
+    <profiles>
+        <profile>
+            <id>publish</id>
+            <build>
+
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.2.1</version>
+                        <inherited>false</inherited>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.3.0</version>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <nohelp>true</nohelp>
+                            <charset>${encoding}</charset>
+                            <encoding>${encoding}</encoding>
+                            <docencoding>${encoding}</docencoding>
+                            <failOnError>false</failOnError>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <inherited>false</inherited>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>0.9.0</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <publishingServerId>central</publishingServerId>
+                            <autoPublish>true</autoPublish>
+                        </configuration>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

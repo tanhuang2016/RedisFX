@@ -1,0 +1,200 @@
+package redisfx.tanh.rdm.ui.controller.setting;
+
+import atlantafx.base.controls.ToggleSwitch;
+import atlantafx.base.theme.Styles;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.Cursor;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.material2.Material2AL;
+import org.kordamp.ikonli.material2.Material2MZ;
+import redisfx.tanh.rdm.ui.common.Applications;
+import redisfx.tanh.rdm.ui.common.ConfigSettingsEnum;
+import redisfx.tanh.rdm.ui.controller.ServerConnectionsController;
+import redisfx.tanh.rdm.ui.controller.base.BaseWindowController;
+import redisfx.tanh.rdm.ui.entity.config.CustomConverterSetting;
+import redisfx.tanh.rdm.ui.handler.convert.CustomInvokeConverter;
+import redisfx.tanh.rdm.ui.sampler.page.custom.CustomConverterPage;
+import redisfx.tanh.rdm.ui.util.GuiUtil;
+
+import java.io.File;
+
+import static redisfx.tanh.rdm.ui.util.LanguageManager.language;
+
+public class NewCustomConverterController extends BaseWindowController<CustomConverterPage>  {
+    @FXML
+    public ToggleSwitch enabled;
+    public Tab decodeTab;
+    public TextField decodeCmd;
+    public TextField decodeDir;
+    public Tab encodeTab;
+    public TextField encodeCmd;
+    public TextField encodeDir;
+    public RadioButton encodeStdio;
+    public RadioButton encodeFile;
+    public RadioButton decodeStdio;
+    public RadioButton decodeFile;
+    public Label help;
+    public Button decodeDirButton;
+    public Button encodeDirButton;
+    public TextField name;
+    public TabPane tabPane;
+    public AnchorPane root;
+
+
+    @FXML
+    public void initialize() {
+        initIcon();
+        initRadioButton();
+        initLanguage();
+        initStyles();
+    }
+
+    private void initRadioButton() {
+        ToggleGroup  encodeGroup = new ToggleGroup();
+        encodeStdio.setToggleGroup(encodeGroup);
+        encodeFile.setToggleGroup(encodeGroup);
+        ToggleGroup  decodeGroup = new ToggleGroup();
+        decodeStdio.setToggleGroup(decodeGroup);
+        decodeFile.setToggleGroup(decodeGroup);
+    }
+
+    @Override
+    protected void initLanguage() {
+        super.initLanguage();
+        help.setTooltip(GuiUtil.textTooltip(language("main.setting.extension.converter.view")));
+        encodeStdio.setText(language("main.setting.extension.converter.stdio"));
+        decodeStdio.setText(language("main.setting.extension.converter.stdio"));
+        encodeFile.setText(language("main.setting.extension.converter.file"));
+        decodeFile.setText(language("main.setting.extension.converter.file"));
+        Tooltip.install(encodeStdio.getGraphic(), GuiUtil.textTooltip(language("main.setting.extension.converter.stdio.help")));
+        Tooltip.install(decodeStdio.getGraphic(), GuiUtil.textTooltip(language("main.setting.extension.converter.stdio.help")));
+        Tooltip.install(encodeFile.getGraphic(), GuiUtil.textTooltip(language("main.setting.extension.converter.file.help")));
+        Tooltip.install(decodeFile.getGraphic(), GuiUtil.textTooltip(language("main.setting.extension.converter.file.help")));
+    }
+
+    private void initStyles() {
+        help.setCursor(Cursor.HAND);
+        decodeDirButton.getStyleClass().addAll( Styles.BUTTON_ICON);
+        encodeDirButton.getStyleClass().addAll( Styles.BUTTON_ICON);
+    }
+
+    private void initIcon() {
+        decodeTab.setGraphic(new FontIcon(Material2AL.LOG_OUT));
+        encodeTab.setGraphic(new FontIcon(Material2AL.LOG_IN));
+        help.setGraphic(new FontIcon(Material2AL.LIVE_HELP));
+        encodeStdio.setGraphic(new FontIcon(Material2AL.HELP_OUTLINE));
+        encodeStdio.setContentDisplay(ContentDisplay.RIGHT);
+        decodeStdio.setGraphic(new FontIcon(Material2AL.HELP_OUTLINE));
+        decodeStdio.setContentDisplay(ContentDisplay.RIGHT);
+        decodeFile.setGraphic(new FontIcon(Material2AL.HELP_OUTLINE));
+        decodeFile.setContentDisplay(ContentDisplay.RIGHT);
+        encodeFile.setGraphic(new FontIcon(Material2AL.HELP_OUTLINE));
+        encodeFile.setContentDisplay(ContentDisplay.RIGHT);
+        GuiUtil.setIcon(decodeDirButton,new FontIcon(Material2MZ.MORE_HORIZ));
+        GuiUtil.setIcon(encodeDirButton,new FontIcon(Material2MZ.MORE_HORIZ));
+    }
+
+    public int getModel() {
+        return model;
+    }
+
+    public void setModel(int model) {
+        this.model = model;
+    }
+    /**
+     * 编解码器名称
+     */
+    public void setName(String name) {
+        this.name.setText(name);
+        this.name.setEditable(false);
+        CustomConverterSetting configSettings = Applications.getConfigSettings(ConfigSettingsEnum.CONVERTER.name);
+        CustomInvokeConverter converter=configSettings.getByName(name);
+        this.enabled.setSelected(converter.isEnabled());
+        decodeCmd.setText(converter.getDecode().getCmd());
+        decodeDir.setText(converter.getDecode().getIoDir());
+        decodeStdio.setSelected(converter.getDecode().isUseCmd());
+        encodeCmd.setText(converter.getEncode().getCmd());
+        encodeDir.setText(converter.getEncode().getIoDir());
+        encodeStdio.setSelected(converter.getEncode().isUseCmd());
+    }
+
+    @FXML
+    public void ok(ActionEvent actionEvent) {
+        if(checkForm()){
+            return;
+        }
+        CustomInvokeConverter.Invoker decodeInvoker = new CustomInvokeConverter.Invoker(decodeCmd.getText(), decodeDir.getText(), decodeStdio.isSelected());
+        CustomInvokeConverter.Invoker encodeInvoker = new CustomInvokeConverter.Invoker(encodeCmd.getText(), encodeDir.getText(), encodeStdio.isSelected());
+        CustomInvokeConverter converter = new CustomInvokeConverter(name.getText(), encodeInvoker, decodeInvoker, enabled.isSelected());
+        if(model==ServerConnectionsController.ADD){
+            parentController.addConverter(converter);
+        }else {
+            parentController.updateConverter(converter);
+        }
+        this.currentStage.close();
+
+    }
+
+    /**
+     * 检查表单
+     * @return true证明有未填
+     */
+    private boolean checkForm() {
+        if(GuiUtil.requiredTextField(name)){
+            return true;
+        }
+        boolean checkDecode =checkForm(decodeCmd, decodeDir,decodeFile);
+        if(checkDecode){
+            tabPane.getSelectionModel().select(decodeTab);
+            return true;
+        }
+        boolean checkEncode =checkForm(encodeCmd, encodeDir,encodeFile);
+        if(checkEncode){
+            tabPane.getSelectionModel().select(encodeTab);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 检查表单
+     * @param cmd 命令框
+     * @param dir 目录框
+     * @param file 文件选项
+     * @return true证明有未填
+     */
+    private boolean checkForm(TextField cmd, TextField dir, RadioButton file) {
+       boolean flg = GuiUtil.requiredTextField(cmd);
+       if(!flg&&file.isSelected()){
+           flg = GuiUtil.requiredTextField(dir);
+       }
+       return flg;
+    }
+
+    /**
+     * 选中的最后的文件的父级目录
+     */
+    private File lastFile;
+    @FXML
+    public void decodeDir(ActionEvent actionEvent) {
+        File file = GuiUtil.directoryChoose(this.root.getScene().getWindow(), lastFile);
+        if(file==null){
+            return;
+        }
+        lastFile=file;
+        this.decodeDir.setText(file.getPath());
+    }
+
+    @FXML
+    public void encodeDir(ActionEvent actionEvent) {
+        File file = GuiUtil.directoryChoose(this.root.getScene().getWindow(), lastFile);
+        if(file==null){
+            return;
+        }
+        lastFile=file;
+        this.encodeDir.setText(file.getPath());
+    }
+}

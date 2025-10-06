@@ -6,12 +6,12 @@ module rdm.ui {
     requires javafx.graphics;
     requires MaterialFX;
     requires atlantafx.base;
-    opens xyz.hashdog.rdm.ui to javafx.graphics, javafx.controls;
+    opens redisfx.tanh.rdm.ui to javafx.graphics, javafx.controls;
     // 新增导出语句
-    exports xyz.hashdog.rdm.ui.controller to javafx.fxml;
+    exports redisfx.tanh.rdm.ui.controller to javafx.fxml;
     // 新增开放语句
-    opens xyz.hashdog.rdm.ui.controller to javafx.fxml;
-    opens xyz.hashdog.rdm.ui.entity to com.google.gson, javafx.base;
+    opens redisfx.tanh.rdm.ui.controller to javafx.fxml;
+    opens redisfx.tanh.rdm.ui.entity to com.google.gson, javafx.base;
 
 //    requires base;
 

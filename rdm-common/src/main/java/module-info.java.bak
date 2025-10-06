@@ -1,8 +1,8 @@
 module rdm.common {
     requires com.google.gson;
     requires java.desktop;
-    exports xyz.hashdog.rdm.common;
-    exports xyz.hashdog.rdm.common.pool;
-    exports xyz.hashdog.rdm.common.util;
-    exports xyz.hashdog.rdm.common.tuple;
+    exports redisfx.tanh.rdm.common;
+    exports redisfx.tanh.rdm.common.pool;
+    exports redisfx.tanh.rdm.common.util;
+    exports redisfx.tanh.rdm.common.tuple;
 }
