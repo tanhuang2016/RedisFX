@@ -742,6 +742,17 @@ public class MainController extends BaseWindowController<Main> {
             GuiUtil.alert(Alert.AlertType.ERROR, String.format(language("alert.message.help.suggest")+": %s", issuesUrl));
         }
     }
+    @FXML
+    public void guide(ActionEvent actionEvent) {
+        String guideUrl = "";
+        try {
+            guideUrl =System.getProperty(Constant.DOC_HOME_PAGE)+ "/user-manual";
+            Desktop.getDesktop().browse(new URI(guideUrl));
+        } catch (IOException | URISyntaxException e) {
+            log.error("unable to open the browser", e);
+            GuiUtil.alert(Alert.AlertType.ERROR, String.format(language("alert.message.help.suggest")+": %s", guideUrl));
+        }
+    }
 
     /**
      * 打开欢迎页
@@ -936,6 +947,7 @@ public class MainController extends BaseWindowController<Main> {
     public void test(ActionEvent actionEvent) {
         super.loadSubWindow("自定义编解码器", "/fxml/setting/NewCustomConverterView.fxml", root.getScene().getWindow(), ADD);
     }
+
 
 
 }

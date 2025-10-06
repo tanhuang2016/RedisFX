@@ -120,7 +120,7 @@
                         </Menu>
                         <Menu fx:id="help" mnemonicParsing="false" >
                             <items>
-                                <MenuItem fx:id="guide" mnemonicParsing="false"  disable="true"/>
+                                <MenuItem fx:id="guide" mnemonicParsing="false"  onAction="#guide"/>
                                 <MenuItem fx:id="suggest" mnemonicParsing="false"  onAction="#suggest"/>
                                 <MenuItem fx:id="update" mnemonicParsing="false"   onAction="#update"/>
                                 <MenuItem fx:id="about" mnemonicParsing="false"  onAction="#about" />
