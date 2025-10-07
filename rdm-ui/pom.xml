@@ -592,7 +592,8 @@
                                             <arg value="--output" />
                                             <arg value="${project.build.directory}/custom-jre" />
                                             <arg value="--add-modules" />
-                                            <arg value="ALL-MODULE-PATH" />
+<!--                                            <arg value="ALL-MODULE-PATH" />-->
+                                            <arg value="java.base,java.desktop,javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web,javafx.base" />
                                             <arg value="--compress=2" />
                                             <arg value="--no-header-files" />
                                             <arg value="--no-man-pages" />
@@ -683,7 +684,8 @@
                                             <arg value="--output" />
                                             <arg value="${project.build.directory}/custom-jre" />
                                             <arg value="--add-modules" />
-                                            <arg value="ALL-MODULE-PATH" />
+<!--                                            <arg value="ALL-MODULE-PATH" />-->
+                                            <arg value="java.base,java.desktop,javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web,javafx.base" />
                                             <arg value="--compress=2" />
                                             <arg value="--no-header-files" />
                                             <arg value="--no-man-pages" />
