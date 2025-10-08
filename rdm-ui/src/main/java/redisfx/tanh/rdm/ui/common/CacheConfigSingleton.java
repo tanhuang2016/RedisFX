@@ -38,9 +38,8 @@ public class CacheConfigSingleton {
 
     static {
         CONFIG = new ConfigPreferences();
-        //看源码实际上用的ObservableMapWrapper,进行保证,看起来应该对map的增删应该是线程安全的,无所谓客户端能有多大并发量
-        CONFIG.setConnectionNodeMap(CustomObservableMap.simpleMap());
-        CONFIG.setConfigSettingsMap(CustomObservableMap.simpleMap());
+        CONFIG.setConnectionNodeMap( FXCollections.observableHashMap());
+        CONFIG.setConfigSettingsMap( FXCollections.observableHashMap());
         CacheConfigSingleton.initData();
         CacheConfigSingleton.addListener();
     }

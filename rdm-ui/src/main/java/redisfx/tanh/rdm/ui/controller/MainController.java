@@ -57,7 +57,11 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.*;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
@@ -918,26 +922,24 @@ public class MainController extends BaseWindowController<Main> {
      * @return 发布信息
      */
     private Properties getReleaseProperties(String apiUrl) {
-        try {
-            // 发送HTTP请求
-            URL url = URI.create(apiUrl).toURL();
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            // 设置连接超时时间为3秒
-            connection.setConnectTimeout(3000);
-            // 设置读取超时时间
-            connection.setReadTimeout(5000);
+        try (HttpClient client = HttpClient.newBuilder()
+                .connectTimeout(java.time.Duration.ofSeconds(3))
+                .build()){
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(apiUrl))
+                    .timeout(java.time.Duration.ofSeconds(5))
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             log.info("getReleaseProperties url:{}",apiUrl);
-            int responseCode = connection.getResponseCode();
-            if (responseCode == 200) {
+            if (response.statusCode() == 200) {
                 // 读取响应
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 Properties properties = new Properties();
-                properties.load(reader);
-                reader.close();
+                properties.load(new StringReader(response.body()));
                 return properties;
             }
-        } catch (IOException e) {
+        } catch (IOException|InterruptedException e) {
            log.error("getReleaseProperties exception:{} ",apiUrl , e);
         }
         return null;
