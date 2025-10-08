@@ -5,6 +5,7 @@ import redisfx.tanh.rdm.ui.handler.convert.CustomInvokeConverter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CustomConverterSetting implements ConfigSettings{
 
@@ -12,6 +13,19 @@ public class CustomConverterSetting implements ConfigSettings{
      * 连接超时
      */
     private List<CustomInvokeConverter> converters;
+
+    /**
+     * 版本
+     */
+    private int version;
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
 
 
     @Override
@@ -40,5 +54,18 @@ public class CustomConverterSetting implements ConfigSettings{
             }
         }
         return null;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        CustomConverterSetting that = (CustomConverterSetting) o;
+        return version == that.version && Objects.equals(converters, that.converters);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(converters, version);
     }
 }

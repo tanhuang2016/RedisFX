@@ -6,7 +6,7 @@
     <parent>
          <groupId>io.github.tanhuang2016</groupId>
         <artifactId>redis-fx</artifactId>
-        <version>2.3.10</version>
+        <version>2.3.11</version>
     </parent>
 
 
@@ -27,6 +27,7 @@
         <lib.jetbrains-annotations.version>23.0.0</lib.jetbrains-annotations.version>
         <test.assertj.version>3.21.0</test.assertj.version>
         <test.junit.version>5.8.1</test.junit.version>
+        <modules>java.base,java.datatransfer,java.desktop,java.logging,java.management,java.naming,java.net.http,java.prefs,java.scripting,java.security.sasl,java.sql,java.transaction.xa,java.xml,jdk.jsobject,jdk.unsupported,jdk.unsupported.desktop,jdk.xml.dom,java.security.jgss,jdk.crypto.ec</modules>
     </properties>
     <developers>
         <developer>
@@ -349,6 +350,7 @@
                                 <configuration>
                                     <mainClass>redisfx.tanh.rdm.ui.Main</mainClass>
                                     <bundleJre>true</bundleJre>
+                                    <modules>${modules}</modules>
                                     <!--                                    <jdkPath>D:\soft\jdk\jdk-21_windows-x64_bin\jdk-21.0.7</jdkPath>-->
                                     <jdkPath>${env.JAVA_HOME}</jdkPath>
                                     <generateInstaller>true</generateInstaller>
@@ -359,7 +361,7 @@
                                     <!--                                <additionalResource>${name}.l4j.ini</additionalResource>-->
                                     <!--                            </additionalResources>-->
                                     <winConfig>
-                                        <!--                                        <headerType>console</headerType>-->
+<!--                                                                                <headerType>console</headerType>-->
                                         <icoFile>src/main/resources/icon/fx_icon_256.ico</icoFile>
                                         <generateSetup>true</generateSetup>
                                         <setupLanguages>
@@ -417,6 +419,7 @@
                                 <configuration>
                                     <mainClass>redisfx.tanh.rdm.ui.Main</mainClass>
                                     <bundleJre>true</bundleJre>
+                                    <modules>${modules}</modules>
                                     <!--                                    <jdkPath>D:\soft\jdk\jdk-21_windows-i586\jdk-21.0.7</jdkPath>-->
                                     <jdkPath>${env.JAVA_HOME}</jdkPath>
                                     <generateInstaller>true</generateInstaller>
@@ -471,6 +474,7 @@
                                     <platform>linux</platform>
                                     <mainClass>redisfx.tanh.rdm.ui.Main</mainClass>
                                     <bundleJre>true</bundleJre>
+                                    <modules>${modules}</modules>
                                     <createTarball>true</createTarball>
                                     <jdkPath>${env.JAVA_HOME}</jdkPath>
                                     <linuxConfig>
@@ -516,6 +520,7 @@
                                     <platform>linux</platform>
                                     <mainClass>redisfx.tanh.rdm.ui.Main</mainClass>
                                     <bundleJre>true</bundleJre>
+                                    <modules>${modules}</modules>
                                     <createTarball>true</createTarball>
                                     <jdkPath>${env.JAVA_HOME}</jdkPath>
                                     <linuxConfig>
@@ -561,6 +566,7 @@
                                     <platform>mac</platform>
                                     <mainClass>redisfx.tanh.rdm.ui.Main</mainClass>
                                     <bundleJre>true</bundleJre>
+                                    <modules>${modules}</modules>
                                     <createTarball>false</createTarball>
                                     <generateInstaller>false</generateInstaller>
                                     <jdkPath>${env.JAVA_HOME}</jdkPath>
@@ -592,7 +598,8 @@
                                             <arg value="--output" />
                                             <arg value="${project.build.directory}/custom-jre" />
                                             <arg value="--add-modules" />
-                                            <arg value="ALL-MODULE-PATH" />
+<!--                                            <arg value="ALL-MODULE-PATH" />-->
+                                            <arg value="${modules}" />
                                             <arg value="--compress=2" />
                                             <arg value="--no-header-files" />
                                             <arg value="--no-man-pages" />
@@ -650,6 +657,7 @@
                                     <platform>mac</platform>
                                     <mainClass>redisfx.tanh.rdm.ui.Main</mainClass>
                                     <bundleJre>true</bundleJre>
+                                    <modules>${modules}</modules>
                                     <createTarball>false</createTarball>
                                     <generateInstaller>false</generateInstaller>
                                     <jdkPath>${env.JAVA_HOME}</jdkPath>
@@ -683,7 +691,9 @@
                                             <arg value="--output" />
                                             <arg value="${project.build.directory}/custom-jre" />
                                             <arg value="--add-modules" />
-                                            <arg value="ALL-MODULE-PATH" />
+<!--                                            <arg value="ALL-MODULE-PATH" />-->
+
+                                            <arg value="${modules}" />
                                             <arg value="--compress=2" />
                                             <arg value="--no-header-files" />
                                             <arg value="--no-man-pages" />
