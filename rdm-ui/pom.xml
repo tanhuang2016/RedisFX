@@ -361,7 +361,7 @@
                                     <!--                                <additionalResource>${name}.l4j.ini</additionalResource>-->
                                     <!--                            </additionalResources>-->
                                     <winConfig>
-                                                                                <headerType>console</headerType>
+<!--                                                                                <headerType>console</headerType>-->
                                         <icoFile>src/main/resources/icon/fx_icon_256.ico</icoFile>
                                         <generateSetup>true</generateSetup>
                                         <setupLanguages>
@@ -693,7 +693,6 @@
                                             <arg value="--add-modules" />
 <!--                                            <arg value="ALL-MODULE-PATH" />-->
 
-                                            <modules>${modules}</modules>
                                             <arg value="${modules}" />
                                             <arg value="--compress=2" />
                                             <arg value="--no-header-files" />
