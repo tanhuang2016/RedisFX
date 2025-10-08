@@ -78,6 +78,7 @@ public class Applications {
             ConnectionServerNode old = CacheConfigSingleton.CONFIG.getConnectionNodeMap().get(connectionServerNode.getDataId());
             connectionServerNode.setParentDataId(old.getParentDataId());
             connectionServerNode.setTimestampSort(old.getTimestampSort());
+            connectionServerNode.setVersion(old.getVersion() + 1);
         } else {
             //新增需要设置id和时间戳字段
             connectionServerNode.setDataId(DataUtil.uuid());
@@ -96,7 +97,9 @@ public class Applications {
      */
     public static Message renameConnectionOrGroup(ConnectionServerNode groupNode) {
         ConnectionServerNode old = CacheConfigSingleton.CONFIG.getConnectionNodeMap().get(groupNode.getDataId());
-        CacheConfigSingleton.CONFIG.getConnectionNodeMap().put(old.getDataId(), old);
+        TUtil.copyProperties(old, groupNode);
+        groupNode.setVersion(old.getVersion() + 1);
+        CacheConfigSingleton.CONFIG.getConnectionNodeMap().put(old.getDataId(), groupNode);
         return new Message(true);
     }
 
@@ -190,6 +193,7 @@ public class Applications {
     public static void putConfigSettings(String key, ConfigSettings settings) {
         ConfigSettings old = CacheConfigSingleton.CONFIG.getConfigSettingsMap().get(key);
         TUtil.copyProperties(old, settings);
+        settings.setVersion(old.getVersion() + 1);
         //map在put的时候需要引用地址变更才会触发监听,所以这里进行了域的复制
         CacheConfigSingleton.CONFIG.getConfigSettingsMap().put(key, settings);
     }

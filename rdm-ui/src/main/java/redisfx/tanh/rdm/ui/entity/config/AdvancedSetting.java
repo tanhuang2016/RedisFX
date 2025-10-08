@@ -2,6 +2,8 @@ package redisfx.tanh.rdm.ui.entity.config;
 
 import redisfx.tanh.rdm.ui.common.ConfigSettingsEnum;
 
+import java.util.Objects;
+
 public class AdvancedSetting implements ConfigSettings{
 
     /**
@@ -20,6 +22,19 @@ public class AdvancedSetting implements ConfigSettings{
      * 是否树形显示
      */
     private boolean treeShow;
+
+    /**
+     * 版本
+     */
+    private int version;
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
 
     @Override
     public String getName() {
@@ -65,5 +80,18 @@ public class AdvancedSetting implements ConfigSettings{
 
     public void setTreeShow(boolean treeShow) {
         this.treeShow = treeShow;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        AdvancedSetting that = (AdvancedSetting) o;
+        return connectionTimeout == that.connectionTimeout && soTimeout == that.soTimeout && treeShow == that.treeShow && version == that.version && Objects.equals(keySeparator, that.keySeparator);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(connectionTimeout, soTimeout, keySeparator, treeShow, version);
     }
 }

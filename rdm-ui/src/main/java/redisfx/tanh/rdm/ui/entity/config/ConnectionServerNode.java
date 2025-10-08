@@ -3,6 +3,8 @@ package redisfx.tanh.rdm.ui.entity.config;
 import redisfx.tanh.rdm.redis.RedisConfig;
 import redisfx.tanh.rdm.ui.common.Applications;
 
+import java.util.Objects;
+
 /**
  * 连接实体类,分组和连接共用1个实体
  * type,dataId,parentDataId,timestampSort这几个字段在编辑是不可修改的
@@ -29,7 +31,10 @@ public class ConnectionServerNode extends RedisConfig {
      * 时间戳排序
      */
     private long timestampSort;
-
+    /**
+     * 版本号
+     */
+    private int version;
 
 
     public ConnectionServerNode() {
@@ -93,4 +98,26 @@ public class ConnectionServerNode extends RedisConfig {
     public String toString() {
         return getName();
     }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        ConnectionServerNode that = (ConnectionServerNode) o;
+        return type == that.type && timestampSort == that.timestampSort && version == that.version && Objects.equals(dataId, that.dataId) && Objects.equals(parentDataId, that.parentDataId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), type, dataId, parentDataId, timestampSort, version);
+    }
+
 }
