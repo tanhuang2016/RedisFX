@@ -698,7 +698,7 @@
                                             <arg value="--no-header-files" />
                                             <arg value="--no-man-pages" />
                                             <arg value="--strip-debug" />           <!-- 移除调试信息 -->
-                                            <arg value="--vm=compact1" />
+                                            <arg value="--vm=client" />
                                         </exec>
                                         <exec executable="jpackage">
                                             <arg value="--type" />
