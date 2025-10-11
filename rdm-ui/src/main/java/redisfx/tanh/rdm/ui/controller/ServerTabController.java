@@ -136,6 +136,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     public TabPane dbTabPane;
 
     private RecentHistory<String> recentHistory ;
+    private MenuItem clearItem;
 
     /**
      * 缓存的图标加载任务，用于批量处理类型tag，避免线程切换的开销
@@ -267,6 +268,7 @@ public class ServerTabController extends BaseClientController<MainController> {
         boxExport.setText(language("key.string.export"));
         boxCancel.setText(language("common.cancel"));
         newKey.setText(language("server.new"));
+        clearItem.setText(language("server.clear"));
     }
 
     private void progressBarLanguage() {
@@ -288,7 +290,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     private void initRecentHistory() {
         history = new ContextMenu();
         history.getItems().add(new SeparatorMenuItem());
-        MenuItem clearItem = new MenuItem(language("server.clear"));
+        this.clearItem = new MenuItem(language("server.clear"));
         clearItem.setOnAction(this::clearHistory);
         history.getItems().add(clearItem);
         recentHistory = new RecentHistory<>(5, this::doRecentHistory);
