@@ -99,6 +99,10 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
         });
     }
 
+    /**
+     * 确认按钮点击事件
+     * @param event 点击事件
+     */
     @FXML
     public void onConfirmAction(ActionEvent event) {
         // 执行确认逻辑
