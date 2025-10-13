@@ -113,6 +113,10 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
         this.close();
     }
 
+    /**
+     * 取消按钮点击事件
+     * @param actionEvent 点击事件
+     */
     @FXML
     public void cancel(ActionEvent actionEvent) {
         if (resultFuture != null) {
