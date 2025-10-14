@@ -4,8 +4,9 @@ package redisfx.tanh.rdm.ui.sampler.layout;
 
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
-import javafx.embed.swing.SwingFXUtils;
+//import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -25,6 +26,8 @@ import redisfx.tanh.rdm.ui.sampler.page.custom.LanguagePage;
 import redisfx.tanh.rdm.ui.sampler.theme.ThemeManager;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Objects;
@@ -79,12 +82,31 @@ public class MainLayer extends BorderPane {
                 try {
                     SnapshotParameters sp = new SnapshotParameters();
                     WritableImage img = page.getSnapshotTarget().snapshot(sp, null);
-                    ImageIO.write(SwingFXUtils.fromFXImage(img, null), "png", file);
+//                    ImageIO.write(SwingFXUtils.fromFXImage(img, null), "png", file);
+                    // 自定义保存方法
+                    saveAsPng(img, file);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
             }
         });
+    }
+
+    private void saveAsPng(WritableImage image, File file) throws IOException {
+        BufferedImage bufferedImage = new BufferedImage(
+                (int) image.getWidth(),
+                (int) image.getHeight(),
+                BufferedImage.TYPE_INT_ARGB
+        );
+
+        PixelReader reader = image.getPixelReader();
+        for (int x = 0; x < image.getWidth(); x++) {
+            for (int y = 0; y < image.getHeight(); y++) {
+                bufferedImage.setRGB(x, y, reader.getArgb(x, y));
+            }
+        }
+
+        ImageIO.write(bufferedImage, "png", file);
     }
 
     private void createView() {

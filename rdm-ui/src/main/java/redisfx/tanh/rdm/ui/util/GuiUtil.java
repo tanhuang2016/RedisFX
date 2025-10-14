@@ -8,7 +8,7 @@ import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ObservableList;
-import javafx.embed.swing.SwingFXUtils;
+//import javafx.embed.swing.SwingFXUtils;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Side;
@@ -53,8 +53,11 @@ import redisfx.tanh.rdm.ui.entity.config.KeyTagSetting;
 import redisfx.tanh.rdm.ui.sampler.custom.HintTooltip;
 import redisfx.tanh.rdm.ui.sampler.theme.ThemeManager;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -689,7 +692,20 @@ public class GuiUtil {
                 RenderingHints.VALUE_STROKE_PURE);
         Objects.requireNonNull(svgDocument).render(null,g,new ViewBox((zoom-1)*w, (zoom-1)*w, w, w));
         g.dispose();
-        return SwingFXUtils.toFXImage(image, null);
+//        return SwingFXUtils.toFXImage(image, null);
+        return toFXImage(image);
+    }
+
+    public static Image toFXImage(BufferedImage bufferedImage) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "png", baos);
+            byte[] imageData = baos.toByteArray();
+            ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
+            return new Image(bais);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
