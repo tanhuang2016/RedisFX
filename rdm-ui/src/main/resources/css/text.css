@@ -92,3 +92,18 @@
     -fx-fill: -color-fg-default;
 }
 /**********yml文本样式***********/
+
+/**********monitor文本样式***********/
+.monitor-time {
+    -fx-fill: -color-success-fg;
+}
+.monitor-host {
+    -fx-fill: -color-fg-default;
+}
+.monitor-command {
+    -fx-fill: -color-accent-fg;
+}
+.monitor-param {
+    -fx-fill: -color-fg-default;
+}
+/**********monitor文本样式***********/
