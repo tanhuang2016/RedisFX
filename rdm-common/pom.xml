@@ -9,7 +9,7 @@
         <version>2.3.12</version>
 
     </parent>
-    <name>${name}</name>
+    <name>rdm-common</name>
     <description>${description}</description>
     <artifactId>rdm-common</artifactId>
     <version>2.3.12</version>

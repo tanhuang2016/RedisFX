@@ -9,11 +9,12 @@
         <version>2.3.12</version>
     </parent>
 
-    <name>${name}</name>
+    <name>rdm-redis-imp</name>
     <description>${description}</description>
     <artifactId>rdm-redis-imp</artifactId>
     <version>2.3.12</version>
     <properties>
+
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

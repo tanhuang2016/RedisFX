@@ -8,10 +8,9 @@
     <packaging>pom</packaging>
     <version>2.3.12</version>
 
-    <name>${name}</name>
+    <name>RedisFX</name>
     <description>${description}</description>
     <properties>
-        <name>RedisFX</name>
         <developer.name>tanhuang</developer.name>
         <developer.email>th08170415@163.com</developer.email>
         <license.name>The Apache Software License, Version 2.0</license.name>
