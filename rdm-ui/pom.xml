@@ -604,11 +604,14 @@
                                             <arg value="--no-header-files" />
                                             <arg value="--no-man-pages" />
                                         </exec>
+                                        <mkdir dir="${project.build.directory}/input"/>
+                                        <copy file="${project.build.directory}/rdm-ui-${rdm.version}-jar-with-dependencies.jar"
+                                              todir="${project.build.directory}/input"/>
                                         <exec executable="jpackage">
                                             <arg value="--type" />
                                             <arg value="dmg" />
                                             <arg value="--input"/>
-                                            <arg value="${project.build.directory}"/>
+                                            <arg value="${project.build.directory}/input"/>
                                             <arg value="--main-jar" />
                                             <arg value="rdm-ui-${rdm.version}-jar-with-dependencies.jar" />
                                             <arg value="--runtime-image" />
@@ -698,11 +701,14 @@
                                             <arg value="--no-header-files" />
                                             <arg value="--no-man-pages" />
                                         </exec>
+                                        <mkdir dir="${project.build.directory}/input"/>
+                                        <copy file="${project.build.directory}/rdm-ui-${rdm.version}-jar-with-dependencies.jar"
+                                              todir="${project.build.directory}/input"/>
                                         <exec executable="jpackage">
                                             <arg value="--type" />
                                             <arg value="dmg" />
                                             <arg value="--input"/>
-                                            <arg value="${project.build.directory}"/>
+                                            <arg value="${project.build.directory}/input"/>
                                             <arg value="--main-jar" />
                                             <arg value="rdm-ui-${rdm.version}-jar-with-dependencies.jar" />
                                             <arg value="--runtime-image" />
