@@ -12,7 +12,8 @@
 
     <artifactId>rdm-ui</artifactId>
     <version>${rdm.version}</version>
-    <name>rdm-ui</name>
+<!--    安装包应用名称，RedisFX不能改动-->
+    <name>RedisFX</name>
     <description>${description}</description>
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
