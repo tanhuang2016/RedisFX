@@ -12,7 +12,7 @@
 
     <artifactId>rdm-ui</artifactId>
     <version>${rdm.version}</version>
-    <name>rdm-ui</name>
+    <name>RedisFX</name>
     <description>${description}</description>
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
