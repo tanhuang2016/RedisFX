@@ -131,11 +131,11 @@
 <!--            <artifactId>javafx-media</artifactId>-->
 <!--            <version>${openjfx.version}</version>-->
 <!--        </dependency>-->
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-web</artifactId>
-            <version>${openjfx.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.openjfx</groupId>-->
+<!--            <artifactId>javafx-web</artifactId>-->
+<!--            <version>${openjfx.version}</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-javafx</artifactId>
@@ -380,7 +380,7 @@
                                         <arg>--module-path</arg>
                                         <arg>libs</arg>
                                         <arg>--add-modules</arg>
-                                        <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web,javafx.base</arg>
+                                        <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.base</arg>
                                     </vmArgs>
                                 </configuration>
                             </execution>
@@ -438,7 +438,7 @@
                                         <arg>--module-path</arg>
                                         <arg>libs</arg>
                                         <arg>--add-modules</arg>
-                                        <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web,javafx.base</arg>
+                                        <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.base</arg>
                                     </vmArgs>
                                 </configuration>
                             </execution>
@@ -484,7 +484,7 @@
                                         <arg>--module-path</arg>
                                         <arg>libs</arg>
                                         <arg>--add-modules</arg>
-                                        <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web,javafx.base</arg>
+                                        <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.base</arg>
                                     </vmArgs>
                                 </configuration>
                             </execution>
@@ -530,7 +530,7 @@
                                         <arg>--module-path</arg>
                                         <arg>libs</arg>
                                         <arg>--add-modules</arg>
-                                        <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web,javafx.base</arg>
+                                        <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.base</arg>
                                     </vmArgs>
                                 </configuration>
                             </execution>
@@ -577,7 +577,7 @@
                                         <arg>--module-path</arg>
                                         <arg>libs</arg>
                                         <arg>--add-modules</arg>
-                                        <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web,javafx.base</arg>
+                                        <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.base</arg>
                                     </vmArgs>
                                 </configuration>
                             </execution>
@@ -672,7 +672,7 @@
                                         <arg>--module-path</arg>
                                         <arg>libs</arg>
                                         <arg>--add-modules</arg>
-                                        <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web,javafx.base</arg>
+                                        <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.base</arg>
                                     </vmArgs>
                                 </configuration>
                             </execution>

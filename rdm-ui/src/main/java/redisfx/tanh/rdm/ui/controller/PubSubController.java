@@ -1,27 +1,18 @@
 package redisfx.tanh.rdm.ui.controller;
 
 import atlantafx.base.theme.Styles;
-import atlantafx.base.theme.Tweaks;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
-import javafx.scene.web.WebView;
 import redisfx.tanh.rdm.redis.client.RedisSubscriber;
-import redisfx.tanh.rdm.ui.common.Constant;
 import redisfx.tanh.rdm.ui.controller.base.BaseClientController;
-import redisfx.tanh.rdm.ui.entity.InfoTable;
 import redisfx.tanh.rdm.ui.entity.SubscribeTable;
-import redisfx.tanh.rdm.ui.entity.TopKeyTable;
-import redisfx.tanh.rdm.ui.sampler.event.ThemeEvent;
-import redisfx.tanh.rdm.ui.sampler.theme.ThemeManager;
 import redisfx.tanh.rdm.ui.util.GuiUtil;
-
 import java.net.URL;
 import java.time.LocalDateTime;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 import static redisfx.tanh.rdm.ui.util.LanguageManager.language;

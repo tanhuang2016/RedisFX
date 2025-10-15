@@ -29,7 +29,6 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.web.WebView;
 import javafx.stage.*;
 import javafx.stage.Window;
 import javafx.util.Duration;
@@ -845,73 +844,7 @@ public static void adjustListViewHeight(ListView<?> listView, double maxHeight) 
         return tooltip;
     }
 
-    /**
-     * 设置webView右键菜单
-     * @param clearItem 清空
-     * @param copyItem 复制
-     * @param selectAllItem 全选
-     * @param saveItem 保存
-     * @param webView webView
-     */
-    public static void setWebViewContextMenu(MenuItem clearItem, MenuItem copyItem, MenuItem selectAllItem, MenuItem saveItem, WebView webView) {
-        ContextMenu contextMenu = new ContextMenu();
-        // 添加菜单项
-        contextMenu.getItems().addAll(
-                clearItem,
-                new SeparatorMenuItem(),
-                copyItem,
-                selectAllItem,
-                new SeparatorMenuItem(),
-                saveItem
-        );
-        // 设置右键菜单事件
-        webView.setOnMouseClicked(event -> {
-            if (event.getButton() == MouseButton.SECONDARY) {
-                // 检查是否有选中文本，来决定是否启用复制选项
-                String selectedText = (String) webView.getEngine().executeScript("window.getSelection().toString();");
-                copyItem.setDisable(selectedText == null || selectedText.isEmpty());
 
-                contextMenu.show(webView, event.getScreenX(), event.getScreenY());
-            } else {
-                contextMenu.hide();
-            }
-        });
-
-        // 点击其他地方隐藏菜单
-        webView.setOnMousePressed(event -> {
-            if (contextMenu.isShowing() && event.getButton() != MouseButton.SECONDARY) {
-                contextMenu.hide();
-            }
-        });
-    }
-
-    /**
-     * 复制选中文本
-     */
-    public static void copyWebViewSelectedText(WebView webView) {
-        String selectedText = (String) webView.getEngine().executeScript("window.getSelection().toString();");
-        if (selectedText != null && !selectedText.isEmpty()) {
-            Clipboard clipboard = Clipboard.getSystemClipboard();
-            ClipboardContent content = new ClipboardContent();
-            content.putString(selectedText);
-            clipboard.setContent(content);
-        }
-    }
-
-    /**
-     * webview文本全选
-     * @param webView webView
-     * @param id 需要全选的body的id
-     */
-    public static void selectWebViewAllText(WebView webView,String id) {
-        webView.getEngine().executeScript(
-                "var selection = window.getSelection();" +
-                        "var range = document.createRange();" +
-                        "range.selectNodeContents(document.getElementById('"+id+"'));" +
-                        "selection.removeAllRanges();" +
-                        "selection.addRange(range);"
-        );
-    }
 
     /**
      * 获取需要的主题颜色

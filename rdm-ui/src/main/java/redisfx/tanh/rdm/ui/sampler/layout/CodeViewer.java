@@ -3,24 +3,21 @@
 package redisfx.tanh.rdm.ui.sampler.layout;
 
 import atlantafx.base.theme.Styles;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import javafx.scene.web.WebView;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import redisfx.tanh.rdm.ui.sampler.Resources;
 import redisfx.tanh.rdm.ui.sampler.event.DefaultEventBus;
 import redisfx.tanh.rdm.ui.sampler.event.PageEvent;
 import redisfx.tanh.rdm.ui.sampler.theme.HighlightJSTheme;
-import redisfx.tanh.rdm.ui.sampler.util.NodeUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+@Deprecated
 final class CodeViewer extends AnchorPane {
 
     private static final String HLJS_LIB = "assets/highlightjs/highlight.min.js";
@@ -29,7 +26,6 @@ final class CodeViewer extends AnchorPane {
     private static final String HLJS_LN_LIB = "assets/highlightjs/highlightjs-line-numbers.min.js";
     private static final String HLJS_LN_CSS = ".hljs-ln-numbers { padding-right: 20px !important;;}";
 
-    private WebView webView;
 
     public CodeViewer() {
         super();
@@ -47,11 +43,6 @@ final class CodeViewer extends AnchorPane {
     }
 
     private void lazyLoadWebView() {
-        if (webView == null) {
-            webView = new WebView();
-            NodeUtils.setAnchors(webView, Insets.EMPTY);
-            getChildren().add(0, webView);
-        }
     }
 
     @SuppressWarnings("StringBufferReplaceableByString")
@@ -81,8 +72,6 @@ final class CodeViewer extends AnchorPane {
                 .append("</html>")
                 .toString();
 
-            webView.setPageFill(Color.TRANSPARENT);
-            webView.getEngine().loadContent(content);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
