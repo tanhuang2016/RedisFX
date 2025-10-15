@@ -145,11 +145,11 @@ public class MonitorController extends BaseClientController<ServerTabController>
     public void start(ActionEvent actionEvent) {
         if(start.isSelected()){
             startCheck();
+            clearLogs();
         }else {
             GuiUtil.setIcon(start,new FontIcon(Material2MZ.PLAY_ARROW));
             start.setText(language("server.monitor.start"));
             stopMonitor();
-            clearLogs();
         }
     }
     private void clearLogs() {
