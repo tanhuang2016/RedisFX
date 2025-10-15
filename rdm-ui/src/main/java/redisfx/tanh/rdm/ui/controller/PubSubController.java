@@ -44,7 +44,7 @@ public class PubSubController extends BaseClientController<ServerTabController> 
     public TableColumn<SubscribeTable,String> channel;
     public TableColumn<SubscribeTable,String> message;
     private int count = 0;
-    private static final int MAX_MESSAGES = 5;
+    private static final int MAX_MESSAGES = 1000;
 
     private RedisSubscriber subscriber;
 
@@ -59,7 +59,7 @@ public class PubSubController extends BaseClientController<ServerTabController> 
      * 初始表
      */
     private void initTable() {
-        subscribeTable.getStyleClass().addAll(Tweaks.EDGE_TO_EDGE,Styles.STRIPED);
+        subscribeTable.getStyleClass().addAll(Styles.STRIPED,Styles.DENSE);
         Platform.runLater(() -> {
             GuiUtil.initSimpleTableView(subscribeTable,new SubscribeTable());
             subscribeTable.setColumnResizePolicy(

@@ -43,12 +43,12 @@
                   </VBox>
                   <StackPane fx:id="webViewContainer"  VBox.vgrow="ALWAYS">
                      <children>
-                        <TableView fx:id="subscribeTable" styleClass="no-vertical-lines" >
+                        <TableView fx:id="subscribeTable" styleClass="no-vertical-lines2" >
                            <columns>
-                              <TableColumn prefWidth="25.0" text="#" />
-                              <TableColumn fx:id="time" prefWidth="30.0"  />
-                              <TableColumn fx:id="channel" prefWidth="50.0"  />
-                              <TableColumn fx:id="message" prefWidth="75.0"  />
+                              <TableColumn prefWidth="10.0" text="#" />
+                              <TableColumn fx:id="time" prefWidth="70.0"  />
+                              <TableColumn fx:id="channel" prefWidth="100.0"  />
+                              <TableColumn fx:id="message" prefWidth="100.0"  />
                            </columns>
                         </TableView>
                      </children>
