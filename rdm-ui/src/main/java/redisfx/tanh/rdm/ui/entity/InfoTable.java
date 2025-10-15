@@ -16,6 +16,7 @@ public class InfoTable implements ITable {
     }
 
     // 获取所有属性名称
+    @Override
     public  String[] getProperties() {
         return new String[]{"#row", "type","key","value"};
     }

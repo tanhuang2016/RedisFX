@@ -13,6 +13,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.web.WebView?>
 
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
 <AnchorPane fx:id="root" prefHeight="619.0" prefWidth="955.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="redisfx.tanh.rdm.ui.controller.PubSubController">
    <children>
       <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -39,9 +41,16 @@
                         </HBox>
                      </children>
                   </VBox>
-                  <StackPane fx:id="webViewContainer" style="-fx-border-color: red; -fx-border-width: 5px; -fx-border-style: solid;" VBox.vgrow="ALWAYS">
+                  <StackPane fx:id="webViewContainer"  VBox.vgrow="ALWAYS">
                      <children>
-                        <WebView fx:id="webView" minHeight="-1.0" minWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS" />
+                        <TableView fx:id="subscribeTable" styleClass="no-vertical-lines" >
+                           <columns>
+                              <TableColumn prefWidth="25.0" text="#" />
+                              <TableColumn fx:id="time" prefWidth="30.0"  />
+                              <TableColumn fx:id="channel" prefWidth="50.0"  />
+                              <TableColumn fx:id="message" prefWidth="75.0"  />
+                           </columns>
+                        </TableView>
                      </children>
                   </StackPane>
                </children>
