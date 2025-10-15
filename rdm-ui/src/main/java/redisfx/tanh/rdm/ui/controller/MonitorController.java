@@ -39,6 +39,7 @@ public class MonitorController extends BaseClientController<ServerTabController>
     public ToggleButton start;
     private static final int MAX_LOG_LINES = 1000;
     private RedisMonitor redisMonitor;
+    private int count=0;
     private final static List<String> STYLES = List.of("monitor-time", "monitor-host", "monitor-command", "monitor-param");
 
 
@@ -90,7 +91,8 @@ public class MonitorController extends BaseClientController<ServerTabController>
                 codeArea.append(msgList.get(i),STYLES.get(i));
             }
             codeArea.appendText("\n");
-            commandsSize.setText(String.valueOf(codeArea.getParagraphs().size()-1));
+            count++;
+            commandsSize.setText(String.valueOf(count));
         });
     }
 
@@ -145,17 +147,18 @@ public class MonitorController extends BaseClientController<ServerTabController>
     public void start(ActionEvent actionEvent) {
         if(start.isSelected()){
             startCheck();
+            clearLogs();
         }else {
             GuiUtil.setIcon(start,new FontIcon(Material2MZ.PLAY_ARROW));
             start.setText(language("server.monitor.start"));
             stopMonitor();
-            clearLogs();
         }
     }
     private void clearLogs() {
         Platform.runLater(() -> {
             codeArea.clear();
-            commandsSize.setText(String.valueOf(codeArea.getParagraphs().size()));
+            count=0;
+            commandsSize.setText(String.valueOf(count));
         });
     }
 
