@@ -1,8 +1,8 @@
 module rdm.redis {
     requires rdm.common;
-    exports xyz.hashdog.rdm.redis;
-    exports xyz.hashdog.rdm.redis.client;
-    exports xyz.hashdog.rdm.redis.exceptions;
-    opens xyz.hashdog.rdm.redis to rdm.common;
-    uses xyz.hashdog.rdm.redis.RedisFactory;
+    exports redisfx.tanh.rdm.redis;
+    exports redisfx.tanh.rdm.redis.client;
+    exports redisfx.tanh.rdm.redis.exceptions;
+    opens redisfx.tanh.rdm.redis to rdm.common;
+    uses redisfx.tanh.rdm.redis.RedisFactory;
 }

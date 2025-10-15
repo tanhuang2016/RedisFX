@@ -1,0 +1,94 @@
+package redisfx.tanh.rdm.ui.controller.base;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import javafx.stage.Window;
+import redisfx.tanh.rdm.common.tuple.Tuple2;
+import redisfx.tanh.rdm.ui.util.GuiUtil;
+
+/**
+ * 用于新开窗口的父子关系
+ * 只用于对非redis操作的窗口
+ * 如果需要对redis操作,需要用BaseKeyController
+ * @author th
+ * @version 1.0.0
+ * @since 2023/7/20 17:35
+ */
+public abstract class BaseWindowController<T> extends BaseController<T> {
+
+    /**
+     * 模式,默认是NONE
+     */
+    protected int model;
+    public static final int NONE = 1;
+    public static final int ADD = 2;
+    public static final int UPDATE = 3;
+    public static final int RENAME = 4;
+    public static final int QUICK = 5;
+    /**
+     * 当前Stage
+     */
+    public Stage currentStage;
+
+
+
+    /**
+     * 取消
+     * @param actionEvent  事件
+     */
+    @FXML
+    public void cancel(ActionEvent actionEvent) {
+        currentStage.close();
+    }
+
+    /**
+     * 子窗口模态框
+     * 每次都是打开最新的
+     *
+     * @param title  窗口标题
+     * @param fxml   fxml路径
+     * @param parent 父窗口
+     * @param model 模式
+     */
+    protected final <T2 extends BaseWindowController>T2 loadSubWindow(String title, String fxml, Window parent, int model)  {
+        Tuple2<AnchorPane,T2> tuple2 = loadFxml(fxml);
+        AnchorPane borderPane = tuple2.t1();
+        T2 controller = tuple2.t2();
+        Stage stage = GuiUtil.createSubStage(title, borderPane, parent);
+        controller.setCurrentStage(stage);
+        controller.model=model;
+        stage.show();
+        return controller;
+    }
+
+    /**
+     * 加载子窗口,重载的父类方法，多了model设置
+     * @param fxml   fxml路径
+     * @param model 模式
+     * @param <T1>   泛型
+     * @param <T2>   泛型
+     * @return  返回子窗口
+     */
+    @SuppressWarnings("unchecked")
+    protected <T1,T2>Tuple2<T1, T2> loadFxml(String fxml, int model) {
+        Tuple2<T1, BaseWindowController<?>> tuple2 = super.loadFxml(fxml);
+        tuple2.t2().model = model;
+        return  (Tuple2<T1, T2>)tuple2;
+    }
+
+    /**
+     * 设置当前Stage
+     * @param currentStage 当前Stage
+     */
+    public void setCurrentStage(Stage currentStage) {
+        this.currentStage = currentStage;
+        this.currentStage.getIcons().add(GuiUtil.ICON_REDIS);
+    }
+
+    @Override
+    public void close() {
+        super.close();
+    }
+}

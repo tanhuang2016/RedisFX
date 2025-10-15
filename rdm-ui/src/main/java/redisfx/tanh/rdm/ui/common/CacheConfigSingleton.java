@@ -1,0 +1,142 @@
+package redisfx.tanh.rdm.ui.common;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.sun.javafx.collections.ObservableMapWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.MapChangeListener;
+import javafx.collections.ObservableMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import redisfx.tanh.rdm.common.pool.ThreadPool;
+import redisfx.tanh.rdm.common.util.DataUtil;
+import redisfx.tanh.rdm.ui.entity.config.ConfigSettings;
+import redisfx.tanh.rdm.ui.entity.config.ConnectionServerNode;
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.prefs.Preferences;
+
+/**
+ * 首选项配置是肯定需要用到的
+ * 恶汉单例缓存配置
+ *
+ * @author th
+ * @version 1.0.0
+ * @since 2023/7/20 16:46
+ */
+public class CacheConfigSingleton {
+    private static final Logger log = LoggerFactory.getLogger(CacheConfigSingleton.class);
+
+    protected final static ConfigPreferences CONFIG;
+    private final static Preferences PREFERENCES = Preferences.userRoot().node(Applications.NODE_APP_NAME);
+
+    private CacheConfigSingleton() {
+    }
+
+    static {
+        CONFIG = new ConfigPreferences();
+        CONFIG.setConnectionNodeMap( FXCollections.observableHashMap());
+        CONFIG.setConfigSettingsMap( FXCollections.observableHashMap());
+        CacheConfigSingleton.initData();
+        CacheConfigSingleton.addListener();
+    }
+
+
+
+    /**
+     * 初始化数据
+     */
+    private static void initData() {
+        initDataConnectionNode();
+        initDataConfigSettings();
+
+    }
+
+    /**
+     * 首选项配置数据
+     */
+    private static void initDataConfigSettings()  {
+        Preferences node = PREFERENCES.node(Applications.NODE_APP_CONE);
+        for (ConfigSettingsEnum value : ConfigSettingsEnum.values()) {
+            String configStr = node.get(value.name, null);
+            ConfigSettings obj = null;
+            if (DataUtil.isBlank(configStr)) {
+                try {
+                    obj =value.clazz.getDeclaredConstructor().newInstance();
+                    obj.init();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }else {
+                // 使用 Gson 将 JSON 字符串转换为 List<ConnectionServerNode>
+                Gson gson = new Gson();
+                obj =  gson.fromJson(configStr, value.clazz);
+            }
+            CONFIG.getConfigSettingsMap().put(value.name,obj);
+        }
+
+    }
+
+    /**
+     * 连接服务的数据初始化
+     */
+    private static void initDataConnectionNode() {
+        Preferences node = PREFERENCES.node(Applications.NODE_APP_DATA);
+        String connectionJsonStr = node.get(Applications.KEY_CONNECTIONS, null);
+        if (DataUtil.isBlank(connectionJsonStr)) {
+            return;
+        }
+        // 使用 Gson 将 JSON 字符串转换为 List<ConnectionServerNode>
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<ConnectionServerNode>>() {
+        }.getType();
+        List<ConnectionServerNode> list = gson.fromJson(connectionJsonStr, type);
+        for (ConnectionServerNode connectionServerNode : list) {
+            CONFIG.getConnectionNodeMap().put(connectionServerNode.getDataId(),connectionServerNode);
+        }
+    }
+
+    /**
+     * 监听数据的变动,进行异步保存
+     */
+    private static void addListener() {
+        addListenerConnectionNode();
+        addListenerConfigSettings();
+    }
+
+    /**
+     * 监听配置数据的变动,进行异步保存
+     */
+    private static void addListenerConfigSettings() {
+        CONFIG.getConfigSettingsMap().addListener((MapChangeListener<String, ConfigSettings>) change -> {
+            if (change.wasAdded() || change.wasRemoved()) {
+                ThreadPool.getInstance().execute(()->{
+                    log.info("Config setting listener:{}", change.getKey());
+                    Preferences node = PREFERENCES.node(Applications.NODE_APP_CONE);
+                    String key = change.getKey();
+                    node.put(key,new Gson().toJson(CONFIG.getConfigSettingsMap().get(key)));
+                });
+            }
+        });
+    }
+
+    /**
+     * 监听连接的数据变动，进行异步保存持久化
+     */
+    private static void addListenerConnectionNode() {
+        CONFIG.getConnectionNodeMap().addListener((MapChangeListener<String, ConnectionServerNode>) change -> {
+            if (change.wasAdded() || change.wasRemoved()) {
+                ThreadPool.getInstance().execute(()->{
+                    log.info("Connection node listener:{}", change.getKey());
+                    Preferences node = PREFERENCES.node(Applications.NODE_APP_DATA);
+                    node.put(Applications.KEY_CONNECTIONS,new Gson().toJson(CONFIG.getConnectionNodeMap().values()));
+                });
+            }
+        });
+    }
+
+
+}

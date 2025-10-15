@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane fx:id="root" prefHeight="500.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.hashdog.rdm.ui.controller.ListTypeController">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="redisfx.tanh.rdm.ui.controller.ListTypeController">
     <children>
         <SplitPane dividerPositions="0.5" prefHeight="500.0" prefWidth="950.0" AnchorPane.bottomAnchor="0.0"
                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

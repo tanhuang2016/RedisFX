@@ -4,17 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>xyz.hashdog.rdm</groupId>
-        <artifactId>RedisFX</artifactId>
-        <version>2.3.8</version>
+         <groupId>io.github.tanhuang2016</groupId>
+        <artifactId>redis-fx</artifactId>
+        <version>2.3.12</version>
     </parent>
 
-    <groupId>xyz.hashdog.rdm</groupId>
+
     <artifactId>rdm-ui</artifactId>
     <version>${rdm.version}</version>
-    <name>RedisFX</name>
-
-
+    <name>rdm-ui</name>
+    <description>${description}</description>
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
@@ -28,7 +27,29 @@
         <lib.jetbrains-annotations.version>23.0.0</lib.jetbrains-annotations.version>
         <test.assertj.version>3.21.0</test.assertj.version>
         <test.junit.version>5.8.1</test.junit.version>
+        <modules>java.base,java.datatransfer,java.desktop,java.logging,java.management,java.naming,java.net.http,java.prefs,java.scripting,java.security.sasl,java.sql,java.transaction.xa,java.xml,jdk.jsobject,jdk.unsupported,jdk.unsupported.desktop,jdk.xml.dom,java.security.jgss,jdk.crypto.ec</modules>
     </properties>
+    <developers>
+        <developer>
+            <name>${developer.name}</name>
+            <email>${developer.email}</email>
+            <url>${projectUrl}</url>
+        </developer>
+    </developers>
+    <url>${projectUrl}</url>
+    <licenses>
+        <license>
+            <name>${license.name}</name>
+            <url>${license.url}</url>
+            <distribution>${license.distribution}</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <connection>${projectUrl}</connection>
+        <developerConnection>${projectUrl}</developerConnection>
+        <url>${projectUrl}</url>
+    </scm>
+
 
     <dependencies>
         <dependency>
@@ -38,12 +59,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>xyz.hashdog.rdm</groupId>
+             <groupId>io.github.tanhuang2016</groupId>
             <artifactId>rdm-common</artifactId>
             <version>${rdm.version}</version>
         </dependency>
         <dependency>
-            <groupId>xyz.hashdog.rdm</groupId>
+             <groupId>io.github.tanhuang2016</groupId>
             <artifactId>rdm-redis-imp</artifactId>
             <version>${rdm.version}</version>
         </dependency>
@@ -100,16 +121,16 @@
             <artifactId>javafx-fxml</artifactId>
             <version>${openjfx.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-swing</artifactId>
-            <version>${openjfx.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-media</artifactId>
-            <version>${openjfx.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.openjfx</groupId>-->
+<!--            <artifactId>javafx-swing</artifactId>-->
+<!--            <version>${openjfx.version}</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.openjfx</groupId>-->
+<!--            <artifactId>javafx-media</artifactId>-->
+<!--            <version>${openjfx.version}</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-web</artifactId>
@@ -212,6 +233,8 @@
     </dependencies>
 
 
+
+
     <build>
         <plugins>
             <plugin>
@@ -219,7 +242,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <configuration>
                     <executable>${java.home}/bin/java</executable>
-                    <mainClass>xyz.hashdog.rdm.ui.Main</mainClass>
+                    <mainClass>redisfx.tanh.rdm.ui.Main</mainClass>
                 </configuration>
                 <executions>
                     <execution>
@@ -241,7 +264,7 @@
                             <finalName>rdm-ui-${rdm.version}-jar-with-dependencies</finalName>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>xyz.hashdog.rdm.ui.App</mainClass>
+                                    <mainClass>redisfx.tanh.rdm.ui.RedisFX</mainClass>
                                 </transformer>
                                 <!-- 添加 ikonli 所需的资源转换器 -->
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
@@ -264,33 +287,33 @@
                     </execution>
                 </executions>
             </plugin>
-<!--            该打包方式存在缺陷，会导致字体图标不可用，虽然有解决方式，但是配置太麻烦，换用上面的shade插件-->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-assembly-plugin</artifactId>-->
-<!--                <version>2.2</version>-->
-<!--                <configuration>-->
-<!--                    <appendAssemblyId>false</appendAssemblyId>-->
-<!--                    <finalName>rdm-ui-${rdm.version}-jar-with-dependencies</finalName>-->
-<!--                    <archive>-->
-<!--                        <manifest>-->
-<!--                            <mainClass>xyz.hashdog.rdm.ui.App</mainClass>-->
-<!--                        </manifest>-->
-<!--                    </archive>-->
-<!--                    <descriptorRefs>-->
-<!--                        <descriptorRef>jar-with-dependencies</descriptorRef>-->
-<!--                    </descriptorRefs>-->
-<!--                </configuration>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>make-assembly</id>-->
-<!--                        <phase>package</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>assembly</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+            <!--            该打包方式存在缺陷，会导致字体图标不可用，虽然有解决方式，但是配置太麻烦，换用上面的shade插件-->
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-assembly-plugin</artifactId>-->
+            <!--                <version>2.2</version>-->
+            <!--                <configuration>-->
+            <!--                    <appendAssemblyId>false</appendAssemblyId>-->
+            <!--                    <finalName>rdm-ui-${rdm.version}-jar-with-dependencies</finalName>-->
+            <!--                    <archive>-->
+            <!--                        <manifest>-->
+            <!--                            <mainClass>redisfx.tanh.rdm.ui.RedisFX</mainClass>-->
+            <!--                        </manifest>-->
+            <!--                    </archive>-->
+            <!--                    <descriptorRefs>-->
+            <!--                        <descriptorRef>jar-with-dependencies</descriptorRef>-->
+            <!--                    </descriptorRefs>-->
+            <!--                </configuration>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <id>make-assembly</id>-->
+            <!--                        <phase>package</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>assembly</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
 
 
 
@@ -325,9 +348,10 @@
                                     <goal>package</goal>
                                 </goals>
                                 <configuration>
-                                    <mainClass>xyz.hashdog.rdm.ui.Main</mainClass>
+                                    <mainClass>redisfx.tanh.rdm.ui.Main</mainClass>
                                     <bundleJre>true</bundleJre>
-<!--                                    <jdkPath>D:\soft\jdk\jdk-21_windows-x64_bin\jdk-21.0.7</jdkPath>-->
+                                    <modules>${modules}</modules>
+                                    <!--                                    <jdkPath>D:\soft\jdk\jdk-21_windows-x64_bin\jdk-21.0.7</jdkPath>-->
                                     <jdkPath>${env.JAVA_HOME}</jdkPath>
                                     <generateInstaller>true</generateInstaller>
                                     <administratorRequired>false</administratorRequired>
@@ -337,7 +361,7 @@
                                     <!--                                <additionalResource>${name}.l4j.ini</additionalResource>-->
                                     <!--                            </additionalResources>-->
                                     <winConfig>
-<!--                                        <headerType>console</headerType>-->
+<!--                                                                                <headerType>console</headerType>-->
                                         <icoFile>src/main/resources/icon/fx_icon_256.ico</icoFile>
                                         <generateSetup>true</generateSetup>
                                         <setupLanguages>
@@ -373,7 +397,7 @@
 
         <!-- Windows arm64 位 javafx21没有该架构的sdk，目前执行不了 -->
         <profile>
-            <id>windows-x86</id>
+            <id>windows-arm64</id>
             <activation>
                 <os>
                     <family>windows</family>
@@ -393,16 +417,17 @@
                                     <goal>package</goal>
                                 </goals>
                                 <configuration>
-                                    <mainClass>xyz.hashdog.rdm.ui.Main</mainClass>
+                                    <mainClass>redisfx.tanh.rdm.ui.Main</mainClass>
                                     <bundleJre>true</bundleJre>
-<!--                                    <jdkPath>D:\soft\jdk\jdk-21_windows-i586\jdk-21.0.7</jdkPath>-->
+                                    <modules>${modules}</modules>
+                                    <!--                                    <jdkPath>D:\soft\jdk\jdk-21_windows-i586\jdk-21.0.7</jdkPath>-->
                                     <jdkPath>${env.JAVA_HOME}</jdkPath>
                                     <generateInstaller>true</generateInstaller>
                                     <administratorRequired>false</administratorRequired>
                                     <platform>windows</platform>
                                     <createZipball>true</createZipball>
                                     <winConfig>
-<!--                                        <headerType>console</headerType>-->
+                                        <!--                                        <headerType>console</headerType>-->
                                         <icoFile>src/main/resources/icon/fx_icon_256.ico</icoFile>
                                         <generateSetup>true</generateSetup>
                                         <generateMsi>true</generateMsi>
@@ -447,8 +472,9 @@
                                 </goals>
                                 <configuration>
                                     <platform>linux</platform>
-                                    <mainClass>xyz.hashdog.rdm.ui.Main</mainClass>
+                                    <mainClass>redisfx.tanh.rdm.ui.Main</mainClass>
                                     <bundleJre>true</bundleJre>
+                                    <modules>${modules}</modules>
                                     <createTarball>true</createTarball>
                                     <jdkPath>${env.JAVA_HOME}</jdkPath>
                                     <linuxConfig>
@@ -492,8 +518,9 @@
                                 </goals>
                                 <configuration>
                                     <platform>linux</platform>
-                                    <mainClass>xyz.hashdog.rdm.ui.Main</mainClass>
+                                    <mainClass>redisfx.tanh.rdm.ui.Main</mainClass>
                                     <bundleJre>true</bundleJre>
+                                    <modules>${modules}</modules>
                                     <createTarball>true</createTarball>
                                     <jdkPath>${env.JAVA_HOME}</jdkPath>
                                     <linuxConfig>
@@ -537,8 +564,9 @@
                                 </goals>
                                 <configuration>
                                     <platform>mac</platform>
-                                    <mainClass>xyz.hashdog.rdm.ui.Main</mainClass>
+                                    <mainClass>redisfx.tanh.rdm.ui.Main</mainClass>
                                     <bundleJre>true</bundleJre>
+                                    <modules>${modules}</modules>
                                     <createTarball>false</createTarball>
                                     <generateInstaller>false</generateInstaller>
                                     <jdkPath>${env.JAVA_HOME}</jdkPath>
@@ -570,22 +598,26 @@
                                             <arg value="--output" />
                                             <arg value="${project.build.directory}/custom-jre" />
                                             <arg value="--add-modules" />
-                                            <arg value="ALL-MODULE-PATH" />
+<!--                                            <arg value="ALL-MODULE-PATH" />-->
+                                            <arg value="${modules}" />
                                             <arg value="--compress=2" />
                                             <arg value="--no-header-files" />
                                             <arg value="--no-man-pages" />
                                         </exec>
+                                        <mkdir dir="${project.build.directory}/input"/>
+                                        <copy file="${project.build.directory}/rdm-ui-${rdm.version}-jar-with-dependencies.jar"
+                                              todir="${project.build.directory}/input"/>
                                         <exec executable="jpackage">
                                             <arg value="--type" />
                                             <arg value="dmg" />
                                             <arg value="--input"/>
-                                            <arg value="${project.build.directory}"/>
+                                            <arg value="${project.build.directory}/input"/>
                                             <arg value="--main-jar" />
                                             <arg value="rdm-ui-${rdm.version}-jar-with-dependencies.jar" />
                                             <arg value="--runtime-image" />
                                             <arg value="${project.build.directory}/custom-jre" />
                                             <arg value="--main-class" />
-                                            <arg value="xyz.hashdog.rdm.ui.App" />
+                                            <arg value="redisfx.tanh.rdm.ui.RedisFX" />
                                             <arg value="--name" />
                                             <arg value="RedisFX" />
                                             <arg value="--dest" />
@@ -626,8 +658,9 @@
                                 </goals>
                                 <configuration>
                                     <platform>mac</platform>
-                                    <mainClass>xyz.hashdog.rdm.ui.Main</mainClass>
+                                    <mainClass>redisfx.tanh.rdm.ui.Main</mainClass>
                                     <bundleJre>true</bundleJre>
+                                    <modules>${modules}</modules>
                                     <createTarball>false</createTarball>
                                     <generateInstaller>false</generateInstaller>
                                     <jdkPath>${env.JAVA_HOME}</jdkPath>
@@ -661,22 +694,27 @@
                                             <arg value="--output" />
                                             <arg value="${project.build.directory}/custom-jre" />
                                             <arg value="--add-modules" />
-                                            <arg value="ALL-MODULE-PATH" />
+<!--                                            <arg value="ALL-MODULE-PATH" />-->
+
+                                            <arg value="${modules}" />
                                             <arg value="--compress=2" />
                                             <arg value="--no-header-files" />
                                             <arg value="--no-man-pages" />
                                         </exec>
+                                        <mkdir dir="${project.build.directory}/input"/>
+                                        <copy file="${project.build.directory}/rdm-ui-${rdm.version}-jar-with-dependencies.jar"
+                                              todir="${project.build.directory}/input"/>
                                         <exec executable="jpackage">
                                             <arg value="--type" />
                                             <arg value="dmg" />
                                             <arg value="--input"/>
-                                            <arg value="${project.build.directory}"/>
+                                            <arg value="${project.build.directory}/input"/>
                                             <arg value="--main-jar" />
                                             <arg value="rdm-ui-${rdm.version}-jar-with-dependencies.jar" />
                                             <arg value="--runtime-image" />
                                             <arg value="${project.build.directory}/custom-jre" />
                                             <arg value="--main-class" />
-                                            <arg value="xyz.hashdog.rdm.ui.App" />
+                                            <arg value="redisfx.tanh.rdm.ui.RedisFX" />
                                             <arg value="--name" />
                                             <arg value="RedisFX" />
                                             <arg value="--dest" />
@@ -691,7 +729,87 @@
             </build>
         </profile>
 
+        <profile>
+            <id>publish</id>
+            <build>
+
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.2.1</version>
+                        <inherited>false</inherited>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.3.0</version>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <nohelp>true</nohelp>
+                            <charset>${encoding}</charset>
+                            <encoding>${encoding}</encoding>
+                            <docencoding>${encoding}</docencoding>
+                            <failOnError>false</failOnError>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <inherited>false</inherited>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>0.9.0</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <publishingServerId>central</publishingServerId>
+                            <autoPublish>true</autoPublish>
+                        </configuration>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
 
 
     </profiles>
+
+
+
+
+
 </project>

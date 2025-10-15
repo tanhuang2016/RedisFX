@@ -1,0 +1,37 @@
+{
+  "projectName": "RedisFX",
+  "projectOwner": "tanhuang2016",
+  "repoType": "github",
+  "repoHost": " https://github.com/tanhuang2016/RedisFX",
+  "files": [
+    "README.md",
+    "README.en-US.md",
+    "README.zh-CN.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "Tan000321",
+      "name": "Tan000321",
+      "avatar_url": "https://avatars.githubusercontent.com/u/115800442?v=4",
+      "profile": "https://github.com/Tan000321",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "crazyweeds",
+      "name": "crazyweeds",
+      "avatar_url": "https://avatars.githubusercontent.com/u/16688520?v=4",
+      "profile": "https://github.com/crazyweeds",
+      "contributions": [
+        "bug"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "linkToUsage": false,
+  "commitType": "docs"
+}
