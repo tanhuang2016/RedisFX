@@ -65,11 +65,11 @@
             <artifactId>rdm-common</artifactId>
             <version>${rdm.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcpkix-jdk18on</artifactId>
-            <version>1.77</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.bouncycastle</groupId>-->
+<!--            <artifactId>bcpkix-jdk18on</artifactId>-->
+<!--            <version>1.77</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>com.jcraft</groupId>
