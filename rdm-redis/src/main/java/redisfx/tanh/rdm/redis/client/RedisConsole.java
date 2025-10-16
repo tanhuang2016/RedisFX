@@ -8,7 +8,7 @@ import java.util.List;
  * @version 1.0.0
  * @since 2023/7/18 21:16
  */
-public interface RedisConsole {
+public interface RedisConsole extends AutoCloseable {
     /**
      * 发送命令
      *

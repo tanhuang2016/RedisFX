@@ -10,6 +10,8 @@ import javafx.geometry.Side;
 import javafx.scene.control.*;
 import redisfx.tanh.rdm.common.pool.ThreadPool;
 import redisfx.tanh.rdm.common.util.DataUtil;
+import redisfx.tanh.rdm.common.util.Util;
+import redisfx.tanh.rdm.redis.client.RedisConsole;
 import redisfx.tanh.rdm.redis.imp.util.RedisCommandHelp;
 import redisfx.tanh.rdm.redis.imp.util.RedisCommandHelpParser;
 import redisfx.tanh.rdm.ui.controller.base.BaseClientController;
@@ -49,6 +51,7 @@ public class ConsoleController extends BaseClientController<ServerTabController>
      */
     int scrollLine=0;
     private static final int MAXLINES = 1000;
+    private RedisConsole redisConsole;
 
 
     private final List<RedisCommandHelp> redisCommandHelps = RedisCommandHelpParser.parseCommands();
@@ -79,7 +82,7 @@ public class ConsoleController extends BaseClientController<ServerTabController>
         textArea.appendText( "\n"+"> "+inputText );
         textField.clear();
         ThreadPool.getInstance().execute(()->{
-            final List<String> strings = redisClient.getRedisConsole(this.currentDb).sendCommand(inputText);
+            final List<String> strings = redisConsole.sendCommand(inputText);
             Platform.runLater(()->{
                 if(inputText.trim().startsWith("select")&&!strings.isEmpty()&& "ok".equalsIgnoreCase(strings.getFirst())){
                     this.currentDb=Integer.parseInt(inputText.replace("select","").trim());
@@ -241,12 +244,19 @@ public class ConsoleController extends BaseClientController<ServerTabController>
 
     @Override
     protected void paramInitEnd() {
+        redisConsole = redisClient.getRedisConsole(this.currentDb);
         label.setText(redisContext.getRedisConfig().getName()+":"+this.currentDb+">");
         textArea.appendText( "\n"+redisContext.getRedisConfig().getName()+" "+language(ALERT_MESSAGE_CONNECT_SUCCESS) );
         if(currentDb!=0){
             ThreadPool.getInstance().execute(()->this.redisClient.select(currentDb));
         }
 
+    }
+
+    @Override
+    public void close() {
+        Util.close(redisConsole);
+        super.close();
     }
 }
 
