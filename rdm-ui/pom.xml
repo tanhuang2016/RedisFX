@@ -29,6 +29,7 @@
         <test.assertj.version>3.21.0</test.assertj.version>
         <test.junit.version>5.8.1</test.junit.version>
         <modules>java.base,java.datatransfer,java.desktop,java.logging,java.management,java.naming,java.net.http,java.prefs,java.scripting,java.security.sasl,java.sql,java.transaction.xa,java.xml,jdk.jsobject,jdk.unsupported,jdk.unsupported.desktop,jdk.xml.dom,java.security.jgss,jdk.crypto.ec</modules>
+        <zstd.scope>provided</zstd.scope>
     </properties>
     <developers>
         <developer>
@@ -230,7 +231,7 @@
             <groupId>com.github.luben</groupId>
             <artifactId>zstd-jni</artifactId>
             <version>1.5.5-11</version>
-            <scope>provided</scope>
+            <scope>${zstd.scope}</scope>
         </dependency>
     </dependencies>
 
@@ -733,6 +734,9 @@
 
         <profile>
             <id>publish</id>
+            <properties>
+                <zstd.scope>runtime</zstd.scope>
+            </properties>
             <build>
 
                 <plugins>
