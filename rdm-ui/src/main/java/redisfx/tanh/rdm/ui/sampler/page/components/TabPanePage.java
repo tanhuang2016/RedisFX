@@ -15,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
+import redisfx.tanh.rdm.common.util.Util;
 import redisfx.tanh.rdm.ui.common.Applications;
 import redisfx.tanh.rdm.ui.common.ConfigSettingsEnum;
 import redisfx.tanh.rdm.ui.common.RedisDataTypeEnum;
@@ -400,7 +401,8 @@ public final class TabPanePage extends OutlinePage {
         }
 
         private Tab createRandomTab() {
-            var tab = new Tab(FAKER.cat().name());
+//            var tab = new Tab(FAKER.cat().name());
+            var tab = new Tab(Util.generateRandomString(5));
             tab.setGraphic(new FontIcon(randomIcon()));
             return tab;
         }

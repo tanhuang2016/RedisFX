@@ -163,11 +163,11 @@
             <artifactId>cssfx</artifactId>
             <version>${lib.cssfx.version}</version>
         </dependency>
-        <dependency>
-            <groupId>net.datafaker</groupId>
-            <artifactId>datafaker</artifactId>
-            <version>${lib.datafaker.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>net.datafaker</groupId>-->
+<!--            <artifactId>datafaker</artifactId>-->
+<!--            <version>${lib.datafaker.version}</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.assertj</groupId>
