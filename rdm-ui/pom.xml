@@ -159,11 +159,13 @@
             <version>${lib.jetbrains-annotations.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>fr.brouillard.oss</groupId>
-            <artifactId>cssfx</artifactId>
-            <version>${lib.cssfx.version}</version>
-        </dependency>
+<!--        css热加载-->
+<!--        <dependency>-->
+<!--            <groupId>fr.brouillard.oss</groupId>-->
+<!--            <artifactId>cssfx</artifactId>-->
+<!--            <version>${lib.cssfx.version}</version>-->
+<!--        </dependency>-->
+<!--        造数据用的-->
 <!--        <dependency>-->
 <!--            <groupId>net.datafaker</groupId>-->
 <!--            <artifactId>datafaker</artifactId>-->

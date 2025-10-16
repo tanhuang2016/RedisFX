@@ -4,7 +4,11 @@
   font-weight: 400;
   src: url("../fonts/Inter/Inter-Regular.otf") format("truetype");
 }
-
+@font-face {
+  font-family: "Inter";
+  font-weight: 700;
+  src: url("../fonts/Inter/Inter-Bold.otf") format("truetype");
+}
 .root {
   -fx-font-family: "Inter";
 }
