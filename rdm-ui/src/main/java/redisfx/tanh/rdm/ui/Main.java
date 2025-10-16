@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import redisfx.tanh.rdm.common.util.LibraryClassLoader;
 import redisfx.tanh.rdm.redis.exceptions.RedisException;
 import redisfx.tanh.rdm.ui.common.Applications;
 import redisfx.tanh.rdm.ui.common.ConfigSettingsEnum;
@@ -43,6 +44,13 @@ public class Main extends Application {
     private MainController controller;
 
     public static void main(String[] args) {
+        // 设置自定义类加载器为默认类加载器
+        LibraryClassLoader customLoader = new LibraryClassLoader(
+                Main.class.getClassLoader()
+        );
+
+        // 设置为线程上下文类加载器
+        Thread.currentThread().setContextClassLoader(customLoader);
         Application.launch(args);
     }
 
