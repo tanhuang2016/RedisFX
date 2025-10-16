@@ -16,7 +16,9 @@ import redisfx.tanh.rdm.redis.client.*;
 import redisfx.tanh.rdm.redis.client.*;
 import redisfx.tanh.rdm.redis.exceptions.RedisException;
 import redisfx.tanh.rdm.redis.imp.console.RedisConsole;
+import redisfx.tanh.rdm.redis.imp.util.Util;
 
+import javax.net.ssl.SSLSocketFactory;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -527,8 +529,19 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
         jedis.getClusterNodes().forEach((nodeStr,pool)->{
             try {
                 String[] addr = nodeStr.split(":");
-                Jedis jedis = new Jedis(addr[0], Integer.parseInt(addr[1]));
-                jedis.auth(redisConfig.getAuth());
+                Jedis jedis;
+                if(redisConfig.isSsl()){
+                    SSLSocketFactory sslSocketFactory = Util.getSocketFactory(redisConfig.getCaCrt(), redisConfig.getRedisCrt(), redisConfig.getRedisKey(), redisConfig.getRedisKeyPassword());
+                    JedisClientConfig clientConfig = DefaultJedisClientConfig.builder()
+                            .ssl(true)
+                            .sslSocketFactory(sslSocketFactory)
+                            .password(redisConfig.getAuth())
+                            .build();
+                    jedis=new Jedis(addr[0], Integer.parseInt(addr[1]), clientConfig);
+                }else {
+                    jedis = new Jedis(addr[0], Integer.parseInt(addr[1]));
+                    jedis.auth(redisConfig.getAuth());
+                }
                 //单机jedis没用连接池，close会直接关闭连接
                 redisMonitor.addJedis(jedis);
                 Thread thread = new Thread(() -> doMonitor(jedis,redisMonitor));
@@ -556,6 +569,15 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
     public RedisSubscriber subscriber(){
         return subscriber(()->{
             String[] split = masters.getFirst().split(":");
+            if(redisConfig.isSsl()){
+                SSLSocketFactory sslSocketFactory = Util.getSocketFactory(redisConfig.getCaCrt(), redisConfig.getRedisCrt(), redisConfig.getRedisKey(), redisConfig.getRedisKeyPassword());
+                JedisClientConfig clientConfig = DefaultJedisClientConfig.builder()
+                        .ssl(true)
+                        .sslSocketFactory(sslSocketFactory)
+                        .password(redisConfig.getAuth())
+                        .build();
+                return new Jedis(split[0], Integer.parseInt(split[1]), clientConfig);
+            }
             Jedis subJedis = new Jedis(split[0], Integer.parseInt(split[1]));
             subJedis.auth(redisConfig.getAuth());
             return subJedis;
