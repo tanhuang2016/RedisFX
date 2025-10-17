@@ -116,6 +116,9 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_SECRET }}
           gpg-passphrase: GPG_PASSPHRASE
 
+      - name: Set zstd scope to runtime
+        run: mvn versions:set-property -Dproperty=zstd.scope -DnewVersion=runtime
+
       - name: Publish to Apache Maven Central
         run: mvn deploy -DskipTests -P!linux-amd64,publish
         env:
