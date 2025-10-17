@@ -7,9 +7,7 @@ import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class LibraryClassLoader extends ClassLoader {
     private static final Logger log = LoggerFactory.getLogger(LibraryClassLoader.class);
