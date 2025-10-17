@@ -15,7 +15,6 @@ public class LibraryClassLoader extends ClassLoader {
     private static final Logger log = LoggerFactory.getLogger(LibraryClassLoader.class);
     private  File libDirectory;
     private final List<URLClassLoader> jarLoaders = new ArrayList<>();
-    private final Set<String> failedClasses = new HashSet<>();
 
     public LibraryClassLoader(ClassLoader parent) {
         super(parent);
@@ -25,27 +24,16 @@ public class LibraryClassLoader extends ClassLoader {
 
     @Override
     protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
-        // 检查是否已经尝试过且失败
-        if (failedClasses.contains(name)) {
-            throw new ClassNotFoundException(name);
-        }
-
         try {
             // 先尝试父类加载器
             return super.loadClass(name, resolve);
         } catch (Throwable e) {
             // 父类加载器无法加载时，使用自定义加载逻辑
-            try {
-                Class<?> clazz = findClass(name);
-                if (resolve) {
-                    resolveClass(clazz);
-                }
-                return clazz;
-            } catch (ClassNotFoundException ex) {
-                // 记录失败的类
-                failedClasses.add(name);
-                throw ex;
+            Class<?> clazz = findClass(name);
+            if (resolve) {
+                resolveClass(clazz);
             }
+            return clazz;
         }
     }
 
@@ -62,7 +50,8 @@ public class LibraryClassLoader extends ClassLoader {
         throw new ClassNotFoundException(name);
     }
 
-    private void initializeJarLoaders() {
+    public void initializeJarLoaders() {
+        jarLoaders.clear();
         if (libDirectory.exists() && libDirectory.isDirectory()) {
             File[] jarFiles = libDirectory.listFiles((dir, name) -> name.endsWith(".jar"));
             if (jarFiles != null) {
