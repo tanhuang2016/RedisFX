@@ -20,6 +20,7 @@ class ThemeRepoManagerDialog extends ModalDialog {
         super();
 
         var addBtn = new Button("Add custom theme", new FontIcon(Material2MZ.PLUS));
+        addBtn.setDisable(true);
         addBtn.getStyleClass().add(Styles.ACCENT);
         addBtn.setOnAction(e -> {
             var fileChooser = new FileChooser();

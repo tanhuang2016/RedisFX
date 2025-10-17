@@ -3,6 +3,8 @@ package redisfx.tanh.rdm.common.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Random;
+
 /**
  * @author th
  * @since 2025/8/17 14:05
@@ -23,5 +25,21 @@ public class Util {
                 }
             }
         }
+    }
+
+    /**
+     * 生成随机字符串
+     * @param length 字符串长度
+     * @return 随机字符串
+     */
+    public static String generateRandomString(int length) {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder(length);
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+        for (int i = 0; i < length; i++) {
+            sb.append(chars.charAt(random.nextInt(chars.length())));
+        }
+        return sb.toString();
     }
 }

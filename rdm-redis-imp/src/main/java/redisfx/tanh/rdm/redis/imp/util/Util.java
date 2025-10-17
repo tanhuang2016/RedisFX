@@ -5,18 +5,23 @@ import com.google.gson.reflect.TypeToken;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.openssl.PEMDecryptorProvider;
-import org.bouncycastle.openssl.PEMEncryptedKeyPair;
-import org.bouncycastle.openssl.PEMKeyPair;
-import org.bouncycastle.openssl.PEMParser;
-import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
-import org.bouncycastle.openssl.jcajce.JcePEMDecryptorProviderBuilder;
-import org.bouncycastle.pkcs.PKCS8EncryptedPrivateKeyInfo;
-import org.bouncycastle.pkcs.jcajce.JcePKCSPBEInputDecryptorProviderBuilder;
+//import org.bouncycastle.jce.provider.BouncyCastleProvider;
+//import org.bouncycastle.openssl.PEMDecryptorProvider;
+//import org.bouncycastle.openssl.PEMEncryptedKeyPair;
+//import org.bouncycastle.openssl.PEMKeyPair;
+//import org.bouncycastle.openssl.PEMParser;
+//import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
+//import org.bouncycastle.openssl.jcajce.JcePEMDecryptorProviderBuilder;
+//import org.bouncycastle.pkcs.PKCS8EncryptedPrivateKeyInfo;
+//import org.bouncycastle.pkcs.jcajce.JcePKCSPBEInputDecryptorProviderBuilder;
 import redisfx.tanh.rdm.common.tuple.Tuple2;
 import redisfx.tanh.rdm.common.util.DataUtil;
 
+import javax.crypto.Cipher;
+import javax.crypto.EncryptedPrivateKeyInfo;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
@@ -30,6 +35,9 @@ import java.nio.file.Paths;
 import java.security.*;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.security.spec.KeySpec;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.util.Base64;
 import java.util.Map;
 
 /**
@@ -51,7 +59,7 @@ public class Util extends redisfx.tanh.rdm.common.util.Util {
         char[] password = passwordStr==null?null:passwordStr.toCharArray();
         return getSocketFactory(caCrtFile, crtFile, keyFile, password);
     }
-    /**
+   /* *//**
      * 创建 SSLSocketFactory 工厂
      *
      * @param caCrtFile 服务端 CA 证书
@@ -59,8 +67,8 @@ public class Util extends redisfx.tanh.rdm.common.util.Util {
      * @param keyFile 客户端 Key 文件
      * @param password SSL 密码，随机
      * @return {@link javax.net.ssl.SSLSocketFactory}
-     */
-    public static javax.net.ssl.SSLSocketFactory getSocketFactory(final String caCrtFile, final String crtFile, final String keyFile, final char[] password)  {
+     *//*
+    public static javax.net.ssl.SSLSocketFactory getSocketFactory2(final String caCrtFile, final String crtFile, final String keyFile, final char[] password)  {
         InputStream caInputStream = null;
         InputStream crtInputStream = null;
         InputStream keyInputStream = null;
@@ -135,9 +143,100 @@ public class Util extends redisfx.tanh.rdm.common.util.Util {
         finally {
             close(caInputStream,crtInputStream,keyInputStream);
         }
+    }*/
+
+    /**
+     * 使用标准 Java SSL API 创建 SSLSocketFactory
+     * 减少对 Bouncy Castle 的依赖
+     */
+    public static javax.net.ssl.SSLSocketFactory getSocketFactory(
+            final String caCrtFile, final String crtFile, final String keyFile, final char[] password) {
+        try {
+            // 使用标准 Java API 加载证书
+            CertificateFactory cf = CertificateFactory.getInstance("X.509");
+
+            // 加载 CA 证书
+            try (InputStream caInputStream = Files.newInputStream(Paths.get(caCrtFile))) {
+                X509Certificate caCert = (X509Certificate) cf.generateCertificate(caInputStream);
+
+                // 加载客户端证书
+                try (InputStream crtInputStream = Files.newInputStream(Paths.get(crtFile))) {
+                    X509Certificate cert = (X509Certificate) cf.generateCertificate(crtInputStream);
+
+                    // 加载私钥（需要自定义解析方法）
+                    PrivateKey privateKey = loadPrivateKey(keyFile, password);
+
+                    // 创建 KeyStore
+                    KeyStore caKs = KeyStore.getInstance(KeyStore.getDefaultType());
+                    caKs.load(null, null);
+                    caKs.setCertificateEntry("ca-certificate", caCert);
+                    TrustManagerFactory tmf = TrustManagerFactory.getInstance("X509");
+                    tmf.init(caKs);
+
+                    KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
+                    ks.load(null, null);
+                    ks.setCertificateEntry("certificate", cert);
+                    ks.setKeyEntry("private-key", privateKey, password, new java.security.cert.Certificate[]{cert});
+                    KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+                    kmf.init(ks, password);
+
+                    SSLContext context = SSLContext.getInstance("TLSv1.2");
+                    context.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
+
+                    return context.getSocketFactory();
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
+    /**
+     * 加载私钥
+     */
+    private static PrivateKey loadPrivateKey(String keyFile, char[] password) throws Exception {
+        String keyContent = Files.readString(Paths.get(keyFile));
 
+        if (keyContent.contains("-----BEGIN ENCRYPTED PRIVATE KEY-----")) {
+            // 处理加密私钥
+            String encryptedKeyPEM = keyContent
+                    .replace("-----BEGIN ENCRYPTED PRIVATE KEY-----", "")
+                    .replace("-----END ENCRYPTED PRIVATE KEY-----", "")
+                    .replaceAll("\\s", "");
+
+            byte[] decoded = Base64.getDecoder().decode(encryptedKeyPEM);
+            EncryptedPrivateKeyInfo encryptPKInfo = new EncryptedPrivateKeyInfo(decoded);
+
+            if (password == null) {
+                throw new IllegalArgumentException("Encrypted private key requires password");
+            }
+
+            SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(encryptPKInfo.getAlgName());
+            KeySpec keySpec = new PBEKeySpec(password);
+            SecretKey secretKey = secretKeyFactory.generateSecret(keySpec);
+            Cipher cipher = Cipher.getInstance(encryptPKInfo.getAlgName());
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, encryptPKInfo.getAlgParameters());
+
+            PKCS8EncodedKeySpec pkcs8KeySpec = encryptPKInfo.getKeySpec(cipher);
+            // 根据实际情况确定密钥算法，或从证书中获取
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            return keyFactory.generatePrivate(pkcs8KeySpec);
+
+        } else if (keyContent.contains("-----BEGIN PRIVATE KEY-----")) {
+            // 处理未加密私钥
+            String privateKeyPEM = keyContent
+                    .replace("-----BEGIN PRIVATE KEY-----", "")
+                    .replace("-----END PRIVATE KEY-----", "")
+                    .replaceAll("\\s", "");
+
+            byte[] decoded = Base64.getDecoder().decode(privateKeyPEM);
+            PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(decoded);
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            return keyFactory.generatePrivate(keySpec);
+        } else {
+            throw new IllegalArgumentException("Unsupported private key format");
+        }
+    }
 
 
     /**

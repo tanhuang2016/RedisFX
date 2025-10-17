@@ -6,12 +6,13 @@
     <parent>
          <groupId>io.github.tanhuang2016</groupId>
         <artifactId>redis-fx</artifactId>
-        <version>2.3.12</version>
+        <version>2.3.13</version>
     </parent>
 
 
     <artifactId>rdm-ui</artifactId>
     <version>${rdm.version}</version>
+<!--    安装包应用名称，RedisFX不能改动-->
     <name>RedisFX</name>
     <description>${description}</description>
     <properties>
@@ -28,6 +29,7 @@
         <test.assertj.version>3.21.0</test.assertj.version>
         <test.junit.version>5.8.1</test.junit.version>
         <modules>java.base,java.datatransfer,java.desktop,java.logging,java.management,java.naming,java.net.http,java.prefs,java.scripting,java.security.sasl,java.sql,java.transaction.xa,java.xml,jdk.jsobject,jdk.unsupported,jdk.unsupported.desktop,jdk.xml.dom,java.security.jgss,jdk.crypto.ec</modules>
+        <zstd.scope>provided</zstd.scope>
     </properties>
     <developers>
         <developer>
@@ -157,16 +159,18 @@
             <version>${lib.jetbrains-annotations.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>fr.brouillard.oss</groupId>
-            <artifactId>cssfx</artifactId>
-            <version>${lib.cssfx.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.datafaker</groupId>
-            <artifactId>datafaker</artifactId>
-            <version>${lib.datafaker.version}</version>
-        </dependency>
+<!--        css热加载-->
+<!--        <dependency>-->
+<!--            <groupId>fr.brouillard.oss</groupId>-->
+<!--            <artifactId>cssfx</artifactId>-->
+<!--            <version>${lib.cssfx.version}</version>-->
+<!--        </dependency>-->
+<!--        造数据用的-->
+<!--        <dependency>-->
+<!--            <groupId>net.datafaker</groupId>-->
+<!--            <artifactId>datafaker</artifactId>-->
+<!--            <version>${lib.datafaker.version}</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.assertj</groupId>
@@ -229,6 +233,7 @@
             <groupId>com.github.luben</groupId>
             <artifactId>zstd-jni</artifactId>
             <version>1.5.5-11</version>
+            <scope>${zstd.scope}</scope>
         </dependency>
     </dependencies>
 
@@ -731,6 +736,9 @@
 
         <profile>
             <id>publish</id>
+            <properties>
+                <zstd.scope>runtime</zstd.scope>
+            </properties>
             <build>
 
                 <plugins>

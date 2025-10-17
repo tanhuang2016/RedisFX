@@ -192,6 +192,7 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
         List<RadioMenuItem> converterItems = ValueConverters.getInstance().names().stream()
                 .map(RadioMenuItem::new)
                 .peek(item -> item.setToggleGroup(converterGroup))
+                .peek(item -> item.setDisable(!ValueConverters.getInstance().getByName(item.getText()).isAvailable()))
                 .toList();
         converterMenu.getItems().addAll(converterItems);
         converterMenu.getItems().add(new SeparatorMenuItem());
@@ -356,7 +357,13 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
         //根据key的类型切换对应视图
         this.size.setText(String.format(SIZE, Util.convertMemorySizeStr(currentSize,2)));
         this.converter = ValueConverters.converterByValue(currentValue);
-        byte[] decode = converter.decode(currentValue);
+        byte[] decode = currentValue;
+        try {
+           decode = converter.decode(currentValue);
+        }catch (Exception e){
+            log.error("setByteArray decode exception", e);
+            GuiUtil.alert(Alert.AlertType.ERROR,e.getMessage());
+        }
         ValueViewer viewer;
         if(type==null){
             viewer = ValueViewers.viewerByValue(decode);

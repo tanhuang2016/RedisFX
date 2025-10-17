@@ -10,7 +10,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import net.datafaker.Faker;
 import org.jetbrains.annotations.Nullable;
 import org.kordamp.ikonli.feather.Feather;
 import redisfx.tanh.rdm.ui.sampler.event.BrowseEvent;
@@ -35,7 +34,6 @@ public interface Page {
     int VGAP_10 = 10;
     int VGAP_20 = 20;
 
-    Faker FAKER = new Faker();
     Random RANDOM = new Random();
     String JFX_JAVADOC_URI_TEMPLATE =
         "https://openjfx.io/javadoc/20/javafx.controls/javafx/scene/%s.html";

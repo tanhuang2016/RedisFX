@@ -25,4 +25,6 @@ public interface CanHandle {
     default int order() {
         return DEFAULT_ORDER;
     }
+
+
 }

@@ -1,11 +1,8 @@
 package redisfx.tanh.rdm.ui.handler.convert;
 
-import com.github.luben.zstd.ZstdInputStream;
-import com.github.luben.zstd.ZstdOutputStream;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Zstd编解码转换工具
@@ -14,22 +11,54 @@ import java.io.IOException;
  * @since 2025/9/17 22:48
  */
 public class ZstdConverter implements ValueConverter{
+    private static Class<?> zstdInputStreamClass;
+    private static Class<?> zstdOutputStreamClass;
+    private static boolean zstdAvailable;
+
+    static {
+        try {
+            ClassLoader loader = Thread.currentThread().getContextClassLoader();
+            zstdInputStreamClass = Class.forName("com.github.luben.zstd.ZstdInputStream", true, loader);
+            zstdOutputStreamClass = Class.forName("com.github.luben.zstd.ZstdOutputStream", true, loader);
+            zstdAvailable = true;
+        } catch (ClassNotFoundException e) {
+            zstdAvailable = false;
+        }
+    }
+
+    @Override
+    public boolean isAvailable() {
+        return zstdAvailable;
+    }
+
     @Override
     public byte[] encode(byte[] data) {
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-             ZstdOutputStream zstdOutputStream = new ZstdOutputStream(byteArrayOutputStream)) {
+//             ZstdOutputStream zstdOutputStream = new ZstdOutputStream(byteArrayOutputStream)
+             FilterOutputStream zstdOutputStream = (FilterOutputStream) zstdOutputStreamClass
+                     .getConstructor(OutputStream.class)
+                     .newInstance(byteArrayOutputStream)
+        ) {
             zstdOutputStream.write(data);
             zstdOutputStream.close(); // 必须先关闭ZstdOutputStream以确保数据被完全写入
             return byteArrayOutputStream.toByteArray();
         } catch (IOException e) {
             throw new RuntimeException("Failed to compress data using Zstd", e);
+        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @Override
     public byte[] decode(byte[] data) {
+        if (!zstdAvailable) {
+            throw new RuntimeException("Zstd library not available");
+        }
         try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(data);
-             ZstdInputStream zstdInputStream = new ZstdInputStream(byteArrayInputStream);
+//             FilterInputStream zstdInputStream = new ZstdInputStream(byteArrayInputStream);
+             FilterInputStream zstdInputStream = (FilterInputStream) zstdInputStreamClass
+                     .getConstructor(InputStream.class)
+                     .newInstance(byteArrayInputStream);
              ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             byte[] buffer = new byte[1024];
             int len;
@@ -39,11 +68,16 @@ public class ZstdConverter implements ValueConverter{
             return outputStream.toByteArray();
         } catch (IOException e) {
             throw new RuntimeException("Failed to decompress data using Zstd", e);
+        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @Override
     public boolean accept(byte[] data) {
+        if (!zstdAvailable) {
+            return false;
+        }
         if (data == null || data.length < 4) {
             return false;
         }
