@@ -25,6 +25,12 @@ public class ZstdConverter implements ValueConverter{
             zstdAvailable = false;
         }
     }
+
+    @Override
+    public boolean isAvailable() {
+        return zstdAvailable;
+    }
+
     @Override
     public byte[] encode(byte[] data) {
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -69,6 +75,9 @@ public class ZstdConverter implements ValueConverter{
 
     @Override
     public boolean accept(byte[] data) {
+        if (!zstdAvailable) {
+            return false;
+        }
         if (data == null || data.length < 4) {
             return false;
         }

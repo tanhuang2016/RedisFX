@@ -29,7 +29,19 @@ public interface ValueConverter  extends CanHandle {
      */
     String name();
 
+    /**
+     * 是否启用
+     * @return true为启用
+     */
    default boolean isEnabled(){
        return true;
    }
+
+    /**
+     * 是否可用
+     * @return true为可用
+     */
+    default boolean isAvailable() {
+        return true;
+    }
 }

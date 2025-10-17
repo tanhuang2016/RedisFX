@@ -192,6 +192,7 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
         List<RadioMenuItem> converterItems = ValueConverters.getInstance().names().stream()
                 .map(RadioMenuItem::new)
                 .peek(item -> item.setToggleGroup(converterGroup))
+                .peek(item -> item.setDisable(!ValueConverters.getInstance().getByName(item.getText()).isAvailable()))
                 .toList();
         converterMenu.getItems().addAll(converterItems);
         converterMenu.getItems().add(new SeparatorMenuItem());
