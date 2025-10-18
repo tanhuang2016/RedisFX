@@ -9,6 +9,9 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 自定义类加载器，用于加载 libs 目录下的 JAR 文件
+ */
 public class LibraryClassLoader extends ClassLoader {
     private static final Logger log = LoggerFactory.getLogger(LibraryClassLoader.class);
     private  File libDirectory;
