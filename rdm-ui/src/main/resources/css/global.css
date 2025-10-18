@@ -143,7 +143,7 @@
 /*********menuButton和combo让箭头尽量不占空间，缩小边距又不失美观 *********/
 /*文字边距*/
 .menu-button.mini-space-arrow > .label {
-    -fx-padding: 8px 2px 8px 12px;
+    -fx-padding: 6px 2px 6px 12px;
 
 }
 /*箭头的边距*/
