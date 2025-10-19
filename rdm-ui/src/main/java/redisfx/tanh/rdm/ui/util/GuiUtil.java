@@ -891,6 +891,7 @@ public static void adjustListViewHeight(ListView<?> listView, double maxHeight) 
     public static void setTab(Tab tab, TabPane dbTabPane, Tuple2<? extends Node,? extends BaseController> tuple2) {
         // 监听Tab被关闭事件,但是remove是无法监听的
         tab.setOnClosed(event2 -> ThreadPool.getInstance().execute(()->tuple2.t2().close()));
+        tab.setTooltip(GuiUtil.textTooltip(tab.getText()));
         GuiUtil.newTabContextMenu(tab);
         tab.setContent(tuple2.t1());
         dbTabPane.getTabs().add(tab);

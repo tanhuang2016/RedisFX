@@ -282,6 +282,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     private void initTabPane() {
         KeyTabPaneSetting setting = Applications.getConfigSettings(ConfigSettingsEnum.KEY_TAB_PANE.name);
         this.dbTabPane.setSide(Side.valueOf(setting.getSide()));
+        this.dbTabPane.setTabMaxWidth(200);
     }
 
     /**

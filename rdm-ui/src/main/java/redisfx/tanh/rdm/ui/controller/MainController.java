@@ -232,6 +232,7 @@ public class MainController extends BaseWindowController<Main> {
     private void initTabPane() {
         ServerTabPaneSetting setting =Applications.getConfigSettings(ConfigSettingsEnum.SERVER_TAB_PANE.name);
         this.serverTabPane.setSide(Side.valueOf(setting.getSide()));
+        this.serverTabPane.setTabMaxWidth(200);
     }
 
     /**
