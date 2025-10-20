@@ -5,7 +5,7 @@ package redisfx.tanh.rdm.ui.entity;
  * @version 1.0.0
  * @since 2023/8/3 22:35
  */
-public class ZsetTypeTable implements ITable{
+public class ZsetTypeTable extends AbstractRowTable implements ITable{
 
 
     private double score;
@@ -23,7 +23,7 @@ public class ZsetTypeTable implements ITable{
     }
     @Override
     public  String[] getProperties() {
-        return new String[]{"#row", "score","value"};
+        return new String[]{"row", "score","value"};
     }
 
     public String getValue() {

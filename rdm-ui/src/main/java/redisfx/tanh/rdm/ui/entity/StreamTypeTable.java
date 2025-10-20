@@ -5,7 +5,7 @@ package redisfx.tanh.rdm.ui.entity;
  * @version 2.0.0
  * @since 2025/7/14 22:35
  */
-public class StreamTypeTable implements ITable{
+public class StreamTypeTable extends AbstractRowTable implements ITable{
 
 
     private String id;
@@ -24,7 +24,7 @@ public class StreamTypeTable implements ITable{
     // 获取所有属性名称
     @Override
     public  String[] getProperties() {
-        return new String[]{"#row", "id","value"};
+        return new String[]{"row", "id","value"};
     }
 
     public String getValue() {

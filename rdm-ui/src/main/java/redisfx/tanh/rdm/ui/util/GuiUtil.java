@@ -716,11 +716,16 @@ public class GuiUtil {
     public static <T extends ITable,S>void initSimpleTableView(TableView<T> tableView, T iTable) {
         ObservableList<TableColumn<T, ?>> columns = tableView.getColumns();
         TableColumn<T, Integer> c0 = (TableColumn<T,Integer>)columns.getFirst();
-        c0.setCellValueFactory(
-                param -> new ReadOnlyObjectWrapper<>(tableView.getItems().indexOf(param.getValue()) + 1)
-        );
+        if("#row".equals(iTable.getProperties()[0])){
+            c0.setCellValueFactory(
+                    param -> new ReadOnlyObjectWrapper<>(tableView.getItems().indexOf(param.getValue()) + 1)
+            );
+        }
         c0.setSortable(false);
-        for (int i = 1; i < columns.size(); i++) {
+        for (int i = 0; i < columns.size(); i++) {
+            if("#row".equals(iTable.getProperties()[0])){
+                continue;
+            }
             TableColumn<T, S> c1 =  (TableColumn<T, S>)columns.get(i);
             c1.setCellValueFactory(
                     new PropertyValueFactory<>(iTable.getProperties()[i])
