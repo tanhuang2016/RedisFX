@@ -30,7 +30,7 @@ public abstract class BaseKeyPageController<P extends ITable> extends BaseKeyCon
 
     protected static final String SIZE = "Size:%s";
     protected static final String TOTAL = "Total:%d";
-    protected static final int ROWS_PER_PAGE = 5;
+    protected static final int ROWS_PER_PAGE = 520;
 
     @FXML
     public Label total;
