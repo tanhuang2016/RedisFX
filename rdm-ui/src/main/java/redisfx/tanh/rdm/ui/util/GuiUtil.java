@@ -417,12 +417,19 @@ public class GuiUtil {
 
     /**
      * 是否删除弹窗
+     * 是返回false  否返回true
      * 行数据删除
      * @return true是取消 false 确定
      */
     public static boolean alertRemoveRow() {
        return alertRemove("该行数据");
     }
+    /**
+     * 是否删除弹窗
+     * 是返回false  否返回true
+     * @param content 删除内容
+     * @return true是取消 false 确定
+     */
     public static boolean alertRemove(String content) {
         return !GuiUtil.alert(Alert.AlertType.CONFIRMATION, Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL).formatted(content));
     }

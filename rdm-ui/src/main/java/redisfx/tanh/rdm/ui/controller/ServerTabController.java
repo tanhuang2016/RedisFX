@@ -1388,7 +1388,7 @@ public class ServerTabController extends BaseClientController<MainController> {
                     return;
                 }
             }else {
-                if(!GuiUtil.alertRemove(delKeys.getFirst())){
+                if(GuiUtil.alertRemove(delKeys.getFirst())){
                     return;
                 }
             }
