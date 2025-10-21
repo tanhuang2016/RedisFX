@@ -16,10 +16,8 @@ import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import redisfx.tanh.rdm.common.tuple.Tuple2;
-import redisfx.tanh.rdm.ui.Main;
 import redisfx.tanh.rdm.ui.common.Applications;
 import redisfx.tanh.rdm.ui.common.ConfigSettingsEnum;
-import redisfx.tanh.rdm.ui.common.Constant;
 import redisfx.tanh.rdm.ui.controller.base.BaseWindowController;
 import redisfx.tanh.rdm.ui.controller.setting.NewCustomConverterController;
 import redisfx.tanh.rdm.ui.entity.CustomConverterTable;
@@ -150,7 +148,7 @@ public final class CustomConverterPage extends AbstractPage {
     }
 
     private void delete(CustomConverterTable currentRowData) {
-        if (!GuiUtil.alert(Alert.AlertType.CONFIRMATION, Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL))) {
+        if (GuiUtil.alertRemoveCancel(currentRowData.getName())) {
             return;
         }
         CustomConverterSetting old = Applications.getConfigSettings(ConfigSettingsEnum.CONVERTER.name);

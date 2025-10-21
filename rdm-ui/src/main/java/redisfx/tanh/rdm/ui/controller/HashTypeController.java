@@ -255,7 +255,7 @@ public class HashTypeController extends BaseKeyPageController<HashTypeTable> imp
      * @param actionEvent 事件
      */
     public void delRow(ActionEvent actionEvent) {
-        if (GuiUtil.alertRemoveRow()) {
+        if (GuiUtil.alertRemoveRowCancel()) {
             return;
         }
         async(() -> {

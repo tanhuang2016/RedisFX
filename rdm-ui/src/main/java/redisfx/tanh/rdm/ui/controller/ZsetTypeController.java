@@ -239,7 +239,7 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
      * @param actionEvent 事件
      */
     public void delRow(ActionEvent actionEvent) {
-        if (GuiUtil.alertRemoveRow()) {
+        if (GuiUtil.alertRemoveRowCancel()) {
             return;
         }
         async(() -> {

@@ -40,7 +40,6 @@ import redisfx.tanh.rdm.redis.client.RedisClient;
 import redisfx.tanh.rdm.redis.client.RedisKeyScanner;
 import redisfx.tanh.rdm.ui.Main;
 import redisfx.tanh.rdm.ui.common.*;
-import redisfx.tanh.rdm.ui.common.*;
 import redisfx.tanh.rdm.ui.controller.base.BaseClientController;
 import redisfx.tanh.rdm.ui.entity.DBNode;
 import redisfx.tanh.rdm.ui.entity.KeyTreeNode;
@@ -1388,7 +1387,7 @@ public class ServerTabController extends BaseClientController<MainController> {
                     return;
                 }
             }else {
-                if(GuiUtil.alertRemove(delKeys.getFirst())){
+                if(GuiUtil.alertRemoveCancel(delKeys.getFirst())){
                     return;
                 }
             }

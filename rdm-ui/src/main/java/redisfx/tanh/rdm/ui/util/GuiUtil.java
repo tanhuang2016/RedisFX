@@ -198,7 +198,10 @@ public class GuiUtil {
      * @return 确定/取消
      */
     public static boolean alert(Alert.AlertType alertType, String message) {
-        Alert a=createAlert(alertType,message);
+        return alert(alertType, message,Main.instance.getController().currentStage);
+    }
+    public static boolean alert(Alert.AlertType alertType, String message,Window owner) {
+        Alert a=createAlert(alertType,message,owner);
         // 添加响应处理程序
         Optional<ButtonType> result = a.showAndWait();
         return result.isPresent() && result.get() == ButtonType.OK;
@@ -229,12 +232,13 @@ public class GuiUtil {
      * @param message 消息
      * @return  alert
      */
-    private static Alert createAlert(Alert.AlertType alertType, String message) {
+    private static Alert createAlert(Alert.AlertType alertType, String message,Window owner) {
         Alert a = new Alert(alertType);
         a.initOwner(Main.instance.getController().currentStage);
         Stage stage = (Stage) a.getDialogPane().getScene().getWindow();
         stage.getIcons().add(ICON_REDIS);
         a.setHeaderText(null);
+        a.initOwner(owner);
 //        a.setHeaderText(Main.RESOURCE_BUNDLE.getString("alert."+alertType.name().toLowerCase()));
         a.setContentText(message);
         // 获取内容标签并计算实际所需宽度
@@ -260,7 +264,9 @@ public class GuiUtil {
         }
         return a;
     }
-
+    private static Alert createAlert(Alert.AlertType alertType, String message) {
+        return createAlert(alertType,message,Main.instance.getController().currentStage);
+    }
 
 
     /**
@@ -421,8 +427,8 @@ public class GuiUtil {
      * 行数据删除
      * @return true是取消 false 确定
      */
-    public static boolean alertRemoveRow() {
-       return alertRemove("该行数据");
+    public static boolean alertRemoveRowCancel() {
+       return alertRemoveCancel("该行数据");
     }
     /**
      * 是否删除弹窗
@@ -430,7 +436,7 @@ public class GuiUtil {
      * @param content 删除内容
      * @return true是取消 false 确定
      */
-    public static boolean alertRemove(String content) {
+    public static boolean alertRemoveCancel(String content) {
         return !GuiUtil.alert(Alert.AlertType.CONFIRMATION, Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL).formatted(content));
     }
 
@@ -746,7 +752,7 @@ public class GuiUtil {
         }
         c0.setSortable(false);
         for (int i = 0; i < columns.size(); i++) {
-            if("#row".equals(iTable.getProperties()[0])){
+            if("#row".equals(iTable.getProperties()[i])){
                 continue;
             }
             TableColumn<T, S> c1 =  (TableColumn<T, S>)columns.get(i);

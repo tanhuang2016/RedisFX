@@ -375,7 +375,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
                 message = Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL_ALL);
             }
         }
-        if (GuiUtil.alert(Alert.AlertType.CONFIRMATION, message)) {
+        if (GuiUtil.alert(Alert.AlertType.CONFIRMATION, message,this.currentStage)) {
             Applications.deleteConnectionOrGroup(treeView.getSelectionModel().getSelectedItem());
             treeView.getSelectionModel().getSelectedItem().getParent().getChildren().remove(treeView.getSelectionModel().getSelectedItem());
             this.selectedNode = treeView.getRoot().getValue();

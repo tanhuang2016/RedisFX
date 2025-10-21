@@ -22,8 +22,6 @@ import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import redisfx.tanh.rdm.common.pool.ThreadPool;
 import redisfx.tanh.rdm.common.tuple.Tuple2;
-import redisfx.tanh.rdm.ui.Main;
-import redisfx.tanh.rdm.ui.common.Constant;
 import redisfx.tanh.rdm.ui.common.RedisDataTypeEnum;
 import redisfx.tanh.rdm.ui.controller.base.BaseClientController;
 import redisfx.tanh.rdm.ui.controller.base.BaseKeyController;
@@ -248,7 +246,7 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
      */
     @FXML
     public void delete(ActionEvent actionEvent) {
-        if (GuiUtil.alertRemove(parameter.get().getKey())) {
+        if (GuiUtil.alertRemoveCancel(parameter.get().getKey())) {
             return;
         }
         exeRedis(j -> j.del(parameter.get().getKey()));
