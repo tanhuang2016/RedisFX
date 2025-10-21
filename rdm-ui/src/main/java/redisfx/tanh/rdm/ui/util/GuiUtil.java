@@ -421,7 +421,10 @@ public class GuiUtil {
      * @return true是取消 false 确定
      */
     public static boolean alertRemoveRow() {
-       return !GuiUtil.alert(Alert.AlertType.CONFIRMATION, Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL).formatted("该行数据"));
+       return alertRemove("该行数据");
+    }
+    public static boolean alertRemove(String content) {
+        return !GuiUtil.alert(Alert.AlertType.CONFIRMATION, Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL).formatted(content));
     }
 
     /**

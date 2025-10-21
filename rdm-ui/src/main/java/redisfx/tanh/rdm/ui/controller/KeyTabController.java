@@ -248,7 +248,7 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
      */
     @FXML
     public void delete(ActionEvent actionEvent) {
-        if (GuiUtil.alert(Alert.AlertType.CONFIRMATION, Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL))) {
+        if (GuiUtil.alertRemove(parameter.get().getKey())) {
             exeRedis(j -> j.del(parameter.get().getKey()));
             if(super.parentController.delKey(parameter)){
                 super.parentController.removeTabByKeys(Collections.singletonList(parameter.get().getKey()));
