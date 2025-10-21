@@ -1,6 +1,8 @@
 package redisfx.tanh.rdm.ui.util;
 
+import atlantafx.base.controls.Message;
 import atlantafx.base.theme.Styles;
+import atlantafx.base.util.Animations;
 import com.github.weisj.jsvg.SVGDocument;
 import com.github.weisj.jsvg.parser.SVGLoader;
 import com.github.weisj.jsvg.view.ViewBox;
@@ -27,6 +29,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
@@ -38,6 +41,7 @@ import org.jetbrains.annotations.NotNull;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
+import org.kordamp.ikonli.material2.Material2OutlinedAL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redisfx.tanh.rdm.common.pool.ThreadPool;
@@ -291,6 +295,18 @@ public class GuiUtil {
     }
     private static Alert createAlert(Alert.AlertType alertType, String message) {
         return createAlert(alertType,message,null,Main.instance.getController().currentStage);
+    }
+
+
+    public void messageSuccess(AnchorPane ap, String message){
+        var msg = new Message(
+                null,
+                message,
+                new FontIcon(Material2OutlinedAL.CHECK_CIRCLE_OUTLINE)
+        );
+        msg.getStyleClass().add(Styles.SUCCESS);
+        msg.setOnClose(e -> Animations.slideOutRight(msg, Duration.millis(250)));
+
     }
 
 
