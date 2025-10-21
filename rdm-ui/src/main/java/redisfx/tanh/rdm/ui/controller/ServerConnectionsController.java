@@ -367,12 +367,12 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
         }
         String message ;
         if (this.selectedNode.isConnection()) {
-            message = Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL_CONNECTION);
+            message = Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL_CONNECTION).formatted(this.selectedNode.getName());
         } else {
             if (treeView.getSelectionModel().getSelectedItem().getChildren().isEmpty()) {
-                message = Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL_GROUP);
+                message = Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL_GROUP).formatted(this.selectedNode.getName());
             } else {
-                message = Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL_ALL);
+                message = Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL_ALL).formatted(this.selectedNode.getName());
             }
         }
         if (GuiUtil.alert(Alert.AlertType.CONFIRMATION, message,this.currentStage)) {
