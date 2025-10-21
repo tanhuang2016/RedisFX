@@ -428,7 +428,7 @@ public class GuiUtil {
      * @return true是取消 false 确定
      */
     public static boolean alertRemoveRowCancel() {
-       return alertRemoveCancel("该行数据");
+        return !GuiUtil.alert(Alert.AlertType.CONFIRMATION, Main.RESOURCE_BUNDLE.getString("alert.message.delRow"));
     }
     /**
      * 是否删除弹窗
