@@ -96,7 +96,7 @@ public class Main extends Application {
                 }
                 Throwable cause = getRootCause(throwable);
                 // 在此处您可以自定义处理异常的逻辑
-                GuiUtil.alert(Alert.AlertType.ERROR,cause.getMessage());
+                GuiUtil.alertError(cause.getMessage(),getExcMsg(cause));
             });
             stage.setTitle(Applications.TITLE);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/MainView.fxml"),RESOURCE_BUNDLE);
@@ -149,6 +149,19 @@ public class Main extends Application {
             return throwable;
         }
         return getRootCause(cause);
+    }
+
+    public static String getExcMsg(Throwable e) {
+        // 出错时返回异常信息，便于调试
+        StackTraceElement[] elements = e.getStackTrace();
+        StringBuilder msg = new StringBuilder().append(e.toString()).append("\r\n");
+        for (StackTraceElement element : elements) {
+            String err = "\t at " + element.getClassName() + "."
+                    + element.getMethodName() + "(line:"
+                    + element.getLineNumber() + ")\r\n";
+            msg.append( err);
+        }
+        return msg.toString();
     }
     @Override
     public void init() throws Exception {

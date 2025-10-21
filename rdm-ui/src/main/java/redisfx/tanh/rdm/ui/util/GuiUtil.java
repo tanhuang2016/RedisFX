@@ -19,6 +19,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -26,6 +27,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.*;
@@ -191,6 +194,9 @@ public class GuiUtil {
         return flg;
     }
 
+    public static boolean alertError(String message,String info) {
+        return alert(Alert.AlertType.ERROR, message,info,Main.instance.getController().currentStage);
+    }
     /**
      * 提示框
      * @param alertType 弹框类型
@@ -198,10 +204,13 @@ public class GuiUtil {
      * @return 确定/取消
      */
     public static boolean alert(Alert.AlertType alertType, String message) {
-        return alert(alertType, message,Main.instance.getController().currentStage);
+        return alert(alertType, message,null,Main.instance.getController().currentStage);
     }
     public static boolean alert(Alert.AlertType alertType, String message,Window owner) {
-        Alert a=createAlert(alertType,message,owner);
+     return alert(alertType, message,null,owner);
+    }
+    public static boolean alert(Alert.AlertType alertType, String message,String info,Window owner) {
+        Alert a=createAlert(alertType,message,info,owner);
         // 添加响应处理程序
         Optional<ButtonType> result = a.showAndWait();
         return result.isPresent() && result.get() == ButtonType.OK;
@@ -232,7 +241,7 @@ public class GuiUtil {
      * @param message 消息
      * @return  alert
      */
-    private static Alert createAlert(Alert.AlertType alertType, String message,Window owner) {
+    private static Alert createAlert(Alert.AlertType alertType, String message,String info,Window owner) {
         Alert a = new Alert(alertType);
         a.initOwner(Main.instance.getController().currentStage);
         Stage stage = (Stage) a.getDialogPane().getScene().getWindow();
@@ -262,10 +271,26 @@ public class GuiUtil {
         if(cancelButton!=null){
             cancelButton.setText(Main.RESOURCE_BUNDLE.getString(Constant.CANCEL));
         }
+
+        if(info!=null){
+            var textArea = new TextArea(info);
+            textArea.setEditable(false);
+            textArea.setWrapText(false);
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+            var content = new GridPane();
+            content.setMaxWidth(Double.MAX_VALUE);
+            content.add(new Label(""), 0, 0);
+            content.add(textArea, 0, 1);
+            a.getDialogPane().setExpandableContent(content);
+        }
         return a;
     }
     private static Alert createAlert(Alert.AlertType alertType, String message) {
-        return createAlert(alertType,message,Main.instance.getController().currentStage);
+        return createAlert(alertType,message,null,Main.instance.getController().currentStage);
     }
 
 

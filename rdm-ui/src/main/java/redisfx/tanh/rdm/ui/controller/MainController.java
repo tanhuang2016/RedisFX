@@ -789,6 +789,7 @@ public class MainController extends BaseWindowController<Main> {
      */
     @FXML
     public void about(ActionEvent actionEvent) {
+        int i=22/0;
         var alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(language("main.help.about"));
         alert.setHeaderText(null);
