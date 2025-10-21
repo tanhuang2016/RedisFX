@@ -200,7 +200,7 @@ public class SetTypeController extends BaseKeyPageController<SetTypeTable> imple
      */
     @FXML
     public void delRow(ActionEvent actionEvent) {
-        if (GuiUtil.alertRemove()) {
+        if (GuiUtil.alertRemoveRow()) {
             return;
         }
         async(() -> {

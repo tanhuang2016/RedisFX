@@ -26,7 +26,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.*;
@@ -235,8 +234,21 @@ public class GuiUtil {
         a.initOwner(Main.instance.getController().currentStage);
         Stage stage = (Stage) a.getDialogPane().getScene().getWindow();
         stage.getIcons().add(ICON_REDIS);
-        a.setHeaderText(Main.RESOURCE_BUNDLE.getString("alert."+alertType.name().toLowerCase()));
+        a.setHeaderText(null);
+//        a.setHeaderText(Main.RESOURCE_BUNDLE.getString("alert."+alertType.name().toLowerCase()));
         a.setContentText(message);
+        // 获取内容标签并计算实际所需宽度
+        DialogPane dialogPane = a.getDialogPane();
+        Label contentLabel = (Label) dialogPane.lookup(".content.label");
+        if (contentLabel != null) {
+            contentLabel.setWrapText(true);
+            // 计算文本所需宽度
+            double textWidth = GuiUtil.computeTextWidth(contentLabel.getFont(), a.getContentText(), 150);
+            // 设置合适的宽度 (图标64px + 间距 + 文本宽度 + 边距)
+            double desiredWidth = Math.max(150, Math.min(400, 64 + 5 + textWidth + 5));
+            dialogPane.setPrefWidth(desiredWidth);
+        }
+        a.getDialogPane().getScene().getWindow().sizeToScene();
         // 设置按钮文本
         Button okButton = (Button) a.getDialogPane().lookupButton(ButtonType.OK);
         if(okButton!=null){
@@ -405,10 +417,11 @@ public class GuiUtil {
 
     /**
      * 是否删除弹窗
+     * 行数据删除
      * @return true是取消 false 确定
      */
-    public static boolean alertRemove() {
-       return !GuiUtil.alert(Alert.AlertType.CONFIRMATION, Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL));
+    public static boolean alertRemoveRow() {
+       return !GuiUtil.alert(Alert.AlertType.CONFIRMATION, Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL).formatted("该行数据"));
     }
 
     /**

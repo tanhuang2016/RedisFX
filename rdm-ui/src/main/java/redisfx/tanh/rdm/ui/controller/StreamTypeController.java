@@ -220,7 +220,7 @@ public class StreamTypeController extends BaseKeyPageController<StreamTypeTable>
      * @param actionEvent 触发事件
      */
     public void delRow(ActionEvent actionEvent) {
-        if (GuiUtil.alertRemove()) {
+        if (GuiUtil.alertRemoveRow()) {
             return;
         }
         async(() -> {
