@@ -22,7 +22,7 @@ public class RedisConfig {
     /**
      * 端口
      */
-    private int port;
+    private Integer port;
     /**
      * 授权
      */
@@ -30,11 +30,11 @@ public class RedisConfig {
     /**
      * 是否集群模式
      */
-    private boolean cluster;
+    private Boolean cluster;
     /**
      * 是否哨兵模式
      */
-    private boolean sentinel;
+    private Boolean sentinel;
     /**
      * 主节点名称
      */
@@ -43,7 +43,7 @@ public class RedisConfig {
     /**
      * 是否ssl
      */
-    private boolean ssl;
+    private Boolean ssl;
     /**
      * ca证书
      */
@@ -64,7 +64,7 @@ public class RedisConfig {
     /**
      * 是否ssh
      */
-    private boolean ssh;
+    private Boolean ssh;
     /**
      * ssh主机
      */
@@ -72,7 +72,7 @@ public class RedisConfig {
     /**
      * ssh端口
      */
-    private int sshPort;
+    private Integer sshPort;
     /**
      * ssh用户名
      */
@@ -92,11 +92,11 @@ public class RedisConfig {
     /**
      * 连接超时
      */
-    private int connectionTimeout;
+    private Integer connectionTimeout;
     /**
      * 读超时
      */
-    private int soTimeout;
+    private Integer soTimeout;
     /**
      * key 分隔符
      */
@@ -104,7 +104,7 @@ public class RedisConfig {
     /**
      * 树结构显示
      */
-    private boolean treeShow;
+    private Boolean treeShow;
 
     public RedisConfig() {
     }
