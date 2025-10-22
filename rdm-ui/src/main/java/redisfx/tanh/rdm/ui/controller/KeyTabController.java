@@ -205,7 +205,6 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
         async(() -> {
             this.exeRedis(j -> j.rename(this.getParameter().getKey(), this.key.getText()));
             this.getParameter().setKey(this.key.getText());
-            Platform.runLater(() -> GuiUtil.alert(Alert.AlertType.INFORMATION, language(ALERT_MESSAGE_RENAME_SUCCESS)));
             Platform.runLater(() -> GuiUtil.messageSuccess(language(ALERT_MESSAGE_RENAME_SUCCESS)));
         });
     }

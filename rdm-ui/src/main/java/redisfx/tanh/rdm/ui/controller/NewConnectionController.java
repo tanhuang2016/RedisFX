@@ -30,6 +30,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static redisfx.tanh.rdm.ui.common.Constant.ALERT_MESSAGE_CONNECT_SUCCESS;
+import static redisfx.tanh.rdm.ui.common.Constant.ALERT_MESSAGE_SET_SUCCESS;
 import static redisfx.tanh.rdm.ui.util.LanguageManager.language;
 
 /**
@@ -324,11 +325,11 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
             if (message.isSuccess()) {
                 testConnectButton.getStyleClass().add(Styles.SUCCESS);
                 testConnectButton.setGraphic(new FontIcon(Material2OutlinedAL.CHECK_CIRCLE_OUTLINE));
-                GuiUtil.alert(Alert.AlertType.INFORMATION, language(ALERT_MESSAGE_CONNECT_SUCCESS));
+                GuiUtil.messageSuccess(language(ALERT_MESSAGE_CONNECT_SUCCESS));
             } else {
                 testConnectButton.getStyleClass().add(Styles.DANGER);
                 testConnectButton.setGraphic(new FontIcon(Material2OutlinedAL.ERROR_OUTLINE));
-                GuiUtil.alert(Alert.AlertType.WARNING, message.getMessage());
+                GuiUtil.messageError(message.getMessage());
             }
 
         }catch (Exception e){
