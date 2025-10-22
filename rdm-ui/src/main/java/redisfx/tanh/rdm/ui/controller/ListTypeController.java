@@ -188,7 +188,7 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
                 this.list.set(i, lastSelect);
                 tableView.refresh();
                 byteArrayController.setByteArray(byteArray);
-                GuiUtil.alert(Alert.AlertType.INFORMATION, language(ALERT_MESSAGE_SAVE_SUCCESS));
+                GuiUtil.messageSaveSuccess();
             });
         });
     }

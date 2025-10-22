@@ -32,16 +32,19 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.*;
 import javafx.stage.Window;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
+import org.kordamp.ikonli.Ikon;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import org.kordamp.ikonli.material2.Material2OutlinedAL;
+import org.kordamp.ikonli.material2.Material2OutlinedMZ;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redisfx.tanh.rdm.common.pool.ThreadPool;
@@ -68,7 +71,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
+import static redisfx.tanh.rdm.ui.common.Constant.ALERT_MESSAGE_SAVE_SUCCESS;
 import static redisfx.tanh.rdm.ui.util.LanguageManager.language;
 
 /**
@@ -298,15 +304,66 @@ public class GuiUtil {
     }
 
 
-    public void messageSuccess(AnchorPane ap, String message){
-        var msg = new Message(
+    /**
+     * 保存成功的提示
+     */
+    public static void messageSaveSuccess() {
+        messageSuccess(Main.instance.getController().center, language(ALERT_MESSAGE_SAVE_SUCCESS), 2);
+    }
+    public static void messageSuccess(AnchorPane ap, String message,int delay){
+        message(Styles.SUCCESS,ap,message,delay);
+    }
+    public static void messageError(AnchorPane ap, String message,int delay){
+        message(Styles.DANGER,ap,message,delay);
+    }
+    public static void messageRegular(AnchorPane ap, String message,int delay){
+        message(null,ap,message,delay);
+    }
+
+    private static void message(String typeClass,AnchorPane ap, String message,int delay){
+        var msg = getMessage(typeClass, message);
+        AnchorPane.setRightAnchor(msg,30d);
+        AnchorPane.setTopAnchor(msg,30d);
+        msg.setMinWidth(Region.USE_PREF_SIZE);
+        msg.setMinHeight(Region.USE_PREF_SIZE);
+        msg.setStyle("-fx-wrap-text: true;");
+        if(typeClass!=null){
+            msg.getStyleClass().add(typeClass);
+        }
+        msg.setOnClose(e -> {
+            var out = Animations.slideOutRight(msg, Duration.millis(250));
+            out.setOnFinished(f -> ap.getChildren().remove(msg));
+            out.playFromStart();
+        });
+        var in = Animations.slideInDown(msg, Duration.millis(250));
+        if (!ap.getChildren().contains(msg)) {
+            //先删掉多余的
+            ap.getChildren().removeIf(child -> child instanceof Message);
+            ap.getChildren().add(msg);
+        }
+        in.playFromStart();
+        //延迟关闭
+        if(delay>0){
+            CompletableFuture.delayedExecutor(delay, TimeUnit.SECONDS).execute(() -> {
+                Platform.runLater(() -> msg.getOnClose().handle(null));
+            });
+        }
+
+    }
+
+    private static @NotNull Message getMessage(String typeClass, String message) {
+        Ikon iconCode = switch (typeClass) {
+            case Styles.SUCCESS -> Material2OutlinedAL.CHECK_CIRCLE_OUTLINE;
+            case Styles.DANGER -> Material2OutlinedAL.ERROR_OUTLINE;
+            case Styles.ACCENT -> Material2OutlinedAL.HELP_OUTLINE;
+            case Styles.WARNING -> Material2OutlinedMZ.OUTLINED_FLAG;
+            default -> Material2OutlinedAL.CHAT_BUBBLE_OUTLINE;
+        };
+        return new Message(
                 null,
                 message,
-                new FontIcon(Material2OutlinedAL.CHECK_CIRCLE_OUTLINE)
+                new FontIcon(iconCode)
         );
-        msg.getStyleClass().add(Styles.SUCCESS);
-        msg.setOnClose(e -> Animations.slideOutRight(msg, Duration.millis(250)));
-
     }
 
 

@@ -192,7 +192,7 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
                 this.list.set(i, lastSelect);
                 tableView.refresh();
                 byteArrayController.setByteArray(value);
-                GuiUtil.alert(Alert.AlertType.INFORMATION, language(ALERT_MESSAGE_SAVE_SUCCESS));
+                GuiUtil.messageSaveSuccess();
             });
         });
     }

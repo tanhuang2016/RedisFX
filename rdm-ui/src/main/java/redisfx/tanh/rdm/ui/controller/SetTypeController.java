@@ -183,7 +183,7 @@ public class SetTypeController extends BaseKeyPageController<SetTypeTable> imple
                 this.list.set(i,lastSelect);
                 tableView.refresh();
                 byteArrayController.setByteArray(byteArray);
-                GuiUtil.alert(Alert.AlertType.INFORMATION, language(ALERT_MESSAGE_SAVE_SUCCESS));
+                GuiUtil.messageSaveSuccess();
             });
         });
     }

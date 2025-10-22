@@ -61,7 +61,7 @@ public class JsonTypeController extends BaseKeyController {
             exeRedis(j -> j.jsonSet(this.getParameter().getKey(), new String(byteArray)));
             Platform.runLater(() -> {
                 byteArrayController.setByteArray(byteArray);
-                GuiUtil.alert(Alert.AlertType.INFORMATION, language(ALERT_MESSAGE_SAVE_SUCCESS));
+                GuiUtil.messageSaveSuccess();
             });
         });
     }

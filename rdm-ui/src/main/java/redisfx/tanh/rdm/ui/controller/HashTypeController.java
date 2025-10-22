@@ -201,7 +201,7 @@ public class HashTypeController extends BaseKeyPageController<HashTypeTable> imp
                 tableView.refresh();
                 keyByteArrayController.setByteArray(key);
                 byteArrayController.setByteArray(value);
-                GuiUtil.alert(Alert.AlertType.INFORMATION, language(ALERT_MESSAGE_SAVE_SUCCESS));
+                GuiUtil.messageSaveSuccess();
             });
         });
     }
