@@ -188,7 +188,7 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
                 this.list.set(i, lastSelect);
                 tableView.refresh();
                 byteArrayController.setByteArray(byteArray);
-                GuiUtil.alert(Alert.AlertType.INFORMATION, language(ALERT_MESSAGE_SAVE_SUCCESS));
+                GuiUtil.messageSaveSuccess();
             });
         });
     }
@@ -242,6 +242,7 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
                     list.add(index, new ListTypeTable(byteArray));
                     find(null);
                     stage.close();
+                    GuiUtil.messageAddSuccess();
                 });
             });
         });
@@ -268,7 +269,7 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
     public void delHead(ActionEvent actionEvent) {
         this.del.setOnAction(this::delHead);
         this.del.setText(this.delHead.getText());
-        if (GuiUtil.alertRemove()) {
+        if (GuiUtil.alertRemoveRowCancel()) {
             return;
         }
         async(() -> {
@@ -288,7 +289,7 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
     public void delTail(ActionEvent actionEvent) {
         this.del.setOnAction(this::delTail);
         this.del.setText(this.delTail.getText());
-        if (GuiUtil.alertRemove()) {
+        if (GuiUtil.alertRemoveRowCancel()) {
             return;
         }
         async(() -> {
@@ -309,7 +310,7 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
     public void delRow(ActionEvent actionEvent) {
         this.del.setOnAction(this::delRow);
         this.del.setText(this.delRow.getText());
-        if (GuiUtil.alertRemove()) {
+        if (GuiUtil.alertRemoveRowCancel()) {
             return;
         }
         async(() -> {

@@ -6,7 +6,7 @@ package redisfx.tanh.rdm.ui.entity;
  * @version 2.2.0
  * @since 2025/8/9 21:35
  */
-public class SubscribeTable implements ITable {
+public class SubscribeTable extends AbstractRowTable implements ITable {
 
     private String time;
     private String channel;
@@ -18,7 +18,7 @@ public class SubscribeTable implements ITable {
     // 获取所有属性名称
     @Override
     public  String[] getProperties() {
-        return new String[]{"#row", "time","channel","message"};
+        return new String[]{"row", "time","channel","message"};
     }
 
 

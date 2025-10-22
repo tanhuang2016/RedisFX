@@ -22,8 +22,6 @@ import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import redisfx.tanh.rdm.common.pool.ThreadPool;
 import redisfx.tanh.rdm.common.tuple.Tuple2;
-import redisfx.tanh.rdm.ui.Main;
-import redisfx.tanh.rdm.ui.common.Constant;
 import redisfx.tanh.rdm.ui.common.RedisDataTypeEnum;
 import redisfx.tanh.rdm.ui.controller.base.BaseClientController;
 import redisfx.tanh.rdm.ui.controller.base.BaseKeyController;
@@ -207,7 +205,7 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
         async(() -> {
             this.exeRedis(j -> j.rename(this.getParameter().getKey(), this.key.getText()));
             this.getParameter().setKey(this.key.getText());
-            Platform.runLater(() -> GuiUtil.alert(Alert.AlertType.INFORMATION, language(ALERT_MESSAGE_RENAME_SUCCESS)));
+            Platform.runLater(() -> GuiUtil.messageSuccess(language(ALERT_MESSAGE_RENAME_SUCCESS)));
         });
     }
 
@@ -229,7 +227,7 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
             if (GuiUtil.alert(Alert.AlertType.CONFIRMATION, language(ALERT_MESSAGE_SET_TTL))) {
                 async(()->{
                     this.exeRedis(j -> j.persist(this.getParameter().getKey()));
-                    Platform.runLater(()-> GuiUtil.alert(Alert.AlertType.INFORMATION,language(ALERT_MESSAGE_SET_SUCCESS)));
+                    Platform.runLater(()-> GuiUtil.messageSuccess(language(ALERT_MESSAGE_SET_SUCCESS)));
                 });
             }
             return;
@@ -237,7 +235,7 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
 
         async(()->{
             this.exeRedis(j -> j.expire(this.getParameter().getKey(),ttl));
-            Platform.runLater(()-> GuiUtil.alert(Alert.AlertType.INFORMATION,language(ALERT_MESSAGE_SET_SUCCESS)));
+            Platform.runLater(()-> GuiUtil.messageSuccess(language(ALERT_MESSAGE_SET_SUCCESS)));
         });
     }
 
@@ -248,11 +246,13 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
      */
     @FXML
     public void delete(ActionEvent actionEvent) {
-        if (GuiUtil.alert(Alert.AlertType.CONFIRMATION, Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL))) {
-            exeRedis(j -> j.del(parameter.get().getKey()));
-            if(super.parentController.delKey(parameter)){
-                super.parentController.removeTabByKeys(Collections.singletonList(parameter.get().getKey()));
-            }
+        if (GuiUtil.alertRemoveCancel(parameter.get().getKey())) {
+            return;
+        }
+        exeRedis(j -> j.del(parameter.get().getKey()));
+        if(super.parentController.delKey(parameter)){
+            super.parentController.removeTabByKeys(Collections.singletonList(parameter.get().getKey()));
+            GuiUtil.messageDeleteSuccess();
         }
     }
 

@@ -183,7 +183,7 @@ public class SetTypeController extends BaseKeyPageController<SetTypeTable> imple
                 this.list.set(i,lastSelect);
                 tableView.refresh();
                 byteArrayController.setByteArray(byteArray);
-                GuiUtil.alert(Alert.AlertType.INFORMATION, language(ALERT_MESSAGE_SAVE_SUCCESS));
+                GuiUtil.messageSaveSuccess();
             });
         });
     }
@@ -200,7 +200,7 @@ public class SetTypeController extends BaseKeyPageController<SetTypeTable> imple
      */
     @FXML
     public void delRow(ActionEvent actionEvent) {
-        if (GuiUtil.alertRemove()) {
+        if (GuiUtil.alertRemoveRowCancel()) {
             return;
         }
         async(() -> {
@@ -228,6 +228,7 @@ public class SetTypeController extends BaseKeyPageController<SetTypeTable> imple
                     list.add(new SetTypeTable(byteArray));
                     find(null);
                     stage.close();
+                    GuiUtil.messageAddSuccess();
                 });
             });
         });

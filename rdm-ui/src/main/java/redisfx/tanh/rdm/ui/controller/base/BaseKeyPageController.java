@@ -13,6 +13,7 @@ import javafx.scene.control.TableView;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import redisfx.tanh.rdm.common.util.DataUtil;
+import redisfx.tanh.rdm.ui.entity.AbstractRowTable;
 import redisfx.tanh.rdm.ui.entity.ITable;
 import java.util.List;
 import java.util.function.Predicate;
@@ -29,7 +30,7 @@ public abstract class BaseKeyPageController<P extends ITable> extends BaseKeyCon
 
     protected static final String SIZE = "Size:%s";
     protected static final String TOTAL = "Total:%d";
-    protected static final int ROWS_PER_PAGE = 32;
+    protected static final int ROWS_PER_PAGE = 520;
 
     @FXML
     public Label total;
@@ -109,13 +110,26 @@ public abstract class BaseKeyPageController<P extends ITable> extends BaseKeyCon
      */
     protected void setCurrentPageIndex(int pageIndex) {
         if (pageIndex < pagination.getPageCount() - 1) {
-            List<P> pageList = findList.subList(pageIndex * ROWS_PER_PAGE, (pageIndex + 1) * ROWS_PER_PAGE + 1);
+            List<P> pageList = findList.subList(pageIndex * ROWS_PER_PAGE, (pageIndex + 1) * ROWS_PER_PAGE );
+            changeRowNum(pageList,pageIndex);
             tableView.setItems(FXCollections.observableArrayList(pageList));
         } else {
             List<P> pageList = findList.subList(pageIndex * ROWS_PER_PAGE, findList.size());
+            changeRowNum(pageList,pageIndex);
             tableView.setItems(FXCollections.observableArrayList(pageList));
         }
         tableView.refresh();
+    }
+
+    private void changeRowNum(List<P> pageList,int pageIndex) {
+        int n=pageIndex * ROWS_PER_PAGE;
+        for (int i = 0; i < pageList.size(); i++) {
+            if(pageList.get(i) instanceof AbstractRowTable art){
+                art.setRow(n+i+1);
+            }else {
+                return;
+            }
+        }
     }
 
     /**

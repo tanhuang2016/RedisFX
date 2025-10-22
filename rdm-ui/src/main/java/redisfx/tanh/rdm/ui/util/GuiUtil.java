@@ -1,6 +1,8 @@
 package redisfx.tanh.rdm.ui.util;
 
+import atlantafx.base.controls.Message;
 import atlantafx.base.theme.Styles;
+import atlantafx.base.util.Animations;
 import com.github.weisj.jsvg.SVGDocument;
 import com.github.weisj.jsvg.parser.SVGLoader;
 import com.github.weisj.jsvg.view.ViewBox;
@@ -19,6 +21,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -26,16 +29,22 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.MouseButton;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.*;
 import javafx.stage.Window;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
+import org.kordamp.ikonli.Ikon;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
+import org.kordamp.ikonli.material2.Material2OutlinedAL;
+import org.kordamp.ikonli.material2.Material2OutlinedMZ;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redisfx.tanh.rdm.common.pool.ThreadPool;
@@ -62,7 +71,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
+import static redisfx.tanh.rdm.ui.common.Constant.ALERT_MESSAGE_SAVE_SUCCESS;
 import static redisfx.tanh.rdm.ui.util.LanguageManager.language;
 
 /**
@@ -192,6 +204,9 @@ public class GuiUtil {
         return flg;
     }
 
+    public static boolean alertError(String message,String info) {
+        return alert(Alert.AlertType.ERROR, message,info,Main.instance.getController().currentStage);
+    }
     /**
      * 提示框
      * @param alertType 弹框类型
@@ -199,7 +214,13 @@ public class GuiUtil {
      * @return 确定/取消
      */
     public static boolean alert(Alert.AlertType alertType, String message) {
-        Alert a=createAlert(alertType,message);
+        return alert(alertType, message,null,Main.instance.getController().currentStage);
+    }
+    public static boolean alert(Alert.AlertType alertType, String message,Window owner) {
+     return alert(alertType, message,null,owner);
+    }
+    public static boolean alert(Alert.AlertType alertType, String message,String info,Window owner) {
+        Alert a=createAlert(alertType,message,info,owner);
         // 添加响应处理程序
         Optional<ButtonType> result = a.showAndWait();
         return result.isPresent() && result.get() == ButtonType.OK;
@@ -230,13 +251,27 @@ public class GuiUtil {
      * @param message 消息
      * @return  alert
      */
-    private static Alert createAlert(Alert.AlertType alertType, String message) {
+    private static Alert createAlert(Alert.AlertType alertType, String message,String info,Window owner) {
         Alert a = new Alert(alertType);
         a.initOwner(Main.instance.getController().currentStage);
         Stage stage = (Stage) a.getDialogPane().getScene().getWindow();
         stage.getIcons().add(ICON_REDIS);
-        a.setHeaderText(Main.RESOURCE_BUNDLE.getString("alert."+alertType.name().toLowerCase()));
+        a.setHeaderText(null);
+        a.initOwner(owner);
+//        a.setHeaderText(Main.RESOURCE_BUNDLE.getString("alert."+alertType.name().toLowerCase()));
         a.setContentText(message);
+        // 获取内容标签并计算实际所需宽度
+        DialogPane dialogPane = a.getDialogPane();
+        Label contentLabel = (Label) dialogPane.lookup(".content.label");
+        if (contentLabel != null) {
+            contentLabel.setWrapText(true);
+            // 计算文本所需宽度
+            double textWidth = GuiUtil.computeTextWidth(contentLabel.getFont(), a.getContentText(), 150);
+            // 设置合适的宽度 (图标64px + 间距 + 文本宽度 + 边距)
+            double desiredWidth = Math.max(150, Math.min(400, 64 + 5 + textWidth + 5));
+            dialogPane.setPrefWidth(desiredWidth);
+        }
+        a.getDialogPane().getScene().getWindow().sizeToScene();
         // 设置按钮文本
         Button okButton = (Button) a.getDialogPane().lookupButton(ButtonType.OK);
         if(okButton!=null){
@@ -246,9 +281,115 @@ public class GuiUtil {
         if(cancelButton!=null){
             cancelButton.setText(Main.RESOURCE_BUNDLE.getString(Constant.CANCEL));
         }
+
+        if(info!=null){
+            var textArea = new TextArea(info);
+            textArea.setEditable(false);
+            textArea.setWrapText(false);
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+            var content = new GridPane();
+            content.setMaxWidth(Double.MAX_VALUE);
+            content.add(new Label(""), 0, 0);
+            content.add(textArea, 0, 1);
+            a.getDialogPane().setExpandableContent(content);
+        }
         return a;
     }
+    private static Alert createAlert(Alert.AlertType alertType, String message) {
+        return createAlert(alertType,message,null,Main.instance.getController().currentStage);
+    }
 
+
+    /**
+     * 添加成功的提示
+     */
+    public static void messageAddSuccess() {
+        messageSuccess( language("alert.message.add.success"));
+    }
+
+    /**
+     * 删除成功的提示
+     */
+    public static void messageDeleteSuccess() {
+        messageSuccess( language("alert.message.delete.success"));
+    }
+    public static void messageOperationSuccess() {
+        messageSuccess( language("alert.message.operation.success"));
+    }
+
+    public static void messageImportSuccess() {
+        messageSuccess( language("alert.message.import.success"));
+    }
+    public static void messageExportSuccess() {
+        messageSuccess( language("alert.message.export.success"));
+    }
+
+    /**
+     * 保存成功的提示
+     */
+    public static void messageSaveSuccess() {
+        messageSuccess( language(ALERT_MESSAGE_SAVE_SUCCESS));
+    }
+    public static void messageSuccess( String message){
+        message(Styles.SUCCESS,message,1);
+    }
+    public static void messageError( String message){
+        message(Styles.DANGER,message,1);
+    }
+    public static void messageRegular( String message){
+        message(null,message,1);
+    }
+
+    private static void message(String typeClass, String message,int delay){
+        AnchorPane ap = Main.instance.getController().center;
+        var msg = getMessage(typeClass, message);
+        AnchorPane.setRightAnchor(msg,30d);
+        AnchorPane.setTopAnchor(msg,30d);
+        msg.setMinWidth(Region.USE_PREF_SIZE);
+        msg.setMinHeight(Region.USE_PREF_SIZE);
+        msg.setStyle("-fx-wrap-text: true;");
+        if(typeClass!=null){
+            msg.getStyleClass().add(typeClass);
+        }
+        msg.setOnClose(e -> {
+            var out = Animations.slideOutRight(msg, Duration.millis(250));
+            out.setOnFinished(f -> ap.getChildren().remove(msg));
+            out.playFromStart();
+        });
+        var in = Animations.slideInDown(msg, Duration.millis(250));
+        if (!ap.getChildren().contains(msg)) {
+            //先删掉多余的
+            ap.getChildren().removeIf(child -> child instanceof Message);
+            ap.getChildren().add(msg);
+        }
+        in.playFromStart();
+        //延迟关闭
+        if(delay>0){
+            CompletableFuture.delayedExecutor(delay, TimeUnit.SECONDS).execute(() -> {
+                Platform.runLater(() -> msg.getOnClose().handle(null));
+            });
+        }
+
+    }
+
+    private static @NotNull Message getMessage(String typeClass, String message) {
+        Ikon iconCode = switch (typeClass) {
+            case Styles.SUCCESS -> Material2OutlinedAL.CHECK_CIRCLE_OUTLINE;
+            case Styles.DANGER -> Material2OutlinedAL.ERROR_OUTLINE;
+            case Styles.ACCENT -> Material2OutlinedAL.HELP_OUTLINE;
+            case Styles.WARNING -> Material2OutlinedMZ.OUTLINED_FLAG;
+            default -> Material2OutlinedAL.CHAT_BUBBLE_OUTLINE;
+        };
+        return new Message(
+                null,
+                message,
+                new FontIcon(iconCode)
+        );
+    }
 
 
     /**
@@ -405,10 +546,21 @@ public class GuiUtil {
 
     /**
      * 是否删除弹窗
+     * 是返回false  否返回true
+     * 行数据删除
      * @return true是取消 false 确定
      */
-    public static boolean alertRemove() {
-       return !GuiUtil.alert(Alert.AlertType.CONFIRMATION, Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL));
+    public static boolean alertRemoveRowCancel() {
+        return !GuiUtil.alert(Alert.AlertType.CONFIRMATION, Main.RESOURCE_BUNDLE.getString("alert.message.delRow"));
+    }
+    /**
+     * 是否删除弹窗
+     * 是返回false  否返回true
+     * @param content 删除内容
+     * @return true是取消 false 确定
+     */
+    public static boolean alertRemoveCancel(String content) {
+        return !GuiUtil.alert(Alert.AlertType.CONFIRMATION, Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL).formatted(content));
     }
 
     /**
@@ -426,6 +578,7 @@ public class GuiUtil {
                 tableView.getItems().remove(i);
                 tableView.refresh();
             }
+            GuiUtil.messageDeleteSuccess();
         });
 
     }
@@ -716,11 +869,16 @@ public class GuiUtil {
     public static <T extends ITable,S>void initSimpleTableView(TableView<T> tableView, T iTable) {
         ObservableList<TableColumn<T, ?>> columns = tableView.getColumns();
         TableColumn<T, Integer> c0 = (TableColumn<T,Integer>)columns.getFirst();
-        c0.setCellValueFactory(
-                param -> new ReadOnlyObjectWrapper<>(tableView.getItems().indexOf(param.getValue()) + 1)
-        );
+        if("#row".equals(iTable.getProperties()[0])){
+            c0.setCellValueFactory(
+                    param -> new ReadOnlyObjectWrapper<>(tableView.getItems().indexOf(param.getValue()) + 1)
+            );
+        }
         c0.setSortable(false);
-        for (int i = 1; i < columns.size(); i++) {
+        for (int i = 0; i < columns.size(); i++) {
+            if("#row".equals(iTable.getProperties()[i])){
+                continue;
+            }
             TableColumn<T, S> c1 =  (TableColumn<T, S>)columns.get(i);
             c1.setCellValueFactory(
                     new PropertyValueFactory<>(iTable.getProperties()[i])
@@ -891,6 +1049,7 @@ public static void adjustListViewHeight(ListView<?> listView, double maxHeight) 
     public static void setTab(Tab tab, TabPane dbTabPane, Tuple2<? extends Node,? extends BaseController> tuple2) {
         // 监听Tab被关闭事件,但是remove是无法监听的
         tab.setOnClosed(event2 -> ThreadPool.getInstance().execute(()->tuple2.t2().close()));
+        tab.setTooltip(GuiUtil.textTooltip(tab.getText()));
         GuiUtil.newTabContextMenu(tab);
         tab.setContent(tuple2.t1());
         dbTabPane.getTabs().add(tab);
@@ -910,8 +1069,6 @@ public static void adjustListViewHeight(ListView<?> listView, double maxHeight) 
         textNode.setWrappingWidth(maxWidth);
         return textNode.getLayoutBounds().getWidth();
     }
-
-
 
 
     /**

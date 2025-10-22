@@ -324,6 +324,7 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
     public void copy(ActionEvent actionEvent) {
         if(this.viewerNode instanceof CharacterEncoding ce){
             GuiUtil.copyString(ce.text());
+            GuiUtil.messageSuccess(language("alert.message.copy.success"));
         }
     }
 
@@ -471,6 +472,7 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
         lastFile=file.getParentFile();
         byte[] bytes = FileUtil.file2byte(file);
         this.viewerNode.set(bytes);
+        GuiUtil.messageImportSuccess();
     }
 
     /**
@@ -484,5 +486,6 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
             return;
         }
         FileUtil.byteWrite2file(this.currentValue,file.getAbsolutePath());
+        GuiUtil.messageExportSuccess();
     }
 }

@@ -7,9 +7,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import org.kordamp.ikonli.material2.Material2MZ;
+import org.kordamp.ikonli.material2.Material2OutlinedAL;
 import redisfx.tanh.rdm.common.util.DataUtil;
 import redisfx.tanh.rdm.redis.Message;
 import redisfx.tanh.rdm.redis.RedisConfig;
@@ -28,6 +30,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static redisfx.tanh.rdm.ui.common.Constant.ALERT_MESSAGE_CONNECT_SUCCESS;
+import static redisfx.tanh.rdm.ui.common.Constant.ALERT_MESSAGE_SET_SUCCESS;
 import static redisfx.tanh.rdm.ui.util.LanguageManager.language;
 
 /**
@@ -318,15 +321,20 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
 
         try(RedisContext redisContext = RedisFactorySingleton.getInstance().createRedisContext(redisConfig)) {
             Message message = redisContext.useRedisClient().testConnect();
+            testConnectButton.setContentDisplay(ContentDisplay.RIGHT);
             if (message.isSuccess()) {
                 testConnectButton.getStyleClass().add(Styles.SUCCESS);
-                GuiUtil.alert(Alert.AlertType.INFORMATION, language(ALERT_MESSAGE_CONNECT_SUCCESS));
+                testConnectButton.setGraphic(new FontIcon(Material2OutlinedAL.CHECK_CIRCLE_OUTLINE));
+                GuiUtil.messageSuccess(language(ALERT_MESSAGE_CONNECT_SUCCESS));
             } else {
                 testConnectButton.getStyleClass().add(Styles.DANGER);
-                GuiUtil.alert(Alert.AlertType.WARNING, message.getMessage());
+                testConnectButton.setGraphic(new FontIcon(Material2OutlinedAL.ERROR_OUTLINE));
+                GuiUtil.messageError(message.getMessage());
             }
+
         }catch (Exception e){
             testConnectButton.getStyleClass().add(Styles.DANGER);
+            testConnectButton.setGraphic(new FontIcon(Material2OutlinedAL.ERROR_OUTLINE));
             throw e;
         }
 

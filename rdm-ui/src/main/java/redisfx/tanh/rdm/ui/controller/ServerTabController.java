@@ -40,7 +40,6 @@ import redisfx.tanh.rdm.redis.client.RedisClient;
 import redisfx.tanh.rdm.redis.client.RedisKeyScanner;
 import redisfx.tanh.rdm.ui.Main;
 import redisfx.tanh.rdm.ui.common.*;
-import redisfx.tanh.rdm.ui.common.*;
 import redisfx.tanh.rdm.ui.controller.base.BaseClientController;
 import redisfx.tanh.rdm.ui.entity.DBNode;
 import redisfx.tanh.rdm.ui.entity.KeyTreeNode;
@@ -282,6 +281,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     private void initTabPane() {
         KeyTabPaneSetting setting = Applications.getConfigSettings(ConfigSettingsEnum.KEY_TAB_PANE.name);
         this.dbTabPane.setSide(Side.valueOf(setting.getSide()));
+        this.dbTabPane.setTabMaxWidth(200);
     }
 
     /**
@@ -1387,7 +1387,7 @@ public class ServerTabController extends BaseClientController<MainController> {
                     return;
                 }
             }else {
-                if(!GuiUtil.alert(Alert.AlertType.CONFIRMATION, Main.RESOURCE_BUNDLE.getString(Constant.ALERT_MESSAGE_DEL))){
+                if(GuiUtil.alertRemoveCancel(delKeys.getFirst())){
                     return;
                 }
             }
@@ -1407,6 +1407,7 @@ public class ServerTabController extends BaseClientController<MainController> {
         async(()-> exeRedis(j -> j.del(delKeys.toArray(new String[0]))));
         //删除对应打开的tab
         removeTabByKeys(delKeys);
+        GuiUtil.messageDeleteSuccess();
     }
 
     /**
@@ -1478,7 +1479,10 @@ public class ServerTabController extends BaseClientController<MainController> {
         }
         async(()->{
             exeRedis(RedisClient::flushDB);
-            Platform.runLater(()-> treeView.getRoot().getChildren().clear());
+            Platform.runLater(()-> {
+                treeView.getRoot().getChildren().clear();
+                GuiUtil.messageOperationSuccess();
+            });
         });
     }
 
@@ -1783,7 +1787,7 @@ public class ServerTabController extends BaseClientController<MainController> {
             csvContent.append("\n");
         }
         FileUtil.byteWrite2file(csvContent.toString().getBytes(), file.getAbsolutePath());
-
+        GuiUtil.messageExportSuccess();
     }
 
     /**

@@ -5,7 +5,7 @@ package redisfx.tanh.rdm.ui.entity;
  * @version 1.0.0
  * @since 2023/8/3 22:35
  */
-public class SetTypeTable implements ITable{
+public class SetTypeTable extends AbstractRowTable implements ITable{
 
     private byte[] bytes;
     private String value;
@@ -19,7 +19,7 @@ public class SetTypeTable implements ITable{
     }
     @Override
     public  String[] getProperties() {
-        return new String[]{"#row", "value"};
+        return new String[]{"row", "value"};
     }
 
 

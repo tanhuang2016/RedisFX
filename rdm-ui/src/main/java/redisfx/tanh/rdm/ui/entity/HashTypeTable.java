@@ -7,7 +7,7 @@ import java.util.Arrays;
  * @version 1.0.0
  * @since 2023/8/3 22:35
  */
-public class HashTypeTable implements ITable{
+public class HashTypeTable extends AbstractRowTable implements ITable{
 
     private byte[] keyBytes;
     private String key;
@@ -27,7 +27,7 @@ public class HashTypeTable implements ITable{
     // 获取所有属性名称
     @Override
     public  String[] getProperties() {
-        return new String[]{"#row", "key","value"};
+        return new String[]{"row", "key","value"};
     }
 
     @Override

@@ -207,6 +207,7 @@ public class StreamTypeController extends BaseKeyPageController<StreamTypeTable>
                     list.add(new StreamTypeTable(idStr,new String(byteArray)));
                     find(null);
                     stage.close();
+                    GuiUtil.messageAddSuccess();
                 });
             });
         });
@@ -220,7 +221,7 @@ public class StreamTypeController extends BaseKeyPageController<StreamTypeTable>
      * @param actionEvent 触发事件
      */
     public void delRow(ActionEvent actionEvent) {
-        if (GuiUtil.alertRemove()) {
+        if (GuiUtil.alertRemoveRowCancel()) {
             return;
         }
         async(() -> {

@@ -232,6 +232,7 @@ public class MainController extends BaseWindowController<Main> {
     private void initTabPane() {
         ServerTabPaneSetting setting =Applications.getConfigSettings(ConfigSettingsEnum.SERVER_TAB_PANE.name);
         this.serverTabPane.setSide(Side.valueOf(setting.getSide()));
+        this.serverTabPane.setTabMaxWidth(200);
     }
 
     /**
@@ -788,6 +789,7 @@ public class MainController extends BaseWindowController<Main> {
      */
     @FXML
     public void about(ActionEvent actionEvent) {
+        int i=22/0;
         var alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(language("main.help.about"));
         alert.setHeaderText(null);
@@ -882,7 +884,7 @@ public class MainController extends BaseWindowController<Main> {
         String releaseVersion = properties.getProperty(Constant.APP_VERSION);
         String currentVersion = System.getProperty(Constant.APP_VERSION);
         //已经是最新了
-        if(currentVersion.equals(releaseVersion)){
+        if(comparisonVersion(currentVersion,releaseVersion)){
             msg.setMessage(language("main.help.update.new"));
             CompletableFuture.delayedExecutor(3, TimeUnit.SECONDS).execute(() -> {
                 Platform.runLater(() -> msg.getOnClose().handle(null));
@@ -892,6 +894,41 @@ public class MainController extends BaseWindowController<Main> {
         msg.setMessage(language("main.help.update.latest")+" v"+releaseVersion);
         var btn = getDownloadButton(msg);
         msg.setPrimaryActions(btn);
+    }
+
+    /**
+     * 比较版本 2.3.2 > 2.3.1.3
+     * @param currentVersion 当前版本
+     * @param releaseVersion 发布版本
+     * @return 是否是最新版本
+     */
+    private boolean comparisonVersion(String currentVersion, String releaseVersion) {
+        // 如果两个版本相同，则认为是最新版本
+        if (currentVersion.equals(releaseVersion)) {
+            return true;
+        }
+        // 按照 "." 分割版本号
+        String[] currentParts = currentVersion.split("\\.");
+        String[] releaseParts = releaseVersion.split("\\.");
+
+        // 比较每个部分的数字
+        int maxLength = Math.max(currentParts.length, releaseParts.length);
+
+        for (int i = 0; i < maxLength; i++) {
+            // 获取当前部分的数字，如果超出长度则默认为0
+            int currentNum = i < currentParts.length ? Integer.parseInt(currentParts[i]) : 0;
+            int releaseNum = i < releaseParts.length ? Integer.parseInt(releaseParts[i]) : 0;
+
+            // 如果当前版本号大于发布版本号，说明当前已是最新版本
+            if (currentNum > releaseNum) {
+                return true;
+            }
+            // 如果当前版本号小于发布版本号，说明有新版本
+            if (currentNum < releaseNum) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
