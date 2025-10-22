@@ -325,13 +325,13 @@ public class GuiUtil {
         messageSuccess( language(ALERT_MESSAGE_SAVE_SUCCESS));
     }
     public static void messageSuccess( String message){
-        message(Styles.SUCCESS,message,2);
+        message(Styles.SUCCESS,message,1);
     }
     public static void messageError( String message){
-        message(Styles.DANGER,message,2);
+        message(Styles.DANGER,message,1);
     }
     public static void messageRegular( String message){
-        message(null,message,2);
+        message(null,message,1);
     }
 
     private static void message(String typeClass, String message,int delay){
