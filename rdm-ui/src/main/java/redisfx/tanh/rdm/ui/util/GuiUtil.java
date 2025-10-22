@@ -308,19 +308,20 @@ public class GuiUtil {
      * 保存成功的提示
      */
     public static void messageSaveSuccess() {
-        messageSuccess(Main.instance.getController().center, language(ALERT_MESSAGE_SAVE_SUCCESS), 2);
+        messageSuccess( language(ALERT_MESSAGE_SAVE_SUCCESS));
     }
-    public static void messageSuccess(AnchorPane ap, String message,int delay){
-        message(Styles.SUCCESS,ap,message,delay);
+    public static void messageSuccess( String message){
+        message(Styles.SUCCESS,message,2);
     }
-    public static void messageError(AnchorPane ap, String message,int delay){
-        message(Styles.DANGER,ap,message,delay);
+    public static void messageError( String message){
+        message(Styles.DANGER,message,2);
     }
-    public static void messageRegular(AnchorPane ap, String message,int delay){
-        message(null,ap,message,delay);
+    public static void messageRegular( String message){
+        message(null,message,2);
     }
 
-    private static void message(String typeClass,AnchorPane ap, String message,int delay){
+    private static void message(String typeClass, String message,int delay){
+        AnchorPane ap = Main.instance.getController().center;
         var msg = getMessage(typeClass, message);
         AnchorPane.setRightAnchor(msg,30d);
         AnchorPane.setTopAnchor(msg,30d);
