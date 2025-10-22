@@ -1479,7 +1479,10 @@ public class ServerTabController extends BaseClientController<MainController> {
         }
         async(()->{
             exeRedis(RedisClient::flushDB);
-            Platform.runLater(()-> treeView.getRoot().getChildren().clear());
+            Platform.runLater(()-> {
+                treeView.getRoot().getChildren().clear();
+                GuiUtil.messageOperationSuccess();
+            });
         });
     }
 
@@ -1784,7 +1787,7 @@ public class ServerTabController extends BaseClientController<MainController> {
             csvContent.append("\n");
         }
         FileUtil.byteWrite2file(csvContent.toString().getBytes(), file.getAbsolutePath());
-
+        GuiUtil.messageExportSuccess();
     }
 
     /**

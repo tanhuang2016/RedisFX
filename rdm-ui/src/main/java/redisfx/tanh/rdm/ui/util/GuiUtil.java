@@ -317,6 +317,16 @@ public class GuiUtil {
     public static void messageDeleteSuccess() {
         messageSuccess( language("alert.message.delete.success"));
     }
+    public static void messageOperationSuccess() {
+        messageSuccess( language("alert.message.operation.success"));
+    }
+
+    public static void messageImportSuccess() {
+        messageSuccess( language("alert.message.import.success"));
+    }
+    public static void messageExportSuccess() {
+        messageSuccess( language("alert.message.export.success"));
+    }
 
     /**
      * 保存成功的提示
