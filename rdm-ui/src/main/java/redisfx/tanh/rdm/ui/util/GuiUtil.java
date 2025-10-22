@@ -305,6 +305,20 @@ public class GuiUtil {
 
 
     /**
+     * 添加成功的提示
+     */
+    public static void messageAddSuccess() {
+        messageSuccess( language("alert.message.add.success"));
+    }
+
+    /**
+     * 删除成功的提示
+     */
+    public static void messageDeleteSuccess() {
+        messageSuccess( language("alert.message.delete.success"));
+    }
+
+    /**
      * 保存成功的提示
      */
     public static void messageSaveSuccess() {
@@ -554,6 +568,7 @@ public class GuiUtil {
                 tableView.getItems().remove(i);
                 tableView.refresh();
             }
+            GuiUtil.messageDeleteSuccess();
         });
 
     }
@@ -1044,8 +1059,6 @@ public static void adjustListViewHeight(ListView<?> listView, double maxHeight) 
         textNode.setWrappingWidth(maxWidth);
         return textNode.getLayoutBounds().getWidth();
     }
-
-
 
 
     /**

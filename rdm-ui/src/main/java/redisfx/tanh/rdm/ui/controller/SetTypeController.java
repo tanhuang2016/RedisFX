@@ -228,6 +228,7 @@ public class SetTypeController extends BaseKeyPageController<SetTypeTable> imple
                     list.add(new SetTypeTable(byteArray));
                     find(null);
                     stage.close();
+                    GuiUtil.messageAddSuccess();
                 });
             });
         });

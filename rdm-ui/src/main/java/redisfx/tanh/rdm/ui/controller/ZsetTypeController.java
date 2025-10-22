@@ -228,6 +228,7 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
                     list.add(new ZsetTypeTable(v, byteArray));
                     find(null);
                     stage.close();
+                    GuiUtil.messageAddSuccess();
                 });
             });
         });

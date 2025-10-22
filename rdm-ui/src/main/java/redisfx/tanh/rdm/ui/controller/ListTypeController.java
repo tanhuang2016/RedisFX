@@ -242,6 +242,7 @@ public class ListTypeController extends BaseKeyPageController<ListTypeTable> imp
                     list.add(index, new ListTypeTable(byteArray));
                     find(null);
                     stage.close();
+                    GuiUtil.messageAddSuccess();
                 });
             });
         });

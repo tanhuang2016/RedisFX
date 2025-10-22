@@ -252,6 +252,7 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
         exeRedis(j -> j.del(parameter.get().getKey()));
         if(super.parentController.delKey(parameter)){
             super.parentController.removeTabByKeys(Collections.singletonList(parameter.get().getKey()));
+            GuiUtil.messageDeleteSuccess();
         }
     }
 

@@ -243,6 +243,7 @@ public class HashTypeController extends BaseKeyPageController<HashTypeTable> imp
                     }
                     find(null);
                     stage.close();
+                    GuiUtil.messageAddSuccess();
                 });
             });
         });

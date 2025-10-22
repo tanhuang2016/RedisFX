@@ -159,6 +159,7 @@ public final class CustomConverterPage extends AbstractPage {
         Applications.putConfigSettings(configSettings.getName(), configSettings);
         tableView.getItems().remove(currentRowData);
         ValueConverters.getInstance().reLoad();
+        GuiUtil.messageDeleteSuccess();
     }
 
 

@@ -324,6 +324,7 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
     public void copy(ActionEvent actionEvent) {
         if(this.viewerNode instanceof CharacterEncoding ce){
             GuiUtil.copyString(ce.text());
+            GuiUtil.messageSuccess(language("alert.message.copy.success"));
         }
     }
 

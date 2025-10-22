@@ -1407,6 +1407,7 @@ public class ServerTabController extends BaseClientController<MainController> {
         async(()-> exeRedis(j -> j.del(delKeys.toArray(new String[0]))));
         //删除对应打开的tab
         removeTabByKeys(delKeys);
+        GuiUtil.messageDeleteSuccess();
     }
 
     /**
