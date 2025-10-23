@@ -2,6 +2,7 @@ package redisfx.tanh.rdm.ui.controller;
 
 import atlantafx.base.theme.Styles;
 import atlantafx.base.theme.Tweaks;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -166,9 +167,9 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
         viewerMenu.getItems().addAll(viewerItems);
         // 添加编解码器菜单项
         RadioMenuItem defaultConverter = loadConverters();
-        // 设置默认选中项（可选）
-        viewerItems.getFirst().setSelected(true);
-        defaultConverter.setSelected(true);
+        // 设置默认选中项（可选）,去掉默认选中，避免有抖动的感觉Text——》JSON，明显能感觉到选项的变化
+//        viewerItems.getFirst().setSelected(true);
+//        defaultConverter.setSelected(true);
         updateTypeMenuButtonText(viewerGroup, converterGroup);
     }
 
@@ -417,7 +418,10 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
             optionMenu.getItems().clear();
             optionMenu.getItems().addAll(viewerNode.options());
         }
-        viewerNode.set(decode);
+        //延迟设置，数据加载之前就把加载类型先显示
+        Platform.runLater(() -> {
+            viewerNode.set(decode);
+        });
         Node content = viewerNode.view();
         valuePane.getChildren().clear();
         valuePane.getChildren().add(content);
