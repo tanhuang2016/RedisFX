@@ -99,7 +99,7 @@ public class Main extends Application {
                 GuiUtil.alertError(cause.getMessage(),getExcMsg(cause));
             });
             stage.setTitle(Applications.TITLE);
-            stage.getIcons().add(GuiUtil.ICON_REDIS);
+            stage.getIcons().setAll(GuiUtil.ICON_REDIS);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/MainView.fxml"),RESOURCE_BUNDLE);
             AnchorPane root = fxmlLoader.load();
             controller = fxmlLoader.getController();
