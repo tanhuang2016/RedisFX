@@ -20,13 +20,11 @@ import redisfx.tanh.rdm.ui.controller.MainController;
 import redisfx.tanh.rdm.ui.entity.config.LanguageSetting;
 import redisfx.tanh.rdm.ui.entity.config.ThemeSetting;
 import redisfx.tanh.rdm.ui.exceptions.GeneralException;
-import redisfx.tanh.rdm.ui.sampler.event.BrowseEvent;
-import redisfx.tanh.rdm.ui.sampler.event.DefaultEventBus;
-import redisfx.tanh.rdm.ui.sampler.event.Listener;
-import redisfx.tanh.rdm.ui.sampler.event.Save;
+import redisfx.tanh.rdm.ui.sampler.event.*;
 import redisfx.tanh.rdm.ui.sampler.layout.ApplicationWindow;
 import redisfx.tanh.rdm.ui.sampler.theme.SamplerTheme;
 import redisfx.tanh.rdm.ui.sampler.theme.ThemeManager;
+import redisfx.tanh.rdm.ui.util.DynamicCssManager;
 import redisfx.tanh.rdm.ui.util.GuiUtil;
 import redisfx.tanh.rdm.ui.util.LanguageManager;
 import java.io.IOException;
@@ -118,6 +116,8 @@ public class Main extends Application {
             stage.setHeight(initHeight=Math.min(root.getPrefHeight(), bounds.getHeight()));
             initTm(scene);
             DefaultEventBus.getInstance().subscribe(BrowseEvent .class, this::onBrowseEvent);
+            DefaultEventBus.getInstance().subscribe(ThemeEvent.class, e->scene.getRoot().setStyle(DynamicCssManager.styles()));
+            scene.getRoot().setStyle(DynamicCssManager.styles());
             //先默认打开
             controller.welcome(null);
             stage.show();
@@ -127,6 +127,7 @@ public class Main extends Application {
         }
 
     }
+
 
 
     /**

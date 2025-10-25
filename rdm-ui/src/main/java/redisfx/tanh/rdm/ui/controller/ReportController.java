@@ -688,7 +688,7 @@ public class ReportController extends BaseClientController<ServerTabController> 
         ObservableList<PieChart.Data> keysPieData = FXCollections.observableArrayList();
         List<Tuple2<String, String>> tagList=new ArrayList<>();
         keysData.forEach((type, count) -> {
-            Tuple2<String, String> keyTypeTag = GuiUtil.getKeyTypeNameTag(type);
+            Tuple2<String, String> keyTypeTag = GuiUtil.getKeyTypeNameColor(type);
             tagList.add(keyTypeTag);
             PieChart.Data pieData = new PieChart.Data(keyTypeTag.t1(), count);
             double percentage = sum > 0 ? (pieData.getPieValue() / sum) * 100 : 0;
