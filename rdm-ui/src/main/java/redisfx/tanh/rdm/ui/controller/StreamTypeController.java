@@ -17,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import redisfx.tanh.rdm.common.tuple.Tuple2;
+import redisfx.tanh.rdm.redis.exceptions.RedisException;
 import redisfx.tanh.rdm.ui.common.ValueTypeEnum;
 import redisfx.tanh.rdm.ui.controller.base.BaseKeyPageController;
 import redisfx.tanh.rdm.ui.entity.StreamTypeTable;
@@ -124,9 +125,8 @@ public class StreamTypeController extends BaseKeyPageController<StreamTypeTable>
                 delRow.setDisable(false);
                 this.lastSelect = newValue;
                 Platform.runLater(() -> {
-                    Tuple2<AnchorPane, ByteArrayController> valueTuple2 = loadByteArrayView(newValue.getBytes());
+                    Tuple2<AnchorPane, ByteArrayController> valueTuple2 = loadByteArrayView(newValue.getBytes(),ValueTypeEnum.JSON);
                     byteArrayController = valueTuple2.t2();
-                    byteArrayController.setByteArray(newValue.getBytes(),ValueTypeEnum.JSON);
                     VBox vBox = (VBox) borderPane.getCenter();
                     VBox.setVgrow(valueTuple2.t1(), Priority.ALWAYS);
                     ObservableList<Node> children = vBox.getChildren();
@@ -184,8 +184,7 @@ public class StreamTypeController extends BaseKeyPageController<StreamTypeTable>
     @FXML
     public void add(ActionEvent actionEvent) {
         Button source = (Button)actionEvent.getSource();
-        Tuple2<AnchorPane, ByteArrayController> tuple2 = loadByteArrayView( "".getBytes());
-        tuple2.t2().setByteArray("".getBytes(),ValueTypeEnum.JSON);
+        Tuple2<AnchorPane, ByteArrayController> tuple2 = loadByteArrayView( "".getBytes(),ValueTypeEnum.JSON);
         VBox vBox = new VBox();
         VBox.setVgrow(tuple2.t1(), Priority.ALWAYS);
         ObservableList<Node> children = vBox.getChildren();
@@ -211,7 +210,7 @@ public class StreamTypeController extends BaseKeyPageController<StreamTypeTable>
                         stage.close();
                         GuiUtil.messageAddSuccess();
                     });
-                }catch (JsonSyntaxException e){
+                }catch (JsonSyntaxException | RedisException e){
                     Platform.runLater(()->{
                         GuiUtil.messageError(e.getMessage());
                     });

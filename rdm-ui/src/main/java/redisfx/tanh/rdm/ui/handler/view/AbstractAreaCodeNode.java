@@ -8,6 +8,7 @@ import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
+import redisfx.tanh.rdm.common.util.DataUtil;
 import redisfx.tanh.rdm.ui.Main;
 import redisfx.tanh.rdm.ui.common.Constant;
 
@@ -44,7 +45,11 @@ public abstract class AbstractAreaCodeNode implements ViewerNode, CharacterEncod
         // 直接添加样式表
         stackPane.getStylesheets().add(Objects.requireNonNull(Main.class.getResource("/css/text.css")).toExternalForm());
         // 设置文本变化监听器，用于语法高亮
-        codeArea.textProperty().addListener((obs, oldText, newText) -> codeArea.setStyleSpans(0, computeHighlighting(newText)));
+        codeArea.textProperty().addListener((obs, oldText, newText) -> {
+            if(DataUtil.isNotBlank(newText)){
+                codeArea.setStyleSpans(0, computeHighlighting(newText));
+            }
+        });
     }
 
     @Override

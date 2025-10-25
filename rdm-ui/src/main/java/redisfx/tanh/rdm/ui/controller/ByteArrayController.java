@@ -400,7 +400,7 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
      * @param decode 解码数据
      */
     private void setViewerNode(ViewerNode viewerNode, byte[] decode) {
-        this.viewerNode = viewerNode;
+            this.viewerNode = viewerNode;
         if(viewerNode instanceof CharacterEncoding node){
             node.init(Charset.forName(characterChoiceBox.getValue()));
             characterChoiceBox.setVisible(true);
