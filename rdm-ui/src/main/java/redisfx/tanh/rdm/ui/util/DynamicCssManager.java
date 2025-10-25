@@ -11,7 +11,7 @@ import java.util.List;
 
 public class DynamicCssManager {
 
-    public static final String COLOR_PREFIX = "color-tag-";
+    public static final String COLOR_PREFIX = "-color-tag-";
 
     public static String styles() {
         KeyTagSetting setting = Applications.getConfigSettings(ConfigSettingsEnum.KEY_TAG.name);
