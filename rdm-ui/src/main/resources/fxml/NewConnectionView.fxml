@@ -111,11 +111,13 @@
                                                          </rowConstraints>
                                                          <children>
                                                             <Label text="%connect.info.master" />
+                                                            <Label text="%connect.info.master.password" GridPane.columnIndex="1" />
                                                          </children>
                                                       </GridPane>
                                                       <HBox alignment="CENTER_LEFT" spacing="6.0">
                                                          <children>
-                                                            <TextField fx:id="masterName" onKeyTyped="#filterIntegerInput" promptText="mymaster" HBox.hgrow="ALWAYS" />
+                                                            <TextField fx:id="masterName" onKeyTyped="#filterIntegerInput" text="mymaster" promptText="mymaster" HBox.hgrow="ALWAYS" />
+                                                            <PasswordField fx:id="masterPassword"  promptText="Master Node Password" HBox.hgrow="ALWAYS"/>
                                                          </children>
                                                       </HBox>
                                                    </children>
@@ -265,12 +267,12 @@
                                                 </GridPane>
                                                 <HBox alignment="CENTER" spacing="6.0">
                                                    <children>
-                                                              <TextField fx:id="sshHost" promptText="Remote Host" HBox.hgrow="ALWAYS" maxWidth="Infinity" prefWidth="0.0">
+                                                              <TextField fx:id="sshHost" maxWidth="Infinity" prefWidth="0.0" promptText="Remote Host" HBox.hgrow="ALWAYS">
                                                          <HBox.margin>
                                                             <Insets right="2.0" />
                                                          </HBox.margin>
                                                       </TextField>
-                                                                  <Spinner fx:id="sshPort"  editable="true" promptText="Remote Port"  maxWidth="Infinity" onKeyTyped="#filterIntegerInput" prefWidth="0.0"  HBox.hgrow="ALWAYS" >
+                                                                  <Spinner fx:id="sshPort" editable="true" maxWidth="Infinity" onKeyTyped="#filterIntegerInput" prefWidth="0.0" promptText="Remote Port" HBox.hgrow="ALWAYS">
                                                          <HBox.margin>
                                                             <Insets right="2.0" />
                                                          </HBox.margin>
@@ -390,12 +392,12 @@
                                                 </GridPane>
                                                 <HBox alignment="CENTER" spacing="6.0">
                                                    <children>
-                                                                  <Spinner fx:id="connectionTimeout"  editable="true" promptText="Connection Timeout"  maxWidth="Infinity" onKeyTyped="#filterIntegerInput" prefWidth="0.0"  HBox.hgrow="ALWAYS" >
+                                                                  <Spinner fx:id="connectionTimeout" editable="true" maxWidth="Infinity" onKeyTyped="#filterIntegerInput" prefWidth="0.0" promptText="Connection Timeout" HBox.hgrow="ALWAYS">
                                                          <HBox.margin>
                                                             <Insets right="2.0" />
                                                          </HBox.margin>
                                                       </Spinner>
-                                                       <Spinner fx:id="soTimeout"  editable="true" promptText="Execution Timeout"   maxWidth="Infinity" onKeyTyped="#filterIntegerInput" prefWidth="0.0"  HBox.hgrow="ALWAYS" >
+                                                       <Spinner fx:id="soTimeout" editable="true" maxWidth="Infinity" onKeyTyped="#filterIntegerInput" prefWidth="0.0" promptText="Execution Timeout" HBox.hgrow="ALWAYS">
                                                          <HBox.margin>
                                                             <Insets right="2.0" />
                                                          </HBox.margin>

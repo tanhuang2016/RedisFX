@@ -90,6 +90,8 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
      */
     @FXML
     public TextField masterName;
+    public PasswordField masterPassword;
+
     /**
      * 哨兵模式下的节点列表
      */
@@ -356,6 +358,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         redisConfig.setCluster(clusterSelected);
         redisConfig.setSentinel(sentinel.isSelected());
         redisConfig.setMasterName(masterName.getText());
+        redisConfig.setMasterAuth(masterPassword.getText());
         redisConfig.setSsl(ssl.isSelected());
         redisConfig.setCaCrt(caCrt.getText());
         redisConfig.setRedisCrt(redisCrt.getText());
@@ -434,6 +437,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         cluster.setSelected(selectedNode.isCluster());
         sentinel.setSelected(selectedNode.isSentinel());
         masterName.setText(selectedNode.getMasterName());
+        masterPassword.setText(selectedNode.getMasterAuth());
         ssl.setSelected(selectedNode.isSsl());
         caCrt.setText(selectedNode.getCaCrt());
         redisCrt.setText(selectedNode.getRedisCrt());

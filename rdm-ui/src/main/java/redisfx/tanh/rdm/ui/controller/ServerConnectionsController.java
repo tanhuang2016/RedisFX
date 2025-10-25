@@ -408,6 +408,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
         this.selectedNode.setCluster(connectionServerNode.isCluster());
         this.selectedNode.setSentinel(connectionServerNode.isSentinel());
         this.selectedNode.setMasterName(connectionServerNode.getMasterName());
+        this.selectedNode.setMasterAuth(connectionServerNode.getMasterAuth());
         this.selectedNode.setSsl(connectionServerNode.isSsl());
         this.selectedNode.setCaCrt(connectionServerNode.getCaCrt());
         this.selectedNode.setRedisCrt(connectionServerNode.getRedisCrt());
@@ -446,6 +447,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
             redisConfig.setCluster(this.selectedNode.isCluster());
             redisConfig.setSentinel(this.selectedNode.isSentinel());
             redisConfig.setMasterName(this.selectedNode.getMasterName());
+            redisConfig.setMasterAuth(this.selectedNode.getMasterAuth());
             redisConfig.setSsl(this.selectedNode.isSsl());
             redisConfig.setCaCrt(this.selectedNode.getCaCrt());
             redisConfig.setRedisCrt(this.selectedNode.getRedisCrt());
