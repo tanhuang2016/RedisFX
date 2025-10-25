@@ -641,6 +641,7 @@ public class GuiUtil {
 
     private final static String TAG_ICON_CSS = """
                 .tag-icon {
+                %s
                     -fx-icon-color: %s;
                 }
                 """;
@@ -658,13 +659,13 @@ public class GuiUtil {
         }
         Tuple2<String, String> tag = getKeyTypeTag(type);
         fontIcon.getStyleClass().add("tag-icon");
-        label.getStylesheets().add(Styles.toDataURI(TAG_ICON_CSS.formatted(tag.t2())));
+        label.getStylesheets().add(Styles.toDataURI(TAG_ICON_CSS.formatted(DynamicCssManager.styles(),tag.t2())));
         return label;
     }
     public static void getSetFontIconColorByKeyType(String type, Button search) {
         Tuple2<String, String> tag = getKeyTypeTag(type);
         search.getStylesheets().clear();
-        search.getStylesheets().addLast(Styles.toDataURI(TAG_ICON_CSS.formatted(tag.t2())));
+        search.getStylesheets().addLast(Styles.toDataURI(TAG_ICON_CSS.formatted(DynamicCssManager.styles(),tag.t2())));
     }
     /**
      * 获取key name的label表示
