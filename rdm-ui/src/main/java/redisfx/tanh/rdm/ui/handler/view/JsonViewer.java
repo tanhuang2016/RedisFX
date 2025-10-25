@@ -74,7 +74,8 @@ public class JsonViewer extends AbstractTextViewer {
             try {
                 codeArea.replaceText(DataUtil.formatJson(value,charset,true));
             }catch (JsonSyntaxException e){
-                codeArea.replaceText(new String(value,charset));
+                String s = new String(value, charset);
+                codeArea.replaceText(DataUtil.ifEmpty(s,""));
             }
 
         }

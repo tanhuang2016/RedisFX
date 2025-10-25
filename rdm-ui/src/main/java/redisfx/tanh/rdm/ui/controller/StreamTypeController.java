@@ -1,6 +1,7 @@
 package redisfx.tanh.rdm.ui.controller;
 
 import atlantafx.base.theme.Styles;
+import com.google.gson.JsonSyntaxException;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ListChangeListener;
@@ -202,13 +203,20 @@ public class StreamTypeController extends BaseKeyPageController<StreamTypeTable>
             String v = id.getText();
             byte[] byteArray = tuple2.t2().getByteArray();
             async(()->{
-                String idStr = exeRedis(j -> j.xadd(this.parameter.get().getKey(), v, new String(byteArray)));
-                Platform.runLater(()->{
-                    list.add(new StreamTypeTable(idStr,new String(byteArray)));
-                    find(null);
-                    stage.close();
-                    GuiUtil.messageAddSuccess();
-                });
+                try {
+                    String idStr = exeRedis(j -> j.xadd(this.parameter.get().getKey(), v, new String(byteArray)));
+                    Platform.runLater(()->{
+                        list.add(new StreamTypeTable(idStr,new String(byteArray)));
+                        find(null);
+                        stage.close();
+                        GuiUtil.messageAddSuccess();
+                    });
+                }catch (JsonSyntaxException e){
+                    Platform.runLater(()->{
+                        GuiUtil.messageError(e.getMessage());
+                    });
+                }
+
             });
         });
     }

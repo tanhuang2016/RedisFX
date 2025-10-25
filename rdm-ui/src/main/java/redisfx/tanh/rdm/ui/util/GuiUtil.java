@@ -335,7 +335,7 @@ public class GuiUtil {
         message(Styles.SUCCESS,message,1);
     }
     public static void messageError( String message){
-        message(Styles.DANGER,message,1);
+        message(Styles.DANGER,message,3);
     }
     public static void messageRegular( String message){
         message(null,message,1);
