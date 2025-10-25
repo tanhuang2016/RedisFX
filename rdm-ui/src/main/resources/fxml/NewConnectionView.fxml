@@ -88,12 +88,47 @@
                                           </VBox>
                                        </children>
                                     </HBox>
-                                    <HBox alignment="CENTER_LEFT" spacing="6.0" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <CheckBox fx:id="cluster" mnemonicParsing="false" text="%connect.info.cluster" />
-                                          <CheckBox fx:id="sentinel" mnemonicParsing="false" text="%connect.info.sentinel" />
-                                       </children>
-                                    </HBox>
+                                     <HBox>
+                                         <children>
+                                             <VBox alignment="CENTER_LEFT" spacing="2.0" HBox.hgrow="ALWAYS">
+                                                 <children>
+                                                     <GridPane hgap="6.0">
+                                                         <columnConstraints>
+                                                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                         </columnConstraints>
+                                                         <rowConstraints>
+                                                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                         </rowConstraints>
+                                                         <children>
+                                                             <Label text="%connect.info.username" />
+                                                         </children>
+                                                     </GridPane>
+                                                     <GridPane hgap="6.0">
+                                                         <columnConstraints>
+                                                             <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                                             <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                                         </columnConstraints>
+                                                         <rowConstraints>
+                                                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                         </rowConstraints>
+                                                         <children>
+                                                             <TextField fx:id="userName" promptText="User Name" HBox.hgrow="ALWAYS" >
+                                                                 <HBox.margin>
+                                                                     <Insets right="2.0" />
+                                                                 </HBox.margin>
+                                                             </TextField>
+                                                             <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" HBox.hgrow="ALWAYS">
+                                                                 <CheckBox fx:id="cluster" mnemonicParsing="false" text="%connect.info.cluster" />
+                                                                 <CheckBox fx:id="sentinel" mnemonicParsing="false" text="%connect.info.sentinel" />
+                                                             </HBox>
+                                                         </children>
+                                                     </GridPane>
+                                                 </children>
+                                             </VBox>
+                                         </children>
+                                     </HBox>
+
+
                                     <HBox VBox.vgrow="ALWAYS">
                                        <children>
                                           <VBox fx:id="sentinelVbox" alignment="CENTER_LEFT" managed="false" visible="false" HBox.hgrow="ALWAYS">
@@ -116,8 +151,8 @@
                                                       </GridPane>
                                                       <HBox alignment="CENTER_LEFT" spacing="6.0">
                                                          <children>
-                                                            <TextField fx:id="masterName" onKeyTyped="#filterIntegerInput" text="mymaster" promptText="mymaster" HBox.hgrow="ALWAYS" />
-                                                            <PasswordField fx:id="masterPassword"  promptText="Master Node Password" HBox.hgrow="ALWAYS"/>
+                                                            <TextField fx:id="masterName" onKeyTyped="#filterIntegerInput" promptText="mymaster" text="mymaster" HBox.hgrow="ALWAYS" />
+                                                            <PasswordField fx:id="masterPassword" promptText="Master Node Password" HBox.hgrow="ALWAYS" />
                                                          </children>
                                                       </HBox>
                                                    </children>

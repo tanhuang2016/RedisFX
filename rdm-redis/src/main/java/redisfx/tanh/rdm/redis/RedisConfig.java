@@ -27,6 +27,7 @@ public class RedisConfig {
      * 授权/哨兵密码
      */
     private String auth;
+    private String userName;
     /**
      * 主节点密码
      */
@@ -139,6 +140,14 @@ public class RedisConfig {
 
     public String getAuth() {
         return auth;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getMasterAuth() {

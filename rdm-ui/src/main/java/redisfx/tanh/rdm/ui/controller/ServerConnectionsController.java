@@ -405,6 +405,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
         this.selectedNode.setHost(connectionServerNode.getHost());
         this.selectedNode.setPort(connectionServerNode.getPort());
         this.selectedNode.setAuth(connectionServerNode.getAuth());
+        this.selectedNode.setUserName(connectionServerNode.getUserName());
         this.selectedNode.setCluster(connectionServerNode.isCluster());
         this.selectedNode.setSentinel(connectionServerNode.isSentinel());
         this.selectedNode.setMasterName(connectionServerNode.getMasterName());
@@ -443,6 +444,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
             redisConfig.setHost(this.selectedNode.getHost());
             redisConfig.setPort(this.selectedNode.getPort());
             redisConfig.setAuth(this.selectedNode.getAuth());
+            redisConfig.setUserName(this.selectedNode.getUserName());
             redisConfig.setName(this.selectedNode.getName());
             redisConfig.setCluster(this.selectedNode.isCluster());
             redisConfig.setSentinel(this.selectedNode.isSentinel());

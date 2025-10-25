@@ -70,6 +70,8 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
      */
     @FXML
     public PasswordField auth;
+    public TextField userName;
+
     /**
      * 连接id,保存的时候会有
      */
@@ -355,6 +357,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         redisConfig.setHost(hostStr);
         redisConfig.setPort(Integer.parseInt(portStr));
         redisConfig.setAuth(authStr);
+        redisConfig.setUserName(userName.getText());
         redisConfig.setCluster(clusterSelected);
         redisConfig.setSentinel(sentinel.isSelected());
         redisConfig.setMasterName(masterName.getText());
@@ -433,6 +436,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         host.setText(selectedNode.getHost());
         port.getEditor().setText(String.valueOf(selectedNode.getPort()));
         auth.setText(selectedNode.getAuth());
+        userName.setText(selectedNode.getUserName());
         dataId.setText(selectedNode.getDataId());
         cluster.setSelected(selectedNode.isCluster());
         sentinel.setSelected(selectedNode.isSentinel());
