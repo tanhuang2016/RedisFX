@@ -68,6 +68,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
     public MenuItem menuEdit;
     public MenuItem menuRename;
     public MenuItem menuDelete;
+    public MenuItem menuCancelSelect;
 
 
     /**
@@ -97,6 +98,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
         menuEdit.setText(language("main.file.connect.edit"));
         menuRename.setText(language("main.file.connect.rename"));
         menuDelete.setText(language("main.file.connect.delete"));
+        menuCancelSelect.setText(language("main.file.connect.cancel.select"));
         bottomConnectButton.setText(language("main.file.connect.connect"));
         cancel.setText(language("common.close"));
     }
@@ -478,5 +480,10 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
         }
         super.currentStage.close();
         super.parentController.newRedisTab(redisContext,this.selectedNode.getName());
+    }
+
+    public void cancelSelect(ActionEvent actionEvent) {
+        treeView.getSelectionModel().clearSelection();
+        treeView.getSelectionModel().select(treeView.getRoot());
     }
 }

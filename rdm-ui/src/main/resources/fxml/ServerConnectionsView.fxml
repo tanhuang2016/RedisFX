@@ -49,6 +49,7 @@
                         <MenuItem fx:id="menuEdit" mnemonicParsing="false" onAction="#edit" styleClass="isNotRoot"  />
                         <MenuItem fx:id="menuRename" mnemonicParsing="false" onAction="#rename" styleClass="isNotRoot"  />
                         <MenuItem fx:id="menuDelete" mnemonicParsing="false" onAction="#delete" styleClass="isNotRoot"  />
+                        <MenuItem fx:id="menuCancelSelect" mnemonicParsing="false" onAction="#cancelSelect"   />
                     </items>
                   </ContextMenu>
                </contextMenu>
