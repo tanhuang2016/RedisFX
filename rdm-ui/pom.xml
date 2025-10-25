@@ -615,6 +615,8 @@
                                         <exec executable="jpackage">
                                             <arg value="--type" />
                                             <arg value="dmg" />
+                                            <arg value="--icon" />
+                                            <arg value="src/main/resources/icon/fx_icon_256.icns" />
                                             <arg value="--input"/>
                                             <arg value="${project.build.directory}/input"/>
                                             <arg value="--main-jar" />
@@ -712,6 +714,8 @@
                                         <exec executable="jpackage">
                                             <arg value="--type" />
                                             <arg value="dmg" />
+                                            <arg value="--icon" />
+                                            <arg value="src/main/resources/icon/fx_icon_256.icns" />
                                             <arg value="--input"/>
                                             <arg value="${project.build.directory}/input"/>
                                             <arg value="--main-jar" />
