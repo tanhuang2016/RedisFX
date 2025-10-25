@@ -42,6 +42,8 @@ public class Main extends Application {
     public static ResourceBundle RESOURCE_BUNDLE=ResourceBundle.getBundle(LanguageManager.BASE_NAME, LanguageManager.DEFAULT_LOCALE);
     public static Main instance;
     private MainController controller;
+    public double initWidth;
+    public double initHeight;
 
     public static void main(String[] args) {
         // 设置自定义类加载器为默认类加载器
@@ -112,8 +114,8 @@ public class Main extends Application {
             Rectangle2D bounds = screen.getVisualBounds();
 
             // 确保窗口不会超出屏幕边界
-            stage.setWidth(Math.min(root.getPrefWidth(), bounds.getWidth()));
-            stage.setHeight(Math.min(root.getPrefHeight(), bounds.getHeight()));
+            stage.setWidth(initWidth=Math.min(root.getPrefWidth(), bounds.getWidth()));
+            stage.setHeight(initHeight=Math.min(root.getPrefHeight(), bounds.getHeight()));
             initTm(scene);
             DefaultEventBus.getInstance().subscribe(BrowseEvent .class, this::onBrowseEvent);
             //先默认打开
@@ -125,6 +127,7 @@ public class Main extends Application {
         }
 
     }
+
 
     /**
      * 初始化主题

@@ -635,15 +635,8 @@ public class MainController extends BaseWindowController<Main> {
      */
     @FXML
     public void resetWindow(ActionEvent actionEvent) {
-        double contentWidth = root.getPrefWidth();
-        double contentHeight = root.getPrefHeight();
-
-        // 获取窗口装饰区域的宽度和高度
-        double windowWidth = contentWidth + (currentStage.getWidth() - currentStage.getScene().getWidth());
-        double windowHeight = contentHeight + (currentStage.getHeight() - currentStage.getScene().getHeight());
-
-        currentStage.setWidth(windowWidth);
-        currentStage.setHeight(windowHeight);
+        currentStage.setWidth(Main.instance.initWidth);
+        currentStage.setHeight(Main.instance.initHeight);
         currentStage.centerOnScreen();
 
     }
@@ -789,7 +782,6 @@ public class MainController extends BaseWindowController<Main> {
      */
     @FXML
     public void about(ActionEvent actionEvent) {
-        int i=22/0;
         var alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(language("main.help.about"));
         alert.setHeaderText(null);
