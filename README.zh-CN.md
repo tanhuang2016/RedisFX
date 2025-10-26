@@ -1,11 +1,8 @@
 ![RedisFX](https://socialify.git.ci/tanhuang2016/RedisFX/image?custom_language=Java&description=1&language=1&logo=https%3A%2F%2Fraw.githubusercontent.com%2Ftanhuang2016%2FRedisFX%2Ff31637766477451c8601de5a9f01a3b20787672c%2Frdm-ui%2Fsrc%2Fmain%2Fresources%2Fsvg%2Fredis_red.svg&name=1&owner=1&pattern=Signal&theme=Light)
 
-<img src="doc/image/rocket.png" width="300" height="110" alt="Redis Logo">
+<img src="doc/image/rocket.png" width="300" height="110" alt="Redis Logo" style="display: block; margin: 0 auto;">
 
-# RedisFX
-> 使用JavaFX开发的Redis GUI工具
-[下载地址](https://github.com/tanhuang2016/RedisFX/releases)
-<br>
+<div style="text-align: center;">
 
 [![LICENSE](https://img.shields.io/github/license/tanhuang2016/RedisFX)](LICENSE)
 [![Release](https://img.shields.io/github/release/tanhuang2016/RedisFX.svg)](https://github.com/tanhuang2016/RedisFX/releases)
@@ -13,6 +10,15 @@
 [![STARS](https://img.shields.io/github/stars/tanhuang2016/RedisFX)](https://github.com/tanhuang2016/RedisFX/)
 [![GitHub forks](https://img.shields.io/github/forks/tanhuang2016/RedisFX)](https://github.com/tanhuang2016/RedisFX/fork)
 [![GitHub issues](https://img.shields.io/github/issues/tanhuang2016/RedisFX)](https://github.com/tanhuang2016/RedisFX/issues)
+
+</div>
+
+# RedisFX
+> 使用JavaFX开发的Redis GUI工具
+[下载地址](https://github.com/tanhuang2016/RedisFX/releases)
+<br>
+
+
 ## 语言
 [English](README.en-US.md)  | 中文
 
