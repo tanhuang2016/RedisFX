@@ -6,13 +6,13 @@
     <parent>
          <groupId>io.github.tanhuang2016</groupId>
         <artifactId>redis-fx</artifactId>
-        <version>2.3.15</version>
+        <version>2.3.16</version>
 
     </parent>
     <name>rdm-common</name>
     <description>${description}</description>
     <artifactId>rdm-common</artifactId>
-    <version>2.3.15</version>
+    <version>2.3.16</version>
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
