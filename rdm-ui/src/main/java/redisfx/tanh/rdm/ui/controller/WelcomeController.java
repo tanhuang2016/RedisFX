@@ -245,7 +245,7 @@ public class WelcomeController extends BaseWindowController<MainController> impl
                 translateTran, fadeTrans2, rotateTran, scaleTran, arcAnimation);
         parallelTransition.setCycleCount(1);
         parallelTransition.setAutoReverse(false);
-        saveRocketImage();
+//        saveRocketImage();
     }
 
     @Override
