@@ -24,14 +24,14 @@ English |  [中文](README.zh-CN.md)
 - ✅ Support for Windows (x86), Linux (x86 and arm), MacOS (x86 and arm)
 
 ## Existing Issues
-- ⚠️ High memory usage and code not standardized
+- ⚠️ High memory usage 
 - ⚠️ Some interactive functions use UI thread causing slow response
 - ⚠️ Other issues to be optimized...
 
 ## Roadmap
-- ⬜ ⭐⭐⭐ Code refactoring, memory optimization, performance improvement
+- ⬜ ⭐⭐⭐ Code refactoring, trying ZGC to optimize memory usage, improve performance
 - ⬜ ⭐⭐⭐ Interaction optimization, lazy loading design
-- ⬜ ⭐⭐ Cross-platform execution package improvement
+- ⬜ ⭐⭐ Improve cross-platform executable package construction, try GraalVM native image packaging
 - ⬜ ⭐⭐ Optimize the operational details and improve the existing functional design
 - ⬜ ⭐ More personalized configuration support
 - ⬜ ⭐ Custom plugin extension capability for key-value parsing
