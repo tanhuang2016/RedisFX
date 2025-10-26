@@ -70,6 +70,8 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
      */
     @FXML
     public PasswordField auth;
+    public TextField userName;
+
     /**
      * 连接id,保存的时候会有
      */
@@ -90,6 +92,8 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
      */
     @FXML
     public TextField masterName;
+    public PasswordField masterPassword;
+
     /**
      * 哨兵模式下的节点列表
      */
@@ -323,16 +327,19 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
             Message message = redisContext.useRedisClient().testConnect();
             testConnectButton.setContentDisplay(ContentDisplay.RIGHT);
             if (message.isSuccess()) {
+                testConnectButton.getStyleClass().remove(Styles.DANGER);
                 testConnectButton.getStyleClass().add(Styles.SUCCESS);
                 testConnectButton.setGraphic(new FontIcon(Material2OutlinedAL.CHECK_CIRCLE_OUTLINE));
                 GuiUtil.messageSuccess(language(ALERT_MESSAGE_CONNECT_SUCCESS));
             } else {
+                testConnectButton.getStyleClass().remove(Styles.SUCCESS);
                 testConnectButton.getStyleClass().add(Styles.DANGER);
                 testConnectButton.setGraphic(new FontIcon(Material2OutlinedAL.ERROR_OUTLINE));
                 GuiUtil.messageError(message.getMessage());
             }
 
         }catch (Exception e){
+            testConnectButton.getStyleClass().remove(Styles.SUCCESS);
             testConnectButton.getStyleClass().add(Styles.DANGER);
             testConnectButton.setGraphic(new FontIcon(Material2OutlinedAL.ERROR_OUTLINE));
             throw e;
@@ -353,9 +360,11 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         redisConfig.setHost(hostStr);
         redisConfig.setPort(Integer.parseInt(portStr));
         redisConfig.setAuth(authStr);
+        redisConfig.setUserName(userName.getText());
         redisConfig.setCluster(clusterSelected);
         redisConfig.setSentinel(sentinel.isSelected());
         redisConfig.setMasterName(masterName.getText());
+        redisConfig.setMasterAuth(masterPassword.getText());
         redisConfig.setSsl(ssl.isSelected());
         redisConfig.setCaCrt(caCrt.getText());
         redisConfig.setRedisCrt(redisCrt.getText());
@@ -430,10 +439,12 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         host.setText(selectedNode.getHost());
         port.getEditor().setText(String.valueOf(selectedNode.getPort()));
         auth.setText(selectedNode.getAuth());
+        userName.setText(selectedNode.getUserName());
         dataId.setText(selectedNode.getDataId());
         cluster.setSelected(selectedNode.isCluster());
         sentinel.setSelected(selectedNode.isSentinel());
         masterName.setText(selectedNode.getMasterName());
+        masterPassword.setText(selectedNode.getMasterAuth());
         ssl.setSelected(selectedNode.isSsl());
         caCrt.setText(selectedNode.getCaCrt());
         redisCrt.setText(selectedNode.getRedisCrt());

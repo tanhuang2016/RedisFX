@@ -10,6 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import redisfx.tanh.rdm.common.tuple.Tuple2;
+import redisfx.tanh.rdm.ui.common.ValueTypeEnum;
 import redisfx.tanh.rdm.ui.controller.ByteArrayController;
 import redisfx.tanh.rdm.ui.controller.KeyTabController;
 
@@ -83,6 +84,11 @@ public abstract class BaseKeyController extends BaseClientController<KeyTabContr
     protected  final  Tuple2<AnchorPane, ByteArrayController> loadByteArrayView(byte[] bytes) {
         Tuple2<AnchorPane, ByteArrayController> tuple2 = loadFxml("/fxml/ByteArrayView.fxml");
         tuple2.t2().setByteArray(bytes);
+        return tuple2;
+    }
+    protected  final  Tuple2<AnchorPane, ByteArrayController> loadByteArrayView(byte[] bytes,ValueTypeEnum type) {
+        Tuple2<AnchorPane, ByteArrayController> tuple2 = loadFxml("/fxml/ByteArrayView.fxml");
+        tuple2.t2().setByteArray(bytes,type);
         return tuple2;
     }
 }

@@ -24,9 +24,14 @@ public class RedisConfig {
      */
     private Integer port;
     /**
-     * 授权
+     * 授权/哨兵密码
      */
     private String auth;
+    private String userName;
+    /**
+     * 主节点密码
+     */
+    private String masterAuth;
     /**
      * 是否集群模式
      */
@@ -135,6 +140,22 @@ public class RedisConfig {
 
     public String getAuth() {
         return auth;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getMasterAuth() {
+        return masterAuth;
+    }
+
+    public void setMasterAuth(String masterAuth) {
+        this.masterAuth = masterAuth;
     }
 
     public void setAuth(String auth) {

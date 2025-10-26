@@ -20,13 +20,11 @@ import redisfx.tanh.rdm.ui.controller.MainController;
 import redisfx.tanh.rdm.ui.entity.config.LanguageSetting;
 import redisfx.tanh.rdm.ui.entity.config.ThemeSetting;
 import redisfx.tanh.rdm.ui.exceptions.GeneralException;
-import redisfx.tanh.rdm.ui.sampler.event.BrowseEvent;
-import redisfx.tanh.rdm.ui.sampler.event.DefaultEventBus;
-import redisfx.tanh.rdm.ui.sampler.event.Listener;
-import redisfx.tanh.rdm.ui.sampler.event.Save;
+import redisfx.tanh.rdm.ui.sampler.event.*;
 import redisfx.tanh.rdm.ui.sampler.layout.ApplicationWindow;
 import redisfx.tanh.rdm.ui.sampler.theme.SamplerTheme;
 import redisfx.tanh.rdm.ui.sampler.theme.ThemeManager;
+import redisfx.tanh.rdm.ui.util.DynamicCssManager;
 import redisfx.tanh.rdm.ui.util.GuiUtil;
 import redisfx.tanh.rdm.ui.util.LanguageManager;
 import java.io.IOException;
@@ -42,6 +40,8 @@ public class Main extends Application {
     public static ResourceBundle RESOURCE_BUNDLE=ResourceBundle.getBundle(LanguageManager.BASE_NAME, LanguageManager.DEFAULT_LOCALE);
     public static Main instance;
     private MainController controller;
+    public double initWidth;
+    public double initHeight;
 
     public static void main(String[] args) {
         // 设置自定义类加载器为默认类加载器
@@ -99,6 +99,7 @@ public class Main extends Application {
                 GuiUtil.alertError(cause.getMessage(),getExcMsg(cause));
             });
             stage.setTitle(Applications.TITLE);
+            stage.getIcons().setAll(GuiUtil.ICON_REDIS);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/MainView.fxml"),RESOURCE_BUNDLE);
             AnchorPane root = fxmlLoader.load();
             controller = fxmlLoader.getController();
@@ -111,10 +112,12 @@ public class Main extends Application {
             Rectangle2D bounds = screen.getVisualBounds();
 
             // 确保窗口不会超出屏幕边界
-            stage.setWidth(Math.min(root.getPrefWidth(), bounds.getWidth()));
-            stage.setHeight(Math.min(root.getPrefHeight(), bounds.getHeight()));
+            stage.setWidth(initWidth=Math.min(root.getPrefWidth(), bounds.getWidth()));
+            stage.setHeight(initHeight=Math.min(root.getPrefHeight(), bounds.getHeight()));
             initTm(scene);
             DefaultEventBus.getInstance().subscribe(BrowseEvent .class, this::onBrowseEvent);
+            DefaultEventBus.getInstance().subscribe(ThemeEvent.class, e->scene.getRoot().setStyle(DynamicCssManager.styles()));
+            scene.getRoot().setStyle(DynamicCssManager.styles());
             //先默认打开
             controller.welcome(null);
             stage.show();
@@ -124,6 +127,8 @@ public class Main extends Application {
         }
 
     }
+
+
 
     /**
      * 初始化主题

@@ -51,10 +51,7 @@ import redisfx.tanh.rdm.common.pool.ThreadPool;
 import redisfx.tanh.rdm.common.tuple.Tuple2;
 import redisfx.tanh.rdm.common.util.TUtil;
 import redisfx.tanh.rdm.ui.Main;
-import redisfx.tanh.rdm.ui.common.Applications;
-import redisfx.tanh.rdm.ui.common.ConfigSettingsEnum;
-import redisfx.tanh.rdm.ui.common.Constant;
-import redisfx.tanh.rdm.ui.common.RedisDataTypeEnum;
+import redisfx.tanh.rdm.ui.common.*;
 import redisfx.tanh.rdm.ui.controller.base.BaseController;
 import redisfx.tanh.rdm.ui.entity.ITable;
 import redisfx.tanh.rdm.ui.entity.config.KeyTagSetting;
@@ -338,7 +335,7 @@ public class GuiUtil {
         message(Styles.SUCCESS,message,1);
     }
     public static void messageError( String message){
-        message(Styles.DANGER,message,1);
+        message(Styles.DANGER,message,3);
     }
     public static void messageRegular( String message){
         message(null,message,1);
@@ -711,7 +708,8 @@ public class GuiUtil {
     public static Tuple2<String, String> getKeyTypeTag(String type) {
         KeyTagSetting setting = Applications.getConfigSettings(ConfigSettingsEnum.KEY_TAG.name);
         int i  =RedisDataTypeEnum.getIndex(type);
-        return new Tuple2<>(setting.getTags().get(i),setting.getColors().get(i));
+        KeyTypeTagEnum tagEnum = RedisDataTypeEnum.getByType(type).tagEnum;
+        return new Tuple2<>(setting.getTags().get(i),DynamicCssManager.COLOR_PREFIX+tagEnum.getTag());
     }
     /**
      * 获取key name的标签 颜色
@@ -719,6 +717,10 @@ public class GuiUtil {
      * @return 颜色
      */
     public static Tuple2<String, String> getKeyTypeNameTag(String type) {
+        RedisDataTypeEnum byType = RedisDataTypeEnum.getByType(type);
+        return new Tuple2<>(byType.type,DynamicCssManager.COLOR_PREFIX+byType.tagEnum.getTag());
+    }
+    public static Tuple2<String, String> getKeyTypeNameColor(String type) {
         KeyTagSetting setting = Applications.getConfigSettings(ConfigSettingsEnum.KEY_TAG.name);
         int i  =RedisDataTypeEnum.getIndex(type);
         RedisDataTypeEnum byType = RedisDataTypeEnum.getByType(type);

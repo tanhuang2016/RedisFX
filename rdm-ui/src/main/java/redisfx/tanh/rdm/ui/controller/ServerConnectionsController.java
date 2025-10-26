@@ -68,6 +68,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
     public MenuItem menuEdit;
     public MenuItem menuRename;
     public MenuItem menuDelete;
+    public MenuItem menuCancelSelect;
 
 
     /**
@@ -97,6 +98,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
         menuEdit.setText(language("main.file.connect.edit"));
         menuRename.setText(language("main.file.connect.rename"));
         menuDelete.setText(language("main.file.connect.delete"));
+        menuCancelSelect.setText(language("main.file.connect.cancel.select"));
         bottomConnectButton.setText(language("main.file.connect.connect"));
         cancel.setText(language("common.close"));
     }
@@ -403,9 +405,11 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
         this.selectedNode.setHost(connectionServerNode.getHost());
         this.selectedNode.setPort(connectionServerNode.getPort());
         this.selectedNode.setAuth(connectionServerNode.getAuth());
+        this.selectedNode.setUserName(connectionServerNode.getUserName());
         this.selectedNode.setCluster(connectionServerNode.isCluster());
         this.selectedNode.setSentinel(connectionServerNode.isSentinel());
         this.selectedNode.setMasterName(connectionServerNode.getMasterName());
+        this.selectedNode.setMasterAuth(connectionServerNode.getMasterAuth());
         this.selectedNode.setSsl(connectionServerNode.isSsl());
         this.selectedNode.setCaCrt(connectionServerNode.getCaCrt());
         this.selectedNode.setRedisCrt(connectionServerNode.getRedisCrt());
@@ -440,10 +444,12 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
             redisConfig.setHost(this.selectedNode.getHost());
             redisConfig.setPort(this.selectedNode.getPort());
             redisConfig.setAuth(this.selectedNode.getAuth());
+            redisConfig.setUserName(this.selectedNode.getUserName());
             redisConfig.setName(this.selectedNode.getName());
             redisConfig.setCluster(this.selectedNode.isCluster());
             redisConfig.setSentinel(this.selectedNode.isSentinel());
             redisConfig.setMasterName(this.selectedNode.getMasterName());
+            redisConfig.setMasterAuth(this.selectedNode.getMasterAuth());
             redisConfig.setSsl(this.selectedNode.isSsl());
             redisConfig.setCaCrt(this.selectedNode.getCaCrt());
             redisConfig.setRedisCrt(this.selectedNode.getRedisCrt());
@@ -478,5 +484,10 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
         }
         super.currentStage.close();
         super.parentController.newRedisTab(redisContext,this.selectedNode.getName());
+    }
+
+    public void cancelSelect(ActionEvent actionEvent) {
+        treeView.getSelectionModel().clearSelection();
+        treeView.getSelectionModel().select(treeView.getRoot());
     }
 }
