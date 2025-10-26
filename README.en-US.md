@@ -3,7 +3,7 @@
 
 <img src="doc/image/rocket.png" width="300" height="110" alt="Redis Logo" style="display: block; margin: 0 auto;">
 
-<div style="text-align: center;">
+<div align="center">
 
 [![LICENSE](https://img.shields.io/github/license/tanhuang2016/RedisFX)](LICENSE)
 [![Release](https://img.shields.io/github/release/tanhuang2016/RedisFX.svg)](https://github.com/tanhuang2016/RedisFX/releases)
