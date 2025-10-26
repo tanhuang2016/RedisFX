@@ -13,6 +13,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/tanhuang2016/RedisFX)](https://github.com/tanhuang2016/RedisFX/issues)
 
 </div>
+
 # RedisFX
 > Redis GUI tool developed with JavaFX
 [Download](https://github.com/tanhuang2016/RedisFX/releases)
