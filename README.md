@@ -17,6 +17,7 @@
 # RedisFX
 > Redis GUI tool developed with JavaFX
 [Download](https://github.com/tanhuang2016/RedisFX/releases)
+[User Guide](https://redisfx.tanh.site)
 <br>
 
 

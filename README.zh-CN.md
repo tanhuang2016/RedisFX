@@ -16,6 +16,7 @@
 # RedisFX
 > 使用JavaFX开发的Redis GUI工具
 [下载地址](https://github.com/tanhuang2016/RedisFX/releases)
+[使用指南](https://redisfx.tanh.site)
 <br>
 
 
