@@ -327,16 +327,19 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
             Message message = redisContext.useRedisClient().testConnect();
             testConnectButton.setContentDisplay(ContentDisplay.RIGHT);
             if (message.isSuccess()) {
+                testConnectButton.getStyleClass().remove(Styles.DANGER);
                 testConnectButton.getStyleClass().add(Styles.SUCCESS);
                 testConnectButton.setGraphic(new FontIcon(Material2OutlinedAL.CHECK_CIRCLE_OUTLINE));
                 GuiUtil.messageSuccess(language(ALERT_MESSAGE_CONNECT_SUCCESS));
             } else {
+                testConnectButton.getStyleClass().remove(Styles.SUCCESS);
                 testConnectButton.getStyleClass().add(Styles.DANGER);
                 testConnectButton.setGraphic(new FontIcon(Material2OutlinedAL.ERROR_OUTLINE));
                 GuiUtil.messageError(message.getMessage());
             }
 
         }catch (Exception e){
+            testConnectButton.getStyleClass().remove(Styles.SUCCESS);
             testConnectButton.getStyleClass().add(Styles.DANGER);
             testConnectButton.setGraphic(new FontIcon(Material2OutlinedAL.ERROR_OUTLINE));
             throw e;

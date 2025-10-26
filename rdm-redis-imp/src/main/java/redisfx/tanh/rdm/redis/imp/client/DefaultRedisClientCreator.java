@@ -53,6 +53,7 @@ public class DefaultRedisClientCreator implements RedisClientCreator{
             DefaultJedisClientConfig.Builder sentinelClientBuilder =DefaultJedisClientConfig.builder()
                     .connectionTimeoutMillis(redisConfig.getConnectionTimeout())
                     .socketTimeoutMillis(redisConfig.getSoTimeout())
+                    .user(redisConfig.getUserName())
                     .password(DataUtil.ifEmpty(redisConfig.getAuth(), null));
             if (redisConfig.isSsl()) {
                 masterClientBuilder.ssl(true)
@@ -75,6 +76,7 @@ public class DefaultRedisClientCreator implements RedisClientCreator{
                 JedisClientConfig clientConfig = DefaultJedisClientConfig.builder()
                         .connectionTimeoutMillis(redisConfig.getConnectionTimeout())
                         .socketTimeoutMillis(redisConfig.getSoTimeout())
+                        .user(redisConfig.getUserName())
                         .password(DataUtil.ifEmpty(redisConfig.getAuth(), null))
                         .ssl(true)
                         .sslSocketFactory(sslSocketFactory)
@@ -82,7 +84,7 @@ public class DefaultRedisClientCreator implements RedisClientCreator{
 
                 jedisCluster = new JedisCluster(nodes, clientConfig, defaultPoolConfig());
             }else {
-                jedisCluster = new JedisCluster(nodes,redisConfig.getConnectionTimeout(),redisConfig.getSoTimeout(),3,DataUtil.ifEmpty(redisConfig.getAuth(),null),defaultPoolConfig());
+                jedisCluster = new JedisCluster(nodes,redisConfig.getConnectionTimeout(),redisConfig.getSoTimeout(),3,redisConfig.getUserName(),DataUtil.ifEmpty(redisConfig.getAuth(),null),null,defaultPoolConfig());
             }
             return new JedisClusterClient(jedisCluster,redisConfig);
         }
@@ -94,10 +96,10 @@ public class DefaultRedisClientCreator implements RedisClientCreator{
             host="127.0.0.1";
         }
         if(redisConfig.isSsl()){
-            this.jedisPool=new JedisPool(defaultPoolConfig(), host, port,redisConfig.getConnectionTimeout(),redisConfig.getSoTimeout(),DataUtil.ifEmpty(redisConfig.getAuth(),null),0,null,true,sslSocketFactory,null,null);
+            this.jedisPool=new JedisPool(defaultPoolConfig(), host, port,redisConfig.getConnectionTimeout(),redisConfig.getSoTimeout(),DataUtil.ifEmpty(redisConfig.getAuth(),null),0, redisConfig.getUserName(),true,sslSocketFactory,null,null);
             return new JedisPoolClient(jedisPool);
         }
-        this.jedisPool=new JedisPool(defaultPoolConfig(), host, port,redisConfig.getConnectionTimeout(),redisConfig.getSoTimeout(), DataUtil.ifEmpty(redisConfig.getAuth(),null),0,null);
+        this.jedisPool=new JedisPool(defaultPoolConfig(), host, port,redisConfig.getConnectionTimeout(),redisConfig.getSoTimeout(),redisConfig.getUserName(), DataUtil.ifEmpty(redisConfig.getAuth(),null),0,null);
         return new JedisPoolClient(jedisPool);
     }
 
