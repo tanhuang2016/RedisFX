@@ -1,6 +1,6 @@
 
 
-<img src="doc/image/redis-log.svg" width="300" height="100" alt="Redis Logo">
+<img src="doc/image/rocket.png" width="300" height="110" alt="Redis Logo">
 
 # RedisFX
 > 使用JavaFX开发的Redis GUI工具

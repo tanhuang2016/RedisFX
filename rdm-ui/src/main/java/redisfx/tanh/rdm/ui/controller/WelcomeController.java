@@ -4,8 +4,11 @@ import javafx.animation.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -22,7 +25,10 @@ import redisfx.tanh.rdm.ui.controller.base.BaseWindowController;
 import redisfx.tanh.rdm.ui.util.GuiUtil;
 import redisfx.tanh.rdm.ui.util.SvgManager;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -48,6 +54,7 @@ public class WelcomeController extends BaseWindowController<MainController> impl
     public Label gitHub;
     public HBox toGithub;
     public Label toStar;
+    public HBox rocket;
     private ParallelTransition parallelTransition;
     private Timeline flameAnimation;
 
@@ -238,6 +245,7 @@ public class WelcomeController extends BaseWindowController<MainController> impl
                 translateTran, fadeTrans2, rotateTran, scaleTran, arcAnimation);
         parallelTransition.setCycleCount(1);
         parallelTransition.setAutoReverse(false);
+        saveRocketImage();
     }
 
     @Override
@@ -259,6 +267,37 @@ public class WelcomeController extends BaseWindowController<MainController> impl
         } catch (IOException | URISyntaxException e) {
             log.error("unable to open the browser", e);
             GuiUtil.alert(Alert.AlertType.ERROR, String.format(language("alert.message.help.suggest")+": %s", Constant.APP_HOME_PAGE));
+        }
+    }
+
+    public void saveRocketImage() {
+        // 创建带透明背景的截图参数
+        SnapshotParameters params = new SnapshotParameters();
+        params.setFill(Color.TRANSPARENT); // 设置透明背景
+        // 设置2倍缩放以获得更高分辨率
+        params.setTransform(javafx.scene.transform.Transform.scale(5.0, 5.0));
+        // 直接对包含整个火箭的 gridPane 进行截图
+        WritableImage image = rocket.snapshot(params, null);
+
+        // 保存到文件
+        try {
+            File file = new File("rocket.png");
+            // 通过 PixelReader 读取数据并创建 BufferedImage
+            PixelReader pixelReader = image.getPixelReader();
+            int width = (int) image.getWidth();
+            int height = (int) image.getHeight();
+
+            BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    bufferedImage.setRGB(x, y, pixelReader.getArgb(x, y));
+                }
+            }
+
+            ImageIO.write(bufferedImage, "png", file);
+            System.out.println("Rocket image saved to: " + file.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
