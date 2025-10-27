@@ -708,7 +708,7 @@ public class GuiUtil {
     public static Tuple2<String, String> getKeyTypeTag(String type) {
         KeyTagSetting setting = Applications.getConfigSettings(ConfigSettingsEnum.KEY_TAG.name);
         int i  =RedisDataTypeEnum.getIndex(type);
-        KeyTypeTagEnum tagEnum = RedisDataTypeEnum.getByType(type).tagEnum;
+        KeyTypeTagEnum tagEnum = RedisDataTypeEnum.getByIndex(i).tagEnum;
         return new Tuple2<>(setting.getTags().get(i),DynamicCssManager.COLOR_PREFIX+tagEnum.getTag());
     }
     /**
