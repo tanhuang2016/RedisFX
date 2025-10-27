@@ -19,7 +19,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <HBox alignment="CENTER">
+            <HBox fx:id="rocket" alignment="CENTER">
                <children>
                   <StackPane fx:id="stackPaneNose" />
                   <StackPane fx:id="stackPane0" />

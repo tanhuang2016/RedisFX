@@ -166,6 +166,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
     public ToggleButton treeShow;
     public ToggleButton listShow;
     public String id=DataUtil.uuid();
+    public VBox connectionVbox;
 
     /**
      * 选中的最后的文件的父级目录
@@ -303,6 +304,8 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
     private void showSentinelVbox() {
         sentinelVbox.setVisible(true);
         sentinelVbox.setManaged(true);
+        connectionVbox.setPrefHeight(300);
+        connectionVbox.setPrefWidth(470);
     }
 
     /**
@@ -311,6 +314,8 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
     private void hideSentinelVbox() {
         sentinelVbox.setVisible(false);
         sentinelVbox.setManaged(false);
+        connectionVbox.setPrefHeight(260);
+        connectionVbox.setPrefWidth(480);
     }
 
 

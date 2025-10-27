@@ -33,9 +33,9 @@
                   <content>
                     <AnchorPane>
                            <children>
-                              <ScrollPane layoutY="5.333333492279053" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <ScrollPane hbarPolicy="NEVER" layoutY="5.333333492279053" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <content>
-                                    <VBox alignment="CENTER_LEFT" prefHeight="265.0" prefWidth="480.0" spacing="6.0">
+                                    <VBox fx:id="connectionVbox" alignment="CENTER_LEFT" prefHeight="260.0"  prefWidth="480.0" spacing="6.0">
                                        <children>
                                           <HBox VBox.vgrow="ALWAYS">
                                              <children>

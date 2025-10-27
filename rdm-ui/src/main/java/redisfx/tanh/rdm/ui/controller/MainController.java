@@ -414,6 +414,11 @@ public class MainController extends BaseWindowController<Main> {
         GuiUtil.setIconAndKey(deselect,new FontIcon(Feather.SQUARE),new KeyCodeCombination(KeyCode.A, CONTROL_DOWN,SHIFT_DOWN));
         //视图菜单按钮
         fullScreen.setAccelerator(new KeyCodeCombination(KeyCode.F11));
+        if (System.getProperty("os.name").toLowerCase().contains("mac")) {
+            fullScreen.setAccelerator(new KeyCodeCombination(KeyCode.F, CONTROL_DOWN, META_DOWN));
+        } else {
+            fullScreen.setAccelerator(new KeyCodeCombination(KeyCode.F11));
+        }
         maximized.setAccelerator(new KeyCodeCombination(KeyCode.M,CONTROL_DOWN,SHIFT_DOWN));
         minimized.setAccelerator(new KeyCodeCombination(KeyCode.M,CONTROL_DOWN));
         serverTabTop.setGraphic(new FontIcon(Feather.ARROW_UP));

@@ -38,6 +38,7 @@ public class NewKeyController extends BaseClientController<ServerTabController> 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ok.getStyleClass().add(Styles.ACCENT);
+        filterIntegerInputListener(true,this.ttl);
         
     }
 
