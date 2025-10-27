@@ -40,6 +40,7 @@ public class Main extends Application {
     public static ResourceBundle RESOURCE_BUNDLE=ResourceBundle.getBundle(LanguageManager.BASE_NAME, LanguageManager.DEFAULT_LOCALE);
     public static Main instance;
     private MainController controller;
+    private  Scene scene;
     public double initWidth;
     public double initHeight;
 
@@ -104,7 +105,7 @@ public class Main extends Application {
             AnchorPane root = fxmlLoader.load();
             controller = fxmlLoader.getController();
             controller.setParentController(this);
-            Scene scene = new Scene(root);
+            scene = new Scene(root);
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/global.css")).toExternalForm());
             stage.setScene(scene);
             controller.setCurrentStage(stage);
@@ -116,7 +117,7 @@ public class Main extends Application {
             stage.setHeight(initHeight=Math.min(root.getPrefHeight(), bounds.getHeight()));
             initTm(scene);
             DefaultEventBus.getInstance().subscribe(BrowseEvent .class, this::onBrowseEvent);
-            DefaultEventBus.getInstance().subscribe(ThemeEvent.class, e->scene.getRoot().setStyle(DynamicCssManager.styles()));
+            DefaultEventBus.getInstance().subscribe(ThemeEvent.class, e->this.changeStyle());
             scene.getRoot().setStyle(DynamicCssManager.styles());
             //先默认打开
             controller.welcome(null);
@@ -128,6 +129,9 @@ public class Main extends Application {
 
     }
 
+    public void changeStyle(){
+        scene.getRoot().setStyle(DynamicCssManager.styles());
+    }
 
 
     /**

@@ -14,6 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import redisfx.tanh.rdm.common.util.DataUtil;
+import redisfx.tanh.rdm.ui.Main;
 import redisfx.tanh.rdm.ui.common.Applications;
 import redisfx.tanh.rdm.ui.common.ConfigSettingsEnum;
 import redisfx.tanh.rdm.ui.common.KeyTypeTagEnum;
@@ -151,6 +152,7 @@ public  class KeyTagPageController implements Initializable {
         setting.getTags().add(KeyTypeTagEnum.UNKNOWN.tag);
         setting.getColors().add(KeyTypeTagEnum.UNKNOWN.color);
         Applications.putConfigSettings(setting.getName(),setting);
+        Main.instance.changeStyle();
     }
 
     private List<String> getTagColors() {
