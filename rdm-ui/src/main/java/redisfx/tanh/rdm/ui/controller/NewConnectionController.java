@@ -305,6 +305,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         sentinelVbox.setVisible(true);
         sentinelVbox.setManaged(true);
         connectionVbox.setPrefHeight(300);
+        connectionVbox.setPrefWidth(470);
     }
 
     /**
@@ -314,6 +315,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         sentinelVbox.setVisible(false);
         sentinelVbox.setManaged(false);
         connectionVbox.setPrefHeight(260);
+        connectionVbox.setPrefWidth(480);
     }
 
 
