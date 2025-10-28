@@ -62,6 +62,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Pattern;
 
 import static redisfx.tanh.rdm.ui.util.LanguageManager.language;
 /**
@@ -869,6 +870,10 @@ public class ServerTabController extends BaseClientController<MainController> {
         TreeItem<KeyTreeNode> root = treeView.getRoot();
         Map<String, TreeItem<KeyTreeNode>> treeItemDirMap = findTreeItemDir(root);
         String keySeparator = this.redisContext.getRedisConfig().getKeySeparator();
+        Boolean isKeySeparatorRegex = this.redisContext.getRedisConfig().getKeySeparatorRegex();
+        if(!isKeySeparatorRegex){
+            keySeparator=Pattern.quote(keySeparator);
+        }
         for (String key : keys) {
             String[] parts = key.split(keySeparator);
             for (int i = 0; i < parts.length; i++) {

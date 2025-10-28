@@ -167,6 +167,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
     public ToggleButton listShow;
     public String id=DataUtil.uuid();
     public VBox connectionVbox;
+    public CheckBox keySeparatorRegex;
 
     /**
      * 选中的最后的文件的父级目录
@@ -214,6 +215,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         treeShow.setSelected(setting.isTreeShow());
         listShow.setSelected(!setting.isTreeShow());
         keySeparator.setText(setting.getKeySeparator());
+        keySeparatorRegex.setSelected(setting.getKeySeparatorRegex());
     }
 
     /**
@@ -385,6 +387,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         redisConfig.setConnectionTimeout(connectionTimeout.getValue());
         redisConfig.setSoTimeout(soTimeout.getValue());
         redisConfig.setKeySeparator(keySeparator.getText());
+        redisConfig.setKeySeparatorRegex(keySeparatorRegex.isSelected());
         redisConfig.setTreeShow(treeShow.isSelected());
         redisConfig.setId(this.id);
     }
@@ -465,6 +468,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         connectionTimeout.getEditor().setText(String.valueOf(selectedNode.getConnectionTimeout()));
         soTimeout.getEditor().setText(String.valueOf(selectedNode.getSoTimeout()));
         keySeparator.setText(selectedNode.getKeySeparator());
+        keySeparatorRegex.setSelected(selectedNode.getKeySeparatorRegex());
         treeShow.setSelected(selectedNode.isTreeShow());
         listShow.setSelected(!selectedNode.isTreeShow());
         this.id=selectedNode.getId();

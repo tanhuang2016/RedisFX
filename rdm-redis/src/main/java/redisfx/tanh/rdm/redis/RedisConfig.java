@@ -106,6 +106,8 @@ public class RedisConfig {
      * key 分隔符
      */
     private String keySeparator;
+
+    private Boolean keySeparatorRegex;
     /**
      * 树结构显示
      */
@@ -312,6 +314,14 @@ public class RedisConfig {
 
     public void setTreeShow(boolean treeShow) {
         this.treeShow = treeShow;
+    }
+
+    public Boolean getKeySeparatorRegex() {
+        return Objects.requireNonNullElse(keySeparatorRegex, false);
+    }
+
+    public void setKeySeparatorRegex(Boolean keySeparatorRegex) {
+        this.keySeparatorRegex = keySeparatorRegex;
     }
 
     public String getId() {

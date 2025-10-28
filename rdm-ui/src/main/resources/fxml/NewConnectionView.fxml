@@ -474,11 +474,20 @@
                                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                      </rowConstraints>
                                                      <children>
-                                                         <TextField fx:id="keySeparator" promptText="Key Separator" text=":" HBox.hgrow="ALWAYS">
+                                                         <InputGroup HBox.hgrow="ALWAYS">
+                                                             <children>
+                                                                 <Label  prefWidth="10000.0">
+                                                                     <graphic>
+                                                                         <CheckBox fx:id="keySeparatorRegex" mnemonicParsing="false" text="regex"/>
+                                                                     </graphic>
+                                                                 </Label>
+
+                                                                 <TextField fx:id="keySeparator" promptText="Key Separator" text=":" prefWidth="10000.0"/>
+                                                             </children>
                                                              <HBox.margin>
                                                                  <Insets right="2.0" />
                                                              </HBox.margin>
-                                                         </TextField>
+                                                         </InputGroup>
                                                          <HBox alignment="CENTER_RIGHT" spacing="0.0" GridPane.columnIndex="1" HBox.hgrow="ALWAYS">
                                                              <ToggleButton fx:id="treeShow" maxWidth="Infinity" prefWidth="0" selected="true" text="%connect.info.style.tree" HBox.hgrow="ALWAYS">
                                                              </ToggleButton>
