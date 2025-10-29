@@ -71,6 +71,9 @@ public enum RedisDataTypeEnum {
         }
         return RedisDataTypeEnum.values().length-1;
     }
+    public static RedisDataTypeEnum getByIndex(int i) {
+        return RedisDataTypeEnum.values()[i];
+    }
 
     /**
      * 检查设置有效期
@@ -127,4 +130,6 @@ public enum RedisDataTypeEnum {
         }
         return UNKNOWN;
     }
+
+
 }

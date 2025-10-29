@@ -16,29 +16,35 @@ public class TUtil {
 
     /**
      * 只有包装类型才能复制，注意不要使用基本类型
-     * 同类复制属性(只复制是null的属性)
+     * 同类型复制属性(只复制是null的属性)
+     * 支持父类的获取
      * @param source 源对象
      * @param target 目标对象
      * @param <T> 泛型
      */
     public static <T> void copyProperties(T source, T target) {
         Class<?> clazz = source.getClass();
-        Field[] fields = clazz.getDeclaredFields();
-        for (Field field : fields) {
-            //得到属性
-            //打开私有访问
-            field.setAccessible(true);
-            //如果是null,从源对象复制到模板对象
-            try {
-                Object o = field.get(target);
-                Object o2 = field.get(source);
-                if (o == null && o2 != null) {
-                    field.set(target, field.get(source));
+        while (clazz != null) {
+            Field[] fields = clazz.getDeclaredFields();
+            for (Field field : fields) {
+                //得到属性
+                //打开私有访问
+                field.setAccessible(true);
+                //如果是null,从源对象复制到模板对象
+                try {
+                    Object o = field.get(target);
+                    Object o2 = field.get(source);
+                    if (o == null && o2 != null) {
+                        field.set(target, field.get(source));
+                    }
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException(e);
                 }
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
             }
+            // 移动到父类
+            clazz = clazz.getSuperclass();
         }
+
     }
 
 

@@ -20,13 +20,11 @@ import redisfx.tanh.rdm.ui.controller.MainController;
 import redisfx.tanh.rdm.ui.entity.config.LanguageSetting;
 import redisfx.tanh.rdm.ui.entity.config.ThemeSetting;
 import redisfx.tanh.rdm.ui.exceptions.GeneralException;
-import redisfx.tanh.rdm.ui.sampler.event.BrowseEvent;
-import redisfx.tanh.rdm.ui.sampler.event.DefaultEventBus;
-import redisfx.tanh.rdm.ui.sampler.event.Listener;
-import redisfx.tanh.rdm.ui.sampler.event.Save;
+import redisfx.tanh.rdm.ui.sampler.event.*;
 import redisfx.tanh.rdm.ui.sampler.layout.ApplicationWindow;
 import redisfx.tanh.rdm.ui.sampler.theme.SamplerTheme;
 import redisfx.tanh.rdm.ui.sampler.theme.ThemeManager;
+import redisfx.tanh.rdm.ui.util.DynamicCssManager;
 import redisfx.tanh.rdm.ui.util.GuiUtil;
 import redisfx.tanh.rdm.ui.util.LanguageManager;
 import java.io.IOException;
@@ -42,6 +40,9 @@ public class Main extends Application {
     public static ResourceBundle RESOURCE_BUNDLE=ResourceBundle.getBundle(LanguageManager.BASE_NAME, LanguageManager.DEFAULT_LOCALE);
     public static Main instance;
     private MainController controller;
+    private  Scene scene;
+    public double initWidth;
+    public double initHeight;
 
     public static void main(String[] args) {
         // 设置自定义类加载器为默认类加载器
@@ -96,14 +97,15 @@ public class Main extends Application {
                 }
                 Throwable cause = getRootCause(throwable);
                 // 在此处您可以自定义处理异常的逻辑
-                GuiUtil.alert(Alert.AlertType.ERROR,cause.getMessage());
+                GuiUtil.alertError(cause.getMessage(),getExcMsg(cause));
             });
             stage.setTitle(Applications.TITLE);
+            stage.getIcons().setAll(GuiUtil.ICON_REDIS);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/MainView.fxml"),RESOURCE_BUNDLE);
             AnchorPane root = fxmlLoader.load();
             controller = fxmlLoader.getController();
             controller.setParentController(this);
-            Scene scene = new Scene(root);
+            scene = new Scene(root);
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/global.css")).toExternalForm());
             stage.setScene(scene);
             controller.setCurrentStage(stage);
@@ -111,10 +113,12 @@ public class Main extends Application {
             Rectangle2D bounds = screen.getVisualBounds();
 
             // 确保窗口不会超出屏幕边界
-            stage.setWidth(Math.min(root.getPrefWidth(), bounds.getWidth()));
-            stage.setHeight(Math.min(root.getPrefHeight(), bounds.getHeight()));
+            stage.setWidth(initWidth=Math.min(root.getPrefWidth(), bounds.getWidth()));
+            stage.setHeight(initHeight=Math.min(root.getPrefHeight(), bounds.getHeight()));
             initTm(scene);
             DefaultEventBus.getInstance().subscribe(BrowseEvent .class, this::onBrowseEvent);
+            DefaultEventBus.getInstance().subscribe(ThemeEvent.class, e->this.changeStyle());
+            scene.getRoot().setStyle(DynamicCssManager.styles());
             //先默认打开
             controller.welcome(null);
             stage.show();
@@ -124,6 +128,11 @@ public class Main extends Application {
         }
 
     }
+
+    public void changeStyle(){
+        scene.getRoot().setStyle(DynamicCssManager.styles());
+    }
+
 
     /**
      * 初始化主题
@@ -149,6 +158,19 @@ public class Main extends Application {
             return throwable;
         }
         return getRootCause(cause);
+    }
+
+    public static String getExcMsg(Throwable e) {
+        // 出错时返回异常信息，便于调试
+        StackTraceElement[] elements = e.getStackTrace();
+        StringBuilder msg = new StringBuilder().append(e.toString()).append("\r\n");
+        for (StackTraceElement element : elements) {
+            String err = "\t at " + element.getClassName() + "."
+                    + element.getMethodName() + "(line:"
+                    + element.getLineNumber() + ")\r\n";
+            msg.append( err);
+        }
+        return msg.toString();
     }
     @Override
     public void init() throws Exception {

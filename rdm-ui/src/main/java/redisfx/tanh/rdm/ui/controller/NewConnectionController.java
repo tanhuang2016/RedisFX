@@ -7,9 +7,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import org.kordamp.ikonli.material2.Material2MZ;
+import org.kordamp.ikonli.material2.Material2OutlinedAL;
 import redisfx.tanh.rdm.common.util.DataUtil;
 import redisfx.tanh.rdm.redis.Message;
 import redisfx.tanh.rdm.redis.RedisConfig;
@@ -28,6 +30,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static redisfx.tanh.rdm.ui.common.Constant.ALERT_MESSAGE_CONNECT_SUCCESS;
+import static redisfx.tanh.rdm.ui.common.Constant.ALERT_MESSAGE_SET_SUCCESS;
 import static redisfx.tanh.rdm.ui.util.LanguageManager.language;
 
 /**
@@ -67,6 +70,8 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
      */
     @FXML
     public PasswordField auth;
+    public TextField userName;
+
     /**
      * 连接id,保存的时候会有
      */
@@ -87,6 +92,8 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
      */
     @FXML
     public TextField masterName;
+    public PasswordField masterPassword;
+
     /**
      * 哨兵模式下的节点列表
      */
@@ -159,6 +166,8 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
     public ToggleButton treeShow;
     public ToggleButton listShow;
     public String id=DataUtil.uuid();
+    public VBox connectionVbox;
+    public CheckBox keySeparatorRegex;
 
     /**
      * 选中的最后的文件的父级目录
@@ -206,6 +215,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         treeShow.setSelected(setting.isTreeShow());
         listShow.setSelected(!setting.isTreeShow());
         keySeparator.setText(setting.getKeySeparator());
+        keySeparatorRegex.setSelected(setting.getKeySeparatorRegex());
     }
 
     /**
@@ -296,6 +306,8 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
     private void showSentinelVbox() {
         sentinelVbox.setVisible(true);
         sentinelVbox.setManaged(true);
+        connectionVbox.setPrefHeight(300);
+        connectionVbox.setPrefWidth(470);
     }
 
     /**
@@ -304,6 +316,8 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
     private void hideSentinelVbox() {
         sentinelVbox.setVisible(false);
         sentinelVbox.setManaged(false);
+        connectionVbox.setPrefHeight(260);
+        connectionVbox.setPrefWidth(480);
     }
 
 
@@ -318,15 +332,23 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
 
         try(RedisContext redisContext = RedisFactorySingleton.getInstance().createRedisContext(redisConfig)) {
             Message message = redisContext.useRedisClient().testConnect();
+            testConnectButton.setContentDisplay(ContentDisplay.RIGHT);
             if (message.isSuccess()) {
+                testConnectButton.getStyleClass().remove(Styles.DANGER);
                 testConnectButton.getStyleClass().add(Styles.SUCCESS);
-                GuiUtil.alert(Alert.AlertType.INFORMATION, language(ALERT_MESSAGE_CONNECT_SUCCESS));
+                testConnectButton.setGraphic(new FontIcon(Material2OutlinedAL.CHECK_CIRCLE_OUTLINE));
+                GuiUtil.messageSuccess(language(ALERT_MESSAGE_CONNECT_SUCCESS));
             } else {
+                testConnectButton.getStyleClass().remove(Styles.SUCCESS);
                 testConnectButton.getStyleClass().add(Styles.DANGER);
-                GuiUtil.alert(Alert.AlertType.WARNING, message.getMessage());
+                testConnectButton.setGraphic(new FontIcon(Material2OutlinedAL.ERROR_OUTLINE));
+                GuiUtil.messageError(message.getMessage());
             }
+
         }catch (Exception e){
+            testConnectButton.getStyleClass().remove(Styles.SUCCESS);
             testConnectButton.getStyleClass().add(Styles.DANGER);
+            testConnectButton.setGraphic(new FontIcon(Material2OutlinedAL.ERROR_OUTLINE));
             throw e;
         }
 
@@ -345,9 +367,11 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         redisConfig.setHost(hostStr);
         redisConfig.setPort(Integer.parseInt(portStr));
         redisConfig.setAuth(authStr);
+        redisConfig.setUserName(userName.getText());
         redisConfig.setCluster(clusterSelected);
         redisConfig.setSentinel(sentinel.isSelected());
         redisConfig.setMasterName(masterName.getText());
+        redisConfig.setMasterAuth(masterPassword.getText());
         redisConfig.setSsl(ssl.isSelected());
         redisConfig.setCaCrt(caCrt.getText());
         redisConfig.setRedisCrt(redisCrt.getText());
@@ -363,6 +387,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         redisConfig.setConnectionTimeout(connectionTimeout.getValue());
         redisConfig.setSoTimeout(soTimeout.getValue());
         redisConfig.setKeySeparator(keySeparator.getText());
+        redisConfig.setKeySeparatorRegex(keySeparatorRegex.isSelected());
         redisConfig.setTreeShow(treeShow.isSelected());
         redisConfig.setId(this.id);
     }
@@ -422,10 +447,12 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         host.setText(selectedNode.getHost());
         port.getEditor().setText(String.valueOf(selectedNode.getPort()));
         auth.setText(selectedNode.getAuth());
+        userName.setText(selectedNode.getUserName());
         dataId.setText(selectedNode.getDataId());
         cluster.setSelected(selectedNode.isCluster());
         sentinel.setSelected(selectedNode.isSentinel());
         masterName.setText(selectedNode.getMasterName());
+        masterPassword.setText(selectedNode.getMasterAuth());
         ssl.setSelected(selectedNode.isSsl());
         caCrt.setText(selectedNode.getCaCrt());
         redisCrt.setText(selectedNode.getRedisCrt());
@@ -441,6 +468,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         connectionTimeout.getEditor().setText(String.valueOf(selectedNode.getConnectionTimeout()));
         soTimeout.getEditor().setText(String.valueOf(selectedNode.getSoTimeout()));
         keySeparator.setText(selectedNode.getKeySeparator());
+        keySeparatorRegex.setSelected(selectedNode.getKeySeparatorRegex());
         treeShow.setSelected(selectedNode.isTreeShow());
         listShow.setSelected(!selectedNode.isTreeShow());
         this.id=selectedNode.getId();

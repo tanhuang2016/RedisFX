@@ -8,6 +8,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.Tab?>
@@ -32,74 +33,40 @@
                   <content>
                     <AnchorPane>
                            <children>
-                              <VBox alignment="CENTER_LEFT" spacing="6.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <HBox VBox.vgrow="ALWAYS">
+                              <ScrollPane hbarPolicy="NEVER" layoutY="5.333333492279053" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                                    <VBox fx:id="connectionVbox" alignment="CENTER_LEFT" prefHeight="260.0"  prefWidth="480.0" spacing="6.0">
                                        <children>
-                                          <VBox alignment="CENTER_LEFT" spacing="2.0" HBox.hgrow="ALWAYS">
+                                          <HBox VBox.vgrow="ALWAYS">
                                              <children>
-                                                <GridPane hgap="6.0">
-                                                  <columnConstraints>
-                                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                  </columnConstraints>
-                                                  <rowConstraints>
-                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                  </rowConstraints>
+                                                <VBox alignment="CENTER_LEFT" spacing="2.0" HBox.hgrow="ALWAYS">
                                                    <children>
-                                                      <Label text="%connect.info.name" />
-                                                      <Label text="%connect.info.address" GridPane.columnIndex="1" />
+                                                      <GridPane hgap="6.0">
+                                                        <columnConstraints>
+                                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                        </columnConstraints>
+                                                        <rowConstraints>
+                                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                        </rowConstraints>
+                                                         <children>
+                                                            <Label text="%connect.info.name" />
+                                                            <Label text="%connect.info.address" GridPane.columnIndex="1" />
+                                                         </children>
+                                                      </GridPane>
+                                                      <HBox alignment="CENTER" spacing="6.0">
+                                                         <children>
+                                                            <TextField fx:id="name" promptText="Connection Name" HBox.hgrow="ALWAYS" />
+                                                            <TextField fx:id="host" promptText="127.0.0.1" HBox.hgrow="ALWAYS" />
+                                                         </children>
+                                                      </HBox>
                                                    </children>
-                                                </GridPane>
-                                                <HBox alignment="CENTER" spacing="6.0">
-                                                   <children>
-                                                      <TextField fx:id="name" promptText="Connection Name" HBox.hgrow="ALWAYS" />
-                                                      <TextField fx:id="host" promptText="127.0.0.1" HBox.hgrow="ALWAYS" />
-                                                   </children>
-                                                </HBox>
+                                                </VBox>
                                              </children>
-                                          </VBox>
-                                       </children>
-                                    </HBox>
-                                    <HBox VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <VBox alignment="CENTER_LEFT" spacing="2.0" HBox.hgrow="ALWAYS">
+                                          </HBox>
+                                          <HBox VBox.vgrow="ALWAYS">
                                              <children>
-                                                <GridPane hgap="6.0">
-                                                   <columnConstraints>
-                                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                   </columnConstraints>
-                                                   <rowConstraints>
-                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                   </rowConstraints>
-                                                   <children>
-                                                      <Label text="%connect.info.port" />
-                                                      <Label text="%connect.info.auth" GridPane.columnIndex="1" />
-                                                   </children>
-                                                </GridPane>
-                                                <HBox alignment="CENTER" spacing="6.0">
-                                                   <children>
-                                                      <Spinner fx:id="port" editable="true" maxWidth="Infinity" onKeyTyped="#filterIntegerInput" prefWidth="0.0" promptText="6379" HBox.hgrow="ALWAYS" />
-                                                      <PasswordField fx:id="auth" maxWidth="Infinity" prefWidth="0.0" promptText="Auth" HBox.hgrow="ALWAYS" />
-                                                   </children>
-                                                </HBox>
-                                             </children>
-                                          </VBox>
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER_LEFT" spacing="6.0" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <CheckBox fx:id="cluster" mnemonicParsing="false" text="%connect.info.cluster" />
-                                          <CheckBox fx:id="sentinel" mnemonicParsing="false" text="%connect.info.sentinel" />
-                                       </children>
-                                    </HBox>
-                                    <HBox VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <VBox fx:id="sentinelVbox" alignment="CENTER_LEFT" managed="false" visible="false" HBox.hgrow="ALWAYS">
-                                             <children>
-                                                <Separator />
-                                                <VBox alignment="CENTER_LEFT" spacing="2.0" VBox.vgrow="ALWAYS">
+                                                <VBox alignment="CENTER_LEFT" spacing="2.0" HBox.hgrow="ALWAYS">
                                                    <children>
                                                       <GridPane hgap="6.0">
                                                          <columnConstraints>
@@ -110,22 +77,97 @@
                                                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                          </rowConstraints>
                                                          <children>
-                                                            <Label text="%connect.info.master" />
+                                                            <Label text="%connect.info.port" />
+                                                            <Label text="%connect.info.auth" GridPane.columnIndex="1" />
                                                          </children>
                                                       </GridPane>
-                                                      <HBox alignment="CENTER_LEFT" spacing="6.0">
+                                                      <HBox alignment="CENTER" spacing="6.0">
                                                          <children>
-                                                            <TextField fx:id="masterName" onKeyTyped="#filterIntegerInput" promptText="mymaster" HBox.hgrow="ALWAYS" />
+                                                            <Spinner fx:id="port" editable="true" maxWidth="Infinity" onKeyTyped="#filterIntegerInput" prefWidth="0.0" promptText="6379" HBox.hgrow="ALWAYS" />
+                                                            <PasswordField fx:id="auth" maxWidth="Infinity" prefWidth="0.0" promptText="Auth" HBox.hgrow="ALWAYS" />
                                                          </children>
                                                       </HBox>
                                                    </children>
                                                 </VBox>
                                              </children>
-                                          </VBox>
+                                          </HBox>
+                                           <HBox>
+                                               <children>
+                                                   <VBox alignment="CENTER_LEFT" spacing="2.0" HBox.hgrow="ALWAYS">
+                                                       <children>
+                                                           <GridPane hgap="6.0">
+                                                               <columnConstraints>
+                                                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                   <Label text="%connect.info.username" />
+                                                               </children>
+                                                           </GridPane>
+                                                           <GridPane hgap="6.0">
+                                                               <columnConstraints>
+                                                                   <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                                                   <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                   <TextField fx:id="userName" promptText="User Name" HBox.hgrow="ALWAYS">
+                                                                       <HBox.margin>
+                                                                           <Insets right="2.0" />
+                                                                       </HBox.margin>
+                                                                   </TextField>
+                                                                   <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" HBox.hgrow="ALWAYS">
+                                                                       <CheckBox fx:id="cluster" mnemonicParsing="false" text="%connect.info.cluster" />
+                                                                       <CheckBox fx:id="sentinel" mnemonicParsing="false" text="%connect.info.sentinel" />
+                                                                   </HBox>
+                                                               </children>
+                                                           </GridPane>
+                                                       </children>
+                                                   </VBox>
+                                               </children>
+                                           </HBox>
+      
+      
+                                          <HBox VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <VBox fx:id="sentinelVbox" alignment="CENTER_LEFT" managed="false" visible="false" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Separator />
+                                                      <VBox alignment="CENTER_LEFT" spacing="2.0" VBox.vgrow="ALWAYS">
+                                                         <children>
+                                                            <GridPane hgap="6.0">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <Label text="%connect.info.master" />
+                                                                  <Label text="%connect.info.master.password" GridPane.columnIndex="1" />
+                                                               </children>
+                                                            </GridPane>
+                                                            <HBox alignment="CENTER_LEFT" spacing="6.0">
+                                                               <children>
+                                                                  <TextField fx:id="masterName" onKeyTyped="#filterIntegerInput" promptText="mymaster" text="mymaster" HBox.hgrow="ALWAYS" />
+                                                                  <PasswordField fx:id="masterPassword" promptText="Master Node Password" HBox.hgrow="ALWAYS" />
+                                                               </children>
+                                                            </HBox>
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
                                        </children>
-                                    </HBox>
-                                 </children>
-                              </VBox>
+                                    </VBox>
+                                 </content>
+                              </ScrollPane>
                            </children>
                            <padding>
                               <Insets top="5.0" />
@@ -265,12 +307,12 @@
                                                 </GridPane>
                                                 <HBox alignment="CENTER" spacing="6.0">
                                                    <children>
-                                                              <TextField fx:id="sshHost" promptText="Remote Host" HBox.hgrow="ALWAYS" maxWidth="Infinity" prefWidth="0.0">
+                                                              <TextField fx:id="sshHost" maxWidth="Infinity" prefWidth="0.0" promptText="Remote Host" HBox.hgrow="ALWAYS">
                                                          <HBox.margin>
                                                             <Insets right="2.0" />
                                                          </HBox.margin>
                                                       </TextField>
-                                                                  <Spinner fx:id="sshPort"  editable="true" promptText="Remote Port"  maxWidth="Infinity" onKeyTyped="#filterIntegerInput" prefWidth="0.0"  HBox.hgrow="ALWAYS" >
+                                                                  <Spinner fx:id="sshPort" editable="true" maxWidth="Infinity" onKeyTyped="#filterIntegerInput" prefWidth="0.0" promptText="Remote Port" HBox.hgrow="ALWAYS">
                                                          <HBox.margin>
                                                             <Insets right="2.0" />
                                                          </HBox.margin>
@@ -390,12 +432,12 @@
                                                 </GridPane>
                                                 <HBox alignment="CENTER" spacing="6.0">
                                                    <children>
-                                                                  <Spinner fx:id="connectionTimeout"  editable="true" promptText="Connection Timeout"  maxWidth="Infinity" onKeyTyped="#filterIntegerInput" prefWidth="0.0"  HBox.hgrow="ALWAYS" >
+                                                                  <Spinner fx:id="connectionTimeout" editable="true" maxWidth="Infinity" onKeyTyped="#filterIntegerInput" prefWidth="0.0" promptText="Connection Timeout" HBox.hgrow="ALWAYS">
                                                          <HBox.margin>
                                                             <Insets right="2.0" />
                                                          </HBox.margin>
                                                       </Spinner>
-                                                       <Spinner fx:id="soTimeout"  editable="true" promptText="Execution Timeout"   maxWidth="Infinity" onKeyTyped="#filterIntegerInput" prefWidth="0.0"  HBox.hgrow="ALWAYS" >
+                                                       <Spinner fx:id="soTimeout" editable="true" maxWidth="Infinity" onKeyTyped="#filterIntegerInput" prefWidth="0.0" promptText="Execution Timeout" HBox.hgrow="ALWAYS">
                                                          <HBox.margin>
                                                             <Insets right="2.0" />
                                                          </HBox.margin>
@@ -432,11 +474,20 @@
                                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                      </rowConstraints>
                                                      <children>
-                                                         <TextField fx:id="keySeparator" promptText="Key Separator" text=":" HBox.hgrow="ALWAYS">
+                                                         <InputGroup HBox.hgrow="ALWAYS">
+                                                             <children>
+                                                                 <Label  prefWidth="10000.0">
+                                                                     <graphic>
+                                                                         <CheckBox fx:id="keySeparatorRegex" mnemonicParsing="false" text="regex"/>
+                                                                     </graphic>
+                                                                 </Label>
+
+                                                                 <TextField fx:id="keySeparator" promptText="Key Separator" text=":" prefWidth="10000.0"/>
+                                                             </children>
                                                              <HBox.margin>
                                                                  <Insets right="2.0" />
                                                              </HBox.margin>
-                                                         </TextField>
+                                                         </InputGroup>
                                                          <HBox alignment="CENTER_RIGHT" spacing="0.0" GridPane.columnIndex="1" HBox.hgrow="ALWAYS">
                                                              <ToggleButton fx:id="treeShow" maxWidth="Infinity" prefWidth="0" selected="true" text="%connect.info.style.tree" HBox.hgrow="ALWAYS">
                                                              </ToggleButton>

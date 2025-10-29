@@ -103,6 +103,9 @@ public class DataUtil {
      */
     public static String formatJson(byte[] value, Charset charset,boolean isFormat) {
         String s = new String(value, charset);
+        if(isBlank(s)){
+            return s;
+        }
         // 创建一个 GsonBuilder 来配置 Gson 的格式化选项
         GsonBuilder gsonBuilder = new GsonBuilder();
         if(isFormat){

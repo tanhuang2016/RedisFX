@@ -1,11 +1,8 @@
+![RedisFX](https://socialify.git.ci/tanhuang2016/RedisFX/image?custom_language=Java&description=1&language=1&logo=https%3A%2F%2Fraw.githubusercontent.com%2Ftanhuang2016%2FRedisFX%2Ff31637766477451c8601de5a9f01a3b20787672c%2Frdm-ui%2Fsrc%2Fmain%2Fresources%2Fsvg%2Fredis_red.svg&name=1&owner=1&pattern=Signal&theme=Light)
 
+<img src="doc/image/rocket.png" width="300" height="110" alt="Redis Logo" style="display: block; margin: 0 auto;">
 
-<img src="doc/image/redis-log.svg" width="300" height="100" alt="Redis Logo">
-
-# RedisFX
-> 使用JavaFX开发的Redis GUI工具
-[下载地址](https://github.com/tanhuang2016/RedisFX/releases)
-<br>
+<div align="center">
 
 [![LICENSE](https://img.shields.io/github/license/tanhuang2016/RedisFX)](LICENSE)
 [![Release](https://img.shields.io/github/release/tanhuang2016/RedisFX.svg)](https://github.com/tanhuang2016/RedisFX/releases)
@@ -13,6 +10,16 @@
 [![STARS](https://img.shields.io/github/stars/tanhuang2016/RedisFX)](https://github.com/tanhuang2016/RedisFX/)
 [![GitHub forks](https://img.shields.io/github/forks/tanhuang2016/RedisFX)](https://github.com/tanhuang2016/RedisFX/fork)
 [![GitHub issues](https://img.shields.io/github/issues/tanhuang2016/RedisFX)](https://github.com/tanhuang2016/RedisFX/issues)
+
+</div>
+
+# RedisFX
+> 使用JavaFX开发的Redis GUI工具
+[下载地址](https://github.com/tanhuang2016/RedisFX/releases)
+[使用指南](https://redisfx.tanh.site/zh)
+<br>
+
+
 ## 语言
 [English](README.en-US.md)  | 中文
 
@@ -25,14 +32,14 @@
 - ✅ 支持Windows(x86)、Linux(x86和arm)、MacOS(x86和arm)
 
 ## 还存在的问题
-- ⚠️ 内存占用偏大、代码不够规范
+- ⚠️ 内存占用偏大
 - ⚠️ 部分交互功能使用UI线程导致响应缓慢
 - ⚠️ 其他待优化问题...
 
 ## 规划
-- ⬜ ⭐⭐⭐ 代码重构、优化内存占用、提升性能
+- ⬜ ⭐⭐⭐ 代码重构、尝试ZGC优化内存占用、提升性能
 - ⬜ ⭐⭐⭐ 交互优化、惰性加载设计
-- ⬜ ⭐⭐ 构建跨平台执行包完善
+- ⬜ ⭐⭐ 构建跨平台执行包完善、尝试GraalVM原生镜像打包
 - ⬜ ⭐⭐ 操作细节优化、完善现有功能设计
 - ⬜ ⭐ 更多的个性化配置支持
 - ⬜ ⭐ 为键值解析提供自定义插件扩展能力

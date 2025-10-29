@@ -99,7 +99,7 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
         return execute(jedis->{
             String info = jedis.info("Keyspace");
             Map<Integer,Integer> map = new LinkedHashMap<>();
-            for (int i = 0; i < 15; i++) {
+            for (int i = 0; i <= 15; i++) {
                 map.put(i,0);
             }
             String[] line = info.split("\r\n");
@@ -558,7 +558,7 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
         try (Jedis subJedis = jedisPool.getResource();
              Pipeline pipeline = subJedis.pipelined()){
             if(db!=0){
-                pipeline.select(1);
+                pipeline.select(db);
             }
             PipeLineAdapterImpl pipeLineAdapter = new PipeLineAdapterImpl(pipeline);
             pipelineExecutor.accept(pipeLineAdapter);

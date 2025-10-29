@@ -7,6 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import redisfx.tanh.rdm.common.tuple.Tuple2;
+import redisfx.tanh.rdm.ui.Main;
 import redisfx.tanh.rdm.ui.controller.base.BaseKeyController;
 import redisfx.tanh.rdm.ui.util.GuiUtil;
 
@@ -61,7 +62,7 @@ public class StringTypeController extends BaseKeyController {
             exeRedis(j -> j.set(this.getParameter().getKey().getBytes(), byteArray));
             Platform.runLater(() -> {
                 byteArrayController.setByteArray(byteArray);
-                GuiUtil.alert(Alert.AlertType.INFORMATION, language(ALERT_MESSAGE_SAVE_SUCCESS));
+                GuiUtil.messageSaveSuccess();
             });
         });
     }

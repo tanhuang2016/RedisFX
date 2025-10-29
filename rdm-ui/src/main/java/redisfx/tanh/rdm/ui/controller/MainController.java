@@ -232,6 +232,7 @@ public class MainController extends BaseWindowController<Main> {
     private void initTabPane() {
         ServerTabPaneSetting setting =Applications.getConfigSettings(ConfigSettingsEnum.SERVER_TAB_PANE.name);
         this.serverTabPane.setSide(Side.valueOf(setting.getSide()));
+        this.serverTabPane.setTabMaxWidth(200);
     }
 
     /**
@@ -413,6 +414,11 @@ public class MainController extends BaseWindowController<Main> {
         GuiUtil.setIconAndKey(deselect,new FontIcon(Feather.SQUARE),new KeyCodeCombination(KeyCode.A, CONTROL_DOWN,SHIFT_DOWN));
         //视图菜单按钮
         fullScreen.setAccelerator(new KeyCodeCombination(KeyCode.F11));
+        if (System.getProperty("os.name").toLowerCase().contains("mac")) {
+            fullScreen.setAccelerator(new KeyCodeCombination(KeyCode.F, CONTROL_DOWN, META_DOWN));
+        } else {
+            fullScreen.setAccelerator(new KeyCodeCombination(KeyCode.F11));
+        }
         maximized.setAccelerator(new KeyCodeCombination(KeyCode.M,CONTROL_DOWN,SHIFT_DOWN));
         minimized.setAccelerator(new KeyCodeCombination(KeyCode.M,CONTROL_DOWN));
         serverTabTop.setGraphic(new FontIcon(Feather.ARROW_UP));
@@ -634,15 +640,8 @@ public class MainController extends BaseWindowController<Main> {
      */
     @FXML
     public void resetWindow(ActionEvent actionEvent) {
-        double contentWidth = root.getPrefWidth();
-        double contentHeight = root.getPrefHeight();
-
-        // 获取窗口装饰区域的宽度和高度
-        double windowWidth = contentWidth + (currentStage.getWidth() - currentStage.getScene().getWidth());
-        double windowHeight = contentHeight + (currentStage.getHeight() - currentStage.getScene().getHeight());
-
-        currentStage.setWidth(windowWidth);
-        currentStage.setHeight(windowHeight);
+        currentStage.setWidth(Main.instance.initWidth);
+        currentStage.setHeight(Main.instance.initHeight);
         currentStage.centerOnScreen();
 
     }
@@ -882,7 +881,7 @@ public class MainController extends BaseWindowController<Main> {
         String releaseVersion = properties.getProperty(Constant.APP_VERSION);
         String currentVersion = System.getProperty(Constant.APP_VERSION);
         //已经是最新了
-        if(currentVersion.equals(releaseVersion)){
+        if(comparisonVersion(currentVersion,releaseVersion)){
             msg.setMessage(language("main.help.update.new"));
             CompletableFuture.delayedExecutor(3, TimeUnit.SECONDS).execute(() -> {
                 Platform.runLater(() -> msg.getOnClose().handle(null));
@@ -892,6 +891,41 @@ public class MainController extends BaseWindowController<Main> {
         msg.setMessage(language("main.help.update.latest")+" v"+releaseVersion);
         var btn = getDownloadButton(msg);
         msg.setPrimaryActions(btn);
+    }
+
+    /**
+     * 比较版本 2.3.2 > 2.3.1.3
+     * @param currentVersion 当前版本
+     * @param releaseVersion 发布版本
+     * @return 是否是最新版本
+     */
+    private boolean comparisonVersion(String currentVersion, String releaseVersion) {
+        // 如果两个版本相同，则认为是最新版本
+        if (currentVersion.equals(releaseVersion)) {
+            return true;
+        }
+        // 按照 "." 分割版本号
+        String[] currentParts = currentVersion.split("\\.");
+        String[] releaseParts = releaseVersion.split("\\.");
+
+        // 比较每个部分的数字
+        int maxLength = Math.max(currentParts.length, releaseParts.length);
+
+        for (int i = 0; i < maxLength; i++) {
+            // 获取当前部分的数字，如果超出长度则默认为0
+            int currentNum = i < currentParts.length ? Integer.parseInt(currentParts[i]) : 0;
+            int releaseNum = i < releaseParts.length ? Integer.parseInt(releaseParts[i]) : 0;
+
+            // 如果当前版本号大于发布版本号，说明当前已是最新版本
+            if (currentNum > releaseNum) {
+                return true;
+            }
+            // 如果当前版本号小于发布版本号，说明有新版本
+            if (currentNum < releaseNum) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

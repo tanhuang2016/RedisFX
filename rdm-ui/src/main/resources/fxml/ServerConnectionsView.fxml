@@ -19,15 +19,15 @@
             <VBox prefHeight="25.0" prefWidth="470.0" BorderPane.alignment="CENTER">
                <children>
                   <ToolBar fx:id="buttonsHbox" prefHeight="23.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                        <Button fx:id="connect" mnemonicParsing="false" onAction="#connect" styleClass="isLeafNode" disable="false" style="-fx-opacity: 0.6;-fx-cursor: default;">
+                        <Button fx:id="connect" disable="false" mnemonicParsing="false" onAction="#connect" style="-fx-opacity: 0.6;-fx-cursor: default;" styleClass="isLeafNode">
                         </Button>
                         <Button fx:id="newGroup" mnemonicParsing="false" onAction="#newGroup" styleClass="isNotLeafNode">
                         </Button>
                         <Button fx:id="newConnection" mnemonicParsing="false" onAction="#newConnection" styleClass="isNotLeafNode">
                         </Button>
-                        <Button fx:id="edit" mnemonicParsing="false" onAction="#edit" styleClass="isNotRoot" disable="false" style="-fx-opacity: 0.6;-fx-cursor: default;">
+                        <Button fx:id="edit" disable="false" mnemonicParsing="false" onAction="#edit" style="-fx-opacity: 0.6;-fx-cursor: default;" styleClass="isNotRoot">
                         </Button>
-                        <Button fx:id="rename" mnemonicParsing="false" onAction="#rename" styleClass="isNotRoot" disable="false" style="-fx-opacity: 0.6;-fx-cursor: default;">
+                        <Button fx:id="rename" disable="false" mnemonicParsing="false" onAction="#rename" style="-fx-opacity: 0.6;-fx-cursor: default;" styleClass="isNotRoot">
                         </Button>
                         <Button fx:id="delete" mnemonicParsing="false" onAction="#delete" styleClass="isNotRoot">
                         </Button>
@@ -43,12 +43,13 @@
                <contextMenu>
                   <ContextMenu fx:id="contextMenu" opacity="0.8">
                     <items>
-                        <MenuItem fx:id="menuConnect" mnemonicParsing="false" onAction="#connect" styleClass="isLeafNode"  />
-                        <MenuItem fx:id="menuNewGroup" mnemonicParsing="false" onAction="#newGroup" styleClass="isNotLeafNode"  />
-                        <MenuItem fx:id="menuNewConnect" mnemonicParsing="false" onAction="#newConnection" styleClass="isNotLeafNode"  />
-                        <MenuItem fx:id="menuEdit" mnemonicParsing="false" onAction="#edit" styleClass="isNotRoot"  />
-                        <MenuItem fx:id="menuRename" mnemonicParsing="false" onAction="#rename" styleClass="isNotRoot"  />
-                        <MenuItem fx:id="menuDelete" mnemonicParsing="false" onAction="#delete" styleClass="isNotRoot"  />
+                        <MenuItem fx:id="menuConnect" mnemonicParsing="false" onAction="#connect" styleClass="isLeafNode" />
+                        <MenuItem fx:id="menuNewGroup" mnemonicParsing="false" onAction="#newGroup" styleClass="isNotLeafNode" />
+                        <MenuItem fx:id="menuNewConnect" mnemonicParsing="false" onAction="#newConnection" styleClass="isNotLeafNode" />
+                        <MenuItem fx:id="menuEdit" mnemonicParsing="false" onAction="#edit" styleClass="isNotRoot" />
+                        <MenuItem fx:id="menuRename" mnemonicParsing="false" onAction="#rename" styleClass="isNotRoot" />
+                        <MenuItem fx:id="menuDelete" mnemonicParsing="false" onAction="#delete" styleClass="isNotRoot" />
+                        <MenuItem fx:id="menuCancelSelect" mnemonicParsing="false" onAction="#cancelSelect" />
                     </items>
                   </ContextMenu>
                </contextMenu>
@@ -60,11 +61,14 @@
 <!--                  <CheckBox mnemonicParsing="false" text="启动时显示" />-->
                   <ButtonBar prefHeight="40.0" prefWidth="200.0">
                     <buttons>
-                      <Button fx:id="bottomConnectButton" disable="true" mnemonicParsing="false" onAction="#connect" styleClass="isLeafNode"  />
-                        <Button fx:id="cancel" mnemonicParsing="false" onAction="#cancel"  />
+                      <Button fx:id="bottomConnectButton" disable="true" mnemonicParsing="false" onAction="#connect" styleClass="isLeafNode" />
+                        <Button fx:id="cancel" mnemonicParsing="false" onAction="#cancel" />
                     </buttons>
                   </ButtonBar>
                </children>
+               <BorderPane.margin>
+                  <Insets bottom="5.0" right="10.0" />
+               </BorderPane.margin>
             </VBox>
          </bottom>
       </BorderPane>

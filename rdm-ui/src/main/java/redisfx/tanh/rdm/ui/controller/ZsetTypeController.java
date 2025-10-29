@@ -192,7 +192,7 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
                 this.list.set(i, lastSelect);
                 tableView.refresh();
                 byteArrayController.setByteArray(value);
-                GuiUtil.alert(Alert.AlertType.INFORMATION, language(ALERT_MESSAGE_SAVE_SUCCESS));
+                GuiUtil.messageSaveSuccess();
             });
         });
     }
@@ -228,6 +228,7 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
                     list.add(new ZsetTypeTable(v, byteArray));
                     find(null);
                     stage.close();
+                    GuiUtil.messageAddSuccess();
                 });
             });
         });
@@ -239,7 +240,7 @@ public class ZsetTypeController extends BaseKeyPageController<ZsetTypeTable> imp
      * @param actionEvent 事件
      */
     public void delRow(ActionEvent actionEvent) {
-        if (GuiUtil.alertRemove()) {
+        if (GuiUtil.alertRemoveRowCancel()) {
             return;
         }
         async(() -> {
