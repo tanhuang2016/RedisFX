@@ -141,18 +141,25 @@ jobs:
 
               # 解压构件
               unzip -q "$artifact_dir/*.zip" -d ./temp || true
+              mkdir -p ./temp
+              cp -r "$artifact_dir"/* ./temp/ || true
+              echo "Files in temp directory:"
+              file_count=0
 
               # 使用globstar递归查找所有文件
               for file in ./temp/**; do
                 if [ -f "$file" ]; then
+                  file_count=$((file_count+1))
                   # 获取文件扩展名
                   extension="${file##*.}"
                   # 构造新文件名
                   new_name="rdm-ui-$VERSION-$platform.$extension"
                   # 移动并重命名文件
                   mv "$file" "./release-assets/$new_name" || true
+                  echo "Moved $file to ./release-assets/$new_name"
                 fi
               done
+              echo "Processed $file_count files for platform $platform"
 
               # 清理临时目录
               rm -rf ./temp
