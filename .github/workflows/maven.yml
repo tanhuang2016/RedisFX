@@ -140,7 +140,7 @@ jobs:
               fi
 
               # 解压构件
-              unzip -q "$artifact_dir/*.zip" -d ./temp || true
+#              unzip -q "$artifact_dir/*.zip" -d ./temp || true
               mkdir -p ./temp
               cp -r "$artifact_dir"/* ./temp/ || true
               echo "Files in temp directory:"
@@ -167,11 +167,6 @@ jobs:
           done
 
 #      指定tag分支
-      - name: Checkout specific branch
-        uses: actions/checkout@v4
-        with:
-          ref: release-2.x
-
       - name: Create Release
         uses: actions/create-release@v1
         env:
