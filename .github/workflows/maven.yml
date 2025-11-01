@@ -91,7 +91,7 @@ jobs:
 
   release-publish:
     env:
-      RELEASE_TAG: vtest0.0.1
+      RELEASE_TAG: v2.3.16.1
     runs-on: ubuntu-latest
     needs: build  # 依赖build job完成
     if: github.ref == 'refs/heads/test-publish'  # 仅在release分支上执行
@@ -166,13 +166,19 @@ jobs:
             fi
           done
 
+#      指定tag分支
+      - name: Checkout specific branch
+        uses: actions/checkout@v4
+        with:
+          ref: release-2.x
+
       - name: Create Release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ env.RELEASE_TAG }}
-          release_name: Release ${{ env.RELEASE_TAG }}
+          release_name: ${{ env.RELEASE_TAG }}🌈
           draft: false
           prerelease: false
 
