@@ -111,6 +111,9 @@ jobs:
           # 获取版本号，去除前缀'v'
           VERSION=${RELEASE_TAG#v}
 
+          # 启用递归glob匹配
+          shopt -s globstar
+
           # 遍历下载的构件
           for artifact_dir in ./artifacts/*; do
             if [ -d "$artifact_dir" ]; then
@@ -139,8 +142,8 @@ jobs:
               # 解压构件
               unzip -q "$artifact_dir/*.zip" -d ./temp || true
 
-              # 查找并重命名文件
-              for file in ./temp/**/*; do
+              # 使用globstar递归查找所有文件
+              for file in ./temp/**; do
                 if [ -f "$file" ]; then
                   # 获取文件扩展名
                   extension="${file##*.}"
