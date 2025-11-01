@@ -94,7 +94,7 @@ jobs:
       RELEASE_TAG: vtest0.0.1
     runs-on: ubuntu-latest
     needs: build  # 依赖build job完成
-    if: github.ref == 'refs/heads/test-publish'  # 仅在release分支上执行
+    if: github.ref == 'refs/heads/test-publish'  # 仅在release分支上执行1
     permissions:
       contents: write
     steps:
