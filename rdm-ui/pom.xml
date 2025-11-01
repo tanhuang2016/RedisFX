@@ -386,6 +386,7 @@
                                         <arg>libs</arg>
                                         <arg>--add-modules</arg>
                                         <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.base</arg>
+                                        <arg>-XX:+UseZGC</arg>
                                     </vmArgs>
                                 </configuration>
                             </execution>
@@ -444,6 +445,7 @@
                                         <arg>libs</arg>
                                         <arg>--add-modules</arg>
                                         <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.base</arg>
+                                        <arg>-XX:+UseZGC</arg>
                                     </vmArgs>
                                 </configuration>
                             </execution>
@@ -490,6 +492,7 @@
                                         <arg>libs</arg>
                                         <arg>--add-modules</arg>
                                         <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.base</arg>
+                                        <arg>-XX:+UseZGC</arg>
                                     </vmArgs>
                                 </configuration>
                             </execution>
@@ -536,6 +539,7 @@
                                         <arg>libs</arg>
                                         <arg>--add-modules</arg>
                                         <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.base</arg>
+                                        <arg>-XX:+UseZGC</arg>
                                     </vmArgs>
                                 </configuration>
                             </execution>
