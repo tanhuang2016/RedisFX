@@ -95,6 +95,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build  # 依赖build job完成
     if: github.ref == 'refs/heads/test-publish'  # 仅在release分支上执行
+    permissions:
+      contents: write
     steps:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
