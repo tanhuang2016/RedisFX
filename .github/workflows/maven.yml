@@ -160,6 +160,11 @@ jobs:
                   file_count=$((file_count+1))
                   # 获取文件扩展名
                   extension="${file##*.}"
+                  # 如果扩展名是 gz，则替换为 tar.gz
+                  if [ "$extension" = "gz" ]; then
+                    extension="tar.gz"
+                  fi
+          
                   # 构造新文件名
                   new_name="rdm-ui-$VERSION-$platform.$extension"
                   # 移动并重命名文件
