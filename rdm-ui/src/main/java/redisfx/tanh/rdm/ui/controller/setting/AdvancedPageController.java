@@ -25,6 +25,7 @@ public class AdvancedPageController  {
     public Button ok;
     public Button reset;
     public ToggleGroup toggleGroup;
+    public CheckBox keySeparatorRegex;
 
     @FXML
     public void initialize() {
@@ -43,6 +44,12 @@ public class AdvancedPageController  {
     private boolean toggleGroupChange = false;
     private void changeListener() {
         textFieldChangeListener(connectionTimeout.getEditor(),soTimeout.getEditor(),keySeparator);
+        keySeparatorRegex.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if(!oldValue.equals(newValue)){
+                ok.setDisable( false);
+            }
+        });
+
         // 添加监听，确保至少一个按钮被选中
         toggleGroup.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
             if (toggleGroup.getSelectedToggle() == null) {
@@ -58,6 +65,7 @@ public class AdvancedPageController  {
                 toggleGroupChange=true;
             }
         });
+
     }
 
     private void textFieldChangeListener(TextField... textFields) {
@@ -85,6 +93,7 @@ public class AdvancedPageController  {
         soTimeout.getEditor().setText(String.valueOf(setting.getConnectionTimeout()));
         treeShow.setSelected(setting.isTreeShow());
         listShow.setSelected(!setting.isTreeShow());
+        keySeparatorRegex.setSelected(setting.getKeySeparatorRegex());
         keySeparator.setText(setting.getKeySeparator());
     }
 
@@ -109,6 +118,7 @@ public class AdvancedPageController  {
         AdvancedSetting setting=new AdvancedSetting();
         setting.setConnectionTimeout(connectionTimeout.getValue());
         setting.setSoTimeout(soTimeout.getValue());
+        setting.setKeySeparatorRegex(keySeparatorRegex.isSelected());
         setting.setKeySeparator(keySeparator.getText());
         setting.setTreeShow(treeShow.isSelected());
         Applications.putConfigSettings(setting.getName(),setting);

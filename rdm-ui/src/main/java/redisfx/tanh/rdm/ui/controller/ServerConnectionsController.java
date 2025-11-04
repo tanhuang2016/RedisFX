@@ -425,6 +425,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
         this.selectedNode.setConnectionTimeout(connectionServerNode.getConnectionTimeout());
         this.selectedNode.setSoTimeout(connectionServerNode.getSoTimeout());
         this.selectedNode.setKeySeparator(connectionServerNode.getKeySeparator());
+        this.selectedNode.setKeySeparatorRegex(connectionServerNode.getKeySeparatorRegex());
         this.selectedNode.setTreeShow(connectionServerNode.isTreeShow());
         treeView.refresh();
     }
@@ -465,6 +466,7 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
             redisConfig.setConnectionTimeout(this.selectedNode.getConnectionTimeout());
             redisConfig.setSoTimeout(this.selectedNode.getSoTimeout());
             redisConfig.setKeySeparator(this.selectedNode.getKeySeparator());
+            redisConfig.setKeySeparatorRegex(this.selectedNode.getKeySeparatorRegex());
             redisConfig.setTreeShow(this.selectedNode.isTreeShow());
             redisConfig.setId(this.selectedNode.getId());
             doConnect(redisConfig);

@@ -9,6 +9,10 @@ import redisfx.tanh.rdm.ui.sampler.theme.ThemeManager;
 
 import java.util.List;
 
+/**
+ * 动态css变量管理
+ * @author th
+ */
 public class DynamicCssManager {
 
     public static final String COLOR_PREFIX = "-color-tag-";

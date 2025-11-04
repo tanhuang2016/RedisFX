@@ -6,7 +6,7 @@
     <parent>
          <groupId>io.github.tanhuang2016</groupId>
         <artifactId>redis-fx</artifactId>
-        <version>2.3.16</version>
+        <version>2.3.17</version>
     </parent>
 
 
@@ -386,6 +386,7 @@
                                         <arg>libs</arg>
                                         <arg>--add-modules</arg>
                                         <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.base</arg>
+                                        <arg>-XX:+UseZGC</arg>
                                     </vmArgs>
                                 </configuration>
                             </execution>
@@ -444,6 +445,7 @@
                                         <arg>libs</arg>
                                         <arg>--add-modules</arg>
                                         <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.base</arg>
+                                        <arg>-XX:+UseZGC</arg>
                                     </vmArgs>
                                 </configuration>
                             </execution>
@@ -490,6 +492,7 @@
                                         <arg>libs</arg>
                                         <arg>--add-modules</arg>
                                         <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.base</arg>
+                                        <arg>-XX:+UseZGC</arg>
                                     </vmArgs>
                                 </configuration>
                             </execution>
@@ -536,6 +539,7 @@
                                         <arg>libs</arg>
                                         <arg>--add-modules</arg>
                                         <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.base</arg>
+                                        <arg>-XX:+UseZGC</arg>
                                     </vmArgs>
                                 </configuration>
                             </execution>

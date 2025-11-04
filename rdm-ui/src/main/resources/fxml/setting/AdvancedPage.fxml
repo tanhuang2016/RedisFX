@@ -12,6 +12,8 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.Spinner?>
+<?import atlantafx.base.layout.InputGroup?>
+<?import javafx.scene.control.CheckBox?>
 <AnchorPane fx:id="root" prefHeight="600" prefWidth="600" styleClass="root" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="redisfx.tanh.rdm.ui.controller.setting.AdvancedPageController">
    <children>
       <VBox prefHeight="600.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -57,12 +59,21 @@
                          </HBox>
                    <HBox alignment="CENTER_LEFT" spacing="6.0" VBox.vgrow="ALWAYS">
                        <children>
-                               <Label text="%connect.info.keyseparator" />
-                               <TextField fx:id="keySeparator" promptText="Key Separator" text=":" HBox.hgrow="ALWAYS">
-                                   <HBox.margin>
-                                       <Insets right="2.0" />
-                                   </HBox.margin>
-                               </TextField>
+                               <Label text="%connect.info.keyseparator" HBox.hgrow="ALWAYS"/>
+                           <InputGroup HBox.hgrow="ALWAYS">
+                               <children>
+                                   <Label  HBox.hgrow="ALWAYS">
+                                       <graphic>
+                                           <CheckBox fx:id="keySeparatorRegex" mnemonicParsing="false" text="regex"/>
+                                       </graphic>
+                                   </Label>
+
+                                   <TextField fx:id="keySeparator" promptText="Key Separator" text=":" HBox.hgrow="ALWAYS"/>
+                               </children>
+                               <HBox.margin>
+                                   <Insets right="2.0" />
+                               </HBox.margin>
+                           </InputGroup>
                        </children>
                    </HBox>
                </children>
