@@ -85,7 +85,7 @@
                                                         <TableColumn prefWidth="300.0" text="Value"/>
                                                     </columns>
                                                 </TableView>
-                                                <Pagination fx:id="pagination" maxHeight="-Infinity" pageCount="205867"
+                                                <Pagination fx:id="pagination" maxHeight="-Infinity" pageCount="1"
                                                             prefHeight="40.0"
                                                             style="-fx-page-information-alignment: right;"
                                                             BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
