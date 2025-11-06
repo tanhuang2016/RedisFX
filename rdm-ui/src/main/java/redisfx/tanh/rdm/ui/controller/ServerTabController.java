@@ -869,11 +869,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     private void buildTreeView(List<String> keys) {
         TreeItem<KeyTreeNode> root = treeView.getRoot();
         Map<String, TreeItem<KeyTreeNode>> treeItemDirMap = findTreeItemDir(root);
-        String keySeparator = this.redisContext.getRedisConfig().getKeySeparator();
-        Boolean isKeySeparatorRegex = this.redisContext.getRedisConfig().getKeySeparatorRegex();
-        if(!isKeySeparatorRegex){
-            keySeparator=Pattern.quote(keySeparator);
-        }
+        String keySeparator =getKeySeparator();
         for (String key : keys) {
             String[] parts = key.split(keySeparator);
             for (int i = 0; i < parts.length; i++) {
@@ -911,6 +907,15 @@ public class ServerTabController extends BaseClientController<MainController> {
             }
         }
         sortTreeItems(root);
+    }
+
+    private String getKeySeparator() {
+        String keySeparator = this.redisContext.getRedisConfig().getKeySeparator();
+        Boolean isKeySeparatorRegex = this.redisContext.getRedisConfig().getKeySeparatorRegex();
+        if(!isKeySeparatorRegex){
+            keySeparator=Pattern.quote(keySeparator);
+        }
+        return keySeparator;
     }
 
     /**
@@ -1135,7 +1140,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     private void treeItemRename(TreeItem<KeyTreeNode> root, TreeItem<KeyTreeNode> renameItem, String oldValue) {
 
         String key = renameItem.getValue().getKey();
-        String keySeparator = this.redisContext.getRedisConfig().getKeySeparator();
+        String keySeparator = getKeySeparator();
         String[] oldSplit = oldValue.split(keySeparator);
         String[] newSplit = key.split(keySeparator);
         //都不存在父目录的情况，直接更新
@@ -1264,7 +1269,7 @@ public class ServerTabController extends BaseClientController<MainController> {
             return  keyTreeNodeTreeItem;
         }
         String key = keyTreeNode.getKey();
-        String keySeparator = this.redisContext.getRedisConfig().getKeySeparator();
+        String keySeparator = getKeySeparator();
         String[] parts = key.split(keySeparator);
         TreeItem<KeyTreeNode> current = root;
 
