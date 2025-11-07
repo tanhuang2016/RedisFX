@@ -11,8 +11,8 @@ import redisfx.tanh.rdm.ui.util.GuiUtil;
 
 public class FloatToggleButton extends ToggleButton {
 
-    static final Image image = GuiUtil.svgImage("/svg/statusDisabled/statusDisabled_red.svg",64,2) ;
-    static final Cursor customCursor = new ImageCursor(image, image.getWidth()/2, image.getHeight()/2);
+    static final Image IMAGE = GuiUtil.svgImage("/svg/statusDisabled/statusDisabled_red.svg",64,2) ;
+    static final Cursor CUSTOM_CURSOR = new ImageCursor(IMAGE, IMAGE.getWidth()/2, IMAGE.getHeight()/2);
 
     public FloatToggleButton() {
         init();
@@ -36,7 +36,7 @@ public class FloatToggleButton extends ToggleButton {
         this.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
                 // 被选中时的处理
-                this.setCursor(customCursor);
+                this.setCursor(CUSTOM_CURSOR);
 
             } else {
                 // 未选中时的处理
