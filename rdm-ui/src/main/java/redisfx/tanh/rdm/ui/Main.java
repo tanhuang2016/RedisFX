@@ -1,6 +1,7 @@
 package redisfx.tanh.rdm.ui;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -87,6 +88,12 @@ public class Main extends Application {
         try {
             instance=this;
             Save.init();
+            stage.setOnCloseRequest(event -> {
+                // 处理窗口关闭事件
+                Platform.exit();
+                // 如果需要完全退出JVM，可以取消注释下面这行
+                // System.exit(0);
+            });
             // 设置默认的未捕获异常处理器
             Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
                 log.error("",throwable);

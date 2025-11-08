@@ -603,7 +603,8 @@ public class MainController extends BaseWindowController<Main> {
      */
     @FXML
     public void exit(ActionEvent actionEvent) {
-        System.exit(0);
+//        System.exit(0);
+        Platform.exit();
     }
 
     /**

@@ -9,10 +9,17 @@ import redisfx.tanh.rdm.ui.sampler.theme.ThemeManager;
 
 import java.util.List;
 
+/**
+ * 动态css变量管理
+ * @author th
+ */
 public class DynamicCssManager {
 
     public static final String COLOR_PREFIX = "-color-tag-";
 
+    /**
+     * 获取动态css变量
+     */
     public static String styles() {
         KeyTagSetting setting = Applications.getConfigSettings(ConfigSettingsEnum.KEY_TAG.name);
         List<String> colors = setting.getColors();
