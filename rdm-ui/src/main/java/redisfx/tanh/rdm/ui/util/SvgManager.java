@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * svg图标管理
  * @author th
  */
 public class SvgManager {
