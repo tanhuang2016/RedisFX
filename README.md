@@ -25,7 +25,7 @@
 English |  [中文](README.zh-CN.md)
 
 ## Features
-- ✅ SSH and SSL protocol support
+- ✅ SSH and SSL/TLS protocol support
 - ✅ Cluster and Sentinel mode support
 - ✅ String, List, Hash, Set, Zset, JSON, Stream type support
 - ✅ Console, command monitoring, publish/subscribe, information reports
@@ -33,14 +33,14 @@ English |  [中文](README.zh-CN.md)
 - ✅ Support for Windows (x86), Linux (x86 and arm), MacOS (x86 and arm)
 
 ## Existing Issues
-- ⚠️ High memory usage and code not standardized
+- ⚠️ High memory usage (Windows and Linux have adopted ZGC to reduce memory by one third)
 - ⚠️ Some interactive functions use UI thread causing slow response
 - ⚠️ Other issues to be optimized...
 
 ## Roadmap
-- ⬜ ⭐⭐⭐ Code refactoring, memory optimization, performance improvement
+- ⬜ ⭐⭐⭐ Code refactoring, experience optimization, and performance improvement
 - ⬜ ⭐⭐⭐ Interaction optimization, lazy loading design
-- ⬜ ⭐⭐ Cross-platform execution package improvement
+- ⬜ ⭐⭐ Build cross-platform execution packages and support GraalVM native image packaging
 - ⬜ ⭐⭐ Optimize the operational details and improve the existing functional design
 - ⬜ ⭐ More personalized configuration support
 - ⬜ ⭐ Custom plugin extension capability for key-value parsing
