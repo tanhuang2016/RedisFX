@@ -27,13 +27,13 @@
    <children>
       <BorderPane layoutX="104.0" layoutY="39.0" prefHeight="425.0" prefWidth="580.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
-            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+            <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
               <tabs>
                 <Tab text="%title.connection">
                   <content>
                     <AnchorPane>
                            <children>
-                              <ScrollPane hbarPolicy="NEVER" layoutY="5.333333492279053" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <ScrollPane fx:id="connectionScrollPane" hbarPolicy="NEVER" layoutY="5.333333492279053" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <content>
                                     <VBox fx:id="connectionVbox" alignment="CENTER_LEFT" prefHeight="260.0"  prefWidth="480.0" spacing="6.0">
                                        <children>
