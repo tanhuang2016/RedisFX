@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.TableView;
+import javafx.scene.input.KeyCode;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import redisfx.tanh.rdm.common.util.DataUtil;
@@ -75,6 +76,11 @@ public abstract class BaseKeyPageController<P extends ITable> extends BaseKeyCon
      */
     private void initTextField() {
         findTextField.setRight(findButton);
+        findTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                find(new ActionEvent());
+            }
+        });
     }
 
     /**
