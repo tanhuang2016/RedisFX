@@ -195,6 +195,12 @@ jobs:
           files: ./release-assets/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # 示例：在发布Release时同时上传到Artifacts
+      - name: Upload Release Assets to Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-assets
+          path: ./release-assets/*
 
 #          发布到maven中央仓库
   publish-central:
