@@ -19,6 +19,7 @@ import javafx.scene.Node;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -343,6 +344,11 @@ public class ReportController extends BaseClientController<ServerTabController> 
 
     private void initTextField() {
         findTextField.setRight(findButton);
+        findTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                find(new ActionEvent());
+            }
+        });
     }
 
     private void initFontIcon() {

@@ -168,6 +168,8 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
     public String id=DataUtil.uuid();
     public VBox connectionVbox;
     public CheckBox keySeparatorRegex;
+    public ScrollPane connectionScrollPane;
+    public TabPane tabPane;
 
     /**
      * 选中的最后的文件的父级目录
@@ -323,7 +325,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
 
     @FXML
     public void testConnect(ActionEvent actionEvent) {
-        if(GuiUtil.requiredTextField(host, port.getEditor())){
+        if(formValidate()){
             return;
         }
 
@@ -399,7 +401,7 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
      */
     @FXML
     public void ok(ActionEvent actionEvent) {
-        if(GuiUtil.requiredTextField(name,host, port.getEditor())){
+        if(formValidate()){
             return;
         }
         ConnectionServerNode connectionServerNode =new ConnectionServerNode(ConnectionServerNode.SERVER);
@@ -433,6 +435,53 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         //如果是快速连接的话，确认之后，直接打开连接
         if(this.model==QUICK){
             parentController.connect(actionEvent);
+        }
+
+    }
+
+    /**
+     * 表单验证
+     * @return boolean
+     */
+    private boolean formValidate() {
+        if(GuiUtil.requiredTextField(name,host, port.getEditor())){
+            selectTabPane(0);
+            return true;
+        }
+        if(sentinel.isSelected()){
+            if(GuiUtil.requiredTextField(masterName)){
+                connectionScrollPane.setVvalue(1.0);
+                selectTabPane(0);
+                return true;
+            }
+
+        }
+        if(ssl.isSelected()){
+            if(GuiUtil.requiredTextField(caCrt,redisCrt,redisKey)){
+                selectTabPane(1);
+                return true;
+            }
+        }
+        if(ssh.isSelected()){
+            if(GuiUtil.requiredTextField(sshHost,sshPort.getEditor(),sshUserName)){
+                selectTabPane(2);
+                return true;
+            }
+        }
+        if(GuiUtil.requiredTextField(connectionTimeout.getEditor(),soTimeout.getEditor(),keySeparator)){
+            selectTabPane(3);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 切换标签页
+     */
+    private void selectTabPane(int i) {
+        if (tabPane.getSelectionModel().getSelectedIndex() != i) {
+            // 切换到第一个标签页
+            tabPane.getSelectionModel().select(i);
         }
 
     }

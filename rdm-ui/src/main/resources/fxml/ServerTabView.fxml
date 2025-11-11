@@ -65,7 +65,7 @@
                                                   <Button fx:id="search" mnemonicParsing="false" onAction="#search" HBox.hgrow="ALWAYS">
                                                   </Button>
                                                   <HBox fx:id="searchHbox" alignment="CENTER_RIGHT" spacing="-2.0" VBox.vgrow="ALWAYS">
-                                                      <Button fx:id="reset" managed="false" mnemonicParsing="false" onAction="#reset" opacity="0.7" visible="false" HBox.hgrow="ALWAYS">
+                                                      <Button fx:id="reset" managed="false" mnemonicParsing="false" onAction="#reset" opacity="0.5" visible="false" HBox.hgrow="ALWAYS">
                                                       </Button>
                                                       <ToggleButton fx:id="isLike" mnemonicParsing="false" onAction="#isLikeChange" opacity="0.7" selected="true" HBox.hgrow="ALWAYS">
                                                           <HBox.margin>
