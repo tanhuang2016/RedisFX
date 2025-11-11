@@ -1,5 +1,7 @@
 package redisfx.tanh.rdm.redis;
 
+import lombok.Data;
+
 import java.util.Objects;
 
 /**
@@ -7,6 +9,7 @@ import java.util.Objects;
  * @version 1.0.0
  * @since 2023/7/18 10:49
  */
+@Data
 public class RedisConfig {
 
     private String id;
@@ -116,220 +119,9 @@ public class RedisConfig {
     public RedisConfig() {
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getHost() {
-        return host;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-    public String getAuth() {
-        return auth;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getMasterAuth() {
-        return masterAuth;
-    }
-
-    public void setMasterAuth(String masterAuth) {
-        this.masterAuth = masterAuth;
-    }
-
-    public void setAuth(String auth) {
-        this.auth = auth;
-    }
-
-    public boolean isCluster() {
-        return cluster;
-    }
-
-    public void setCluster(boolean cluster) {
-        this.cluster = cluster;
-    }
-
-    public String getMasterName() {
-        return masterName;
-    }
-
-    public void setMasterName(String masterName) {
-        this.masterName = masterName;
-    }
-
-    public boolean isSentinel() {
-        return sentinel;
-    }
-
-    public void setSentinel(boolean sentinel) {
-        this.sentinel = sentinel;
-    }
-
-    public boolean isSsl() {
-        return ssl;
-    }
-
-    public void setSsl(boolean ssl) {
-        this.ssl = ssl;
-    }
-
-    public String getCaCrt() {
-        return caCrt;
-    }
-
-    public void setCaCrt(String caCrt) {
-        this.caCrt = caCrt;
-    }
-
-    public String getRedisCrt() {
-        return redisCrt;
-    }
-
-    public void setRedisCrt(String redisCrt) {
-        this.redisCrt = redisCrt;
-    }
-
-    public String getRedisKey() {
-        return redisKey;
-    }
-
-    public void setRedisKey(String redisKey) {
-        this.redisKey = redisKey;
-    }
-
-    public String getRedisKeyPassword() {
-        return redisKeyPassword;
-    }
-
-    public void setRedisKeyPassword(String redisKeyPassword) {
-        this.redisKeyPassword = redisKeyPassword;
-    }
-
-    public boolean isSsh() {
-        return ssh;
-    }
-
-    public void setSsh(boolean ssh) {
-        this.ssh = ssh;
-    }
-
-    public String getSshHost() {
-        return sshHost;
-    }
-
-    public void setSshHost(String sshHost) {
-        this.sshHost = sshHost;
-    }
-
-    public int getSshPort() {
-        return sshPort;
-    }
-
-    public void setSshPort(int sshPort) {
-        this.sshPort = sshPort;
-    }
-
-    public String getSshUserName() {
-        return sshUserName;
-    }
-
-    public void setSshUserName(String sshUserName) {
-        this.sshUserName = sshUserName;
-    }
-
-    public String getSshPassword() {
-        return sshPassword;
-    }
-
-    public void setSshPassword(String sshPassword) {
-        this.sshPassword = sshPassword;
-    }
-
-    public String getSshPrivateKey() {
-        return sshPrivateKey;
-    }
-
-    public void setSshPrivateKey(String sshPrivateKey) {
-        this.sshPrivateKey = sshPrivateKey;
-    }
-
-    public String getSshPassphrase() {
-        return sshPassphrase;
-    }
-
-    public void setSshPassphrase(String sshPassphrase) {
-        this.sshPassphrase = sshPassphrase;
-    }
-
-    public int getConnectionTimeout() {
-        return connectionTimeout;
-    }
-
-    public void setConnectionTimeout(int connectionTimeout) {
-        this.connectionTimeout = connectionTimeout;
-    }
-
-    public int getSoTimeout() {
-        return soTimeout;
-    }
-
-    public void setSoTimeout(int soTimeout) {
-        this.soTimeout = soTimeout;
-    }
-
-    public String getKeySeparator() {
-        return keySeparator;
-    }
-
-    public void setKeySeparator(String keySeparator) {
-        this.keySeparator = keySeparator;
-    }
-
-    public boolean isTreeShow() {
-        return treeShow;
-    }
-
-    public void setTreeShow(boolean treeShow) {
-        this.treeShow = treeShow;
-    }
 
     public Boolean getKeySeparatorRegex() {
         return Objects.requireNonNullElse(keySeparatorRegex, false);
-    }
-
-    public void setKeySeparatorRegex(Boolean keySeparatorRegex) {
-        this.keySeparatorRegex = keySeparatorRegex;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     @Override
@@ -344,5 +136,25 @@ public class RedisConfig {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    public boolean isSentinel() {
+        return Objects.requireNonNullElse(getSentinel(), false);
+    }
+
+    public boolean isSsl() {
+        return Objects.requireNonNullElse(getSsl(), false);
+    }
+
+    public boolean isCluster() {
+        return Objects.requireNonNullElse(getCluster(), false);
+    }
+
+    public boolean isSsh() {
+        return Objects.requireNonNullElse(getSsh(), false);
+    }
+
+    public boolean isTreeShow() {
+        return Objects.requireNonNullElse(getTreeShow(), false);
     }
 }

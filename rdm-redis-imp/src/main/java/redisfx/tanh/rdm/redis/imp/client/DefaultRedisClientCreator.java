@@ -40,7 +40,7 @@ public class DefaultRedisClientCreator implements RedisClientCreator{
     @Override
     public RedisClient create() {
         SSLSocketFactory sslSocketFactory=null;
-        if(redisConfig.isSsl()){
+        if(redisConfig.getSsl()){
             sslSocketFactory = Util.getSocketFactory(redisConfig.getCaCrt(), redisConfig.getRedisCrt(), redisConfig.getRedisKey(), redisConfig.getRedisKeyPassword());
         }
         if(redisConfig.isSentinel()){
