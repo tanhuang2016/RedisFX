@@ -393,6 +393,8 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         redisConfig.setKeySeparator(keySeparator.getText());
         redisConfig.setKeySeparatorRegex(keySeparatorRegex.isSelected());
         redisConfig.setTreeShow(treeShow.isSelected());
+        redisConfig.setEnableReport(enableReport.isSelected());
+        redisConfig.setEnableAutoSearch(enableAutoSearch.isSelected());
         redisConfig.setId(this.id);
     }
 
@@ -522,6 +524,8 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
         keySeparatorRegex.setSelected(selectedNode.getKeySeparatorRegex());
         treeShow.setSelected(selectedNode.isTreeShow());
         listShow.setSelected(!selectedNode.isTreeShow());
+        enableReport.setSelected(selectedNode.isEnableReport());
+        enableAutoSearch.setSelected(selectedNode.isEnableAutoSearch());
         this.id=selectedNode.getId();
     }
 
