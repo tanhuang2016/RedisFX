@@ -35,7 +35,7 @@
                            <children>
                               <ScrollPane fx:id="connectionScrollPane" hbarPolicy="NEVER" layoutY="5.333333492279053" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <content>
-                                    <VBox fx:id="connectionVbox" alignment="CENTER_LEFT" prefHeight="260.0"  prefWidth="480.0" spacing="6.0">
+                                    <VBox fx:id="connectionVbox" alignment="CENTER_LEFT" prefHeight="260.0" prefWidth="480.0" spacing="6.0">
                                        <children>
                                           <HBox VBox.vgrow="ALWAYS">
                                              <children>
@@ -476,13 +476,13 @@
                                                      <children>
                                                          <InputGroup HBox.hgrow="ALWAYS">
                                                              <children>
-                                                                 <Label  prefWidth="10000.0">
+                                                                 <Label prefWidth="10000.0">
                                                                      <graphic>
-                                                                         <CheckBox fx:id="keySeparatorRegex" mnemonicParsing="false" text="regex"/>
+                                                                         <CheckBox fx:id="keySeparatorRegex" mnemonicParsing="false" text="regex" />
                                                                      </graphic>
                                                                  </Label>
 
-                                                                 <TextField fx:id="keySeparator" promptText="Key Separator" text=":" prefWidth="10000.0"/>
+                                                                 <TextField fx:id="keySeparator" prefWidth="10000.0" promptText="Key Separator" text=":" />
                                                              </children>
                                                              <HBox.margin>
                                                                  <Insets right="2.0" />
@@ -500,6 +500,12 @@
                                           </VBox>
                                               </children>
                                           </HBox>
+                                    <HBox alignment="CENTER_LEFT" spacing="6.0">
+                                       <children>
+                                          <CheckBox fx:id="enableReport" mnemonicParsing="false" text="%connect.info.enable.search" HBox.hgrow="ALWAYS" />
+                                          <CheckBox fx:id="enableAutoSearch" mnemonicParsing="false" text="%connect.info.enable.report" />
+                                       </children>
+                                    </HBox>
 
 
                                       </children>

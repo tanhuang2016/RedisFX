@@ -170,6 +170,8 @@ public class NewConnectionController extends BaseWindowController<ServerConnecti
     public CheckBox keySeparatorRegex;
     public ScrollPane connectionScrollPane;
     public TabPane tabPane;
+    public CheckBox enableReport;
+    public CheckBox enableAutoSearch;
 
     /**
      * 选中的最后的文件的父级目录
