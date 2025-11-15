@@ -166,9 +166,9 @@ public class RedisConfig {
         return Objects.requireNonNullElse(getTreeShow(), false);
     }
     public boolean isEnableReport() {
-        return Objects.requireNonNullElse(getEnableReport(), false);
+        return Objects.requireNonNullElse(getEnableReport(), true);
     }
     public boolean isEnableAutoSearch() {
-        return Objects.requireNonNullElse(getEnableAutoSearch(), false);
+        return Objects.requireNonNullElse(getEnableAutoSearch(), true);
     }
 }
