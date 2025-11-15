@@ -502,8 +502,8 @@
                                           </HBox>
                                     <HBox alignment="CENTER_LEFT" spacing="6.0">
                                        <children>
-                                          <CheckBox fx:id="enableReport" mnemonicParsing="false" text="%connect.info.enable.search" HBox.hgrow="ALWAYS" />
-                                          <CheckBox fx:id="enableAutoSearch" mnemonicParsing="false" text="%connect.info.enable.report" />
+                                          <CheckBox fx:id="enableAutoSearch" mnemonicParsing="false" text="%connect.info.enable.search" HBox.hgrow="ALWAYS" />
+                                          <CheckBox fx:id="enableReport" mnemonicParsing="false" text="%connect.info.enable.report" />
                                        </children>
                                     </HBox>
 

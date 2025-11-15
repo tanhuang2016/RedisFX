@@ -710,9 +710,17 @@ public class ServerTabController extends BaseClientController<MainController> {
      */
     private void userDataPropertyListener() {
         super.parameter.addListener((observable, oldValue, newValue) -> {
+            initOptionMenu();
             initDbSelects();
             initScanner();
         });
+    }
+
+    /**
+     * 初始化选项菜单
+     */
+    private void initOptionMenu() {
+        this.autoSearch.setSelected(this.redisContext.getRedisConfig().isEnableAutoSearch());
     }
 
     /**
@@ -1025,7 +1033,7 @@ public class ServerTabController extends BaseClientController<MainController> {
             if(DataUtil.isNotEmpty(searchText.getText())){
                 recentHistory.add(searchText.getText());
             }
-            if(!showReport){
+            if(this.redisContext.getRedisConfig().isEnableReport()&&!showReport){
                 showReport=true;
                 PauseTransition delay = new PauseTransition(Duration.millis(100));
                 delay.setOnFinished(event -> Platform.runLater(() -> report(null)));
