@@ -246,7 +246,7 @@
                       </Tab>
                     </tabs>
                   </TabPane>
-                  <Label fx:id="help" text="%main.help" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Label fx:id="help" text="%main.help" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" onMouseClicked="#viewHelp"/>
                </children>
             </AnchorPane>
          </center>

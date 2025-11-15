@@ -115,6 +115,14 @@ public class RedisConfig {
      * 树结构显示
      */
     private Boolean treeShow;
+    /**
+     * 是否打开报表界面
+     */
+    private Boolean enableReport;
+    /**
+     * 是否自动搜索
+     */
+    private Boolean enableAutoSearch;
 
     public RedisConfig() {
     }
@@ -156,5 +164,11 @@ public class RedisConfig {
 
     public boolean isTreeShow() {
         return Objects.requireNonNullElse(getTreeShow(), false);
+    }
+    public boolean isEnableReport() {
+        return Objects.requireNonNullElse(getEnableReport(), true);
+    }
+    public boolean isEnableAutoSearch() {
+        return Objects.requireNonNullElse(getEnableAutoSearch(), true);
     }
 }

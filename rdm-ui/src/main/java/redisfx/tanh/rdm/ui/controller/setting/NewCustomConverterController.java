@@ -6,12 +6,20 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import org.kordamp.ikonli.material2.Material2MZ;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import redisfx.tanh.rdm.ui.common.Applications;
 import redisfx.tanh.rdm.ui.common.ConfigSettingsEnum;
+import redisfx.tanh.rdm.ui.common.Constant;
+import redisfx.tanh.rdm.ui.controller.MainController;
 import redisfx.tanh.rdm.ui.controller.ServerConnectionsController;
 import redisfx.tanh.rdm.ui.controller.base.BaseWindowController;
 import redisfx.tanh.rdm.ui.entity.config.CustomConverterSetting;
@@ -19,11 +27,16 @@ import redisfx.tanh.rdm.ui.handler.convert.CustomInvokeConverter;
 import redisfx.tanh.rdm.ui.sampler.page.custom.CustomConverterPage;
 import redisfx.tanh.rdm.ui.util.GuiUtil;
 
+import java.awt.*;
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import static redisfx.tanh.rdm.ui.util.LanguageManager.language;
 
 public class NewCustomConverterController extends BaseWindowController<CustomConverterPage>  {
+    private static final Logger log = LoggerFactory.getLogger(NewCustomConverterController.class);
     @FXML
     public ToggleSwitch enabled;
     public Tab decodeTab;
@@ -196,5 +209,17 @@ public class NewCustomConverterController extends BaseWindowController<CustomCon
         }
         lastFile=file;
         this.encodeDir.setText(file.getPath());
+    }
+
+    @FXML
+    public void viewHelp(MouseEvent mouseEvent) {
+        String guideUrl = "";
+        try {
+            guideUrl =System.getProperty(Constant.DOC_HOME_PAGE)+ "/extensions.html";
+            Desktop.getDesktop().browse(new URI(guideUrl));
+        } catch (IOException | URISyntaxException e) {
+            log.error("unable to open the browser", e);
+            GuiUtil.alert(Alert.AlertType.ERROR, String.format(language("alert.message.help.suggest")+": %s", guideUrl));
+        }
     }
 }

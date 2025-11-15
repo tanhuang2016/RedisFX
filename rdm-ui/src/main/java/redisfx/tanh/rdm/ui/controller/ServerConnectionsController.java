@@ -427,6 +427,8 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
         this.selectedNode.setKeySeparator(connectionServerNode.getKeySeparator());
         this.selectedNode.setKeySeparatorRegex(connectionServerNode.getKeySeparatorRegex());
         this.selectedNode.setTreeShow(connectionServerNode.isTreeShow());
+        this.selectedNode.setEnableReport(connectionServerNode.isEnableReport());
+        this.selectedNode.setEnableAutoSearch(connectionServerNode.isEnableAutoSearch());
         treeView.refresh();
     }
 
@@ -468,6 +470,8 @@ public class ServerConnectionsController extends BaseWindowController<MainContro
             redisConfig.setKeySeparator(this.selectedNode.getKeySeparator());
             redisConfig.setKeySeparatorRegex(this.selectedNode.getKeySeparatorRegex());
             redisConfig.setTreeShow(this.selectedNode.isTreeShow());
+            redisConfig.setEnableReport(this.selectedNode.isEnableReport());
+            redisConfig.setEnableAutoSearch(this.selectedNode.isEnableAutoSearch());
             redisConfig.setId(this.selectedNode.getId());
             doConnect(redisConfig);
         }catch (Exception e){
