@@ -9,6 +9,10 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import redisfx.tanh.rdm.ui.util.GuiUtil;
 
+/**
+ * 带禁用鼠标样式的ToggleButton
+ * @author th
+ */
 public class FloatToggleButton extends ToggleButton {
 
     static final Image IMAGE = GuiUtil.svgImage("/svg/statusDisabled/statusDisabled_red.svg",64,2) ;
