@@ -19,7 +19,7 @@ import static redisfx.tanh.rdm.ui.util.LanguageManager.language;
  * @version 1.0.0
  * @since 2023/8/12 22:10
  */
-public class AppendController extends BaseWindowController<BaseClientController> implements Initializable {
+public class AppendController extends BaseWindowController<BaseClientController<?>> implements Initializable {
     @FXML
     public BorderPane borderPane;
     @FXML
