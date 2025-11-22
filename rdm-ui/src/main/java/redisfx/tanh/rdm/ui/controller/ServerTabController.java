@@ -1099,9 +1099,9 @@ public class ServerTabController extends BaseClientController<MainController> {
             this.dbTabPane.getSelectionModel().select(tab);
             return;
         }
-        Tuple2<AnchorPane, BaseClientController<?>> tuple2 = loadFxml("/fxml/KeyTabView.fxml");
+        Tuple2<AnchorPane, KeyTabController> tuple2 = loadFxml("/fxml/KeyTabView.fxml");
         AnchorPane borderPane = tuple2.t1();
-        BaseClientController<?> controller = tuple2.t2();
+        KeyTabController controller = tuple2.t2();
         PassParameter passParameter = new PassParameter(PassParameter.NONE);
         passParameter.setDb(this.currentDb);
         passParameter.setKey(key);
@@ -1127,6 +1127,7 @@ public class ServerTabController extends BaseClientController<MainController> {
         tab.setOnSelectionChanged(event -> {
             if (finalTab.isSelected()) {
               this.selectTabKey=controller.getParameter().getKey();
+                controller.refresh();
             }
         });
         tab.setGraphic(GuiUtil.creatKeyIcon());
