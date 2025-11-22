@@ -1090,8 +1090,14 @@ public class ServerTabController extends BaseClientController<MainController> {
         String key = this.lastSelectedNode.getValue().getKey();
         String keyType = exeRedis(j -> j.type(key));
         String type = RedisDataTypeEnum.getByType(keyType).type;
+        String tabName=String.format("%s|%s|%s", this.currentDb,type, key);
         if (Objects.equals(type, RedisDataTypeEnum.UNKNOWN.type)) {
             throw new GeneralException("This type is not supported " + keyType);
+        }
+        Tab tab=findTabByName(tabName);
+        if(tab!=null){
+            this.dbTabPane.getSelectionModel().select(tab);
+            return;
         }
         Tuple2<AnchorPane, BaseClientController<?>> tuple2 = loadFxml("/fxml/KeyTabView.fxml");
         AnchorPane borderPane = tuple2.t1();
@@ -1116,9 +1122,10 @@ public class ServerTabController extends BaseClientController<MainController> {
             treeItemRename(treeView.getRoot(), this.lastSelectedNode,oldValue);
         });
         controller.setParameter(passParameter);
-        Tab tab = new Tab(String.format("%s|%s|%s", this.currentDb,type, key));
+        tab = new Tab(tabName);
+        Tab finalTab = tab;
         tab.setOnSelectionChanged(event -> {
-            if (tab.isSelected()) {
+            if (finalTab.isSelected()) {
               this.selectTabKey=controller.getParameter().getKey();
             }
         });
