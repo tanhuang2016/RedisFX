@@ -1124,15 +1124,15 @@ public class ServerTabController extends BaseClientController<MainController> {
         controller.setParameter(passParameter);
         tab = new Tab(tabName);
         Tab finalTab = tab;
-        tab.setOnSelectionChanged(event -> {
-            if (finalTab.isSelected()) {
-              this.selectTabKey=controller.getParameter().getKey();
-                controller.refresh();
-            }
-        });
         tab.setGraphic(GuiUtil.creatKeyIcon());
         setTab(tab,tuple2);
         addOpenTreeItems();
+        tab.setOnSelectionChanged(event -> {
+            if (finalTab.isSelected()) {
+                this.selectTabKey=controller.getParameter().getKey();
+                controller.refresh();
+            }
+        });
     }
 
     /**
