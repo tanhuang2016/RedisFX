@@ -1139,7 +1139,7 @@ public class ServerTabController extends BaseClientController<MainController> {
      * 打开的key添加到缓存
      */
     private void addOpenTreeItems() {
-        if(this.openTreeItems.size()>=10){
+        if(this.openTreeItems.size()>=10 && this.lastSelectedNode.getParent() != null){
             this.openTreeItems.removeFirst();
         }
         this.openTreeItems.add(new WeakReference<>(this.lastSelectedNode));
@@ -1538,7 +1538,7 @@ public class ServerTabController extends BaseClientController<MainController> {
      * @return 找到的节点
      */
     private TreeItem<KeyTreeNode> tryFindTreeItemByKey(TreeItem<KeyTreeNode> root, String key) {
-        TreeItem<KeyTreeNode> find;
+        TreeItem<KeyTreeNode> find=null;
         //先从以打开的列表中找，找不到在从根节点递归找
         find = findTreeItemByKeyInOpenTreeItems( key);
         if(find==null){
