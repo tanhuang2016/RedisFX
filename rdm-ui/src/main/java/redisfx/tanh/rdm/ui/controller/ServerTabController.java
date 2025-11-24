@@ -1541,7 +1541,7 @@ public class ServerTabController extends BaseClientController<MainController> {
         TreeItem<KeyTreeNode> find=null;
         //先从以打开的列表中找，找不到在从根节点递归找
         find = findTreeItemByKeyInOpenTreeItems( key);
-        if(find==null){
+        if(find==null||find.getParent()==null){
             find = findTreeItemByKey(root, key);
         }
         return find;
