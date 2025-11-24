@@ -136,6 +136,8 @@ public class ServerTabController extends BaseClientController<MainController> {
     public TabPane dbTabPane;
 
     private RecentHistory<String> recentHistory ;
+    private final Set<String> expandedPaths = new HashSet<>();
+
     private MenuItem clearItem;
 
     /**
@@ -813,6 +815,7 @@ public class ServerTabController extends BaseClientController<MainController> {
         Platform.runLater(() -> {
             if(this.redisContext.getRedisConfig().isTreeShow()){
                 buildTreeView(keys);
+                restoreExpandedPathsRecursive(treeView.getRoot());
             }else {
                 buildListView(keys);
             }
@@ -905,7 +908,7 @@ public class ServerTabController extends BaseClientController<MainController> {
                       continue;
                     }
                     //目录的话，直接设置图标
-                    childNode = new CheckBoxTreeItem<>(KeyTreeNode.dir(part),new FontIcon(Feather.FOLDER));
+                    childNode = createDirItem(part);
                     treeItemDirMap.put(thisPrefix,childNode);
                     if(hasRoot.getValue()!=null){
                         childNode.getValue().setParent(hasRoot.getValue());
@@ -915,6 +918,29 @@ public class ServerTabController extends BaseClientController<MainController> {
             }
         }
         sortTreeItems(root);
+    }
+
+    /**
+     * 创建目录节点
+     */
+    private TreeItem<KeyTreeNode> createDirItem(String part) {
+        CheckBoxTreeItem<KeyTreeNode> dirItem = new CheckBoxTreeItem<>(KeyTreeNode.dir(part), new FontIcon(Feather.FOLDER));
+        addExpandListener(dirItem);
+        return dirItem;
+    }
+    private void addExpandListener(TreeItem<KeyTreeNode> treeItem) {
+        treeItem.expandedProperty().addListener((obs, wasExpanded, isNowExpanded) -> {
+            String path = constructNodePath(treeItem);
+            if (isNowExpanded) {
+                // 节点被展开，记录路径
+                expandedPaths.add(path);
+            } else {
+                // 节点被折叠，移除路径记录
+                expandedPaths.remove(path);
+            }
+            System.out.println(expandedPaths);
+
+        });
     }
 
     private String getKeySeparator() {
@@ -1299,7 +1325,7 @@ public class ServerTabController extends BaseClientController<MainController> {
                 if (isLeaf) {
                     childNode = new CheckBoxTreeItem<>(keyTreeNode);
                 } else {
-                    childNode = new CheckBoxTreeItem<>(KeyTreeNode.dir(part), new FontIcon(Feather.FOLDER));
+                    childNode = createDirItem(part);
                 }
                 TreeItem<KeyTreeNode> finalChildNode = childNode;
 
@@ -1902,6 +1928,53 @@ public class ServerTabController extends BaseClientController<MainController> {
         for (TreeItem<KeyTreeNode> child : treeView.getRoot().getChildren()) {
             if (child instanceof CheckBoxTreeItem<?> cbt) {
                 cbt.setSelected(boxSelectAll.isSelected());
+            }
+        }
+    }
+
+
+    /**
+     * 构建节点路径
+     *
+     * @param node 节点
+     * @return 节点路径
+     */
+    private String constructNodePath(TreeItem<KeyTreeNode> node) {
+        if (node == treeView.getRoot() || node.getValue() == null) {
+            return "";
+        }
+        List<String> pathParts = new ArrayList<>();
+        TreeItem<KeyTreeNode> current = node;
+
+        // 从当前节点向上遍历到根节点，构建路径
+        while (current != treeView.getRoot() && current.getValue() != null) {
+            pathParts.addFirst(current.getValue().getName());
+            current = current.getParent();
+        }
+        // 使用特定分隔符连接路径部分
+        return String.join("/", pathParts);
+    }
+
+    /**
+     * 恢复展开的节点路径
+     */
+    private void restoreExpandedPathsRecursive(TreeItem<KeyTreeNode> node) {
+        if (node == null) {
+            return;
+        }
+        // 检查当前节点是否应该展开
+        if (node.getValue() != null) {
+            String path = constructNodePath(node);
+            System.out.println("path:"+path);
+            if (expandedPaths.contains(path)) {
+                node.setExpanded(true);
+            }
+        }
+
+        // 递归处理子节点
+        for (TreeItem<KeyTreeNode> child : node.getChildren()) {
+            if(!child.isLeaf()){
+                restoreExpandedPathsRecursive(child);
             }
         }
     }
