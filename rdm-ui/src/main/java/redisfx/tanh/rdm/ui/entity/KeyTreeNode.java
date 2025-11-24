@@ -32,11 +32,17 @@ public class KeyTreeNode {
         keyTreeNode.setInitialized(false);
         return keyTreeNode;
     }
+    /**
+     * 新增的key
+     */
     public static KeyTreeNode leaf(String key, String type) {
         KeyTreeNode leaf = leaf(key);
         leaf.setType(type);
         return leaf;
     }
+    /**
+     * 新增的key,主要为了设置newKeyTime让新增的key排在第一
+     */
     public static KeyTreeNode newLeaf(String key, String type) {
         KeyTreeNode leaf = leaf(key,type);
         leaf.setNewKeyTime(System.currentTimeMillis());

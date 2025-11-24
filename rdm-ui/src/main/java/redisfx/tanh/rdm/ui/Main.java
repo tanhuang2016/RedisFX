@@ -167,6 +167,11 @@ public class Main extends Application {
         return getRootCause(cause);
     }
 
+    /**
+     * 获取异常堆栈信息
+     * @param e 异常
+     * @return 异常信息
+     */
     public static String getExcMsg(Throwable e) {
         // 出错时返回异常信息，便于调试
         StackTraceElement[] elements = e.getStackTrace();

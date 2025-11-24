@@ -59,7 +59,7 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
     public Label refreshText;
 
 
-    private long currentTtl;
+    private volatile long currentTtl;
 
 
     private Popover refreshPopover;
@@ -145,8 +145,12 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
      */
     private void reloadInfo() {
         async(() -> {
-            loadData();
-            this.subTypeController.reloadInfo();
+            //键还存在的情况下去刷新详情
+            boolean b = loadData();
+            refreshTextUpdate();
+            if(b){
+                this.subTypeController.reloadInfo();
+            }
         });
 
     }
@@ -154,7 +158,7 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
     /**
      * 加载数据
      */
-    private void loadData() {
+    private boolean loadData() {
 
         this.currentTtl= this.exeRedis(j -> j.ttl(this.getParameter().getKey()));
         Platform.runLater(() -> {
@@ -162,6 +166,7 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
             this.ttl.setText(String.valueOf(currentTtl));
             this.keyType.setText(this.getParameter().getKeyType());
         });
+        return currentTtl>-2;
 
     }
 
@@ -265,7 +270,6 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
     @FXML
     public void refresh(ActionEvent actionEvent) {
         reloadInfo();
-        refreshTextUpdate();
     }
 
     @Override
@@ -275,7 +279,7 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
 
     private long refreshTime;
     private boolean autoRefreshState=false;
-    private Timeline refreshTextTimeline;
+    private volatile Timeline refreshTextTimeline;
 
     /**
      * 每5秒更新刷新描述
@@ -287,6 +291,7 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
             // 如果时间线已经存在，先停止它
             if (refreshTextTimeline != null) {
                 refreshTextTimeline.stop();
+                refreshTextTimeline= null;
             }
 
             // 创建新的时间线，每5秒更新一次
@@ -303,45 +308,50 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
      * 更新刷新描述
      */
     private void updateRefreshText() {
+        String text;
         //如果是自动刷新，不更新描述，默认是自动刷新xxx
         if(autoRefreshState){
-            return;
+            text="now";
+        }else {
+            long currentTime = System.currentTimeMillis();
+            long diffSeconds = (currentTime - refreshTime) / 1000;
+            if (diffSeconds < 5) {
+                text = "now";
+            } else if (diffSeconds < 30) {
+                text = ">5s";
+            } else if (diffSeconds < 60) {
+                text = ">30s";
+            } else if (diffSeconds < 120) {
+                text = ">1min";
+            } else if (diffSeconds < 180) {
+                text = ">2min";
+            } else if (diffSeconds < 240) {
+                text = ">3min";
+            } else if (diffSeconds < 300) {
+                text = ">4min";
+            } else if (diffSeconds < 600) {
+                text = ">5min";
+            } else if (diffSeconds < 900) {
+                text = ">10min";
+            } else if (diffSeconds < 1200) {
+                text = ">15min";
+            } else if (diffSeconds < 1500) {
+                text = ">20min";
+            } else if (diffSeconds < 1800) {
+                text = ">25min";
+            } else if (diffSeconds < 3600) {
+                text = ">30min";
+            } else {
+                // 超过1小时，按小时计算
+                long hours = diffSeconds / 3600;
+                text = ">" + hours + "h";
+            }
         }
-        long currentTime = System.currentTimeMillis();
-        long diffSeconds = (currentTime - refreshTime) / 1000;
-        String text;
-        if (diffSeconds < 5) {
-            text = "now";
-        } else if (diffSeconds < 30) {
-            text = ">5s";
-        } else if (diffSeconds < 60) {
-            text = ">30s";
-        } else if (diffSeconds < 120) {
-            text = ">1min";
-        } else if (diffSeconds < 180) {
-            text = ">2min";
-        } else if (diffSeconds < 240) {
-            text = ">3min";
-        } else if (diffSeconds < 300) {
-            text = ">4min";
-        } else if (diffSeconds < 600) {
-            text = ">5min";
-        } else if (diffSeconds < 900) {
-            text = ">10min";
-        } else if (diffSeconds < 1200) {
-            text = ">15min";
-        } else if (diffSeconds < 1500) {
-            text = ">20min";
-        } else if (diffSeconds < 1800) {
-            text = ">25min";
-        } else if (diffSeconds < 3600) {
-            text = ">30min";
-        } else {
-            // 超过1小时，按小时计算
-            long hours = diffSeconds / 3600;
-            text = ">" + hours + "h";
+        if(this.currentTtl==-2){
+            text=language("server.refresh.auto.invalid");
         }
-        refreshText.setText(text);
+        String finalText = text;
+        Platform.runLater(() -> refreshText.setText(finalText));
     }
 
 
