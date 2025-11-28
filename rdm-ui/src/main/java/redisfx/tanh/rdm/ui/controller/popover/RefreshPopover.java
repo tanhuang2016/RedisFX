@@ -43,6 +43,9 @@ public  class RefreshPopover extends BaseController<RefreshPopover.IRefreshPopov
 
     }
 
+    /**
+     * 停止自动刷新
+     */
     private void stopAutoRefresh() {
         if (refreshTimeline != null) {
             refreshTimeline.stop();
