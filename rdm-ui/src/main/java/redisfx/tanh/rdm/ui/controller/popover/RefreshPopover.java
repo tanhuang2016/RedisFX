@@ -69,6 +69,9 @@ public  class RefreshPopover extends BaseController<RefreshPopover.IRefreshPopov
         refresh();
     }
 
+    /**
+     * 刷新
+     */
     private void refresh() {
         this.parentController.refresh();
     }
