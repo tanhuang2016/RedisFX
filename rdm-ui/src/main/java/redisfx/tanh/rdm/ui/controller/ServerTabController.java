@@ -536,7 +536,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     }
 
     /**
-     * 加兹安节点图标
+     * 加载安节点图标
      * 先加入队列，再批量触发加载，避免线程频繁切换带来的开销
      * @param treeItem 节点
      */
