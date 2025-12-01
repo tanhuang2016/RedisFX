@@ -43,6 +43,9 @@ public  class RefreshPopover extends BaseController<RefreshPopover.IRefreshPopov
 
     }
 
+    /**
+     * 停止自动刷新
+     */
     private void stopAutoRefresh() {
         if (refreshTimeline != null) {
             refreshTimeline.stop();
@@ -50,6 +53,9 @@ public  class RefreshPopover extends BaseController<RefreshPopover.IRefreshPopov
         this.parentController.setUpdateRefreshState(false,rateValue);
     }
 
+    /**
+     * 启动自动刷新
+     */
     private void startAutoRefresh() {
         rateValue=Integer.parseInt(rate.getText());
         // 创建时间线，每5秒执行一次
@@ -63,6 +69,9 @@ public  class RefreshPopover extends BaseController<RefreshPopover.IRefreshPopov
         refresh();
     }
 
+    /**
+     * 刷新
+     */
     private void refresh() {
         this.parentController.refresh();
     }
