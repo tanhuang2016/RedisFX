@@ -557,9 +557,8 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
         //管道执行用一个新连接，执行完回收到线程，connection不用关闭
         try (Jedis subJedis = jedisPool.getResource();
              Pipeline pipeline = subJedis.pipelined()){
-            if(db!=0){
-                pipeline.select(db);
-            }
+           // subJedis.getDB();默认是0，但管道执行命令的时候，可能不是0库，必须显示切换
+            pipeline.select(db);
             PipeLineAdapterImpl pipeLineAdapter = new PipeLineAdapterImpl(pipeline);
             pipelineExecutor.accept(pipeLineAdapter);
             return pipeLineAdapter.syncAndReturnAll();
