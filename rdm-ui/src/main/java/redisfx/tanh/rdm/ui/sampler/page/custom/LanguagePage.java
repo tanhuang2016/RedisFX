@@ -3,6 +3,7 @@
 package redisfx.tanh.rdm.ui.sampler.page.custom;
 
 import atlantafx.base.util.BBCodeParser;
+import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.TextFlow;
 import redisfx.tanh.rdm.common.tuple.Tuple2;
@@ -30,7 +31,10 @@ public final class LanguagePage extends AbstractPage {
         addFormattedText(language("main.setting.general.language.describe"));
         Tuple2<AnchorPane, LanguagePageController> tuple2 = GuiUtil.doLoadFxml("/fxml/setting/LanguagePage.fxml");
         controller=tuple2.t2();
-        addNode(tuple2.t1());
+        AnchorPane t1 = tuple2.t1();
+        Node node = t1.getChildren().get(0);
+        addNode(node);
+//        addNode(tuple2.t1());
     }
 
 
