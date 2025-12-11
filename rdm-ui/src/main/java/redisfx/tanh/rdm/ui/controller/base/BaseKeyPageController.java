@@ -127,6 +127,9 @@ public abstract class BaseKeyPageController<P extends ITable> extends BaseKeyCon
         tableView.refresh();
     }
 
+    /**
+     * 修改行号
+     */
     private void changeRowNum(List<P> pageList,int pageIndex) {
         int n=pageIndex * ROWS_PER_PAGE;
         for (int i = 0; i < pageList.size(); i++) {
