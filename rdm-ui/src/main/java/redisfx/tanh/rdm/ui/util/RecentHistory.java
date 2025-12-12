@@ -15,6 +15,9 @@ import java.util.SequencedCollection;
 public class RecentHistory<T> {
 
     private final int size;
+    /**
+     * 是否去重
+     */
     private final boolean distinct;
     /**
      * 最近记录

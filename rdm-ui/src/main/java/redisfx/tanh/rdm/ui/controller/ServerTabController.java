@@ -536,7 +536,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     }
 
     /**
-     * 加兹安节点图标
+     * 加载安节点图标
      * 先加入队列，再批量触发加载，避免线程频繁切换带来的开销
      * @param treeItem 节点
      */
@@ -938,7 +938,6 @@ public class ServerTabController extends BaseClientController<MainController> {
                 // 节点被折叠，移除路径记录
                 expandedPaths.remove(path);
             }
-            System.out.println(expandedPaths);
 
         });
     }
@@ -1965,7 +1964,6 @@ public class ServerTabController extends BaseClientController<MainController> {
         // 检查当前节点是否应该展开
         if (node.getValue() != null) {
             String path = constructNodePath(node);
-            System.out.println("path:"+path);
             if (expandedPaths.contains(path)) {
                 node.setExpanded(true);
             }

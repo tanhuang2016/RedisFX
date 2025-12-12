@@ -203,6 +203,11 @@ public class KeyTabController extends BaseClientController<ServerTabController> 
 
     }
 
+    /**
+     * 重命名
+     *
+     * @param mouseEvent 鼠标事件
+     */
     public void rename(MouseEvent mouseEvent) {
         if (GuiUtil.requiredTextField(this.key)) {
             return;
