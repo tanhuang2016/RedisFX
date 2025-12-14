@@ -51,6 +51,10 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
         total.getStyleClass().addAll(Styles.SUCCESS);
     }
 
+    /**
+     * 设置结果future
+     * @param future 结果future
+     */
     public void setResultFuture(CompletableFuture<Tuple2<Boolean,Boolean>> future) {
         this.resultFuture = future;
     }
