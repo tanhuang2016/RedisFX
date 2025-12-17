@@ -93,6 +93,10 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
             textArea.appendText(i+1+": "+list.get(i).getKey()+"\n");
         }
     }
+    /**
+     * 设置当前stage
+     * @param stage 当前stage
+     */
     public void setCurrentStage(Stage stage) {
         this.currentStage = stage;
         stage.setOnCloseRequest(event -> {
