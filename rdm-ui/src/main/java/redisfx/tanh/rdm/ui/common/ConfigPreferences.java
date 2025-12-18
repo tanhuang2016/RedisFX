@@ -25,6 +25,9 @@ public class ConfigPreferences {
         return connectionNodeMap;
     }
 
+    /**
+     * 设置连接节点
+     */
     protected void setConnectionNodeMap(ObservableMap<String, ConnectionServerNode> connectionNodeMap) {
         this.connectionNodeMap = connectionNodeMap;
     }
