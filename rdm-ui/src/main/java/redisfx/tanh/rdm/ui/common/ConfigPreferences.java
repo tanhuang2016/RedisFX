@@ -32,6 +32,9 @@ public class ConfigPreferences {
         this.connectionNodeMap = connectionNodeMap;
     }
 
+    /**
+     * 配置项
+     */
     public ObservableMap<String, ConfigSettings> getConfigSettingsMap() {
         return configSettingsMap;
     }
