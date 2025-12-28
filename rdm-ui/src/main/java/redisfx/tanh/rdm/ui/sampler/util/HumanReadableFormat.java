@@ -57,6 +57,7 @@ public final class HumanReadableFormat {
         return HOUR_MINUTE.format(x);
     }
 
+    @Deprecated
     private static int getWeekNumber(LocalDateTime date) {
         return date.get(WeekFields.of(Locale.getDefault()).weekOfYear());
     }
