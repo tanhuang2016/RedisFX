@@ -29,7 +29,7 @@ public final class HumanReadableFormat {
         }
         return String.format("%.1f %cB", bytes / 1000.0, ci.current());
     }
-
+@Deprecated
     public static String date(LocalDateTime x) {
         Objects.requireNonNull(x);
         var now = LocalDateTime.now(ZoneId.systemDefault());
