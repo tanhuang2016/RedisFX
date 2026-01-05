@@ -51,6 +51,10 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
         total.getStyleClass().addAll(Styles.SUCCESS);
     }
 
+    /**
+     * 设置结果future
+     * @param future 结果future
+     */
     public void setResultFuture(CompletableFuture<Tuple2<Boolean,Boolean>> future) {
         this.resultFuture = future;
     }
@@ -89,6 +93,10 @@ public class MultipleKeyController extends BaseController<ServerTabController> i
             textArea.appendText(i+1+": "+list.get(i).getKey()+"\n");
         }
     }
+    /**
+     * 设置当前stage
+     * @param stage 当前stage
+     */
     public void setCurrentStage(Stage stage) {
         this.currentStage = stage;
         stage.setOnCloseRequest(event -> {
