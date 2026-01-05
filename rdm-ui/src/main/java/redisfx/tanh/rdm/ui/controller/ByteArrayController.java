@@ -485,7 +485,7 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
      */
     public void export(ActionEvent actionEvent) {
         BaseKeyController parentController = (BaseKeyController) this.parentController;
-        File file = GuiUtil.saveFileChoose(this.root.getScene().getWindow(), lastFile, parentController.getParameter().getKey());
+        File file = GuiUtil.saveFileChoose(this.root.getScene().getWindow(), lastFile, parentController.getParameter().getKey().replaceAll(":","_"));
         if(file==null){
             return;
         }
