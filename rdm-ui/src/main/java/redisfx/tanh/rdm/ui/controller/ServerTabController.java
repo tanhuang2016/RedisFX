@@ -271,6 +271,8 @@ public class ServerTabController extends BaseClientController<MainController> {
         boxCancel.setText(language("common.cancel"));
         newKey.setText(language("server.new"));
         clearItem.setText(language("server.clear"));
+        autoSearch.setText(language("connect.info.enable.search"));
+        searchTypeMenu.setText(language("server.toolBar.searchType"));
     }
 
     private void progressBarLanguage() {
