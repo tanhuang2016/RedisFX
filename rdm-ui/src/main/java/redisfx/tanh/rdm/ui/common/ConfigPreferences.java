@@ -25,10 +25,16 @@ public class ConfigPreferences {
         return connectionNodeMap;
     }
 
+    /**
+     * 设置连接节点
+     */
     protected void setConnectionNodeMap(ObservableMap<String, ConnectionServerNode> connectionNodeMap) {
         this.connectionNodeMap = connectionNodeMap;
     }
 
+    /**
+     * 配置项
+     */
     public ObservableMap<String, ConfigSettings> getConfigSettingsMap() {
         return configSettingsMap;
     }

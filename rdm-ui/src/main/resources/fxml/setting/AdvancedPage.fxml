@@ -40,7 +40,7 @@
                            </Spinner>
                        </children>
                    </HBox>
-                         <HBox alignment="CENTER_LEFT" spacing="0.0" VBox.vgrow="ALWAYS">
+                         <HBox alignment="CENTER_LEFT"  VBox.vgrow="ALWAYS">
                             <Label text="%connect.info.style">
                         <padding>
                            <Insets right="6.0" />

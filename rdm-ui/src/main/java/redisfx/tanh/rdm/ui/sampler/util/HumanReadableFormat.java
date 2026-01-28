@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.WeekFields;
 import java.util.Locale;
 import java.util.Objects;
-
+@Deprecated
 public final class HumanReadableFormat {
 
     public static final DateTimeFormatter DAY_MONTH_YEAR = DateTimeFormatter.ofPattern("d LLL yyyy");
@@ -29,7 +29,7 @@ public final class HumanReadableFormat {
         }
         return String.format("%.1f %cB", bytes / 1000.0, ci.current());
     }
-
+@Deprecated
     public static String date(LocalDateTime x) {
         Objects.requireNonNull(x);
         var now = LocalDateTime.now(ZoneId.systemDefault());
@@ -57,6 +57,7 @@ public final class HumanReadableFormat {
         return HOUR_MINUTE.format(x);
     }
 
+    @Deprecated
     private static int getWeekNumber(LocalDateTime date) {
         return date.get(WeekFields.of(Locale.getDefault()).weekOfYear());
     }

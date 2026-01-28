@@ -271,6 +271,8 @@ public class ServerTabController extends BaseClientController<MainController> {
         boxCancel.setText(language("common.cancel"));
         newKey.setText(language("server.new"));
         clearItem.setText(language("server.clear"));
+        autoSearch.setText(language("connect.info.enable.search"));
+        searchTypeMenu.setText(language("server.toolBar.searchType"));
     }
 
     private void progressBarLanguage() {
@@ -1691,6 +1693,14 @@ public class ServerTabController extends BaseClientController<MainController> {
             List<String> keys = scanner.scan();
             loadIntoTreeView(keys);
             updateProgressBar();
+            int loadCount=keys.size();
+            while (!keys.isEmpty()&&loadCount<SCAN_COUNT){
+                scanner.setCount(SCAN_COUNT-loadCount);
+                keys = scanner.scan();
+                loadIntoTreeView(keys);
+                updateProgressBar();
+            }
+            scanner.setCount(SCAN_COUNT);
         });
 
     }
@@ -1705,10 +1715,12 @@ public class ServerTabController extends BaseClientController<MainController> {
                 return;
             }
             List<String> keys = scanner.setCount(SCAN_COUNT*200).scan();
+            loadIntoTreeView(keys);
+            updateProgressBar();
             while (!keys.isEmpty()){
+                keys = scanner.scan();
                 loadIntoTreeView(keys);
                 updateProgressBar();
-                keys = scanner.scan();
             }
         });
 

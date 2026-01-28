@@ -163,7 +163,7 @@ public class RedisConfig {
     }
 
     public boolean isTreeShow() {
-        return Objects.requireNonNullElse(getTreeShow(), false);
+        return Objects.requireNonNullElse(getTreeShow(), true);
     }
     public boolean isEnableReport() {
         return Objects.requireNonNullElse(getEnableReport(), true);

@@ -74,8 +74,8 @@
                                                       </ToggleButton>
                                                       <MenuButton fx:id="searchOptionsButton" mnemonicParsing="false" opacity="0.8">
                                                           <items>
-                                                              <CheckMenuItem fx:id="autoSearch" text="自动搜索" />
-                                                              <Menu fx:id="searchTypeMenu" text="搜索类型" />
+                                                              <CheckMenuItem fx:id="autoSearch"  />
+                                                              <Menu fx:id="searchTypeMenu"  />
                                                           </items>
                                                       </MenuButton>
                                                   </HBox>
