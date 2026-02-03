@@ -367,22 +367,22 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
 
     @Override
     public Class<?> jsonType(String key) {
-        return execute(jedis->jedis.jsonType(key,Path2.ROOT_PATH).getFirst());
+        return execute(jedis->jedis.jsonType(key,Path2.ROOT_PATH).get(0));
     }
 
     @Override
     public long jsonObjLen(String key) {
-        return execute(jedis->jedis.jsonObjLen(key,Path2.ROOT_PATH).getFirst());
+        return execute(jedis->jedis.jsonObjLen(key,Path2.ROOT_PATH).get(0));
     }
 
     @Override
     public long jsonStrLen(String key) {
-        return execute(jedis->jedis.jsonStrLen(key,Path2.ROOT_PATH).getFirst());
+        return execute(jedis->jedis.jsonStrLen(key,Path2.ROOT_PATH).get(0));
     }
 
     @Override
     public long jsonArrLen(String key) {
-        return execute(jedis->jedis.jsonArrLen(key,Path2.ROOT_PATH).getFirst());
+        return execute(jedis->jedis.jsonArrLen(key,Path2.ROOT_PATH).get(0));
     }
 
     @Override
@@ -568,7 +568,7 @@ public class JedisClusterClient extends AbstractRedisClient implements RedisClie
     @Override
     public RedisSubscriber subscriber(){
         return subscriber(()->{
-            String[] split = masters.getFirst().split(":");
+            String[] split = masters.get(0).split(":");
             if(redisConfig.isSsl()){
                 SSLSocketFactory sslSocketFactory = Util.getSocketFactory(redisConfig.getCaCrt(), redisConfig.getRedisCrt(), redisConfig.getRedisKey(), redisConfig.getRedisKeyPassword());
                 JedisClientConfig clientConfig = DefaultJedisClientConfig.builder()

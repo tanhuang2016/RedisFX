@@ -115,7 +115,7 @@ public class PipeLineAdapterImpl implements PipelineAdapter {
             if(object instanceof Response<?> response){
                 Object o = response.get();
                 if(o instanceof List<?> list){
-                    result.add(list.getFirst());
+                    result.add(list.get(0));
                 }else {
                     result.add(response.get());
                 }
