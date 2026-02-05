@@ -112,9 +112,11 @@ public class PipeLineAdapterImpl implements PipelineAdapter {
         pipeline.sync();
         List<Object> result = new ArrayList<>();
         for (Object object : responseList) {
-            if(object instanceof Response<?> response){
+            if(object instanceof Response<?> ){
+                Response<?> response=(Response<?>) object;
                 Object o = response.get();
-                if(o instanceof List<?> list){
+                if(o instanceof List<?> ){
+                    List<?> list=(List<?>) o;
                     result.add(list.get(0));
                 }else {
                     result.add(response.get());
