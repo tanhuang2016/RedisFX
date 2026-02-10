@@ -1,6 +1,7 @@
 package redisfx.tanh.rdm.redis;
 
 import lombok.Data;
+import redisfx.tanh.rdm.common.util.TUtil;
 
 import java.util.Objects;
 
@@ -129,7 +130,7 @@ public class RedisConfig {
 
 
     public Boolean getKeySeparatorRegex() {
-        return Objects.requireNonNullElse(keySeparatorRegex, false);
+        return TUtil.ifNull(keySeparatorRegex, false);
     }
 
     @Override
@@ -147,28 +148,28 @@ public class RedisConfig {
     }
 
     public boolean isSentinel() {
-        return Objects.requireNonNullElse(getSentinel(), false);
+        return TUtil.ifNull(getSentinel(), false);
     }
 
     public boolean isSsl() {
-        return Objects.requireNonNullElse(getSsl(), false);
+        return TUtil.ifNull(getSsl(), false);
     }
 
     public boolean isCluster() {
-        return Objects.requireNonNullElse(getCluster(), false);
+        return TUtil.ifNull(getCluster(), false);
     }
 
     public boolean isSsh() {
-        return Objects.requireNonNullElse(getSsh(), false);
+        return TUtil.ifNull(getSsh(), false);
     }
 
     public boolean isTreeShow() {
-        return Objects.requireNonNullElse(getTreeShow(), true);
+        return TUtil.ifNull(getTreeShow(), true);
     }
     public boolean isEnableReport() {
-        return Objects.requireNonNullElse(getEnableReport(), true);
+        return TUtil.ifNull(getEnableReport(), true);
     }
     public boolean isEnableAutoSearch() {
-        return Objects.requireNonNullElse(getEnableAutoSearch(), true);
+        return TUtil.ifNull(getEnableAutoSearch(), true);
     }
 }
