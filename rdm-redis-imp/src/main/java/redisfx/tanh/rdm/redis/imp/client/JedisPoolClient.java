@@ -165,7 +165,7 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
                     return jedis.scan(cursors.get(0), scanParams, type);
                 }
             });
-            return new Tuple2<>(List.of(scan.t1()), scan.t2());
+            return new Tuple2<>( Collections.singletonList(scan.t1()), scan.t2());
         });
 
 
@@ -177,7 +177,7 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
         return new RedisKeyScanner() {
             @Override
             public List<String> doScan() {
-                Tuple2<List<String>, List<String>> scan = redisClient.scan(pattern, List.of(cursor), count, type, isLike);
+                Tuple2<List<String>, List<String>> scan = redisClient.scan(pattern, Collections.singletonList(cursor), count, type, isLike);
                 this.cursor = scan.t1().get(0);
                 return scan.t2();
             }
