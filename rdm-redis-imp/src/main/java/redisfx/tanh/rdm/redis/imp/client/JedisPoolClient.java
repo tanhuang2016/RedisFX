@@ -155,17 +155,17 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
     @Override
     public Tuple2<List<String>, List<String>> scan(String pattern, List<String>cursors, int count, String type, boolean isLike) {
         return execute(jedis -> {
-            if("-1".equals(cursors.getFirst())){
+            if("-1".equals(cursors.get(0))){
                 return new Tuple2<>(cursors, new ArrayList<>());
             }
             Tuple2<String, List<String>> scan = super.scan(pattern, count, isLike, (scanParams) -> {
                 if (DataUtil.isBlank(type)) {
-                    return jedis.scan(cursors.getFirst(), scanParams);
+                    return jedis.scan(cursors.get(0), scanParams);
                 } else {
-                    return jedis.scan(cursors.getFirst(), scanParams, type);
+                    return jedis.scan(cursors.get(0), scanParams, type);
                 }
             });
-            return new Tuple2<>(List.of(scan.t1()), scan.t2());
+            return new Tuple2<>( Collections.singletonList(scan.t1()), scan.t2());
         });
 
 
@@ -176,10 +176,10 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
         RedisClient redisClient = this;
         return new RedisKeyScanner() {
             @Override
-            public List<String> doScan() {
-                Tuple2<List<String>, List<String>> scan = redisClient.scan(pattern, List.of(cursor), count, type, isLike);
-                this.cursor = scan.t1().getFirst();
-                return scan.t2();
+            public ScannerResult doScan() {
+                Tuple2<List<String>, List<String>> scan = redisClient.scan(pattern, Collections.singletonList(cursor), count, type, isLike);
+                this.cursor = scan.t1().get(0);
+                return new ScannerResult(new ArrayList<String>(){{add(cursor);}}, scan.t2());
             }
         };
     }
@@ -333,7 +333,7 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
         return execute(jedis -> {
             Connection connection = jedis.getConnection();
             CommandObjects commandObjects = new CommandObjects();
-            return connection.executeCommand(commandObjects.jsonType(key, Path2.ROOT_PATH)).getFirst();
+            return connection.executeCommand(commandObjects.jsonType(key, Path2.ROOT_PATH)).get(0);
         });
     }
 
@@ -342,7 +342,7 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
         return execute(jedis -> {
             Connection connection = jedis.getConnection();
             CommandObjects commandObjects = new CommandObjects();
-            return connection.executeCommand(commandObjects.jsonObjLen(key, Path2.ROOT_PATH)).getFirst();
+            return connection.executeCommand(commandObjects.jsonObjLen(key, Path2.ROOT_PATH)).get(0);
         });
     }
 
@@ -351,7 +351,7 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
         return execute(jedis -> {
             Connection connection = jedis.getConnection();
             CommandObjects commandObjects = new CommandObjects();
-            return connection.executeCommand(commandObjects.jsonStrLen(key, Path2.ROOT_PATH)).getFirst();
+            return connection.executeCommand(commandObjects.jsonStrLen(key, Path2.ROOT_PATH)).get(0);
         });
     }
 
@@ -360,7 +360,7 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
         return execute(jedis -> {
             Connection connection = jedis.getConnection();
             CommandObjects commandObjects = new CommandObjects();
-            return connection.executeCommand(commandObjects.jsonArrLen(key, Path2.ROOT_PATH)).getFirst();
+            return connection.executeCommand(commandObjects.jsonArrLen(key, Path2.ROOT_PATH)).get(0);
         });
     }
 

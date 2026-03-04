@@ -1050,7 +1050,7 @@ public class ServerTabController extends BaseClientController<MainController> {
     public void search(ActionEvent actionEvent) {
         async(() -> {
             resetScanner();
-            List<String> keys = scanner.scan();
+            List<String> keys = scanner.scanFirst();
             //key已经查出来,只管展示
             initTreeView(keys);
             //得刷新一下，不然会出现目录和叶子节点未对齐的显示问题
@@ -1690,13 +1690,15 @@ public class ServerTabController extends BaseClientController<MainController> {
             if(scanner.getSum()>=this.choiceBox.getSelectionModel().getSelectedItem().getDbSize()){
                 return;
             }
-            List<String> keys = scanner.scan();
+            RedisKeyScanner.ScannerResult result = scanner.scan();
+            List<String> keys = result.getKeys();
             loadIntoTreeView(keys);
             updateProgressBar();
             int loadCount=keys.size();
-            while (!keys.isEmpty()&&loadCount<SCAN_COUNT){
+            while (!result.isEnd()&&loadCount<SCAN_COUNT){
                 scanner.setCount(SCAN_COUNT-loadCount);
-                keys = scanner.scan();
+                result = scanner.scan();
+                keys = result.getKeys();
                 loadIntoTreeView(keys);
                 updateProgressBar();
             }
@@ -1714,11 +1716,13 @@ public class ServerTabController extends BaseClientController<MainController> {
             if(scanner.getSum()>=this.choiceBox.getSelectionModel().getSelectedItem().getDbSize()){
                 return;
             }
-            List<String> keys = scanner.setCount(SCAN_COUNT*200).scan();
+            RedisKeyScanner.ScannerResult result = scanner.setCount(SCAN_COUNT*200).scan();
+            List<String> keys = result.getKeys();
             loadIntoTreeView(keys);
             updateProgressBar();
-            while (!keys.isEmpty()){
-                keys = scanner.scan();
+            while (!result.isEnd()){
+                result = scanner.scan();
+                keys = result.getKeys();
                 loadIntoTreeView(keys);
                 updateProgressBar();
             }

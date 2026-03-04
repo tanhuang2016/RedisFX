@@ -16,6 +16,8 @@ import redisfx.tanh.rdm.ui.util.GuiUtil;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static redisfx.tanh.rdm.ui.util.LanguageManager.language;
+
 /**
  * @author th
  * @version 1.0.0
@@ -45,6 +47,11 @@ public class NewKeyController extends BaseClientController<ServerTabController> 
     @FXML
     public void ok(ActionEvent actionEvent) {
         if(GuiUtil.requiredTextField(key, ttl)){
+            return;
+        }
+        boolean exists = this.redisClient.exists(key.getText());
+        if(exists){
+            GuiUtil.messageError(language("alert.message.delete.exists")+":"+key.getText());
             return;
         }
         String keyType = this.parameter.get().getKeyType();

@@ -71,7 +71,7 @@ public class Main extends Application {
         try {
             // 关闭所有窗口
             ObservableList<Window> windows = Window.getWindows();
-            windows.getFirst().hide();
+            windows.get(0).hide();
             controller.close();
             // 重新启动主应用
             Stage primaryStage = new Stage();
