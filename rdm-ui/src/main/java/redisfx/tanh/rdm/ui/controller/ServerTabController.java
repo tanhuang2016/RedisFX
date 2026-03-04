@@ -1699,6 +1699,7 @@ public class ServerTabController extends BaseClientController<MainController> {
                 scanner.setCount(SCAN_COUNT-loadCount);
                 result = scanner.scan();
                 keys = result.getKeys();
+                loadCount+=keys.size();
                 loadIntoTreeView(keys);
                 updateProgressBar();
             }
