@@ -176,10 +176,10 @@ public class JedisPoolClient extends AbstractRedisClient implements RedisClient 
         RedisClient redisClient = this;
         return new RedisKeyScanner() {
             @Override
-            public List<String> doScan() {
+            public ScannerResult doScan() {
                 Tuple2<List<String>, List<String>> scan = redisClient.scan(pattern, Collections.singletonList(cursor), count, type, isLike);
                 this.cursor = scan.t1().get(0);
-                return scan.t2();
+                return new ScannerResult(new ArrayList<String>(){{add(cursor);}}, scan.t2());
             }
         };
     }
