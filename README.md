@@ -62,9 +62,15 @@ English |  [中文](README.zh-CN.md)
 ![PubSub.png](doc/image/PubSub.png)
 ![Monitor.png](doc/image/Monitor.png)
 
+## RedisFX-IDEA
+![idea-zset.png](doc/image/idea-zset.png)
+![idea-consle.png](doc/image/idea-consle.png)
+![idea-monitor.png](doc/image/idea-monitor.png)
+![idea-pubsub.png](doc/image/idea-pubsub.png)
+![idea-report.png](doc/image/idea-report.png)
+
 ## Acknowledgements
 You've scrolled to the end, thank you for giving us a Star! 🙏🙏🙏
-
 
 ## Contributors  ✨
 
