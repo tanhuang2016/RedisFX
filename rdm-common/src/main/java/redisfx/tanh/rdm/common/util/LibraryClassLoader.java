@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 自定义类加载器，用于加载 libs 目录下的 JAR 文件
  */
-public class LibraryClassLoader extends ClassLoader {
+public class LibraryClassLoader extends ClassLoader implements AutoCloseable {
     private static final Logger log = LoggerFactory.getLogger(LibraryClassLoader.class);
     private  File libDirectory;
     private final List<URLClassLoader> jarLoaders = new ArrayList<>();
@@ -52,7 +52,6 @@ public class LibraryClassLoader extends ClassLoader {
     }
 
     public void initializeJarLoaders() {
-        jarLoaders.clear();
         if (libDirectory.exists() && libDirectory.isDirectory()) {
             File[] jarFiles = libDirectory.listFiles((dir, name) -> name.endsWith(".jar"));
             if (jarFiles != null) {
@@ -70,5 +69,25 @@ public class LibraryClassLoader extends ClassLoader {
             }
             log.info("Loaded {} JARs from {}", jarLoaders.size(), libDirectory.getAbsolutePath());
         }
+    }
+
+    @Override
+    public void close() {
+        Exception first = null;
+        for (URLClassLoader cl : jarLoaders) {
+            try {
+                cl.close();
+            } catch (Exception e) {
+                if (first == null) {
+                    first = e;
+                } else {
+                    first.addSuppressed(e);
+                }
+            }
+        }
+        if (first != null) {
+            log.warn("Failed to close one or more JAR classloaders", first);
+        }
+        jarLoaders.clear();
     }
 }
