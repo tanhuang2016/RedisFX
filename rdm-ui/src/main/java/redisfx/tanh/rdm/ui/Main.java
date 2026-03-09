@@ -253,6 +253,18 @@ public class Main extends Application {
         getHostServices().showDocument(event.getUri().toString());
     }
 
+    @Override
+    public void stop() throws Exception {
+        try {
+            ClassLoader customLoader = Thread.currentThread().getContextClassLoader();
+            if (customLoader instanceof LibraryClassLoader) {
+                ((LibraryClassLoader) customLoader).close();
+            }
+        } finally {
+            super.stop();
+        }
+    }
+
     public MainController getController() {
         return controller;
     }
