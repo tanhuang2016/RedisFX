@@ -1,5 +1,7 @@
 package redisfx.tanh.rdm.ui.entity.config;
 
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import redisfx.tanh.rdm.ui.common.ConfigSettingsEnum;
 import redisfx.tanh.rdm.ui.common.KeyTypeTagEnum;
 
@@ -61,5 +63,26 @@ public class KeyTagSetting implements ConfigSettings{
     @Override
     public int hashCode() {
         return Objects.hash(tags, colors, version);
+    }
+
+    private  Double tagMaxWidth= null;
+
+    public double getMaxWidth() {
+        if(tagMaxWidth!=null){
+            return tagMaxWidth;
+        }
+        double mwidth = 0;
+        Text textHelper = new Text();
+        textHelper.setFont(Font.font(12));
+        for (int i = 0; i < getTags().size()-1; i++) {
+            String settingTag=getTags().get(i);
+            textHelper.setText(settingTag);
+            double width = textHelper.getLayoutBounds().getWidth();
+            if (width > mwidth) {
+                mwidth = width;
+            }
+        }
+        this.tagMaxWidth = mwidth;
+        return mwidth;
     }
 }

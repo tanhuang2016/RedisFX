@@ -692,18 +692,7 @@ public class GuiUtil {
 
     private static Label createTypeLabelUniformWidth(Tuple2<String, String> tag) {
         KeyTagSetting setting = Applications.getConfigSettings(ConfigSettingsEnum.KEY_TAG.name);
-
-        double maxWidth = 0;
-        Text textHelper = new Text();
-        textHelper.setFont(Font.font(12));
-
-        for (String settingTag : setting.getTags()) {
-            textHelper.setText(settingTag);
-            double width = textHelper.getLayoutBounds().getWidth();
-            if (width > maxWidth) {
-                maxWidth = width;
-            }
-        }
+        double maxWidth =setting.getMaxWidth();
         Label tagLabel = new Label(tag.t1());
         tagLabel.getStyleClass().add("tag");
         tagLabel.setStyle("-fx-background-color:"+tag.t2());
