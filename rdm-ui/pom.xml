@@ -342,78 +342,6 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>io.github.fvarrui</groupId>
-                        <artifactId>javapackager</artifactId>
-                        <!--这个版本可以打出msi和msm-->
-                        <version>1.7.6</version>
-                        <executions>
-                            <execution>
-                                <id>bundling-for-windows-amd64</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>package</goal>
-                                </goals>
-                                <configuration>
-                                    <mainClass>redisfx.tanh.rdm.ui.Main</mainClass>
-                                    <bundleJre>true</bundleJre>
-                                    <modules>${modules}</modules>
-                                    <!--                                    <jdkPath>D:\soft\jdk\jdk-21_windows-x64_bin\jdk-21.0.7</jdkPath>-->
-                                    <jdkPath>${env.JAVA_HOME}</jdkPath>
-                                    <generateInstaller>true</generateInstaller>
-                                    <administratorRequired>false</administratorRequired>
-                                    <platform>windows</platform>
-                                    <createZipball>true</createZipball>
-                                    <!--                            <additionalResources>-->
-                                    <!--                                <additionalResource>${name}.l4j.ini</additionalResource>-->
-                                    <!--                            </additionalResources>-->
-                                    <winConfig>
-<!--                                                                                <headerType>console</headerType>-->
-                                        <icoFile>src/main/resources/icon/fx_icon_256.ico</icoFile>
-                                        <generateSetup>true</generateSetup>
-                                        <setupLanguages>
-                                            <english>compiler:Default.isl</english>
-                                        </setupLanguages>
-                                        <wrapJar>true</wrapJar>
-                                        <generateMsi>true</generateMsi>
-                                        <generateMsm>true</generateMsm>
-                                        <disableDirPage>false</disableDirPage>
-                                        <disableProgramGroupPage>false</disableProgramGroupPage>
-                                        <disableFinishedPage>false</disableFinishedPage>
-                                        <disableRunAfterInstall>false</disableRunAfterInstall>
-                                        <disableWelcomePage>false</disableWelcomePage>
-                                    </winConfig>
-                                    <vmArgs>
-                                        <arg>--module-path</arg>
-                                        <arg>libs</arg>
-                                        <arg>--add-modules</arg>
-                                        <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.base</arg>
-                                        <arg>-XX:+UseZGC</arg>
-                                    </vmArgs>
-                                </configuration>
-                            </execution>
-
-
-
-                        </executions>
-                    </plugin>
-
-
-                </plugins>
-            </build>
-        </profile>
-
-        <!-- Windows arm64 位 javafx21没有该架构的sdk，目前执行不了 -->
-        <profile>
-            <id>windows-arm64</id>
-            <activation>
-                <os>
-                    <family>windows</family>
-                    <arch>aarch64</arch>
-                </os>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
                         <version>3.1.0</version>
@@ -485,9 +413,13 @@
                             </execution>
                         </executions>
                     </plugin>
+
+
                 </plugins>
             </build>
         </profile>
+
+
 
         <!-- Linux x86 64 位 可以运行-->
 
