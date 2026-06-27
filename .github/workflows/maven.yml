@@ -20,7 +20,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ ubuntu-latest,ubuntu-22.04-arm, windows-latest, macos-latest,macos-15-intel ]
+        os: [ windows-latest, macos-latest,macos-15-intel ]
 #            os: [ macos-latest ]
     #        os: [ubuntu-latest,ubuntu-22.04-arm, windows-latest, windows-11-arm,macos-latest,macos-13]
     name: build  ${{ matrix.os }}
@@ -178,29 +178,29 @@ jobs:
               rm -rf ./temp
             fi
           done
-      - name: Create Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ env.RELEASE_TAG }}
-          release_name: ${{ env.RELEASE_TAG }}🌈
-          draft: false
-          prerelease: false
-
-      - name: Upload Release Assets
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ env.RELEASE_TAG }}
-          files: ./release-assets/*
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # 示例：在发布Release时同时上传到Artifacts
-      - name: Upload Release Assets to Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-assets
-          path: ./release-assets/*
+#      - name: Create Release
+#        uses: actions/create-release@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          tag_name: ${{ env.RELEASE_TAG }}
+#          release_name: ${{ env.RELEASE_TAG }}🌈
+#          draft: false
+#          prerelease: false
+#
+#      - name: Upload Release Assets
+#        uses: softprops/action-gh-release@v1
+#        with:
+#          tag_name: ${{ env.RELEASE_TAG }}
+#          files: ./release-assets/*
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          # 示例：在发布Release时同时上传到Artifacts
+#      - name: Upload Release Assets to Artifacts
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: release-assets
+#          path: ./release-assets/*
 
 #          发布到maven中央仓库
 #  publish-central:
