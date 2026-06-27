@@ -1,6 +1,7 @@
 package redisfx.tanh.rdm.ui;
 
 import javafx.application.Application;
+import javafx.application.ColorScheme;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,7 @@ import redisfx.tanh.rdm.common.util.LibraryClassLoader;
 import redisfx.tanh.rdm.redis.exceptions.RedisException;
 import redisfx.tanh.rdm.ui.common.Applications;
 import redisfx.tanh.rdm.ui.common.ConfigSettingsEnum;
+import redisfx.tanh.rdm.ui.common.Constant;
 import redisfx.tanh.rdm.ui.controller.MainController;
 import redisfx.tanh.rdm.ui.entity.config.LanguageSetting;
 import redisfx.tanh.rdm.ui.entity.config.ThemeSetting;
@@ -123,6 +125,7 @@ public class Main extends Application {
             stage.setWidth(initWidth=Math.min(root.getPrefWidth(), bounds.getWidth()));
             stage.setHeight(initHeight=Math.min(root.getPrefHeight(), bounds.getHeight()));
             initTm(scene);
+            setSystemTitleBarColor();
             DefaultEventBus.getInstance().subscribe(BrowseEvent .class, this::onBrowseEvent);
             DefaultEventBus.getInstance().subscribe(ThemeEvent.class, e->this.changeStyle());
             scene.getRoot().setStyle(DynamicCssManager.styles());
@@ -138,6 +141,18 @@ public class Main extends Application {
 
     public void changeStyle(){
         scene.getRoot().setStyle(DynamicCssManager.styles());
+        setSystemTitleBarColor();
+
+
+    }
+
+    private void setSystemTitleBarColor() {
+        if(ThemeManager.getInstance().getTheme().getName().contains(Constant.THEME_PRIMER_DARK)){
+            scene.getPreferences().setColorScheme(ColorScheme.DARK);
+        }else {
+            scene.getPreferences().setColorScheme(ColorScheme.LIGHT);
+
+        }
     }
 
 

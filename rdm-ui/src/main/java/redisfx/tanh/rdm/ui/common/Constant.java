@@ -12,6 +12,7 @@ public interface Constant {
      * 明亮主题标识
      */
     String THEME_LIGHT="Light";
+    String THEME_PRIMER_DARK="Primer Dark";
     /**
      * 内容背景色
      */
