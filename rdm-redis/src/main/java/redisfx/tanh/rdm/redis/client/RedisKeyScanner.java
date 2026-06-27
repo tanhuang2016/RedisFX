@@ -1,6 +1,10 @@
 package redisfx.tanh.rdm.redis.client;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,12 +39,21 @@ public abstract class RedisKeyScanner {
         this.sum=0;
         return this;
     }
-    public final List<String> scan(){
-        List<String> keys = doScan();
-        sum+=keys.size();
+    public final ScannerResult scan(){
+        ScannerResult result = doScan();
+        sum+=result.keys.size();
+        return result;
+    }
+    public final List<String> scanFirst(){
+        RedisKeyScanner.ScannerResult result = this.scan();
+        List<String> keys = new ArrayList<>(result.getKeys());
+        while (!result.isEnd()&&keys.size()<count){
+            result = this.scan();
+            keys.addAll(result.getKeys());
+        }
         return keys;
     }
-    public abstract List<String> doScan();
+    public abstract ScannerResult doScan();
 
     public int getSum() {
         return sum;
@@ -49,5 +62,22 @@ public abstract class RedisKeyScanner {
     public RedisKeyScanner setCount(int count) {
         this.count = count;
         return this;
+    }
+    @Getter
+    @AllArgsConstructor
+    public static class ScannerResult{
+        public static final String END="-1";
+        private List<String> cursor;
+        private List<String> keys;
+
+        public boolean isEnd(){
+            for (String s : cursor) {
+                if(!END.equals(s)){
+                    return false;
+                }
+            }
+            return true;
+        }
+
     }
 }

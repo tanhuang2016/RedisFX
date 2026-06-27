@@ -62,7 +62,12 @@
 ![Console.png](doc/image/Console.png)
 ![PubSub.png](doc/image/PubSub.png)
 ![Monitor.png](doc/image/Monitor.png)
-
+## RedisFX IDEA插件截图
+![idea-zset.png](doc/image/idea-zset.png)
+![idea-consle.png](doc/image/idea-consle.png)
+![idea-monitor.png](doc/image/idea-monitor.png)
+![idea-pubsub.png](doc/image/idea-pubsub.png)
+![idea-report.png](doc/image/idea-report.png)
 
 ## 感谢支持
 都滑到最后了、谢谢大佬给个Star吧 🙏🙏🙏

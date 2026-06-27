@@ -759,7 +759,8 @@ public class ReportController extends BaseClientController<ServerTabController> 
     public void scannedMore(ActionEvent actionEvent) {
         async(() -> {
             synchronized (lock){
-                List<String> keys = this.scanner.scan();
+                RedisKeyScanner.ScannerResult result = this.scanner.scan();
+                List<String> keys = result.getKeys();
                 // 使用Pipeline优化Redis命令执行
                 if (!keys.isEmpty()) {
                     List<Object> pipelineResults = this.redisClient.executePipelined(commands -> {

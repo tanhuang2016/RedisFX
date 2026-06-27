@@ -39,6 +39,7 @@ import java.security.spec.KeySpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 工具类
@@ -195,8 +196,8 @@ public class Util extends redisfx.tanh.rdm.common.util.Util {
      * 加载私钥
      */
     private static PrivateKey loadPrivateKey(String keyFile, char[] password) throws Exception {
-        String keyContent = Files.readString(Paths.get(keyFile));
-
+//        String keyContent = Files.readString(Paths.get(keyFile)); since
+        String keyContent = Files.lines(Paths.get(keyFile)).collect(Collectors.joining("\n"));
         if (keyContent.contains("-----BEGIN ENCRYPTED PRIVATE KEY-----")) {
             // 处理加密私钥
             String encryptedKeyPEM = keyContent

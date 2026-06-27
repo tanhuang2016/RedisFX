@@ -13,6 +13,7 @@ import javafx.collections.ObservableList;
 //import javafx.embed.swing.SwingFXUtils;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -35,6 +36,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.*;
 import javafx.stage.Window;
 import javafx.util.Duration;
@@ -636,7 +638,7 @@ public class GuiUtil {
      */
     public static Label getKeyTypeLabel(String type) {
        Tuple2<String,String> tag= getKeyTypeTag(type);
-        return createTypeLabel(tag);
+        return createTypeLabelUniformWidth(tag);
     }
 
     private final static String TAG_ICON_CSS = """
@@ -688,6 +690,16 @@ public class GuiUtil {
         return tagLabel;
     }
 
+    private static Label createTypeLabelUniformWidth(Tuple2<String, String> tag) {
+        KeyTagSetting setting = Applications.getConfigSettings(ConfigSettingsEnum.KEY_TAG.name);
+        double maxWidth =setting.getMaxWidth();
+        Label tagLabel = new Label(tag.t1());
+        tagLabel.getStyleClass().add("tag");
+        tagLabel.setStyle("-fx-background-color:"+tag.t2());
+        tagLabel.setMinWidth(maxWidth );
+        tagLabel.setAlignment(Pos.CENTER);
+        return tagLabel;
+    }
 
     /**
      * 获取key的标签 大的

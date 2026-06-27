@@ -36,6 +36,7 @@ public class ValueConverters {
                         new GzipConverter(),
                         new DeflateConverter(),
                         new MsgpackConverter(),
+                        new JavaSerializerConverter(),
                         new ZstdConverter(),
                         new LZ4Converter(),
                         new BrotliConverter()

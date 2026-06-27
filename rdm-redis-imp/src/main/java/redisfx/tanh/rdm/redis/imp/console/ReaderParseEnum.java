@@ -3,6 +3,7 @@ package redisfx.tanh.rdm.redis.imp.console;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -81,7 +82,7 @@ public enum ReaderParseEnum {
                 List<String> parse = readerParseEnum.readerParser.parse(next, r);
                 result.addAll(parse);
             }else {
-                List<String> parse = List.of(r.readLine());
+                List<String> parse = Collections.singletonList(r.readLine());
                 result.addAll(parse);
             }
         }
