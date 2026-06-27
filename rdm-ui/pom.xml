@@ -561,7 +561,7 @@
             </activation>
             <build>
                 <plugins>
-                    <plugin>
+                   <!-- <plugin>
                         <groupId>io.github.fvarrui</groupId>
                         <artifactId>javapackager</artifactId>
                         <version>1.7.6</version>
@@ -584,15 +584,15 @@
                                         <icnsFile>src/main/resources/icon/fx_icon_256.icns</icnsFile>
                                     </macConfig>
                                     <vmArgs>
-                                        <arg>--module-path</arg>
+                                        <arg>&#45;&#45;module-path</arg>
                                         <arg>libs</arg>
-                                        <arg>--add-modules</arg>
+                                        <arg>&#45;&#45;add-modules</arg>
                                         <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.base</arg>
                                     </vmArgs>
                                 </configuration>
                             </execution>
                         </executions>
-                    </plugin>
+                    </plugin>-->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
@@ -657,7 +657,7 @@
                 <plugins>
 
 
-                    <plugin>
+                  <!--  <plugin>
                         <groupId>io.github.fvarrui</groupId>
                         <artifactId>javapackager</artifactId>
                         <version>1.7.6</version>
@@ -681,15 +681,15 @@
                                         <entitlements>src/main/resources/assets/entitlements.plist</entitlements>
                                     </macConfig>
                                     <vmArgs>
-                                        <arg>--module-path</arg>
+                                        <arg>&#45;&#45;module-path</arg>
                                         <arg>libs</arg>
-                                        <arg>--add-modules</arg>
+                                        <arg>&#45;&#45;add-modules</arg>
                                         <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.base</arg>
                                     </vmArgs>
                                 </configuration>
                             </execution>
                         </executions>
-                    </plugin>
+                    </plugin>-->
 
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>

@@ -203,30 +203,30 @@ jobs:
           path: ./release-assets/*
 
 #          发布到maven中央仓库
-  publish-central:
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: Checkout Git Repo
-        uses: actions/checkout@v4
-
-      - name: Set up Apache Maven Central
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: '24'
-          server-id: central
-          server-username: SERVER_USERNAME
-          server-password: SERVER_PASSWORD
-          gpg-private-key: ${{ secrets.GPG_SECRET }}
-          gpg-passphrase: GPG_PASSPHRASE
-
-      - name: Set zstd scope to runtime
-        run: mvn versions:set-property -Dproperty=zstd.scope -DnewVersion=runtime
-
-      - name: Publish to Apache Maven Central
-        run: mvn deploy -DskipTests -P!linux-amd64,publish
-        env:
-          SERVER_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          SERVER_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSWORD }}
+#  publish-central:
+#    runs-on: ubuntu-latest
+#    steps:
+#
+#      - name: Checkout Git Repo
+#        uses: actions/checkout@v4
+#
+#      - name: Set up Apache Maven Central
+#        uses: actions/setup-java@v4
+#        with:
+#          distribution: 'zulu'
+#          java-version: '24'
+#          server-id: central
+#          server-username: SERVER_USERNAME
+#          server-password: SERVER_PASSWORD
+#          gpg-private-key: ${{ secrets.GPG_SECRET }}
+#          gpg-passphrase: GPG_PASSPHRASE
+#
+#      - name: Set zstd scope to runtime
+#        run: mvn versions:set-property -Dproperty=zstd.scope -DnewVersion=runtime
+#
+#      - name: Publish to Apache Maven Central
+#        run: mvn deploy -DskipTests -P!linux-amd64,publish
+#        env:
+#          SERVER_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+#          SERVER_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+#          GPG_PASSPHRASE: ${{ secrets.GPG_PASSWORD }}
