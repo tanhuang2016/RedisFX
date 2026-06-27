@@ -434,35 +434,89 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>io.github.fvarrui</groupId>
-                        <artifactId>javapackager</artifactId>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>3.1.0</version>
+
                         <executions>
                             <execution>
-                                <id>bundling-for-linux-amd64</id>
                                 <phase>package</phase>
                                 <goals>
-                                    <goal>package</goal>
+                                    <goal>run</goal>
                                 </goals>
+
                                 <configuration>
-                                    <platform>linux</platform>
-                                    <mainClass>redisfx.tanh.rdm.ui.Main</mainClass>
-                                    <bundleJre>true</bundleJre>
-                                    <modules>${modules}</modules>
-                                    <createTarball>true</createTarball>
-                                    <jdkPath>${env.JAVA_HOME}</jdkPath>
-                                    <linuxConfig>
-                                        <pngFile>src/main/resources/icon/fx_icon_256.png</pngFile>
-                                    </linuxConfig>
-                                    <vmArgs>
-                                        <arg>--module-path</arg>
-                                        <arg>libs</arg>
-                                        <arg>--add-modules</arg>
-                                        <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.base</arg>
-                                        <arg>-XX:+UseZGC</arg>
-                                    </vmArgs>
+                                    <target>
+
+                                        <!-- 删除旧 Runtime -->
+                                        <delete dir="${project.build.directory}/custom-jre"
+                                                failonerror="false"/>
+
+                                        <!-- jlink -->
+                                        <exec executable="jlink">
+
+                                            <arg value="--output"/>
+                                            <arg value="${project.build.directory}/custom-jre"/>
+
+                                            <arg value="--add-modules"/>
+                                            <arg value="${modules}"/>
+
+                                            <arg value="--strip-debug"/>
+                                            <arg value="--compress=2"/>
+                                            <arg value="--no-header-files"/>
+                                            <arg value="--no-man-pages"/>
+
+                                        </exec>
+
+                                        <!-- 输入目录 -->
+                                        <mkdir dir="${project.build.directory}/input"/>
+
+                                        <copy
+                                                file="${project.build.directory}/rdm-ui-${rdm.version}-jar-with-dependencies.jar"
+                                                todir="${project.build.directory}/input"/>
+
+                                        <!-- jpackage -->
+                                        <exec executable="jpackage">
+
+                                            <!-- deb / rpm -->
+                                            <arg value="--type"/>
+                                            <arg value="deb"/>
+
+                                            <arg value="--name"/>
+                                            <arg value="RedisFX"/>
+
+                                            <arg value="--input"/>
+                                            <arg value="${project.build.directory}/input"/>
+
+                                            <arg value="--main-jar"/>
+                                            <arg value="rdm-ui-${rdm.version}-jar-with-dependencies.jar"/>
+
+                                            <arg value="--main-class"/>
+                                            <arg value="redisfx.tanh.rdm.ui.Main"/>
+
+                                            <arg value="--runtime-image"/>
+                                            <arg value="${project.build.directory}/custom-jre"/>
+
+                                            <arg value="--icon"/>
+                                            <arg value="src/main/resources/icon/fx_icon_256.png"/>
+
+                                            <arg value="--vendor"/>
+                                            <arg value="RedisFX"/>
+
+                                            <arg value="--app-version"/>
+                                            <arg value="${rdm.version}"/>
+
+                                            <arg value="--dest"/>
+                                            <arg value="${project.build.directory}"/>
+
+                                        </exec>
+
+                                    </target>
                                 </configuration>
+
                             </execution>
                         </executions>
+
                     </plugin>
                 </plugins>
             </build>
@@ -481,35 +535,89 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>io.github.fvarrui</groupId>
-                        <artifactId>javapackager</artifactId>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>3.1.0</version>
+
                         <executions>
                             <execution>
-                                <id>bundling-for-linux-arm</id>
                                 <phase>package</phase>
                                 <goals>
-                                    <goal>package</goal>
+                                    <goal>run</goal>
                                 </goals>
+
                                 <configuration>
-                                    <platform>linux</platform>
-                                    <mainClass>redisfx.tanh.rdm.ui.Main</mainClass>
-                                    <bundleJre>true</bundleJre>
-                                    <modules>${modules}</modules>
-                                    <createTarball>true</createTarball>
-                                    <jdkPath>${env.JAVA_HOME}</jdkPath>
-                                    <linuxConfig>
-                                        <pngFile>src/main/resources/icon/fx_icon_256.png</pngFile>
-                                    </linuxConfig>
-                                    <vmArgs>
-                                        <arg>--module-path</arg>
-                                        <arg>libs</arg>
-                                        <arg>--add-modules</arg>
-                                        <arg>javafx.controls,javafx.fxml,javafx.graphics,javafx.base</arg>
-                                        <arg>-XX:+UseZGC</arg>
-                                    </vmArgs>
+                                    <target>
+
+                                        <!-- 删除旧 Runtime -->
+                                        <delete dir="${project.build.directory}/custom-jre"
+                                                failonerror="false"/>
+
+                                        <!-- jlink -->
+                                        <exec executable="jlink">
+
+                                            <arg value="--output"/>
+                                            <arg value="${project.build.directory}/custom-jre"/>
+
+                                            <arg value="--add-modules"/>
+                                            <arg value="${modules}"/>
+
+                                            <arg value="--strip-debug"/>
+                                            <arg value="--compress=2"/>
+                                            <arg value="--no-header-files"/>
+                                            <arg value="--no-man-pages"/>
+
+                                        </exec>
+
+                                        <!-- 输入目录 -->
+                                        <mkdir dir="${project.build.directory}/input"/>
+
+                                        <copy
+                                                file="${project.build.directory}/rdm-ui-${rdm.version}-jar-with-dependencies.jar"
+                                                todir="${project.build.directory}/input"/>
+
+                                        <!-- jpackage -->
+                                        <exec executable="jpackage">
+
+                                            <!-- deb / rpm -->
+                                            <arg value="--type"/>
+                                            <arg value="deb"/>
+
+                                            <arg value="--name"/>
+                                            <arg value="RedisFX"/>
+
+                                            <arg value="--input"/>
+                                            <arg value="${project.build.directory}/input"/>
+
+                                            <arg value="--main-jar"/>
+                                            <arg value="rdm-ui-${rdm.version}-jar-with-dependencies.jar"/>
+
+                                            <arg value="--main-class"/>
+                                            <arg value="redisfx.tanh.rdm.ui.Main"/>
+
+                                            <arg value="--runtime-image"/>
+                                            <arg value="${project.build.directory}/custom-jre"/>
+
+                                            <arg value="--icon"/>
+                                            <arg value="src/main/resources/icon/fx_icon_256.png"/>
+
+                                            <arg value="--vendor"/>
+                                            <arg value="RedisFX"/>
+
+                                            <arg value="--app-version"/>
+                                            <arg value="${rdm.version}"/>
+
+                                            <arg value="--dest"/>
+                                            <arg value="${project.build.directory}"/>
+
+                                        </exec>
+
+                                    </target>
                                 </configuration>
+
                             </execution>
                         </executions>
+
                     </plugin>
                 </plugins>
             </build>
