@@ -114,7 +114,7 @@ public class Main extends Application {
             AnchorPane root = fxmlLoader.load();
             controller = fxmlLoader.getController();
             controller.setParentController(this);
-            scene = new Scene(root);
+            scene = GuiUtil.createScene(root);
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/global.css")).toExternalForm());
             stage.setScene(scene);
             controller.setCurrentStage(stage);
@@ -147,12 +147,7 @@ public class Main extends Application {
     }
 
     private void setSystemTitleBarColor() {
-        if(ThemeManager.getInstance().getTheme().getName().contains(Constant.THEME_PRIMER_DARK)){
-            scene.getPreferences().setColorScheme(ColorScheme.DARK);
-        }else {
-            scene.getPreferences().setColorScheme(ColorScheme.LIGHT);
-
-        }
+        ThemeManager.setSystemTitleBarColor(scene);
     }
 
 

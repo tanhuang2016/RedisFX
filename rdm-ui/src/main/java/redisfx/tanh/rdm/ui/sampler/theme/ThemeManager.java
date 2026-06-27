@@ -8,13 +8,17 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.ColorScheme;
 import javafx.css.PseudoClass;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.util.Duration;
+import redisfx.tanh.rdm.ui.common.Constant;
 import redisfx.tanh.rdm.ui.sampler.event.DefaultEventBus;
 import redisfx.tanh.rdm.ui.sampler.event.EventBus;
 import redisfx.tanh.rdm.ui.sampler.event.ThemeEvent;
@@ -64,6 +68,27 @@ public final class ThemeManager {
     private int fontSize = DEFAULT_FONT_SIZE;
     private int zoom = DEFAULT_ZOOM;
     private AccentColor accentColor = DEFAULT_ACCENT_COLOR;
+
+    public static void setSystemTitleBarColor(Scene scene) {
+        ColorScheme colorScheme = ColorScheme.LIGHT;
+        if(ThemeManager.getInstance().getTheme()!=null&&
+                (ThemeManager.getInstance().getTheme().getName().contains(Constant.THEME_PRIMER_DARK)||
+                        ThemeManager.getInstance().getTheme().getName().contains(Constant.THEME_CUPERTINO_DARK))){
+            colorScheme=ColorScheme.DARK;
+        }
+        scene.getPreferences().setColorScheme(colorScheme);
+        for (Window window : Window.getWindows()) {
+
+            if (window instanceof Stage stage) {
+
+                Scene scene2 = stage.getScene();
+
+                if (scene2 != null) {
+                    scene2.getPreferences().setColorScheme(colorScheme);
+                }
+            }
+        }
+    }
 
     public ThemeRepository getRepository() {
         return repository;

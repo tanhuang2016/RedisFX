@@ -6,8 +6,11 @@ import atlantafx.base.util.Animations;
 import com.github.weisj.jsvg.SVGDocument;
 import com.github.weisj.jsvg.parser.SVGLoader;
 import com.github.weisj.jsvg.view.ViewBox;
+import com.sun.javafx.logging.PlatformLogger;
+import com.sun.javafx.tk.Toolkit;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
+import javafx.beans.NamedArg;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ObservableList;
 //import javafx.embed.swing.SwingFXUtils;
@@ -18,6 +21,7 @@ import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SceneAntialiasing;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -252,6 +256,7 @@ public class GuiUtil {
      */
     private static Alert createAlert(Alert.AlertType alertType, String message,String info,Window owner) {
         Alert a = new Alert(alertType);
+        ThemeManager.setSystemTitleBarColor(a.getDialogPane().getScene());
         a.initOwner(Main.instance.getController().currentStage);
         Stage stage = (Stage) a.getDialogPane().getScene().getWindow();
         stage.getIcons().add(ICON_REDIS);
@@ -594,7 +599,7 @@ public class GuiUtil {
         //显示设置图标，避免有时候未继承父窗口图标
         stage.getIcons().add(GuiUtil.ICON_REDIS);
         stage.setTitle(title);
-        Scene scene = new Scene(anchorPane);
+        Scene scene = GuiUtil.createScene(anchorPane);
         stage.initOwner(window);
         stage.setScene(scene);
         stage.initModality(Modality.WINDOW_MODAL);
@@ -607,7 +612,16 @@ public class GuiUtil {
     }
 
 
-
+    public static Scene createScene(Parent parent) {
+        Scene scene = new Scene(parent);
+        ThemeManager.setSystemTitleBarColor(scene);
+       return scene;
+    }
+    public static Scene  createScene(Parent var1,  double var2,  double var4, boolean var6,  SceneAntialiasing var7) {
+        Scene scene = new Scene(var1, var2, var4, var6, var7);
+        ThemeManager.setSystemTitleBarColor(scene);
+        return scene;
+    }
 
 
 

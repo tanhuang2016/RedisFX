@@ -13,6 +13,7 @@ public interface Constant {
      */
     String THEME_LIGHT="Light";
     String THEME_PRIMER_DARK="Primer Dark";
+    String THEME_CUPERTINO_DARK="Cupertino Dark";
     /**
      * 内容背景色
      */

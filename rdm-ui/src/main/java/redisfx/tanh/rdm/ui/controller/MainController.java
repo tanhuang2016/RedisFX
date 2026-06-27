@@ -50,6 +50,7 @@ import redisfx.tanh.rdm.ui.sampler.event.TabPaneEvent;
 import redisfx.tanh.rdm.ui.sampler.layout.ApplicationWindow;
 import redisfx.tanh.rdm.ui.sampler.layout.MainModel;
 import redisfx.tanh.rdm.ui.sampler.page.Page;
+import redisfx.tanh.rdm.ui.sampler.theme.ThemeManager;
 import redisfx.tanh.rdm.ui.util.GuiUtil;
 import redisfx.tanh.rdm.ui.util.RecentHistory;
 
@@ -449,13 +450,13 @@ public class MainController extends BaseWindowController<Main> {
             Tuple2<AnchorPane,ServerConnectionsController> tuple2 = loadFxml("/fxml/ServerConnectionsView.fxml",BaseWindowController.NONE);
             AnchorPane borderPane =tuple2.t1();
             serverConnectionsController = tuple2.t2();
-            Scene scene = new Scene(borderPane);
+            Scene scene = GuiUtil.createScene(borderPane);
             this.serverConnectionsWindowStage.initOwner(root.getScene().getWindow());
             this.serverConnectionsWindowStage.setScene(scene);
             this.serverConnectionsWindowStage.show();
             serverConnectionsController.setCurrentStage(serverConnectionsWindowStage);
         }
-
+        ThemeManager.setSystemTitleBarColor(serverConnectionsWindowStage.getScene());
     }
 
 
@@ -529,7 +530,7 @@ public class MainController extends BaseWindowController<Main> {
             var antialiasing = Platform.isSupported(ConditionalFeature.SCENE3D)
                     ? SceneAntialiasing.BALANCED
                     : SceneAntialiasing.DISABLED;
-            Scene scene = new Scene(applicationWindow,ApplicationWindow.MIN_WIDTH + 80, 768, false, antialiasing);
+            Scene scene = GuiUtil.createScene(applicationWindow,ApplicationWindow.MIN_WIDTH + 80, 768, false, antialiasing);
             Main.initTm(scene);
             this.settingsStage.initOwner(root.getScene().getWindow());
             this.settingsStage.setScene(scene);
@@ -789,6 +790,7 @@ public class MainController extends BaseWindowController<Main> {
     @FXML
     public void about(ActionEvent actionEvent) {
         var alert = new Alert(Alert.AlertType.INFORMATION);
+        ThemeManager.setSystemTitleBarColor(alert.getDialogPane().getScene());
         alert.setTitle(language("main.help.about"));
         alert.setHeaderText(null);
         alert.setGraphic(new ImageView(GuiUtil.svgImage("/svg/fx_icon.svg",64)));

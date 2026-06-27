@@ -450,7 +450,7 @@ public class ByteArrayController extends BaseController<BaseController<?>> imple
     @FXML
     public void view(ActionEvent actionEvent) {
 //        Parent view = this.type.handler.view(this.currentValue, Charset.forName(characterChoiceBox.getValue()));
-//        Scene scene = new Scene(view);
+//        Scene scene = GuiUtil.createScene(view);
 //        Stage stage=new Stage();
 //        stage.initStyle(StageStyle.DECORATED);
 //        stage.initModality(Modality.WINDOW_MODAL);
